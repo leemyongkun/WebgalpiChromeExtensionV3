@@ -1,4 +1,5 @@
 import store from "../store";
+
 global.browser = require("webextension-polyfill");
 let md5 = require("md5");
 import dbcon from "../database/dbcon.js";
@@ -28,21 +29,16 @@ let BackgroundModule = {
         URL_KEY: currentUrl,
         EXT: ext
       };
-      console.log("param ", param);
+
       Api.getInitInfo(param).then(res => {
-        console.log("res ", res);
         //todo : excludesUrl 등록 기능 추가 할것.
-        let color = "color";
-        if (res.loginInfo == null) {
-          color = "gray";
-        }
 
         res.tabid = tabId;
-
         chrome.tabs.sendMessage(
           tabId,
-          { action: "init", response: res },
-          function(response) {
+          { action: "init", data: res },
+          response => {
+            console.log("response ", response);
             checkLastError("init");
           }
         );
@@ -78,6 +74,7 @@ let BackgrounEvent = {
         //팝업인지 확인.
         BackgroundModule.isPopup();
 
+        //현재 사이트에 하이라이트 초기화
         BackgroundModule.initApplication(tabId, tab.url);
       }
     });
@@ -85,7 +82,7 @@ let BackgrounEvent = {
 };
 
 function checkLastError(message) {
-  var lastError = chrome.runtime.lastError;
+  let lastError = chrome.runtime.lastError;
   if (lastError) {
     console.log(message, lastError);
     return;

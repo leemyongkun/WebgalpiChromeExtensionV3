@@ -1,7 +1,3 @@
-let Type = {
-  init: () => {
-    return "typeInit";
-  }
-};
-
-export default Type;
+function test() {
+  alert("!");
+}

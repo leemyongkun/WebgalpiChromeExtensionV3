@@ -14,6 +14,15 @@
   "background": {
     "scripts": ["background/background.js"]
   },
+  "content_scripts": [
+    {
+      "all_frames": false,
+      "run_at": "document_idle",
+      "matches": ["*://*/*"],
+      "css": ["css/hl.css"],
+      "js": ["contents/contents.js"]
+    }
+  ],
   "options_ui": {
     "page": "options/options.html",
     "chrome_style": true
@@ -27,6 +36,7 @@
     "bookmarks",
     "webNavigation",
     "management",
-    "notifications"
+    "notifications",
+    "alarms"
   ]
 }

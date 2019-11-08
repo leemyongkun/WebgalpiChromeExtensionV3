@@ -10,9 +10,14 @@ const config = {
   mode: process.env.NODE_ENV,
   context: __dirname + "/src",
   entry: {
+    "contents/contents": "./contents/listener.js",
+    "contents/form": "./contents/form.js",
+    "contents/config": "./contents/config.js",
+    "contents/action": "./contents/action.js",
     "background/background": "./background/background.js",
     "popup/popup": "./popup/popup.js",
-    "options/options": "./options/options.js"
+    "options/options": "./options/options.js",
+    "css/hl": "./css/hl.css"
   },
   output: {
     path: __dirname + "/dist",
