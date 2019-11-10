@@ -1,5 +1,6 @@
 import Action from './action';
 import GLOBAL_CONFIG from './global/config.js';
+
 let $ = require('jquery');
 
 let FORM = {
@@ -28,38 +29,39 @@ let FORM = {
                       </wafflepen>
                   </wafflepen>`;
   },
-  SHOW_PICKER: (e) => {
-    //초기화
-    $('.wafflepen-color-picker').find('a').removeClass('on');
+  SHOW_PICKER: e => {
+    // 초기화
+    $('.wafflepen-color-picker')
+      .find('a')
+      .removeClass('on');
     $('#highlightMemoArea').val('');
     $('#highlightDeleteBtn').hide();
     $('#editArea').hide();
 
-
     $('#highlight-toolbar').hide();
 
     let s = window.getSelection();
-
-    //Drag 영역이 없으면 false 리턴한다.
-    if (s.isCollapsed) return false;
-
-    let oRange = s.getRangeAt(0); //get the text range
+    let oRange = s.getRangeAt(0); // get the text range
     let oRect = oRange.getBoundingClientRect();
 
     $('#highlight-toolbar').css({
-      'top': e.pageY + 10,
-      'left': e.pageX,
-      'position': 'absolute',
-      'width': 'auto',
-
+      top: e.pageY + 10,
+      left: e.pageX,
+      position: 'absolute',
+      width: 'auto',
     });
 
     setTimeout(function() {
+      // Drag 영역이 없으면 false 리턴한다.
+      if (s.isCollapsed) return false;
+
       $('#highlight-toolbar-memo-area').hide();
       $('#highlight-toolbar').show();
+      GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = 'drag';
+
     }, 100);
 
-    GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = 'drag';
+
     return true;
   },
 };

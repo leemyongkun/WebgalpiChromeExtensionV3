@@ -10,9 +10,12 @@ const config = {
   mode: process.env.NODE_ENV,
   context: __dirname + "/src",
   entry: {
+    "contents/core/core": "./contents/core/core.js",
+    "contents/global/config": "./contents/global/config.js",
+    "contents/global/data": "./contents/global/data.js",
+    "contents/global/url": "./contents/global/url.js",
     "contents/contents": "./contents/listener.js",
     "contents/form": "./contents/form.js",
-    "contents/config": "./contents/config.js",
     "contents/action": "./contents/action.js",
     "background/background": "./background/background.js",
     "popup/popup": "./popup/popup.js",

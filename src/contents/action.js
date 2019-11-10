@@ -19,6 +19,42 @@ let CONTENT_ACTION = {
       res(true);
     });
   },
+  setHighlightData: (event, offset) => {
+    // pdf 페이지 번호
+    if (URL.TYPE === 'PDF') {
+      GLOBAL_DATA.PAGE_NUMBER = $(event.target)
+        .closest('.page')
+        .attr('data-page-number');
+    } else {
+      GLOBAL_DATA.PAGE_NUMBER = 0; // 없음.
+    }
+
+    //마우스 영역의 데이타를 저장해둔다.
+    GLOBAL_DATA.SELECT_RANGE_TEXT = offset.hlText;
+    GLOBAL_DATA.SELECT_RANGE_TEXT_PREV = offset.hlPrev;
+    GLOBAL_DATA.SELECT_RANGE_TEXT_NEXT = offset.hlNext;
+    GLOBAL_DATA.SELECT_START = offset.start;
+    GLOBAL_DATA.SELECT_END = offset.end;
+
+    // 마우스 업했을때 최종 Doc 사이즈를 저장해둔다.
+    // HighlightData.mouseUpDocTotalSize = $(HighlightData.targetElement).text().length
+
+    // 드래그한 영역의 이미지가 있으면 이미지Path를 가져온다.
+    let imageRange = window.getSelection().getRangeAt(0);
+    let imageContent = imageRange.cloneContents();
+    let images = imageContent.querySelectorAll('img');
+    if (images != null) {
+      let list = new Array();
+      $(images)
+        .each(function(idx, item) {
+          list.push(item.currentSrc);
+        })
+        .promise()
+        .then(function() {
+          GLOBAL_DATA.SELECT_IMAGE = list.join(' ');
+        });
+    }
+  },
 };
 
 let VALIDATION_ACTION = {
@@ -83,7 +119,7 @@ let EVENT = {
         // (textarea 영역, 즉 highlightMemoArea일경우, 다른 하이라이트 영역에 mouseover를 해도 팔렛트를 재생성 하지 않는다.)
         GLOBAL_DATA.MOUSE_CLICK_ID = $(event.target).attr('id');
 
-        console.log($(event.target).closest('#highlight-toolbar').length)
+        console.log($(event.target).closest('#highlight-toolbar').length);
         // 클릭할때마다 mouseup 이벤트가 함께 동작하므로, toolbar를 클릭할때에는 동작하지 않도록 한다.
         if ($(event.target).closest('#highlight-toolbar').length > 0) {
           return false;
@@ -127,10 +163,11 @@ let EVENT = {
         }
         STATUS.mouseDownFlag = false;
 
+
         // 영역에 대한 offset정보를 가져온다.
         let offset = await CORE.getStartEndOffset(GLOBAL_CONFIG.ELEMENT);
 
-        console.log('offset ', offset);
+        //console.log('offset ', offset);
 
         // 한글자일경우 액션을 취소한다.
         if ($.trim(offset.hlText).length === 0) {
@@ -147,46 +184,14 @@ let EVENT = {
          }); */
 
         FORM.SHOW_PICKER(event); // todo 가장 중요!!
-
-        // pdf 페이지 번호
-        if (URL.TYPE === 'PDF') {
-          GLOBAL_DATA.PAGE_NUMBER = $(event.target)
-            .closest('.page')
-            .attr('data-page-number');
-        } else {
-          GLOBAL_DATA.PAGE_NUMBER = 0; // 없음.
-        }
-
-        GLOBAL_DATA.SELECT_RANGE_TEXT = offset.hlText;
-        GLOBAL_DATA.SELECT_RANGE_TEXT_PREV = offset.hlPrev;
-        GLOBAL_DATA.SELECT_RANGE_TEXT_NEXT = offset.hlNext;
-        GLOBAL_DATA.SELECT_START = offset.start;
-        GLOBAL_DATA.SELECT_END = offset.end;
-
-        // 마우스 업했을때 최종 Doc 사이즈를 저장해둔다.
-        // HighlightData.mouseUpDocTotalSize = $(HighlightData.targetElement).text().length
-
-        // 드래그한 영역의 이미지가 있으면 이미지Path를 가져온다.
-        let imageRange = window.getSelection().getRangeAt(0);
-        let imageContent = imageRange.cloneContents();
-        let images = imageContent.querySelectorAll('img');
-        if (images != null) {
-          let list = new Array();
-          $(images)
-            .each(function(idx, item) {
-              list.push(item.currentSrc);
-            })
-            .promise()
-            .then(function() {
-              GLOBAL_DATA.SELECT_IMAGE = list.join(' ');
-            });
-        }
+        CONTENT_ACTION.setHighlightData(event, offset);
 
         STATUS.checkHighlightArea = 0;
         // });
       });
   },
   colorPickerBtnEvent: () => {
+
     $('#highlight-toolbar')
       .find('.wafflepen-color-picker a')
       .each(function(idx, item) {
@@ -242,7 +247,7 @@ let EVENT = {
                   let memo = $.trim($('#highlightMemoArea').val());
                   let idx = HighlightData.currentIdx;
 
-                  if (HighlightData.currentFlag == 'block') {
+                  if (HighlightData.currentFlag === 'block') {
                     highlightAjaxListener.updateBlock(idx, color, memo);
                   } else {
                     // drag 일경우
