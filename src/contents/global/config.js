@@ -20,6 +20,8 @@ let GLOBAL_CONFIG = {
   INCREMENT_IDX: 0, //incrementIDx
   CURRENT_IDX: new Date().getTime(),//currentIdx
   MEMO_LIST: new Map(),
+  HIGHLIGHT_LIST: new Array(),
+  HIGHLIGHT_FALI_LIST: new Array(),
   USE_CURRENT_SITE: 'N' //useSite
 };
 export default GLOBAL_CONFIG;

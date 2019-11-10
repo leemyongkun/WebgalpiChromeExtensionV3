@@ -20,7 +20,7 @@
       "run_at": "document_idle",
       "matches": ["*://*/*"],
       "css": ["css/hl.css"],
-      "js": ["contents/contents.js"]
+      "js": ["contents/contents.js","contents/core/hl-core.js"]
     }
   ],
   "options_ui": {

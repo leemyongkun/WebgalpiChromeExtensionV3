@@ -18,7 +18,7 @@ let CONTENT_ACTION = {
       res(true);
     });
   },
-  setHighlightData: (event, offset) => {
+  setHighlightRangeInfoData: (event, offset) => {
     // pdf 페이지 번호
     if (URL.TYPE === 'PDF') {
       GLOBAL_CONFIG.PAGE_NUMBER = $(event.target)
@@ -54,19 +54,18 @@ let CONTENT_ACTION = {
         });
     }
   },
-  createHighlight: (color, element) => {
+  createHighlight: async (color, element) => {
     window.getSelection().removeAllRanges();
     // console.log("userType ", userType);
 
     // 드래그를 했고, 하이라이팅이 되지 않았다면 신규로 판단하여 IDX값 을 증가한다.
     if (GLOBAL_CONFIG.CURRENT_MOUSE_STATUS === 'drag' && GLOBAL_CONFIG.HIGHLIGHT_POINT === false) {
       // currentIdx는 mouseOver 했을 시에도 변경이 되기 때문에 증가값만 가지고 있는 incrementIdx에 +1을 해주어 대입하는 형태로 증가시킨다.
-      GLOBAL_CONFIG.incrementIdx = new Date().getTime();
-      GLOBAL_CONFIG.currentIdx = GLOBAL_CONFIG.incrementIdx;
+      GLOBAL_CONFIG.INCREMENT_IDX = new Date().getTime();
+      GLOBAL_CONFIG.CURRENT_IDX = GLOBAL_CONFIG.INCREMENT_IDX;
     }
 
-    // HighlightCore.removeHighlighting(HighlightData.currentIdx);
-    let memo = $.trim($('#highlightMemoArea').val());
+    // 메모 가져오기
 
     // 저장하기 위한 parameter를 생성한다.
     let param = new Object();
@@ -74,20 +73,16 @@ let CONTENT_ACTION = {
     param.URL_KEY = global.URL_KEY; // SITE
     param.TITLE = document.title; // SITE
     param.UPDATE_TITLE = document.title; // SITE
-    param.MEMO = memo; // HIGHLIGHT
-    param.IDX = GLOBAL_CONFIG.currentIdx;
+    param.MEMO = $.trim($('#highlightMemoArea').val()); // Memo
+    param.IDX = GLOBAL_CONFIG.CURRENT_IDX;
     param.COLOR = color; // HIGHLIGHT
     param.SITE_CHECK = GLOBAL_CONFIG.USE_CURRENT_SITE; // 사이트를 한번이상 저장한적있으면 Y, 처음이면 N
     param.GB_FILETYPE = 'T'; // Text인지 Image인지 구분
-    param.EMAIL = 'kkuni.bear@gmail.com'; //loginInfo.EMAIL;
+    param.EMAIL = 'kkuni.bear@gmail.com'; // loginInfo.EMAIL;
     param.IMAGE = GLOBAL_CONFIG.SELECT_IMAGE;
     param.PAGE_NUMBER = GLOBAL_CONFIG.PAGE_NUMBER; // PDF의 pagenumber를 넣는다. (PDF가 아닌경우 0으로 들어간다.)
     param.DATE_CREATE = new Date().getTime();
-
-    window.getSelection().removeAllRanges();
-
     param.TEXT = GLOBAL_CONFIG.SELECT_RANGE_TEXT; // response.hlText;
-    // console.log("param.TEXT ", param.TEXT);
     param.PREV = GLOBAL_CONFIG.SELECT_RANGE_TEXT_PREV;
     param.NEXT = GLOBAL_CONFIG.SELECT_RANGE_TEXT_NEXT;
 
@@ -122,9 +117,23 @@ let CONTENT_ACTION = {
     }
 
     // Map 업데이트
-    GLOBAL_CONFIG.MEMO_LIST.set(GLOBAL_CONFIG.CURRENT_IDX, memo);
+    GLOBAL_CONFIG.MEMO_LIST.set(GLOBAL_CONFIG.CURRENT_IDX, param.MEMO);
 
-    GLOBAL_CONFIG.HIGHLIGHT_POINT = true; // 하이라이팅 됨. 현재 포인터인지 확인 - 다른곳에서는 다시 false로 변경한다.
+    // 하이라이팅 됨. 현재 포인터인지 확인 - 다른곳에서는 다시 false로 변경한다.
+    GLOBAL_CONFIG.HIGHLIGHT_POINT = true;
+
+    // 메모가 있는경우, 메모 아이콘 표시
+    if (param.MEMO !== '') {
+      let destItem = $('[' + GLOBAL_CONFIG.HL_ID_NAME + '="' + param.IDX + '"]')[0];
+      $(destItem).addClass('wf-memo');
+    }
+
+    // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
+    /* if (memoFlag === undefined) {
+      $('#highlight-toolbar').hide();
+    } */
+
+    CORE.executeHighlight(param);
 
     $('.color-picker')
       .find('a')
@@ -133,17 +142,7 @@ let CONTENT_ACTION = {
       .find('.' + param.COLOR)
       .addClass('on');
 
-    //화면에 카운트를 +1을 하는 function
-    //Count.highlightPlug(param);
-
-
-    // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
-    /*if (memoFlag === undefined) {
-      $('#highlight-toolbar').hide();
-    }*/
-
-    console.log("param",param);
-    /*return initItem(param, wordPosition).then(async function(item) {
+    /* return initItem(param, wordPosition).then(async function(item) {
       param.PRINT_TEXT = item.PRINT_TEXT;
 
       /!* 처음 저장하는 사이트일경우 Site 정보도 함께.. *!/
@@ -172,7 +171,7 @@ let CONTENT_ACTION = {
       };
       sendMessage(parameter);
       return item;
-    });*/
+    }); */
   },
 };
 
@@ -283,8 +282,6 @@ let EVENT = {
         // 영역에 대한 offset정보를 가져온다.
         let offset = await CORE.getStartEndOffset(GLOBAL_CONFIG.ELEMENT);
 
-        // console.log('offset ', offset);
-
         // 한글자일경우 액션을 취소한다.
         if ($.trim(offset.hlText).length === 0) {
           return false;
@@ -299,8 +296,8 @@ let EVENT = {
            }
          }); */
 
+        CONTENT_ACTION.setHighlightRangeInfoData(event, offset);
         FORM.SHOW_PICKER(event); // todo 가장 중요!!
-        CONTENT_ACTION.setHighlightData(event, offset);
 
         STATUS.checkHighlightArea = 0;
         // });
@@ -379,11 +376,7 @@ let EVENT = {
                     highlightAjaxListener.insertBlock(color, HighlightData.element);
                   } else {
                     // drag일경우
-                    console.log('color , element ', color, GLOBAL_CONFIG.ELEMENT);
                     CONTENT_ACTION.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
-                    /*highlightAjaxListener.insertItem(color, GLOBAL_CONFIG.ELEMENT).then(function() {
-                      WidgetFormBtnEvent.simpleWidgetBookmarkLoadingHide();
-                    });*/
                   }
                 }
               });

@@ -11,6 +11,7 @@ const config = {
   context: __dirname + "/src",
   entry: {
     "contents/core/core": "./contents/core/core.js",
+    "contents/core/hl-core": "./contents/core/hl-core.js",
     "contents/global/config": "./contents/global/config.js",
     "contents/global/url": "./contents/global/url.js",
     "contents/contents": "./contents/listener.js",
