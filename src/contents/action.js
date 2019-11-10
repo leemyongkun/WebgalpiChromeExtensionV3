@@ -1,6 +1,5 @@
 import FORM from './form.js';
 import GLOBAL_CONFIG from './global/config.js';
-import GLOBAL_DATA from './global/data.js';
 import URL from './global/url.js';
 
 import CORE from './core/core.js';
@@ -22,19 +21,19 @@ let CONTENT_ACTION = {
   setHighlightData: (event, offset) => {
     // pdf 페이지 번호
     if (URL.TYPE === 'PDF') {
-      GLOBAL_DATA.PAGE_NUMBER = $(event.target)
+      GLOBAL_CONFIG.PAGE_NUMBER = $(event.target)
         .closest('.page')
         .attr('data-page-number');
     } else {
-      GLOBAL_DATA.PAGE_NUMBER = 0; // 없음.
+      GLOBAL_CONFIG.PAGE_NUMBER = 0; // 없음.
     }
 
-    //마우스 영역의 데이타를 저장해둔다.
-    GLOBAL_DATA.SELECT_RANGE_TEXT = offset.hlText;
-    GLOBAL_DATA.SELECT_RANGE_TEXT_PREV = offset.hlPrev;
-    GLOBAL_DATA.SELECT_RANGE_TEXT_NEXT = offset.hlNext;
-    GLOBAL_DATA.SELECT_START = offset.start;
-    GLOBAL_DATA.SELECT_END = offset.end;
+    // 마우스 영역의 데이타를 저장해둔다.
+    GLOBAL_CONFIG.SELECT_RANGE_TEXT = offset.hlText;
+    GLOBAL_CONFIG.SELECT_RANGE_TEXT_PREV = offset.hlPrev;
+    GLOBAL_CONFIG.SELECT_RANGE_TEXT_NEXT = offset.hlNext;
+    GLOBAL_CONFIG.SELECT_START = offset.start;
+    GLOBAL_CONFIG.SELECT_END = offset.end;
 
     // 마우스 업했을때 최종 Doc 사이즈를 저장해둔다.
     // HighlightData.mouseUpDocTotalSize = $(HighlightData.targetElement).text().length
@@ -51,9 +50,129 @@ let CONTENT_ACTION = {
         })
         .promise()
         .then(function() {
-          GLOBAL_DATA.SELECT_IMAGE = list.join(' ');
+          GLOBAL_CONFIG.SELECT_IMAGE = list.join(' ');
         });
     }
+  },
+  createHighlight: (color, element) => {
+    window.getSelection().removeAllRanges();
+    // console.log("userType ", userType);
+
+    // 드래그를 했고, 하이라이팅이 되지 않았다면 신규로 판단하여 IDX값 을 증가한다.
+    if (GLOBAL_CONFIG.CURRENT_MOUSE_STATUS === 'drag' && GLOBAL_CONFIG.HIGHLIGHT_POINT === false) {
+      // currentIdx는 mouseOver 했을 시에도 변경이 되기 때문에 증가값만 가지고 있는 incrementIdx에 +1을 해주어 대입하는 형태로 증가시킨다.
+      GLOBAL_CONFIG.incrementIdx = new Date().getTime();
+      GLOBAL_CONFIG.currentIdx = GLOBAL_CONFIG.incrementIdx;
+    }
+
+    // HighlightCore.removeHighlighting(HighlightData.currentIdx);
+    let memo = $.trim($('#highlightMemoArea').val());
+
+    // 저장하기 위한 parameter를 생성한다.
+    let param = new Object();
+    param.URL = global.URL; // SITE
+    param.URL_KEY = global.URL_KEY; // SITE
+    param.TITLE = document.title; // SITE
+    param.UPDATE_TITLE = document.title; // SITE
+    param.MEMO = memo; // HIGHLIGHT
+    param.IDX = GLOBAL_CONFIG.currentIdx;
+    param.COLOR = color; // HIGHLIGHT
+    param.SITE_CHECK = GLOBAL_CONFIG.USE_CURRENT_SITE; // 사이트를 한번이상 저장한적있으면 Y, 처음이면 N
+    param.GB_FILETYPE = 'T'; // Text인지 Image인지 구분
+    param.EMAIL = 'kkuni.bear@gmail.com'; //loginInfo.EMAIL;
+    param.IMAGE = GLOBAL_CONFIG.SELECT_IMAGE;
+    param.PAGE_NUMBER = GLOBAL_CONFIG.PAGE_NUMBER; // PDF의 pagenumber를 넣는다. (PDF가 아닌경우 0으로 들어간다.)
+    param.DATE_CREATE = new Date().getTime();
+
+    window.getSelection().removeAllRanges();
+
+    param.TEXT = GLOBAL_CONFIG.SELECT_RANGE_TEXT; // response.hlText;
+    // console.log("param.TEXT ", param.TEXT);
+    param.PREV = GLOBAL_CONFIG.SELECT_RANGE_TEXT_PREV;
+    param.NEXT = GLOBAL_CONFIG.SELECT_RANGE_TEXT_NEXT;
+
+    let sumText = param.TEXT;
+    let original = $(GLOBAL_CONFIG.TARGET_ELEMENT).text();
+    let idx = original.indexOf(sumText);
+
+    let position = new Array();
+    while (idx > -1) {
+      position.push(idx);
+      idx = original.indexOf(sumText, idx + 1);
+    }
+    let wordPosition = GLOBAL_CONFIG.SELECT_START;
+
+    param.POSITION = position.indexOf(wordPosition);
+    param.FIRST_WORD_POSITION = 0; // firstWordPosition.indexOf(HighlightData.selectStart);
+
+    // ################# 리드모드일경우 /가로,세로도 구분한다.
+    if ($(element).find('#waf-readmode-containers').length) {
+      param.FL_READMODE = 'Y';
+      param.FL_READMODE_STATUS = 'vertical';
+      if (
+        !$(element)
+          .find('#waf-readmode-containers')
+          .hasClass('notratio')
+      ) {
+        param.FL_READMODE_STATUS = 'horizontal';
+      }
+    } else {
+      param.FL_READMODE = 'N';
+      param.FL_READMODE_STATUS = null;
+    }
+
+    // Map 업데이트
+    GLOBAL_CONFIG.MEMO_LIST.set(GLOBAL_CONFIG.CURRENT_IDX, memo);
+
+    GLOBAL_CONFIG.HIGHLIGHT_POINT = true; // 하이라이팅 됨. 현재 포인터인지 확인 - 다른곳에서는 다시 false로 변경한다.
+
+    $('.color-picker')
+      .find('a')
+      .removeClass('on');
+    $('.color-picker')
+      .find('.' + param.COLOR)
+      .addClass('on');
+
+    //화면에 카운트를 +1을 하는 function
+    //Count.highlightPlug(param);
+
+
+    // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
+    /*if (memoFlag === undefined) {
+      $('#highlight-toolbar').hide();
+    }*/
+
+    console.log("param",param);
+    /*return initItem(param, wordPosition).then(async function(item) {
+      param.PRINT_TEXT = item.PRINT_TEXT;
+
+      /!* 처음 저장하는 사이트일경우 Site 정보도 함께.. *!/
+      if (GLOBAL_CONFIG.USE_CURRENT_SITE == 'N') {
+        // 처음 저장이면...
+        GLOBAL_CONFIG.USE_CURRENT_SITE.useSite = 'Y';
+        param = await firstSaveSite(param); // 사이트 정보를 가져온다.
+        HighlightData.siteInfo = param;
+      }
+
+      NoDataImage.hideAllArea();
+      if (param.FL_READMODE == 'Y') {
+        NoDataImage.hideReadermodeArea();
+      } else {
+        NoDataImage.hideHighlightArea();
+      }
+
+      if (param.IMAGE != '') {
+        NoDataImage.hideImageArea();
+      }
+
+      // 저장
+      var parameter = {
+        type: 'createItem',
+        data: param,
+      };
+      sendMessage(parameter);
+      return item;
+    });*/
   },
 };
 
@@ -97,7 +216,6 @@ let EVENT = {
     $(GLOBAL_CONFIG.TARGET_ELEMENT)
       .unbind('mousedown')
       .on('mousedown', function(event) {
-
         if (event.which === 3) return false; // 우클릭
 
         this.widgetArea = 0;
@@ -114,14 +232,13 @@ let EVENT = {
       })
       .unbind('mouseup')
       .on('mouseup', async event => {
-
         // 클릭된 영역의 ID를 저장한다.
         // (textarea 영역, 즉 highlightMemoArea일경우, 다른 하이라이트 영역에 mouseover를 해도 팔렛트를 재생성 하지 않는다.)
-        GLOBAL_DATA.MOUSE_CLICK_ID = $(event.target).attr('id');
+        GLOBAL_CONFIG.MOUSE_CLICK_ID = $(event.target).attr('id');
 
-        console.log($(event.target).closest('#highlight-toolbar').length);
         // 클릭할때마다 mouseup 이벤트가 함께 동작하므로, toolbar를 클릭할때에는 동작하지 않도록 한다.
         if ($(event.target).closest('#highlight-toolbar').length > 0) {
+          FORM.HIDE_PICKER();
           return false;
         }
 
@@ -163,11 +280,10 @@ let EVENT = {
         }
         STATUS.mouseDownFlag = false;
 
-
         // 영역에 대한 offset정보를 가져온다.
         let offset = await CORE.getStartEndOffset(GLOBAL_CONFIG.ELEMENT);
 
-        //console.log('offset ', offset);
+        // console.log('offset ', offset);
 
         // 한글자일경우 액션을 취소한다.
         if ($.trim(offset.hlText).length === 0) {
@@ -191,7 +307,6 @@ let EVENT = {
       });
   },
   colorPickerBtnEvent: () => {
-
     $('#highlight-toolbar')
       .find('.wafflepen-color-picker a')
       .each(function(idx, item) {
@@ -256,15 +371,19 @@ let EVENT = {
                     });
                   }
                 } else {
+                  console.log('CURRENT_MOUSE_STATUS ', GLOBAL_CONFIG.CURRENT_MOUSE_STATUS);
+
                   // click
                   // 드래그 할경우 생성
-                  if (HighlightData.currentFlag == 'block') {
+                  if (GLOBAL_CONFIG.CURRENT_MOUSE_STATUS === 'block') {
                     highlightAjaxListener.insertBlock(color, HighlightData.element);
                   } else {
                     // drag일경우
-                    highlightAjaxListener.insertItem(color, HighlightData.element).then(function() {
+                    console.log('color , element ', color, GLOBAL_CONFIG.ELEMENT);
+                    CONTENT_ACTION.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
+                    /*highlightAjaxListener.insertItem(color, GLOBAL_CONFIG.ELEMENT).then(function() {
                       WidgetFormBtnEvent.simpleWidgetBookmarkLoadingHide();
-                    });
+                    });*/
                   }
                 }
               });

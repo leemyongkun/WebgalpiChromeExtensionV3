@@ -29,16 +29,18 @@ let FORM = {
                       </wafflepen>
                   </wafflepen>`;
   },
-  SHOW_PICKER: e => {
-    // 초기화
+  HIDE_PICKER: () => {
     $('.wafflepen-color-picker')
       .find('a')
       .removeClass('on');
     $('#highlightMemoArea').val('');
     $('#highlightDeleteBtn').hide();
     $('#editArea').hide();
-
     $('#highlight-toolbar').hide();
+  },
+  SHOW_PICKER: e => {
+    // 초기화
+    FORM.HIDE_PICKER();
 
     let s = window.getSelection();
     let oRange = s.getRangeAt(0); // get the text range
