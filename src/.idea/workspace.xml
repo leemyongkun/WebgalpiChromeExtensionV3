@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b2bb08b-04bd-4154-9718-f954bbbb3219" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/background/listener.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/background/background.js" beforeDir="false" afterPath="$PROJECT_DIR$/background/background.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contents/action.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/action.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contents/core/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/core/core.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contents/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/form.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contents/global/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/global/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contents/global/url.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/global/url.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contents/listener.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/listener.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +67,7 @@
       <workItem from="1572954938150" duration="2722000" />
       <workItem from="1573096649468" duration="1996000" />
       <workItem from="1573179732377" duration="13752000" />
-      <workItem from="1573438272511" duration="9676000" />
+      <workItem from="1573438272511" duration="10306000" />
     </task>
     <servers />
   </component>
