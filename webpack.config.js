@@ -14,10 +14,11 @@ const config = {
     "contents/core/hl-core": "./contents/core/hl-core.js",
     "contents/global/config": "./contents/global/config.js",
     "contents/global/url": "./contents/global/url.js",
-    "contents/contents": "./contents/listener.js",
+    "contents/listener": "./contents/listener.js",
     "contents/form": "./contents/form.js",
     "contents/action": "./contents/action.js",
     "background/background": "./background/background.js",
+    "background/listener": "./background/listener.js",
     "popup/popup": "./popup/popup.js",
     "options/options": "./options/options.js",
     "css/hl": "./css/hl.css"

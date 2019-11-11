@@ -29,10 +29,10 @@ let BackgroundModule = {
         URL_KEY: currentUrl,
         EXT: ext
       };
-
+      console.log("currentUrl ", currentUrl);
       Api.getInitInfo(param).then(res => {
         //todo : excludesUrl 등록 기능 추가 할것.
-
+        console.log("res ", res);
         res.tabid = tabId;
         chrome.tabs.sendMessage(
           tabId,

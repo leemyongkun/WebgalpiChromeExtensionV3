@@ -1,9 +1,71 @@
-import GLOBAL_CONFIG from '../global/config.js';
-import HIGHLIGT_CORE from './hl-core.js';
+import GLOBAL_CONFIG from "../global/config.js";
+import HIGHLIGT_CORE from "./hl-core.js";
 
-let $ = require('jquery');
+let $ = require("jquery");
 
 let CORE = {
+  printHighlight: async list => {
+    for (let i = 0; i < list.length; i++) {
+      //카운트를 넣는다.(DEL)
+      /*if (list[i].FL_READERMODE == 'Y') readermodeCount++; else highlightCount++;*/
+
+      //let hlTextLength = list[i].TEXT.length; //미사용
+      let str = "";
+      let original = $(GLOBAL_CONFIG.TARGET_ELEMENT).text();
+      str = list[i].PREV + list[i].TEXT + list[i].NEXT;
+      let start = original.indexOf(str);
+
+      let end = start + str.length;
+      let hlTF = true;
+      if (start < 0) {
+        hlTF = false;
+      }
+      if (list[i].PREV != "") {
+        start = start + GLOBAL_CONFIG.PREV_NEXT_OFFSET;
+        end = end - GLOBAL_CONFIG.PREV_NEXT_OFFSET;
+      }
+      // console.log(" start, end", start, end);
+
+      if (hlTF) {
+        await CORE.setSelectionRange(GLOBAL_CONFIG.ELEMENT, start, end);
+        await CORE.setHighlightColor(list[i].TEXT, list[i].COLOR, list[i].IDX);
+
+        //메모값 담아두기
+        GLOBAL_CONFIG.MEMO_LIST.set(list[i].IDX, list[i].MEMO);
+      } else {
+        GLOBAL_CONFIG.HIGHLIGHT_FALI_LIST.push(list[i]);
+      }
+
+      //위젯에 담기 (Defulat / readermode)
+      /*HlWidgetAction.appendHighlightWidget(list[i], hlTF, list[i].FL_READERMODE);*/
+
+      //전체 하이라이팅을 담는다.
+      /*HlWidgetAction.appendHighlightWidget(list[i], hlTF, "ALL");*/
+
+      //메모 위젯에 담기
+      /*if (list[i].MEMO != '') {
+                memoCount++;
+                HlWidgetAction.appendMemoWidget(list[i].IDX, list[i].MEMO, Util.getTimeString(list[i].DATE_CREATE));
+            }*/
+
+      //이미지에 하이라이팅 하기
+      /*if ($.trim(list[i].IMAGE) != '') {
+                GLOBAL_CONFIG.SELECT_IMAGE = list[i].IMAGE.split(' ');
+                HighlightCore.setImageHighlight(list[i].IMAGE);
+                imageCount += HlWidgetAction.appendImageWidget(list[i]);
+            }*/
+
+      //메모가 있는경우, 메모 아이콘 표시
+      /*if (list[i].MEMO != '') {
+                var destItem = $('[' + HighlightData.idName + '="' + list[i].IDX + '"]')[0];
+                $(destItem).addClass('wf-memo');
+            }*/
+    }
+
+    let interval = setInterval(() => {
+      //todo : 해야함 >> dynamicLoadingItems();
+    }, 3000);
+  },
   getStartEndOffset: element => {
     return new Promise(res => {
       let doc = element.ownerDocument; // 해당 요소를 포함하는 최상위의 문서 개체를 참조(노드가 속해 있는 Document 인터페이스를 구현하는 객체를 돌려주는 프로퍼티)
@@ -32,29 +94,28 @@ let CORE = {
         end: end,
         hlText: range.toString(),
         hlPrev: hlPrev,
-        hlNext: hlNext,
+        hlNext: hlNext
       };
       res(ret);
     });
   },
   executeHighlight: async param => {
-    let original2 = $(GLOBAL_CONFIG.TARGET_ELEMENT).text();
+    let original = $(GLOBAL_CONFIG.TARGET_ELEMENT).text();
     let str = param.PREV + param.TEXT + param.NEXT;
-    let start = original2.indexOf(str);
+    let start = original.indexOf(str);
     let end = start + str.length;
     let hlTF = true;
-    let hlidx;
     if (start < 0) {
       hlTF = false;
     }
-    if (param.PREV !== '') {
+    if (param.PREV !== "") {
       start = start + GLOBAL_CONFIG.PREV_NEXT_OFFSET;
       end = end - GLOBAL_CONFIG.PREV_NEXT_OFFSET;
     }
-    // console.log("hlTF " , hlTF, start , end,str);
+
     if (hlTF) {
       await CORE.setSelectionRange(GLOBAL_CONFIG.ELEMENT, start, end);
-      hlidx = await CORE.setHighlightColor(param.TEXT, param.COLOR, param.IDX);
+      await CORE.setHighlightColor(param.TEXT, param.COLOR, param.IDX); //return hlidx
       // 메모값 담아두기
       GLOBAL_CONFIG.MEMO_LIST.set(param.IDX, param.MEMO);
     } else {
@@ -113,17 +174,23 @@ let CORE = {
       if (!win.getSelection().isCollapsed) {
         let range = win.getSelection().getRangeAt(0);
         // eslint-disable-next-line no-undef
-        HIGHLIGT_CORE.execute(range, color, GLOBAL_CONFIG.HL_TAG_NAME, idx, text).then(function() {
+        HIGHLIGT_CORE.execute(
+          range,
+          color,
+          GLOBAL_CONFIG.HL_TAG_NAME,
+          idx,
+          text
+        ).then(function() {
           win.getSelection().removeAllRanges();
-          $('[' + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
-            .unbind('mouseover')
-            .on('mouseover', HighlightCore.mouseOverAction);
+          /*$('[' + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
+                        .unbind('mouseover')
+                        .on('mouseover', HighlightCore.mouseOverAction);*/
         });
       }
       res(idx);
       rej(false);
     });
-  },
+  }
 };
 
 export default CORE;

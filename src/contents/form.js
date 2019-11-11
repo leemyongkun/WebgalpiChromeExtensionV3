@@ -1,10 +1,18 @@
-import Action from './action';
-import GLOBAL_CONFIG from './global/config.js';
+import Action from "./action";
+import GLOBAL_CONFIG from "./global/config.js";
 
-let $ = require('jquery');
+let $ = require("jquery");
 
 let FORM = {
-  CREATE_COLOR_PICKER: () => {
+  clearColorPicker: color => {
+    $(".color-picker")
+      .find("a")
+      .removeClass("on");
+    $(".color-picker")
+      .find("." + color)
+      .addClass("on");
+  },
+  createColorPicker: () => {
     return `<wafflepen class='hlt-wafflepen-toolbox' style='' id='highlight-toolbar'>
                        <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
                           <wafflepen-ul class='wafflepen-color-picker'>
@@ -29,43 +37,41 @@ let FORM = {
                       </wafflepen>
                   </wafflepen>`;
   },
-  HIDE_PICKER: () => {
-    $('.wafflepen-color-picker')
-      .find('a')
-      .removeClass('on');
-    $('#highlightMemoArea').val('');
-    $('#highlightDeleteBtn').hide();
-    $('#editArea').hide();
-    $('#highlight-toolbar').hide();
+  hidePicker: () => {
+    $(".wafflepen-color-picker")
+      .find("a")
+      .removeClass("on");
+    $("#highlightMemoArea").val("");
+    $("#highlightDeleteBtn").hide();
+    $("#editArea").hide();
+    $("#highlight-toolbar").hide();
   },
-  SHOW_PICKER: e => {
+  showPicker: e => {
     // 초기화
-    FORM.HIDE_PICKER();
+    FORM.hidePicker();
 
     let s = window.getSelection();
     let oRange = s.getRangeAt(0); // get the text range
     let oRect = oRange.getBoundingClientRect();
 
-    $('#highlight-toolbar').css({
+    $("#highlight-toolbar").css({
       top: e.pageY + 10,
       left: e.pageX,
-      position: 'absolute',
-      width: 'auto',
+      position: "absolute",
+      width: "auto"
     });
 
     setTimeout(function() {
       // Drag 영역이 없으면 false 리턴한다.
       if (s.isCollapsed) return false;
 
-      $('#highlight-toolbar-memo-area').hide();
-      $('#highlight-toolbar').show();
-      GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = 'drag';
-
+      $("#highlight-toolbar-memo-area").hide();
+      $("#highlight-toolbar").show();
+      GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = "drag";
     }, 100);
 
-
     return true;
-  },
+  }
 };
 export default FORM;
 

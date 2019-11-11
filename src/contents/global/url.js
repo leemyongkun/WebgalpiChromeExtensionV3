@@ -1,4 +1,6 @@
 let URL = {
-  TYPE: ''
+  TYPE: "",
+  KEY: "",
+  SITE: "" //URL
 };
 export default URL;

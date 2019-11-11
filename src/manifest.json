@@ -12,7 +12,7 @@
     "default_popup": "popup/popup.html"
   },
   "background": {
-    "scripts": ["background/background.js"]
+    "scripts": ["background/background.js", "background/listener.js"]
   },
   "content_scripts": [
     {
@@ -20,7 +20,7 @@
       "run_at": "document_idle",
       "matches": ["*://*/*"],
       "css": ["css/hl.css"],
-      "js": ["contents/contents.js","contents/core/hl-core.js"]
+      "js": ["contents/listener.js", "contents/core/hl-core.js"]
     }
   ],
   "options_ui": {

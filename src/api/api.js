@@ -1,5 +1,6 @@
 import Query from "../database/query.js";
-let db = openDatabase("HL", "1.0", "DATABASE", 200000);
+
+var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 
 let Api = {
   getInitInfo: parameter => {
@@ -104,7 +105,7 @@ let Api = {
       params.OG_TITLE,
       params.OG_DESCRIPTION,
       params.OG_IMAGE,
-      params.SHARE_KEY,
+      "", //params.SHARE_KEY,
       params.HOST,
       params.FULL_TEXT,
       params.URL_TYPE,
@@ -139,12 +140,20 @@ function remove(query, param) {
 }
 
 function insert(query, param) {
-  return new Promise((res, rej) => {
+  return new Promise(res => {
     db.transaction(tx => {
-      tx.executeSql(query, param, (tx, rs) => {
-        console.log(tx, rs);
-        res(param);
-      });
+      tx.executeSql(
+        query,
+        param,
+        (tx, rs) => {
+          console.log(tx, rs);
+          res(param);
+        },
+        (tx, error) => {
+          console.log("tx ", tx);
+          console.log("error ", error);
+        }
+      );
     });
   });
 }
