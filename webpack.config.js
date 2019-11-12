@@ -17,6 +17,7 @@ const config = {
     "contents/listener": "./contents/listener.js",
     "contents/form": "./contents/form.js",
     "contents/action": "./contents/action.js",
+    "contents/common": "./contents/common.js",
     "background/background": "./background/background.js",
     "background/listener": "./background/listener.js",
     "popup/popup": "./popup/popup.js",

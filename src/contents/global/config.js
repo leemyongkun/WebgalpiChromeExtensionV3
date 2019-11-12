@@ -16,13 +16,23 @@ let GLOBAL_CONFIG = {
   SELECT_START: 0,
   SELECT_END: 0,
   SELECT_IMAGE: "",
-  MOUSE_CLICK_ID: "",
+  MOUSE_CLICK_ID: "", //mouseClickId
+  MOUSE_OVER_ID: 0, //mouseOverId : mouseOver된 Id가 저장된다. (currentIdx로부터 할당받는다.), 만약 currentIdx와 mouseOverId가 같다면 팔렛트를 보여주지 않도록 하기위함이다. // core.js.line.137
   INCREMENT_IDX: 0, //incrementIDx
   CURRENT_IDX: new Date().getTime(), //currentIdx
   MEMO_LIST: new Map(),
   HIGHLIGHT_LIST: new Array(),
   HIGHLIGHT_FALI_LIST: new Array(),
   USE_CURRENT_SITE: "N", //useSite
-  SITE_INFO: null
+  SITE_INFO: null,
+  CURRENT_COLOR: null //currentColor
 };
-export default GLOBAL_CONFIG;
+
+let URL = {
+  TYPE: "",
+  KEY: "",
+  SITE: "" //URL
+};
+
+let ELEMENT = {};
+export { GLOBAL_CONFIG, URL, ELEMENT };

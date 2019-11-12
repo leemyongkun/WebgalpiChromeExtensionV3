@@ -2,7 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b2bb08b-04bd-4154-9718-f954bbbb3219" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/contents/common.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/vuetify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/action.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/action.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/core/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/core/core.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/global/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/global/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/global/url.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/global/url.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/listener.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/listener.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/hl.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/hl.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/popup/popup.js" beforeDir="false" afterPath="$PROJECT_DIR$/popup/popup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../webpack.config.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,6 +44,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -67,7 +81,8 @@
       <workItem from="1572954938150" duration="2722000" />
       <workItem from="1573096649468" duration="1996000" />
       <workItem from="1573179732377" duration="13752000" />
-      <workItem from="1573438272511" duration="10306000" />
+      <workItem from="1573438272511" duration="10905000" />
+      <workItem from="1573525046568" duration="8549000" />
     </task>
     <servers />
   </component>

@@ -1,5 +1,6 @@
-import GLOBAL_CONFIG from "../global/config.js";
+import { GLOBAL_CONFIG, URL } from "../global/config.js";
 import HIGHLIGT_CORE from "./hl-core.js";
+import { EVENT } from "../action.js";
 
 let $ = require("jquery");
 
@@ -9,7 +10,6 @@ let CORE = {
       //카운트를 넣는다.(DEL)
       /*if (list[i].FL_READERMODE == 'Y') readermodeCount++; else highlightCount++;*/
 
-      //let hlTextLength = list[i].TEXT.length; //미사용
       let str = "";
       let original = $(GLOBAL_CONFIG.TARGET_ELEMENT).text();
       str = list[i].PREV + list[i].TEXT + list[i].NEXT;
@@ -181,10 +181,11 @@ let CORE = {
           idx,
           text
         ).then(function() {
+          console.log("in mouseOnOverEvent");
           win.getSelection().removeAllRanges();
-          /*$('[' + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
-                        .unbind('mouseover')
-                        .on('mouseover', HighlightCore.mouseOverAction);*/
+          $("[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
+            .unbind("mouseover")
+            .on("mouseover", EVENT.mouseOnOverEvent); //
         });
       }
       res(idx);

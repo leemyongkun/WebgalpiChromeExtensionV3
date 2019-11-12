@@ -1,5 +1,5 @@
 import Action from "./action";
-import GLOBAL_CONFIG from "./global/config.js";
+import { GLOBAL_CONFIG, ELEMENT } from "./global/config.js";
 
 let $ = require("jquery");
 
@@ -13,7 +13,7 @@ let FORM = {
       .addClass("on");
   },
   createColorPicker: () => {
-    return `<wafflepen class='hlt-wafflepen-toolbox' style='' id='highlight-toolbar'>
+    return `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
                        <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
                           <wafflepen-ul class='wafflepen-color-picker'>
                               <a href='javascript:void(0)' class='hltcolor-1' id="color-1"></a>
@@ -28,7 +28,7 @@ let FORM = {
                               <!-- wafflepen-li><wafflepen class='hlt-btn trash waf-inlineBlock' id='deleteHighlightBtn'></wafflepen></wafflepen-li -->
                           </wafflepen>
                       </wafflepen>
-                      <wafflepen class='wafflepen-writebox' style='' id='highlight-toolbar-memo-area'>
+                      <wafflepen class='wafflepen-writebox' style='display:none; !important' id='highlight-toolbar-memo-area'>
                           <textarea name='' class='rspen-txtarea' placeholder='Memo' id='highlightMemoArea' ></textarea>
                           <wafflepen class='writebox-submit'>
                               <wafflepen class='write-date'><wafflepen class='wdate'> </wafflepen> </wafflepen>
