@@ -361,7 +361,7 @@ let EVENT = {
       $("#highlight-toolbar").fadeIn();
     }, 100);
 
-    GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = "click";
+    GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = "drag";
   },
   mouseOnDownUpEvent: () => {
     CONTENT_ACTION.initUrlInfo(); //urlInitConfig();
@@ -509,6 +509,7 @@ let EVENT = {
             $("#highlight-toolbar")
               .find(".wafflepen-color-picker a")
               .each((idx, item) => {
+                console.log("MOUSE_OVER_ID ", GLOBAL_CONFIG.MOUSE_OVER_ID);
                 if ($(item).hasClass("on")) {
                   console.log("on!!");
                   colorTF = true;
@@ -535,11 +536,6 @@ let EVENT = {
                       });
                   }
                 } else {
-                  console.log(
-                    "CURRENT_MOUSE_STATUS ",
-                    GLOBAL_CONFIG.CURRENT_MOUSE_STATUS
-                  );
-
                   // click
                   // 드래그 할경우 생성
                   if (GLOBAL_CONFIG.CURRENT_MOUSE_STATUS === "block") {
