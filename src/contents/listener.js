@@ -6,5 +6,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       ACTION.init(msg.data);
       sendResponse(true);
       return true;
+      break;
+    case "content.test":
+      alert("!");
+      sendResponse(true);
+      break;
   }
 });

@@ -6,6 +6,7 @@ let $ = require("jquery");
 
 let CORE = {
   printHighlight: async list => {
+    if (list === null) return null;
     for (let i = 0; i < list.length; i++) {
       //카운트를 넣는다.(DEL)
       /*if (list[i].FL_READERMODE == 'Y') readermodeCount++; else highlightCount++;*/

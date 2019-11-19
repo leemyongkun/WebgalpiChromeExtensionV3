@@ -518,7 +518,7 @@ let EVENT = {
               .promise()
               .then(function() {
                 console.log("colorTF ", colorTF);
-                return false;
+                //return false;
                 // 저장한다.
                 if (colorTF) {
                   // 클릭할 경우 수정
@@ -593,4 +593,4 @@ let ACTION = {
   }
 };
 
-export { ACTION, EVENT };
+export { ACTION, EVENT, CONTENT_ACTION };
