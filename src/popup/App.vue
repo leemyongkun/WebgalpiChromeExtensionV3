@@ -1,36 +1,206 @@
 <template>
-  <el-carousel :autoplay="false" arrow="always"
-    ><!--:interval="5000" -->
-    <el-carousel-item v-for="item in 4" :key="item">
-      <el-row>
-        <el-button
-          type="info"
-          icon="el-icon-message"
-          @click="saveSiteInfo"
-          circle
-        ></el-button>
-      </el-row>
-      <el-row>
-        <el-col :span="24">
-          <el-card :body-style="{ padding: '0px' }">
-            <div style="padding: 14px;">
-              <span>{{ image }}</span>
-            </div>
-            <img
-              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-              class="image"
-            />
-            <div style="padding: 14px;">
-              <span>Yummy hamburger</span>
-            </div>
-          </el-card>
+  <el-tabs tab-position="left" style="height: 300px;">
+    <el-tab-pane label="INFO">
+      <el-card :body-style="{ padding: '0px' }">
+        <div style="padding: 14px;">
+          <span v-if="OG.isTitle">{{ siteInfo.OG_TITLE }}</span>
+          <span v-else-if="!OG.isTitle">-</span>
+        </div>
+        <div v-if="OG.isImage">
+          <img :src="siteInfo.OG_IMAGE" class="image" />
+        </div>
+        <div v-else-if="!OG.isImage">
+          <img
+            src="https://png.pngtree.com/png-clipart/20190630/original/pngtree-cute-cartoon-brown-bear-png-image_4178855.jpg"
+            class="image"
+          />
+        </div>
+        <div style="padding: 14px;">
+          <span v-if="OG.isDescription">{{ siteInfo.OG_DESCRIPTION }}</span>
+          <span v-else-if="!OG.isDescription">-</span>
+        </div>
+      </el-card>
+    </el-tab-pane>
+    <el-tab-pane label="HIGHLIGT">
+      <div>
+        <el-timeline>
+          <el-timeline-item
+            v-for="(activity, index) in Highlight.activities"
+            :key="index"
+            :icon="activity.icon"
+            :type="activity.type"
+            :color="activity.color"
+            :size="activity.size"
+            :timestamp="activity.timestamp"
+          >
+            {{ activity.content }}
+          </el-timeline-item>
+        </el-timeline>
+      </div>
+    </el-tab-pane>
+    <el-tab-pane label="Role">Role</el-tab-pane>
+    <el-tab-pane label="Task">Task</el-tab-pane>
+  </el-tabs>
+
+  <!-- el-carousel :autoplay="false" arrow="always" --><!--:interval="5000" -->
+  <!--<el-carousel-item v-for="item in 4" :key="item">-->
+  <!--<el-row>
+
+        <el-col :span="4" style="width:15.6%">
+            <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+                     :collapse="isCollapse">
+                <el-menu-item index="1">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">Navigator One</span>
+                </el-menu-item>
+                <el-menu-item index="2">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">Navigator Two</span>
+                </el-menu-item>
+                <el-menu-item index="3" disabled>
+                    <i class="el-icon-document"></i>
+                    <span slot="title">Navigator Three</span>
+                </el-menu-item>
+                <el-menu-item index="4">
+                    <i class="el-icon-setting"></i>
+                    <span slot="title">Navigator Four</span>
+                </el-menu-item>
+            </el-menu>
+
         </el-col>
-      </el-row>
-    </el-carousel-item>
-  </el-carousel>
+
+        <el-col :span="20">
+            <el-card :body-style="{ padding: '0px' }">
+                <div style="padding: 14px;">
+                    <span v-if="OG.isTitle">{{siteInfo.OG_TITLE}}</span>
+                    <span v-else-if="!OG.isTitle">-</span>
+                </div>
+                <div v-if="OG.isImage">
+                    <img
+                            :src="siteInfo.OG_IMAGE"
+                            class="image"
+                    />
+                </div>
+                <div v-else-if="!OG.isImage">
+                    <img
+                            src="https://png.pngtree.com/png-clipart/20190630/original/pngtree-cute-cartoon-brown-bear-png-image_4178855.jpg"
+                            class="image"
+                    />
+                </div>
+                <div style="padding: 14px;">
+                    <span v-if="OG.isDescription">{{siteInfo.OG_DESCRIPTION}}</span>
+                    <span v-else-if="!OG.isDescription">-</span>
+                </div>
+            </el-card>
+        </el-col>
+
+    </el-row>-->
+  <!--<el-row>
+        <el-col >
+            <el-card :body-style="{ padding: '0px' }">
+                <div style="padding: 14px;">
+                    <span v-if="OG.isTitle">{{siteInfo.OG_TITLE}}</span>
+                    <span v-else-if="!OG.isTitle">-</span>
+                </div>
+                <div v-if="OG.isImage">
+                    <img
+                            :src="siteInfo.OG_IMAGE"
+                            class="image"
+                    />
+                </div>
+                <div v-else-if="!OG.isImage">
+                    <img
+                            src="https://png.pngtree.com/png-clipart/20190630/original/pngtree-cute-cartoon-brown-bear-png-image_4178855.jpg"
+                            class="image"
+                    />
+                </div>
+                <div style="padding: 14px;">
+                    <span v-if="OG.isDescription">{{siteInfo.OG_DESCRIPTION}}</span>
+                    <span v-else-if="!OG.isDescription">-</span>
+                </div>
+            </el-card>
+        </el-col>
+    </el-row>-->
+  <!--</el-carousel-item>-->
+  <!--</el-carousel>-->
 </template>
 
+<script>
+export default {
+  name: "App",
+  data() {
+    return {
+      Highlight: {
+        activities: [
+          {
+            content: "Custom icon",
+            timestamp: "2018-04-12 20:46",
+            color: "red"
+          },
+          {
+            content: "Custom color",
+            timestamp: "2018-04-03 20:46",
+            color: "#0bbd87"
+          },
+          {
+            content: "Custom size",
+            timestamp: "2018-04-03 20:46",
+            size: "large"
+          },
+          {
+            content: "Default node",
+            timestamp: "2018-04-03 20:46"
+          },
+          {
+            content: "Default node",
+            timestamp: "2018-04-03 20:46"
+          }
+        ]
+      },
+      OG: {
+        isTitle: false,
+        isImage: false,
+        isDescription: false
+      },
+      image: null,
+      isCollapse: true
+    };
+  },
+  mounted() {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      chrome.tabs.sendMessage(
+        tabs[0].id,
+        {
+          action: "content.test",
+          data: "data!"
+        },
+        siteInfo => {
+          console.log("siteInfo >> ", siteInfo);
+
+          if (siteInfo.OG_IMAGE != null) {
+            this.OG.isImage = true;
+          }
+          if (siteInfo.OG_TITLE != null) {
+            this.OG.isTitle = true;
+          }
+          if (siteInfo.OG_DESCRIPTION != null) {
+            this.OG.isDescription = true;
+          }
+          this.siteInfo = siteInfo;
+        }
+      );
+    });
+  },
+  methods: {}
+};
+</script>
+
 <style>
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
+
 .time {
   font-size: 13px;
   color: #999;
@@ -48,7 +218,7 @@
 
 .image {
   width: 100%;
-  height: 200px;
+  height: 150px;
   display: block;
 }
 
@@ -79,33 +249,3 @@
   background-color: #d3dce6;
 }
 </style>
-
-<script>
-export default {
-  name: "App",
-  data() {
-    return {
-      image: null,
-      siteInfo: null
-    };
-  },
-
-  methods: {
-    saveSiteInfo() {
-      chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-        chrome.tabs.sendMessage(
-          tabs[0].id,
-          {
-            action: "content.test",
-            data: "data!"
-          },
-          response => {
-            console.log("response ", response);
-            this.siteInfo = response;
-          }
-        );
-      });
-    }
-  }
-};
-</script>

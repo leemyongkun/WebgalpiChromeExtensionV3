@@ -8,7 +8,10 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       return true;
       break;
     case "content.test":
-      sendResponse(await CONTENT_ACTION.firstVisitSite(new Object()));
+      let content = await CONTENT_ACTION.firstVisitSite(new Object());
+      console.log("content >> ", content);
+      sendResponse(content);
+      return true;
       break;
   }
 });
