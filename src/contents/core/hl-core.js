@@ -1,22 +1,35 @@
-let $ = require('jquery');
+import { GLOBAL_CONFIG } from "../global/config.js";
+let $ = require("jquery");
 
 let colorMap = new Object();
 (function() {
-  colorMap['hltcolor-1'] = 'background: #ff90c3 !important;display: inline !important;';
-  colorMap['hltcolor-2'] = 'background: #ffcd86 !important;display: inline !important;';
-  colorMap['hltcolor-3'] = 'background: #ffee7c !important;display: inline !important;';
-  colorMap['hltcolor-4'] = 'background: #8cf980 !important;display: inline !important;';
-  colorMap['hltcolor-5'] = 'background: #75dbff !important;display: inline !important;';
-  colorMap['hltcolor-6'] = 'background: #e7b2ff !important;display: inline !important;';
+  colorMap["hltcolor-1"] =
+    "background: #ff90c3 !important;display: inline !important;";
+  colorMap["hltcolor-2"] =
+    "background: #ffcd86 !important;display: inline !important;";
+  colorMap["hltcolor-3"] =
+    "background: #ffee7c !important;display: inline !important;";
+  colorMap["hltcolor-4"] =
+    "background: #8cf980 !important;display: inline !important;";
+  colorMap["hltcolor-5"] =
+    "background: #75dbff !important;display: inline !important;";
+  colorMap["hltcolor-6"] =
+    "background: #e7b2ff !important;display: inline !important;";
 })();
 
 function getColor(colorClass) {
   return colorMap[colorClass];
 }
 
-let hlText = '';
+let hlText = "";
 let HIGHLIGT_CORE = {
-  execute: (rangeObject, highlightClass, highlightTag, highlightId, hlghlightText) => {
+  execute: (
+    rangeObject,
+    highlightClass,
+    highlightTag,
+    highlightId,
+    hlghlightText
+  ) => {
     return new Promise(function(res) {
       // 비어있는 경우 범위를 무시힌다.
       if (rangeObject.collapsed) {
@@ -24,12 +37,12 @@ let HIGHLIGT_CORE = {
       }
       hlText = hlghlightText;
 
-      if (typeof highlightClass === 'undefined') {
-        highlightClass = 'highlighted-range';
+      if (typeof highlightClass === "undefined") {
+        highlightClass = "highlighted-range";
       }
 
-      if (typeof highlightTag === 'undefined') {
-        highlightTag = 'span';
+      if (typeof highlightTag === "undefined") {
+        highlightTag = "span";
       }
 
       // 모든 노드를 배열에 넣는다. (시작과 끝 노느 분할작업)
@@ -45,7 +58,13 @@ let HIGHLIGT_CORE = {
       var count = 0;
       // console.log(">>>>>>>>>>>>>>>>>>>>>>> nodes " ,nodes);
       for (let nodeIdx in nodes) {
-        let ret = HIGHLIGT_CORE.highlightNode(nodes[nodeIdx], highlightClass, highlightTag, highlightId, count);
+        let ret = HIGHLIGT_CORE.highlightNode(
+          nodes[nodeIdx],
+          highlightClass,
+          highlightTag,
+          highlightId,
+          count
+        );
         if (!ret) {
           // console.log("ret ",ret);
           highlights.push(ret);
@@ -85,10 +104,15 @@ let HIGHLIGT_CORE = {
 
     if (rangeObject.startOffset !== rangeObject.startContainer.length) {
       if (rangeObject.startOffset !== 0) {
-        var createdNode = rangeObject.startContainer.splitText(rangeObject.startOffset);
+        var createdNode = rangeObject.startContainer.splitText(
+          rangeObject.startOffset
+        );
 
         if (rangeObject.endContainer === rangeObject.startContainer) {
-          rangeObject.setEnd(createdNode, rangeObject.endOffset - rangeObject.startOffset);
+          rangeObject.setEnd(
+            createdNode,
+            rangeObject.endOffset - rangeObject.startOffset
+          );
         }
 
         rangeObject.setStart(createdNode, 0);
@@ -96,16 +120,25 @@ let HIGHLIGT_CORE = {
     }
 
     // Create an iterator to iterate through the nodes.
-    var root = typeof rangeObject.commonAncestorContainer !== 'undefined' ? rangeObject.commonAncestorContainer : document.body; // fall back to whole document for browser compatibility
+    var root =
+      typeof rangeObject.commonAncestorContainer !== "undefined"
+        ? rangeObject.commonAncestorContainer
+        : document.body; // fall back to whole document for browser compatibility
     var iter = document.createNodeIterator(root, NodeFilter.SHOW_TEXT);
 
     // Find the start node (could we somehow skip this seemingly needless search?)
-    while (iter.referenceNode !== rangeObject.startContainer && iter.referenceNode !== null) {
+    while (
+      iter.referenceNode !== rangeObject.startContainer &&
+      iter.referenceNode !== null
+    ) {
       iter.nextNode();
     }
 
     // Add each node up to (but excluding) the end node.
-    while (iter.referenceNode !== rangeObject.endContainer && iter.referenceNode !== null) {
+    while (
+      iter.referenceNode !== rangeObject.endContainer &&
+      iter.referenceNode !== null
+    ) {
       nodes.push(iter.referenceNode);
       iter.nextNode();
     }
@@ -133,7 +166,12 @@ let HIGHLIGT_CORE = {
     function getFirstTextNode(node) {
       if (node.nodeType === Node.TEXT_NODE) return node;
       var document = node.ownerDocument;
-      var walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null, false);
+      var walker = document.createTreeWalker(
+        node,
+        NodeFilter.SHOW_TEXT,
+        null,
+        false
+      );
       return walker.firstChild();
     }
 
@@ -174,18 +212,18 @@ let HIGHLIGT_CORE = {
 
   // Replace [node] with <span class=[highlightClass]>[node]</span>
   highlightNode: (node, highlightClass, highlightTag, highlightId, count) => {
-    var BR = document.createElement('BR');
-    if ($(node).closest('style').length != 0) return false;
-    if ($(node).closest('script').length != 0) return false;
+    var BR = document.createElement("BR");
+    if ($(node).closest("style").length != 0) return false;
+    if ($(node).closest("script").length != 0) return false;
     if (
       $(node)
         .parent()
-        .css('display') == 'none'
+        .css("display") == "none"
     )
       return false;
 
     // ykleem@20180820 - 빈공간이면 하이라이팅을 할 필요가 없음.
-    if ($.trim(node.textContent) === '') return false;
+    if ($.trim(node.textContent) === "") return false;
 
     // ykleem@20180816 - 포함되지 않은 단어는 하이라이팅에서 제거.
     if (hlText.indexOf(node.textContent) === -1) {
@@ -200,13 +238,13 @@ let HIGHLIGT_CORE = {
     // Create a highlight
     var highlight = document.createElement(highlightTag);
     highlight.classList.add(highlightClass);
-    highlight.classList.add('wf-pen');
+    highlight.classList.add("wf-pen");
 
     // memo가 있는 경우
     // highlight.classList.add('wf-memo');
     // highlight.setAttribute('style', getColor(highlightClass));
     highlight.style.cssText = getColor(highlightClass); // rgb형태로 자동 변환되어 들어간다.
-    highlight.setAttribute('wafflepen-id', highlightId);
+    highlight.setAttribute(GLOBAL_CONFIG.HL_ID_NAME, highlightId);
 
     // Wrap it around the text node
     node.parentNode.replaceChild(highlight, node);
@@ -223,7 +261,7 @@ let HIGHLIGT_CORE = {
     }
     // Remove the now empty node
     highlight.remove();
-  },
+  }
 };
 
 export default HIGHLIGT_CORE;

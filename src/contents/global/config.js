@@ -1,10 +1,10 @@
 let GLOBAL_CONFIG = {
   //HIGHLIGHT_POINT: false, //highlightPoint
   ELEMENT: null,
-  GROUP_ELEMENT: "hl-group",
+  GROUP_ELEMENT: "highlight-group",
   TARGET_ELEMENT: "body", //targetElement
-  HL_TAG_NAME: "wafflepen-highlight", //tagName
-  HL_ID_NAME: "wafflepen-id", //idName
+  HL_TAG_NAME: "highlight-custom-tag", //custom-tagName :wafflepen-highlight
+  HL_ID_NAME: "highlight-id", //idName
   IS_LOGIN: true,
   URL_TYPE: "",
   PREV_NEXT_OFFSET: 20, //prevNextOffset
