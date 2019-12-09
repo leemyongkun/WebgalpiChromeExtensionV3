@@ -236,9 +236,9 @@ let HIGHLIGT_CORE = {
     }
 
     // Create a highlight
-    var highlight = document.createElement(highlightTag);
+    let highlight = document.createElement(highlightTag);
     highlight.classList.add(highlightClass);
-    highlight.classList.add("wf-pen");
+    //highlight.classList.add("wf-pen"); //20191207@ykleem
 
     // memo가 있는 경우
     // highlight.classList.add('wf-memo');

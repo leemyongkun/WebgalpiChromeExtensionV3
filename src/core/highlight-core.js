@@ -240,9 +240,9 @@ var highlightRange = (function() {
     }
 
     // Create a highlight
-    var highlight = document.createElement(highlightTag);
+    /*var highlight = document.createElement(highlightTag);
     highlight.classList.add(highlightClass);
-    highlight.classList.add("wf-pen");
+    highlight.classList.add("wf-pen");*/
 
     //memo가 있는 경우
     //highlight.classList.add('wf-memo');

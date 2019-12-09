@@ -129,6 +129,25 @@ let CONTENT_ACTION = {
         });
     }
   },
+  updateHighlight: async (color, idx) => {
+    let param = new Object();
+    param.COLOR = color;
+    param.IDX = idx;
+
+    FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
+
+    console.log(">> ", param);
+    //이거 처리 해야함.
+    //$('[highlight-id="1575895957680"]').each( function(idx, item) {
+    // $(item).removeClass();
+    // });
+
+    // 저장
+    /*EVENT.sendMessage({
+            type: "update.highlight",
+            data: param
+        });*/
+  },
   createHighlight: async (color, element) => {
     window.getSelection().removeAllRanges();
 
@@ -205,8 +224,8 @@ let CONTENT_ACTION = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                              $('#highlight-toolbar').hide();
-                            } */
+                                  $('#highlight-toolbar').hide();
+                                } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
@@ -216,6 +235,7 @@ let CONTENT_ACTION = {
       "GLOBAL_CONFIG.USE_CURRENT_SITE ",
       GLOBAL_CONFIG.USE_CURRENT_SITE
     );
+
     if (GLOBAL_CONFIG.USE_CURRENT_SITE == "N") {
       // 처음 저장이면...
       GLOBAL_CONFIG.USE_CURRENT_SITE = "Y";
@@ -298,6 +318,12 @@ let EVENT = {
     return reserveDefer;
   },
   mouseOnOverEvent: e => {
+    console.log(
+      " GLOBAL_CONFIG.MOUSE_OVER_ID ",
+      GLOBAL_CONFIG.MOUSE_OVER_ID,
+      GLOBAL_CONFIG.CURRENT_IDX
+    );
+
     //클릭한 영역이 textarea 영역이면 팔렛트를 고정한다.
     //if (GLOBAL_CONFIG.MOUSE_CLICK_ID === "highlightMemoArea") return false;
 
@@ -312,7 +338,6 @@ let EVENT = {
     } else {
       return false;
     }
-    //console.log(" GLOBAL_CONFIG.MOUSE_OVER_ID " ,  GLOBAL_CONFIG.MOUSE_OVER_ID,GLOBAL_CONFIG.CURRENT_IDX);
 
     GLOBAL_CONFIG.MOUSE_OVER_ID = GLOBAL_CONFIG.CURRENT_IDX;
 
@@ -386,7 +411,9 @@ let EVENT = {
       })
       .unbind("mouseup")
       .on("mouseup", async event => {
-        console.log("mouseup!");
+        //다른곳 클릭하면 mouse_over_id 를 초기화 한다.
+        GLOBAL_CONFIG.MOUSE_OVER_ID = 0;
+
         // 클릭된 영역의 ID를 저장한다.
         // (textarea 영역, 즉 highlightMemoArea일경우, 다른 하이라이트 영역에 mouseover를 해도 팔렛트를 재생성 하지 않는다.)
         //GLOBAL_CONFIG.MOUSE_CLICK_ID = $(event.target).attr("id");
@@ -428,14 +455,14 @@ let EVENT = {
           event.target.nodeName === GLOBAL_CONFIG.HL_TAG_NAME.toUpperCase()
         ) {
           /* let currentId;
-                                                                      STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
-                                                                      if (HighlightCore.isNumber(STATUS.mouseUpId)) {
-                                                                        currentId = STATUS.mouseUpId;
-                                                                      } */
+                                                                                STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
+                                                                                if (HighlightCore.isNumber(STATUS.mouseUpId)) {
+                                                                                  currentId = STATUS.mouseUpId;
+                                                                                } */
 
           /* if (HighlightCore.isNumber(HighlightData.downId)) {
-                                                                        currentId = HighlightData.downId;
-                                                                      } */
+                                                                                  currentId = HighlightData.downId;
+                                                                                } */
           STATUS.mouseDownFlag = false;
           return false;
         }
@@ -452,11 +479,11 @@ let EVENT = {
         // 위젯영역일경우 컬러 팔레트를 보여주지 않는다.
         // 컬러 피커가 사용하지 않음일경우 보여주지 않는다.
         /* chrome.storage.sync.get(['options'], result => {
-                                                           let highlightYN = result.options.HIGHLIGHT;
-                                                           if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
-                                                             HighlightCore.mouseDragAction(event); // todo 가장 중요!!
-                                                           }
-                                                         }); */
+                                                                   let highlightYN = result.options.HIGHLIGHT;
+                                                                   if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
+                                                                     HighlightCore.mouseDragAction(event); // todo 가장 중요!!
+                                                                   }
+                                                                 }); */
 
         CONTENT_ACTION.setHighlightRangeInfoData(event, offset);
         FORM.showPicker(event); // todo 가장 중요!!
@@ -474,15 +501,12 @@ let EVENT = {
           .on("click", function(e) {
             e.stopPropagation();
             e.preventDefault();
-            console.log(
-              "click!",
-              $("#highlight-toolbar").find(".wafflepen-color-picker a")
-            );
+
             // 로그인 되어있지 않다면 위젯을 열어준다.
             /* if (!HighlightData.isLogin) {
-                                                                                HlLayerAction.loginCheckLayer();
-                                                                                return false;
-                                                                            } */
+                                                                                            HlLayerAction.loginCheckLayer();
+                                                                                            return false;
+                                                                                        } */
 
             let _this = this;
             let color = $(_this).attr("class"); // hltcolor-x 값을 가져옴
@@ -515,47 +539,49 @@ let EVENT = {
               .find(".wafflepen-color-picker a")
               .each((idx, item) => {
                 if ($(item).hasClass("on")) {
-                  console.log("on!!");
                   colorTF = true;
                 }
               })
               .promise()
               .then(function() {
-                console.log("colorTF ", colorTF);
-
-                return false;
-                //return false;
-                // 저장한다.
+                //수정한다.
                 if (colorTF) {
                   // 클릭할 경우 수정
-                  let memo = $.trim($("#highlightMemoArea").val());
-                  let idx = HighlightData.currentIdx;
+                  /*let memo = $.trim($("#highlightMemoArea").val());
+                                    let idx = HighlightData.currentIdx;
 
-                  if (HighlightData.currentFlag === "block") {
-                    highlightAjaxListener.updateBlock(idx, color, memo);
-                  } else {
-                    // drag 일경우
-                    highlightAjaxListener
-                      .updateItem(idx, color, memo)
-                      .then(res => {
-                        execute.updateItem(res);
-                      });
-                  }
+                                    if (HighlightData.currentFlag === "block") {
+                                        highlightAjaxListener.updateBlock(idx, color, memo);
+                                    } else {
+                                        // drag 일경우
+                                        highlightAjaxListener
+                                            .updateItem(idx, color, memo)
+                                            .then(res => {
+                                                execute.updateItem(res);
+                                            });
+                                    }*/
+
+                  CONTENT_ACTION.updateHighlight(
+                    color,
+                    GLOBAL_CONFIG.CURRENT_IDX
+                  );
                 } else {
-                  // click
+                  //저장한다.
+                  CONTENT_ACTION.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
+
                   // 드래그 할경우 생성
-                  if (GLOBAL_CONFIG.CURRENT_MOUSE_STATUS === "block") {
-                    highlightAjaxListener.insertBlock(
-                      color,
-                      HighlightData.element
-                    );
-                  } else {
-                    // drag일경우
-                    CONTENT_ACTION.createHighlight(
-                      color,
-                      GLOBAL_CONFIG.ELEMENT
-                    );
-                  }
+                  /*if (GLOBAL_CONFIG.CURRENT_MOUSE_STATUS === "block") {
+                                        highlightAjaxListener.insertBlock(
+                                            color,
+                                            HighlightData.element
+                                        );
+                                    } else {
+                                        // drag일경우
+                                        CONTENT_ACTION.createHighlight(
+                                            color,
+                                            GLOBAL_CONFIG.ELEMENT
+                                        );
+                                    }*/
                 }
               });
           });
