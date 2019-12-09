@@ -38,9 +38,8 @@ let FORM = {
                   </wafflepen>`;
   },
   hidePicker: () => {
-    $(".wafflepen-color-picker")
-      .find("a")
-      .removeClass("on");
+    //$(".wafflepen-color-picker").find("a").removeClass("on");
+
     $("#highlightMemoArea").val("");
     $("#highlightDeleteBtn").hide();
     $("#editArea").hide();
@@ -48,6 +47,9 @@ let FORM = {
   },
   showPicker: e => {
     // 초기화
+    $(".wafflepen-color-picker")
+      .find("a")
+      .removeClass("on");
     FORM.hidePicker();
 
     let s = window.getSelection();
