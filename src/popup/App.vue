@@ -1,5 +1,5 @@
 <template>
-  <el-tabs tab-position="left" style="height: 300px;">
+  <el-tabs tab-position="left" style="height: 320px;">
     <el-tab-pane label="INFO">
       <el-card :body-style="{ padding: '0px' }">
         <div style="padding: 14px;">
@@ -23,7 +23,7 @@
     </el-tab-pane>
     <el-tab-pane label="HIGHLIGT">
       <div>
-        <el-timeline>
+        <el-timeline style="padding-left: 2px; margin-top: 12px;">
           <el-timeline-item
             v-for="(activity, index) in Highlight.activities"
             :key="index"
@@ -136,6 +136,26 @@ export default {
             content: "Custom icon",
             timestamp: "2018-04-12 20:46",
             color: "red"
+          },
+          {
+            content: "Custom color",
+            timestamp: "2018-04-03 20:46",
+            color: "#0bbd87"
+          },
+          {
+            content: "Custom color",
+            timestamp: "2018-04-03 20:46",
+            color: "#0bbd87"
+          },
+          {
+            content: "Custom color",
+            timestamp: "2018-04-03 20:46",
+            color: "#0bbd87"
+          },
+          {
+            content: "Custom color",
+            timestamp: "2018-04-03 20:46",
+            color: "#0bbd87"
           },
           {
             content: "Custom color",

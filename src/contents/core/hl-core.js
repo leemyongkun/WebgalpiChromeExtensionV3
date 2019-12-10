@@ -1,4 +1,5 @@
 import { GLOBAL_CONFIG } from "../global/config.js";
+
 let $ = require("jquery");
 
 let colorMap = new Object();
@@ -212,7 +213,7 @@ let HIGHLIGT_CORE = {
 
   // Replace [node] with <span class=[highlightClass]>[node]</span>
   highlightNode: (node, highlightClass, highlightTag, highlightId, count) => {
-    var BR = document.createElement("BR");
+    let BR = document.createElement("BR");
     if ($(node).closest("style").length != 0) return false;
     if ($(node).closest("script").length != 0) return false;
     if (
@@ -235,7 +236,7 @@ let HIGHLIGT_CORE = {
       if (hlText.indexOf(node.textContent) != 0) return false;
     }
 
-    // Create a highlight
+    // 하이라이트를 생성한다.
     let highlight = document.createElement(highlightTag);
     highlight.classList.add(highlightClass);
     //highlight.classList.add("wf-pen"); //20191207@ykleem

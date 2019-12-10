@@ -9,8 +9,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       API.postItem(msg.data);
 
       break;
-    case "background.test":
-      alert("background, test");
+
+    case "update.highlight":
+      API.updateItem(msg.data);
       break;
   }
 });
