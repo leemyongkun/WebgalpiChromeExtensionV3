@@ -22,21 +22,25 @@
       </el-card>
     </el-tab-pane>
     <el-tab-pane label="HIGHLIGT">
-      <div>
-        <el-timeline style="padding-left: 2px; margin-top: 12px;">
-          <el-timeline-item
-            v-for="(activity, index) in Highlight.activities"
-            :key="index"
-            :icon="activity.icon"
-            :type="activity.type"
-            :color="activity.color"
-            :size="activity.size"
-            :timestamp="activity.timestamp"
+      <el-scrollbar wrap-class="list" :native="false">
+        <div style="height: 300px;">
+          <el-timeline
+            style="padding-left: 2px; margin-top: 12px; margin-right: 20px;"
           >
-            {{ activity.content }}
-          </el-timeline-item>
-        </el-timeline>
-      </div>
+            <el-timeline-item
+              v-for="(activity, index) in Highlight.activities"
+              :key="index"
+              :icon="activity.icon"
+              :type="activity.type"
+              :color="activity.color"
+              :size="activity.size"
+              :timestamp="activity.timestamp"
+            >
+              {{ activity.content }}
+            </el-timeline-item>
+          </el-timeline>
+        </div>
+      </el-scrollbar>
     </el-tab-pane>
     <el-tab-pane label="Role">Role</el-tab-pane>
     <el-tab-pane label="Task">Task</el-tab-pane>
@@ -46,81 +50,81 @@
   <!--<el-carousel-item v-for="item in 4" :key="item">-->
   <!--<el-row>
 
-        <el-col :span="4" style="width:15.6%">
-            <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-                     :collapse="isCollapse">
-                <el-menu-item index="1">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">Navigator One</span>
-                </el-menu-item>
-                <el-menu-item index="2">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">Navigator Two</span>
-                </el-menu-item>
-                <el-menu-item index="3" disabled>
-                    <i class="el-icon-document"></i>
-                    <span slot="title">Navigator Three</span>
-                </el-menu-item>
-                <el-menu-item index="4">
-                    <i class="el-icon-setting"></i>
-                    <span slot="title">Navigator Four</span>
-                </el-menu-item>
-            </el-menu>
+          <el-col :span="4" style="width:15.6%">
+              <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+                       :collapse="isCollapse">
+                  <el-menu-item index="1">
+                      <i class="el-icon-menu"></i>
+                      <span slot="title">Navigator One</span>
+                  </el-menu-item>
+                  <el-menu-item index="2">
+                      <i class="el-icon-menu"></i>
+                      <span slot="title">Navigator Two</span>
+                  </el-menu-item>
+                  <el-menu-item index="3" disabled>
+                      <i class="el-icon-document"></i>
+                      <span slot="title">Navigator Three</span>
+                  </el-menu-item>
+                  <el-menu-item index="4">
+                      <i class="el-icon-setting"></i>
+                      <span slot="title">Navigator Four</span>
+                  </el-menu-item>
+              </el-menu>
 
-        </el-col>
+          </el-col>
 
-        <el-col :span="20">
-            <el-card :body-style="{ padding: '0px' }">
-                <div style="padding: 14px;">
-                    <span v-if="OG.isTitle">{{siteInfo.OG_TITLE}}</span>
-                    <span v-else-if="!OG.isTitle">-</span>
-                </div>
-                <div v-if="OG.isImage">
-                    <img
-                            :src="siteInfo.OG_IMAGE"
-                            class="image"
-                    />
-                </div>
-                <div v-else-if="!OG.isImage">
-                    <img
-                            src="https://png.pngtree.com/png-clipart/20190630/original/pngtree-cute-cartoon-brown-bear-png-image_4178855.jpg"
-                            class="image"
-                    />
-                </div>
-                <div style="padding: 14px;">
-                    <span v-if="OG.isDescription">{{siteInfo.OG_DESCRIPTION}}</span>
-                    <span v-else-if="!OG.isDescription">-</span>
-                </div>
-            </el-card>
-        </el-col>
+          <el-col :span="20">
+              <el-card :body-style="{ padding: '0px' }">
+                  <div style="padding: 14px;">
+                      <span v-if="OG.isTitle">{{siteInfo.OG_TITLE}}</span>
+                      <span v-else-if="!OG.isTitle">-</span>
+                  </div>
+                  <div v-if="OG.isImage">
+                      <img
+                              :src="siteInfo.OG_IMAGE"
+                              class="image"
+                      />
+                  </div>
+                  <div v-else-if="!OG.isImage">
+                      <img
+                              src="https://png.pngtree.com/png-clipart/20190630/original/pngtree-cute-cartoon-brown-bear-png-image_4178855.jpg"
+                              class="image"
+                      />
+                  </div>
+                  <div style="padding: 14px;">
+                      <span v-if="OG.isDescription">{{siteInfo.OG_DESCRIPTION}}</span>
+                      <span v-else-if="!OG.isDescription">-</span>
+                  </div>
+              </el-card>
+          </el-col>
 
-    </el-row>-->
+      </el-row>-->
   <!--<el-row>
-        <el-col >
-            <el-card :body-style="{ padding: '0px' }">
-                <div style="padding: 14px;">
-                    <span v-if="OG.isTitle">{{siteInfo.OG_TITLE}}</span>
-                    <span v-else-if="!OG.isTitle">-</span>
-                </div>
-                <div v-if="OG.isImage">
-                    <img
-                            :src="siteInfo.OG_IMAGE"
-                            class="image"
-                    />
-                </div>
-                <div v-else-if="!OG.isImage">
-                    <img
-                            src="https://png.pngtree.com/png-clipart/20190630/original/pngtree-cute-cartoon-brown-bear-png-image_4178855.jpg"
-                            class="image"
-                    />
-                </div>
-                <div style="padding: 14px;">
-                    <span v-if="OG.isDescription">{{siteInfo.OG_DESCRIPTION}}</span>
-                    <span v-else-if="!OG.isDescription">-</span>
-                </div>
-            </el-card>
-        </el-col>
-    </el-row>-->
+          <el-col >
+              <el-card :body-style="{ padding: '0px' }">
+                  <div style="padding: 14px;">
+                      <span v-if="OG.isTitle">{{siteInfo.OG_TITLE}}</span>
+                      <span v-else-if="!OG.isTitle">-</span>
+                  </div>
+                  <div v-if="OG.isImage">
+                      <img
+                              :src="siteInfo.OG_IMAGE"
+                              class="image"
+                      />
+                  </div>
+                  <div v-else-if="!OG.isImage">
+                      <img
+                              src="https://png.pngtree.com/png-clipart/20190630/original/pngtree-cute-cartoon-brown-bear-png-image_4178855.jpg"
+                              class="image"
+                      />
+                  </div>
+                  <div style="padding: 14px;">
+                      <span v-if="OG.isDescription">{{siteInfo.OG_DESCRIPTION}}</span>
+                      <span v-else-if="!OG.isDescription">-</span>
+                  </div>
+              </el-card>
+          </el-col>
+      </el-row>-->
   <!--</el-carousel-item>-->
   <!--</el-carousel>-->
 </template>
@@ -168,7 +172,18 @@ export default {
             size: "large"
           },
           {
-            content: "Default node",
+            content:
+              " \n" +
+              "\n" +
+              "----- 소스 네비게이션 -----\n" +
+              "\n" +
+              "Ctrl + 마우스커서(혹은 F3) : 클래스나 메소드 혹은 멤버를 상세하게 검색하고자 할때\n" +
+              "\n" +
+              "Alt + Left, Alt + Right : 이후, 이전\n" +
+              "\n" +
+              "Ctrl + O : 해당 소스의 메소드 리스트를 확인하려 할때\n" +
+              "\n" +
+              "F4 : 클래스명을 선택하고 누르면",
             timestamp: "2018-04-03 20:46"
           },
           {
