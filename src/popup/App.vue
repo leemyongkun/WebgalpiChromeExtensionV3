@@ -1,132 +1,101 @@
 <template>
-  <el-tabs tab-position="left" style="height: 320px;">
-    <el-tab-pane label="INFO">
-      <el-card :body-style="{ padding: '0px' }">
-        <div style="padding: 14px;">
-          <span v-if="OG.isTitle">{{ siteInfo.OG_TITLE }}</span>
-          <span v-else-if="!OG.isTitle">-</span>
-        </div>
-        <div v-if="OG.isImage">
-          <img :src="siteInfo.OG_IMAGE" class="image" />
-        </div>
-        <div v-else-if="!OG.isImage">
-          <img
-            src="https://png.pngtree.com/png-clipart/20190630/original/pngtree-cute-cartoon-brown-bear-png-image_4178855.jpg"
-            class="image"
-          />
-        </div>
-        <div style="padding: 14px;">
-          <span v-if="OG.isDescription">{{ siteInfo.OG_DESCRIPTION }}</span>
-          <span v-else-if="!OG.isDescription">-</span>
-        </div>
-      </el-card>
-    </el-tab-pane>
-    <el-tab-pane label="HIGHLIGT">
-      <el-scrollbar wrap-class="list" :native="false">
-        <div style="height: 300px;">
-          <el-timeline
-            style="padding-left: 2px; margin-top: 12px; margin-right: 20px;"
-          >
-            <el-timeline-item
-              v-for="(activity, index) in Highlight.activities"
-              :key="index"
-              :icon="activity.icon"
-              :type="activity.type"
-              :color="activity.color"
-              :size="activity.size"
-              :timestamp="activity.timestamp"
-            >
-              {{ activity.content }}
-            </el-timeline-item>
-          </el-timeline>
-        </div>
-      </el-scrollbar>
-    </el-tab-pane>
-    <el-tab-pane label="Role">Role</el-tab-pane>
-    <el-tab-pane label="Task">Task</el-tab-pane>
-  </el-tabs>
+  <el-container>
+    <el-header style="line-height: 30px; height:30px; text-align: right;">
+      <el-button
+        type="primary"
+        style="padding: 2px 11px;"
+        icon="el-icon-edit"
+      ></el-button>
+      <el-button
+        type="primary"
+        style="padding: 2px 11px;"
+        icon="el-icon-share"
+      ></el-button>
+      <el-button
+        type="primary"
+        style="padding: 2px 11px;"
+        icon="el-icon-delete"
+      ></el-button>
+    </el-header>
 
-  <!-- el-carousel :autoplay="false" arrow="always" --><!--:interval="5000" -->
-  <!--<el-carousel-item v-for="item in 4" :key="item">-->
-  <!--<el-row>
+    <el-main>
+      <el-tabs tab-position="left" style="height: 320px;">
+        <el-tab-pane label="INFO">
+          <div style="width: 380px">
+            <span class="demonstration">Custom</span>
+            <el-image :src="src" fit="fill">
+              <div slot="placeholder" class="image-slot">
+                Loading<span class="dot">...</span>
+              </div>
+            </el-image>
+          </div>
+        </el-tab-pane>
 
-          <el-col :span="4" style="width:15.6%">
-              <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-                       :collapse="isCollapse">
-                  <el-menu-item index="1">
-                      <i class="el-icon-menu"></i>
-                      <span slot="title">Navigator One</span>
-                  </el-menu-item>
-                  <el-menu-item index="2">
-                      <i class="el-icon-menu"></i>
-                      <span slot="title">Navigator Two</span>
-                  </el-menu-item>
-                  <el-menu-item index="3" disabled>
-                      <i class="el-icon-document"></i>
-                      <span slot="title">Navigator Three</span>
-                  </el-menu-item>
-                  <el-menu-item index="4">
-                      <i class="el-icon-setting"></i>
-                      <span slot="title">Navigator Four</span>
-                  </el-menu-item>
-              </el-menu>
+        <el-tab-pane label="HIGHLIGT">
+          <el-scrollbar wrap-class="list" :native="false">
+            <div style="height: 300px;">
+              <el-timeline
+                style="padding-left: 2px; margin-top: 12px; margin-right: 20px;"
+              >
+                <el-timeline-item
+                  v-for="(activity, index) in Highlight.activities"
+                  :key="index"
+                  :icon="activity.icon"
+                  :type="activity.type"
+                  :color="activity.color"
+                  :size="activity.size"
+                  :timestamp="activity.timestamp"
+                >
+                  {{ activity.content }}
+                </el-timeline-item>
+              </el-timeline>
+            </div>
+          </el-scrollbar>
+        </el-tab-pane>
+        <el-tab-pane label="Role">Role</el-tab-pane>
+        <el-tab-pane label="Task">Task</el-tab-pane>
+      </el-tabs>
+    </el-main>
+  </el-container>
 
-          </el-col>
+  <!-- el-tabs tab-position="left" style="height: 320px;">
+        <el-tab-pane label="INFO">
 
-          <el-col :span="20">
-              <el-card :body-style="{ padding: '0px' }">
-                  <div style="padding: 14px;">
-                      <span v-if="OG.isTitle">{{siteInfo.OG_TITLE}}</span>
-                      <span v-else-if="!OG.isTitle">-</span>
-                  </div>
-                  <div v-if="OG.isImage">
-                      <img
-                              :src="siteInfo.OG_IMAGE"
-                              class="image"
-                      />
-                  </div>
-                  <div v-else-if="!OG.isImage">
-                      <img
-                              src="https://png.pngtree.com/png-clipart/20190630/original/pngtree-cute-cartoon-brown-bear-png-image_4178855.jpg"
-                              class="image"
-                      />
-                  </div>
-                  <div style="padding: 14px;">
-                      <span v-if="OG.isDescription">{{siteInfo.OG_DESCRIPTION}}</span>
-                      <span v-else-if="!OG.isDescription">-</span>
-                  </div>
-              </el-card>
-          </el-col>
+            <div style="width: 380px">
+                <span class="demonstration">Custom</span>
+                <el-image :src="src" fit="fill">
+                    <div slot="placeholder" class="image-slot">
+                        Loading<span class="dot">...</span>
+                    </div>
+                </el-image>
+            </div>
+        </el-tab-pane>
 
-      </el-row>-->
-  <!--<el-row>
-          <el-col >
-              <el-card :body-style="{ padding: '0px' }">
-                  <div style="padding: 14px;">
-                      <span v-if="OG.isTitle">{{siteInfo.OG_TITLE}}</span>
-                      <span v-else-if="!OG.isTitle">-</span>
-                  </div>
-                  <div v-if="OG.isImage">
-                      <img
-                              :src="siteInfo.OG_IMAGE"
-                              class="image"
-                      />
-                  </div>
-                  <div v-else-if="!OG.isImage">
-                      <img
-                              src="https://png.pngtree.com/png-clipart/20190630/original/pngtree-cute-cartoon-brown-bear-png-image_4178855.jpg"
-                              class="image"
-                      />
-                  </div>
-                  <div style="padding: 14px;">
-                      <span v-if="OG.isDescription">{{siteInfo.OG_DESCRIPTION}}</span>
-                      <span v-else-if="!OG.isDescription">-</span>
-                  </div>
-              </el-card>
-          </el-col>
-      </el-row>-->
-  <!--</el-carousel-item>-->
-  <!--</el-carousel>-->
+
+        <el-tab-pane label="HIGHLIGT">
+            <el-scrollbar wrap-class="list" :native="false">
+                <div style="height: 300px;">
+                    <el-timeline
+                            style="padding-left: 2px; margin-top: 12px; margin-right: 20px;"
+                    >
+                        <el-timeline-item
+                                v-for="(activity, index) in Highlight.activities"
+                                :key="index"
+                                :icon="activity.icon"
+                                :type="activity.type"
+                                :color="activity.color"
+                                :size="activity.size"
+                                :timestamp="activity.timestamp"
+                        >
+                            {{ activity.content }}
+                        </el-timeline-item>
+                    </el-timeline>
+                </div>
+            </el-scrollbar>
+        </el-tab-pane>
+        <el-tab-pane label="Role">Role</el-tab-pane>
+        <el-tab-pane label="Task">Task</el-tab-pane>
+    </el-tabs -->
 </template>
 
 <script>
@@ -134,6 +103,8 @@ export default {
   name: "App",
   data() {
     return {
+      src:
+        "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
       Highlight: {
         activities: [
           {
@@ -229,58 +200,14 @@ export default {
   methods: {}
 };
 </script>
-
 <style>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
+.el-header {
+  background-color: #b3c0d1;
+  color: #333;
+  line-height: 60px;
 }
 
-.time {
-  font-size: 13px;
-  color: #999;
-}
-
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-}
-
-.button {
-  padding: 0;
-  float: right;
-}
-
-.image {
-  width: 100%;
-  height: 150px;
-  display: block;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both;
-}
-
-/**/
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
-  margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
+.el-aside {
+  color: #333;
 }
 </style>

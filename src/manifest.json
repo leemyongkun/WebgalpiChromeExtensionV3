@@ -38,5 +38,9 @@
     "management",
     "notifications",
     "alarms"
+  ],
+  "web_accessible_resources": [
+    "element-ui/lib/theme-chalk/fonts/element-icons.ttf",
+    "element-ui/lib/theme-chalk/fonts/element-icons.woff"
   ]
 }
