@@ -1,4 +1,6 @@
 import { CONTENT_ACTION, ACTION } from "./action.js";
+import { URL } from "./global/config";
+import API from "../api/api";
 
 chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
   switch (msg.action) {
@@ -9,9 +11,14 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
     case "content.test":
       let content = await CONTENT_ACTION.firstVisitSite(new Object());
-      console.log("content >> ", content);
       sendResponse(content);
       return true;
+      break;
+    case "getHighlights":
+      //Background 로 보낸다.
+      /*let highlights = await CONTENT_ACTION.getHighlights();
+            console.log("getHighlights  " , JSON.stringify(highlights));*/
+      sendResponse(await CONTENT_ACTION.getHighlights());
       break;
   }
 });

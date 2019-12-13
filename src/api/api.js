@@ -64,7 +64,10 @@ let Api = {
     return select(Query.getSite(), param);
   },
   getAllItems: parameter => {
-    return select(Query.getAllItems(), [parameter.URL_KEY]);
+    //alert("parameter " + JSON.stringify(parameter));
+    console.log("parameter ", JSON.stringify(parameter));
+    let result = select(Query.getAllItems(), [parameter.URL_KEY]);
+    return result;
   },
   getAuthority: () => {
     return select(Query.getAuthority(), []);
@@ -73,6 +76,7 @@ let Api = {
     let param = [params.MEMO, params.COLOR, params.URL_KEY, params.IDX];
     return update(Query.updateItem(), param);
   },
+
   postItem: params => {
     let param = [
       params.IDX,
