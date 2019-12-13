@@ -20,8 +20,7 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
 
     case "select.highlights":
-      let result = await API.getAllItems(msg.data);
-      sendResponse(result);
+      sendResponse(API.getAllItems(msg.data));
       return true;
       break;
   }
