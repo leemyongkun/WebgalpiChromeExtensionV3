@@ -71,43 +71,43 @@
   </el-container>
 
   <!-- el-tabs tab-position="left" style="height: 320px;">
-            <el-tab-pane label="INFO">
+              <el-tab-pane label="INFO">
 
-                <div style="width: 380px">
-                    <span class="demonstration">Custom</span>
-                    <el-image :src="src" fit="fill">
-                        <div slot="placeholder" class="image-slot">
-                            Loading<span class="dot">...</span>
-                        </div>
-                    </el-image>
-                </div>
-            </el-tab-pane>
+                  <div style="width: 380px">
+                      <span class="demonstration">Custom</span>
+                      <el-image :src="src" fit="fill">
+                          <div slot="placeholder" class="image-slot">
+                              Loading<span class="dot">...</span>
+                          </div>
+                      </el-image>
+                  </div>
+              </el-tab-pane>
 
 
-            <el-tab-pane label="HIGHLIGT">
-                <el-scrollbar wrap-class="list" :native="false">
-                    <div style="height: 300px;">
-                        <el-timeline
-                                style="padding-left: 2px; margin-top: 12px; margin-right: 20px;"
-                        >
-                            <el-timeline-item
-                                    v-for="(activity, index) in Highlight.activities"
-                                    :key="index"
-                                    :icon="activity.icon"
-                                    :type="activity.type"
-                                    :color="activity.color"
-                                    :size="activity.size"
-                                    :timestamp="activity.timestamp"
-                            >
-                                {{ activity.content }}
-                            </el-timeline-item>
-                        </el-timeline>
-                    </div>
-                </el-scrollbar>
-            </el-tab-pane>
-            <el-tab-pane label="Role">Role</el-tab-pane>
-            <el-tab-pane label="Task">Task</el-tab-pane>
-        </el-tabs -->
+              <el-tab-pane label="HIGHLIGT">
+                  <el-scrollbar wrap-class="list" :native="false">
+                      <div style="height: 300px;">
+                          <el-timeline
+                                  style="padding-left: 2px; margin-top: 12px; margin-right: 20px;"
+                          >
+                              <el-timeline-item
+                                      v-for="(activity, index) in Highlight.activities"
+                                      :key="index"
+                                      :icon="activity.icon"
+                                      :type="activity.type"
+                                      :color="activity.color"
+                                      :size="activity.size"
+                                      :timestamp="activity.timestamp"
+                              >
+                                  {{ activity.content }}
+                              </el-timeline-item>
+                          </el-timeline>
+                      </div>
+                  </el-scrollbar>
+              </el-tab-pane>
+              <el-tab-pane label="Role">Role</el-tab-pane>
+              <el-tab-pane label="Task">Task</el-tab-pane>
+          </el-tabs -->
 </template>
 
 <script>
@@ -188,18 +188,18 @@ export default {
     };
   },
   mounted() {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      chrome.tabs.sendMessage(
-        tabs[0].id,
-        {
-          action: "getHighlights",
-          data: ""
-        },
-        function(response) {
-          alert(response);
-        }
-      );
-    });
+    /* chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+                chrome.tabs.sendMessage(
+                    tabs[0].id,
+                    {
+                        action: "getHighlights"
+                    },
+                    null,
+                    function (response) {
+                        alert(response);
+                    }
+                );
+            });*/
 
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       chrome.tabs.sendMessage(

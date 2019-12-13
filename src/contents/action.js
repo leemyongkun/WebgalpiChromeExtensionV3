@@ -83,10 +83,15 @@ let CONTENT_ACTION = {
   getHighlights: () => {
     let param = new Object();
     param.URL_KEY = URL.KEY;
-    return EVENT.sendMessage({
+    let reserveDefer = $.Deferred();
+    EVENT.sendMessage({
       type: "select.highlights",
       data: param
+    }).then(function(response) {
+      console.log("###### RESPONSE ", response);
+      reserveDefer.resolve(response);
     });
+    return reserveDefer;
   },
   createColorPicker: () => {
     return new Promise(res => {

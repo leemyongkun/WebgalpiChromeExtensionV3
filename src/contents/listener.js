@@ -15,10 +15,13 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       return true;
       break;
     case "getHighlights":
+      sendResponse("2");
       //Background 로 보낸다.
-      /*let highlights = await CONTENT_ACTION.getHighlights();
-            console.log("getHighlights  " , JSON.stringify(highlights));*/
-      sendResponse(await CONTENT_ACTION.getHighlights());
+      /* CONTENT_ACTION.getHighlights().then(function (res) {
+                 console.log("res ####  ", res);
+                 sendResponse("2");
+             });*/
+      return true;
       break;
   }
 });
