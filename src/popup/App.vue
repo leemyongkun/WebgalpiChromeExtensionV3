@@ -57,9 +57,9 @@
                   :type="activity.type"
                   :color="activity.color"
                   :size="activity.size"
-                  :timestamp="activity.timestamp"
+                  :timestamp="activity.DATE_CREATE"
                 >
-                  {{ activity.content }}
+                  {{ activity.PRINT_TEXT }}
                 </el-timeline-item>
               </el-timeline>
             </div>
@@ -121,62 +121,7 @@ export default {
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
       Highlight: {
-        activities: [
-          {
-            content: "Custom icon",
-            timestamp: "2018-04-12 20:46",
-            color: "red"
-          },
-          {
-            content: "Custom color",
-            timestamp: "2018-04-03 20:46",
-            color: "#0bbd87"
-          },
-          {
-            content: "Custom color",
-            timestamp: "2018-04-03 20:46",
-            color: "#0bbd87"
-          },
-          {
-            content: "Custom color",
-            timestamp: "2018-04-03 20:46",
-            color: "#0bbd87"
-          },
-          {
-            content: "Custom color",
-            timestamp: "2018-04-03 20:46",
-            color: "#0bbd87"
-          },
-          {
-            content: "Custom color",
-            timestamp: "2018-04-03 20:46",
-            color: "#0bbd87"
-          },
-          {
-            content: "Custom size",
-            timestamp: "2018-04-03 20:46",
-            size: "large"
-          },
-          {
-            content:
-              " \n" +
-              "\n" +
-              "----- 소스 네비게이션 -----\n" +
-              "\n" +
-              "Ctrl + 마우스커서(혹은 F3) : 클래스나 메소드 혹은 멤버를 상세하게 검색하고자 할때\n" +
-              "\n" +
-              "Alt + Left, Alt + Right : 이후, 이전\n" +
-              "\n" +
-              "Ctrl + O : 해당 소스의 메소드 리스트를 확인하려 할때\n" +
-              "\n" +
-              "F4 : 클래스명을 선택하고 누르면",
-            timestamp: "2018-04-03 20:46"
-          },
-          {
-            content: "Default node",
-            timestamp: "2018-04-03 20:46"
-          }
-        ]
+        activities: []
       },
       OG: {
         isTitle: false,
@@ -188,18 +133,20 @@ export default {
     };
   },
   mounted() {
+    let port = chrome.extension.connect({
+      name: "Sample Communication"
+    });
+
+    port.postMessage({
+      action: "highlights"
+    });
+    port.onMessage.addListener(response => {
+      console.log(" >>> ", response);
+      this.Highlight.activities = response;
+    });
+
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       let tabId = tabs[0].id;
-      chrome.tabs.sendMessage(
-        tabId,
-        {
-          action: "getHighlights"
-        },
-        highlihgts => {
-          console.log("highlights >>  " + JSON.stringify(highlihgts));
-          EVENT.checkLastError("getHighlights");
-        }
-      );
 
       chrome.tabs.sendMessage(
         tabId,

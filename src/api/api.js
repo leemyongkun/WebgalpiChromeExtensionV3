@@ -92,7 +92,7 @@ let Api = {
       params.IMAGE,
       params.FL_READMODE,
       params.PAGE_NUMBER,
-      new Date().getMilliseconds
+      params.DATE_CREATE
     ];
     return insert(Query.insertItem(), param);
   },
