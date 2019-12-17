@@ -80,7 +80,7 @@ export default {
                 FROM TBL_OPTIONS`;
   },
   getSite: () => {
-    return `SELECT
+    return `SELECT 
                     IDX,
                     URL_KEY,
                     EMAIL,
@@ -97,7 +97,8 @@ export default {
                     MEMO
                     FROM TBL_SITES
                     WHERE URL_KEY = ?
-                    AND FL_DELETE = 'N'`;
+                    AND FL_DELETE = 'N'
+                    LIMIT 1 `;
   },
   getAllItems: () => {
     return `SELECT 

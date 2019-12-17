@@ -26,7 +26,7 @@ chrome.extension.onConnect.addListener(function(port) {
     switch (msg.action) {
       case "popup.highlights":
         let param = new Object();
-        param.URL_KEY = "10976b60347df5f9ab327e8f6a30be14";
+        param.URL_KEY = msg.data;
         API.getAllItems(param).then(res => {
           port.postMessage(res);
         });

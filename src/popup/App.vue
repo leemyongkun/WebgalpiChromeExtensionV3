@@ -82,6 +82,7 @@
 
 <script>
 import { POPUP_LISTENER } from "./listener.js";
+
 export default {
   name: "App",
   data() {
@@ -106,16 +107,15 @@ export default {
       let tabId = tabs[0].id;
       console.log("tabId ", tabId);
 
-      /*chrome.storage.sync.get(tabId, function (items) {
-                    // items: 저장한 객체의 key/value
-                    console.log("items " , items);
-                });*/
-      POPUP_LISTENER.postMessage(
-        "popup.highlights",
-        null
-      ).onMessage.addListener(response => {
-        console.log("in popup.highlights ", response);
-        this.Highlight.activities = response;
+      chrome.storage.sync.get(String(tabId), items => {
+        // items: 저장한 객체의 key/value
+        POPUP_LISTENER.postMessage(
+          "popup.highlights",
+          items[tabId]
+        ).onMessage.addListener(response => {
+          console.log("in popup.highlights ", response);
+          this.Highlight.activities = response;
+        });
       });
 
       chrome.tabs.sendMessage(

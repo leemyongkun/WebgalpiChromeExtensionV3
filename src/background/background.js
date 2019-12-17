@@ -31,7 +31,7 @@ let BackgroundModule = {
       };
 
       //현재 urlKey를 저장한다.
-      chrome.storage.sync.set({ tabId: currentUrl }, null);
+      chrome.storage.sync.set({ [tabId]: currentUrl }, null);
 
       Api.getInitInfo(param).then(res => {
         //todo : excludesUrl 등록 기능 추가 할것.
