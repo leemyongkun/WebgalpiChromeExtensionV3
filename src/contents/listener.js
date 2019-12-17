@@ -9,15 +9,10 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       sendResponse(true);
       return true;
       break;
-    case "content.test":
+    case "get.site.info":
       let content = await CONTENT_ACTION.firstVisitSite(new Object());
+      console.log("content ", content);
       sendResponse(content);
-      return true;
-      break;
-    case "getHighlights":
-      //Background 로 보낸다.
-      let highlights = await CONTENT_ACTION.getHighlights();
-      sendResponse(highlights);
       return true;
       break;
   }

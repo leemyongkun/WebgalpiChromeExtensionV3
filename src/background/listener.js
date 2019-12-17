@@ -18,22 +18,19 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
     case "delete.highlight":
       API.deleteItem(msg.data);
       break;
-
-    case "select.highlights":
-      sendResponse(API.getAllItems(msg.data));
-      return true;
-      break;
   }
 });
 
 chrome.extension.onConnect.addListener(function(port) {
-  port.onMessage.addListener(function(msg) {
-    console.log("background message recieved" + JSON.stringify(msg));
-    let param = new Object();
-    param.URL_KEY = "10976b60347df5f9ab327e8f6a30be14";
-    API.getAllItems(param).then(res => {
-      console.log("allItems ", res);
-      port.postMessage(res);
-    });
+  port.onMessage.addListener(msg => {
+    switch (msg.action) {
+      case "popup.highlights":
+        let param = new Object();
+        param.URL_KEY = "10976b60347df5f9ab327e8f6a30be14";
+        API.getAllItems(param).then(res => {
+          port.postMessage(res);
+        });
+        break;
+    }
   });
 });
