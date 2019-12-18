@@ -48,7 +48,6 @@ let HIGHLIGT_CORE = {
 
       // 모든 노드를 배열에 넣는다. (시작과 끝 노느 분할작업)
       var nodes = HIGHLIGT_CORE.textNodesInRange(rangeObject);
-      // Remember range details to restore it later.
       var startContainer = rangeObject.startContainer;
       var startOffset = rangeObject.startOffset;
       var endContainer = rangeObject.endContainer;

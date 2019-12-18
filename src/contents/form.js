@@ -63,6 +63,13 @@ let FORM = {
       width: "auto"
     });
 
+    /* $("#highlight-toolbar").css({
+            top: GLOBAL_CONFIG.MOUSE_DOWN_XY.y,
+            left: GLOBAL_CONFIG.MOUSE_DOWN_XY.x,
+            position: "absolute",
+            width: "auto"
+        });*/
+
     setTimeout(function() {
       // Drag 영역이 없으면 false 리턴한다.
       if (s.isCollapsed) return false;
