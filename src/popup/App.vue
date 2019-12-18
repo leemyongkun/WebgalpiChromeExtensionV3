@@ -105,7 +105,6 @@ export default {
   mounted() {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       let tabId = tabs[0].id;
-      console.log("tabId ", tabId);
 
       chrome.storage.sync.get(String(tabId), items => {
         // items: 저장한 객체의 key/value

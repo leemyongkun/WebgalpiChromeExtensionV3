@@ -8,6 +8,12 @@ let CORE = {
   printHighlight: async list => {
     if (list === null) return null;
     for (let i = 0; i < list.length; i++) {
+      //동적으로 하이라이팅을 하지만, 이미 있는경우는 pass 하도록 한다.
+      if (
+        $("[" + GLOBAL_CONFIG.HL_ID_NAME + "=" + list[i].IDX + "]").length > 0
+      )
+        continue;
+
       //카운트를 넣는다.(DEL)
       /*if (list[i].FL_READERMODE == 'Y') readermodeCount++; else highlightCount++;*/
 
@@ -28,6 +34,7 @@ let CORE = {
       // console.log(" start, end", start, end);
 
       if (hlTF) {
+        console.log(list[i].TEXT, list[i].COLOR, list[i].IDX);
         await CORE.setSelectionRange(GLOBAL_CONFIG.ELEMENT, start, end);
         await CORE.setHighlightColor(list[i].TEXT, list[i].COLOR, list[i].IDX);
 
@@ -45,22 +52,22 @@ let CORE = {
 
       //메모 위젯에 담기
       /*if (list[i].MEMO != '') {
-                memoCount++;
-                HlWidgetAction.appendMemoWidget(list[i].IDX, list[i].MEMO, Util.getTimeString(list[i].DATE_CREATE));
-            }*/
+                      memoCount++;
+                      HlWidgetAction.appendMemoWidget(list[i].IDX, list[i].MEMO, Util.getTimeString(list[i].DATE_CREATE));
+                  }*/
 
       //이미지에 하이라이팅 하기
       /*if ($.trim(list[i].IMAGE) != '') {
-                GLOBAL_CONFIG.SELECT_IMAGE = list[i].IMAGE.split(' ');
-                HighlightCore.setImageHighlight(list[i].IMAGE);
-                imageCount += HlWidgetAction.appendImageWidget(list[i]);
-            }*/
+                      GLOBAL_CONFIG.SELECT_IMAGE = list[i].IMAGE.split(' ');
+                      HighlightCore.setImageHighlight(list[i].IMAGE);
+                      imageCount += HlWidgetAction.appendImageWidget(list[i]);
+                  }*/
 
       //메모가 있는경우, 메모 아이콘 표시
       /*if (list[i].MEMO != '') {
-                var destItem = $('[' + HighlightData.idName + '="' + list[i].IDX + '"]')[0];
-                $(destItem).addClass('wf-memo');
-            }*/
+                      var destItem = $('[' + HighlightData.idName + '="' + list[i].IDX + '"]')[0];
+                      $(destItem).addClass('wf-memo');
+                  }*/
     }
 
     let interval = setInterval(() => {

@@ -22,9 +22,9 @@ let BackgroundModule = {
 
       let urlPath = currentUrl;
       let ext = urlPath.substr(urlPath.length - 4, urlPath.length);
+      currentUrl = currentUrl.split("#")[0];
+      currentUrl = md5(urlPath);
 
-      currentUrl = decodeURI(currentUrl);
-      currentUrl = md5(urlPath.split("#")[0]);
       let param = {
         URL_KEY: currentUrl,
         EXT: ext
@@ -76,6 +76,8 @@ let BackgrounEvent = {
       if (info.status == "complete") {
         //팝업인지 확인.
         BackgroundModule.isPopup();
+
+        console.log("tab.url ", tab.url);
 
         //현재 사이트에 하이라이트 초기화
         BackgroundModule.initApplication(tabId, tab.url);

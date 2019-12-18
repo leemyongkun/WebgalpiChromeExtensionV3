@@ -238,7 +238,7 @@ let HIGHLIGT_CORE = {
 
     // 하이라이트를 생성한다.
     let highlight = document.createElement(highlightTag);
-    highlight.classList.add(highlightClass);
+    highlight.classList.add(highlightClass.split(" ")[0]);
     //highlight.classList.add("wf-pen"); //20191207@ykleem
 
     // memo가 있는 경우
