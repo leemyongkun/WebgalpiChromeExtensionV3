@@ -1,0 +1,12 @@
+HTTP/2 403 
+content-type: application/json
+content-length: 171
+date: Wed, 18 Dec 2019 08:17:15 GMT
+x-amzn-requestid: d32d6abf-973c-4d77-99c0-0e41150c7d5e
+x-amzn-errortype: AccessDeniedException
+x-amz-apigw-id: E5AFvEA8oE0Fkmw=
+x-cache: Error from cloudfront
+via: 1.1 417550d6bf90c93959de0cfa030c8ae5.cloudfront.net (CloudFront)
+x-amz-cf-pop: ICN51-C1
+x-amz-cf-id: 5fWYgcQ6QzD5sBvcE-LU4LpKP5NorB18LmiWr4PwZaGiCyWmwC0LyQ==
+

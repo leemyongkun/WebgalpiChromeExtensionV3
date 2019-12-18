@@ -24,7 +24,7 @@ let FORM = {
                               <a href='javascript:void(0)' class='hltcolor-6' id="color-6"></a>
                           </wafflepen-ul>
                           <wafflepen class='tool-list'>
-                              <a href='javascript:void(0);' class='hlt-btn write waf-inlineBlock' id='insertMemoBtn'></a>
+                              <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
                               <!-- wafflepen-li><wafflepen class='hlt-btn trash waf-inlineBlock' id='deleteHighlightBtn'></wafflepen></wafflepen-li -->
                           </wafflepen>
                       </wafflepen>
