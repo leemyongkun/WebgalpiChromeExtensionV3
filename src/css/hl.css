@@ -125,15 +125,12 @@
   background: #fff !important;
   border-radius: 3px !important;
   -webkit-border-radius: 3px !important;
-  -ms-border-radius: 3px !important;
   -moz-border-radius: 3px !important;
   box-sizing: border-box !important;
   -webkit-box-sizing: border-box !important;
-  -ms-box-sizing: border-box !important;
   -moz-box-sizing: border-box !important;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
-  -ms-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
   -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
   -webkit-justify-content: center !important;
   -moz-justify-content: center !important;
@@ -159,7 +156,6 @@
   align-items: center !important;
   box-sizing: border-box !important;
   -webkit-box-sizing: border-box !important;
-  -ms-box-sizing: border-box !important;
   -moz-box-sizing: border-box !important;
 }
 
@@ -178,7 +174,6 @@
   align-items: center !important;
   box-sizing: border-box !important;
   -webkit-box-sizing: border-box !important;
-  -ms-box-sizing: border-box !important;
   -moz-box-sizing: border-box !important;
   border: 2px solid transparent !important;
   line-height: 1 !important;

@@ -17,11 +17,11 @@ let FORM = {
                        <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
                           <wafflepen-ul class='wafflepen-color-picker'>
                               <a href='javascript:void(0)' class='hltcolor-1' id="color-1"></a>
-                              <a href='javascript:void(0)' class='hltcolor-2' id="color-2"></a>
-                              <a href='javascript:void(0)' class='hltcolor-3' id="color-3"></a>
-                              <a href='javascript:void(0)' class='hltcolor-4' id="color-4"></a>
-                              <a href='javascript:void(0)' class='hltcolor-5' id="color-5"></a>
-                              <a href='javascript:void(0)' class='hltcolor-6' id="color-6"></a>
+                              <a href='javascript:void(0)' class='hltcolor-2' style="display:none;" id="color-2"></a>
+                              <a href='javascript:void(0)' class='hltcolor-3' style="display:none;" id="color-3"></a>
+                              <a href='javascript:void(0)' class='hltcolor-4' style="display:none;" id="color-4"></a>
+                              <a href='javascript:void(0)' class='hltcolor-5' style="display:none;" id="color-5"></a>
+                              <a href='javascript:void(0)' class='hltcolor-6' style="display:none;" id="color-6"></a>
                           </wafflepen-ul>
                           <wafflepen class='tool-list'>
                               <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
@@ -64,11 +64,11 @@ let FORM = {
     });
 
     /* $("#highlight-toolbar").css({
-            top: GLOBAL_CONFIG.MOUSE_DOWN_XY.y,
-            left: GLOBAL_CONFIG.MOUSE_DOWN_XY.x,
-            position: "absolute",
-            width: "auto"
-        });*/
+                top: GLOBAL_CONFIG.MOUSE_DOWN_XY.y,
+                left: GLOBAL_CONFIG.MOUSE_DOWN_XY.x,
+                position: "absolute",
+                width: "auto"
+            });*/
 
     setTimeout(function() {
       // Drag 영역이 없으면 false 리턴한다.
