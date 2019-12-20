@@ -311,7 +311,7 @@
 }
 
 .hlt-wafflepen-toolbox .wafflepen-toolbox .wafflepen-color-picker a.on::before {
-  background-image: url("chrome-extension://__MSG_@@extension_id__/images/simple-widget-clear.png") !important;
+  /*background-image: url("chrome-extension://__MSG_@@extension_id__/images/simple-widget-clear.png") !important;*/
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: 10px !important;

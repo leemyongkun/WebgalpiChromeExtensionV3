@@ -249,8 +249,8 @@ let CONTENT_ACTION = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                      $('#highlight-toolbar').hide();
-                                                                    } */
+                                                                          $('#highlight-toolbar').hide();
+                                                                        } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
@@ -482,14 +482,14 @@ let EVENT = {
           event.target.nodeName === GLOBAL_CONFIG.HL_TAG_NAME.toUpperCase()
         ) {
           /* let currentId;
-                                                                                                                                                                      STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
-                                                                                                                                                                      if (HighlightCore.isNumber(STATUS.mouseUpId)) {
-                                                                                                                                                                        currentId = STATUS.mouseUpId;
-                                                                                                                                                                      } */
+                                                                                                                                                                                STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
+                                                                                                                                                                                if (HighlightCore.isNumber(STATUS.mouseUpId)) {
+                                                                                                                                                                                  currentId = STATUS.mouseUpId;
+                                                                                                                                                                                } */
 
           /* if (HighlightCore.isNumber(HighlightData.downId)) {
-                                                                                                                                                                        currentId = HighlightData.downId;
-                                                                                                                                                                      } */
+                                                                                                                                                                                  currentId = HighlightData.downId;
+                                                                                                                                                                                } */
           STATUS.mouseDownFlag = false;
           return false;
         }
@@ -506,11 +506,11 @@ let EVENT = {
         // 위젯영역일경우 컬러 팔레트를 보여주지 않는다.
         // 컬러 피커가 사용하지 않음일경우 보여주지 않는다.
         /* chrome.storage.sync.get(['options'], result => {
-                                                                           let highlightYN = result.options.HIGHLIGHT;
-                                                                           if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
-                                                                             HighlightCore.mouseDragAction(event); // todo 가장 중요!!
-                                                                           }
-                                                                         }); */
+                                                                                   let highlightYN = result.options.HIGHLIGHT;
+                                                                                   if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
+                                                                                     HighlightCore.mouseDragAction(event); // todo 가장 중요!!
+                                                                                   }
+                                                                                 }); */
 
         CONTENT_ACTION.setHighlightRangeInfoData(event, offset);
         FORM.showPicker(event); // todo 가장 중요!!
@@ -538,8 +538,8 @@ let EVENT = {
               // 하이라이팅을 삭제
               //let msg = '하이라이트를 삭제하시겠습니까?'// Message.DeleteHighlighting[LANG];
               /*if ($("#highlightMemoArea").val() != "") {
-                                                                  msg = "삭제?"; // Message.DeleteHighlightingWithMemo[LANG];
-                                                              }*/
+                                                                                msg = "삭제?"; // Message.DeleteHighlightingWithMemo[LANG];
+                                                                            }*/
 
               let msg = "are you sure you want to delete the highlight?";
 
@@ -611,65 +611,75 @@ let EVENT = {
         let rootElement = document.getElementsByTagName("html")[0];
         rootElement.style.overflow = "hidden";
 
-        setTimeout(function() {
-          //console.log( " >>> " , $("#highlight-img")[0].Jcrop());
-          let jcropApi;
-          JCROP.init(
-            $("#highlight-img"),
-            {
-              bgFade: false,
-              minSize: 1,
-              allowMove: true,
-              allowSelect: true,
-              allowResize: true,
-              setSelect: [0, 0, 0, 0],
+        let jcropApi;
+        JCROP.init(
+          $("#highlight-img"),
+          {
+            bgFade: false,
+            minSize: 1,
+            allowMove: true,
+            allowSelect: true,
+            allowResize: true,
+            setSelect: [0, 0, 0, 0],
 
-              onRelease: e => {
-                //return false;
-                jcropApi.animateTo([0, 0, 0, 0]);
-              },
-              onChange: function(e) {
-                //console.log('>>> onchange ', e)
-              },
-              onSelect: function(position) {
-                //
-                console.log(">>>  onSelect ", position);
-
-                let img = new Image();
-                // create a temporary canvas sized to the cropped size
-                let canvas = document.createElement("canvas");
-
-                img.onload = () => {
-                  let ctx = canvas.getContext("2d");
-                  canvas.width = window.innerWidth;
-                  canvas.height = window.innerHeight;
-                  ctx.drawImage(
-                    img,
-                    position.x,
-                    position.y,
-                    position.w,
-                    position.h,
-                    0,
-                    0,
-                    position.w,
-                    position.h
-                  );
-                  console.log(canvas.toDataURL());
-
-                  //capture 영역 제거
-                  /*
-                                $('highlight-capture-area').remove();
-                                rootElement.style.overflow = "visible";
-                                */
-                };
-                img.src = imageDataUrl;
-              }
+            onRelease: e => {
+              //$('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).hide();
+              //return false;
+              jcropApi.animateTo([0, 0, 0, 0]);
             },
-            function() {
-              jcropApi = this;
+            onChange: function(e) {
+              //console.log('>>> onchange ', e)
+            },
+            onSelect: function(position) {
+              //
+              console.log(">>>  onSelect ", position);
+
+              //Button 생성
+              /*if (document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) == null) {
+                                let captureButtonElement = document.createElement("button");
+                                captureButtonElement.innerText = "CAPTURE";
+                                captureButtonElement.id = GLOBAL_CONFIG.CAPTURE_BUTTON_ID;
+                                captureButtonElement.style.marginLeft = "10px";
+                                captureButtonElement.style.display = "none";
+                                $('.ord-e.jcrop-dragbar').append(captureButtonElement);
+                            }else{
+                                $('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).show();
+                            }*/
+
+              let img = new Image();
+              // create a temporary canvas sized to the cropped size
+              let canvas = document.createElement("canvas");
+
+              img.onload = () => {
+                let ctx = canvas.getContext("2d");
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                ctx.drawImage(
+                  img,
+                  position.x,
+                  position.y,
+                  position.w,
+                  position.h,
+                  0,
+                  0,
+                  position.w,
+                  position.h
+                );
+                console.log(canvas.toDataURL());
+
+                //capture 영역 제거
+                /*
+                                              $('highlight-capture-area').remove();
+                                              rootElement.style.overflow = "visible";
+                                              */
+              };
+              img.src = imageDataUrl;
             }
-          );
-        }, 1000);
+          },
+          function() {
+            jcropApi = this;
+          }
+        );
       });
     });
   }
@@ -697,15 +707,9 @@ let ACTION = {
     // 팔렛트 생성
     CONTENT_ACTION.createColorPicker()
       .then(ret => {
-        // todo 캡쳐관련 form 등록
-
         // todo 버튼 이벤트
         EVENT.colorPickerBtnEvent();
-      })
-      .then(() => {
         EVENT.mouseOnDownUpEvent();
-      })
-      .then(() => {
         EVENT.captureEvent();
       })
       .then(() => {

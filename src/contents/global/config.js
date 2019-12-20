@@ -3,6 +3,7 @@ let GLOBAL_CONFIG = {
   ELEMENT: null,
   GROUP_ELEMENT: "highlight-group",
   CAPTURE_ELEMENT: "highlight-capture-area",
+  CAPTURE_BUTTON_ID: "highlight-capture-button",
   TARGET_ELEMENT: "body", //targetElement
   HL_TAG_NAME: "highlight-custom-tag", //custom-tagName :wafflepen-highlight
   HL_ID_NAME: "highlight-id", //idName
