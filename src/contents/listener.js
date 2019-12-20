@@ -1,4 +1,4 @@
-import { CONTENT_ACTION, ACTION } from "./action.js";
+import { CONTENT_ACTION, ACTION, EVENT } from "./action.js";
 import { URL } from "./global/config";
 import API from "../api/api";
 
@@ -13,6 +13,11 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       let content = await CONTENT_ACTION.firstVisitSite(new Object());
       console.log("content ", content);
       sendResponse(content);
+      return true;
+      break;
+
+    case "capture":
+      EVENT.captureEvent();
       return true;
       break;
   }

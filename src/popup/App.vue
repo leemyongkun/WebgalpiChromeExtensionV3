@@ -15,6 +15,7 @@
         type="primary"
         style="padding: 2px 11px;"
         icon="el-icon-delete"
+        @click="capture"
       ></el-button>
     </el-header>
 
@@ -102,6 +103,21 @@ export default {
       isCollapse: true
     };
   },
+  methods: {
+    capture: () => {
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        let tabId = tabs[0].id;
+
+        chrome.tabs.sendMessage(
+          tabId,
+          {
+            action: "capture"
+          },
+          res => {}
+        );
+      });
+    }
+  },
   mounted() {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       let tabId = tabs[0].id;
@@ -138,8 +154,7 @@ export default {
         }
       );
     });
-  },
-  methods: {}
+  }
 };
 </script>
 <style>
