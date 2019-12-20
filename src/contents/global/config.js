@@ -2,6 +2,7 @@ let GLOBAL_CONFIG = {
   //HIGHLIGHT_POINT: false, //highlightPoint
   ELEMENT: null,
   GROUP_ELEMENT: "highlight-group",
+  CAPTURE_ELEMENT: "highlight-capture-area",
   TARGET_ELEMENT: "body", //targetElement
   HL_TAG_NAME: "highlight-custom-tag", //custom-tagName :wafflepen-highlight
   HL_ID_NAME: "highlight-id", //idName

@@ -18,6 +18,17 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
     case "delete.highlight":
       API.deleteItem(msg.data);
       break;
+
+    case "full.before.capture":
+      chrome.tabs.captureVisibleTab(
+        sender.tab.windowId,
+        { format: "png", quality: 100 },
+        function(dataUrl) {
+          sendResponse(dataUrl);
+        }
+      );
+      return true;
+      break;
   }
 });
 

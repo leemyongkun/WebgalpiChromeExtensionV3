@@ -248,8 +248,8 @@ let CONTENT_ACTION = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                              $('#highlight-toolbar').hide();
-                                                            } */
+                                                                  $('#highlight-toolbar').hide();
+                                                                } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
@@ -481,14 +481,14 @@ let EVENT = {
           event.target.nodeName === GLOBAL_CONFIG.HL_TAG_NAME.toUpperCase()
         ) {
           /* let currentId;
-                                                                                                                                                  STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
-                                                                                                                                                  if (HighlightCore.isNumber(STATUS.mouseUpId)) {
-                                                                                                                                                    currentId = STATUS.mouseUpId;
-                                                                                                                                                  } */
+                                                                                                                                                            STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
+                                                                                                                                                            if (HighlightCore.isNumber(STATUS.mouseUpId)) {
+                                                                                                                                                              currentId = STATUS.mouseUpId;
+                                                                                                                                                            } */
 
           /* if (HighlightCore.isNumber(HighlightData.downId)) {
-                                                                                                                                                    currentId = HighlightData.downId;
-                                                                                                                                                  } */
+                                                                                                                                                              currentId = HighlightData.downId;
+                                                                                                                                                            } */
           STATUS.mouseDownFlag = false;
           return false;
         }
@@ -505,11 +505,11 @@ let EVENT = {
         // 위젯영역일경우 컬러 팔레트를 보여주지 않는다.
         // 컬러 피커가 사용하지 않음일경우 보여주지 않는다.
         /* chrome.storage.sync.get(['options'], result => {
-                                                           let highlightYN = result.options.HIGHLIGHT;
-                                                           if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
-                                                             HighlightCore.mouseDragAction(event); // todo 가장 중요!!
-                                                           }
-                                                         }); */
+                                                                   let highlightYN = result.options.HIGHLIGHT;
+                                                                   if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
+                                                                     HighlightCore.mouseDragAction(event); // todo 가장 중요!!
+                                                                   }
+                                                                 }); */
 
         CONTENT_ACTION.setHighlightRangeInfoData(event, offset);
         FORM.showPicker(event); // todo 가장 중요!!
@@ -537,8 +537,8 @@ let EVENT = {
               // 하이라이팅을 삭제
               //let msg = '하이라이트를 삭제하시겠습니까?'// Message.DeleteHighlighting[LANG];
               /*if ($("#highlightMemoArea").val() != "") {
-                                      msg = "삭제?"; // Message.DeleteHighlightingWithMemo[LANG];
-                                  }*/
+                                                    msg = "삭제?"; // Message.DeleteHighlightingWithMemo[LANG];
+                                                }*/
 
               let msg = "are you sure you want to delete the highlight?";
 
@@ -575,6 +575,45 @@ let EVENT = {
               });
           });
       });
+  },
+  captureEvent: () => {
+    $("#extensionMenu").on("click", () => {
+      EVENT.sendMessage({
+        type: "full.before.capture"
+      }).then(res => {
+        let captureImgElement = document.createElement("img");
+        captureImgElement.src = res;
+        captureImgElement.id = "highlight-img";
+        captureImgElement.style.width = window.innerWidth + "px";
+        captureImgElement.style.height = window.innerHeight + "px";
+
+        let hlCaptureElement = document.createElement(
+          GLOBAL_CONFIG.CAPTURE_ELEMENT
+        );
+        let hlGroupElement = document.getElementsByTagName(
+          GLOBAL_CONFIG.GROUP_ELEMENT
+        )[0];
+
+        hlCaptureElement.appendChild(captureImgElement);
+        hlGroupElement.appendChild(hlCaptureElement);
+
+        hlCaptureElement.style.width = window.innerWidth + "px";
+        hlCaptureElement.style.height = window.innerHeight + "px";
+        hlCaptureElement.style.position = "absolute";
+        hlCaptureElement.style.zIndex = "2000100000";
+        hlCaptureElement.style.left = "0px";
+        hlCaptureElement.style.right = "0px";
+        hlCaptureElement.style.top = "0px";
+        hlCaptureElement.style.bottom = "0px";
+
+        let rootElement = document.getElementsByTagName("html")[0];
+        rootElement.style.overflow = "hidden";
+
+        setTimeout(function() {
+          $("#highlight-img").JCrop();
+        }, 1000);
+      });
+    });
   }
 };
 
@@ -607,6 +646,9 @@ let ACTION = {
       })
       .then(() => {
         EVENT.mouseOnDownUpEvent();
+      })
+      .then(() => {
+        EVENT.captureEvent();
       })
       .then(() => {
         //1초에 한번씩 하이라이트를 다시 생성한다.
