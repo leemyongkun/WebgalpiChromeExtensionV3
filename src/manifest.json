@@ -20,12 +20,7 @@
       "run_at": "document_idle",
       "matches": ["*://*/*"],
       "css": ["css/hl.css", "lib/jcrop/jcrop.css"],
-      "js": [
-        "contents/listener.js",
-        "contents/core/hl-core.js",
-        "lib/jcrop/jcrop.js",
-        "lib/jquery/jquery-3.2.1.min.js"
-      ]
+      "js": ["contents/listener.js", "contents/core/hl-core.js"]
     }
   ],
   "options_ui": {
