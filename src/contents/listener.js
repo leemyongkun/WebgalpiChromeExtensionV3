@@ -1,16 +1,16 @@
-import { CONTENT_ACTION, ACTION, EVENT } from "./action.js";
-import { URL } from "./global/config";
-import API from "../api/api";
+import CONTENTS from "./contents";
+import EVENT from "./event";
+import APPLICATION from "./application.js";
 
 chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
   switch (msg.action) {
     case "init":
-      ACTION.init(msg.data);
+      APPLICATION.init(msg.data);
       sendResponse(true);
       return true;
       break;
     case "get.site.info":
-      let content = await CONTENT_ACTION.firstVisitSite(new Object());
+      let content = await CONTENTS.firstVisitSite(new Object());
       console.log("content ", content);
       sendResponse(content);
       return true;

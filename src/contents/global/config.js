@@ -36,5 +36,13 @@ let URL = {
   SITE: "" //URL
 };
 
+let STATUS = {
+  checkHighlightArea: 0,
+  widgetArea: 0,
+  mouseDownFlag: false,
+  mouseUpId: null,
+  mouseDownId: null
+};
+
 let ELEMENT = {};
-export { GLOBAL_CONFIG, URL, ELEMENT };
+export { GLOBAL_CONFIG, URL, STATUS };

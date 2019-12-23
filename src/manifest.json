@@ -39,8 +39,5 @@
     "notifications",
     "alarms"
   ],
-  "web_accessible_resources": [
-    "fonts/element-icons.ttf",
-    "fonts/element-icons.woff"
-  ]
+  "web_accessible_resources": []
 }

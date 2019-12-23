@@ -1,4 +1,3 @@
-import Action from "./action";
 import { GLOBAL_CONFIG, ELEMENT } from "./global/config.js";
 
 let $ = require("jquery");
@@ -67,7 +66,7 @@ let FORM = {
   },
   showPicker: e => {
     // 초기화
-    $(".wafflepen-color-picker")
+    $("#highlight-toolbar")
       .find("a")
       .removeClass("on");
     FORM.hidePicker();
