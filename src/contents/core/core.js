@@ -189,11 +189,11 @@ let CORE = {
           idx,
           text
         ).then(function() {
-          console.log("in mouseOnOverEvent");
+          console.log("in highlightClickEvent");
           win.getSelection().removeAllRanges();
           $("[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
-            .unbind("mouseover")
-            .on("mouseover", EVENT.mouseOnOverEvent); //
+            .unbind("click")
+            .on("click", EVENT.highlightClickEvent); //
         });
       }
       res(idx);

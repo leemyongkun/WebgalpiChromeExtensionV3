@@ -22,7 +22,8 @@ const config = {
     "background/listener": "./background/listener.js",
     "popup/popup": "./popup/popup.js",
     "options/options": "./options/options.js",
-    "css/hl": "./css/hl.css"
+    "css/hl": "./css/hl.css",
+    "lib/jcrop/jcrop": "./lib/jcrop/jcrop.css"
   },
   output: {
     path: __dirname + "/dist",

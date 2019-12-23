@@ -12,6 +12,26 @@ let FORM = {
       .find("." + color)
       .addClass("on");
   },
+  createColorPicker2: () => {
+    return `<div id='highlight-toolbar'>
+                    <ul>
+                    <li>
+                      <a href='javascript:void(0)' id="hltcolor-1" style='list-style-type:none;
+                                                          float: left;
+                                                          outline: 1px dotted red;
+                                                          margin-right: 10px' 
+                                                    class='hltcolor-1'>RED</a>
+                    </li>
+                    <li>
+                          <a href='javascript:void(0)' id="hltcolor-2" style=' list-style-type:none;
+                          float: left;
+                          outline: 1px dotted red;
+                          margin-right: 10px' class='hltcolor-2'>BLUE</a>
+                    </li>
+                    </ul>
+                    
+                    </div>`;
+  },
   createColorPicker: () => {
     return `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
                        <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
@@ -64,11 +84,11 @@ let FORM = {
     });
 
     /* $("#highlight-toolbar").css({
-                top: GLOBAL_CONFIG.MOUSE_DOWN_XY.y,
-                left: GLOBAL_CONFIG.MOUSE_DOWN_XY.x,
-                position: "absolute",
-                width: "auto"
-            });*/
+                    top: GLOBAL_CONFIG.MOUSE_DOWN_XY.y,
+                    left: GLOBAL_CONFIG.MOUSE_DOWN_XY.x,
+                    position: "absolute",
+                    width: "auto"
+                });*/
 
     setTimeout(function() {
       // Drag 영역이 없으면 false 리턴한다.

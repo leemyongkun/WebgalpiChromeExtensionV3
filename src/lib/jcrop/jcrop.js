@@ -1,4 +1,4 @@
-import COMMON from "../contents/common";
+import COMMON from "../../contents/common";
 
 let $ = require("jquery");
 

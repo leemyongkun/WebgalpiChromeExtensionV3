@@ -244,6 +244,7 @@ let HIGHLIGT_CORE = {
     // highlight.classList.add('wf-memo');
     //highlight.style.cssText = getColor(highlightClass); // rgb형태로 자동 변환되어 들어간다.
     highlight.setAttribute(GLOBAL_CONFIG.HL_ID_NAME, highlightId);
+    highlight.setAttribute("style", "cursor:pointer");
 
     // Wrap it around the text node
     node.parentNode.replaceChild(highlight, node);

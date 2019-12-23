@@ -2,7 +2,8 @@ import FORM from "./form.js";
 import { GLOBAL_CONFIG, URL } from "./global/config.js";
 import CORE from "./core/core.js";
 import COMMON from "./common.js";
-import JCROP from "../lib/jcrop.js";
+import JCROP from "../lib/jcrop/jcrop.js";
+import SELECTION from "../lib/selection.js";
 
 let md5 = require("md5");
 let $ = require("jquery");
@@ -249,8 +250,8 @@ let CONTENT_ACTION = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                  $('#highlight-toolbar').hide();
-                                                                                } */
+                                                                                      $('#highlight-toolbar').hide();
+                                                                                    } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
@@ -344,12 +345,8 @@ let EVENT = {
     console.log("reserveDefer ", reserveDefer);
     return reserveDefer;
   },
-  mouseOnOverEvent: e => {
-    console.log(
-      " GLOBAL_CONFIG.MOUSE_OVER_ID ",
-      GLOBAL_CONFIG.MOUSE_OVER_ID,
-      GLOBAL_CONFIG.CURRENT_IDX
-    );
+  highlightClickEvent: e => {
+    //mouseOnOverEvent
 
     //클릭한 영역이 textarea 영역이면 팔렛트를 고정한다.
     //if (GLOBAL_CONFIG.MOUSE_CLICK_ID === "highlightMemoArea") return false;
@@ -360,11 +357,11 @@ let EVENT = {
     );
 
     //같은 highlight Id의 영역에 마우스를 올렸을 경우, 다른 ID에 올리기 전까지 유지된다.(혹은 다른곳을 클릭하기 전까지 유지된다.)
-    if (GLOBAL_CONFIG.MOUSE_OVER_ID != GLOBAL_CONFIG.CURRENT_IDX) {
-      $("#highlight-toolbar").hide();
-    } else {
-      return false;
-    }
+    /*if (GLOBAL_CONFIG.MOUSE_OVER_ID != GLOBAL_CONFIG.CURRENT_IDX) {
+            $("#highlight-toolbar").hide();
+        } else {
+            return false;
+        }*/
 
     GLOBAL_CONFIG.MOUSE_OVER_ID = GLOBAL_CONFIG.CURRENT_IDX;
 
@@ -466,6 +463,7 @@ let EVENT = {
         }
 
         let selection = window.getSelection();
+        if (selection.focusOffset === 0) return false;
         let range = selection.getRangeAt(0);
         let content = range.cloneContents();
         let customTag = document.createElement(GLOBAL_CONFIG.HL_TAG_NAME);
@@ -482,14 +480,14 @@ let EVENT = {
           event.target.nodeName === GLOBAL_CONFIG.HL_TAG_NAME.toUpperCase()
         ) {
           /* let currentId;
-                                                                                                                                                                                                    STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
-                                                                                                                                                                                                    if (HighlightCore.isNumber(STATUS.mouseUpId)) {
-                                                                                                                                                                                                      currentId = STATUS.mouseUpId;
-                                                                                                                                                                                                    } */
+                                                                                                                                                                                                              STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
+                                                                                                                                                                                                              if (HighlightCore.isNumber(STATUS.mouseUpId)) {
+                                                                                                                                                                                                                currentId = STATUS.mouseUpId;
+                                                                                                                                                                                                              } */
 
           /* if (HighlightCore.isNumber(HighlightData.downId)) {
-                                                                                                                                                                                                      currentId = HighlightData.downId;
-                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                currentId = HighlightData.downId;
+                                                                                                                                                                                                              } */
           STATUS.mouseDownFlag = false;
           return false;
         }
@@ -506,11 +504,11 @@ let EVENT = {
         // 위젯영역일경우 컬러 팔레트를 보여주지 않는다.
         // 컬러 피커가 사용하지 않음일경우 보여주지 않는다.
         /* chrome.storage.sync.get(['options'], result => {
-                                                                                                   let highlightYN = result.options.HIGHLIGHT;
-                                                                                                   if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
-                                                                                                     HighlightCore.mouseDragAction(event); // todo 가장 중요!!
-                                                                                                   }
-                                                                                                 }); */
+               let highlightYN = result.options.HIGHLIGHT;
+               if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
+                 HighlightCore.mouseDragAction(event); // todo 가장 중요!!
+               }
+             }); */
 
         CONTENT_ACTION.setHighlightRangeInfoData(event, offset);
         FORM.showPicker(event); // todo 가장 중요!!
@@ -521,11 +519,13 @@ let EVENT = {
   },
   colorPickerBtnEvent: () => {
     $("#highlight-toolbar")
-      .find(".wafflepen-color-picker a")
+      .find("a")
       .each(function(idx, item) {
         $(item)
           .unbind("click")
           .on("click", function(e) {
+            console.log("a click event ", e);
+
             e.stopPropagation();
             e.preventDefault();
 
@@ -533,14 +533,11 @@ let EVENT = {
             let color = $(_this).attr("class"); // hltcolor-x 값을 가져옴
             let colorTF = false;
 
+            console.log("colorPicker ", color);
+
             // 이미 선택되어진 컬러의 경우..
             if ($(_this).hasClass("on")) {
               // 하이라이팅을 삭제
-              //let msg = '하이라이트를 삭제하시겠습니까?'// Message.DeleteHighlighting[LANG];
-              /*if ($("#highlightMemoArea").val() != "") {
-                                                                                                            msg = "삭제?"; // Message.DeleteHighlightingWithMemo[LANG];
-                                                                                                        }*/
-
               let msg = "are you sure you want to delete the highlight?";
 
               if (confirm(msg)) {
@@ -554,7 +551,7 @@ let EVENT = {
             }
 
             $("#highlight-toolbar")
-              .find(".wafflepen-color-picker a")
+              .find("a")
               .each((idx, item) => {
                 if ($(item).hasClass("on")) {
                   colorTF = true;
@@ -626,7 +623,7 @@ let EVENT = {
 
           onRelease: e => {
             //$('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).hide();
-            //return false;
+
             jcropApi.animateTo([0, 0, 0, 0]);
           },
           onChange: function(e) {
@@ -640,16 +637,17 @@ let EVENT = {
             console.log(">>>  onSelect ", position);
 
             //Button 생성
-            /*if (document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) == null) {
-                                                      let captureButtonElement = document.createElement("button");
-                                                      captureButtonElement.innerText = "CAPTURE";
-                                                      captureButtonElement.id = GLOBAL_CONFIG.CAPTURE_BUTTON_ID;
-                                                      captureButtonElement.style.marginLeft = "10px";
-                                                      captureButtonElement.style.display = "none";
-                                                      $('.ord-e.jcrop-dragbar').append(captureButtonElement);
-                                                  }else{
-                                                      $('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).show();
-                                                  }*/
+            /*console.log("document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) ", document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID));
+                        if (document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) == null) {
+                            let captureButtonElement = document.createElement("button");
+                            captureButtonElement.innerText = "CAPTURE";
+                            captureButtonElement.id = GLOBAL_CONFIG.CAPTURE_BUTTON_ID;
+                            captureButtonElement.style.marginTop = "5px";
+                            $('.ord-s.jcrop-dragbar').append(captureButtonElement);
+
+                        } else {
+                            $('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).show();
+                        }*/
 
             let img = new Image();
             // create a temporary canvas sized to the cropped size
@@ -674,11 +672,20 @@ let EVENT = {
 
               //capture 영역 제거
               /*
-                                                                        $('highlight-capture-area').remove();
-                                                                        rootElement.style.overflow = "visible";
-                                                                        */
+                              $('highlight-capture-area').remove();
+                              rootElement.style.overflow = "visible";
+                              */
             };
             img.src = imageDataUrl;
+
+            /*  document.addEventListener('keydown', event => {
+                            if (event.key === 'Escape' || event.keyCode === 27) {
+                                console.log("ESC")
+                                $(GLOBAL_CONFIG.CAPTURE_ELEMENT).remove();
+                                let rootElement = document.getElementsByTagName("html")[0];
+                                rootElement.style.overflow = "visible";
+                            }
+                        });*/
           }
         },
         function() {
@@ -718,6 +725,14 @@ let ACTION = {
         // todo 버튼 이벤트
         EVENT.colorPickerBtnEvent();
         EVENT.mouseOnDownUpEvent();
+
+        //capture
+        $("#extensionMenu")
+          .unbind("click")
+          .on("click", function() {
+            //EVENT.captureEvent();
+            SELECTION.init();
+          });
       })
       .then(() => {
         //1초에 한번씩 하이라이트를 다시 생성한다.
@@ -727,7 +742,8 @@ let ACTION = {
       })
       .then(() => {
         COMMON.detectSite();
-      });
+      })
+      .then(() => {});
   }
 };
 
