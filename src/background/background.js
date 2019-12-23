@@ -99,3 +99,8 @@ BackgrounEvent.onInstalled();
 
 //Tab이 열릴때
 BackgrounEvent.onUpdated();
+
+let PROTECTION_SITE = {
+  DEFAULT: {},
+  SNS: ["www.facebook"]
+};

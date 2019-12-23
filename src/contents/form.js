@@ -14,19 +14,23 @@ let FORM = {
   createColorPicker2: () => {
     return `<div id='highlight-toolbar'>
                     <ul>
-                    <li>
-                      <a href='javascript:void(0)' id="hltcolor-1" style='list-style-type:none;
-                                                          float: left;
-                                                          outline: 1px dotted red;
-                                                          margin-right: 10px' 
-                                                    class='hltcolor-1'>RED</a>
-                    </li>
-                    <li>
-                          <a href='javascript:void(0)' id="hltcolor-2" style=' list-style-type:none;
-                          float: left;
-                          outline: 1px dotted red;
-                          margin-right: 10px' class='hltcolor-2'>BLUE</a>
-                    </li>
+                        <li>
+                          <a href='javascript:void(0)' id="hltcolor-1" style='list-style-type:none;
+                                                              float: left;
+                                                              outline: 1px dotted red;
+                                                              margin-right: 5px;
+                                                              display: inline;
+                                                              text-align: center;' 
+                                                        class='hltcolor-1'>RED</a>
+                        </li>
+                        <li>
+                              <a href='javascript:void(0)' id="hltcolor-2" style=' list-style-type:none;
+                              float: left;
+                              outline: 1px dotted red;
+                              margin-right: 5px;
+                              display: inline;
+                              ' class='hltcolor-2'>BLUE</a>
+                        </li>
                     </ul>
                     
                     </div>`;
@@ -79,7 +83,7 @@ let FORM = {
       top: e.pageY + 10,
       left: e.pageX,
       position: "absolute",
-      width: "auto"
+      width: "200px"
     });
 
     /* $("#highlight-toolbar").css({

@@ -45,4 +45,5 @@ let STATUS = {
 };
 
 let ELEMENT = {};
+
 export { GLOBAL_CONFIG, URL, STATUS };
