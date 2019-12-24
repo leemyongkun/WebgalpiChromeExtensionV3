@@ -3,7 +3,7 @@
     <div
       style="position: absolute;
                                     z-index: 100;
-                                    top: 80%;
+                                    top: 70%;
                                     left: 85%;"
     >
       <b-badge href="#" variant="primary" style="width:50px">저장</b-badge>
@@ -35,9 +35,9 @@
 <script>
 //https://i.picsum.photos/id/20/400/400.jpg
 import { POPUP_LISTENER } from "../listener.js";
-
 export default {
   name: "SiteInfoTab",
+  components: {},
   data() {
     return {
       src:
