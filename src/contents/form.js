@@ -35,6 +35,17 @@ let FORM = {
                     
                     </div>`;
   },
+  createCaptureArea: () => {
+    return `<div style="
+                position: fixed;
+                right: 20px;
+                top: 20px;
+                ">
+                <div>
+                <img src="" id="prevCapture" width="150px" style="border-radius: 0.6em;">
+                </div>
+                </div>`;
+  },
   createColorPicker: () => {
     return `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
                        <wafflepen class='wafflepen-toolbox waf-inlineFlex'>

@@ -22,8 +22,7 @@ let BackgroundModule = {
 
       let urlPath = currentUrl;
       let ext = urlPath.substr(urlPath.length - 4, urlPath.length);
-      currentUrl = currentUrl.split("#")[0];
-      currentUrl = md5(urlPath);
+      currentUrl = md5(currentUrl.split("#")[0]);
 
       let param = {
         URL_KEY: currentUrl,

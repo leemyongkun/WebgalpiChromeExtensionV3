@@ -36,8 +36,8 @@ let APPLICATION = {
         $("#extensionMenu")
           .unbind("click")
           .on("click", function() {
-            //EVENT.captureEvent();
-            SELECTION.init();
+            EVENT.captureEvent();
+            //SELECTION.init();
           });
       })
       .then(() => {
