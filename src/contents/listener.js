@@ -20,5 +20,10 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       EVENT.captureEvent();
       return true;
       break;
+
+    case "position":
+      EVENT.positionEvent(msg.data);
+      return true;
+      break;
   }
 });

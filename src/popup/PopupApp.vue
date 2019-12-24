@@ -1,99 +1,35 @@
 <template>
   <div>
-    <b-card no-body class="overflow-hidden" style="max-width: 540px;">
-      <b-row no-gutters>
-        <b-col cols="4">
-          <b-card-img
-            src="https://picsum.photos/400/400/?image=20"
-            class="rounded-0"
-          ></b-card-img>
-        </b-col>
-        <b-col cols="8">
-          <b-card-body title="Horizontal Card">
-            <b-card-text>
-              This is a wider card with supporting text as a natural lead-in to
-              additional content. This content is a little bit longer.
-            </b-card-text>
-          </b-card-body>
-        </b-col>
-      </b-row>
+    <b-card no-body>
+      <b-tabs card>
+        <b-tab title="SITE INFO">
+          <SiteInfoTab></SiteInfoTab>
+        </b-tab>
+
+        <b-tab no-body title="HIGHLIGHT">
+          <HighlightTab></HighlightTab>
+        </b-tab>
+      </b-tabs>
     </b-card>
   </div>
 </template>
 
 <script>
+//https://i.picsum.photos/id/20/400/400.jpg
 import { POPUP_LISTENER } from "./listener.js";
+import SiteInfoTab from "./tabs/SiteInfoTab";
+import HighlightTab from "./tabs/HighlightTab";
 
 export default {
   name: "App",
+  components: {
+    SiteInfoTab,
+    HighlightTab
+  },
   data() {
-    return {
-      src:
-        "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-      Highlight: {
-        activities: []
-      },
-      OG: {
-        isTitle: false,
-        isImage: false,
-        isDescription: false
-      },
-      siteInfo: null,
-      image: null,
-      isCollapse: true
-    };
+    return {};
   },
-  methods: {
-    capture: () => {
-      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        let tabId = tabs[0].id;
-
-        chrome.tabs.sendMessage(
-          tabId,
-          {
-            action: "capture"
-          },
-          res => {}
-        );
-      });
-    }
-  },
-  mounted() {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      let tabId = tabs[0].id;
-
-      chrome.storage.sync.get(String(tabId), items => {
-        // items: 저장한 객체의 key/value
-        POPUP_LISTENER.postMessage(
-          "popup.highlights",
-          items[tabId]
-        ).onMessage.addListener(response => {
-          console.log("in popup.highlights ", response);
-          this.Highlight.activities = response;
-        });
-      });
-
-      chrome.tabs.sendMessage(
-        tabId,
-        {
-          action: "get.site.info"
-        },
-        siteInfo => {
-          console.log("siteInfo >> ", siteInfo);
-
-          if (siteInfo.OG_IMAGE != null) {
-            this.OG.isImage = true;
-          }
-          if (siteInfo.OG_TITLE != null) {
-            this.OG.isTitle = true;
-          }
-          if (siteInfo.OG_DESCRIPTION != null) {
-            this.OG.isDescription = true;
-          }
-          this.siteInfo = siteInfo;
-        }
-      );
-    });
-  }
+  methods: {},
+  mounted() {}
 };
 </script>
