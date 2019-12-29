@@ -38,6 +38,21 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.s(c|a)ss$/,
+        use: [
+          "vue-style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            // Requires sass-loader@^7.0.0
+            options: {
+              implementation: require("sass"),
+              indentedSyntax: true // optional
+            }
+          }
+        ]
+      },
+      {
         test: /\.vue$/,
         loaders: "vue-loader"
       },
@@ -50,18 +65,7 @@ const config = {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader"]
       },
-      {
-        test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
-      },
-      {
-        test: /\.sass$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          "sass-loader?indentedSyntax"
-        ]
-      },
+
       {
         test: /\.(png|jpg|jpeg|gif|svg|ico)$/,
         loader: "file-loader",
@@ -102,11 +106,11 @@ const config = {
         to: "dashboard/dashboard.html",
         transform: transformHtml
       },
-      /* {
-        from: "dashboard/!**",
+      {
+        from: "dashboard/lib/**",
         to: "./",
         transform: transformHtml
-      },*/
+      },
       {
         from: "options/options.html",
         to: "options/options.html",
