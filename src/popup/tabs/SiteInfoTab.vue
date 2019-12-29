@@ -1,14 +1,6 @@
 <template>
   <div>
-    <div
-      style="position: absolute;
-                                    z-index: 100;
-                                    top: 70%;
-                                    left: 85%;"
-    >
-      <b-badge href="#" variant="primary" style="width:50px">저장</b-badge>
-    </div>
-    <div>
+    <div style="padding-bottom: 5px;">
       <b-card no-body class="overflow-hidden" style="max-width: 540px;">
         <b-row no-gutters>
           <b-col cols="4">
@@ -29,12 +21,25 @@
         </b-row>
       </b-card>
     </div>
+    <div
+      style="text-align: right; font-size: 15pt; /*position: absolute;
+                                    z-index: 100;
+                                    top: 80%;
+                                    left: 85%;*/"
+      v-if="siteInfo.USE_CURRENT_SITE === 'N'"
+    >
+      <b-badge href="#" variant="primary" style="width:50px" @click="saveSite"
+        >저장</b-badge
+      >
+    </div>
   </div>
 </template>
 
 <script>
 //https://i.picsum.photos/id/20/400/400.jpg
 import { POPUP_LISTENER } from "../listener.js";
+import { GLOBAL_CONFIG } from "../../contents/global/config";
+
 export default {
   name: "SiteInfoTab",
   components: {},
@@ -50,13 +55,36 @@ export default {
       siteInfo: {
         TITLE: null,
         IMAGE: null,
-        DESCRIPTION: null
+        DESCRIPTION: null,
+        USE_CURRENT_SITE: "N"
+      },
+      URL: {
+        KEY: null,
+        SITE: null
       },
       image: null,
       isCollapse: true
     };
   },
   methods: {
+    saveSite: () => {
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        let tabId = tabs[0].id;
+
+        chrome.tabs.sendMessage(
+          tabId,
+          { action: "get.site.info" },
+          siteInfo => {
+            POPUP_LISTENER.postMessage(
+              "popup.save.site",
+              siteInfo
+            ).onMessage.addListener(response => {
+              GLOBAL_CONFIG.USE_CURRENT_SITE = "Y";
+            });
+          }
+        );
+      });
+    },
     capture: () => {
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         let tabId = tabs[0].id;
@@ -71,25 +99,33 @@ export default {
       });
     }
   },
+  created() {},
   mounted() {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      let tabId = tabs[0].id;
+    this.$nextTick(() => {
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        let tabId = tabs[0].id;
 
-      chrome.tabs.sendMessage(tabId, { action: "get.site.info" }, siteInfo => {
-        console.log("siteInfo >> ", siteInfo);
+        chrome.tabs.sendMessage(
+          tabId,
+          { action: "get.site.info" },
+          siteInfo => {
+            console.log("siteInfo >> ", siteInfo);
 
-        if (siteInfo.OG_IMAGE != null) {
-          this.OG.isImage = true;
-          this.siteInfo.IMAGE = siteInfo.OG_IMAGE;
-        }
-        if (siteInfo.OG_TITLE != null) {
-          this.OG.isTitle = true;
-          this.siteInfo.TITLE = siteInfo.OG_TITLE;
-        }
-        if (siteInfo.OG_DESCRIPTION != null) {
-          this.OG.isDescription = true;
-          this.siteInfo.DESCRIPTION = siteInfo.OG_DESCRIPTION;
-        }
+            if (siteInfo.OG_IMAGE != null) {
+              this.OG.isImage = true;
+              this.siteInfo.IMAGE = siteInfo.OG_IMAGE;
+            }
+            if (siteInfo.OG_TITLE != null) {
+              this.OG.isTitle = true;
+              this.siteInfo.TITLE = siteInfo.OG_TITLE;
+            }
+            if (siteInfo.OG_DESCRIPTION != null) {
+              this.OG.isDescription = true;
+              this.siteInfo.DESCRIPTION = siteInfo.OG_DESCRIPTION;
+            }
+            this.siteInfo.USE_CURRENT_SITE = siteInfo.USE_CURRENT_SITE;
+          }
+        );
       });
     });
   }

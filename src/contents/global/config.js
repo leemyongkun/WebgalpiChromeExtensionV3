@@ -27,6 +27,7 @@ let GLOBAL_CONFIG = {
   HIGHLIGHT_FALI_LIST: new Array(),
   USE_CURRENT_SITE: "N", //useSite
   SITE_INFO: null,
+  MOUSE_POSISION_EVENT: null,
   CURRENT_COLOR: null //currentColor
 };
 

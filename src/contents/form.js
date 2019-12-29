@@ -91,7 +91,7 @@ let FORM = {
     let oRect = oRange.getBoundingClientRect();
 
     $("#highlight-toolbar").css({
-      top: e.pageY + 10,
+      top: e.pageY,
       left: e.pageX,
       position: "absolute",
       width: "200px"

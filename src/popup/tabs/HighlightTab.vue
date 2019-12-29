@@ -83,17 +83,20 @@ export default {
     }
   },
   mounted() {
+    console.log("HIGHLIGHT MOUNTED");
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       let tabId = tabs[0].id;
 
-      chrome.storage.sync.get(String(tabId), items => {
-        // items: 저장한 객체의 key/value
-        POPUP_LISTENER.postMessage(
-          "popup.highlights",
-          items[tabId]
-        ).onMessage.addListener(response => {
-          console.log("in popup.highlights ", response);
-          this.Highlight.activities = response;
+      chrome.tabs.sendMessage(tabId, { action: "get.url.info" }, urlInfo => {
+        chrome.storage.sync.get(String(tabId), items => {
+          // items: 저장한 객체의 key/value
+          POPUP_LISTENER.postMessage(
+            "popup.highlights",
+            urlInfo
+          ).onMessage.addListener(response => {
+            console.log("in popup.highlights ", response);
+            this.Highlight.activities = response;
+          });
         });
       });
     });

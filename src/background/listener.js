@@ -1,5 +1,4 @@
 import API from "../api/api.js";
-import { GLOBAL_CONFIG, URL } from "../contents/global/config.js";
 
 chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
   switch (msg.type) {
@@ -34,13 +33,21 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
 
 chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(msg => {
+    console.log("background/listener / msg.action ", msg.action);
     switch (msg.action) {
       case "popup.highlights":
         let param = new Object();
-        param.URL_KEY = msg.data;
+
+        console.log("msg.data ", msg.data.KEY);
+
+        param.URL_KEY = msg.data.KEY;
+        console.log("param ", param);
         API.getAllItems(param).then(res => {
           port.postMessage(res);
         });
+        break;
+      case "popup.save.site":
+        API.postSite(msg.data);
         break;
     }
   });

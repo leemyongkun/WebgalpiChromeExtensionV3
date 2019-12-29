@@ -26,6 +26,7 @@ let BackgroundModule = {
 
       let param = {
         URL_KEY: currentUrl,
+        URL: urlPath,
         EXT: ext
       };
 
@@ -38,7 +39,7 @@ let BackgroundModule = {
         res.tabid = tabId;
         chrome.tabs.sendMessage(
           tabId,
-          { action: "init", data: res },
+          { action: "init", data: res, site: param },
           response => {
             console.log("response ", response);
             checkLastError("init");

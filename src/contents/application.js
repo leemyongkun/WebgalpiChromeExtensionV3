@@ -22,6 +22,10 @@ let APPLICATION = {
     //현재 저장되어있는지 확인.
     GLOBAL_CONFIG.USE_CURRENT_SITE = data.allItems.SITE_CHECK;
 
+    console.log(
+      "GLOBAL_CONFIG.USE_CURRENT_SITE ",
+      GLOBAL_CONFIG.USE_CURRENT_SITE
+    );
     //하이라이트 Item을 저장한다.
     GLOBAL_CONFIG.HIGHLIGHT_LIST = data.allItems.HIGHLIGHT_LIST;
 

@@ -21,8 +21,23 @@ let CONTENTS = {
     if (URL.KEY != md5(CURRENT_URL.split("#")[0])) {
       GLOBAL_CONFIG.USE_CURRENT_SITE = "N";
     }
-    URL.SITE = CURRENT_URL.split("#")[0];
-    URL.KEY = md5(URL.SITE);
+    //URL.SITE = CURRENT_URL.split("#")[0];
+    //URL.KEY = md5(URL.SITE);
+  },
+  createColorPicker: () => {
+    return new Promise(res => {
+      // 팔렛트를 생성
+      let hlGroupElement = document.createElement(GLOBAL_CONFIG.GROUP_ELEMENT);
+      hlGroupElement.innerHTML =
+        FORM.createColorPicker() + FORM.createCaptureArea();
+
+      let targetElement = document.getElementsByTagName(
+        GLOBAL_CONFIG.TARGET_ELEMENT
+      )[0];
+      targetElement.appendChild(hlGroupElement);
+
+      res(true);
+    });
   },
   firstVisitSite: param => {
     return new Promise(async function(res) {
@@ -81,21 +96,6 @@ let CONTENTS = {
       )[0].outerHTML;
 
       res(param);
-    });
-  },
-  createColorPicker: () => {
-    return new Promise(res => {
-      // 팔렛트를 생성
-      let hlGroupElement = document.createElement(GLOBAL_CONFIG.GROUP_ELEMENT);
-      hlGroupElement.innerHTML =
-        FORM.createColorPicker() + FORM.createCaptureArea();
-
-      let targetElement = document.getElementsByTagName(
-        GLOBAL_CONFIG.TARGET_ELEMENT
-      )[0];
-      targetElement.appendChild(hlGroupElement);
-
-      res(true);
     });
   },
   setHighlightRangeInfoData: (event, offset) => {
@@ -258,12 +258,6 @@ let CONTENTS = {
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
-
-    // todo 처음 저장 일경우, 사이트 정보도 포함하여 저장하도록 한다.
-    console.log(
-      "GLOBAL_CONFIG.USE_CURRENT_SITE ",
-      GLOBAL_CONFIG.USE_CURRENT_SITE
-    );
 
     if (GLOBAL_CONFIG.USE_CURRENT_SITE == "N") {
       // 처음 저장이면...

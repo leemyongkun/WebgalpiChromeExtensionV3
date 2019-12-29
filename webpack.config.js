@@ -97,6 +97,11 @@ const config = {
         transform: transformHtml
       },
       {
+        from: "dashboard/**",
+        to: "./",
+        transform: transformHtml
+      },
+      {
         from: "options/options.html",
         to: "options/options.html",
         transform: transformHtml
