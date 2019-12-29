@@ -22,6 +22,7 @@ const config = {
     "background/background": "./background/background.js",
     "background/listener": "./background/listener.js",
     "popup/popup": "./popup/popup.js",
+    "dashboard/dashboard": "./dashboard/dashboard.js",
     "options/options": "./options/options.js",
     "common/common": "./common/common.js",
     "css/hl": "./css/hl.css",
@@ -97,10 +98,15 @@ const config = {
         transform: transformHtml
       },
       {
-        from: "dashboard/**",
-        to: "./",
+        from: "dashboard/dashboard.html",
+        to: "dashboard/dashboard.html",
         transform: transformHtml
       },
+      /* {
+        from: "dashboard/!**",
+        to: "./",
+        transform: transformHtml
+      },*/
       {
         from: "options/options.html",
         to: "options/options.html",

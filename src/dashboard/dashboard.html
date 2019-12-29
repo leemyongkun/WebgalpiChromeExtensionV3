@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>Title</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <% if (NODE_ENV === 'development') { %>
+    <!-- Load some resources only in development environment -->
+    <% } %>
   </head>
   <body style="margin:0px; width: 540px">
     <div id="app"></div>

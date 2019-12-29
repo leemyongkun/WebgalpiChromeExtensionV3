@@ -101,6 +101,7 @@ export default {
   },
   created() {},
   mounted() {
+    alert("!!");
     this.$nextTick(() => {
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         let tabId = tabs[0].id;
