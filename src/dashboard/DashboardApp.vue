@@ -1,55 +1,107 @@
 <template>
-  <div>
-    <v-app>
-      <v-content>
-        <v-container
-          >{{ test }}
+  <v-app id="keep">
+    <v-app-bar app clipped-left color="amber">
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <span class="title ml-3 mr-5"
+        >WEB&nbsp;<span class="font-weight-light">Galpi</span></span
+      >
+      <v-text-field
+        solo-inverted
+        flat
+        hide-details
+        label="Search"
+        prepend-inner-icon="mdi-feature-search-outline"
+      />
 
-          <div class="text-center">
-            <v-badge>
-              <template v-slot:badge
-                >0</template
-              >
-              <v-icon>mdi-email</v-icon>
-            </v-badge>
-          </div>
+      <v-spacer />
+    </v-app-bar>
 
-          <div id="chip-usage-example" class="text-center">
-            <v-chip>Default</v-chip>
-            <v-chip close>Close</v-chip>
-            <v-chip outlined>Outlined</v-chip>
-            <v-chip v-model="value" filter>Filter</v-chip>
-            <v-chip pill>
-              <v-avatar left color="red">
-                P
-              </v-avatar>
-              Pill
-            </v-chip>
-            <v-chip>
-              <v-icon left color="red">mdi-account</v-icon>
-              Icon
-            </v-chip>
-          </div>
-        </v-container>
-      </v-content>
-    </v-app>
-  </div>
+    <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
+      <v-list dense class="grey lighten-4">
+        <template v-for="(item, i) in menus">
+          <v-row v-if="item.heading" :key="i" align="center">
+            <v-col cols="6">
+              <v-subheader v-if="item.heading">
+                {{ item.heading }}
+              </v-subheader>
+            </v-col>
+            <v-col cols="6" class="text-right">
+              <v-btn small text>edit </v-btn>
+            </v-col>
+          </v-row>
+          <v-divider v-else-if="item.divider" :key="i" dark class="my-4" />
+          <v-list-item v-else :key="i" link>
+            <v-list-item-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title class="grey--text">
+                {{ item.text }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-content>
+      <v-container fluid class="grey lighten-4 fill-height">
+        <v-row justify="center" align="center">
+          <v-col class="shrink"
+            >.
+            <v-tooltip right>
+              <template v-slot:activator="{ on }">
+                <v-btn :href="source" icon large target="_blank" v-on="on">
+                  <v-icon large>mdi-code-tags</v-icon>
+                </v-btn>
+              </template>
+              <span>Source</span>
+            </v-tooltip>
+            <v-tooltip right>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  large
+                  href="https://codepen.io/johnjleider/pen/zgxbYO"
+                  target="_blank"
+                  v-on="on"
+                >
+                  <v-icon large>mdi-codepen</v-icon>
+                </v-btn>
+              </template>
+              <span>Codepen</span>
+            </v-tooltip>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-//https://i.picsum.photos/id/20/400/400.jpg
-
 export default {
-  name: "App",
-  components: {},
-  data() {
-    return {
-      test: "TS"
-    };
+  props: {
+    source: String
   },
-  methods: {},
-  mounted() {
-    alert("!");
-  }
+  data: () => ({
+    drawer: null,
+    menus: [
+      { heading: "Labels" },
+      { icon: "mdi-tooltip-plus-outline", text: "Create new label" },
+      { divider: true },
+      { icon: "mdi-archive-arrow-up-outline", text: "Archive" },
+      { icon: "mdi-delete", text: "Trash" },
+      { divider: true },
+      { icon: "mdi-file-settings-variant-outline", text: "Settings" },
+      { icon: "mdi-trash-can-outline", text: "Trash" },
+      { icon: "mdi-help-circle-outline", text: "Help" }
+    ]
+  })
 };
 </script>
+
+<style>
+#keep .v-navigation-drawer__border {
+  display: none;
+}
+</style>
