@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuetify, {
+  VTreeview,
   VContent,
   VContainer,
   VApp,
@@ -54,6 +55,7 @@ Vue.component("VListItem", VListItem);
 Vue.component("VListItemAction", VListItemAction);
 Vue.component("VBtn", VBtn);
 
+Vue.component("VTreeview", VTreeview);
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
   theme: false,
