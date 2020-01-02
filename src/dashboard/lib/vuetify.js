@@ -1,5 +1,11 @@
 import Vue from "vue";
 import Vuetify, {
+  VImg,
+  VCardTitle,
+  VCardActions,
+  VCardSubtitle,
+  VCardText,
+  VCard,
   VTreeview,
   VContent,
   VContainer,
@@ -56,6 +62,13 @@ Vue.component("VListItemAction", VListItemAction);
 Vue.component("VBtn", VBtn);
 
 Vue.component("VTreeview", VTreeview);
+
+Vue.component("VCard", VCard);
+Vue.component("VCardTitle", VCardTitle);
+Vue.component("VCardActions", VCardActions);
+Vue.component("VCardSubtitle", VCardSubtitle);
+Vue.component("VCardText", VCardText);
+Vue.component("VImg", VImg);
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
   theme: false,

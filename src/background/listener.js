@@ -49,6 +49,12 @@ chrome.extension.onConnect.addListener(function(port) {
       case "popup.save.site":
         API.postSite(msg.data);
         break;
+      case "all.sites":
+        console.log("all.sites ");
+        let p = new Object();
+        p.ts = "kkuni all sites";
+        port.postMessage(p);
+        break;
     }
   });
 });
