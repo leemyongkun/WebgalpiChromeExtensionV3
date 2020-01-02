@@ -103,19 +103,24 @@ export default {
   getSites: () => {
     return `SELECT 
                     IDX,
-                    URL_KEY,
+                     URL_KEY,
                     EMAIL,
+                    OWNER_EMAIL,
                     TITLE,
                     UPDATE_TITLE,
                     URL,
-                    DATE_CREATE,
                     OG_TITLE,
                     OG_DESCRIPTION,
                     OG_IMAGE,
                     SHARE_KEY,
                     HOST,
-                    TAGS,
-                    MEMO
+                    FULL_TEXT,
+                    FL_DELETE,
+                    URL_TYPE,
+                    READERMODE_CONTENTS,
+                    DATE_CREATE,
+                    DATE_UPDATE,
+                    TAGS
                     FROM TBL_SITES
                     WHERE FL_DELETE = 'N'`;
   },

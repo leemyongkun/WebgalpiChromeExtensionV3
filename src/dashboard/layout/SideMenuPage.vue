@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
-    <v-list dense class="grey lighten-4">
+  <v-navigation-drawer v-model="drawer" app clipped>
+    <v-list dense>
       <!-- template v-for="(item, i) in menus" -->
       <v-row align="center">
         <v-col cols="6">

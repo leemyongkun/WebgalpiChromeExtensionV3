@@ -1,5 +1,8 @@
 import Vue from "vue";
 import Vuetify, {
+  VTab,
+  VTabs,
+  VTabItem,
   VListItemAvatar,
   VSlideXReverseTransition,
   VTimeline,
@@ -81,9 +84,13 @@ Vue.component("VTimeline", VTimeline);
 Vue.component("VTimelineItem", VTimelineItem);
 Vue.component("VSlideXReverseTransition", VSlideXReverseTransition);
 Vue.component("VListItemAvatar", VListItemAvatar);
+
+Vue.component("VTab", VTab);
+Vue.component("VTabs", VTabs);
+Vue.component("VTabItem", VTabItem);
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
-  theme: false,
+  theme: { dark: true },
   themes: {
     light: {
       primary: "#4682b4",
