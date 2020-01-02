@@ -1,5 +1,9 @@
 import Vue from "vue";
 import Vuetify, {
+  VListItemAvatar,
+  VSlideXReverseTransition,
+  VTimeline,
+  VTimelineItem,
   VImg,
   VCardTitle,
   VCardActions,
@@ -16,6 +20,7 @@ import Vuetify, {
   VAvatar,
   VListItemContent,
   VListItemTitle,
+  VListItemSubtitle,
   VRow,
   VCol,
   VTooltip,
@@ -53,6 +58,8 @@ Vue.component("VAvatar", VAvatar);
 
 Vue.component("VListItemContent", VListItemContent);
 Vue.component("VListItemTitle", VListItemTitle);
+Vue.component("VListItemSubtitle", VListItemSubtitle);
+
 Vue.component("VRow", VRow);
 Vue.component("VCol", VCol);
 Vue.component("VTooltip", VTooltip);
@@ -69,6 +76,11 @@ Vue.component("VCardActions", VCardActions);
 Vue.component("VCardSubtitle", VCardSubtitle);
 Vue.component("VCardText", VCardText);
 Vue.component("VImg", VImg);
+
+Vue.component("VTimeline", VTimeline);
+Vue.component("VTimelineItem", VTimelineItem);
+Vue.component("VSlideXReverseTransition", VSlideXReverseTransition);
+Vue.component("VListItemAvatar", VListItemAvatar);
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
   theme: false,

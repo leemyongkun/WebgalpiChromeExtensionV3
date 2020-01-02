@@ -63,6 +63,9 @@ let Api = {
     let param = [params.URL_KEY];
     return select(Query.getSite(), param);
   },
+  getSites: params => {
+    return select(Query.getSites(), params);
+  },
   getAllItems: parameter => {
     //alert("parameter " + JSON.stringify(parameter));
     console.log("parameter ", JSON.stringify(parameter));

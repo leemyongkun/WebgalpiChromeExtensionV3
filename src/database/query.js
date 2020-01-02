@@ -100,6 +100,25 @@ export default {
                     AND FL_DELETE = 'N'
                     LIMIT 1 `;
   },
+  getSites: () => {
+    return `SELECT 
+                    IDX,
+                    URL_KEY,
+                    EMAIL,
+                    TITLE,
+                    UPDATE_TITLE,
+                    URL,
+                    DATE_CREATE,
+                    OG_TITLE,
+                    OG_DESCRIPTION,
+                    OG_IMAGE,
+                    SHARE_KEY,
+                    HOST,
+                    TAGS,
+                    MEMO
+                    FROM TBL_SITES
+                    WHERE FL_DELETE = 'N'`;
+  },
   getAllItems: () => {
     return `SELECT 
                     IDX,

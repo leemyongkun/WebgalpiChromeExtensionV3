@@ -50,10 +50,11 @@ chrome.extension.onConnect.addListener(function(port) {
         API.postSite(msg.data);
         break;
       case "all.sites":
-        console.log("all.sites ");
-        let p = new Object();
-        p.ts = "kkuni all sites";
-        port.postMessage(p);
+        API.getSites(null).then(res => {
+          console.log("API.getSites(msg.data) ", res);
+          port.postMessage(res); //조건
+        });
+
         break;
     }
   });
