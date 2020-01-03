@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuetify, {
+  VWindow,
+  VWindowItem,
   VTab,
   VTabs,
   VTabItem,
@@ -88,6 +90,9 @@ Vue.component("VListItemAvatar", VListItemAvatar);
 Vue.component("VTab", VTab);
 Vue.component("VTabs", VTabs);
 Vue.component("VTabItem", VTabItem);
+
+Vue.component("VWindow", VWindow);
+Vue.component("VWindowItem", VWindowItem);
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
   theme: { dark: true },
