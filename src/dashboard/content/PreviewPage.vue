@@ -4,7 +4,7 @@
       <v-card flat>
         <v-card-text>
           <v-row class="mb-4" align="center">
-            <strong class="title">Title</strong>
+            <strong class="title">{{ previewTitle }}</strong>
             <v-spacer></v-spacer>
             <v-btn icon>
               <v-icon>mdi-account</v-icon>
@@ -27,7 +27,7 @@
                           sunt in culpa qui officia deserunt mollit anim id est laborum.
                         </p>-->
 
-            <div v-html="previewDoc"></div>
+            <div v-html="previewContent"></div>
           </v-row>
         </v-card-text>
       </v-card>
@@ -37,7 +37,7 @@
 <script>
 export default {
   components: {},
-  props: ["previewDoc"],
+  props: ["previewContent", "previewTitle"],
   data: () => ({
     window: 0
   }),

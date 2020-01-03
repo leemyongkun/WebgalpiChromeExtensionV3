@@ -37,8 +37,6 @@
 
 <script>
 //https://i.picsum.photos/id/20/400/400.jpg
-import { POPUP_LISTENER } from "../listener.js";
-import { GLOBAL_CONFIG } from "../../contents/global/config";
 
 export default {
   name: "SiteInfoTab",
@@ -71,7 +69,7 @@ export default {
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         let tabId = tabs[0].id;
 
-        chrome.tabs.sendMessage(
+        /*chrome.tabs.sendMessage(
           tabId,
           { action: "get.site.info" },
           siteInfo => {
@@ -82,7 +80,7 @@ export default {
               GLOBAL_CONFIG.USE_CURRENT_SITE = "Y";
             });
           }
-        );
+        );*/
       });
     },
     capture: () => {

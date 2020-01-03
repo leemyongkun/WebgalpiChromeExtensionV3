@@ -1,73 +1,83 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-navigation-drawer v-model="drawer" app clipped>
-    <v-list dense>
-      <!-- template v-for="(item, i) in menus" -->
-      <v-row align="center">
-        <v-col cols="6">
-          <v-subheader>
-            LABEL
-          </v-subheader>
-        </v-col>
-        <v-col cols="6" class="text-right">
-          <v-btn small text>edit</v-btn>
-        </v-col>
-      </v-row>
+  <div>
+    <v-app-bar app clipped-left color="amber" :hide-on-scroll="true">
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <span class="title ml-3 mr-5"
+        >WEB&nbsp;<span class="font-weight-light">Galpi</span>
+      </span>
+      <v-text-field
+        solo-inverted
+        flat
+        hide-details
+        label="Search"
+        prepend-inner-icon="mdi-feature-search-outline"
+      />
+      <v-spacer />
+    </v-app-bar>
+    <v-navigation-drawer v-model="drawer" app clipped>
+      <v-list dense>
+        <!-- template v-for="(item, i) in menus" -->
+        <v-row align="center">
+          <v-col cols="6">
+            <v-subheader>
+              LABEL
+            </v-subheader>
+          </v-col>
+          <v-col cols="6" class="text-right">
+            <v-btn small text>edit</v-btn>
+          </v-col>
+        </v-row>
 
-      <!-- CATEGORY : START -->
-      <v-divider dark class="my-4" />
-      <v-row align="center">
-        <v-col style="padding-bottom:0px; padding-top:0px;margin-left: 15px;">
-          <v-treeview
-            rounded
-            hoverable
-            activatable
-            style="cursor:pointer"
-            :items="trees"
-          ></v-treeview>
-        </v-col>
-      </v-row>
-      <!-- CATEGORY : END -->
+        <!-- CATEGORY : START -->
+        <v-divider dark class="my-4" />
+        <v-row align="center">
+          <v-col style="padding-bottom:0px; padding-top:0px;margin-left: 15px;">
+            <v-treeview
+              rounded
+              hoverable
+              activatable
+              style="cursor:pointer"
+              :items="trees"
+            ></v-treeview>
+          </v-col>
+        </v-row>
+        <!-- CATEGORY : END -->
 
-      <v-divider dark class="my-4" />
-      <v-list-item link>
-        <v-list-item-action>
-          <v-icon>mdi-tooltip-plus-outline</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="grey--text">
-            create new Label
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item link>
-        <v-list-item-action>
-          <v-icon>mdi-file-settings-variant-outline</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="grey--text">
-            Settings
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <!-- /template -->
-    </v-list>
-  </v-navigation-drawer>
+        <v-divider dark class="my-4" />
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-tooltip-plus-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="grey--text">
+              create new Label
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-file-settings-variant-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="grey--text">
+              Settings
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <!-- /template -->
+      </v-list>
+    </v-navigation-drawer>
+  </div>
 </template>
 <script>
 export default {
   components: {},
-  /*props: {
-            drawer: {
-                type: Boolean,
-                default: null
-            }
-        },*/
   data: () => ({
-    drawer: true,
+    drawer: false,
     trees: [
       {
         id: 0,
-        name: "ROOT",
+        name: "전체",
         children: [
           {
             id: 1,

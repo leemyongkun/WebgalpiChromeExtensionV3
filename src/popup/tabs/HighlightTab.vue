@@ -34,7 +34,7 @@
 
 <script>
 //https://i.picsum.photos/id/20/400/400.jpg
-import { POPUP_LISTENER } from "../listener.js";
+import CONTENT_LISTENER from "../../common/content-listener";
 import Common from "../../common/common";
 
 export default {
@@ -90,13 +90,20 @@ export default {
       chrome.tabs.sendMessage(tabId, { action: "get.url.info" }, urlInfo => {
         chrome.storage.sync.get(String(tabId), items => {
           // items: 저장한 객체의 key/value
-          POPUP_LISTENER.postMessage(
-            "popup.highlights",
+
+          CONTENT_LISTENER.sendMessage({
+            type: "get.highlights",
+            data: urlInfo
+          }).then(response => {
+            this.Highlight.activities = response;
+          });
+          /* POPUP_LISTENER.postMessage(
+            "get.highlights",
             urlInfo
           ).onMessage.addListener(response => {
             console.log("in popup.highlights ", response);
             this.Highlight.activities = response;
-          });
+          });*/
         });
       });
     });

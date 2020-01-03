@@ -5,9 +5,7 @@ import FORM from "./form.js";
 import { GLOBAL_CONFIG, URL, STATUS } from "./global/config.js";
 import CORE from "./core/core.js";
 import EVENT from "./event";
-
-import JCROP from "../lib/jcrop/jcrop.js";
-import SELECTION from "../lib/selection.js";
+import CONTENT_LISTENER from "../common/content-listener";
 
 let CURRENT_URL = null;
 let CONTENTS = {
@@ -148,7 +146,7 @@ let CONTENTS = {
         .unwrap();
     });
 
-    EVENT.sendMessage({
+    CONTENT_LISTENER.sendMessage({
       type: "delete.highlight",
       data: param
     });
@@ -172,7 +170,7 @@ let CONTENTS = {
     });
 
     // 저장
-    EVENT.sendMessage({
+    CONTENT_LISTENER.sendMessage({
       type: "update.highlight",
       data: param
     });
@@ -253,8 +251,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                              $('#highlight-toolbar').hide();
-                                                                                            } */
+                                                                                                  $('#highlight-toolbar').hide();
+                                                                                                } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
@@ -269,7 +267,7 @@ let CONTENTS = {
     console.log("FINAL PARAM ", param);
 
     // 저장
-    EVENT.sendMessage({
+    CONTENT_LISTENER.sendMessage({
       type: "create.highlight",
       data: param
     });

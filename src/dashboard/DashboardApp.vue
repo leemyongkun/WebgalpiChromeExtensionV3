@@ -1,7 +1,7 @@
 <template>
-  <v-app id="keep">
-    <TopMenuPage />
-    <SideMenuPage />
+  <v-app>
+    <!--SideMenu-->
+    <MenuPage />
     <v-content>
       <v-container fluid>
         <SiteListPage />
@@ -11,22 +11,12 @@
 </template>
 
 <script>
-import SideMenuPage from "./layout/SideMenuPage";
-import TopMenuPage from "./layout/TopMenuPage";
+import MenuPage from "./layout/MenuPage";
 import SiteListPage from "./content/SiteListPage";
+
 export default {
-  components: { SiteListPage, TopMenuPage, SideMenuPage },
-  props: {
-    source: String
-  },
-  data: () => ({
-    drawer: null
-  })
+  components: { SiteListPage, MenuPage },
+  data: () => ({}),
+  methods: {}
 };
 </script>
-
-<style>
-#keep .v-navigation-drawer__border {
-  display: none;
-}
-</style>

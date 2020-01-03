@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-row>
-      <v-col cols="4">
+      <v-col cols="3">
         <v-row v-for="(item, i) in sites" :key="i">
           <v-col cols="12" style="padding-top: 0px;">
             <v-card
@@ -22,7 +22,10 @@
                 </v-list-item-content>
 
                 <v-list-item-avatar tile size="100" color="grey">
-                  <v-img :src="item.OG_IMAGE"></v-img>
+                  <v-img
+                    v-if="item.OG_IMAGE !== 'undefined'"
+                    :src="item.OG_IMAGE"
+                  ></v-img>
                 </v-list-item-avatar>
               </v-list-item>
             </v-card>
@@ -30,7 +33,7 @@
         </v-row>
       </v-col>
 
-      <v-col cols="8">
+      <v-col cols="9">
         <v-tabs right>
           <v-tab>PREVIEW</v-tab>
           <v-tab>HIGHLIGHTS</v-tab>
@@ -39,10 +42,13 @@
             <v-container fluid>
               <v-row>
                 <v-col v-if="n == 1">
-                  <PreviewPage :previewDoc="previewDoc"></PreviewPage>
+                  <PreviewPage
+                    :previewContent="previewContent"
+                    :previewTitle="previewTitle"
+                  ></PreviewPage>
                 </v-col>
                 <v-col v-if="n == 2">
-                  <HighlightsPage></HighlightsPage>
+                  <HighlightsPage :highlights="highlights"></HighlightsPage>
                 </v-col>
               </v-row>
             </v-container>
@@ -53,31 +59,31 @@
   </div>
 </template>
 <script>
+import { POPUP_LISTENER } from "../../common/port-listener.js";
 import PreviewPage from "./PreviewPage";
 import HighlightsPage from "./HighlightsPage";
+import CONTENT_LISTENER from "../../common/content-listener";
 
 export default {
   components: { HighlightsPage, PreviewPage },
   data: () => ({
     sites: [],
-    previewDoc: null
+    highlights: [],
+    previewContent: null,
+    previewTitle: null
   }),
   created() {},
   mounted() {
-    let port = chrome.extension.connect({
-      name: "POPUP COMMUNICATION"
-    });
-    port.postMessage({
-      action: "all.sites"
-    });
-    port.onMessage.addListener(sites => {
-      //this.parsePreviewMode(sites[0].READERMODE_CONTENTS, this);
-      this.sites = sites;
+    CONTENT_LISTENER.sendMessage({
+      type: "get.sites",
+      data: null
+    }).then(response => {
+      console.log("getSites  response ", response);
+      this.sites = response;
     });
   },
   methods: {
-    selectSite(site) {
-      console.log("site ", site);
+    generatePreviewDoc(site) {
       let loc = document.location;
       let uri = {
         spec: loc.href,
@@ -94,9 +100,23 @@ export default {
       let parser = new DOMParser();
       let idoc = parser.parseFromString(site.READERMODE_CONTENTS, "text/html");
       let previewDoc = new PreviewMode(uri, idoc).parse();
-      this.previewDoc = previewDoc.content;
+      this.previewContent = previewDoc.content;
+      this.previewTitle = previewDoc.title;
     },
-    parsePreviewMode: (doc, _this) => {}
+    selectSite(site) {
+      //미리보기 생성
+      this.generatePreviewDoc(site);
+
+      let param = new Object();
+      param.KEY = site.URL_KEY;
+      //하이라이트 가져오기
+      CONTENT_LISTENER.sendMessage({
+        type: "get.highlights",
+        data: param
+      }).then(response => {
+        this.highlights = response;
+      });
+    }
   }
 };
 </script>

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import DashboardApp from "./DashboardApp";
-import vuetify from "./lib/vuetify";
+import vuetify from "../lib/vuetify/vuetify";
 
 //global.browser = require("webextension-polyfill");
 

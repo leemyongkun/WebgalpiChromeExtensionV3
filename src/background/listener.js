@@ -28,6 +28,22 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       );
       return true;
       break;
+    case "get.highlights":
+      let param = new Object();
+      console.log("get.highlights > msg.data ", msg.data.KEY);
+      param.URL_KEY = msg.data.KEY;
+      API.getAllItems(param).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "get.sites":
+      API.getSites(null).then(res => {
+        console.log("###### ", res);
+        sendResponse(res); //조건
+      });
+      return true;
+      break;
   }
 });
 
@@ -35,26 +51,8 @@ chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(msg => {
     console.log("background/listener / msg.action ", msg.action);
     switch (msg.action) {
-      case "popup.highlights":
-        let param = new Object();
-
-        console.log("msg.data ", msg.data.KEY);
-
-        param.URL_KEY = msg.data.KEY;
-        console.log("param ", param);
-        API.getAllItems(param).then(res => {
-          port.postMessage(res);
-        });
-        break;
       case "popup.save.site":
         API.postSite(msg.data);
-        break;
-      case "all.sites":
-        API.getSites(null).then(res => {
-          console.log("API.getSites(msg.data) ", res);
-          port.postMessage(res); //조건
-        });
-
         break;
     }
   });
