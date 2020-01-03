@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
-    <v-app-bar app clipped-left color="amber" :hide-on-scroll="true">
+    <v-app-bar app clipped-left color="" :hide-on-scroll="true">
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <span class="title ml-3 mr-5"
         >WEB&nbsp;<span class="font-weight-light">Galpi</span>
@@ -14,6 +14,7 @@
       />
       <v-spacer />
     </v-app-bar>
+
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
         <!-- template v-for="(item, i) in menus" -->
