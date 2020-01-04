@@ -34,12 +34,17 @@
         <v-row align="center">
           <v-col style="padding-bottom:0px; padding-top:0px;margin-left: 15px;">
             <v-treeview
-              rounded
               hoverable
               activatable
               style="cursor:pointer"
-              :items="trees"
-            ></v-treeview>
+              return-object
+              v-model="categoryItem"
+              :items="category"
+            >
+              <template v-slot:prepend="{ item, active }">
+                <v-icon>mdi-folder-outline</v-icon>
+              </template>
+            </v-treeview>
           </v-col>
         </v-row>
         <!-- CATEGORY : END -->
@@ -71,90 +76,90 @@
   </div>
 </template>
 <script>
+import CONTENT_LISTENER from "../../common/content-listener";
+
 export default {
   components: {},
   data: () => ({
     drawer: false,
-    trees: [
-      {
-        id: 0,
-        name: "전체",
-        children: [
-          {
-            id: 1,
-            name: "Applications :",
-            children: [
-              { id: 2, name: "Calendar : app" },
-              { id: 3, name: "Chrome : app" },
-              { id: 4, name: "Webstorm : app" }
-            ]
-          },
-          {
-            id: 5,
-            name: "Documents :",
-            children: [
-              {
-                id: 6,
-                name: "vuetify :",
-                children: [
-                  {
-                    id: 7,
-                    name: "src :",
-                    children: [
-                      { id: 8, name: "index : ts" },
-                      { id: 9, name: "bootstrap : ts" }
-                    ]
-                  }
-                ]
-              },
-              {
-                id: 10,
-                name: "material2 :",
-                children: [
-                  {
-                    id: 11,
-                    name: "src :",
-                    children: [
-                      { id: 12, name: "v-btn : ts" },
-                      { id: 13, name: "v-card : ts" },
-                      { id: 14, name: "v-window : ts" }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            id: 15,
-            name: "Downloads :",
-            children: [
-              { id: 16, name: "October : pdf" },
-              { id: 17, name: "November : pdf" },
-              { id: 18, name: "Tutorial : html" }
-            ]
-          },
-          {
-            id: 19,
-            name: "Videos :",
-            children: [
-              {
-                id: 20,
-                name: "Tutorials :",
-                children: [
-                  { id: 21, name: "Basic layouts : mp4" },
-                  { id: 22, name: "Advanced techniques : mp4" },
-                  { id: 23, name: "All about app : dir" }
-                ]
-              },
-              { id: 24, name: "Intro : mov" },
-              { id: 25, name: "Conference introduction : avi" }
-            ]
-          }
-        ]
-      }
-    ]
+    categoryItem: null,
+    category: [],
+    icon: {
+      on: "mdi-bookmark",
+      off: "mdi-bookmark-outline"
+    }
   }),
   created() {},
-  methods: {}
+  mounted() {
+    CONTENT_LISTENER.sendMessage({
+      type: "get.menus",
+      data: null
+    }).then(category => {
+      this.category = this.gen(category, null);
+      // let b =  treeModel(category, null);
+      // console.log("b ", b)
+    });
+  },
+  methods: {
+    gen(arrayList, rootId) {
+      let rootNodes = [];
+      let traverse = function(nodes, item, index) {
+        if (nodes instanceof Array) {
+          return nodes.some(node => {
+            if (node.id === item.parent) {
+              node.children = node.children || [];
+              return node.children.push(arrayList.splice(index, 1)[0]);
+            }
+
+            return traverse(node.children, item, index);
+          });
+        }
+      };
+
+      while (arrayList.length > 0) {
+        console.log("11");
+        arrayList.some((item, index) => {
+          if (item.parent === rootId) {
+            return rootNodes.push(arrayList.splice(index, 1)[0]);
+          }
+
+          return traverse(rootNodes, item, index);
+        });
+      }
+
+      return rootNodes;
+    }
+  }
 };
+/**
+     let treeModel = function (arrayList, rootId) {
+                    var rootNodes = [];
+                    var traverse = function (nodes, item, index) {
+                        if (nodes instanceof Array) {
+                            return nodes.some(function (node) {
+                                if (node.id === item.parentId) {
+                                    node.children = node.children || [];
+                                    return node.children.push(arrayList.splice(index, 1)[0]);
+                                }
+
+                                return traverse(node.children, item, index);
+                            });
+                        }
+                    };
+
+                    while (arrayList.length > 0) {
+                        arrayList.some(function (item, index) {
+                            if (item.parentId === rootId) {
+                                return rootNodes.push(arrayList.splice(index, 1)[0]);
+                            }
+
+                            return traverse(rootNodes, item, index);
+                        });
+                    }
+
+                    return rootNodes;
+                };
+
+     //javascript tree jsfiddle traverse
+     */
 </script>

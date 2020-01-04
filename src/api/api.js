@@ -66,6 +66,9 @@ let Api = {
   getSites: params => {
     return select(Query.getSites(), params);
   },
+  getMenus: params => {
+    return select(Query.getMenus(), params);
+  },
   getAllItems: parameter => {
     //alert("parameter " + JSON.stringify(parameter));
     console.log("parameter ", JSON.stringify(parameter));

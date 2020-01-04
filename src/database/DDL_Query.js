@@ -19,8 +19,8 @@ let DROP_TABLE_QUERY = {
     return `DROP TABLE TBL_CATEGORY_GRANT`;
   },
 
-  TBL_CATEGORY_WEB: () => {
-    return `DROP TABLE TBL_CATEGORY_WEB `;
+  TBL_CATEGORY: () => {
+    return `DROP TABLE TBL_CATEGORY `;
   },
   TBL_EXCLUDE_SITE: () => {
     return `DROP TABLE TBL_EXCLUDE_SITE `;
@@ -139,9 +139,9 @@ CREATE TABLE IF NOT EXISTS TBL_CATEGORY_GRANT (
 )`;
   },
 
-  TBL_CATEGORY_WEB: () => {
+  TBL_CATEGORY: () => {
     return `
-CREATE TABLE IF NOT EXISTS TBL_CATEGORY_WEB (
+CREATE TABLE IF NOT EXISTS TBL_CATEGORY (
                IDX INTEGER PRIMARY KEY,
                EMAIL TEXT,
                NAME TEXT,
@@ -305,7 +305,7 @@ let DDL = {
         tx.executeSql(DROP_TABLE_QUERY.TBL_CATEGORY_GRANT(), []);
       });
       db.transaction(function(tx) {
-        tx.executeSql(DROP_TABLE_QUERY.TBL_CATEGORY_WEB(), []);
+        tx.executeSql(DROP_TABLE_QUERY.TBL_CATEGORY(), []);
       });
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_EXCLUDE_SITE(), []);
@@ -356,7 +356,7 @@ let DDL = {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_CATEGORY_GRANT(), []);
     });
     db.transaction(function(tx) {
-      tx.executeSql(CREATE_TABLE_QUERY.TBL_CATEGORY_WEB(), []);
+      tx.executeSql(CREATE_TABLE_QUERY.TBL_CATEGORY(), []);
     });
     db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_EXCLUDE_SITE(), []);

@@ -152,7 +152,8 @@ let EVENT = {
         }
 
         let selection = window.getSelection();
-        if (selection.focusOffset === 0) return false;
+        //일단 삭제
+        //if (selection.focusOffset === 0) return false;
         let range = selection.getRangeAt(0);
         let content = range.cloneContents();
         let customTag = document.createElement(GLOBAL_CONFIG.HL_TAG_NAME);
@@ -200,6 +201,7 @@ let EVENT = {
                                                      }); */
 
         CONTENTS.setHighlightRangeInfoData(event, offset);
+
         FORM.showPicker(event); // todo 가장 중요!!
 
         STATUS.checkHighlightArea = 0;

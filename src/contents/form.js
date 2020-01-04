@@ -90,6 +90,9 @@ let FORM = {
     let oRange = s.getRangeAt(0); // get the text range
     let oRect = oRange.getBoundingClientRect();
 
+    // Drag 영역이 없으면 false 리턴한다.
+    if (s.isCollapsed) return false;
+
     $("#highlight-toolbar").css({
       top: e.pageY,
       left: e.pageX,
@@ -98,16 +101,13 @@ let FORM = {
     });
 
     /* $("#highlight-toolbar").css({
-                    top: GLOBAL_CONFIG.MOUSE_DOWN_XY.y,
-                    left: GLOBAL_CONFIG.MOUSE_DOWN_XY.x,
-                    position: "absolute",
-                    width: "auto"
-                });*/
+                        top: GLOBAL_CONFIG.MOUSE_DOWN_XY.y,
+                        left: GLOBAL_CONFIG.MOUSE_DOWN_XY.x,
+                        position: "absolute",
+                        width: "auto"
+                    });*/
 
     setTimeout(function() {
-      // Drag 영역이 없으면 false 리턴한다.
-      if (s.isCollapsed) return false;
-
       $("#highlight-toolbar-memo-area").hide();
       $("#highlight-toolbar").show();
       GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = "drag";

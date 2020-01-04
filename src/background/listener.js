@@ -39,8 +39,13 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
     case "get.sites":
       API.getSites(null).then(res => {
-        console.log("###### ", res);
         sendResponse(res); //조건
+      });
+      return true;
+      break;
+    case "get.menus":
+      API.getMenus(null).then(res => {
+        sendResponse(res);
       });
       return true;
       break;

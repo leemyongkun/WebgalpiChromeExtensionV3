@@ -124,6 +124,21 @@ export default {
                     FROM TBL_SITES
                     WHERE FL_DELETE = 'N'`;
   },
+  getMenus: () => {
+    return `SELECT 
+                     IDX as id,
+                    -- EMAIL,
+                     NAME as name,
+                    -- DATE_CREATE,
+                     PARENT as parent,
+                     DEPTH as depth
+                     --CATEGORY_STATUS,
+                     --SHARE, --Y/N
+                     --TYPE, --SYSTEM / CUSTOM
+                     --FL_LOCK, --Y/N
+                     --FL_PUBLISH --Y/N
+                FROM TBL_CATEGORY`;
+  },
   getAllItems: () => {
     return `SELECT 
                     IDX,

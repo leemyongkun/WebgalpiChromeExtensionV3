@@ -45,6 +45,7 @@
                   <PreviewPage
                     :previewContent="previewContent"
                     :previewTitle="previewTitle"
+                    :previewStatus="previewStatus"
                   ></PreviewPage>
                 </v-col>
                 <v-col v-if="n == 2">
@@ -70,7 +71,8 @@ export default {
     sites: [],
     highlights: [],
     previewContent: null,
-    previewTitle: null
+    previewTitle: null,
+    previewStatus: "N"
   }),
   created() {},
   mounted() {
@@ -100,16 +102,24 @@ export default {
       let parser = new DOMParser();
       let idoc = parser.parseFromString(site.READERMODE_CONTENTS, "text/html");
       let previewDoc = new PreviewMode(uri, idoc).parse();
-      this.previewContent = previewDoc.content;
-      this.previewTitle = previewDoc.title;
+      //변환할 수없는 사이트 일경우
+      if (previewDoc === null) {
+        this.previewContent = "";
+        this.previewTitle = "Can't Create Preview";
+        this.previewStatus = "N";
+      } else {
+        this.previewContent = previewDoc.content;
+        this.previewTitle = previewDoc.title;
+        this.previewStatus = "Y";
+      }
     },
     selectSite(site) {
       //미리보기 생성
       this.generatePreviewDoc(site);
 
+      //하이라이트 가져오기
       let param = new Object();
       param.KEY = site.URL_KEY;
-      //하이라이트 가져오기
       CONTENT_LISTENER.sendMessage({
         type: "get.highlights",
         data: param
