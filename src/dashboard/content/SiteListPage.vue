@@ -15,10 +15,15 @@
                 <v-expand-transition>
                   <div
                     v-if="hover"
-                    class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
-                    style="height: 30%;z-index: 9000;"
+                    class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
+                    style="height: 25%;z-index: 9000;"
                   >
-                    <v-btn small @click="goSourceSite(item, $event)">
+                    <v-btn
+                      small
+                      fat
+                      @click="goSourceSite(item, $event)"
+                      color="orange"
+                    >
                       <v-icon>mdi-home-outline</v-icon>
                     </v-btn>
                   </div>
@@ -158,9 +163,9 @@ export default {
 
 <style>
 .v-card--reveal {
-  align-items: center;
+  /*align-items: left;
+        justify-content: center;*/
   bottom: 0;
-  justify-content: center;
   opacity: 0.5;
   position: absolute;
   width: 100%;

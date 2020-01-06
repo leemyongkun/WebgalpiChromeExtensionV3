@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-window v-model="window" class="elevation-1" vertical>
+  <v-window class="elevation-1" vertical>
     <v-window-item>
       <v-card flat>
         <v-card-text>
