@@ -56,6 +56,66 @@ export default {
                                       'SYSTEM', --type
                                       'N', --fl_locl
                                       'N' --fl_publish
+                                     ),(
+                                      2,
+                                      null, --EMAIL
+                                      'FACEBOOK',
+                                      null, --DATE_CREATE
+                                      0, --parent 
+                                      1, --depth 
+                                      null, --category_status
+                                      'N', --share
+                                      'SYSTEM', --type
+                                      'N', --fl_locl
+                                      'N' --fl_publish
+                                     ),(
+                                      3,
+                                      null, --EMAIL
+                                      'TWITTER',
+                                      null, --DATE_CREATE
+                                      0, --parent 
+                                      1, --depth 
+                                      null, --category_status
+                                      'N', --share
+                                      'SYSTEM', --type
+                                      'N', --fl_locl
+                                      'N' --fl_publish
+                                     ),(
+                                      4,
+                                      null, --EMAIL
+                                      'NAVER-BLOG',
+                                      null, --DATE_CREATE
+                                      0, --parent 
+                                      1, --depth 
+                                      null, --category_status
+                                      'N', --share
+                                      'SYSTEM', --type
+                                      'N', --fl_locl
+                                      'N' --fl_publish
+                                     ),(
+                                      5,
+                                      null, --EMAIL
+                                      'DAUM-BLOG',
+                                      null, --DATE_CREATE
+                                      0, --parent 
+                                      1, --depth 
+                                      null, --category_status
+                                      'N', --share
+                                      'SYSTEM', --type
+                                      'N', --fl_locl
+                                      'N' --fl_publish
+                                     ),(
+                                      6,
+                                      null, --EMAIL
+                                      'NEWS',
+                                      null, --DATE_CREATE
+                                      0, --parent 
+                                      1, --depth 
+                                      null, --category_status
+                                      'N', --share
+                                      'SYSTEM', --type
+                                      'N', --fl_locl
+                                      'N' --fl_publish
                                      )`;
     db.transaction(function(tx) {
       tx.executeSql(TRUNC_OPTIONS, []);

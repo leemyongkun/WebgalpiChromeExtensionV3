@@ -1,5 +1,12 @@
 import Vue from "vue";
 import Vuetify, {
+  VHover,
+  VExpandTransition,
+  VToolbar,
+  VToolbarItems,
+  VToolbarTitle,
+  VCheckbox,
+  VDialog,
   VWindow,
   VWindowItem,
   VTab,
@@ -26,6 +33,7 @@ import Vuetify, {
   VListItemContent,
   VListItemTitle,
   VListItemSubtitle,
+  VListGroup,
   VRow,
   VCol,
   VTooltip,
@@ -70,6 +78,7 @@ Vue.component("VCol", VCol);
 Vue.component("VTooltip", VTooltip);
 
 Vue.component("VListItem", VListItem);
+Vue.component("VListGroup", VListGroup);
 Vue.component("VListItemAction", VListItemAction);
 Vue.component("VBtn", VBtn);
 
@@ -93,9 +102,18 @@ Vue.component("VTabItem", VTabItem);
 
 Vue.component("VWindow", VWindow);
 Vue.component("VWindowItem", VWindowItem);
+
+Vue.component("VDialog", VDialog);
+
+Vue.component("VToolbar", VToolbar);
+Vue.component("VToolbarItems", VToolbarItems);
+Vue.component("VToolbarTitle", VToolbarTitle);
+Vue.component("VCheckbox", VCheckbox);
+Vue.component("VHover", VHover);
+Vue.component("VExpandTransition", VExpandTransition);
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
-  theme: { dark: true },
+  theme: { dark: false },
   themes: {
     light: {
       primary: "#4682b4",

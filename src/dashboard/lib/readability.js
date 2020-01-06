@@ -1136,11 +1136,11 @@ PreviewMode.prototype = {
           // for the previous loop, so there's no point trying to create a new div, and then
           // move all the children over. Just assign IDs and class names here. No need to append
           // because that already happened anyway.
-          topCandidate.id = "waf-readmode-page-1";
+          topCandidate.id = "galpi-privew-area"; //"waf-readmode-page-1";
           topCandidate.className = "page";
         } else {
           var childDiv = doc.createElement("DIV");
-          childDiv.id = "waf-readmode-page-contents";
+          childDiv.id = "galpi-privew-area-contents"; //"waf-readmode-page-contents";
           childDiv.className = "page-contents";
 
           var children = articleContent.childNodes;
@@ -1149,7 +1149,7 @@ PreviewMode.prototype = {
           }
 
           var div = doc.createElement("DIV");
-          div.id = "waf-readmode-page-1";
+          div.id = "galpi-privew-area"; //"waf-readmode-page-1";
           div.className = "page";
           div.appendChild(childDiv);
 

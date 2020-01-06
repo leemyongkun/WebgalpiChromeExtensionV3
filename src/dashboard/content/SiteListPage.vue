@@ -1,34 +1,48 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-row>
-      <v-col cols="3">
+      <v-col cols="3" style="max-height: 700px" class="overflow-y-auto">
         <v-row v-for="(item, i) in sites" :key="i">
           <v-col cols="12" style="padding-top: 0px;">
-            <v-card
-              class="mx-auto"
-              max-width="400"
-              outlined
-              style="cursor:pointer;"
-              @click="selectSite(item)"
-            >
-              <v-list-item three-line>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    {{ item.UPDATE_TITLE }}
-                  </v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ item.OG_DESCRIPTION }}
-                  </v-list-item-subtitle>
-                </v-list-item-content>
+            <v-hover v-slot:default="{ hover }">
+              <v-card
+                class="mx-auto"
+                max-width="400"
+                outlined
+                style="cursor:pointer;"
+                @click="selectSite(item)"
+              >
+                <v-expand-transition>
+                  <div
+                    v-if="hover"
+                    class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+                    style="height: 30%;z-index: 9000;"
+                  >
+                    <v-btn small @click="goSourceSite(item, $event)">
+                      <v-icon>mdi-home-outline</v-icon>
+                    </v-btn>
+                  </div>
+                </v-expand-transition>
 
-                <v-list-item-avatar tile size="100" color="grey">
-                  <v-img
-                    v-if="item.OG_IMAGE !== 'undefined'"
-                    :src="item.OG_IMAGE"
-                  ></v-img>
-                </v-list-item-avatar>
-              </v-list-item>
-            </v-card>
+                <v-list-item three-line>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      {{ item.UPDATE_TITLE }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                      {{ item.OG_DESCRIPTION }}
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+
+                  <v-list-item-avatar tile size="100" color="grey">
+                    <v-img
+                      v-if="item.OG_IMAGE !== 'undefined'"
+                      :src="item.OG_IMAGE"
+                    ></v-img>
+                  </v-list-item-avatar>
+                </v-list-item>
+              </v-card>
+            </v-hover>
           </v-col>
         </v-row>
       </v-col>
@@ -49,7 +63,12 @@
                   ></PreviewPage>
                 </v-col>
                 <v-col v-if="n == 2">
-                  <HighlightsPage :highlights="highlights"></HighlightsPage>
+                  <HighlightsPage
+                    :previewContent="previewContent"
+                    :previewTitle="previewTitle"
+                    :previewStatus="previewStatus"
+                    :highlights="highlights"
+                  ></HighlightsPage>
                 </v-col>
               </v-row>
             </v-container>
@@ -85,6 +104,12 @@ export default {
     });
   },
   methods: {
+    goSourceSite(item, event) {
+      event.preventDefault();
+      event.stopPropagation();
+      let open = window.open(item.URL, "_blank");
+      open.focus();
+    },
     generatePreviewDoc(site) {
       let loc = document.location;
       let uri = {
@@ -130,3 +155,14 @@ export default {
   }
 };
 </script>
+
+<style>
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+</style>

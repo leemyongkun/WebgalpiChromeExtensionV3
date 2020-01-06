@@ -1,0 +1,11 @@
+HTTP/2 502 
+content-type: application/json
+content-length: 36
+date: Mon, 06 Jan 2020 07:18:02 GMT
+x-amzn-requestid: ac9b3612-bb64-4749-8027-64cc4f133263
+x-amz-apigw-id: F3fOkGMuIE0FnHQ=
+x-cache: Error from cloudfront
+via: 1.1 b29821b209420b11ff9d50c1639c71cd.cloudfront.net (CloudFront)
+x-amz-cf-pop: ICN54
+x-amz-cf-id: hERLq08A8zmJGpqWtPeDIxt9zs8UraTOAmxKfw-zx5BHYiG1FM2H7Q==
+
