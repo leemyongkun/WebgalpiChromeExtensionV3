@@ -41,45 +41,40 @@
         <v-row align="center">
           <v-col style="padding-bottom:0px; padding-top:0px;margin-left: 15px;">
             <v-list>
-              <v-list-group
-                v-for="item in category"
-                :key="item.name"
-                v-model="item.active"
-                no-action
-              >
+              <v-list-group value="true">
                 <template v-slot:activator>
-                  <v-list-item-content>
-                    <v-list-item-title v-text="item.name"></v-list-item-title>
-                  </v-list-item-content>
+                  <v-list-item-title>카테고리</v-list-item-title>
                 </template>
 
-                <v-list-item
-                  v-for="subItem in item.children"
-                  :key="subItem.name"
-                  @click=""
-                  style="padding-left: 30px;"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title
-                      v-text="subItem.name"
-                    ></v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
+                <v-list-group v-for="(item, i) in category" :key="i" sub-group>
+                  <template v-slot:activator>
+                    <v-list-item-content>
+                      <v-list-item-title v-text="item.name"></v-list-item-title>
+                    </v-list-item-content>
+                  </template>
+
+                  <drop
+                    @drop="drop"
+                    :class="{ over }"
+                    @dragover="over = true"
+                    @dragleave="over = false"
+                  >
+                    <v-list-item
+                      v-for="subItem in item.children"
+                      :key="subItem.name"
+                      @click="selectCategory(subItem, $event)"
+                    >
+                      <v-list-item-content>
+                        <v-list-item-title
+                          :id="subItem.id"
+                          v-text="subItem.name"
+                        ></v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </drop>
+                </v-list-group>
               </v-list-group>
             </v-list>
-
-            <!--<v-treeview
-                                hoverable
-                                activatable
-                                style="cursor:pointer"
-                                return-object
-                                v-model="categoryItem"
-                                :items="category"
-                        >
-                            <template v-slot:prepend="{ item, active }">
-                                <v-icon>mdi-folder-outline</v-icon>
-                            </template>
-                        </v-treeview>-->
           </v-col>
         </v-row>
         <!-- CATEGORY : END -->
@@ -98,6 +93,18 @@
         <!-- /template -->
       </v-list>
     </v-navigation-drawer>
+
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="snackbarTimeout"
+      :color="`success`"
+      top
+    >
+      {{ snackbarMessage }}
+      <v-btn dark text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -112,6 +119,10 @@ export default {
     CategoryManagerDialog
   },
   data: () => ({
+    snackbarTimeout: 3000,
+    snackbarMessage: "",
+    snackbar: false,
+    over: false,
     categoryDialog: false,
     settingDialog: false,
     drawer: true,
@@ -129,11 +140,20 @@ export default {
       data: null
     }).then(category => {
       this.category = this.generateTree(category, null);
+      console.log("this.category ", this.category);
       // let b =  treeModel(category, null);
       // console.log("b ", b)
     });
   },
   methods: {
+    selectCategory(category, event) {
+      alert(JSON.stringify(category));
+    },
+    drop(data, event) {
+      this.snackbarMessage = "카테고리에 저장되었습니다.";
+      this.snackbar = true;
+      console.log(event.target.id, event.target.innerHTML);
+    },
     switchDialogCategoryEditor() {
       this.categoryDialog = !this.categoryDialog;
     },
@@ -170,35 +190,10 @@ export default {
     }
   }
 };
-/**
-     let treeModel = function (arrayList, rootId) {
-                    var rootNodes = [];
-                    var traverse = function (nodes, item, index) {
-                        if (nodes instanceof Array) {
-                            return nodes.some(function (node) {
-                                if (node.id === item.parentId) {
-                                    node.children = node.children || [];
-                                    return node.children.push(arrayList.splice(index, 1)[0]);
-                                }
-
-                                return traverse(node.children, item, index);
-                            });
-                        }
-                    };
-
-                    while (arrayList.length > 0) {
-                        arrayList.some(function (item, index) {
-                            if (item.parentId === rootId) {
-                                return rootNodes.push(arrayList.splice(index, 1)[0]);
-                            }
-
-                            return traverse(rootNodes, item, index);
-                        });
-                    }
-
-                    return rootNodes;
-                };
-
-     //javascript tree jsfiddle traverse
-     */
 </script>
+<style>
+.drop.over {
+  border-color: #aaa;
+  background: #ccc;
+}
+</style>

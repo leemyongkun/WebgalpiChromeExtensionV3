@@ -1150,7 +1150,8 @@ PreviewMode.prototype = {
 
           var div = doc.createElement("DIV");
           div.id = "galpi-privew-area"; //"waf-readmode-page-1";
-          div.className = "page";
+          div.className = "page galpi-preview-area";
+
           div.appendChild(childDiv);
 
           articleContent.appendChild(div);
