@@ -53,33 +53,41 @@
                   </v-list-item-content>
                 </template>
 
-                <v-list-item
-                  v-for="subItem in item.children"
-                  :key="subItem.name"
-                  @click=""
-                  style="padding-left: 30px;"
+                <drop
+                  @drop="drop"
+                  :class="{ over }"
+                  @dragover="over = true"
+                  @dragleave="over = false"
                 >
-                  <v-list-item-content>
-                    <v-list-item-title
-                      v-text="subItem.name"
-                    ></v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
+                  <v-list-item
+                    v-for="subItem in item.children"
+                    :key="subItem.name"
+                    @click=""
+                    style="padding-left: 30px;"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title
+                        :id="subItem.id"
+                        v-text="subItem.name"
+                      ></v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </drop>
               </v-list-group>
             </v-list>
 
             <!--<v-treeview
-                                hoverable
-                                activatable
-                                style="cursor:pointer"
-                                return-object
-                                v-model="categoryItem"
-                                :items="category"
-                        >
-                            <template v-slot:prepend="{ item, active }">
-                                <v-icon>mdi-folder-outline</v-icon>
-                            </template>
-                        </v-treeview>-->
+                                            hoverable
+                                            activatable
+                                            style="cursor:pointer"
+                                            return-object
+                                            v-model="categoryItem"
+                                            :items="category"
+                                    >
+                                        <template v-slot:prepend="{ item, active }">
+                                            <v-icon>mdi-folder-outline</v-icon>
+                                        </template>
+                                    </v-treeview>-->
           </v-col>
         </v-row>
         <!-- CATEGORY : END -->
@@ -112,6 +120,7 @@ export default {
     CategoryManagerDialog
   },
   data: () => ({
+    over: false,
     categoryDialog: false,
     settingDialog: false,
     drawer: true,
@@ -134,6 +143,10 @@ export default {
     });
   },
   methods: {
+    drop(data, event) {
+      //console.log("drop item ", data, event);
+      console.log(event.target.id, event.target.innerHTML);
+    },
     switchDialogCategoryEditor() {
       this.categoryDialog = !this.categoryDialog;
     },
@@ -202,3 +215,9 @@ export default {
      //javascript tree jsfiddle traverse
      */
 </script>
+<style>
+.drop.over {
+  border-color: #aaa;
+  background: #ccc;
+}
+</style>
