@@ -62,8 +62,9 @@
                   <v-list-item
                     v-for="subItem in item.children"
                     :key="subItem.name"
-                    @click=""
+                    @click="selectCategory(subItem, $event)"
                     style="padding-left: 30px;"
+                    color="primary"
                   >
                     <v-list-item-content>
                       <v-list-item-title
@@ -77,17 +78,17 @@
             </v-list>
 
             <!--<v-treeview
-                                            hoverable
-                                            activatable
-                                            style="cursor:pointer"
-                                            return-object
-                                            v-model="categoryItem"
-                                            :items="category"
-                                    >
-                                        <template v-slot:prepend="{ item, active }">
-                                            <v-icon>mdi-folder-outline</v-icon>
-                                        </template>
-                                    </v-treeview>-->
+                                                        hoverable
+                                                        activatable
+                                                        style="cursor:pointer"
+                                                        return-object
+                                                        v-model="categoryItem"
+                                                        :items="category"
+                                                >
+                                                    <template v-slot:prepend="{ item, active }">
+                                                        <v-icon>mdi-folder-outline</v-icon>
+                                                    </template>
+                                                </v-treeview>-->
           </v-col>
         </v-row>
         <!-- CATEGORY : END -->
@@ -106,6 +107,18 @@
         <!-- /template -->
       </v-list>
     </v-navigation-drawer>
+
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="snackbarTimeout"
+      :color="`success`"
+      top
+    >
+      {{ snackbarMessage }}
+      <v-btn dark text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -120,6 +133,9 @@ export default {
     CategoryManagerDialog
   },
   data: () => ({
+    snackbarTimeout: 3000,
+    snackbarMessage: "",
+    snackbar: false,
     over: false,
     categoryDialog: false,
     settingDialog: false,
@@ -138,13 +154,18 @@ export default {
       data: null
     }).then(category => {
       this.category = this.generateTree(category, null);
+      console.log("this.category ", this.category);
       // let b =  treeModel(category, null);
       // console.log("b ", b)
     });
   },
   methods: {
+    selectCategory(category, event) {
+      alert(JSON.stringify(category));
+    },
     drop(data, event) {
-      //console.log("drop item ", data, event);
+      this.snackbarMessage = "카테고리에 저장되었습니다.";
+      this.snackbar = true;
       console.log(event.target.id, event.target.innerHTML);
     },
     switchDialogCategoryEditor() {
@@ -183,37 +204,6 @@ export default {
     }
   }
 };
-/**
-     let treeModel = function (arrayList, rootId) {
-                    var rootNodes = [];
-                    var traverse = function (nodes, item, index) {
-                        if (nodes instanceof Array) {
-                            return nodes.some(function (node) {
-                                if (node.id === item.parentId) {
-                                    node.children = node.children || [];
-                                    return node.children.push(arrayList.splice(index, 1)[0]);
-                                }
-
-                                return traverse(node.children, item, index);
-                            });
-                        }
-                    };
-
-                    while (arrayList.length > 0) {
-                        arrayList.some(function (item, index) {
-                            if (item.parentId === rootId) {
-                                return rootNodes.push(arrayList.splice(index, 1)[0]);
-                            }
-
-                            return traverse(rootNodes, item, index);
-                        });
-                    }
-
-                    return rootNodes;
-                };
-
-     //javascript tree jsfiddle traverse
-     */
 </script>
 <style>
 .drop.over {

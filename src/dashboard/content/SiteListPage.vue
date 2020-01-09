@@ -7,7 +7,10 @@
             <v-hover v-slot:default="{ hover }">
               <drag :transfer-data="item">
                 <div slot="image" class="drag-image">
-                  {{ item.UPDATE_TITLE }}
+                  <v-chip class="ma-2" color="orange" text-color="white">
+                    {{ item.UPDATE_TITLE }}
+                    <v-icon right>mdi-star</v-icon>
+                  </v-chip>
                 </div>
 
                 <v-card
@@ -172,7 +175,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-              justify-content: center;*/
+                    justify-content: center;*/
   bottom: 0;
   opacity: 0.5;
   position: absolute;

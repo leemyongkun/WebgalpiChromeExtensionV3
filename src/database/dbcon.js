@@ -35,7 +35,7 @@ export default {
                             ) VALUES (
                                       0,
                                       null, --EMAIL
-                                      '전체',
+                                      '카테고리',
                                       null, --DATE_CREATE
                                       null, --parent 최상위
                                       0, --depth 
@@ -111,6 +111,18 @@ export default {
                                       null, --DATE_CREATE
                                       0, --parent 
                                       1, --depth 
+                                      null, --category_status
+                                      'N', --share
+                                      'SYSTEM', --type
+                                      'N', --fl_locl
+                                      'N' --fl_publish
+                                     ),(
+                                      7,
+                                      null, --EMAIL
+                                      '비즈니스포스트',
+                                      null, --DATE_CREATE
+                                      6, --parent 
+                                      2, --depth 
                                       null, --category_status
                                       'N', --share
                                       'SYSTEM', --type

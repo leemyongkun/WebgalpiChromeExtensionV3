@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuetify, {
+  VSnackbar,
   VHover,
   VExpandTransition,
   VToolbar,
@@ -53,6 +54,7 @@ import "vuetify/dist/vuetify.min.css";
 
 Vue.use(Vuetify);
 
+Vue.component("VSnackbar", VSnackbar);
 Vue.component("VNavigationDrawer", VNavigationDrawer);
 Vue.component("VAppBar", VAppBar);
 Vue.component("VAppBarNavIcon", VAppBarNavIcon);
