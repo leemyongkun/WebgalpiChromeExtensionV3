@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuetify, {
+  VRadio,
+  VRadioGroup,
   VHover,
   VExpandTransition,
   VToolbar,
@@ -111,6 +113,9 @@ Vue.component("VToolbarTitle", VToolbarTitle);
 Vue.component("VCheckbox", VCheckbox);
 Vue.component("VHover", VHover);
 Vue.component("VExpandTransition", VExpandTransition);
+Vue.component("VRadio", VRadio);
+Vue.component("VRadioGroup", VRadioGroup);
+
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
   theme: { dark: false },

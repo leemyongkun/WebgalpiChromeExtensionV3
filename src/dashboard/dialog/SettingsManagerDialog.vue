@@ -26,8 +26,8 @@
             <v-list-item-title>Connect Socket</v-list-item-title>
             <v-list-item-subtitle
               >같은 대역의 네트워크에 포함된 플랫폼끼리 데이터를 공유 할 수
-              있다.</v-list-item-subtitle
-            >
+              있다.
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
@@ -44,14 +44,24 @@
         <v-subheader>General</v-subheader>
         <v-list-item>
           <v-list-item-action>
-            <v-checkbox v-model="notifications"></v-checkbox>
+            <v-icon>mdi-theme-light-dark</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Notifications</v-list-item-title>
-            <v-list-item-subtitle
-              >Notify me about updates to apps or games that I
-              downloaded</v-list-item-subtitle
-            >
+            <v-list-item-title>Theme</v-list-item-title>
+            <v-list-item-subtitle>
+              <v-radio-group v-model="theme" row>
+                <v-radio
+                  label="DARK"
+                  value="dark"
+                  @change="changeTheme"
+                ></v-radio>
+                <v-radio
+                  label="LIGHT"
+                  value="light"
+                  @change="changeTheme"
+                ></v-radio>
+              </v-radio-group>
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -61,9 +71,8 @@
           <v-list-item-content>
             <v-list-item-title>Sound</v-list-item-title>
             <v-list-item-subtitle
-              >Auto-update apps at any time. Data charges may
-              apply</v-list-item-subtitle
-            >
+              >Auto-update apps at any time. Data charges may apply
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -73,8 +82,8 @@
           <v-list-item-content>
             <v-list-item-title>Auto-add widgets</v-list-item-title>
             <v-list-item-subtitle
-              >Automatically add home screen widgets</v-list-item-subtitle
-            >
+              >Automatically add home screen widgets
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -87,6 +96,7 @@ export default {
   components: {},
   props: ["dialog"],
   data: () => ({
+    theme: "dark",
     notifications: false,
     sound: true,
     widgets: false
@@ -96,6 +106,9 @@ export default {
   methods: {
     closeDialog() {
       this.$emit("closeDialog");
+    },
+    changeTheme() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     }
   }
 };

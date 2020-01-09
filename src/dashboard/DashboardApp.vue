@@ -17,6 +17,9 @@ import SiteListPage from "./content/SiteListPage";
 export default {
   components: { SiteListPage, MenuPage },
   data: () => ({}),
-  methods: {}
+  methods: {},
+  mounted() {
+    this.$vuetify.theme.dark = true;
+  }
 };
 </script>

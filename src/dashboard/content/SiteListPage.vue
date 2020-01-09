@@ -164,7 +164,8 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-        justify-content: center;*/
+              justify-content: center;*/
+  padding-left: 3px;
   bottom: 0;
   opacity: 0.5;
   position: absolute;

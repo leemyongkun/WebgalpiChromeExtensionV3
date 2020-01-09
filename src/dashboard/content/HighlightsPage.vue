@@ -11,7 +11,7 @@
           <v-row>
             <v-divider />
           </v-row>
-          <v-row style="max-height: 570px" class="overflow-y-auto">
+          <v-row :style="rowStyle" class="overflow-y-auto">
             <v-timeline :dense="true">
               <v-timeline-item
                 v-for="item in highlights"
@@ -53,7 +53,9 @@ import SiteFunction from "./function/SiteFunction";
 export default {
   components: { SiteFunction },
   props: ["previewContent", "previewTitle", "previewStatus", "highlights"],
-  data: () => ({}),
+  data: () => ({
+    rowStyle: "max-height: 570px"
+  }),
   created() {
     console.log("#");
   },

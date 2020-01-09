@@ -30,7 +30,12 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    print() {}
+    print() {},
+    getLocation(url) {
+      let l = document.createElement("a");
+      l.href = url;
+      console.log(">>> ", l.hostname, l.protocol);
+    }
   }
 };
 </script>
