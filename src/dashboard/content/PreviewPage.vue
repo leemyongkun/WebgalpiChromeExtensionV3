@@ -34,3 +34,14 @@ export default {
   }
 };
 </script>
+<style>
+.galpi-preview-area {
+  width: 80%;
+}
+.galpi-preview-area img {
+  min-height: 80%;
+}
+.galpi-preview-area svg {
+  width: 30%;
+}
+</style>
