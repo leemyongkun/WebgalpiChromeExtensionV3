@@ -33,9 +33,21 @@ export default {
                                      FL_LOCK, --Y/N
                                      FL_PUBLISH --Y/N
                             ) VALUES (
+                                      7,
+                                      null, --EMAIL
+                                      '개발관련',
+                                      null, --DATE_CREATE
+                                      null, --parent 최상위
+                                      0, --depth 
+                                      null, --category_status
+                                      'N', --share
+                                      'SYSTEM', --type
+                                      'N', --fl_locl
+                                      'N' --fl_publish
+                                     ),(
                                       0,
                                       null, --EMAIL
-                                      '카테고리',
+                                      '컨텐츠',
                                       null, --DATE_CREATE
                                       null, --parent 최상위
                                       0, --depth 
@@ -111,18 +123,6 @@ export default {
                                       null, --DATE_CREATE
                                       0, --parent 
                                       1, --depth 
-                                      null, --category_status
-                                      'N', --share
-                                      'SYSTEM', --type
-                                      'N', --fl_locl
-                                      'N' --fl_publish
-                                     ),(
-                                      7,
-                                      null, --EMAIL
-                                      '비즈니스포스트',
-                                      null, --DATE_CREATE
-                                      6, --parent 
-                                      2, --depth 
                                       null, --category_status
                                       'N', --share
                                       'SYSTEM', --type

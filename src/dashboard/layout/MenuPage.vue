@@ -41,54 +41,40 @@
         <v-row align="center">
           <v-col style="padding-bottom:0px; padding-top:0px;margin-left: 15px;">
             <v-list>
-              <v-list-group
-                v-for="item in category"
-                :key="item.name"
-                v-model="item.active"
-                no-action
-              >
+              <v-list-group value="true">
                 <template v-slot:activator>
-                  <v-list-item-content>
-                    <v-list-item-title v-text="item.name"></v-list-item-title>
-                  </v-list-item-content>
+                  <v-list-item-title>카테고리</v-list-item-title>
                 </template>
 
-                <drop
-                  @drop="drop"
-                  :class="{ over }"
-                  @dragover="over = true"
-                  @dragleave="over = false"
-                >
-                  <v-list-item
-                    v-for="subItem in item.children"
-                    :key="subItem.name"
-                    @click="selectCategory(subItem, $event)"
-                    style="padding-left: 30px;"
-                    color="primary"
-                  >
+                <v-list-group v-for="(item, i) in category" :key="i" sub-group>
+                  <template v-slot:activator>
                     <v-list-item-content>
-                      <v-list-item-title
-                        :id="subItem.id"
-                        v-text="subItem.name"
-                      ></v-list-item-title>
+                      <v-list-item-title v-text="item.name"></v-list-item-title>
                     </v-list-item-content>
-                  </v-list-item>
-                </drop>
+                  </template>
+
+                  <drop
+                    @drop="drop"
+                    :class="{ over }"
+                    @dragover="over = true"
+                    @dragleave="over = false"
+                  >
+                    <v-list-item
+                      v-for="subItem in item.children"
+                      :key="subItem.name"
+                      @click="selectCategory(subItem, $event)"
+                    >
+                      <v-list-item-content>
+                        <v-list-item-title
+                          :id="subItem.id"
+                          v-text="subItem.name"
+                        ></v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </drop>
+                </v-list-group>
               </v-list-group>
             </v-list>
-
-            <!--<v-treeview
-                                                        hoverable
-                                                        activatable
-                                                        style="cursor:pointer"
-                                                        return-object
-                                                        v-model="categoryItem"
-                                                        :items="category"
-                                                >
-                                                    <template v-slot:prepend="{ item, active }">
-                                                        <v-icon>mdi-folder-outline</v-icon>
-                                                    </template>
-                                                </v-treeview>-->
           </v-col>
         </v-row>
         <!-- CATEGORY : END -->
