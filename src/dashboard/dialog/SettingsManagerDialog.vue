@@ -66,6 +66,17 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-action>
+            <v-icon>mdi-theme-light-dark</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>SNS</v-list-item-title>
+            <v-list-item-subtitle>
+              SLACK
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-action>
             <v-checkbox v-model="sound"></v-checkbox>
           </v-list-item-action>
           <v-list-item-content>

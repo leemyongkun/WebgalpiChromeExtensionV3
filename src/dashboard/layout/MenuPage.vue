@@ -41,12 +41,18 @@
         <v-row align="center">
           <v-col style="padding-bottom:0px; padding-top:0px;margin-left: 15px;">
             <v-list>
-              <v-list-group value="true">
+              <v-list-group value="true" color="white">
                 <template v-slot:activator>
                   <v-list-item-title>카테고리</v-list-item-title>
                 </template>
 
-                <v-list-group v-for="(item, i) in category" :key="i" sub-group>
+                <v-list-group
+                  v-for="(item, i) in category"
+                  :key="i"
+                  color="white"
+                  active-class="border"
+                  sub-group
+                >
                   <template v-slot:activator>
                     <v-list-item-content>
                       <v-list-item-title v-text="item.name"></v-list-item-title>
@@ -54,10 +60,10 @@
                   </template>
 
                   <drop
-                    @drop="drop"
-                    :class="{ over }"
-                    @dragover="over = true"
-                    @dragleave="over = false"
+                    @drop="dropEvent"
+                    :class="{ dropOver }"
+                    @dragover="dropOver = true"
+                    @dragleave="dropOver = false"
                   >
                     <v-list-item
                       v-for="subItem in item.children"
@@ -122,7 +128,7 @@ export default {
     snackbarTimeout: 3000,
     snackbarMessage: "",
     snackbar: false,
-    over: false,
+    dropOver: false,
     categoryDialog: false,
     settingDialog: false,
     drawer: true,
@@ -149,10 +155,10 @@ export default {
     selectCategory(category, event) {
       alert(JSON.stringify(category));
     },
-    drop(data, event) {
+    dropEvent(data, event) {
       this.snackbarMessage = "카테고리에 저장되었습니다.";
       this.snackbar = true;
-      console.log(event.target.id, event.target.innerHTML);
+      console.log(">> ", event.target.id, event.target.innerHTML);
     },
     switchDialogCategoryEditor() {
       this.categoryDialog = !this.categoryDialog;
@@ -195,5 +201,9 @@ export default {
 .drop.over {
   border-color: #aaa;
   background: #ccc;
+}
+
+.border {
+  border: 2px dashed orange;
 }
 </style>
