@@ -40,64 +40,73 @@
       </v-list>
 
       <v-divider></v-divider>
-      <v-list three-line subheader>
-        <v-subheader>General</v-subheader>
-        <v-list-item>
-          <v-list-item-action>
-            <v-icon>mdi-theme-light-dark</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Theme</v-list-item-title>
-            <v-list-item-subtitle>
-              <v-radio-group v-model="theme" row>
-                <v-radio
-                  label="DARK"
-                  value="dark"
-                  @change="changeTheme"
-                ></v-radio>
-                <v-radio
-                  label="LIGHT"
-                  value="light"
-                  @change="changeTheme"
-                ></v-radio>
-              </v-radio-group>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-action>
-            <v-icon>mdi-theme-light-dark</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>SNS</v-list-item-title>
-            <v-list-item-subtitle>
-              SLACK
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-action>
-            <v-checkbox v-model="sound"></v-checkbox>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Sound</v-list-item-title>
-            <v-list-item-subtitle
-              >Auto-update apps at any time. Data charges may apply
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-action>
-            <v-checkbox v-model="widgets"></v-checkbox>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Auto-add widgets</v-list-item-title>
-            <v-list-item-subtitle
-              >Automatically add home screen widgets
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <v-row>
+        <v-col cols="6">
+          <v-list three-line subheader>
+            <v-subheader>General</v-subheader>
+            <v-list-item>
+              <v-list-item-action>
+                <v-icon>mdi-theme-light-dark</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Theme</v-list-item-title>
+                <v-list-item-subtitle>
+                  <v-radio-group v-model="theme" row>
+                    <v-radio
+                      label="DARK"
+                      value="dark"
+                      @change="changeTheme"
+                    ></v-radio>
+                    <v-radio
+                      label="LIGHT"
+                      value="light"
+                      @change="changeTheme"
+                    ></v-radio>
+                  </v-radio-group>
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item disabled>
+              <v-list-item-action>
+                <v-icon>mdi-slack</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>SLACK : 준비</v-list-item-title>
+                <v-list-item-subtitle>
+                  -
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-action>
+                <v-checkbox v-model="sound"></v-checkbox>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Sound</v-list-item-title>
+                <v-list-item-subtitle
+                  >Auto-update apps at any time. Data charges may apply
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-action>
+                <v-checkbox v-model="widgets"></v-checkbox>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Auto-add widgets</v-list-item-title>
+                <v-list-item-subtitle
+                  >Automatically add home screen widgets
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-col>
+
+        <v-col cols="6">
+          <v-divider vertical></v-divider>
+          READY
+        </v-col>
+      </v-row>
     </v-card>
   </v-dialog>
   <!-- 다이얼로그 -->

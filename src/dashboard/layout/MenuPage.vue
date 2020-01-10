@@ -39,48 +39,51 @@
           </v-col>
         </v-row>
         <v-row align="center">
-          <v-col style="padding-bottom:0px; padding-top:0px;margin-left: 15px;">
-            <v-list>
-              <v-list-group value="true" color="white">
-                <template v-slot:activator>
-                  <v-list-item-title>카테고리</v-list-item-title>
-                </template>
-
-                <v-list-group
-                  v-for="(item, i) in category"
-                  :key="i"
-                  color="white"
-                  active-class="border"
-                  sub-group
-                >
-                  <template v-slot:activator>
-                    <v-list-item-content>
-                      <v-list-item-title v-text="item.name"></v-list-item-title>
-                    </v-list-item-content>
-                  </template>
-
-                  <drop
-                    @drop="dropEvent"
-                    :class="{ dropOver }"
-                    @dragover="dropOver = true"
-                    @dragleave="dropOver = false"
-                  >
-                    <v-list-item
-                      v-for="subItem in item.children"
-                      :key="subItem.name"
-                      @click="selectCategory(subItem, $event)"
+          <v-col style="padding-bottom:0px; padding-top:0px;">
+            <v-expansion-panels focusable flat>
+              <v-expansion-panel>
+                <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-list>
+                    <v-list-group
+                      v-for="(item, i) in category"
+                      :key="i"
+                      active-class="border"
                     >
-                      <v-list-item-content>
-                        <v-list-item-title
-                          :id="subItem.id"
-                          v-text="subItem.name"
-                        ></v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </drop>
-                </v-list-group>
-              </v-list-group>
-            </v-list>
+                      <template v-slot:activator>
+                        <v-list-item-content>
+                          <v-list-item-title
+                            v-text="item.name"
+                          ></v-list-item-title>
+                        </v-list-item-content>
+                      </template>
+
+                      <drop
+                        @drop="dropEvent"
+                        :class="{ dropOver }"
+                        @dragover="dropOver = true"
+                        @dragleave="dropOver = false"
+                      >
+                        <v-list-item-group>
+                          <v-list-item
+                            v-for="subItem in item.children"
+                            :key="subItem.name"
+                            @click="selectCategory(subItem, $event)"
+                          >
+                            <v-list-item-content>
+                              <v-list-item-title
+                                :id="subItem.id"
+                                v-text="subItem.name"
+                              ></v-list-item-title>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-list-item-group>
+                      </drop>
+                    </v-list-group>
+                  </v-list>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
           </v-col>
         </v-row>
         <!-- CATEGORY : END -->

@@ -1,5 +1,9 @@
 import Vue from "vue";
 import Vuetify, {
+  VExpansionPanels,
+  VExpansionPanel,
+  VExpansionPanelContent,
+  VExpansionPanelHeader,
   VRadio,
   VRadioGroup,
   VSnackbar,
@@ -15,6 +19,7 @@ import Vuetify, {
   VTab,
   VTabs,
   VTabItem,
+  VListItemGroup,
   VListItemAvatar,
   VSlideXReverseTransition,
   VTimeline,
@@ -55,6 +60,11 @@ import Vuetify, {
 import "vuetify/dist/vuetify.min.css";
 
 Vue.use(Vuetify);
+Vue.component("VListItemGroup", VListItemGroup);
+Vue.component("VExpansionPanels", VExpansionPanels);
+Vue.component("VExpansionPanel", VExpansionPanel);
+Vue.component("VExpansionPanelContent", VExpansionPanelContent);
+Vue.component("VExpansionPanelHeader", VExpansionPanelHeader);
 
 Vue.component("VSnackbar", VSnackbar);
 Vue.component("VNavigationDrawer", VNavigationDrawer);

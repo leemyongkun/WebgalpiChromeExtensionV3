@@ -2,63 +2,67 @@
   <div>
     <v-row>
       <v-col cols="3" style="max-height: 700px" class="overflow-y-auto">
-        <v-row v-for="(item, i) in sites" :key="i">
-          <v-col cols="12" style="padding-top: 0px;">
-            <v-hover v-slot:default="{ hover }">
-              <drag :transfer-data="item">
-                <div slot="image" class="drag-image">
-                  <v-chip class="ma-2" color="orange" text-color="white">
-                    {{ item.UPDATE_TITLE }}
-                    <v-icon right>mdi-star</v-icon>
-                  </v-chip>
-                </div>
-
-                <v-card
-                  class="mx-auto"
-                  max-width="400"
-                  outlined
-                  style="cursor:pointer;"
-                  @click="selectSite(item)"
-                >
-                  <v-expand-transition>
-                    <div
-                      v-if="hover"
-                      class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
-                      style="height: 25%;z-index: 9000;"
-                    >
-                      <v-btn
-                        small
-                        fat
-                        @click="goSourceSite(item, $event)"
-                        color="orange"
-                      >
-                        <v-icon>mdi-home-outline</v-icon>
-                      </v-btn>
-                    </div>
-                  </v-expand-transition>
-
-                  <v-list-item three-line>
-                    <v-list-item-content>
-                      <v-list-item-title>
+        <v-list style="background: none;padding: 0;">
+          <v-list-item-group active-class="border">
+            <v-row v-for="(item, i) in sites" :key="i">
+              <v-col cols="12" style="padding-top: 0px;">
+                <v-hover v-slot:default="{ hover }">
+                  <drag :transfer-data="item">
+                    <div slot="image" class="drag-image">
+                      <v-chip class="ma-2" color="orange" text-color="white">
                         {{ item.UPDATE_TITLE }}
-                      </v-list-item-title>
-                      <v-list-item-subtitle>
-                        {{ item.OG_DESCRIPTION }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
+                        <v-icon right>mdi-star</v-icon>
+                      </v-chip>
+                    </div>
 
-                    <v-list-item-avatar tile size="100" color="grey">
-                      <v-img
-                        v-if="item.OG_IMAGE !== 'undefined'"
-                        :src="item.OG_IMAGE"
-                      ></v-img>
-                    </v-list-item-avatar>
-                  </v-list-item>
-                </v-card>
-              </drag>
-            </v-hover>
-          </v-col>
-        </v-row>
+                    <v-card
+                      class="mx-auto"
+                      max-width="400"
+                      outlined
+                      style="cursor:pointer;"
+                      @click="selectSite(item)"
+                    >
+                      <v-expand-transition>
+                        <div
+                          v-if="hover"
+                          class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
+                          style="height: 25%;z-index: 9000;"
+                        >
+                          <v-btn
+                            small
+                            fat
+                            @click="goSourceSite(item, $event)"
+                            color="orange"
+                          >
+                            <v-icon>mdi-home-outline</v-icon>
+                          </v-btn>
+                        </div>
+                      </v-expand-transition>
+
+                      <v-list-item three-line>
+                        <v-list-item-content>
+                          <v-list-item-title>
+                            {{ item.UPDATE_TITLE }}
+                          </v-list-item-title>
+                          <v-list-item-subtitle>
+                            {{ item.OG_DESCRIPTION }}
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+
+                        <v-list-item-avatar tile size="100" color="grey">
+                          <v-img
+                            v-if="item.OG_IMAGE !== 'undefined'"
+                            :src="item.OG_IMAGE"
+                          ></v-img>
+                        </v-list-item-avatar>
+                      </v-list-item>
+                    </v-card>
+                  </drag>
+                </v-hover>
+              </v-col>
+            </v-row>
+          </v-list-item-group>
+        </v-list>
       </v-col>
 
       <v-col cols="9">
@@ -182,5 +186,8 @@ export default {
   opacity: 0.5;
   position: absolute;
   width: 100%;
+}
+.border {
+  border: 2px dashed orange;
 }
 </style>
