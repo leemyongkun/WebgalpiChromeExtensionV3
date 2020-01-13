@@ -29,6 +29,7 @@
   },
   "permissions": [
     "<all_urls>",
+    "*://apis.google.com/*",
     "tabs",
     "storage",
     "contextMenus",
@@ -39,5 +40,7 @@
     "notifications",
     "alarms"
   ],
+  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
+
   "web_accessible_resources": []
 }

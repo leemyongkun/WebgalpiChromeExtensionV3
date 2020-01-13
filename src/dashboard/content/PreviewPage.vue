@@ -6,7 +6,10 @@
           <v-row class="mb-4" align="center">
             <strong class="title">{{ previewTitle }}</strong>
             <v-spacer></v-spacer>
-            <SiteFunction :previewStatus="previewStatus" />
+            <SiteFunction
+              :sourceUrl="sourceUrl"
+              :previewStatus="previewStatus"
+            />
           </v-row>
           <v-row>
             <v-divider />
@@ -23,7 +26,7 @@
 import SiteFunction from "./function/SiteFunction";
 export default {
   components: { SiteFunction },
-  props: ["previewContent", "previewTitle", "previewStatus"],
+  props: ["previewContent", "previewTitle", "previewStatus", "sourceUrl"],
   data: () => ({
     window: 0
   }),

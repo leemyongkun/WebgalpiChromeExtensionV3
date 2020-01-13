@@ -1,5 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
+    <v-btn @click="goSourceSite" icon v-if="previewStatus === 'Y'">
+      <v-icon>mdi-home-outline</v-icon>
+    </v-btn>
     <v-btn @click="print" icon v-if="previewStatus === 'Y'">
       <v-icon>mdi-printer</v-icon>
     </v-btn>
@@ -14,14 +17,20 @@
 <script>
 export default {
   components: {},
-  props: ["previewStatus"],
+  props: ["previewStatus", "sourceUrl"],
   data: () => ({
     window: 0
   }),
   created() {},
   mounted() {},
   methods: {
-    print() {}
+    print() {},
+    goSourceSite() {
+      /*event.preventDefault();
+                event.stopPropagation();*/
+      let open = window.open(this.sourceUrl, "_blank");
+      open.focus();
+    }
   }
 };
 </script>

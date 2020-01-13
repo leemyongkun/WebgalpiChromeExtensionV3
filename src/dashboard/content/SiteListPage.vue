@@ -16,28 +16,29 @@
                     </div>
 
                     <v-card
+                      aria-selected="true"
                       class="mx-auto"
                       max-width="400"
                       outlined
                       style="cursor:pointer;"
                       @click="selectSite(item)"
                     >
-                      <v-expand-transition>
-                        <div
-                          v-if="hover"
-                          class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
-                          style="height: 25%;z-index: 9000;"
-                        >
-                          <v-btn
-                            small
-                            fat
-                            @click="goSourceSite(item, $event)"
-                            color="orange"
-                          >
-                            <v-icon>mdi-home-outline</v-icon>
-                          </v-btn>
-                        </div>
-                      </v-expand-transition>
+                      <!-- v-expand-transition>
+                                              <div
+                                                v-if="hover"
+                                                class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
+                                                style="height: 25%;z-index: 9000;"
+                                              >
+                                                <v-btn
+                                                  small
+                                                  fat
+                                                  @click="goSourceSite(item, $event)"
+                                                  color="orange"
+                                                >
+                                                  <v-icon>mdi-home-outline</v-icon>
+                                                </v-btn>
+                                              </div>
+                                            </v-expand-transition -->
 
                       <v-list-item three-line>
                         <v-list-item-content>
@@ -75,6 +76,7 @@
               <v-row>
                 <v-col v-if="n == 1">
                   <PreviewPage
+                    :sourceUrl="sourceUrl"
                     :previewContent="previewContent"
                     :previewTitle="previewTitle"
                     :previewStatus="previewStatus"
@@ -111,25 +113,25 @@ export default {
     highlights: [],
     previewContent: null,
     previewTitle: null,
-    previewStatus: "N"
+    previewStatus: "N",
+    sourceUrl: ""
   }),
   created() {},
   mounted() {
     CONTENT_LISTENER.sendMessage({
       type: "get.sites",
       data: null
-    }).then(response => {
-      console.log("getSites  response ", response);
-      this.sites = response;
-    });
+    })
+      .then(response => {
+        console.log("getSites  response ", response);
+        this.sites = response;
+      })
+      .then(() => {
+        if (this.sites.length > 0) {
+        }
+      });
   },
   methods: {
-    goSourceSite(item, event) {
-      event.preventDefault();
-      event.stopPropagation();
-      let open = window.open(item.URL, "_blank");
-      open.focus();
-    },
     generatePreviewDoc(site) {
       let loc = document.location;
       let uri = {
@@ -159,6 +161,7 @@ export default {
       }
     },
     selectSite(site) {
+      this.sourceUrl = site.URL;
       //미리보기 생성
       this.generatePreviewDoc(site);
 
@@ -179,7 +182,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                    justify-content: center;*/
+                          justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
@@ -187,6 +190,7 @@ export default {
   position: absolute;
   width: 100%;
 }
+
 .border {
   border: 2px dashed orange;
 }

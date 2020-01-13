@@ -34,7 +34,11 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>Backup</v-list-item-title>
-            <v-list-item-subtitle>정해진 날 / 위치 / WEB</v-list-item-subtitle>
+            <v-list-item-subtitle>
+              <v-btn color="secondary" fab x-small dark @click="backupDownload">
+                <v-icon>mdi-television</v-icon>
+              </v-btn>
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -72,19 +76,51 @@
               </v-list-item-action>
               <v-list-item-content>
                 <v-list-item-title>SLACK : 준비</v-list-item-title>
-                <v-list-item-subtitle>
-                  -
-                </v-list-item-subtitle>
+                <v-list-item-content>
+                  <v-expansion-panels>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header
+                        >Panel 3</v-expansion-panel-header
+                      >
+                      <v-expansion-panel-content>
+                        Some content
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                </v-list-item-content>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-action>
-                <v-checkbox v-model="sound"></v-checkbox>
+                <v-icon>mdi-format-color-fill</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Sound</v-list-item-title>
-                <v-list-item-subtitle
-                  >Auto-update apps at any time. Data charges may apply
+                <v-list-item-title
+                  >COLOR : 5개의 컬러를 지정할 수 있습니다.</v-list-item-title
+                >
+                <v-list-item-subtitle>
+                  <v-checkbox
+                    label="COLOR-1"
+                    background-color="red"
+                    value="red"
+                    hide-details
+                  >
+                    <template v-slot:label>
+                      <div>
+                        I agree that
+                        <div style="background: #ff90c3">
+                          Opens in new window
+                        </div>
+                        is awesome
+                      </div>
+                    </template>
+                  </v-checkbox>
+                  <v-checkbox
+                    label="COLOR-2"
+                    color="#ffcd86"
+                    value="red darken-3"
+                    hide-details
+                  ></v-checkbox>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -118,12 +154,30 @@ export default {
   data: () => ({
     theme: "dark",
     notifications: false,
-    sound: true,
-    widgets: false
+    widgets: false,
+    color1: "ff90c3"
   }),
   created() {},
   mounted() {},
   methods: {
+    backupDownload() {
+      let obj = new Object();
+      let filename = "test.json";
+
+      obj.category = this.category;
+      let ele = document.createElement("a");
+      ele.setAttribute(
+        "href",
+        "data:text/plain;charset=utf-8," +
+          encodeURIComponent(JSON.stringify(obj))
+      );
+      ele.setAttribute("download", filename);
+
+      ele.style.display = "none";
+      document.body.appendChild(ele);
+      ele.click();
+      document.body.removeChild(ele);
+    },
     closeDialog() {
       this.$emit("closeDialog");
     },
