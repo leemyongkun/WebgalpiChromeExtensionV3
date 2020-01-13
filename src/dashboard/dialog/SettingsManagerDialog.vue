@@ -70,24 +70,36 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item disabled>
+            <v-list-item>
               <v-list-item-action>
                 <v-icon>mdi-slack</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>SLACK : 준비</v-list-item-title>
-                <v-list-item-content>
-                  <v-expansion-panels>
+                <v-list-item-title>
+                  <v-expansion-panels focusable flat>
                     <v-expansion-panel>
-                      <v-expansion-panel-header
-                        >Panel 3</v-expansion-panel-header
-                      >
+                      <v-expansion-panel-header>SLACK</v-expansion-panel-header>
                       <v-expansion-panel-content>
-                        Some content
+                        <v-row v-for="(item, index) in 5">
+                          <v-col cols="4">
+                            <v-text-field
+                              label="Outlined"
+                              placeholder="slack channel name"
+                              outlined
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="8">
+                            <v-text-field
+                              label="Outlined"
+                              placeholder="week hook address"
+                              outlined
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
                   </v-expansion-panels>
-                </v-list-item-content>
+                </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -95,33 +107,33 @@
                 <v-icon>mdi-format-color-fill</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title
-                  >COLOR : 5개의 컬러를 지정할 수 있습니다.</v-list-item-title
-                >
-                <v-list-item-subtitle>
-                  <v-checkbox
-                    label="COLOR-1"
-                    background-color="red"
-                    value="red"
-                    hide-details
-                  >
-                    <template v-slot:label>
-                      <div>
-                        I agree that
-                        <div style="background: #ff90c3">
-                          Opens in new window
-                        </div>
-                        is awesome
-                      </div>
-                    </template>
-                  </v-checkbox>
-                  <v-checkbox
-                    label="COLOR-2"
-                    color="#ffcd86"
-                    value="red darken-3"
-                    hide-details
-                  ></v-checkbox>
-                </v-list-item-subtitle>
+                <v-list-item-title>
+                  <v-expansion-panels focusable flat>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header
+                        >COLOR : 5개의 컬러를 지정할 수
+                        있습니다.</v-expansion-panel-header
+                      >
+                      <v-expansion-panel-content>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-checkbox
+                              value="red"
+                              hide-details
+                              v-for="(item, indes) in 4"
+                            >
+                              <template v-slot:label>
+                                <div style="color: #ff90c3">
+                                  COLOR
+                                </div>
+                              </template>
+                            </v-checkbox>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
