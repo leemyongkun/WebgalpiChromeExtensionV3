@@ -48,105 +48,12 @@
         <v-col cols="6">
           <v-list three-line subheader>
             <v-subheader>General</v-subheader>
-            <v-list-item>
-              <v-list-item-action>
-                <v-icon>mdi-theme-light-dark</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>Theme</v-list-item-title>
-                <v-list-item-subtitle>
-                  <v-radio-group v-model="theme" row>
-                    <v-radio
-                      label="DARK"
-                      value="dark"
-                      @change="changeTheme"
-                    ></v-radio>
-                    <v-radio
-                      label="LIGHT"
-                      value="light"
-                      @change="changeTheme"
-                    ></v-radio>
-                  </v-radio-group>
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-action>
-                <v-icon>mdi-slack</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>
-                  <v-expansion-panels focusable flat>
-                    <v-expansion-panel>
-                      <v-expansion-panel-header>SLACK</v-expansion-panel-header>
-                      <v-expansion-panel-content>
-                        <v-row v-for="(item, index) in 5">
-                          <v-col cols="4">
-                            <v-text-field
-                              label="Outlined"
-                              placeholder="slack channel name"
-                              outlined
-                            ></v-text-field>
-                          </v-col>
-                          <v-col cols="8">
-                            <v-text-field
-                              label="Outlined"
-                              placeholder="week hook address"
-                              outlined
-                            ></v-text-field>
-                          </v-col>
-                        </v-row>
-                      </v-expansion-panel-content>
-                    </v-expansion-panel>
-                  </v-expansion-panels>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-action>
-                <v-icon>mdi-format-color-fill</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>
-                  <v-expansion-panels focusable flat>
-                    <v-expansion-panel>
-                      <v-expansion-panel-header
-                        >COLOR : 5개의 컬러를 지정할 수
-                        있습니다.</v-expansion-panel-header
-                      >
-                      <v-expansion-panel-content>
-                        <v-row>
-                          <v-col cols="12">
-                            <v-checkbox
-                              value="red"
-                              hide-details
-                              v-for="(item, indes) in 4"
-                            >
-                              <template v-slot:label>
-                                <div style="color: #ff90c3">
-                                  COLOR
-                                </div>
-                              </template>
-                            </v-checkbox>
-                          </v-col>
-                        </v-row>
-                      </v-expansion-panel-content>
-                    </v-expansion-panel>
-                  </v-expansion-panels>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-action>
-                <v-checkbox v-model="widgets"></v-checkbox>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>Auto-add widgets</v-list-item-title>
-                <v-list-item-subtitle
-                  >Automatically add home screen widgets
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+            <!--THEME-->
+            <ThemeArea></ThemeArea>
+            <!--SLACK-->
+            <SlackArea></SlackArea>
+            <!--COLOR-->
+            <ColorArea></ColorArea>
           </v-list>
         </v-col>
 
@@ -160,11 +67,14 @@
   <!-- 다이얼로그 -->
 </template>
 <script>
+import SlackArea from "./setting/SlackArea";
+import ThemeArea from "./setting/ThemeArea";
+import ColorArea from "./setting/ColorArea";
+
 export default {
-  components: {},
+  components: { ColorArea, ThemeArea, SlackArea },
   props: ["dialog"],
   data: () => ({
-    theme: "dark",
     notifications: false,
     widgets: false,
     color1: "ff90c3"
@@ -192,9 +102,6 @@ export default {
     },
     closeDialog() {
       this.$emit("closeDialog");
-    },
-    changeTheme() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     }
   }
 };
