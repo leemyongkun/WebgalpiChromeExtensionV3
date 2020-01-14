@@ -9,7 +9,7 @@
           <v-expansion-panel>
             <v-expansion-panel-header>SLACK</v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-row v-for="(item, index) in 5">
+              <v-row v-for="(item, index) in 5" :key="index">
                 <v-col cols="4">
                   <v-text-field
                     label="Outlined"
