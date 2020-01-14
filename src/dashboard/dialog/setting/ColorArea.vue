@@ -8,8 +8,9 @@
         <v-expansion-panels focusable flat>
           <v-expansion-panel>
             <v-expansion-panel-header
-              >COLOR : 5개의 컬러를 지정할 수 있습니다. </v-expansion-panel-header
-            >z
+              >COLOR : 5개의 컬러를 지정할 수 있습니다.
+            </v-expansion-panel-header>
+
             <v-expansion-panel-content>
               <v-row>
                 <v-col

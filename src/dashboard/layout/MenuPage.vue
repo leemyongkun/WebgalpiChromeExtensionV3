@@ -58,35 +58,39 @@
                         </v-list-item-content>
                       </template>
 
-                      <drop
-                        @drop="dropEvent"
-                        :class="{ dropOver }"
-                        @dragover="dropOver = true"
-                        @dragleave="dropOver = false"
-                      >
-                        <v-list-item-group>
-                          <v-list-item
-                            v-for="subItem in item.children"
-                            :key="subItem.name"
-                            @click="selectCategory(subItem, $event)"
-                            @mouseover="subItem.mouseover = true"
-                            @mouseleave="subItem.mouseover = false"
+                      <v-list-item-group>
+                        <div
+                          v-for="subItem in item.children"
+                          :key="subItem.name"
+                        >
+                          <drop
+                            @drop="dropEvent"
+                            @dragover="subItem.dropOver = true"
+                            @dragleave="subItem.dropOver = false"
                           >
-                            <v-list-item-content>
-                              <v-list-item-title
-                                :id="subItem.id"
-                                v-text="subItem.name"
-                              ></v-list-item-title>
-                            </v-list-item-content>
-                            <v-list-item-icon
-                              @click="settingCategory(subItem, $event)"
-                              v-show="subItem.mouseover"
+                            <v-list-item
+                              :style="subItem.dropOver ? overColor : ''"
+                              @click="selectCategory(subItem, $event)"
+                              @mouseover="subItem.mouseOver = true"
+                              @mouseleave="subItem.mouseOver = false"
+                              :id="subItem.id"
                             >
-                              <v-icon right>mdi-settings</v-icon>
-                            </v-list-item-icon>
-                          </v-list-item>
-                        </v-list-item-group>
-                      </drop>
+                              <v-list-item-content :id="subItem.id">
+                                <v-list-item-title
+                                  v-text="subItem.name"
+                                  :id="subItem.id"
+                                ></v-list-item-title>
+                              </v-list-item-content>
+                              <v-list-item-icon
+                                @click="settingCategory(subItem, $event)"
+                                v-show="subItem.mouseOver"
+                              >
+                                <v-icon right>mdi-settings</v-icon>
+                              </v-list-item-icon>
+                            </v-list-item>
+                          </drop>
+                        </div>
+                      </v-list-item-group>
                     </v-list-group>
                   </v-list>
                 </v-expansion-panel-content>
@@ -125,6 +129,7 @@
   </div>
 </template>
 <script>
+//https://cameronhimself.github.io/vue-drag-drop/
 import CONTENT_LISTENER from "../../common/content-listener";
 import CategoryManagerDialog from "../dialog/CategoryManagerDialog";
 import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
@@ -141,6 +146,7 @@ export default {
     snackbar: false,
     dropOver: false,
     mouseover: false,
+    overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;",
     categoryDialog: false,
     settingDialog: false,
     drawer: true,
@@ -168,7 +174,7 @@ export default {
     settingCategory(item, event) {
       event.preventDefault();
       event.stopPropagation();
-      alert(item);
+      alert(JSON.stringify(item));
     },
     selectCategory(category, event) {
       alert(JSON.stringify(category));
@@ -176,7 +182,16 @@ export default {
     dropEvent(data, event) {
       this.snackbarMessage = "카테고리에 저장되었습니다.";
       this.snackbar = true;
-      console.log(">> ", event.target.id, event.target.innerHTML);
+
+      this.category.forEach(item => {
+        if (item.children !== undefined) {
+          item.children.forEach(subItem => {
+            subItem.dropOver = false;
+          });
+        }
+      });
+      //todo : DB에 저장하기
+      //alert(event.target.id);
     },
     switchDialogCategoryEditor() {
       this.categoryDialog = !this.categoryDialog;

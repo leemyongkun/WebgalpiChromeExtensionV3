@@ -48,6 +48,8 @@
         <v-col cols="6">
           <v-list three-line subheader>
             <v-subheader>General</v-subheader>
+            <!--VIEWMODE-->
+            <ViewModeArea></ViewModeArea>
             <!--THEME-->
             <ThemeArea></ThemeArea>
             <!--SLACK-->
@@ -70,9 +72,10 @@
 import SlackArea from "./setting/SlackArea";
 import ThemeArea from "./setting/ThemeArea";
 import ColorArea from "./setting/ColorArea";
+import ViewModeArea from "./setting/ViewModeArea";
 
 export default {
-  components: { ColorArea, ThemeArea, SlackArea },
+  components: { ViewModeArea, ColorArea, ThemeArea, SlackArea },
   props: ["dialog"],
   data: () => ({
     notifications: false,

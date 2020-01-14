@@ -132,7 +132,8 @@ export default {
                     -- DATE_CREATE,
                      PARENT as parent,
                      DEPTH as depth,
-                     false as mouseover 
+                     false as mouseOver ,
+                     false as dropOver
                      --CATEGORY_STATUS,
                      --SHARE, --Y/N
                      --TYPE, --SYSTEM / CUSTOM
