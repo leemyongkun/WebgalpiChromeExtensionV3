@@ -69,6 +69,8 @@
                             v-for="subItem in item.children"
                             :key="subItem.name"
                             @click="selectCategory(subItem, $event)"
+                            @mouseover="subItem.mouseover = true"
+                            @mouseleave="subItem.mouseover = false"
                           >
                             <v-list-item-content>
                               <v-list-item-title
@@ -76,6 +78,12 @@
                                 v-text="subItem.name"
                               ></v-list-item-title>
                             </v-list-item-content>
+                            <v-list-item-icon
+                              @click="settingCategory(subItem, $event)"
+                              v-show="subItem.mouseover"
+                            >
+                              <v-icon right>mdi-settings</v-icon>
+                            </v-list-item-icon>
                           </v-list-item>
                         </v-list-item-group>
                       </drop>
@@ -132,6 +140,7 @@ export default {
     snackbarMessage: "",
     snackbar: false,
     dropOver: false,
+    mouseover: false,
     categoryDialog: false,
     settingDialog: false,
     drawer: true,
@@ -148,6 +157,7 @@ export default {
       type: "get.menus",
       data: null
     }).then(category => {
+      console.log("category ", category);
       this.category = this.generateTree(category, null);
       console.log("this.category ", this.category);
       // let b =  treeModel(category, null);
@@ -155,6 +165,11 @@ export default {
     });
   },
   methods: {
+    settingCategory(item, event) {
+      event.preventDefault();
+      event.stopPropagation();
+      alert(item);
+    },
     selectCategory(category, event) {
       alert(JSON.stringify(category));
     },
@@ -185,7 +200,6 @@ export default {
       };
 
       while (arrayList.length > 0) {
-        console.log("11");
         arrayList.some((item, index) => {
           if (item.parent === rootId) {
             return rootNodes.push(arrayList.splice(index, 1)[0]);

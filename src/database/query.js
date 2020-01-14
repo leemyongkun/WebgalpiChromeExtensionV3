@@ -131,7 +131,8 @@ export default {
                      NAME as name,
                     -- DATE_CREATE,
                      PARENT as parent,
-                     DEPTH as depth
+                     DEPTH as depth,
+                     false as mouseover 
                      --CATEGORY_STATUS,
                      --SHARE, --Y/N
                      --TYPE, --SYSTEM / CUSTOM

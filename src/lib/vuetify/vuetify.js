@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuetify, {
+  VListItemIcon,
   VExpansionPanels,
   VExpansionPanel,
   VExpansionPanelContent,
@@ -127,6 +128,8 @@ Vue.component("VHover", VHover);
 Vue.component("VExpandTransition", VExpandTransition);
 Vue.component("VRadio", VRadio);
 Vue.component("VRadioGroup", VRadioGroup);
+
+Vue.component("VListItemIcon", VListItemIcon);
 
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
