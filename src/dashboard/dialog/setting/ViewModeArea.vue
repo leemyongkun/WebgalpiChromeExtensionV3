@@ -16,6 +16,8 @@
   </v-list-item>
 </template>
 <script>
+import EventBus from "../../event-bus";
+
 export default {
   components: {},
   props: [],
@@ -25,7 +27,12 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    changeViewMode() {}
+    changeViewMode() {
+      setTimeout(() => {
+        console.log("this.view ", this.view);
+        EventBus.$emit("view-mode", this.view);
+      }, 300);
+    }
   }
 };
 </script>

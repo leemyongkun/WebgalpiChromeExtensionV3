@@ -24,21 +24,21 @@
                       @click="selectSite(item)"
                     >
                       <!-- v-expand-transition>
-                                                                    <div
-                                                                      v-if="hover"
-                                                                      class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
-                                                                      style="height: 25%;z-index: 9000;"
-                                                                    >
-                                                                      <v-btn
-                                                                        small
-                                                                        fat
-                                                                        @click="goSourceSite(item, $event)"
-                                                                        color="orange"
-                                                                      >
-                                                                        <v-icon>mdi-home-outline</v-icon>
-                                                                      </v-btn>
-                                                                    </div>
-                                                                  </v-expand-transition -->
+                                                                                          <div
+                                                                                            v-if="hover"
+                                                                                            class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
+                                                                                            style="height: 25%;z-index: 9000;"
+                                                                                          >
+                                                                                            <v-btn
+                                                                                              small
+                                                                                              fat
+                                                                                              @click="goSourceSite(item, $event)"
+                                                                                              color="orange"
+                                                                                            >
+                                                                                              <v-icon>mdi-home-outline</v-icon>
+                                                                                            </v-btn>
+                                                                                          </div>
+                                                                                        </v-expand-transition -->
 
                       <v-list-item three-line>
                         <v-list-item-content>
@@ -68,11 +68,11 @@
 
       <v-col cols="9">
         <v-tabs right>
-          <v-tab>PREVIEW</v-tab>
-          <v-tab>HIGHLIGHTS</v-tab>
+          <v-tab v-show="viewMode === '1'">PREVIEW</v-tab>
+          <v-tab v-showi="viewMode === '1'">HIGHLIGHTS</v-tab>
 
           <v-tab-item v-for="n in 2" :key="n">
-            <v-container fluid>
+            <v-container fluid v-if="viewMode === '1'">
               <v-row>
                 <v-col v-if="n == 1">
                   <PreviewPage
@@ -90,42 +90,50 @@
                     :highlights="highlights"
                   ></HighlightsPage>
                 </v-col>
+              </v-row>
+            </v-container>
 
-                <!--<v-col cols="12">
+            <v-container fluid v-if="viewMode === '2'">
+              <v-row>
+                <v-col cols="6">
+                  <PreviewPage
+                    :sourceUrl="sourceUrl"
+                    :previewContent="previewContent"
+                    :previewTitle="previewTitle"
+                    :previewStatus="previewStatus"
+                  ></PreviewPage>
+                </v-col>
+                <v-col cols="6">
+                  <HighlightsPage
+                    :previewContent="previewContent"
+                    :previewTitle="previewTitle"
+                    :previewStatus="previewStatus"
+                    :highlights="highlights"
+                  ></HighlightsPage>
+                </v-col>
+              </v-row>
+            </v-container>
 
-                                    <PreviewPage
-                                            :sourceUrl="sourceUrl"
-                                            :previewContent="previewContent"
-                                            :previewTitle="previewTitle"
-                                            :previewStatus="previewStatus"
-                                    ></PreviewPage>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="12">
-                                    <HighlightsPage
-                                            :previewContent="previewContent"
-                                            :previewTitle="previewTitle"
-                                            :previewStatus="previewStatus"
-                                            :highlights="highlights"
-                                    ></HighlightsPage>
-                                </v-col>-->
-                <!-- <v-col cols="6">
-                                    <PreviewPage
-                                            :sourceUrl="sourceUrl"
-                                            :previewContent="previewContent"
-                                            :previewTitle="previewTitle"
-                                            :previewStatus="previewStatus"
-                                    ></PreviewPage>
-                                </v-col>
-                                <v-col cols="6">
-                                    <HighlightsPage
-                                            :previewContent="previewContent"
-                                            :previewTitle="previewTitle"
-                                            :previewStatus="previewStatus"
-                                            :highlights="highlights"
-                                    ></HighlightsPage>
-                                </v-col>-->
+            <v-container fluid v-if="viewMode === '3'">
+              <v-row>
+                <v-col cols="12">
+                  <PreviewPage
+                    :sourceUrl="sourceUrl"
+                    :previewContent="previewContent"
+                    :previewTitle="previewTitle"
+                    :previewStatus="previewStatus"
+                  ></PreviewPage>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12">
+                  <HighlightsPage
+                    :previewContent="previewContent"
+                    :previewTitle="previewTitle"
+                    :previewStatus="previewStatus"
+                    :highlights="highlights"
+                  ></HighlightsPage>
+                </v-col>
               </v-row>
             </v-container>
           </v-tab-item>
@@ -141,6 +149,7 @@ import { POPUP_LISTENER } from "../../common/port-listener.js";
 import PreviewPage from "./PreviewPage";
 import HighlightsPage from "./HighlightsPage";
 import CONTENT_LISTENER from "../../common/content-listener";
+import EventBus from "../event-bus";
 
 export default {
   components: { HighlightsPage, PreviewPage },
@@ -150,9 +159,14 @@ export default {
     previewContent: null,
     previewTitle: null,
     previewStatus: "N",
-    sourceUrl: ""
+    sourceUrl: "",
+    viewMode: "1"
   }),
-  created() {},
+  created() {
+    EventBus.$on("view-mode", viewMode => {
+      this.viewMode = viewMode;
+    });
+  },
   mounted() {
     CONTENT_LISTENER.sendMessage({
       type: "get.sites",
@@ -218,7 +232,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                justify-content: center;*/
+                                      justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
