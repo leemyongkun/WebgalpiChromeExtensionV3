@@ -22,12 +22,12 @@ let CONTENTS = {
     //URL.SITE = CURRENT_URL.split("#")[0];
     //URL.KEY = md5(URL.SITE);
   },
-  createColorPicker: () => {
+  createColorPicker: COLORS => {
     return new Promise(res => {
       // 팔렛트를 생성
       let hlGroupElement = document.createElement(GLOBAL_CONFIG.GROUP_ELEMENT);
       hlGroupElement.innerHTML =
-        FORM.createColorPicker() + FORM.createCaptureArea();
+        FORM.createColorPicker(COLORS) + FORM.createCaptureArea();
 
       let targetElement = document.getElementsByTagName(
         GLOBAL_CONFIG.TARGET_ELEMENT

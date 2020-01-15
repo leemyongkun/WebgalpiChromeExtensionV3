@@ -34,7 +34,7 @@ let APPLICATION = {
     // let iframe = $('#mainFrame').contents();
 
     // 팔렛트 생성
-    CONTENTS.createColorPicker()
+    CONTENTS.createColorPicker(data.options.COLOR)
       .then(ret => {
         // 버튼 이벤트
         EVENT.colorPickerBtnEvent();

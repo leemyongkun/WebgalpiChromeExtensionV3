@@ -8,7 +8,7 @@
         <v-expansion-panels focusable flat>
           <v-expansion-panel>
             <v-expansion-panel-header
-              >COLOR : 5개의 컬러를 지정할 수 있습니다.
+              >COLOR : 최대 6개의 컬러를 지정할 수 있습니다.
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
@@ -139,8 +139,8 @@ export default {
       }).then(response => {});
     },
     selectedColor() {
-      if (this.pickColor.length === 6) {
-        alert("5개까지입니다.");
+      if (this.pickColor.length === 7) {
+        alert("6개까지입니다.");
         this.pickColor = this.pickColor.slice(0, 5);
         return false;
       }

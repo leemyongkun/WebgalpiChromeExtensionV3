@@ -5,38 +5,38 @@
   display: -moz-inline-box !important;
 }
 
-.hltcolor-1 {
-  background: #ff90c3 !important;
+.highlight-color-1 {
+  background: #a1887f !important;
   display: inline !important;
 }
 
-.hltcolor-2 {
-  background: #ffcd86 !important;
+.highlight-color-2 {
+  background: #cddc39 !important;
   display: inline !important;
 }
 
-.hltcolor-3 {
-  background: #ffee7c !important;
+.highlight-color-3 {
+  background: #4caf50 !important;
   display: inline !important;
 }
 
-.hltcolor-4 {
-  background: #8cf980 !important;
+.highlight-color-4 {
+  background: #ff9800 !important;
   display: inline !important;
 }
 
-.hltcolor-5 {
-  background: #75dbff !important;
+.highlight-color-5 {
+  background: #fbc02d !important;
   display: inline !important;
 }
 
-.hltcolor-6 {
-  background: #e7b2ff !important;
+.highlight-color-6 {
+  background: #b2ebf2 !important;
   display: inline !important;
 }
 
-.hlt-btn.hltcolor-1 {
-  background: #ff90c3 !important;
+.hlt-btn.highlight-color-1 {
+  background: #a1887f !important;
   width: 14px !important;
   height: 14px !important;
   display: inline-block !important;
@@ -47,8 +47,8 @@
   -moz-border-radius: 100% !important;
 }
 
-.hlt-btn.hltcolor-2 {
-  background: #ffcd86 !important;
+.hlt-btn.highlight-color-2 {
+  background: #cddc39 !important;
   width: 14px !important;
   height: 14px !important;
   display: inline-block !important;
@@ -59,8 +59,8 @@
   -moz-border-radius: 100% !important;
 }
 
-.hlt-btn.hltcolor-3 {
-  background: #ffee7c !important;
+.hlt-btn.highlight-color-3 {
+  background: #4caf50 !important;
   width: 14px !important;
   height: 14px !important;
   display: inline-block !important;
@@ -71,8 +71,8 @@
   -moz-border-radius: 100% !important;
 }
 
-.hlt-btn.hltcolor-4 {
-  background: #8cf980 !important;
+.hlt-btn.highlight-color-4 {
+  background: #ff9800 !important;
   width: 14px !important;
   height: 14px !important;
   display: inline-block !important;
@@ -83,8 +83,8 @@
   -moz-border-radius: 100% !important;
 }
 
-.hlt-btn.hltcolor-5 {
-  background: #75dbff !important;
+.hlt-btn.highlight-color-5 {
+  background: #fbc02d !important;
   width: 14px !important;
   height: 14px !important;
   display: inline-block !important;
@@ -95,8 +95,8 @@
   -moz-border-radius: 100% !important;
 }
 
-.hlt-btn.hltcolor-6 {
-  background: #e7b2ff !important;
+.hlt-btn.highlight-color-6 {
+  background: #b2ebf2 !important;
   width: 14px !important;
   height: 14px !important;
   display: inline-block !important;
@@ -205,109 +205,109 @@
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-1.on,
+  a.highlight-color-1.on,
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-1:hover {
+  a.highlight-color-1:hover {
   border-color: #6c41ff !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-1::before {
-  background: #ff90c3 !important;
+  a.highlight-color-1::before {
+  background: #a1887f !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-2.on,
+  a.highlight-color-2.on,
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-2:hover {
+  a.highlight-color-2:hover {
   border-color: #6c41ff !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-2::before {
-  background: #ffcd86 !important;
+  a.highlight-color-2::before {
+  background: #cddc39 !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-3.on,
+  a.highlight-color-3.on,
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-3:hover {
+  a.highlight-color-3:hover {
   border-color: #6c41ff !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-3::before {
-  background: #ffee7c !important;
+  a.highlight-color-3::before {
+  background: #4caf50 !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-4.on,
+  a.highlight-color-4.on,
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-4:hover {
+  a.highlight-color-4:hover {
   border-color: #6c41ff !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-4::before {
-  background: #8cf980 !important;
+  a.highlight-color-4::before {
+  background: #ff9800 !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-5.on,
+  a.highlight-color-5.on,
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-5:hover {
+  a.highlight-color-5:hover {
   border-color: #6c41ff !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-5::before {
-  background: #75dbff !important;
+  a.highlight-color-5::before {
+  background: #fbc02d !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-6.on,
+  a.highlight-color-6.on,
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-6:hover {
+  a.highlight-color-6:hover {
   border-color: #6c41ff !important;
 }
 
 .hlt-wafflepen-toolbox
   .wafflepen-toolbox
   .wafflepen-color-picker
-  a.hltcolor-6::before {
-  background: #e7b2ff !important;
+  a.highlight-color-6::before {
+  background: #b2ebf2 !important;
 }
 
 .hlt-wafflepen-toolbox .wafflepen-toolbox .wafflepen-color-picker a.on::before {

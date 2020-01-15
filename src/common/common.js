@@ -43,12 +43,12 @@ Date.prototype.format = function(f) {
 
 let colorMap = new Object();
 (function() {
-  colorMap["hltcolor-1"] = "#ff90c3";
-  colorMap["hltcolor-2"] = "#ffcd86";
-  colorMap["hltcolor-3"] = "#ffee7c";
-  colorMap["hltcolor-4"] = "#8cf980";
-  colorMap["hltcolor-5"] = "#75dbff";
-  colorMap["hltcolor-6"] = "#e7b2ff";
+  colorMap["highlight-color-1"] = "#a1887f";
+  colorMap["highlight-color-2"] = "#CDDC39";
+  colorMap["highlight-color-3"] = "#4CAF50";
+  colorMap["highlight-color-4"] = "#FF9800";
+  colorMap["highlight-color-5"] = "#FBC02D";
+  colorMap["highlight-color-6"] = "#B2EBF2";
 })();
 /*(function() {
     colorMap["hltcolor-1"] =

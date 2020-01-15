@@ -63,18 +63,18 @@ export default {
     convertColor(color) {
       console.log("convertColor ", color);
       switch (color) {
-        case "hltcolor-1":
-          return "#ff90c3";
-        case "hltcolor-2":
-          return "#ffcd86";
-        case "hltcolor-3":
-          return "#ffee7c";
-        case "hltcolor-4":
-          return "#8cf980";
-        case "hltcolor-5":
-          return "#75dbff";
-        case "hltcolor-6":
-          return "#e7b2ff";
+        case "highlight-color-1":
+          return "#a1887f";
+        case "highlight-color-2":
+          return "#CDDC39";
+        case "highlight-color-3":
+          return "#4CAF50";
+        case "highlight-color-4":
+          return "#FF9800";
+        case "highlight-color-5":
+          return "#FBC02D";
+        case "highlight-color-6":
+          return "#B2EBF2";
       }
     }
   }

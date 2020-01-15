@@ -46,16 +46,21 @@ let FORM = {
                 </div>
                 </div>`;
   },
-  createColorPicker: () => {
-    return `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
+  createColorPicker: COLORS => {
+    let colorButtons = "";
+    COLORS.split(",").forEach(color => {
+      colorButtons +=
+        "<a href='javascript:void(0)' class='" + color + '\' id="color-1"></a>';
+    });
+
+    console.log("colorButtons", colorButtons);
+    return (
+      `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
                        <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
                           <wafflepen-ul class='wafflepen-color-picker'>
-                              <a href='javascript:void(0)' class='hltcolor-1' id="color-1"></a>
-                              <a href='javascript:void(0)' class='hltcolor-2' style="display:none;" id="color-2"></a>
-                              <a href='javascript:void(0)' class='hltcolor-3' style="display:none;" id="color-3"></a>
-                              <a href='javascript:void(0)' class='hltcolor-4' style="display:none;" id="color-4"></a>
-                              <a href='javascript:void(0)' class='hltcolor-5' style="display:none;" id="color-5"></a>
-                              <a href='javascript:void(0)' class='hltcolor-6' style="display:none;" id="color-6"></a>
+                             ` +
+      colorButtons +
+      `
                           </wafflepen-ul>
                           <wafflepen class='tool-list'>
                               <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
@@ -69,7 +74,8 @@ let FORM = {
                               <wafflepen class='save-btn' id='highlightMemoRegistBtn' >Save</wafflepen>
                           </wafflepen>
                       </wafflepen>
-                  </wafflepen>`;
+                  </wafflepen>`
+    );
   },
   hidePicker: () => {
     //$(".wafflepen-color-picker").find("a").removeClass("on");

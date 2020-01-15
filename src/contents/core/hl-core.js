@@ -4,18 +4,18 @@ let $ = require("jquery");
 
 let colorMap = new Object();
 (function() {
-  colorMap["hltcolor-1"] =
-    "background: #ff90c3 !important;display: inline !important;";
-  colorMap["hltcolor-2"] =
-    "background: #ffcd86 !important;display: inline !important;";
-  colorMap["hltcolor-3"] =
-    "background: #ffee7c !important;display: inline !important;";
-  colorMap["hltcolor-4"] =
-    "background: #8cf980 !important;display: inline !important;";
-  colorMap["hltcolor-5"] =
-    "background: #75dbff !important;display: inline !important;";
-  colorMap["hltcolor-6"] =
-    "background: #e7b2ff !important;display: inline !important;";
+  colorMap["highlight-color-1"] =
+    "background: #a1887f !important;display: inline !important;";
+  colorMap["highlight-color-2"] =
+    "background: #CDDC39 !important;display: inline !important;";
+  colorMap["highlight-color-3"] =
+    "background: #4CAF50 !important;display: inline !important;";
+  colorMap["highlight-color-4"] =
+    "background: #FF9800 !important;display: inline !important;";
+  colorMap["highlight-color-5"] =
+    "background: #FBC02D !important;display: inline !important;";
+  colorMap["highlight-color-6"] =
+    "background: #B2EBF2 !important;display: inline !important;";
 })();
 
 function getColor(colorClass) {

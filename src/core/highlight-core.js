@@ -2,17 +2,17 @@ import { GLOBAL_CONFIG } from "../contents/global/config.js";
 
 var colorMap = new Object();
 (function() {
-  colorMap["hltcolor-1"] =
+  colorMap["highlight-color-1"] =
     "background: #ff90c3 !important;display: inline !important;";
-  colorMap["hltcolor-2"] =
+  colorMap["highlight-color-2"] =
     "background: #ffcd86 !important;display: inline !important;";
-  colorMap["hltcolor-3"] =
+  colorMap["highlight-color-3"] =
     "background: #ffee7c !important;display: inline !important;";
-  colorMap["hltcolor-4"] =
+  colorMap["highlight-color-4"] =
     "background: #8cf980 !important;display: inline !important;";
-  colorMap["hltcolor-5"] =
+  colorMap["highlight-color-5"] =
     "background: #75dbff !important;display: inline !important;";
-  colorMap["hltcolor-6"] =
+  colorMap["highlight-color-6"] =
     "background: #e7b2ff !important;display: inline !important;";
 })();
 
