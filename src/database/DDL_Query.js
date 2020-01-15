@@ -257,7 +257,7 @@ CREATE TABLE IF NOT EXISTS TBL_LOG_LOGIN (
 
   TBL_OPTIONS: () => {
     return `CREATE TABLE IF NOT EXISTS TBL_OPTIONS (
-                      EMAIL TEXT,
+                      EMAIL TEXT PRIMARY KEY,
                       COLOR TEXT,
                       LANGUAGE TEXT,
                       MESSAGE_ALERT TEXT,

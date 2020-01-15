@@ -29,10 +29,14 @@ let APPLICATION = {
     //하이라이트 Item을 저장한다.
     GLOBAL_CONFIG.HIGHLIGHT_LIST = data.allItems.HIGHLIGHT_LIST;
 
+    //todo : NAVER 일경우 frame 에 있는 내용을 HTML로 갈아야함.
+    // let iframe = document.getElementById("mainFrame").innerHTML;
+    // let iframe = $('#mainFrame').contents();
+
     // 팔렛트 생성
     CONTENTS.createColorPicker()
       .then(ret => {
-        // todo 버튼 이벤트
+        // 버튼 이벤트
         EVENT.colorPickerBtnEvent();
         EVENT.mouseOnDownUpEvent();
 

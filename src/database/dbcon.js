@@ -7,7 +7,7 @@ export default {
     let TRUNC_OPTIONS = `DELETE FROM TBL_OPTIONS`;
     let INIT_OPTIONS = `INSERT INTO TBL_OPTIONS  VALUES(
                         ''
-                        ,'1'
+                        ,'highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
                         ,'KR'
                         ,'Y'--MESSAGE_ALTER
                         ,'Y' --highlight

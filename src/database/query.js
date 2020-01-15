@@ -161,5 +161,9 @@ export default {
                 FROM TBL_ITEMS 
                 WHERE URL_KEY = ?
                 AND FL_DELETE = 'N'`;
+  },
+  updateOptionColor: () => {
+    return `UPDATE TBL_OPTIONS SET COLOR = ? WHERE EMAIL = ?
+      `;
   }
 };

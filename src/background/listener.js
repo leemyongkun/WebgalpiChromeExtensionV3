@@ -49,6 +49,13 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       });
       return true;
       break;
+
+    case "update.option.color":
+      API.updateOptionColor(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
   }
 });
 

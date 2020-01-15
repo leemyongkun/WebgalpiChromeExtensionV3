@@ -87,7 +87,7 @@ let BackgrounEvent = {
 
         console.log("tab.url ", tab.url);
 
-        gapi.load("auth:client", handleClientLoad);
+        //gapi.load("auth:client", handleClientLoad);
         //현재 사이트에 하이라이트 초기화
         BackgroundModule.initApplication(tabId, tab.url);
       }
@@ -184,8 +184,8 @@ let GOOGLE_DRIVE = {
   load: () => {
     gapi.load("auth:client", handleClientLoad);
     /* $.getScript('https://apis.google.com/js/api.js', function() {
-             gapi.load('auth:client', handleClientLoad);
-         });*/
+                 gapi.load('auth:client', handleClientLoad);
+             });*/
   }
 };
 //export default GOOGLE_DRIVE;

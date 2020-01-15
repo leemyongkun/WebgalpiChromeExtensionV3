@@ -28,10 +28,17 @@
                   >
                     <template v-slot:label>
                       <div :style="item.style">
-                        <span style="color: black">COLOR</span>
+                        <span style="color: black">&nbsp;COLOR&nbsp;</span>
                       </div>
                     </template>
                   </v-checkbox>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn block small color="primary" @click="saveColor"
+                    >SAVE</v-btn
+                  >
                 </v-col>
               </v-row>
             </v-expansion-panel-content>
@@ -43,54 +50,62 @@
 </template>
 <script>
 //color https://www.materialpalette.com/colors
+import CONTENT_LISTENER from "../../../common/content-listener";
+
 export default {
   components: {},
   props: [],
   data: () => ({
-    pickColor: ["color-1", "color-2", "color-4", "color-8", "color-3"],
+    pickColor: [
+      "highlight-color-1",
+      "highlight-color-2",
+      "highlight-color-3",
+      "highlight-color-4",
+      "highlight-color-5"
+    ],
     colorValue: [
       {
-        className: "color-1",
+        className: "highlight-color-1",
         style: "background: #a1887f; border-radius: 5px;"
       },
       {
-        className: "color-2",
+        className: "highlight-color-2",
         style: "background: #CDDC39; border-radius: 5px;"
       },
       {
-        className: "color-3",
+        className: "highlight-color-3",
         style: "background: #4CAF50; border-radius: 5px;"
       },
       {
-        className: "color-4",
+        className: "highlight-color-4",
         style: "background: #FF9800; border-radius: 5px;"
       },
       {
-        className: "color-5",
+        className: "highlight-color-5",
         style: "background: #FBC02D; border-radius: 5px;"
       },
       {
-        className: "color-6",
+        className: "highlight-color-6",
         style: "background: #B2EBF2; border-radius: 5px;"
       },
       {
-        className: "color-7",
+        className: "highlight-color-7",
         style: "background: #90a4ae; border-radius: 5px;"
       },
       {
-        className: "color-8",
+        className: "highlight-color-8",
         style: "background: #ba68c8; border-radius: 5px;"
       },
       {
-        className: "color-9",
+        className: "highlight-color-9",
         style: "background: #5c6bc0; border-radius: 5px;"
       },
       {
-        className: "color-10",
+        className: "highlight-color-10",
         style: "background: #ef9a9a; border-radius: 5px;"
       },
       {
-        className: "color-11",
+        className: "highlight-color-11",
         style: "background: #64b5f6; border-radius: 5px;"
       }
     ],
@@ -111,10 +126,28 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    saveColor() {
+      if (this.pickColor.length === 0) {
+        alert("1개 이상 선택");
+        return false;
+      }
+
+      console.log(" >>> ", this.pickColor.join(","));
+      CONTENT_LISTENER.sendMessage({
+        type: "update.option.color",
+        data: [this.pickColor.join(","), ""] //[todo] 2번째 파라메터는 Email 로 한다.
+      }).then(response => {});
+    },
     selectedColor() {
       if (this.pickColor.length === 6) {
         alert("5개까지입니다.");
         this.pickColor = this.pickColor.slice(0, 5);
+        return false;
+      }
+
+      if (this.pickColor.length === 0) {
+        alert("1개 이상 선택");
+        return false;
       }
     }
   }

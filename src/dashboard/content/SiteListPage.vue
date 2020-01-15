@@ -23,23 +23,6 @@
                       style="cursor:pointer;"
                       @click="selectSite(item)"
                     >
-                      <!-- v-expand-transition>
-                                                                                          <div
-                                                                                            v-if="hover"
-                                                                                            class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
-                                                                                            style="height: 25%;z-index: 9000;"
-                                                                                          >
-                                                                                            <v-btn
-                                                                                              small
-                                                                                              fat
-                                                                                              @click="goSourceSite(item, $event)"
-                                                                                              color="orange"
-                                                                                            >
-                                                                                              <v-icon>mdi-home-outline</v-icon>
-                                                                                            </v-btn>
-                                                                                          </div>
-                                                                                        </v-expand-transition -->
-
                       <v-list-item three-line>
                         <v-list-item-content>
                           <v-list-item-title>
@@ -69,7 +52,7 @@
       <v-col cols="9">
         <v-tabs right>
           <v-tab v-show="viewMode === '1'">PREVIEW</v-tab>
-          <v-tab v-showi="viewMode === '1'">HIGHLIGHTS</v-tab>
+          <v-tab v-show="viewMode === '1'">HIGHLIGHTS</v-tab>
 
           <v-tab-item v-for="n in 2" :key="n">
             <v-container fluid v-if="viewMode === '1'">

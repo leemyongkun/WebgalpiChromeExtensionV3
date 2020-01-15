@@ -125,6 +125,9 @@ let Api = {
       params.TAG
     ];
     return insert(Query.insertSite(), param);
+  },
+  updateOptionColor: params => {
+    return update(Query.updateOptionColor(), params);
   }
 };
 
