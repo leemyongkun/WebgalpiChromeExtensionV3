@@ -23,23 +23,6 @@
                       style="cursor:pointer;"
                       @click="selectSite(item)"
                     >
-                      <!-- v-expand-transition>
-                                                                    <div
-                                                                      v-if="hover"
-                                                                      class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
-                                                                      style="height: 25%;z-index: 9000;"
-                                                                    >
-                                                                      <v-btn
-                                                                        small
-                                                                        fat
-                                                                        @click="goSourceSite(item, $event)"
-                                                                        color="orange"
-                                                                      >
-                                                                        <v-icon>mdi-home-outline</v-icon>
-                                                                      </v-btn>
-                                                                    </div>
-                                                                  </v-expand-transition -->
-
                       <v-list-item three-line>
                         <v-list-item-content>
                           <v-list-item-title>
@@ -93,39 +76,39 @@
 
                 <!--<v-col cols="12">
 
-                                    <PreviewPage
-                                            :sourceUrl="sourceUrl"
-                                            :previewContent="previewContent"
-                                            :previewTitle="previewTitle"
-                                            :previewStatus="previewStatus"
-                                    ></PreviewPage>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="12">
-                                    <HighlightsPage
-                                            :previewContent="previewContent"
-                                            :previewTitle="previewTitle"
-                                            :previewStatus="previewStatus"
-                                            :highlights="highlights"
-                                    ></HighlightsPage>
-                                </v-col>-->
+                                                    <PreviewPage
+                                                            :sourceUrl="sourceUrl"
+                                                            :previewContent="previewContent"
+                                                            :previewTitle="previewTitle"
+                                                            :previewStatus="previewStatus"
+                                                    ></PreviewPage>
+                                                </v-col>
+                                            </v-row>
+                                            <v-row>
+                                                <v-col cols="12">
+                                                    <HighlightsPage
+                                                            :previewContent="previewContent"
+                                                            :previewTitle="previewTitle"
+                                                            :previewStatus="previewStatus"
+                                                            :highlights="highlights"
+                                                    ></HighlightsPage>
+                                                </v-col>-->
                 <!-- <v-col cols="6">
-                                    <PreviewPage
-                                            :sourceUrl="sourceUrl"
-                                            :previewContent="previewContent"
-                                            :previewTitle="previewTitle"
-                                            :previewStatus="previewStatus"
-                                    ></PreviewPage>
-                                </v-col>
-                                <v-col cols="6">
-                                    <HighlightsPage
-                                            :previewContent="previewContent"
-                                            :previewTitle="previewTitle"
-                                            :previewStatus="previewStatus"
-                                            :highlights="highlights"
-                                    ></HighlightsPage>
-                                </v-col>-->
+                                                    <PreviewPage
+                                                            :sourceUrl="sourceUrl"
+                                                            :previewContent="previewContent"
+                                                            :previewTitle="previewTitle"
+                                                            :previewStatus="previewStatus"
+                                                    ></PreviewPage>
+                                                </v-col>
+                                                <v-col cols="6">
+                                                    <HighlightsPage
+                                                            :previewContent="previewContent"
+                                                            :previewTitle="previewTitle"
+                                                            :previewStatus="previewStatus"
+                                                            :highlights="highlights"
+                                                    ></HighlightsPage>
+                                                </v-col>-->
               </v-row>
             </v-container>
           </v-tab-item>
@@ -141,6 +124,7 @@ import { POPUP_LISTENER } from "../../common/port-listener.js";
 import PreviewPage from "./PreviewPage";
 import HighlightsPage from "./HighlightsPage";
 import CONTENT_LISTENER from "../../common/content-listener";
+import BusEvent from "../bus-event";
 
 export default {
   components: { HighlightsPage, PreviewPage },
@@ -154,18 +138,22 @@ export default {
   }),
   created() {},
   mounted() {
-    CONTENT_LISTENER.sendMessage({
-      type: "get.sites",
-      data: null
-    })
-      .then(response => {
-        console.log("getSites  response ", response);
-        this.sites = response;
+    BusEvent.$on("selectCategoryForSite", categoryInfo => {
+      console.log("selectCategoryForSite >>> ", categoryInfo);
+      let param = [categoryInfo.id];
+      CONTENT_LISTENER.sendMessage({
+        type: "get.sites",
+        data: param
       })
-      .then(() => {
-        if (this.sites.length > 0) {
-        }
-      });
+        .then(response => {
+          console.log("getSites  response ", response);
+          this.sites = response;
+        })
+        .then(() => {
+          if (this.sites.length > 0) {
+          }
+        });
+    });
   },
   methods: {
     generatePreviewDoc(site) {
@@ -218,7 +206,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                justify-content: center;*/
+                                      justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

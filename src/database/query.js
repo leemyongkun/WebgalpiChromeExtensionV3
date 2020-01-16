@@ -122,7 +122,15 @@ export default {
                     DATE_UPDATE,
                     TAGS
                     FROM TBL_SITES
-                    WHERE FL_DELETE = 'N'`;
+                    WHERE FL_DELETE = 'N'
+                    `;
+    /*
+        AND URL_KEY IN (
+                        SELECT URL_KEY
+                        FROM TBL_REL_CATEGORY
+                        WHERE CATEGORY_IDX = ?
+                    )
+         */
   },
   getMenus: () => {
     return `SELECT 
@@ -161,5 +169,21 @@ export default {
                 FROM TBL_ITEMS 
                 WHERE URL_KEY = ?
                 AND FL_DELETE = 'N'`;
+  },
+  insertCategoryRelation: () => {
+    return `INSERT INTO TBL_REL_CATEGORY
+		( 	CATEGORY_IDX,
+            URL_KEY,
+            EMAIL,
+            SITE_IDX,
+            DATE_CREATE
+		)
+		VALUES (?,?,?,?,?)`;
+  },
+  deleteCategoryRelation: () => {
+    return `DELETE FROM TBL_REL_CATEGORY
+                WHERE CATEGORY_IDX = ?
+                AND URL_KEY = ? 
+		`;
   }
 };

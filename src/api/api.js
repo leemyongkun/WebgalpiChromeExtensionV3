@@ -64,7 +64,7 @@ let Api = {
     return select(Query.getSite(), param);
   },
   getSites: params => {
-    return select(Query.getSites(), params);
+    return select(Query.getSites(), null);
   },
   getMenus: params => {
     return select(Query.getMenus(), params);
@@ -125,6 +125,14 @@ let Api = {
       params.TAG
     ];
     return insert(Query.insertSite(), param);
+  },
+  deleteCategoryRelation: param => {
+    return remove(Query.deleteCategoryRelation(), param);
+  },
+  postCategoryRelation: param => {
+    console.log("postCategoryRelation ", param, Query.deleteCategoryRelation());
+    return insert(Query.insertCategoryRelation(), param);
+    //return remove(Query.deleteCategoryRelation(), param);
   }
 };
 
@@ -143,6 +151,7 @@ function remove(query, param) {
   return new Promise(res => {
     db.transaction(tx => {
       tx.executeSql(query, param, (tx, rs) => {
+        console.log("REMOVE", tx, rs);
         res(param);
       });
     });
