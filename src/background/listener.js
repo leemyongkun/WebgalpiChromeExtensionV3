@@ -37,13 +37,14 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       });
       return true;
       break;
-    case "get.sites":
-      API.getSites(null).then(res => {
+
+    case "get.sites": //dashboard
+      API.getSites(msg.data).then(res => {
         sendResponse(res); //조건
       });
       return true;
       break;
-    case "get.menus":
+    case "get.menus": //dashboard
       API.getMenus(null).then(res => {
         sendResponse(res);
       });
@@ -54,6 +55,11 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       API.updateOptionColor(msg.data).then(res => {
         sendResponse(res);
       });
+    case "post.category.relation": //dashboard
+      return API.deleteCategoryRelation(msg.data);
+      /*API.postCategoryRelation(msg.data).then(res => {
+                      sendResponse(res);
+                  });*/
       return true;
       break;
   }

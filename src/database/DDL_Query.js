@@ -3,8 +3,8 @@ let DROP_TABLE_QUERY = {
     return `DROP TABLE TBL_SITES `;
   },
 
-  TBL_REL_CATEGORY_WEB: () => {
-    return `DROP TABLE TBL_REL_CATEGORY_WEB`;
+  TBL_REL_CATEGORY: () => {
+    return `DROP TABLE TBL_REL_CATEGORY`;
   },
 
   TBL_AUTHORITY: () => {
@@ -82,9 +82,9 @@ let CREATE_TABLE_QUERY = {
             DATE_UPDATE NUMERIC
     )`;
   },
-  TBL_REL_CATEGORY_WEB: () => {
+  TBL_REL_CATEGORY: () => {
     return `
-                CREATE TABLE IF NOT EXISTS TBL_REL_CATEGORY_WEB (
+                CREATE TABLE IF NOT EXISTS TBL_REL_CATEGORY (
                    CATEGORY_IDX INTEGER,
                    URL_KEY TEXT,
                    EMAIL TEXT,
@@ -293,7 +293,7 @@ let DDL = {
         tx.executeSql(DROP_TABLE_QUERY.TBL_SITES(), []);
       });
       db.transaction(function(tx) {
-        tx.executeSql(DROP_TABLE_QUERY.TBL_REL_CATEGORY_WEB(), []);
+        tx.executeSql(DROP_TABLE_QUERY.TBL_REL_CATEGORY(), []);
       });
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_AUTHORITY(), []);
@@ -344,7 +344,7 @@ let DDL = {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_SITES(), []);
     });
     db.transaction(function(tx) {
-      tx.executeSql(CREATE_TABLE_QUERY.TBL_REL_CATEGORY_WEB(), []);
+      tx.executeSql(CREATE_TABLE_QUERY.TBL_REL_CATEGORY(), []);
     });
     db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_AUTHORITY(), []);

@@ -132,7 +132,7 @@ import { POPUP_LISTENER } from "../../common/port-listener.js";
 import PreviewPage from "./PreviewPage";
 import HighlightsPage from "./HighlightsPage";
 import CONTENT_LISTENER from "../../common/content-listener";
-import EventBus from "../event-bus";
+import BusEvent from "../bus-event";
 
 export default {
   components: { HighlightsPage, PreviewPage },
@@ -151,18 +151,22 @@ export default {
     });
   },
   mounted() {
-    CONTENT_LISTENER.sendMessage({
-      type: "get.sites",
-      data: null
-    })
-      .then(response => {
-        console.log("getSites  response ", response);
-        this.sites = response;
+    BusEvent.$on("selectCategoryForSite", categoryInfo => {
+      console.log("selectCategoryForSite >>> ", categoryInfo);
+      let param = [categoryInfo.id];
+      CONTENT_LISTENER.sendMessage({
+        type: "get.sites",
+        data: param
       })
-      .then(() => {
-        if (this.sites.length > 0) {
-        }
-      });
+        .then(response => {
+          console.log("getSites  response ", response);
+          this.sites = response;
+        })
+        .then(() => {
+          if (this.sites.length > 0) {
+          }
+        });
+    });
   },
   methods: {
     generatePreviewDoc(site) {
@@ -215,7 +219,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                      justify-content: center;*/
+                                            justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

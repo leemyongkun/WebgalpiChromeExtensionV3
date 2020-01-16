@@ -40,7 +40,7 @@
         </v-row>
         <v-row align="center">
           <v-col style="padding-bottom:0px; padding-top:0px;">
-            <v-expansion-panels focusable flat>
+            <v-expansion-panels focusable flat multiple v-model="panel">
               <v-expansion-panel>
                 <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -133,6 +133,7 @@
 import CONTENT_LISTENER from "../../common/content-listener";
 import CategoryManagerDialog from "../dialog/CategoryManagerDialog";
 import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
+import BusEvent from "../bus-event";
 
 export default {
   components: {
@@ -141,17 +142,15 @@ export default {
     CategoryManagerDialog
   },
   data: () => ({
-    snackbarTimeout: 3000,
-    snackbarMessage: "",
-    snackbar: false,
-    dropOver: false,
-    mouseover: false,
-    overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;",
-    categoryDialog: false,
-    settingDialog: false,
-    drawer: true,
-    categoryItem: [],
-    category: [],
+    panel: [0], //accordian 의 오픈 index
+    snackbarTimeout: 3000, //스낵바 유지시간
+    snackbarMessage: "", //스낵바 기본 메시지
+    snackbar: false, //스낵바 open /close 여부
+    overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;", //드래드 시 오버 대상에 마우스 over 했을때 스타일
+    categoryDialog: false, //카테고리 다이얼로그 open / close 여부
+    settingDialog: false, //Setting 다이얼로그 open / close 여부
+    drawer: true, //왼쪽 메뉴 open / close 여부
+    category: [], //Category
     icon: {
       on: "mdi-bookmark",
       off: "mdi-bookmark-outline"
@@ -177,7 +176,7 @@ export default {
       alert(JSON.stringify(item));
     },
     selectCategory(category, event) {
-      alert(JSON.stringify(category));
+      BusEvent.$emit("selectCategoryForSite", category);
     },
     dropEvent(data, event) {
       this.snackbarMessage = "카테고리에 저장되었습니다.";
@@ -190,8 +189,18 @@ export default {
           });
         }
       });
-      //todo : DB에 저장하기
-      //alert(event.target.id);
+      //DB에 저장하기
+      let param = [
+        event.target.id, //"CATEGORY_IDX":
+        data.URL_KEY, //"URL_KEY":
+        data.EMAIL, //"EMAIL":
+        data.IDX, //"SITE_IDX":
+        new Date().getTime() //"DATE_CREATE":
+      ];
+      CONTENT_LISTENER.sendMessage({
+        type: "post.category.relation",
+        data: param
+      });
     },
     switchDialogCategoryEditor() {
       this.categoryDialog = !this.categoryDialog;
