@@ -4,7 +4,7 @@
       <v-col cols="3" style="max-height: 700px" class="overflow-y-auto">
         <v-list style="background: none;padding: 0;">
           <v-list-item-group active-class="border">
-            <v-row v-for="(item, i) in sites" :key="i">
+            <v-row v-for="(item, key) in sites">
               <v-col cols="12" style="padding-top: 0px;">
                 <v-hover v-slot:default="{ hover }">
                   <drag :transfer-data="item">
@@ -21,7 +21,8 @@
                       max-width="400"
                       outlined
                       style="cursor:pointer;"
-                      @click="selectSite(item)"
+                      @click="selectSite(item, item.URL_KEY)"
+                      :key="item.URL_KEY"
                     >
                       <v-list-item three-line>
                         <v-list-item-content>
@@ -132,7 +133,7 @@ import { POPUP_LISTENER } from "../../common/port-listener.js";
 import PreviewPage from "./PreviewPage";
 import HighlightsPage from "./HighlightsPage";
 import CONTENT_LISTENER from "../../common/content-listener";
-import BusEvent from "../bus-event";
+import EventBus from "../event-bus";
 
 export default {
   components: { HighlightsPage, PreviewPage },
@@ -147,28 +148,58 @@ export default {
   }),
   created() {
     EventBus.$on("view-mode", viewMode => {
+      console.log("SITELIST ", viewMode);
       this.viewMode = viewMode;
     });
   },
   mounted() {
-    BusEvent.$on("selectCategoryForSite", categoryInfo => {
-      console.log("selectCategoryForSite >>> ", categoryInfo);
+    // 로딩 시 호출 (최근 10건만)
+    this.getSites(null);
+    //카테고리 클릭 시
+    EventBus.$on("selectCategoryForSite", categoryInfo => {
       let param = [categoryInfo.id];
+      this.getSites(param);
+    });
+
+    //카테고리 이동 완료 시, SITE를 제거한다.
+    EventBus.$on("hideSite", siteUrlKey => {
+      this.hideSites(siteUrlKey);
+    });
+  },
+
+  methods: {
+    hideSites(siteUrlKey) {
+      let i = this.sites.map(item => item.URL_KEY).indexOf(siteUrlKey);
+      this.sites.splice(i, 1);
+    },
+    getSites(param) {
       CONTENT_LISTENER.sendMessage({
         type: "get.sites",
         data: param
       })
         .then(response => {
-          console.log("getSites  response ", response);
           this.sites = response;
         })
         .then(() => {
           if (this.sites.length > 0) {
           }
         });
-    });
-  },
-  methods: {
+    },
+    selectSite(site, key) {
+      this.sourceUrl = site.URL;
+      //미리보기 생성
+      this.generatePreviewDoc(site);
+
+      //하이라이트 가져오기
+      let param = new Object();
+      param.KEY = site.URL_KEY;
+      CONTENT_LISTENER.sendMessage({
+        type: "get.highlights",
+        data: param
+      }).then(response => {
+        this.highlights = response;
+      });
+    },
     generatePreviewDoc(site) {
       let loc = document.location;
       let uri = {
@@ -196,21 +227,6 @@ export default {
         this.previewTitle = previewDoc.title;
         this.previewStatus = "Y";
       }
-    },
-    selectSite(site) {
-      this.sourceUrl = site.URL;
-      //미리보기 생성
-      this.generatePreviewDoc(site);
-
-      //하이라이트 가져오기
-      let param = new Object();
-      param.KEY = site.URL_KEY;
-      CONTENT_LISTENER.sendMessage({
-        type: "get.highlights",
-        data: param
-      }).then(response => {
-        this.highlights = response;
-      });
     }
   }
 };
@@ -219,7 +235,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                            justify-content: center;*/
+                                                  justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

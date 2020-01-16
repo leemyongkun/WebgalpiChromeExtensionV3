@@ -64,7 +64,10 @@ let Api = {
     return select(Query.getSite(), param);
   },
   getSites: params => {
-    return select(Query.getSites(), null);
+    console.log("getSites.params ", params);
+    let query = Query.getSites(params);
+    console.log("query ", query);
+    return select(query, params);
   },
   getMenus: params => {
     return select(Query.getMenus(), params);
@@ -107,6 +110,7 @@ let Api = {
     return remove(Query.deleteItem(), param);
   },
   postSite: params => {
+    let date = new Date().getTime();
     let param = [
       params.URL_KEY,
       params.TITLE,
@@ -120,10 +124,11 @@ let Api = {
       params.FULL_TEXT,
       params.URL_TYPE,
       params.READERMODE_CONTENTS,
-      new Date().getMilliseconds,
-      new Date().getMilliseconds,
+      date,
+      date,
       params.TAG
     ];
+
     return insert(Query.insertSite(), param);
   },
 
@@ -131,10 +136,10 @@ let Api = {
     return update(Query.updateOptionColor(), params);
   },
   deleteCategoryRelation: param => {
+    param = param.slice(1, 2); //URL_KEY만 가져온다
     return remove(Query.deleteCategoryRelation(), param);
   },
   postCategoryRelation: param => {
-    console.log("postCategoryRelation ", param, Query.deleteCategoryRelation());
     return insert(Query.insertCategoryRelation(), param);
   }
 };

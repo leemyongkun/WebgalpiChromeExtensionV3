@@ -8,8 +8,28 @@ import COMMON from "./common.js";
 import SELECTION from "../lib/selection.js";
 
 let APPLICATION = {
-  init: data => {
+  getNaverBlog: () => {
+    return new Promise(res => {
+      //todo : NAVER 일경우 frame 에 있는 내용을 HTML로 갈아야함.
+      // let iframe = document.getElementById("mainFrame").innerHTML;
+      //let ifr = $('#mainFrame').contents();
+      /*  let val = document.frames["mainFrame"].document.getElementsByTagName('html')[0];*/
+      let val = $("#mainFrame")
+        .contents()
+        .find("html")
+        .html();
+      console.log(" >> val ", val);
+
+      document.getElementsByTagName("html")[0].innerHTML = val;
+
+      res(true);
+    });
+  },
+  init: async data => {
     CONTENTS.initUrlInfo();
+
+    //todo : 이건 나중에.. 해야할듯.
+    //await APPLICATION.getNaverBlog();
 
     if (data == null) {
       return false;
@@ -28,10 +48,6 @@ let APPLICATION = {
     );
     //하이라이트 Item을 저장한다.
     GLOBAL_CONFIG.HIGHLIGHT_LIST = data.allItems.HIGHLIGHT_LIST;
-
-    //todo : NAVER 일경우 frame 에 있는 내용을 HTML로 갈아야함.
-    // let iframe = document.getElementById("mainFrame").innerHTML;
-    // let iframe = $('#mainFrame').contents();
 
     // 팔렛트 생성
     CONTENTS.createColorPicker(data.options.COLOR)

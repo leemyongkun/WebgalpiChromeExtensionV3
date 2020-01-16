@@ -56,10 +56,10 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
         sendResponse(res);
       });
     case "post.category.relation": //dashboard
-      return API.deleteCategoryRelation(msg.data);
-      /*API.postCategoryRelation(msg.data).then(res => {
-                      sendResponse(res);
-                  });*/
+      await API.deleteCategoryRelation(msg.data);
+      API.postCategoryRelation(msg.data).then(res => {
+        sendResponse(res);
+      });
       return true;
       break;
   }

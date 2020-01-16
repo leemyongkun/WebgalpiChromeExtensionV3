@@ -100,8 +100,19 @@ export default {
                     AND FL_DELETE = 'N'
                     LIMIT 1 `;
   },
-  getSites: () => {
-    return `SELECT 
+  getSites: params => {
+    let condition = "";
+    let limit = "LIMIT 5";
+    if (params !== null) {
+      condition = ` AND URL_KEY IN (
+                        SELECT URL_KEY
+                        FROM TBL_REL_CATEGORY
+                        WHERE CATEGORY_IDX = ?
+                    )`;
+      limit = "";
+    }
+    return (
+      `SELECT 
                     IDX,
                      URL_KEY,
                     EMAIL,
@@ -123,14 +134,14 @@ export default {
                     TAGS
                     FROM TBL_SITES
                     WHERE FL_DELETE = 'N'
-                    `;
-    /*
-        AND URL_KEY IN (
-                        SELECT URL_KEY
-                        FROM TBL_REL_CATEGORY
-                        WHERE CATEGORY_IDX = ?
-                    )
-         */
+                    ` +
+      condition +
+      `
+                    ` +
+      limit +
+      `
+                    `
+    );
   },
   getMenus: () => {
     return `SELECT 
@@ -186,8 +197,7 @@ export default {
   },
   deleteCategoryRelation: () => {
     return `DELETE FROM TBL_REL_CATEGORY
-                WHERE CATEGORY_IDX = ?
-                AND URL_KEY = ? 
+                WHERE URL_KEY = ? 
 		`;
   }
 };

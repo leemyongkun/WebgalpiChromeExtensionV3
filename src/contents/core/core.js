@@ -34,7 +34,7 @@ let CORE = {
       // console.log(" start, end", start, end);
 
       if (hlTF) {
-        console.log(list[i].TEXT, list[i].COLOR, list[i].IDX);
+        //console.log(list[i].TEXT, list[i].COLOR, list[i].IDX);
         await CORE.setSelectionRange(GLOBAL_CONFIG.ELEMENT, start, end);
         await CORE.setHighlightColor(list[i].TEXT, list[i].COLOR, list[i].IDX);
 

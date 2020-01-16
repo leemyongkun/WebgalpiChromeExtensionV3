@@ -133,7 +133,7 @@
 import CONTENT_LISTENER from "../../common/content-listener";
 import CategoryManagerDialog from "../dialog/CategoryManagerDialog";
 import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
-import BusEvent from "../bus-event";
+import EventBus from "../event-bus";
 
 export default {
   components: {
@@ -176,7 +176,7 @@ export default {
       alert(JSON.stringify(item));
     },
     selectCategory(category, event) {
-      BusEvent.$emit("selectCategoryForSite", category);
+      EventBus.$emit("selectCategoryForSite", category);
     },
     dropEvent(data, event) {
       this.snackbarMessage = "카테고리에 저장되었습니다.";
@@ -200,6 +200,8 @@ export default {
       CONTENT_LISTENER.sendMessage({
         type: "post.category.relation",
         data: param
+      }).then(() => {
+        EventBus.$emit("hideSite", data.URL_KEY);
       });
     },
     switchDialogCategoryEditor() {

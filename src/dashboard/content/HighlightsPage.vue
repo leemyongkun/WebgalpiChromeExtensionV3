@@ -6,7 +6,7 @@
           <v-row class="mb-4" align="center">
             <strong class="title">{{ previewTitle }}</strong>
             <v-spacer></v-spacer>
-            <SiteFunction :previewStatus="previewStatus" />
+            <!-- SiteFunction :previewStatus="previewStatus" / -->
           </v-row>
           <v-row>
             <v-divider />
@@ -50,8 +50,9 @@
 </template>
 <script>
 import SiteFunction from "./function/SiteFunction";
+import SiteListPage from "./SiteListPage";
 export default {
-  components: { SiteFunction },
+  components: { SiteListPage, SiteFunction },
   props: ["previewContent", "previewTitle", "previewStatus", "highlights"],
   data: () => ({
     rowStyle: "max-height: 570px"
