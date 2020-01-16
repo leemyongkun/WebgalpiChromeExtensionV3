@@ -20,7 +20,7 @@
                 :items="category"
                 item-value="id"
                 item-text="name"
-                v-model="(parent = categoryInfo.parent)"
+                v-model="parent"
               ></v-autocomplete>
             </v-col>
           </v-row>

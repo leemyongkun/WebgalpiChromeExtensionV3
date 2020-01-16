@@ -50,6 +50,9 @@
                 <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-list>
+                    <v-btn block small @click="">
+                      <v-icon>mdi-playlist-plus</v-icon></v-btn
+                    >
                     <v-list-group v-for="(item, i) in category" :key="i">
                       <template v-slot:activator>
                         <v-list-item-content>
