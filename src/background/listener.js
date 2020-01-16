@@ -7,7 +7,6 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
         API.postSite(msg.data);
       }
       API.postItem(msg.data);
-
       break;
 
     case "update.highlight":

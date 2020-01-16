@@ -4,7 +4,7 @@
       <v-col cols="3" style="max-height: 700px" class="overflow-y-auto">
         <v-list style="background: none;padding: 0;">
           <v-list-item-group active-class="border">
-            <v-row v-for="(item, key) in sites">
+            <v-row v-for="(item, index) in sites" :key="index">
               <v-col cols="12" style="padding-top: 0px;">
                 <v-hover v-slot:default="{ hover }">
                   <drag :transfer-data="item">
@@ -148,7 +148,6 @@ export default {
   }),
   created() {
     EventBus.$on("view-mode", viewMode => {
-      console.log("SITELIST ", viewMode);
       this.viewMode = viewMode;
     });
   },
@@ -235,7 +234,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                  justify-content: center;*/
+                                                        justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

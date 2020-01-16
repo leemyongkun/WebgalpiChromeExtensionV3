@@ -57,9 +57,7 @@ export default {
   data: () => ({
     rowStyle: "max-height: 570px"
   }),
-  created() {
-    console.log("#");
-  },
+  created() {},
   methods: {
     convertColor(color) {
       console.log("convertColor ", color);

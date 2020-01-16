@@ -24,6 +24,9 @@
 </template>
 <script>
 import SiteFunction from "./function/SiteFunction";
+import { GLOBAL_CONFIG } from "../../contents/global/config";
+import CORE from "../../contents/core/core";
+
 export default {
   components: { SiteFunction },
   props: ["previewContent", "previewTitle", "previewStatus", "sourceUrl"],
@@ -46,9 +49,11 @@ export default {
 .galpi-preview-area {
   width: 80%;
 }
+
 .galpi-preview-area img {
   min-height: 80%;
 }
+
 .galpi-preview-area svg {
   width: 30%;
 }

@@ -51,8 +51,8 @@ let DROP_TABLE_QUERY = {
     return `DROP TABLE TBL_OPTIONS `;
   },
 
-  TBL_QNA: () => {
-    return `DROP TABLE TBL_QNA `;
+  TBL_SLACK: () => {
+    return `DROP TABLE TBL_SLACK `;
   }
 };
 let CREATE_TABLE_QUERY = {
@@ -272,15 +272,12 @@ CREATE TABLE IF NOT EXISTS TBL_LOG_LOGIN (
                       )`;
   },
 
-  TBL_QNA: () => {
-    return `CREATE TABLE IF NOT EXISTS TBL_QNA (
+  TBL_SLACK: () => {
+    return `CREATE TABLE IF NOT EXISTS TBL_SLACK (
                       EMAIL TEXT,
-                      NAME TEXT,
-                      BODY TEXT,
-                      HEAD TEXT,
-                      URL TEXT,
-                      DATE_CREATE NUMERIC,
-                      MESSAGE_ID TEXT
+                      CHANNEL_NAME TEXT,
+                      WEBHOOK_URL TEXT,
+                      DATE_CREATE NUMERIC
                       )`;
   }
 };
@@ -332,7 +329,7 @@ let DDL = {
         tx.executeSql(DROP_TABLE_QUERY.TBL_OPTIONS(), []);
       });
       db.transaction(function(tx) {
-        tx.executeSql(DROP_TABLE_QUERY.TBL_QNA(), []);
+        tx.executeSql(DROP_TABLE_QUERY.TBL_SLACK(), []);
       });
 
       res(true);
@@ -383,7 +380,7 @@ let DDL = {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_OPTIONS(), []);
     });
     db.transaction(function(tx) {
-      tx.executeSql(CREATE_TABLE_QUERY.TBL_QNA(), []);
+      tx.executeSql(CREATE_TABLE_QUERY.TBL_SLACK(), []);
     });
   }
 };

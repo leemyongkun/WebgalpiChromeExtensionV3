@@ -1,5 +1,8 @@
 import Vue from "vue";
 import Vuetify, {
+  VAutocomplete,
+  VSelect,
+  VTextarea,
   VListItemIcon,
   VExpansionPanels,
   VExpansionPanel,
@@ -130,6 +133,9 @@ Vue.component("VRadio", VRadio);
 Vue.component("VRadioGroup", VRadioGroup);
 
 Vue.component("VListItemIcon", VListItemIcon);
+Vue.component("VTextarea", VTextarea);
+Vue.component("VSelect", VSelect);
+Vue.component("VAutocomplete", VAutocomplete);
 
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {

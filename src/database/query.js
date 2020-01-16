@@ -101,22 +101,17 @@ export default {
                     LIMIT 1 `;
   },
   getSites: params => {
-    let condition = "";
-    let limit = "LIMIT 5";
+    let joinCondition = " WHERE CATEGORY.URL_KEY IS NULL";
+    let limit = ""; //"LIMIT 5";
     if (params !== null) {
-      condition = ` AND URL_KEY IN (
-                        SELECT URL_KEY
-                        FROM TBL_REL_CATEGORY
-                        WHERE CATEGORY_IDX = ?
-                    )`;
-      limit = "";
+      joinCondition = " WHERE CATEGORY.CATEGORY_IDX = ?";
     }
     return (
       `SELECT 
                     IDX,
-                     URL_KEY,
-                    EMAIL,
-                    OWNER_EMAIL,
+                     SITES.URL_KEY,
+                    SITES.EMAIL,
+                    SITES.OWNER_EMAIL,
                     TITLE,
                     UPDATE_TITLE,
                     URL,
@@ -129,17 +124,16 @@ export default {
                     FL_DELETE,
                     URL_TYPE,
                     READERMODE_CONTENTS,
-                    DATE_CREATE,
+                    SITES.DATE_CREATE,
                     DATE_UPDATE,
                     TAGS
-                    FROM TBL_SITES
-                    WHERE FL_DELETE = 'N'
+                    FROM TBL_SITES SITES LEFT JOIN TBL_REL_CATEGORY CATEGORY
+                    ON SITES.URL_KEY = CATEGORY.URL_KEY
                     ` +
-      condition +
+      joinCondition +
       `
-                    ` +
-      limit +
-      `
+                    AND SITES.FL_DELETE = 'N'
+                     ORDER BY SITES.DATE_CREATE DESC
                     `
     );
   },

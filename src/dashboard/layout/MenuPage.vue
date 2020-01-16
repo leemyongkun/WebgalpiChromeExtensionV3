@@ -1,5 +1,10 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
+    <UpdateCategoryDialog
+      :categoryInfo="categoryInfo"
+      :category="category"
+      ref="updateCategoryDialog"
+    ></UpdateCategoryDialog>
     <!-- CATEGORY : START -->
     <CategoryManagerDialog
       :dialog="categoryDialog"
@@ -45,11 +50,7 @@
                 <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-list>
-                    <v-list-group
-                      v-for="(item, i) in category"
-                      :key="i"
-                      active-class="border"
-                    >
+                    <v-list-group v-for="(item, i) in category" :key="i">
                       <template v-slot:activator>
                         <v-list-item-content>
                           <v-list-item-title
@@ -74,6 +75,7 @@
                               @mouseover="subItem.mouseOver = true"
                               @mouseleave="subItem.mouseOver = false"
                               :id="subItem.id"
+                              active-class="border"
                             >
                               <v-list-item-content :id="subItem.id">
                                 <v-list-item-title
@@ -134,9 +136,11 @@ import CONTENT_LISTENER from "../../common/content-listener";
 import CategoryManagerDialog from "../dialog/CategoryManagerDialog";
 import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
 import EventBus from "../event-bus";
+import UpdateCategoryDialog from "./dialog/UpdateCategoryDialog";
 
 export default {
   components: {
+    UpdateCategoryDialog,
     SettingsManagerDialog,
     CategoryManagerDialog,
     CategoryManagerDialog
@@ -154,7 +158,8 @@ export default {
     icon: {
       on: "mdi-bookmark",
       off: "mdi-bookmark-outline"
-    }
+    },
+    categoryInfo: { name: "" }
   }),
   created() {},
   mounted() {
@@ -173,7 +178,9 @@ export default {
     settingCategory(item, event) {
       event.preventDefault();
       event.stopPropagation();
-      alert(JSON.stringify(item));
+      this.categoryInfo = item;
+      this.$refs.updateCategoryDialog.openDialog();
+      //alert(JSON.stringify(item));
     },
     selectCategory(category, event) {
       EventBus.$emit("selectCategoryForSite", category);
@@ -248,5 +255,9 @@ export default {
 
 .border {
   border: 2px dashed orange;
+}
+
+.v-expansion-panel-content__wrap {
+  padding-left: 10px;
 }
 </style>
