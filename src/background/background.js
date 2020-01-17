@@ -39,6 +39,10 @@ let BackgroundModule = {
         //todo : excludesUrl 등록 기능 추가 할것.
         console.log("res ", res);
         res.tabid = tabId;
+
+        //옵션을 저장해둔다.
+        chrome.storage.sync.set({ options: res.options });
+
         chrome.tabs.sendMessage(
           tabId,
           { action: "init", data: res, site: param },
@@ -58,7 +62,7 @@ let BackgrounEvent = {
     chrome.runtime.onInstalled.addListener(details => {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
-        //dbcon.dropTable();
+        // dbcon.dropTable();
         dbcon.createTable();
         dbcon.initData();
       } else {

@@ -6,7 +6,7 @@ export default {
     //let insertData = `insert into TBL_AUTHORITY values ('kkuni.bear@gmail.com', '1' , 'n', 11029394)`;
     let TRUNC_OPTIONS = `DELETE FROM TBL_OPTIONS`;
     let INIT_OPTIONS = `INSERT INTO TBL_OPTIONS  VALUES(
-                        ''
+                        'kkuni.bear@gmail.com'
                         ,'highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
                         ,'KR'
                         ,'Y'--MESSAGE_ALTER
@@ -17,7 +17,7 @@ export default {
                         ,0
                         ,null --EXCLUDE_SITE
                         ,'N' --SYNC_BOOKMARK
-                        ,'Y' --SYMPLE_WIDGET
+                        ,'light' --THEME
                     )`;
     let TRUNC_CATEGORY = `DELETE FROM TBL_CATEGORY`;
     let INIT_CATEGORY = `INSERT INTO TBL_CATEGORY(

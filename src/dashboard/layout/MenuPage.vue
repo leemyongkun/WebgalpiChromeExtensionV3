@@ -15,7 +15,6 @@
       :dialog="settingDialog"
       @closeDialog="switchDialogSetting"
     ></SettingsManagerDialog>
-    <!-- CATEGORY : END -->
 
     <v-app-bar app clipped-left color="">
       <v-app-bar-nav-icon @click="drawer = !drawer" />
@@ -30,6 +29,9 @@
         prepend-inner-icon="mdi-feature-search-outline"
       />
       <v-spacer />
+      <v-btn text @click="showReadme"
+        ><v-icon>mdi-information-outline</v-icon>&nbsp;README</v-btn
+      >
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped>
@@ -73,8 +75,8 @@
                             active-class="border"
                           >
                             <!-- <v-list-item-icon style="margin-right: 4px;">
-                                                             <v-icon right  color="green">mdi-settings</v-icon>
-                                                         </v-list-item-icon>-->
+                                                                                         <v-icon right  color="green">mdi-settings</v-icon>
+                                                                                     </v-list-item-icon>-->
 
                             <v-list-item-content>
                               <v-list-item-title
@@ -97,8 +99,8 @@
                               active-class="border"
                             >
                               <!-- <v-list-item-icon style="margin-right: 4px;">
-                                                                 <v-icon right  color="green">mdi-settings</v-icon>
-                                                             </v-list-item-icon>-->
+                                                                                               <v-icon right  color="green">mdi-settings</v-icon>
+                                                                                           </v-list-item-icon>-->
 
                               <v-list-item-content :id="subItem.id">
                                 <v-list-item-title
@@ -161,6 +163,7 @@ import CategoryManagerDialog from "../dialog/CategoryManagerDialog";
 import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
 import EventBus from "../event-bus";
 import UpdateCategoryDialog from "./dialog/UpdateCategoryDialog";
+import Api from "../../api/api";
 
 export default {
   components: {
@@ -199,6 +202,7 @@ export default {
     });
   },
   methods: {
+    showReadme() {},
     settingCategory(item, event) {
       event.preventDefault();
       event.stopPropagation();

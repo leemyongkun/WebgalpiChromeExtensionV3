@@ -74,7 +74,7 @@ export default {
                     ,HIGHLIGHT
                     ,ROOT_SITE
                     ,VIEW_WIDGET
-                    ,SIMPLE_WIDGET
+                    ,THEME
                     ,DATE_CREATE
                     ,SYNC_BOOKMARK
                 FROM TBL_OPTIONS`;
@@ -176,8 +176,15 @@ export default {
                 AND FL_DELETE = 'N'`;
   },
   updateOptionColor: () => {
-    return `UPDATE TBL_OPTIONS SET COLOR = ? WHERE EMAIL = ?
+    return `UPDATE TBL_OPTIONS 
+                SET COLOR = ? 
+                WHERE EMAIL = ?
       `;
+  },
+  updateOptionTheme: () => {
+    return `UPDATE TBL_OPTIONS 
+                SET THEME = ? 
+                `;
   },
   insertCategoryRelation: () => {
     return `INSERT INTO TBL_REL_CATEGORY

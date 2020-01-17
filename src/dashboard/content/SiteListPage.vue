@@ -22,6 +22,7 @@
                       outlined
                       style="cursor:pointer;"
                       @click="selectSite(item, item.URL_KEY)"
+                      @dblclick="goSourceSite(item)"
                       :key="item.URL_KEY"
                     >
                       <v-list-item three-line>
@@ -177,6 +178,7 @@ export default {
       let i = this.sites.map(item => item.URL_KEY).indexOf(siteUrlKey);
       this.sites.splice(i, 1);
     },
+
     getSites(param) {
       CONTENT_LISTENER.sendMessage({
         type: "get.sites",
@@ -189,6 +191,10 @@ export default {
           if (this.sites.length > 0) {
           }
         });
+    },
+    goSourceSite(site) {
+      let open = window.open(site.URL, "_blank");
+      open.focus();
     },
     selectSite(site, key) {
       this.sourceUrl = site.URL;
@@ -240,7 +246,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                              justify-content: center;*/
+                                                                    justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
