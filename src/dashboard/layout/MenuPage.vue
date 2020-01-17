@@ -51,8 +51,8 @@
                 <v-expansion-panel-content>
                   <v-list>
                     <v-btn block small @click="">
-                      <v-icon>mdi-playlist-plus</v-icon></v-btn
-                    >
+                      <v-icon>mdi-playlist-plus</v-icon>
+                    </v-btn>
                     <v-list-group v-for="(item, i) in category" :key="i">
                       <template v-slot:activator>
                         <v-list-item-content>
@@ -80,6 +80,11 @@
                               :id="subItem.id"
                               active-class="border"
                             >
+                              <v-list-item-icon style="margin-right: 2px;">
+                                <v-icon color="green" left
+                                  >mdi-folder-outline</v-icon
+                                >
+                              </v-list-item-icon>
                               <v-list-item-content :id="subItem.id">
                                 <v-list-item-title
                                   v-text="subItem.name"
