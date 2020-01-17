@@ -156,8 +156,14 @@ export default {
     this.getSites(null);
     //카테고리 클릭 시
     EventBus.$on("selectCategoryForSite", categoryInfo => {
-      let param = [categoryInfo.id];
-      this.getSites(param);
+      console.log("categoryInfo ", categoryInfo, categoryInfo === 0);
+      if (categoryInfo === 0) {
+        //전체일
+        this.getSites(null);
+      } else {
+        let param = [categoryInfo.id];
+        this.getSites(param);
+      }
     });
 
     //카테고리 이동 완료 시, SITE를 제거한다.
@@ -234,7 +240,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                        justify-content: center;*/
+                                                              justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

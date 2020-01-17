@@ -51,8 +51,8 @@
                 <v-expansion-panel-content>
                   <v-list>
                     <v-btn block small @click="">
-                      <v-icon>mdi-playlist-plus</v-icon></v-btn
-                    >
+                      <v-icon>mdi-playlist-plus</v-icon>
+                    </v-btn>
                     <v-list-group v-for="(item, i) in category" :key="i">
                       <template v-slot:activator>
                         <v-list-item-content>
@@ -64,9 +64,25 @@
 
                       <v-list-item-group>
                         <div
-                          v-for="subItem in item.children"
+                          v-for="(subItem, index) in item.children"
                           :key="subItem.name"
                         >
+                          <v-list-item
+                            v-if="index === 0"
+                            @click="selectCategory(0, $event)"
+                            active-class="border"
+                          >
+                            <!-- <v-list-item-icon style="margin-right: 4px;">
+                                                             <v-icon right  color="green">mdi-settings</v-icon>
+                                                         </v-list-item-icon>-->
+
+                            <v-list-item-content>
+                              <v-list-item-title
+                                v-text="`전체`"
+                              ></v-list-item-title>
+                            </v-list-item-content>
+                          </v-list-item>
+
                           <drop
                             @drop="dropEvent"
                             @dragover="subItem.dropOver = true"
@@ -80,12 +96,17 @@
                               :id="subItem.id"
                               active-class="border"
                             >
+                              <!-- <v-list-item-icon style="margin-right: 4px;">
+                                                                 <v-icon right  color="green">mdi-settings</v-icon>
+                                                             </v-list-item-icon>-->
+
                               <v-list-item-content :id="subItem.id">
                                 <v-list-item-title
                                   v-text="subItem.name"
                                   :id="subItem.id"
                                 ></v-list-item-title>
                               </v-list-item-content>
+
                               <v-list-item-icon
                                 @click="settingCategory(subItem, $event)"
                                 v-show="subItem.mouseOver"
