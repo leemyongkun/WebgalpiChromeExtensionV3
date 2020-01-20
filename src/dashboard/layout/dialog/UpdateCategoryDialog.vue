@@ -56,6 +56,7 @@ export default {
       }
 
       let param = [this.categoryInfo.id, this.categoryInfo.name, this.parent];
+      //todo : db 저장하기
 
       console.log(">> ", this.categoryInfo);
       console.log("parent", this.parent);

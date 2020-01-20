@@ -22,6 +22,7 @@
                       outlined
                       style="cursor:pointer;"
                       @click="selectSite(item, item.URL_KEY)"
+                      @dblclick="goSourceSite(item)"
                       :key="item.URL_KEY"
                     >
                       <v-list-item three-line>
@@ -156,8 +157,14 @@ export default {
     this.getSites(null);
     //카테고리 클릭 시
     EventBus.$on("selectCategoryForSite", categoryInfo => {
-      let param = [categoryInfo.id];
-      this.getSites(param);
+      console.log("categoryInfo ", categoryInfo, categoryInfo === 0);
+      if (categoryInfo === 0) {
+        //전체일
+        this.getSites(null);
+      } else {
+        let param = [categoryInfo.id];
+        this.getSites(param);
+      }
     });
 
     //카테고리 이동 완료 시, SITE를 제거한다.
@@ -171,6 +178,7 @@ export default {
       let i = this.sites.map(item => item.URL_KEY).indexOf(siteUrlKey);
       this.sites.splice(i, 1);
     },
+
     getSites(param) {
       CONTENT_LISTENER.sendMessage({
         type: "get.sites",
@@ -183,6 +191,10 @@ export default {
           if (this.sites.length > 0) {
           }
         });
+    },
+    goSourceSite(site) {
+      let open = window.open(site.URL, "_blank");
+      open.focus();
     },
     selectSite(site, key) {
       this.sourceUrl = site.URL;
@@ -234,7 +246,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                        justify-content: center;*/
+                                                                    justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

@@ -132,10 +132,9 @@ export default {
         return false;
       }
 
-      console.log(" >>> ", this.pickColor.join(","));
       CONTENT_LISTENER.sendMessage({
         type: "update.option.color",
-        data: [this.pickColor.join(","), ""] //[todo] 2번째 파라메터는 Email 로 한다.
+        data: [this.pickColor.join(","), "kkuni.bear@gmail.com"] //[todo] 2번째 파라메터는 Email 로 한다.
       }).then(response => {});
     },
     selectedColor() {

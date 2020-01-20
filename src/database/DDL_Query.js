@@ -268,7 +268,7 @@ CREATE TABLE IF NOT EXISTS TBL_LOG_LOGIN (
                       DATE_CREATE NUMERIC,
                       EXCLUDE_SITE TEXT,
                       SYNC_BOOKMARK TEXT,
-                      SIMPLE_WIDGET TEXT
+                      THEME TEXT
                       )`;
   },
 

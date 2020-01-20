@@ -135,6 +135,10 @@ let Api = {
   updateOptionColor: params => {
     return update(Query.updateOptionColor(), params);
   },
+  updateOptionTheme: params => {
+    console.log("updateOptionTheme.params ", params);
+    return update(Query.updateOptionTheme(), params);
+  },
   deleteCategoryRelation: param => {
     param = param.slice(1, 2); //URL_KEY만 가져온다
     return remove(Query.deleteCategoryRelation(), param);

@@ -54,6 +54,10 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       API.updateOptionColor(msg.data).then(res => {
         sendResponse(res);
       });
+    case "update.option.theme":
+      API.updateOptionTheme(msg.data).then(res => {
+        sendResponse(res);
+      });
     case "post.category.relation": //dashboard
       await API.deleteCategoryRelation(msg.data);
       API.postCategoryRelation(msg.data).then(res => {

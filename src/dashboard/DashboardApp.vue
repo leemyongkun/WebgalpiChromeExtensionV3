@@ -18,8 +18,16 @@ export default {
   components: { SiteListPage, MenuPage },
   data: () => ({}),
   methods: {},
-  mounted() {
-    this.$vuetify.theme.dark = true;
-  }
+  created() {
+    chrome.storage.sync.get(["options"], result => {
+      let options = result.options;
+      if (options.THEME === "dark") {
+        this.$vuetify.theme.dark = true;
+      } else {
+        this.$vuetify.theme.dark = false;
+      }
+    });
+  },
+  mounted() {}
 };
 </script>

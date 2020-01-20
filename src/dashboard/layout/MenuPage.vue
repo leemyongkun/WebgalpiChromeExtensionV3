@@ -15,7 +15,6 @@
       :dialog="settingDialog"
       @closeDialog="switchDialogSetting"
     ></SettingsManagerDialog>
-    <!-- CATEGORY : END -->
 
     <v-app-bar app clipped-left color="">
       <v-app-bar-nav-icon @click="drawer = !drawer" />
@@ -30,6 +29,9 @@
         prepend-inner-icon="mdi-feature-search-outline"
       />
       <v-spacer />
+      <v-btn text @click="showReadme"
+        ><v-icon>mdi-information-outline</v-icon>&nbsp;README</v-btn
+      >
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped>
@@ -64,9 +66,25 @@
 
                       <v-list-item-group>
                         <div
-                          v-for="subItem in item.children"
+                          v-for="(subItem, index) in item.children"
                           :key="subItem.name"
                         >
+                          <v-list-item
+                            v-if="index === 0"
+                            @click="selectCategory(0, $event)"
+                            active-class="border"
+                          >
+                            <!-- <v-list-item-icon style="margin-right: 4px;">
+                                                                                         <v-icon right  color="green">mdi-settings</v-icon>
+                                                                                     </v-list-item-icon>-->
+
+                            <v-list-item-content>
+                              <v-list-item-title
+                                v-text="`전체`"
+                              ></v-list-item-title>
+                            </v-list-item-content>
+                          </v-list-item>
+
                           <drop
                             @drop="dropEvent"
                             @dragover="subItem.dropOver = true"
@@ -85,12 +103,17 @@
                                   >mdi-folder-outline</v-icon
                                 >
                               </v-list-item-icon>
+                              <!-- <v-list-item-icon style="margin-right: 4px;">
+                                                                                               <v-icon right  color="green">mdi-settings</v-icon>
+                                                                                           </v-list-item-icon>-->
+
                               <v-list-item-content :id="subItem.id">
                                 <v-list-item-title
                                   v-text="subItem.name"
                                   :id="subItem.id"
                                 ></v-list-item-title>
                               </v-list-item-content>
+
                               <v-list-item-icon
                                 @click="settingCategory(subItem, $event)"
                                 v-show="subItem.mouseOver"
@@ -145,6 +168,7 @@ import CategoryManagerDialog from "../dialog/CategoryManagerDialog";
 import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
 import EventBus from "../event-bus";
 import UpdateCategoryDialog from "./dialog/UpdateCategoryDialog";
+import Api from "../../api/api";
 
 export default {
   components: {
@@ -183,6 +207,7 @@ export default {
     });
   },
   methods: {
+    showReadme() {},
     settingCategory(item, event) {
       event.preventDefault();
       event.stopPropagation();
