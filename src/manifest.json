@@ -16,7 +16,7 @@
   },
   "content_scripts": [
     {
-      "all_frames": true,
+      "all_frames": false,
       "run_at": "document_idle",
       "matches": ["*://*/*"],
       "css": ["css/hl.css", "lib/jcrop/jcrop.css"],

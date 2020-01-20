@@ -37,7 +37,6 @@ let BackgroundModule = {
 
       Api.getInitInfo(param).then(res => {
         //todo : excludesUrl 등록 기능 추가 할것.
-        console.log("res ", res);
         res.tabid = tabId;
 
         //옵션을 저장해둔다.
@@ -45,10 +44,9 @@ let BackgroundModule = {
 
         chrome.tabs.sendMessage(
           tabId,
-          { action: "init", data: res, site: param },
+          { action: "application.init", data: res, site: param },
           response => {
-            console.log("response ", response);
-            checkLastError("init");
+            checkLastError("application.init");
           }
         );
       });
@@ -62,9 +60,9 @@ let BackgrounEvent = {
     chrome.runtime.onInstalled.addListener(details => {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
-        // dbcon.dropTable();
+        dbcon.dropTable();
         dbcon.createTable();
-        //dbcon.initData();
+        dbcon.initData();
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }

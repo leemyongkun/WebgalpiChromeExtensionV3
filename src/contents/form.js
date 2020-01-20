@@ -53,7 +53,6 @@ let FORM = {
         "<a href='javascript:void(0)' class='" + color + '\' id="color-1"></a>';
     });
 
-    console.log("colorButtons", colorButtons);
     return (
       `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
                        <wafflepen class='wafflepen-toolbox waf-inlineFlex'>

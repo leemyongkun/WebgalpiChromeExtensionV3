@@ -18,7 +18,6 @@ let APPLICATION = {
         .contents()
         .find("html")
         .html();
-      console.log(" >> val ", val);
 
       document.getElementsByTagName("html")[0].innerHTML = val;
 
@@ -26,6 +25,7 @@ let APPLICATION = {
     });
   },
   init: async data => {
+    console.log("application.js### ", data);
     CONTENTS.initUrlInfo();
 
     //todo : 이건 나중에.. 해야할듯.

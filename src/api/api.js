@@ -24,7 +24,6 @@ let Api = {
           let excludes_url = values[4];
 
           let allItems = new Object();
-          console.log("site ", site);
           if (site.length != 0) {
             allItems.SITE = site;
             allItems.HIGHLIGHT_LIST = items;
@@ -47,9 +46,7 @@ let Api = {
 
           res(obj);
         },
-        reason => {
-          console.log("REASON ", reason);
-        }
+        reason => {}
       );
     });
   },
@@ -70,7 +67,9 @@ let Api = {
     return select(query, params);
   },
   getMenus: params => {
-    return select(Query.getMenus(), params);
+    let query = Query.getMenus();
+    console.log("query ", query);
+    return select(query, params);
   },
   getAllItems: parameter => {
     //alert("parameter " + JSON.stringify(parameter));

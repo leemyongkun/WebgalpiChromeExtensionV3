@@ -172,6 +172,7 @@ import CategoryManagerDialog from "../dialog/CategoryManagerDialog";
 import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
 import EventBus from "../event-bus";
 import UpdateCategoryDialog from "./dialog/UpdateCategoryDialog";
+import { POPUP_LISTENER } from "../../common/port-listener";
 
 export default {
   components: {
@@ -195,27 +196,37 @@ export default {
       off: "mdi-bookmark-outline"
     }
   }),
-  created() {},
-  mounted() {
-    this.getCategory();
-    EventBus.$on("reload.category", () => {
+  created() {
+    this.$nextTick(() => {
       this.getCategory();
+      EventBus.$on("reload.category", () => {
+        this.getCategory();
+      });
     });
   },
+  mounted() {},
   methods: {
     clickMain() {},
     getCategory() {
-      CONTENT_LISTENER.sendMessage({
+      /* CONTENT_LISTENER.sendMessage({
         type: "get.menus",
         data: null
-      })
-        .then(category => {
+      }).then(category => {
+          console.log("category ",category);
           this.category = this.generateTree(category, null);
         })
         .then(() => {
           // 첫번째꺼 클릭
           //this.$refs.allCategory.click();
-        });
+        });*/
+      POPUP_LISTENER.postMessage("get.menus.port", null).onMessage.addListener(
+        response => {
+          console.log("response ", response);
+          /*  response.then( res =>{
+                console.log("category " , res);
+            })*/
+        }
+      );
     },
     settingCategory(item, event) {
       event.preventDefault();

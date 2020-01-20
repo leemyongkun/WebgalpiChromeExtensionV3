@@ -76,11 +76,14 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
 });
 
 chrome.extension.onConnect.addListener(function(port) {
-  port.onMessage.addListener(msg => {
+  port.onMessage.addListener(async msg => {
     console.log("background/listener / msg.action ", msg.action);
     switch (msg.action) {
       case "popup.save.site":
         API.postSite(msg.data);
+        break;
+      case "get.menus.port":
+        let ret = await API.getMenus(null);
         break;
     }
   });

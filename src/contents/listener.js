@@ -5,7 +5,8 @@ import { GLOBAL_CONFIG, URL } from "./global/config";
 
 chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
   switch (msg.action) {
-    case "init":
+    case "application.init":
+      console.log("INIT ###");
       URL.SITE = msg.site.URL;
       URL.KEY = msg.site.URL_KEY;
       URL.TYPE = msg.site.EXT;
@@ -17,6 +18,7 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
     case "get.site.info":
       console.log(URL.SITE);
       let content = await CONTENTS.firstVisitSite(new Object());
+      console.log("#### 2");
       content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
       content.TITLE = document.title;
       content.UPDATE_TITLE = document.title;
