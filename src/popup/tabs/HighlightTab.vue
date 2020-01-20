@@ -97,13 +97,6 @@ export default {
           }).then(response => {
             this.Highlight.activities = response;
           });
-          /* POPUP_LISTENER.postMessage(
-            "get.highlights",
-            urlInfo
-          ).onMessage.addListener(response => {
-            console.log("in popup.highlights ", response);
-            this.Highlight.activities = response;
-          });*/
         });
       });
     });

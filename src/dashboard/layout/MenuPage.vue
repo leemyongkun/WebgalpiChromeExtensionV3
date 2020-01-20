@@ -1,7 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <UpdateCategoryDialog
-      :categoryInfo="categoryInfo"
       :category="category"
       ref="updateCategoryDialog"
     ></UpdateCategoryDialog>
@@ -19,7 +18,9 @@
     <v-app-bar app clipped-left color="">
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <span class="title ml-3 mr-5"
-        >WEB&nbsp;<span class="font-weight-light">Galpi</span>
+        >WEB&nbsp;<span class="font-weight-light" @click="clickMain"
+          >Galpi</span
+        >
       </span>
       <v-text-field
         solo-inverted
@@ -29,9 +30,9 @@
         prepend-inner-icon="mdi-feature-search-outline"
       />
       <v-spacer />
-      <v-btn text @click="showReadme"
-        ><v-icon>mdi-information-outline</v-icon>&nbsp;README</v-btn
-      >
+      <v-btn text @click=""
+        ><v-icon>mdi-information-outline</v-icon>&nbsp;README
+      </v-btn>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped>
@@ -55,6 +56,25 @@
                     <v-btn block small @click="">
                       <v-icon>mdi-playlist-plus</v-icon>
                     </v-btn>
+
+                    <v-list-item-group>
+                      <v-list-item
+                        @click="selectCategory(0, $event)"
+                        active-class="border"
+                        ref="allCategory"
+                      >
+                        <!-- <v-list-item-icon style="margin-right: 4px;">
+                                                                                                             <v-icon right  color="green">mdi-settings</v-icon>
+                                                                                                         </v-list-item-icon>-->
+
+                        <v-list-item-content>
+                          <v-list-item-title
+                            v-text="`전체`"
+                          ></v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list-item-group>
+
                     <v-list-group v-for="(item, i) in category" :key="i">
                       <template v-slot:activator>
                         <v-list-item-content>
@@ -69,22 +89,6 @@
                           v-for="(subItem, index) in item.children"
                           :key="subItem.name"
                         >
-                          <v-list-item
-                            v-if="index === 0"
-                            @click="selectCategory(0, $event)"
-                            active-class="border"
-                          >
-                            <!-- <v-list-item-icon style="margin-right: 4px;">
-                                                                                         <v-icon right  color="green">mdi-settings</v-icon>
-                                                                                     </v-list-item-icon>-->
-
-                            <v-list-item-content>
-                              <v-list-item-title
-                                v-text="`전체`"
-                              ></v-list-item-title>
-                            </v-list-item-content>
-                          </v-list-item>
-
                           <drop
                             @drop="dropEvent"
                             @dragover="subItem.dropOver = true"
@@ -99,8 +103,8 @@
                               active-class="border"
                             >
                               <!-- <v-list-item-icon style="margin-right: 4px;">
-                                                                                               <v-icon right  color="green">mdi-settings</v-icon>
-                                                                                           </v-list-item-icon>-->
+                                                                                                                             <v-icon right  color="green">mdi-settings</v-icon>
+                                                                                                                         </v-list-item-icon>-->
 
                               <v-list-item-content :id="subItem.id">
                                 <v-list-item-title
@@ -163,7 +167,6 @@ import CategoryManagerDialog from "../dialog/CategoryManagerDialog";
 import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
 import EventBus from "../event-bus";
 import UpdateCategoryDialog from "./dialog/UpdateCategoryDialog";
-import Api from "../../api/api";
 
 export default {
   components: {
@@ -185,29 +188,34 @@ export default {
     icon: {
       on: "mdi-bookmark",
       off: "mdi-bookmark-outline"
-    },
-    categoryInfo: { name: "" }
+    }
   }),
   created() {},
   mounted() {
-    CONTENT_LISTENER.sendMessage({
-      type: "get.menus",
-      data: null
-    }).then(category => {
-      console.log("category ", category);
-      this.category = this.generateTree(category, null);
-      console.log("this.category ", this.category);
-      // let b =  treeModel(category, null);
-      // console.log("b ", b)
+    this.getCategory();
+    EventBus.$on("reload.category", () => {
+      this.getCategory();
     });
   },
   methods: {
-    showReadme() {},
+    clickMain() {},
+    getCategory() {
+      CONTENT_LISTENER.sendMessage({
+        type: "get.menus",
+        data: null
+      })
+        .then(category => {
+          this.category = this.generateTree(category, null);
+        })
+        .then(() => {
+          // 첫번째꺼 클릭
+          //this.$refs.allCategory.click();
+        });
+    },
     settingCategory(item, event) {
       event.preventDefault();
       event.stopPropagation();
-      this.categoryInfo = item;
-      this.$refs.updateCategoryDialog.openDialog();
+      this.$refs.updateCategoryDialog.openDialog(item, this.category);
       //alert(JSON.stringify(item));
     },
     selectCategory(category, event) {

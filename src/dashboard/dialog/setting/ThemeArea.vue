@@ -29,19 +29,22 @@ export default {
   },
   methods: {
     changeTheme() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-      setTimeout(() => {
+      this.$nextTick(() => {
         CONTENT_LISTENER.sendMessage({
           type: "update.option.theme",
           data: [this.theme] //[todo] 2번째 파라메터는 Email 로 한다.
-        }).then(response => {
-          //option을 수정한다.
-          chrome.storage.sync.get(["options"], result => {
-            result.THEME = this.theme;
-            chrome.storage.sync.set({ options: result });
+        })
+          .then(response => {
+            //option을 수정한다.
+            chrome.storage.sync.get(["options"], result => {
+              result.THEME = this.theme;
+              chrome.storage.sync.set({ options: result });
+            });
+          })
+          .then(() => {
+            this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
           });
-        });
-      }, 500);
+      });
     }
   }
 };

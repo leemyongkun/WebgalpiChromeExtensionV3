@@ -101,7 +101,7 @@ export default {
                     LIMIT 1 `;
   },
   getSites: params => {
-    let joinCondition = " WHERE CATEGORY.URL_KEY IS NULL";
+    let joinCondition = ""; //" WHERE CATEGORY.URL_KEY IS NULL";
     let limit = ""; //"LIMIT 5";
     if (params !== null) {
       joinCondition = " WHERE CATEGORY.CATEGORY_IDX = ?";
@@ -199,6 +199,13 @@ export default {
   deleteCategoryRelation: () => {
     return `DELETE FROM TBL_REL_CATEGORY
                 WHERE URL_KEY = ? 
+		`;
+  },
+  updateCategoryItem: () => {
+    return `UPDATE TBL_CATEGORY
+                SET NAME = ? 
+                    , PARENT = ?
+                WHERE IDX = ? 
 		`;
   }
 };

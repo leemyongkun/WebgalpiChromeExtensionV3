@@ -28,10 +28,9 @@ export default {
   mounted() {},
   methods: {
     changeViewMode() {
-      setTimeout(() => {
-        console.log("this.view ", this.view);
+      this.$nextTick(() => {
         EventBus.$emit("view-mode", this.view);
-      }, 300);
+      });
     }
   }
 };

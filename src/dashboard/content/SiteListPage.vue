@@ -155,9 +155,9 @@ export default {
   mounted() {
     // 로딩 시 호출 (최근 10건만)
     this.getSites(null);
+
     //카테고리 클릭 시
     EventBus.$on("selectCategoryForSite", categoryInfo => {
-      console.log("categoryInfo ", categoryInfo, categoryInfo === 0);
       if (categoryInfo === 0) {
         //전체일
         this.getSites(null);

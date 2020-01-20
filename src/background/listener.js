@@ -65,6 +65,13 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       });
       return true;
       break;
+    case "update.category.item": //dashboard
+      console.log("update.category.item ", msg.data);
+      API.updateCategoryItem(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
   }
 });
 

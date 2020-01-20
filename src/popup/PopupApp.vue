@@ -7,7 +7,7 @@
         </b-tab>
 
         <b-tab no-body title="HIGHLIGHT">
-          <HighlightTab :urlInfo="urlInfo"></HighlightTab>
+          <HighlightTab></HighlightTab>
         </b-tab>
       </b-tabs>
     </b-card>
@@ -25,12 +25,10 @@ export default {
     SiteInfoTab,
     HighlightTab
   },
-  data() {
-    return {
-      urlInfo: null
-    };
-  },
+  data: () => ({}),
+  created() {},
   methods: {},
+
   mounted() {}
 };
 </script>

@@ -145,6 +145,14 @@ let Api = {
   },
   postCategoryRelation: param => {
     return insert(Query.insertCategoryRelation(), param);
+  },
+  updateCategoryItem: param => {
+    console.log(
+      "Query.updateCategoryItem() ",
+      Query.updateCategoryItem(),
+      param
+    );
+    return update(Query.updateCategoryItem(), param);
   }
 };
 
