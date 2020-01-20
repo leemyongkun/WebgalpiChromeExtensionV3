@@ -102,6 +102,11 @@
                               :id="subItem.id"
                               active-class="border"
                             >
+                              <v-list-item-icon style="margin-right: 2px;">
+                                <v-icon color="green" left
+                                  >mdi-folder-outline</v-icon
+                                >
+                              </v-list-item-icon>
                               <!-- <v-list-item-icon style="margin-right: 4px;">
                                                                                                                              <v-icon right  color="green">mdi-settings</v-icon>
                                                                                                                          </v-list-item-icon>-->
