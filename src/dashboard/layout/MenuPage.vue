@@ -71,59 +71,62 @@
                       </v-list-item>
                     </v-list-item-group>
 
-                    <v-list-group v-for="(item, i) in category" :key="i">
-                      <template v-slot:activator>
-                        <v-list-item-content>
-                          <v-list-item-title
-                            v-text="item.name"
-                          ></v-list-item-title>
-                        </v-list-item-content>
-                      </template>
+                    <div v-for="(item, i) in category" :key="i">
+                      <v-list-group sub-group no-action>
+                        <template v-slot:activator>
+                          <v-list-item-content>
+                            <v-list-item-title
+                              v-text="item.name"
+                            ></v-list-item-title>
+                          </v-list-item-content>
+                        </template>
 
-                      <v-list-item-group>
-                        <div
-                          v-for="(subItem, index) in item.children"
-                          :key="subItem.name"
-                        >
-                          <drop
-                            @drop="dropEvent"
-                            @dragover="subItem.dropOver = true"
-                            @dragleave="subItem.dropOver = false"
+                        <v-list-item-group>
+                          <div
+                            v-for="(subItem, index) in item.children"
+                            :key="subItem.name"
                           >
-                            <v-list-item
-                              :style="subItem.dropOver ? overColor : ''"
-                              @click="selectCategory(subItem, $event)"
-                              @mouseover="subItem.mouseOver = true"
-                              @mouseleave="subItem.mouseOver = false"
-                              :id="subItem.id"
-                              active-class="border"
+                            <drop
+                              @drop="dropEvent"
+                              @dragover="subItem.dropOver = true"
+                              @dragleave="subItem.dropOver = false"
                             >
-                              <v-list-item-icon style="margin-right: 2px;">
-                                <v-icon size="15px" color="green" left
-                                  >mdi-folder-outline
-                                </v-icon>
-                              </v-list-item-icon>
-
-                              <v-list-item-content :id="subItem.id">
-                                <v-list-item-title
-                                  v-text="
-                                    subItem.name + ` [` + subItem.cnt + `]`
-                                  "
-                                  :id="subItem.id"
-                                ></v-list-item-title>
-                              </v-list-item-content>
-
-                              <v-list-item-icon
-                                @click="settingCategory(subItem, $event)"
-                                v-show="subItem.mouseOver"
+                              <v-list-item
+                                style="padding-right: 3px;"
+                                :style="subItem.dropOver ? overColor : ''"
+                                @click="selectCategory(subItem, $event)"
+                                @mouseover="subItem.mouseOver = true"
+                                @mouseleave="subItem.mouseOver = false"
+                                :id="subItem.id"
+                                active-class="border"
                               >
-                                <v-icon right>mdi-settings</v-icon>
-                              </v-list-item-icon>
-                            </v-list-item>
-                          </drop>
-                        </div>
-                      </v-list-item-group>
-                    </v-list-group>
+                                <v-list-item-icon style="margin-right: 2px;">
+                                  <v-icon size="15px" color="green" left
+                                    >mdi-folder-outline
+                                  </v-icon>
+                                </v-list-item-icon>
+
+                                <v-list-item-content :id="subItem.id">
+                                  <v-list-item-title
+                                    v-text="
+                                      subItem.name + ` [` + subItem.cnt + `]`
+                                    "
+                                    :id="subItem.id"
+                                  ></v-list-item-title>
+                                </v-list-item-content>
+
+                                <v-list-item-icon
+                                  @click="settingCategory(subItem, $event)"
+                                  v-show="subItem.mouseOver"
+                                >
+                                  <v-icon right>mdi-settings</v-icon>
+                                </v-list-item-icon>
+                              </v-list-item>
+                            </drop>
+                          </div>
+                        </v-list-item-group>
+                      </v-list-group>
+                    </div>
                   </v-list>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -218,13 +221,13 @@ export default {
         });
 
       /*POPUP_LISTENER.postMessage("get.menus.port", null).onMessage.addListener(
-                                      response => {
-                                        console.log("response ", response);
-                                        /!*  response.then( res =>{
-                                              console.log("category " , res);
-                                          })*!/
-                                      }
-                                    );*/
+                                                response => {
+                                                  console.log("response ", response);
+                                                  /!*  response.then( res =>{
+                                                        console.log("category " , res);
+                                                    })*!/
+                                                }
+                                              );*/
     },
     settingCategory(item, event) {
       event.preventDefault();
