@@ -137,7 +137,11 @@ const config = {
         }
       }
     ])
-  ]
+  ],
+  performance: {
+    maxEntrypointSize: 4000000,
+    maxAssetSize: 1000000
+  }
 };
 
 if (config.mode === "production") {

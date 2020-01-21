@@ -19,8 +19,8 @@
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <span class="title ml-3 mr-5"
         >WEB&nbsp;<span class="font-weight-light" @click="clickMain"
-          >Galpi</span
-        >
+          >Galpi
+        </span>
       </span>
       <v-text-field
         solo-inverted
@@ -64,8 +64,8 @@
                         ref="allCategory"
                       >
                         <!-- <v-list-item-icon style="margin-right: 4px;">
-                                                                                                             <v-icon right  color="green">mdi-settings</v-icon>
-                                                                                                         </v-list-item-icon>-->
+                                                                                                                                     <v-icon right  color="green">mdi-settings</v-icon>
+                                                                                                                                 </v-list-item-icon>-->
 
                         <v-list-item-content>
                           <v-list-item-title
@@ -104,12 +104,12 @@
                             >
                               <v-list-item-icon style="margin-right: 2px;">
                                 <v-icon color="green" left
-                                  >mdi-folder-outline</v-icon
-                                >
+                                  >mdi-folder-outline
+                                </v-icon>
                               </v-list-item-icon>
                               <!-- <v-list-item-icon style="margin-right: 4px;">
-                                                                                                                             <v-icon right  color="green">mdi-settings</v-icon>
-                                                                                                                         </v-list-item-icon>-->
+                                                                                                                                                           <v-icon right  color="green">mdi-settings</v-icon>
+                                                                                                                                                       </v-list-item-icon>-->
 
                               <v-list-item-content :id="subItem.id">
                                 <v-list-item-title
@@ -198,35 +198,40 @@ export default {
   }),
   created() {
     this.$nextTick(() => {
-      this.getCategory();
-      EventBus.$on("reload.category", () => {
-        this.getCategory();
-      });
+      /*  this.getCategory();
+
+                  EventBus.$on("reload.category", () => {
+                      this.getCategory();
+                  });*/
     });
   },
   mounted() {},
   methods: {
-    clickMain() {},
+    clickMain() {
+      this.getCategory();
+    },
     getCategory() {
-      /* CONTENT_LISTENER.sendMessage({
+      CONTENT_LISTENER.sendMessage({
         type: "get.menus",
         data: null
-      }).then(category => {
-          console.log("category ",category);
+      })
+        .then(category => {
+          console.log("category ", category);
           this.category = this.generateTree(category, null);
         })
         .then(() => {
           // 첫번째꺼 클릭
           //this.$refs.allCategory.click();
-        });*/
-      POPUP_LISTENER.postMessage("get.menus.port", null).onMessage.addListener(
-        response => {
-          console.log("response ", response);
-          /*  response.then( res =>{
-                console.log("category " , res);
-            })*/
-        }
-      );
+        });
+
+      /*POPUP_LISTENER.postMessage("get.menus.port", null).onMessage.addListener(
+                  response => {
+                    console.log("response ", response);
+                    /!*  response.then( res =>{
+                          console.log("category " , res);
+                      })*!/
+                  }
+                );*/
     },
     settingCategory(item, event) {
       event.preventDefault();
