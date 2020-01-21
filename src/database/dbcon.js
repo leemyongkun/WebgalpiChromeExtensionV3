@@ -21,114 +21,29 @@ export default {
                     )`;
     let TRUNC_CATEGORY = `DELETE FROM TBL_CATEGORY`;
     let INIT_CATEGORY = `INSERT INTO TBL_CATEGORY(
-                                     IDX,
+                                    IDX,
                                      EMAIL,
                                      NAME,
-                                     DATE_CREATE,
                                      PARENT,
                                      DEPTH,
-                                     CATEGORY_STATUS,
-                                     SHARE, --Y/N
-                                     TYPE, --SYSTEM / CUSTOM
-                                     FL_LOCK, --Y/N
-                                     FL_PUBLISH --Y/N
-                            ) VALUES (
-                                      7,
-                                      null, --EMAIL
-                                      '개발관련',
-                                      null, --DATE_CREATE
-                                      null, --parent 최상위
-                                      0, --depth 
-                                      null, --category_status
-                                      'N', --share
-                                      'SYSTEM', --type
-                                      'N', --fl_locl
-                                      'N' --fl_publish
-                                     ),(
-                                      0,
-                                      null, --EMAIL
-                                      '컨텐츠',
-                                      null, --DATE_CREATE
-                                      null, --parent 최상위
-                                      0, --depth 
-                                      null, --category_status
-                                      'N', --share
-                                      'SYSTEM', --type
-                                      'N', --fl_locl
-                                      'N' --fl_publish
-                                     ),(
-                                      1,
-                                      null, --EMAIL
-                                      'YOUTUBE',
-                                      null, --DATE_CREATE
-                                      0, --parent 
-                                      1, --depth 
-                                      null, --category_status
-                                      'N', --share
-                                      'SYSTEM', --type
-                                      'N', --fl_locl
-                                      'N' --fl_publish
-                                     ),(
-                                      2,
-                                      null, --EMAIL
-                                      'FACEBOOK',
-                                      null, --DATE_CREATE
-                                      0, --parent 
-                                      1, --depth 
-                                      null, --category_status
-                                      'N', --share
-                                      'SYSTEM', --type
-                                      'N', --fl_locl
-                                      'N' --fl_publish
-                                     ),(
-                                      3,
-                                      null, --EMAIL
-                                      'TWITTER',
-                                      null, --DATE_CREATE
-                                      0, --parent 
-                                      1, --depth 
-                                      null, --category_status
-                                      'N', --share
-                                      'SYSTEM', --type
-                                      'N', --fl_locl
-                                      'N' --fl_publish
-                                     ),(
-                                      4,
-                                      null, --EMAIL
-                                      'NAVER-BLOG',
-                                      null, --DATE_CREATE
-                                      0, --parent 
-                                      1, --depth 
-                                      null, --category_status
-                                      'N', --share
-                                      'SYSTEM', --type
-                                      'N', --fl_locl
-                                      'N' --fl_publish
-                                     ),(
-                                      5,
-                                      null, --EMAIL
-                                      'DAUM-BLOG',
-                                      null, --DATE_CREATE
-                                      0, --parent 
-                                      1, --depth 
-                                      null, --category_status
-                                      'N', --share
-                                      'SYSTEM', --type
-                                      'N', --fl_locl
-                                      'N' --fl_publish
-                                     ),(
-                                      6,
-                                      null, --EMAIL
-                                      'NEWS',
-                                      null, --DATE_CREATE
-                                      0, --parent 
-                                      1, --depth 
-                                      null, --category_status
-                                      'N', --share
-                                      'SYSTEM', --type
-                                      'N', --fl_locl
-                                      'N' --fl_publish
-                                     )`;
+                                     SORT,
+                                     DATE_CREATE
+                            ) VALUES  (0,'kkuni.bear@gmail.com', '기술', null, 0, 0, null),
+                                          (3,'kkuni.bear@gmail.com', '자바', 0, 1, 1, null),
+                                          (4,'kkuni.bear@gmail.com', '크롬', 0, 1, 2, null),
+                                          (5,'kkuni.bear@gmail.com', '자바스크립트', 0, 1, 3, null),
+                                      (1,'kkuni.bear@gmail.com', '취미', null, 0, 0, null),
+                                          (6,'kkuni.bear@gmail.com', '사진', 1, 1, 1, null),
+                                          (7,'kkuni.bear@gmail.com', '영화', 1, 1, 2, null),
+                                          (8,'kkuni.bear@gmail.com', '도서', 1, 1, 3, null),
+                                      (2,'kkuni.bear@gmail.com', '쇼핑', null, 0, 0, null),
+                                          (9,'kkuni.bear@gmail.com', '쿠팡', 2, 1, 1, null),
+                                          (10,'kkuni.bear@gmail.com', '위메프', 2, 1, 2, null),
+                                          (11,'kkuni.bear@gmail.com', '티몬', 2, 1, 3, null),
+                                      (12,'kkuni.bear@gmail.com', '잡동사니', null, 0, 0, null),
+                                          (13,'kkuni.bear@gmail.com', '뉴스', 12, 1, 1, null)
+                                              
+                                          `;
 
     db.transaction(function(tx) {
       tx.executeSql(TRUNC_OPTIONS, []);
