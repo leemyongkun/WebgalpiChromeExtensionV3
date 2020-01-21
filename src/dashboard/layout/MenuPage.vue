@@ -63,10 +63,6 @@
                         active-class="border"
                         ref="allCategory"
                       >
-                        <!-- <v-list-item-icon style="margin-right: 4px;">
-                                                                                                                                                             <v-icon right  color="green">mdi-settings</v-icon>
-                                                                                                                                                         </v-list-item-icon>-->
-
                         <v-list-item-content>
                           <v-list-item-title
                             v-text="`전체`"
@@ -103,17 +99,16 @@
                               active-class="border"
                             >
                               <v-list-item-icon style="margin-right: 2px;">
-                                <v-icon color="green" left
+                                <v-icon size="15px" color="green" left
                                   >mdi-folder-outline
                                 </v-icon>
                               </v-list-item-icon>
-                              <!-- <v-list-item-icon style="margin-right: 4px;">
-                                                                                                                                                                                         <v-icon right  color="green">mdi-settings</v-icon>
-                                                                                                                                                                                     </v-list-item-icon>-->
 
                               <v-list-item-content :id="subItem.id">
                                 <v-list-item-title
-                                  v-text="subItem.name"
+                                  v-text="
+                                    subItem.name + ` [` + subItem.cnt + `]`
+                                  "
                                   :id="subItem.id"
                                 ></v-list-item-title>
                               </v-list-item-content>
@@ -223,13 +218,13 @@ export default {
         });
 
       /*POPUP_LISTENER.postMessage("get.menus.port", null).onMessage.addListener(
-                            response => {
-                              console.log("response ", response);
-                              /!*  response.then( res =>{
-                                    console.log("category " , res);
-                                })*!/
-                            }
-                          );*/
+                                      response => {
+                                        console.log("response ", response);
+                                        /!*  response.then( res =>{
+                                              console.log("category " , res);
+                                          })*!/
+                                      }
+                                    );*/
     },
     settingCategory(item, event) {
       event.preventDefault();
@@ -262,9 +257,13 @@ export default {
       CONTENT_LISTENER.sendMessage({
         type: "post.category.relation",
         data: param
-      }).then(() => {
-        EventBus.$emit("hideSite", data.URL_KEY);
-      });
+      })
+        .then(() => {
+          EventBus.$emit("hideSite", data.URL_KEY);
+        })
+        .then(() => {
+          this.getCategory();
+        });
     },
     switchDialogCategoryEditor() {
       this.categoryDialog = !this.categoryDialog;

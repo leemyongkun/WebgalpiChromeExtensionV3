@@ -85,9 +85,6 @@ chrome.extension.onConnect.addListener(function(port) {
       case "popup.save.site":
         API.postSite(msg.data);
         break;
-      case "get.menus.port":
-        let ret = await API.getMenus(null);
-        break;
     }
   });
 });

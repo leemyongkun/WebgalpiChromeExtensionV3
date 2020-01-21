@@ -129,6 +129,7 @@ export default {
                                       'N', --fl_locl
                                       'N' --fl_publish
                                      )`;
+
     db.transaction(function(tx) {
       tx.executeSql(TRUNC_OPTIONS, []);
       tx.executeSql(INIT_OPTIONS, []);

@@ -31,7 +31,18 @@
                             {{ item.UPDATE_TITLE }}
                           </v-list-item-title>
                           <v-list-item-subtitle>
-                            {{ item.OG_DESCRIPTION }}
+                            <span v-if="item.OG_DESCRIPTION !== 'undefined'">{{
+                              item.OG_DESCRIPTION
+                            }}</span>
+                          </v-list-item-subtitle>
+                          <v-list-item-subtitle style="font-size: 12px;">
+                            <v-icon
+                              size="12px"
+                              color="green"
+                              left
+                              v-if="item.CATEGORY_NAME !== 'NO_CATEGORY'"
+                              >mdi-folder-outline</v-icon
+                            >{{ item.CATEGORY_NAME }}
                           </v-list-item-subtitle>
                         </v-list-item-content>
 

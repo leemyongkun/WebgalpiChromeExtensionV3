@@ -9,7 +9,7 @@
       <v-card-text>
         <v-container>
           <v-row>
-            <v-col cols="6">
+            <v-col cols="5">
               <v-text-field
                 label="CATEGORY NAME"
                 :value="categoryId"
@@ -17,7 +17,7 @@
                 required
               ></v-text-field>
             </v-col>
-            <v-col cols="6" sm="6">
+            <v-col cols="5" sm="6">
               <v-autocomplete
                 :items="category"
                 item-value="id"
@@ -55,7 +55,6 @@ export default {
   mounted() {},
   methods: {
     openDialog(categoryInfo, category) {
-      //category.unshift({'id': -1, 'name': 'PARENT로 지정'});
       this.category = category;
 
       this.categoryName = categoryInfo.name;
@@ -65,6 +64,7 @@ export default {
       this.dialog = true;
     },
     update() {
+      alert("");
       if (this.categoryParent === null) {
         alert("null 은 안되요");
         return false;

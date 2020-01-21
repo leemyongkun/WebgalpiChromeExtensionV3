@@ -104,11 +104,11 @@ export default {
     let joinCondition = ""; //" WHERE CATEGORY.URL_KEY IS NULL";
     let limit = ""; //"LIMIT 5";
     if (params !== null) {
-      joinCondition = " WHERE CATEGORY.CATEGORY_IDX = ?";
+      joinCondition = " WHERE REL_CATEGORY.CATEGORY_IDX = ?";
     }
     return (
       `SELECT 
-                    IDX,
+                    SITES.IDX,
                      SITES.URL_KEY,
                     SITES.EMAIL,
                     SITES.OWNER_EMAIL,
@@ -126,9 +126,12 @@ export default {
                     READERMODE_CONTENTS,
                     SITES.DATE_CREATE,
                     DATE_UPDATE,
-                    TAGS
-                    FROM TBL_SITES SITES LEFT JOIN TBL_REL_CATEGORY CATEGORY
-                    ON SITES.URL_KEY = CATEGORY.URL_KEY
+                    TAGS,
+                    CASE WHEN CATEGORY.NAME IS NULL THEN 'NO_CATEGORY' ELSE CATEGORY.NAME END AS CATEGORY_NAME
+                    FROM TBL_SITES SITES LEFT JOIN TBL_REL_CATEGORY REL_CATEGORY
+                    ON SITES.URL_KEY = REL_CATEGORY.URL_KEY
+                    LEFT JOIN TBL_CATEGORY CATEGORY
+                    ON REL_CATEGORY.CATEGORY_IDX = CATEGORY.IDX
                     ` +
       joinCondition +
       `
@@ -138,21 +141,30 @@ export default {
     );
   },
   getMenus: () => {
-    return `SELECT 
-                     IDX as id,
-                    -- EMAIL,
-                     NAME as name,
-                    -- DATE_CREATE,
-                     PARENT as parent,
-                     DEPTH as depth,
-                     false as mouseOver ,
-                     false as dropOver
-                     --CATEGORY_STATUS,
-                     --SHARE, --Y/N
-                     --TYPE, --SYSTEM / CUSTOM
-                     --FL_LOCK, --Y/N
-                     --FL_PUBLISH --Y/N
-                FROM TBL_CATEGORY`;
+    return `SELECT id,
+                   name,
+                   parent,
+                   depth,
+                   mouseOver,
+                   dropOver,
+                   SUM(CNT) as cnt
+            FROM (
+                     SELECT IDX     as id,
+                            NAME    as name,
+                            PARENT  as parent,
+                            DEPTH   as depth,
+                            false   as mouseOver,
+                            false   as dropOver,
+                            CASE
+                                WHEN B.CATEGORY_IDX IS NULL
+                                    THEN 0
+                                ELSE 1
+                                END AS CNT
+                     FROM TBL_CATEGORY A
+                              LEFT JOIN TBL_REL_CATEGORY B
+                                        ON A.IDX = B.CATEGORY_IDX
+                 )
+            GROUP BY id, name, parent, depth, mouseOver, dropOver`;
   },
   getAllItems: () => {
     return `SELECT 
