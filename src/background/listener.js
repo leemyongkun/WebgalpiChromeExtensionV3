@@ -1,6 +1,6 @@
 import API from "../api/api.js";
 
-chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
+chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
   switch (msg.type) {
     case "create.highlight":
       if (msg.data.SITE_CHECK === "N") {
@@ -45,9 +45,7 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
     case "get.menus": //dashboard
       API.getMenus(null).then(res => {
-        console.log("get.menus >>> listener 2 ", res);
-        //sendResponse(res);
-        sendResponse({ name: "leemyongkun" });
+        sendResponse(res);
       });
       return true;
       break;
@@ -63,9 +61,10 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       });
       break;
     case "post.category.relation": //dashboard
-      await API.deleteCategoryRelation(msg.data);
-      API.postCategoryRelation(msg.data).then(res => {
-        sendResponse(res);
+      API.deleteCategoryRelation(msg.data).then(() => {
+        API.postCategoryRelation(msg.data).then(res => {
+          sendResponse(res);
+        });
       });
       return true;
       break;

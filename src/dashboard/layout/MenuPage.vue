@@ -64,8 +64,8 @@
                         ref="allCategory"
                       >
                         <!-- <v-list-item-icon style="margin-right: 4px;">
-                                                                                                                                     <v-icon right  color="green">mdi-settings</v-icon>
-                                                                                                                                 </v-list-item-icon>-->
+                                                                                                                                                             <v-icon right  color="green">mdi-settings</v-icon>
+                                                                                                                                                         </v-list-item-icon>-->
 
                         <v-list-item-content>
                           <v-list-item-title
@@ -108,8 +108,8 @@
                                 </v-icon>
                               </v-list-item-icon>
                               <!-- <v-list-item-icon style="margin-right: 4px;">
-                                                                                                                                                           <v-icon right  color="green">mdi-settings</v-icon>
-                                                                                                                                                       </v-list-item-icon>-->
+                                                                                                                                                                                         <v-icon right  color="green">mdi-settings</v-icon>
+                                                                                                                                                                                     </v-list-item-icon>-->
 
                               <v-list-item-content :id="subItem.id">
                                 <v-list-item-title
@@ -198,18 +198,16 @@ export default {
   }),
   created() {
     this.$nextTick(() => {
-      /*  this.getCategory();
+      this.getCategory();
 
-                  EventBus.$on("reload.category", () => {
-                      this.getCategory();
-                  });*/
+      EventBus.$on("reload.category", () => {
+        this.getCategory();
+      });
     });
   },
   mounted() {},
   methods: {
-    clickMain() {
-      this.getCategory();
-    },
+    clickMain() {},
     getCategory() {
       CONTENT_LISTENER.sendMessage({
         type: "get.menus",
@@ -225,13 +223,13 @@ export default {
         });
 
       /*POPUP_LISTENER.postMessage("get.menus.port", null).onMessage.addListener(
-                  response => {
-                    console.log("response ", response);
-                    /!*  response.then( res =>{
-                          console.log("category " , res);
-                      })*!/
-                  }
-                );*/
+                            response => {
+                              console.log("response ", response);
+                              /!*  response.then( res =>{
+                                    console.log("category " , res);
+                                })*!/
+                            }
+                          );*/
     },
     settingCategory(item, event) {
       event.preventDefault();
