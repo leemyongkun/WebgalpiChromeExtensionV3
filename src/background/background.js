@@ -39,6 +39,7 @@ let BackgroundModule = {
         //todo : excludesUrl 등록 기능 추가 할것.
         res.tabid = tabId;
 
+        console.log("getInitInfo >>>  ", res);
         //옵션을 저장해둔다.
         chrome.storage.sync.set({ options: res.options });
 
@@ -62,7 +63,7 @@ let BackgrounEvent = {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
         //dbcon.dropTable();
         dbcon.createTable();
-        //dbcon.initData();
+        dbcon.initData();
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }

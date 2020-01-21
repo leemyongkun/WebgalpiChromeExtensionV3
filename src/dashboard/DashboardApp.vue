@@ -19,13 +19,16 @@ export default {
   data: () => ({}),
   methods: {},
   created() {
-    chrome.storage.sync.get(["options"], result => {
-      let options = result.options;
-      if (options.THEME === "dark") {
-        this.$vuetify.theme.dark = true;
-      } else {
-        this.$vuetify.theme.dark = false;
-      }
+    this.$nextTick(() => {
+      chrome.storage.sync.get(["options"], result => {
+        let options = result.options;
+        console.log(" >>> options ", options);
+        if (options.THEME === "dark") {
+          this.$vuetify.theme.dark = true;
+        } else {
+          this.$vuetify.theme.dark = false;
+        }
+      });
     });
   },
   mounted() {}
