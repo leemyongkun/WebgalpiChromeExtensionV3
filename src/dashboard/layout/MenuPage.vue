@@ -78,6 +78,9 @@
                               v-text="item.name"
                             ></v-list-item-title>
                           </v-list-item-content>
+                          <v-list-item-icon>
+                            <v-icon right>mdi-settings</v-icon>
+                          </v-list-item-icon>
                         </template>
 
                         <v-list-item-group>

@@ -142,15 +142,18 @@ let Api = {
     param = param.slice(1, 2); //URL_KEY만 가져온다
     return remove(Query.deleteCategoryRelation(), param);
   },
+  deleteCategoryRelationParent: categoryId => {
+    //Relation 에 있는 parent <-> site 의 정보를 삭제한다.
+    remove(Query.deleteCategoryRelationParent(), categoryId); //parent IDX를 보낸다
+  },
   postCategoryRelation: param => {
     return insert(Query.insertCategoryRelation(), param);
   },
   updateCategoryItem: param => {
-    console.log(
-      "Query.updateCategoryItem() ",
-      Query.updateCategoryItem(),
-      param
-    );
+    if (param[3]) {
+      param[1] = null;
+    }
+    param = param.slice(0, 3);
     return update(Query.updateCategoryItem(), param);
   }
 };

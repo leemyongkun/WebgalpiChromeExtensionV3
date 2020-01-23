@@ -213,10 +213,15 @@ export default {
                 WHERE URL_KEY = ? 
 		`;
   },
+  deleteCategoryRelationParent: () => {
+    return `DELETE FROM TBL_REL_CATEGORY
+                WHERE CATEGORY_IDX = ? 
+		`;
+  },
   updateCategoryItem: () => {
     return `UPDATE TBL_CATEGORY
                 SET NAME = ? 
-                    , PARENT = ?
+                , PARENT = ?
                 WHERE IDX = ? 
 		`;
   }

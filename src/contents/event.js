@@ -47,10 +47,10 @@ let EVENT = {
 
     //같은 highlight Id의 영역에 마우스를 올렸을 경우, 다른 ID에 올리기 전까지 유지된다.(혹은 다른곳을 클릭하기 전까지 유지된다.)
     /*if (GLOBAL_CONFIG.MOUSE_OVER_ID != GLOBAL_CONFIG.CURRENT_IDX) {
-                                    $("#highlight-toolbar").hide();
-                                } else {
-                                    return false;
-                                }*/
+                                        $("#highlight-toolbar").hide();
+                                    } else {
+                                        return false;
+                                    }*/
 
     GLOBAL_CONFIG.MOUSE_OVER_ID = GLOBAL_CONFIG.CURRENT_IDX;
 
@@ -121,9 +121,17 @@ let EVENT = {
         if (event.target.nodeName === GLOBAL_CONFIG.HL_TAG_NAME.toUpperCase()) {
           STATUS.mouseDownFlag = true;
         }
+
+        console.log(
+          "window.getSelection().isCollapsed ",
+          window.getSelection().isCollapsed
+        );
       })
       .unbind("mouseup")
       .on("mouseup", async event => {
+        let selection = window.getSelection();
+        let range = selection.getRangeAt(0);
+
         //다른곳 클릭하면 mouse_over_id 를 초기화 한다.
         GLOBAL_CONFIG.MOUSE_OVER_ID = 0;
 
@@ -152,10 +160,6 @@ let EVENT = {
           return false;
         }
 
-        let selection = window.getSelection();
-        //일단 삭제
-        //if (selection.focusOffset === 0) return false;
-        let range = selection.getRangeAt(0);
         let content = range.cloneContents();
         let customTag = document.createElement(GLOBAL_CONFIG.HL_TAG_NAME);
         customTag.appendChild(content);
@@ -171,14 +175,14 @@ let EVENT = {
           event.target.nodeName === GLOBAL_CONFIG.HL_TAG_NAME.toUpperCase()
         ) {
           /* let currentId;
-                      STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
-                      if (HighlightCore.isNumber(STATUS.mouseUpId)) {
-                        currentId = STATUS.mouseUpId;
-                      } */
+                                STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
+                                if (HighlightCore.isNumber(STATUS.mouseUpId)) {
+                                  currentId = STATUS.mouseUpId;
+                                } */
 
           /* if (HighlightCore.isNumber(HighlightData.downId)) {
-                                currentId = HighlightData.downId;
-                              } */
+                                          currentId = HighlightData.downId;
+                                        } */
           STATUS.mouseDownFlag = false;
           return false;
         }
@@ -195,19 +199,22 @@ let EVENT = {
         // 위젯영역일경우 컬러 팔레트를 보여주지 않는다.
         // 컬러 피커가 사용하지 않음일경우 보여주지 않는다.
         /* chrome.storage.sync.get(['options'], result => {
-                                                               let highlightYN = result.options.HIGHLIGHT;
-                                                               if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
-                                                                 HighlightCore.mouseDragAction(event); // todo 가장 중요!!
-                                                               }
-                                                             }); */
+                                                                       let highlightYN = result.options.HIGHLIGHT;
+                                                                       if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
+                                                                         HighlightCore.mouseDragAction(event); // todo 가장 중요!!
+                                                                       }
+                                                                     }); */
 
-        console.log("range.collapsed ", range.collapsed);
-        console.log("STATUS.checkHighlightArea ", STATUS.checkHighlightArea);
-        CONTENTS.setHighlightRangeInfoData(event, offset);
+        setTimeout(() => {
+          if (!window.getSelection().isCollapsed) {
+            CONTENTS.setHighlightRangeInfoData(event, offset);
 
-        FORM.showPicker(event); // todo 가장 중요!!
+            FORM.showPicker(event); // todo 가장 중요!!
 
-        STATUS.checkHighlightArea = 0;
+            STATUS.checkHighlightArea = 0;
+          }
+        }, 100);
+
         // });
       });
   },
@@ -331,16 +338,16 @@ let EVENT = {
 
               //Button 생성
               /*console.log("document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) ", document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID));
-                                                                                                        if (document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) == null) {
-                                                                                                            let captureButtonElement = document.createElement("button");
-                                                                                                            captureButtonElement.innerText = "CAPTURE";
-                                                                                                            captureButtonElement.id = GLOBAL_CONFIG.CAPTURE_BUTTON_ID;
-                                                                                                            captureButtonElement.style.marginTop = "5px";
-                                                                                                            $('.ord-s.jcrop-dragbar').append(captureButtonElement);
+                                                                                                                      if (document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) == null) {
+                                                                                                                          let captureButtonElement = document.createElement("button");
+                                                                                                                          captureButtonElement.innerText = "CAPTURE";
+                                                                                                                          captureButtonElement.id = GLOBAL_CONFIG.CAPTURE_BUTTON_ID;
+                                                                                                                          captureButtonElement.style.marginTop = "5px";
+                                                                                                                          $('.ord-s.jcrop-dragbar').append(captureButtonElement);
 
-                                                                                                        } else {
-                                                                                                            $('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).show();
-                                                                                                        }*/
+                                                                                                                      } else {
+                                                                                                                          $('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).show();
+                                                                                                                      }*/
 
               let img = new Image();
               // create a temporary canvas sized to the cropped size
@@ -368,21 +375,21 @@ let EVENT = {
                 $("#prevCapture").attr("src", prevImage);
                 //capture 영역 제거
                 /*
-                                                                                                                          $('highlight-capture-area').remove();
-                                                                                                                          rootElement.style.overflow = "visible";
-                                                                                                                          */
+                                                                                                                                          $('highlight-capture-area').remove();
+                                                                                                                                          rootElement.style.overflow = "visible";
+                                                                                                                                          */
               };
               console.log("imageDataUrl ", imageDataUrl);
               img.src = imageDataUrl;
 
               /*  document.addEventListener('keydown', event => {
-                                                                                                            if (event.key === 'Escape' || event.keyCode === 27) {
-                                                                                                                console.log("ESC")
-                                                                                                                $(GLOBAL_CONFIG.CAPTURE_ELEMENT).remove();
-                                                                                                                let rootElement = document.getElementsByTagName("html")[0];
-                                                                                                                rootElement.style.overflow = "visible";
-                                                                                                            }
-                                                                                                        });*/
+                                                                                                                          if (event.key === 'Escape' || event.keyCode === 27) {
+                                                                                                                              console.log("ESC")
+                                                                                                                              $(GLOBAL_CONFIG.CAPTURE_ELEMENT).remove();
+                                                                                                                              let rootElement = document.getElementsByTagName("html")[0];
+                                                                                                                              rootElement.style.overflow = "visible";
+                                                                                                                          }
+                                                                                                                      });*/
             }
           },
           function() {

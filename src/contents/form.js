@@ -106,17 +106,15 @@ let FORM = {
     });
 
     /* $("#highlight-toolbar").css({
-                        top: GLOBAL_CONFIG.MOUSE_DOWN_XY.y,
-                        left: GLOBAL_CONFIG.MOUSE_DOWN_XY.x,
-                        position: "absolute",
-                        width: "auto"
-                    });*/
+                            top: GLOBAL_CONFIG.MOUSE_DOWN_XY.y,
+                            left: GLOBAL_CONFIG.MOUSE_DOWN_XY.x,
+                            position: "absolute",
+                            width: "auto"
+                        });*/
 
-    setTimeout(function() {
-      $("#highlight-toolbar-memo-area").hide();
-      $("#highlight-toolbar").show();
-      GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = "drag";
-    }, 100);
+    $("#highlight-toolbar-memo-area").hide();
+    $("#highlight-toolbar").fadeIn(300);
+    GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = "drag";
 
     return true;
   }

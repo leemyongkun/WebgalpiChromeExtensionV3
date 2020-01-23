@@ -46,6 +46,10 @@ export default {
 };
 </script>
 <style>
+img {
+  max-width: 50% !important;
+  max-height: 50% !important;
+}
 .galpi-preview-area {
   width: 80%;
 }

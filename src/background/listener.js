@@ -70,6 +70,12 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       break;
     case "update.category.item": //dashboard
       console.log("update.category.item ", msg.data);
+      let categoryId = [msg.data[2]];
+      if (msg.data[3]) {
+        console.log("msg.dat ", categoryId, msg.data);
+        API.deleteCategoryRelationParent(categoryId);
+      }
+
       API.updateCategoryItem(msg.data).then(res => {
         sendResponse(res);
       });

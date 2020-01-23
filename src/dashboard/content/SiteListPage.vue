@@ -294,7 +294,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                          justify-content: center;*/
+                                                                                justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
