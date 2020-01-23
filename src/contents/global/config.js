@@ -38,6 +38,7 @@ let URL = {
 };
 
 let STATUS = {
+  rangeCollapse: false,
   checkHighlightArea: 0,
   widgetArea: 0,
   mouseDownFlag: false,

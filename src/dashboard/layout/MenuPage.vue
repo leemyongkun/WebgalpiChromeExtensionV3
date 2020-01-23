@@ -52,11 +52,10 @@
               <v-expansion-panel>
                 <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>
                 <v-expansion-panel-content>
+                  <v-btn block small @click="" style="margin-top: 10px;">
+                    <v-icon>mdi-playlist-plus</v-icon>
+                  </v-btn>
                   <v-list>
-                    <v-btn block small @click="">
-                      <v-icon>mdi-playlist-plus</v-icon>
-                    </v-btn>
-
                     <v-list-item-group>
                       <v-list-item
                         @click="selectCategory(0, $event)"
@@ -72,7 +71,7 @@
                     </v-list-item-group>
 
                     <div v-for="(item, i) in category" :key="i">
-                      <v-list-group sub-group no-action>
+                      <v-list-group sub-group no-action class="custom_style">
                         <template v-slot:activator>
                           <v-list-item-content>
                             <v-list-item-title
@@ -92,7 +91,7 @@
                               @dragleave="subItem.dropOver = false"
                             >
                               <v-list-item
-                                style="padding-right: 3px;"
+                                style="padding-right: 3px;padding-left: 30px;"
                                 :style="subItem.dropOver ? overColor : ''"
                                 @click="selectCategory(subItem, $event)"
                                 @mouseover="subItem.mouseOver = true"
@@ -221,13 +220,13 @@ export default {
         });
 
       /*POPUP_LISTENER.postMessage("get.menus.port", null).onMessage.addListener(
-                                                response => {
-                                                  console.log("response ", response);
-                                                  /!*  response.then( res =>{
-                                                        console.log("category " , res);
-                                                    })*!/
-                                                }
-                                              );*/
+                                                          response => {
+                                                            console.log("response ", response);
+                                                            /!*  response.then( res =>{
+                                                                  console.log("category " , res);
+                                                              })*!/
+                                                          }
+                                                        );*/
     },
     settingCategory(item, event) {
       event.preventDefault();
@@ -314,7 +313,17 @@ export default {
   border: 2px dashed orange;
 }
 
+.v-expansion-panel-header {
+  min-height: 45px !important;
+}
 .v-expansion-panel-content__wrap {
-  padding-left: 10px;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+.v-list-group__header {
+  padding-left: 10px !important;
+}
+.v-list-item__icon {
+  margin-right: 5px !important;
 }
 </style>

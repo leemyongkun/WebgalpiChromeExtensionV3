@@ -2,64 +2,93 @@
   <div>
     <v-row>
       <v-col cols="3" style="max-height: 700px" class="overflow-y-auto">
-        <v-list style="background: none;padding: 0;">
-          <v-list-item-group active-class="border">
-            <v-row v-for="(item, index) in sites" :key="index">
-              <v-col cols="12" style="padding-top: 0px;">
-                <v-hover v-slot:default="{ hover }">
-                  <drag :transfer-data="item">
-                    <div slot="image" class="drag-image">
-                      <v-chip class="ma-2" color="orange" text-color="white">
-                        {{ item.UPDATE_TITLE }}
-                        <v-icon right>mdi-star</v-icon>
-                      </v-chip>
-                    </div>
-
-                    <v-card
-                      aria-selected="true"
-                      class="mx-auto"
-                      max-width="400"
-                      outlined
-                      style="cursor:pointer;"
-                      @click="selectSite(item, item.URL_KEY)"
-                      @dblclick="goSourceSite(item)"
-                      :key="item.URL_KEY"
-                    >
-                      <v-list-item three-line>
-                        <v-list-item-content>
-                          <v-list-item-title>
+        <v-row>
+          <v-col v-if="sites.length === 0">
+            <v-card class="mx-auto">
+              <v-card-text>
+                <div>Contents List</div>
+                <p class="display-1 text--primary">
+                  NO CONTENTS
+                </p>
+                <div class="text--primary">
+                  사이트에 방문하여 원하는 컬러로 하이라이팅을 해보세요.<br />
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn text outlined color="green accent-4">
+                  연습하기
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+          <v-col v-else>
+            <v-list style="background: none;padding: 0;">
+              <v-list-item-group active-class="border">
+                <v-row v-for="(item, index) in sites" :key="index">
+                  <v-col cols="12" style="padding-top: 0px;">
+                    <v-hover v-slot:default="{ hover }">
+                      <drag :transfer-data="item">
+                        <div slot="image" class="drag-image">
+                          <v-chip
+                            class="ma-2"
+                            color="orange"
+                            text-color="white"
+                          >
                             {{ item.UPDATE_TITLE }}
-                          </v-list-item-title>
-                          <v-list-item-subtitle>
-                            <span v-if="item.OG_DESCRIPTION !== 'undefined'">{{
-                              item.OG_DESCRIPTION
-                            }}</span>
-                          </v-list-item-subtitle>
-                          <v-list-item-subtitle style="font-size: 12px;">
-                            <v-icon
-                              size="12px"
-                              color="green"
-                              left
-                              v-if="item.CATEGORY_NAME !== 'NO_CATEGORY'"
-                              >mdi-folder-outline</v-icon
-                            >{{ item.CATEGORY_NAME }}
-                          </v-list-item-subtitle>
-                        </v-list-item-content>
+                            <v-icon right>mdi-star</v-icon>
+                          </v-chip>
+                        </div>
 
-                        <v-list-item-avatar tile size="100" color="grey">
-                          <v-img
-                            v-if="item.OG_IMAGE !== 'undefined'"
-                            :src="item.OG_IMAGE"
-                          ></v-img>
-                        </v-list-item-avatar>
-                      </v-list-item>
-                    </v-card>
-                  </drag>
-                </v-hover>
-              </v-col>
-            </v-row>
-          </v-list-item-group>
-        </v-list>
+                        <v-card
+                          aria-selected="true"
+                          class="mx-auto"
+                          max-width="400"
+                          outlined
+                          style="cursor:pointer;"
+                          @click="selectSite(item, item.URL_KEY)"
+                          @dblclick="goSourceSite(item)"
+                          :key="item.URL_KEY"
+                          ref="siteList"
+                        >
+                          <v-list-item three-line>
+                            <v-list-item-content>
+                              <v-list-item-title>
+                                {{ item.UPDATE_TITLE }}
+                              </v-list-item-title>
+                              <v-list-item-subtitle>
+                                <span
+                                  v-if="item.OG_DESCRIPTION !== 'undefined'"
+                                  >{{ item.OG_DESCRIPTION }}</span
+                                >
+                              </v-list-item-subtitle>
+                              <v-list-item-subtitle style="font-size: 12px;">
+                                <v-icon
+                                  size="12px"
+                                  color="green"
+                                  left
+                                  v-if="item.CATEGORY_NAME !== 'NO_CATEGORY'"
+                                  >mdi-folder-outline
+                                </v-icon>
+                                {{ item.CATEGORY_NAME }}
+                              </v-list-item-subtitle>
+                            </v-list-item-content>
+
+                            <v-list-item-avatar tile size="100" color="grey">
+                              <v-img
+                                v-if="item.OG_IMAGE !== 'undefined'"
+                                :src="item.OG_IMAGE"
+                              ></v-img>
+                            </v-list-item-avatar>
+                          </v-list-item>
+                        </v-card>
+                      </drag>
+                    </v-hover>
+                  </v-col>
+                </v-row>
+              </v-list-item-group>
+            </v-list>
+          </v-col>
+        </v-row>
       </v-col>
 
       <v-col cols="9">
@@ -156,7 +185,8 @@ export default {
     previewTitle: null,
     previewStatus: "N",
     sourceUrl: "",
-    viewMode: "1"
+    viewMode: "1",
+    currentSite: ""
   }),
   created() {
     EventBus.$on("view-mode", viewMode => {
@@ -165,7 +195,7 @@ export default {
   },
   mounted() {
     // 로딩 시 호출 (최근 10건만)
-    //this.getSites(null);
+    this.getSites(null);
 
     //카테고리 클릭 시
     EventBus.$on("selectCategoryForSite", categoryInfo => {
@@ -200,6 +230,9 @@ export default {
         })
         .then(() => {
           if (this.sites.length > 0) {
+            setTimeout(() => {
+              this.$refs.siteList[0].click();
+            }, 500);
           }
         });
     },
@@ -218,9 +251,13 @@ export default {
       CONTENT_LISTENER.sendMessage({
         type: "get.highlights",
         data: param
-      }).then(response => {
-        this.highlights = response;
-      });
+      })
+        .then(response => {
+          this.highlights = response;
+        })
+        .then(() => {
+          this.currentSite = site;
+        });
     },
     generatePreviewDoc(site) {
       let loc = document.location;
@@ -257,7 +294,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                    justify-content: center;*/
+                                                                          justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
