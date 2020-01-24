@@ -71,14 +71,24 @@
                     </v-list-item-group>
 
                     <div v-for="(item, i) in category" :key="i">
-                      <v-list-group sub-group no-action class="custom_style">
+                      <v-list-group
+                        sub-group
+                        no-action
+                        class="custom_style"
+                        @mouseover="item.mouseOver = true"
+                        @mouseleave="item.mouseOver = false"
+                      >
+                        <!-- parent menu -->
                         <template v-slot:activator>
                           <v-list-item-content>
                             <v-list-item-title
                               v-text="item.name"
                             ></v-list-item-title>
                           </v-list-item-content>
-                          <v-list-item-icon>
+                          <v-list-item-icon
+                            @click="settingCategory(item, $event, true)"
+                            v-show="item.mouseOver"
+                          >
                             <v-icon right>mdi-settings</v-icon>
                           </v-list-item-icon>
                         </template>
@@ -93,6 +103,7 @@
                               @dragover="subItem.dropOver = true"
                               @dragleave="subItem.dropOver = false"
                             >
+                              <!-- child menu -->
                               <v-list-item
                                 style="padding-right: 3px;padding-left: 30px;"
                                 :style="subItem.dropOver ? overColor : ''"
@@ -118,7 +129,9 @@
                                 </v-list-item-content>
 
                                 <v-list-item-icon
-                                  @click="settingCategory(subItem, $event)"
+                                  @click="
+                                    settingCategory(subItem, $event, false)
+                                  "
                                   v-show="subItem.mouseOver"
                                 >
                                   <v-icon right>mdi-settings</v-icon>
@@ -129,6 +142,39 @@
                         </v-list-item-group>
                       </v-list-group>
                     </div>
+                  </v-list>
+                  <v-divider dark class="my-4" />
+                  <!-- 미아가 된 카테고리 -->
+                  <v-list>
+                    <v-list-item
+                      v-for="(lostItem, index) in lostCategory"
+                      style="padding-right: 3px;padding-left: 30px;"
+                      :style="lostItem.dropOver ? overColor : ''"
+                      @click="selectCategory(lostItem, $event)"
+                      @mouseover="lostItem.mouseOver = true"
+                      @mouseleave="lostItem.mouseOver = false"
+                      :id="lostItem.id"
+                      active-class="border"
+                    >
+                      <v-list-item-icon>
+                        <v-icon size="15px" color="red" left
+                          >mdi-do-not-disturb</v-icon
+                        >
+                      </v-list-item-icon>
+
+                      <v-list-item-content>
+                        <v-list-item-title>{{
+                          lostItem.name
+                        }}</v-list-item-title>
+                      </v-list-item-content>
+
+                      <v-list-item-icon
+                        @click="settingCategory(lostItem, $event, false)"
+                        v-show="lostItem.mouseOver"
+                      >
+                        <v-icon right>mdi-settings</v-icon>
+                      </v-list-item-icon>
+                    </v-list-item>
                   </v-list>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -191,6 +237,7 @@ export default {
     settingDialog: false, //Setting 다이얼로그 open / close 여부
     drawer: true, //왼쪽 메뉴 open / close 여부
     category: [], //Category
+    lostCategory: [],
     icon: {
       on: "mdi-bookmark",
       off: "mdi-bookmark-outline"
@@ -210,31 +257,33 @@ export default {
     clickMain() {},
     getCategory() {
       CONTENT_LISTENER.sendMessage({
-        type: "get.menus",
+        type: "get.category",
         data: null
       })
         .then(category => {
           console.log("category ", category);
-          this.category = this.generateTree(category, null);
+          this.category = this.generateTree(category, 0);
         })
         .then(() => {
           // 첫번째꺼 클릭
           //this.$refs.allCategory.click();
         });
 
-      /*POPUP_LISTENER.postMessage("get.menus.port", null).onMessage.addListener(
-                                                          response => {
-                                                            console.log("response ", response);
-                                                            /!*  response.then( res =>{
-                                                                  console.log("category " , res);
-                                                              })*!/
-                                                          }
-                                                        );*/
+      CONTENT_LISTENER.sendMessage({
+        type: "get.lost.category",
+        data: null
+      }).then(lostCategory => {
+        this.lostCategory = lostCategory;
+      });
     },
-    settingCategory(item, event) {
+    settingCategory(item, event, checkRoot) {
       event.preventDefault();
       event.stopPropagation();
-      this.$refs.updateCategoryDialog.openDialog(item, this.category);
+      this.$refs.updateCategoryDialog.openDialog(
+        item,
+        this.category,
+        checkRoot
+      );
       //alert(JSON.stringify(item));
     },
     selectCategory(category, event) {
@@ -319,13 +368,16 @@ export default {
 .v-expansion-panel-header {
   min-height: 45px !important;
 }
+
 .v-expansion-panel-content__wrap {
   padding-left: 10px !important;
   padding-right: 10px !important;
 }
+
 .v-list-group__header {
   padding-left: 10px !important;
 }
+
 .v-list-item__icon {
   margin-right: 5px !important;
 }

@@ -140,8 +140,13 @@ export default {
                     `
     );
   },
-  getMenus: () => {
-    return `SELECT id,
+  getCategory: flag => {
+    let lostCondition = "WHERE PARENT = -1";
+    if (flag === "all") {
+      lostCondition = "WHERE PARENT != -1";
+    }
+    return (
+      `SELECT id,
                    name,
                    parent,
                    depth,
@@ -163,8 +168,12 @@ export default {
                      FROM TBL_CATEGORY A
                               LEFT JOIN TBL_REL_CATEGORY B
                                         ON A.IDX = B.CATEGORY_IDX
+                                       ` +
+      lostCondition +
+      `
                  )
-            GROUP BY id, name, parent, depth, mouseOver, dropOver`;
+            GROUP BY id, name, parent, depth, mouseOver, dropOver`
+    );
   },
   getAllItems: () => {
     return `SELECT 
@@ -216,6 +225,12 @@ export default {
   deleteCategoryRelationParent: () => {
     return `DELETE FROM TBL_REL_CATEGORY
                 WHERE CATEGORY_IDX = ? 
+		`;
+  },
+  updateLostCategoryItem: () => {
+    return `UPDATE TBL_CATEGORY
+                SET PARENT = -1 
+                WHERE PARENT = ?
 		`;
   },
   updateCategoryItem: () => {

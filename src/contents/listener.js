@@ -18,12 +18,12 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
     case "get.site.info":
       console.log(URL.SITE);
       let content = await CONTENTS.firstVisitSite(new Object());
-      console.log("#### 2");
       content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
       content.TITLE = document.title;
       content.UPDATE_TITLE = document.title;
       content.URL = URL.SITE;
       content.URL_KEY = URL.KEY;
+      console.log("content >>> ", content);
       sendResponse(content);
       return true;
       break;

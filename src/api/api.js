@@ -66,9 +66,15 @@ let Api = {
     console.log("query ", query);
     return select(query, params);
   },
-  getMenus: params => {
-    let query = Query.getMenus();
-    console.log("query ", query);
+
+  getLostCategory: params => {
+    let query = Query.getCategory("lost");
+    console.log("getCategory query ", query);
+    return select(query, params);
+  },
+  getCategory: params => {
+    let query = Query.getCategory("all");
+    console.log("getCategory query ", query);
     return select(query, params);
   },
   getAllItems: parameter => {
@@ -149,11 +155,18 @@ let Api = {
   postCategoryRelation: param => {
     return insert(Query.insertCategoryRelation(), param);
   },
+  updateLostCategoryItem: param => {
+    //parentId에 categoryId가 포함된 column 을 모두 -1로 변경 (미아로 만든다)
+    return update(Query.updateLostCategoryItem(), param);
+  },
   updateCategoryItem: param => {
     if (param[3]) {
-      param[1] = null;
+      //root에서 child로 수정 시,
+      param[1] = 0; //rootId
     }
     param = param.slice(0, 3);
+
+    console.log("param ", param);
     return update(Query.updateCategoryItem(), param);
   }
 };

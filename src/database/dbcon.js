@@ -28,20 +28,20 @@ export default {
                                      DEPTH,
                                      SORT,
                                      DATE_CREATE
-                            ) VALUES  (0,'kkuni.bear@gmail.com', '기술', null, 0, 0, null),
-                                          (3,'kkuni.bear@gmail.com', '자바', 0, 1, 1, null),
-                                          (4,'kkuni.bear@gmail.com', '크롬', 0, 1, 2, null),
-                                          (5,'kkuni.bear@gmail.com', '자바스크립트', 0, 1, 3, null),
-                                      (1,'kkuni.bear@gmail.com', '취미', null, 0, 0, null),
-                                          (6,'kkuni.bear@gmail.com', '사진', 1, 1, 1, null),
-                                          (7,'kkuni.bear@gmail.com', '영화', 1, 1, 2, null),
-                                          (8,'kkuni.bear@gmail.com', '도서', 1, 1, 3, null),
-                                      (2,'kkuni.bear@gmail.com', '쇼핑', null, 0, 0, null),
-                                          (9,'kkuni.bear@gmail.com', '쿠팡', 2, 1, 1, null),
-                                          (10,'kkuni.bear@gmail.com', '위메프', 2, 1, 2, null),
-                                          (11,'kkuni.bear@gmail.com', '티몬', 2, 1, 3, null),
-                                      (12,'kkuni.bear@gmail.com', '잡동사니', null, 0, 0, null),
-                                          (13,'kkuni.bear@gmail.com', '뉴스', 12, 1, 1, null)
+                            ) VALUES  (1,'kkuni.bear@gmail.com', '기술', 0, 0, 0, null),
+                                          (5,'kkuni.bear@gmail.com', '자바', 1, 1, 1, null),
+                                          (6,'kkuni.bear@gmail.com', '크롬', 1, 1, 2, null),
+                                          (7,'kkuni.bear@gmail.com', '자바스크립트', 1, 1, 3, null),
+                                      (2,'kkuni.bear@gmail.com', '취미', 0, 0, 0, null),
+                                          (8,'kkuni.bear@gmail.com', '사진', 2, 1, 1, null),
+                                          (9,'kkuni.bear@gmail.com', '영화', 2, 1, 2, null),
+                                          (10,'kkuni.bear@gmail.com', '도서', 2, 1, 3, null),
+                                      (3,'kkuni.bear@gmail.com', '쇼핑', 0, 0, 0, null),
+                                          (11,'kkuni.bear@gmail.com', '쿠팡', 3, 1, 1, null),
+                                          (12,'kkuni.bear@gmail.com', '위메프', 3, 1, 2, null),
+                                          (13,'kkuni.bear@gmail.com', '티몬', 3, 1, 3, null),
+                                      (4,'kkuni.bear@gmail.com', '잡동사니', 0, 0, 0, null),
+                                          (14,'kkuni.bear@gmail.com', '뉴스', 4, 1, 1, null)
                                               
                                           `;
 

@@ -43,13 +43,18 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       });
       return true;
       break;
-    case "get.menus": //dashboard
-      API.getMenus(null).then(res => {
+    case "get.category": //dashboard
+      API.getCategory(null).then(res => {
         sendResponse(res);
       });
       return true;
       break;
-
+    case "get.lost.category": //dashboard
+      API.getLostCategory(null).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
     case "update.option.color":
       API.updateOptionColor(msg.data).then(res => {
         sendResponse(res);
@@ -76,9 +81,15 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
         API.deleteCategoryRelationParent(categoryId);
       }
 
+      //카테고리 변경 시, parent에 포함된 category를 미아로 변경
+      let lostTargetCateggory = [msg.data[2]];
+      console.log("lostTargetCateggory ", lostTargetCateggory);
+      API.updateLostCategoryItem(lostTargetCateggory);
+
       API.updateCategoryItem(msg.data).then(res => {
         sendResponse(res);
       });
+
       return true;
       break;
   }

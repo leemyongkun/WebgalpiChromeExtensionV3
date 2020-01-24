@@ -23,12 +23,12 @@
                 item-value="id"
                 item-text="name"
                 v-model="categoryParent"
-                :disabled="checkParent"
+                :disabled="checkRoot"
               ></v-autocomplete>
             </v-col>
             <v-col cols="2" style="padding-left: 0px;">
               <v-checkbox
-                v-model="checkParent"
+                v-model="checkRoot"
                 label="PARENT"
                 required
               ></v-checkbox>
@@ -36,7 +36,7 @@
           </v-row>
           <v-row>
             <v-col>
-              <span v-show="checkParent" style="color: red;"
+              <span v-show="checkRoot" style="color: red;"
                 >* PARENT로 지정 시, 컨텐츠들의 카테고리 정보를 모두 잃게
                 됩니다.
               </span>
@@ -63,7 +63,7 @@ export default {
   components: {},
   props: [],
   data: () => ({
-    checkParent: false,
+    checkRoot: false,
     dialog: false,
     categoryParent: "",
     categoryName: "",
@@ -73,11 +73,10 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    openDialog(categoryInfo, category) {
-      /*let currentCategory = [];
-                Object.assign(currentCategory, category);
-                currentCategory.unshift({id: -1, name: "PARENT로 지정"});*/
+    openDialog(categoryInfo, category, checkRoot) {
       this.category = category;
+
+      this.checkRoot = checkRoot;
 
       this.categoryName = categoryInfo.name;
       this.categoryParent = categoryInfo.parent;
@@ -114,19 +113,19 @@ export default {
     updateCategory() {
       let param = [];
       /* if (this.checkParent) {
-                    if (confirm("해당 카테고리를 PARENT로 지정 시, 컨텐츠들은 카테고리 정보를 잃게 됩니다.")) {
-                        param = [this.categoryName, null, this.categoryId];
-                    }
-                    return false;
-                } else {
-                    param = [this.categoryName, this.categoryParent, this.categoryId];
-                }*/
+                              if (confirm("해당 카테고리를 PARENT로 지정 시, 컨텐츠들은 카테고리 정보를 잃게 됩니다.")) {
+                                  param = [this.categoryName, null, this.categoryId];
+                              }
+                              return false;
+                          } else {
+                              param = [this.categoryName, this.categoryParent, this.categoryId];
+                          }*/
 
       param = [
         this.categoryName,
         this.categoryParent,
         this.categoryId,
-        this.checkParent
+        this.checkRoot
       ];
 
       //db 저장하기

@@ -62,8 +62,8 @@ let BackgrounEvent = {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
         /*dbcon.dropTable();
-        dbcon.createTable();
-        dbcon.initData();*/
+                dbcon.createTable();*/
+        dbcon.initData();
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
@@ -71,6 +71,7 @@ let BackgrounEvent = {
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
+      console.log("info.status ", info.status);
       if (
         info.status == "loading" &&
         tab.status == "loading" &&
