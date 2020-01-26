@@ -4,7 +4,8 @@
     <MenuPage />
     <v-content>
       <v-container fluid>
-        <SiteListPage />
+        <!--<SiteListPage />-->
+        <SiteListWidePage></SiteListWidePage>
       </v-container>
     </v-content>
   </v-app>
@@ -13,9 +14,10 @@
 <script>
 import MenuPage from "./layout/MenuPage";
 import SiteListPage from "./content/SiteListPage";
+import SiteListWidePage from "./content/SiteListWidePage";
 
 export default {
-  components: { SiteListPage, MenuPage },
+  components: { SiteListWidePage, SiteListPage, MenuPage },
   data: () => ({}),
   methods: {},
   created() {

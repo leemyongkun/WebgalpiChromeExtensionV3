@@ -55,7 +55,7 @@
           >DELETE
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">CLOSE</v-btn>
+        <v-btn color="blue darken-1" text @click="close">CANCEL</v-btn>
         <v-btn
           color="green darken-1"
           text
@@ -196,13 +196,13 @@ export default {
     updateCategory() {
       let param = [];
       /* if (this.checkParent) {
-                                        if (confirm("해당 카테고리를 PARENT로 지정 시, 컨텐츠들은 카테고리 정보를 잃게 됩니다.")) {
-                                            param = [this.categoryName, null, this.categoryId];
-                                        }
-                                        return false;
-                                    } else {
-                                        param = [this.categoryName, this.categoryParent, this.categoryId];
-                                    }*/
+                                                  if (confirm("해당 카테고리를 PARENT로 지정 시, 컨텐츠들은 카테고리 정보를 잃게 됩니다.")) {
+                                                      param = [this.categoryName, null, this.categoryId];
+                                                  }
+                                                  return false;
+                                              } else {
+                                                  param = [this.categoryName, this.categoryParent, this.categoryId];
+                                              }*/
 
       param = [
         this.categoryName,
