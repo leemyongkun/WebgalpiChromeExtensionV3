@@ -18,17 +18,15 @@
     <v-app-bar app clipped-left color="">
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <span class="title ml-3 mr-5"
-        >WEB&nbsp;<span class="font-weight-light" @click="clickMain"
-          >Galpi
-        </span>
+        >WEB&nbsp;<span class="font-weight-light">Galpi </span>
       </span>
-      <v-text-field
-        solo-inverted
-        flat
-        hide-details
-        label="Search"
-        prepend-inner-icon="mdi-feature-search-outline"
-      />
+      <!--<v-text-field
+                    solo-inverted
+                    flat
+                    hide-details
+                    label="Search"
+                    prepend-inner-icon="mdi-feature-search-outline"
+            />-->
       <v-spacer />
       <v-btn text @click=""
         ><v-icon>mdi-information-outline</v-icon>&nbsp;README
@@ -46,13 +44,34 @@
             <v-btn small text @click="switchDialogCategoryEditor">edit</v-btn>
           </v-col>
         </v-row>
+
         <v-row align="center">
           <v-col style="padding-bottom:0px; padding-top:0px;">
             <v-expansion-panels focusable flat multiple v-model="panel">
               <v-expansion-panel>
+                <v-expansion-panel-header>FILTER</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <div>
+                    <v-text-field
+                      solo-inverted
+                      flat
+                      hide-details
+                      label="Search"
+                      prepend-inner-icon="mdi-feature-search-outline"
+                    />
+                  </div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+
+              <v-expansion-panel>
                 <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <v-btn block small @click="" style="margin-top: 10px;">
+                  <v-btn
+                    block
+                    small
+                    @click="editCategory(null, $event, false, 'insert')"
+                    style="margin-top: 10px;"
+                  >
                     <v-icon>mdi-playlist-plus</v-icon>
                   </v-btn>
                   <v-list>
@@ -86,60 +105,61 @@
                             ></v-list-item-title>
                           </v-list-item-content>
                           <v-list-item-icon
-                            @click="settingCategory(item, $event, true)"
+                            @click="editCategory(item, $event, true, 'update')"
                             v-show="item.mouseOver"
                           >
                             <v-icon right>mdi-settings</v-icon>
                           </v-list-item-icon>
                         </template>
 
-                        <v-list-item-group>
-                          <div
-                            v-for="(subItem, index) in item.children"
-                            :key="subItem.name"
+                        <div
+                          v-for="(subItem, index) in item.children"
+                          :key="subItem.name"
+                        >
+                          <drop
+                            @drop="dropEvent"
+                            @dragover="subItem.dropOver = true"
+                            @dragleave="subItem.dropOver = false"
                           >
-                            <drop
-                              @drop="dropEvent"
-                              @dragover="subItem.dropOver = true"
-                              @dragleave="subItem.dropOver = false"
+                            <!-- child menu -->
+                            <v-list-item
+                              style="padding-right: 3px;padding-left: 30px;"
+                              :style="subItem.dropOver ? overColor : ''"
+                              @click="selectCategory(subItem, $event)"
+                              @mouseover="subItem.mouseOver = true"
+                              @mouseleave="subItem.mouseOver = false"
+                              :id="subItem.id"
+                              :class="subItem.class"
                             >
-                              <!-- child menu -->
-                              <v-list-item
-                                style="padding-right: 3px;padding-left: 30px;"
-                                :style="subItem.dropOver ? overColor : ''"
-                                @click="selectCategory(subItem, $event)"
-                                @mouseover="subItem.mouseOver = true"
-                                @mouseleave="subItem.mouseOver = false"
-                                :id="subItem.id"
-                                active-class="border"
-                              >
-                                <v-list-item-icon style="margin-right: 2px;">
-                                  <v-icon size="15px" color="green" left
-                                    >mdi-folder-outline
-                                  </v-icon>
-                                </v-list-item-icon>
+                              <v-list-item-icon style="margin-right: 2px;">
+                                <v-icon size="15px" color="green" left
+                                  >mdi-folder-outline
+                                </v-icon>
+                              </v-list-item-icon>
 
-                                <v-list-item-content :id="subItem.id">
-                                  <v-list-item-title
-                                    v-text="
-                                      subItem.name + ` [` + subItem.cnt + `]`
-                                    "
-                                    :id="subItem.id"
-                                  ></v-list-item-title>
-                                </v-list-item-content>
-
-                                <v-list-item-icon
-                                  @click="
-                                    settingCategory(subItem, $event, false)
+                              <v-list-item-content :id="subItem.id">
+                                <v-list-item-title
+                                  v-html="
+                                    subItem.name +
+                                      ` <span class='red--text text--lighten-2'> ` +
+                                      subItem.cnt +
+                                      `</span>`
                                   "
-                                  v-show="subItem.mouseOver"
-                                >
-                                  <v-icon right>mdi-settings</v-icon>
-                                </v-list-item-icon>
-                              </v-list-item>
-                            </drop>
-                          </div>
-                        </v-list-item-group>
+                                  :id="subItem.id"
+                                ></v-list-item-title>
+                              </v-list-item-content>
+
+                              <v-list-item-icon
+                                @click="
+                                  editCategory(subItem, $event, false, 'update')
+                                "
+                                v-show="subItem.mouseOver"
+                              >
+                                <v-icon right>mdi-settings</v-icon>
+                              </v-list-item-icon>
+                            </v-list-item>
+                          </drop>
+                        </div>
                       </v-list-group>
                     </div>
                   </v-list>
@@ -155,21 +175,22 @@
                       @mouseleave="lostItem.mouseOver = false"
                       :id="lostItem.id"
                       active-class="border"
+                      :key="index"
                     >
                       <v-list-item-icon>
                         <v-icon size="15px" color="red" left
-                          >mdi-do-not-disturb</v-icon
-                        >
+                          >mdi-comment-question-outline
+                        </v-icon>
                       </v-list-item-icon>
 
                       <v-list-item-content>
-                        <v-list-item-title>{{
-                          lostItem.name
-                        }}</v-list-item-title>
+                        <v-list-item-title
+                          >{{ lostItem.name }}
+                        </v-list-item-title>
                       </v-list-item-content>
 
                       <v-list-item-icon
-                        @click="settingCategory(lostItem, $event, false)"
+                        @click="editCategory(lostItem, $event, false, 'update')"
                         v-show="lostItem.mouseOver"
                       >
                         <v-icon right>mdi-settings</v-icon>
@@ -228,7 +249,7 @@ export default {
     CategoryManagerDialog
   },
   data: () => ({
-    panel: [0], //accordian 의 오픈 index
+    panel: [1], //accordian 의 오픈 index
     snackbarTimeout: 3000, //스낵바 유지시간
     snackbarMessage: "", //스낵바 기본 메시지
     snackbar: false, //스낵바 open /close 여부
@@ -253,8 +274,8 @@ export default {
     });
   },
   mounted() {},
+  computed: {},
   methods: {
-    clickMain() {},
     getCategory() {
       CONTENT_LISTENER.sendMessage({
         type: "get.category",
@@ -276,17 +297,28 @@ export default {
         this.lostCategory = lostCategory;
       });
     },
-    settingCategory(item, event, checkRoot) {
+    editCategory(item, event, checkRoot, statusFlag) {
       event.preventDefault();
       event.stopPropagation();
       this.$refs.updateCategoryDialog.openDialog(
         item,
         this.category,
-        checkRoot
+        checkRoot,
+        statusFlag //update , insert
       );
       //alert(JSON.stringify(item));
     },
     selectCategory(category, event) {
+      this.category.forEach(item => {
+        if (item.children !== undefined) {
+          item.children.forEach(subItem => {
+            subItem.class = "";
+          });
+        }
+      });
+
+      if (category !== 0) category.class = "border";
+
       EventBus.$emit("selectCategoryForSite", category);
     },
     dropEvent(data, event) {
@@ -300,6 +332,7 @@ export default {
           });
         }
       });
+
       //DB에 저장하기
       let param = [
         event.target.id, //"CATEGORY_IDX":

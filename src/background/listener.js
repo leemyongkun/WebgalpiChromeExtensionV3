@@ -73,20 +73,29 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       });
       return true;
       break;
+    case "insert.category.item": //dashboard
+      API.insertCategoryItem(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
     case "update.category.item": //dashboard
-      console.log("update.category.item ", msg.data);
-      let categoryId = [msg.data[2]];
-      if (msg.data[3]) {
-        console.log("msg.dat ", categoryId, msg.data);
+      let categoryParam = msg.data;
+      console.log(">>> update.category.item ", categoryParam);
+      let categoryId = [categoryParam[2]];
+      if (categoryParam[3]) {
         API.deleteCategoryRelationParent(categoryId);
       }
 
-      //카테고리 변경 시, parent에 포함된 category를 미아로 변경
-      let lostTargetCateggory = [msg.data[2]];
-      console.log("lostTargetCateggory ", lostTargetCateggory);
-      API.updateLostCategoryItem(lostTargetCateggory);
+      //if(this.categoryParent === 0 && this.checkRoot){
+      if (categoryParam[1] === 0 && categoryParam[3]) {
+      } else {
+        //카테고리 변경 시, parent에 포함된 category를 미아로 변경
+        let lostTargetCateggory = [categoryParam[2]];
+        API.updateLostCategoryItem(lostTargetCateggory);
+      }
 
-      API.updateCategoryItem(msg.data).then(res => {
+      API.updateCategoryItem(categoryParam).then(res => {
         sendResponse(res);
       });
 

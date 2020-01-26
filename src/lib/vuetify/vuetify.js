@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuetify, {
+  VDatePicker,
   VAutocomplete,
   VSelect,
   VTextarea,
@@ -136,7 +137,7 @@ Vue.component("VListItemIcon", VListItemIcon);
 Vue.component("VTextarea", VTextarea);
 Vue.component("VSelect", VSelect);
 Vue.component("VAutocomplete", VAutocomplete);
-
+Vue.component("VDatePicker", VDatePicker);
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
   theme: { dark: false },

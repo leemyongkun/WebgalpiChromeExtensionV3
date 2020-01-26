@@ -23,8 +23,12 @@
           </v-col>
           <v-col v-else>
             <v-list style="background: none;padding: 0;">
-              <v-list-item-group active-class="border">
-                <v-row v-for="(item, index) in sites" :key="index">
+              <div
+                v-for="(item, index) in sites"
+                :key="index"
+                :class="item.CLASS"
+              >
+                <v-row>
                   <v-col cols="12" style="padding-top: 0px;">
                     <v-hover v-slot:default="{ hover }">
                       <drag :transfer-data="item">
@@ -85,7 +89,7 @@
                     </v-hover>
                   </v-col>
                 </v-row>
-              </v-list-item-group>
+              </div>
             </v-list>
           </v-col>
         </v-row>
@@ -232,6 +236,7 @@ export default {
           if (this.sites.length > 0) {
             setTimeout(() => {
               this.$refs.siteList[0].click();
+              this.$refs.siteList[0].CLASS = "border";
             }, 500);
           }
         });
@@ -241,6 +246,11 @@ export default {
       open.focus();
     },
     selectSite(site, key) {
+      this.sites.map(item => {
+        item.CLASS = "";
+      });
+
+      site.CLASS = "border";
       this.sourceUrl = site.URL;
       //미리보기 생성
       this.generatePreviewDoc(site);
@@ -294,7 +304,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                justify-content: center;*/
+                                                                                      justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

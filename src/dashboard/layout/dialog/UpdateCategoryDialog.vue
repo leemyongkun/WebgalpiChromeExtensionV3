@@ -29,7 +29,8 @@
             <v-col cols="2" style="padding-left: 0px;">
               <v-checkbox
                 v-model="checkRoot"
-                label="PARENT"
+                label="ROOT"
+                @change="checkRootChange"
                 required
               ></v-checkbox>
             </v-col>
@@ -46,10 +47,31 @@
         <small></small>
       </v-card-text>
       <v-card-actions>
+        <v-btn
+          color="red darken-1"
+          text
+          @click="deleteCategory"
+          v-if="categoryStatus === 'update'"
+          >DELETE
+        </v-btn>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="close">CLOSE</v-btn>
-        <v-btn color="green darken-1" text @click="updateCategory"
-          >UPDATE
+        <v-btn
+          color="green darken-1"
+          text
+          @click="updateCategory"
+          v-if="categoryStatus === 'update'"
+        >
+          <span>UPDATE</span>
+        </v-btn>
+
+        <v-btn
+          color="green darken-1"
+          text
+          @click="insertCategory"
+          v-if="categoryStatus === 'insert'"
+        >
+          <span>CREATE</span>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -68,42 +90,103 @@ export default {
     categoryParent: "",
     categoryName: "",
     categoryId: "",
-    category: []
+    category: [],
+    categoryStatus: ""
   }),
   created() {},
   mounted() {},
   methods: {
-    openDialog(categoryInfo, category, checkRoot) {
-      this.category = category;
+    openDialog(categoryInfo, category, checkRoot, statusFlag) {
+      this.categoryStatus = statusFlag;
 
-      this.checkRoot = checkRoot;
+      //수정일때 수행
+      if (statusFlag === "update") {
+        //현재 root 인지 child인지 구분.
+        this.checkRoot = checkRoot;
 
-      this.categoryName = categoryInfo.name;
-      this.categoryParent = categoryInfo.parent;
-      this.categoryId = categoryInfo.id;
+        //root를 수정 시, 자기자신으로 변경할 수 없도록 category에서 제외시킨다.
+        let targetRootId;
+        if (categoryInfo.parent === 0) {
+          targetRootId = categoryInfo.id;
+          this.category = category.filter(item => {
+            return item.id !== targetRootId;
+          });
+        } else {
+          this.category = category;
+        }
+
+        this.categoryName = categoryInfo.name;
+        if (categoryInfo.parent === -1) {
+          //미아가 된 카테고리일경우, category의 첫번째를 지정한다.
+          this.categoryParent = category[0].id;
+        } else {
+          this.categoryParent = categoryInfo.parent;
+        }
+        this.categoryId = categoryInfo.id;
+      } else {
+        //신규생성일때.
+        this.category = category;
+        if (this.category.length !== 0) {
+          this.categoryParent = this.category[0].id;
+        }
+      }
 
       this.dialog = true;
     },
+    checkRootChange() {
+      this.$nextTick(() => {
+        if (this.checkRoot) {
+          this.categoryParent = 0;
+        } else {
+          this.categoryParent = this.category[0].id;
+        }
+      });
+    },
+    deleteCategory() {},
     insertCategory() {
       //todo : Category 등록
       //1. index 최대값을 가져온다.
       //2. PARENT / CHILD를 구분하여 parameter 를 구성한다.
       //3. 저장한다. (reload category)
-      alert("insertCateory");
+
+      console.log("this categoryName", this.categoryName);
+      console.log("categoryParent", this.categoryParent);
+      console.log("this.checkRoot ", this.checkRoot);
+
+      this.categoryName = this.categoryName.replace(/ /g, "");
+      if (this.categoryName === "") {
+        alert("카테고리명을 입력하세요.");
+        return false;
+      }
+
+      let categoryParent = this.categoryParent;
+      let depth = 1;
+
+      if (this.checkRoot) {
+        depth = 0;
+        categoryParent = 0; //rootid
+      }
+
+      if (depth !== 0 && categoryParent === "") {
+        alert("ROOT를 지정하지않고, 카테고리를 설정할 수 없습니다.");
+        return false;
+      }
 
       let param = [
-        0, //index
         "kkuni.bear@gmail.com", //email
-        "NAME",
-        0, //depth
-        "N", //share
-        "CUSTOM", //SYSTEM , CUSTOM
-        "N",
-        "N"
+        this.categoryName, //NAME
+        categoryParent, //parent
+        depth, //depth
+        0, //sort
+        new Date().getTime() //create date
       ];
-
-      this.category.map(item => {
-        console.log("item >> ", item);
+      //db 저장하기
+      CONTENT_LISTENER.sendMessage({
+        type: "insert.category.item",
+        data: param
+      }).then(() => {
+        EventBus.$emit("reload.category");
+        this.close();
       });
     },
     updateParentCategory() {
@@ -113,13 +196,13 @@ export default {
     updateCategory() {
       let param = [];
       /* if (this.checkParent) {
-                              if (confirm("해당 카테고리를 PARENT로 지정 시, 컨텐츠들은 카테고리 정보를 잃게 됩니다.")) {
-                                  param = [this.categoryName, null, this.categoryId];
-                              }
-                              return false;
-                          } else {
-                              param = [this.categoryName, this.categoryParent, this.categoryId];
-                          }*/
+                                        if (confirm("해당 카테고리를 PARENT로 지정 시, 컨텐츠들은 카테고리 정보를 잃게 됩니다.")) {
+                                            param = [this.categoryName, null, this.categoryId];
+                                        }
+                                        return false;
+                                    } else {
+                                        param = [this.categoryName, this.categoryParent, this.categoryId];
+                                    }*/
 
       param = [
         this.categoryName,
@@ -138,6 +221,14 @@ export default {
       });
     },
     close() {
+      this.checkRoot = false;
+      this.dialog = false;
+      this.categoryParent = "";
+      this.categoryName = "";
+      this.categoryId = "";
+      this.category = [];
+      this.categoryStatus = "";
+
       this.dialog = false;
     }
   }

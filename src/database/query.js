@@ -127,7 +127,8 @@ export default {
                     SITES.DATE_CREATE,
                     DATE_UPDATE,
                     TAGS,
-                    CASE WHEN CATEGORY.NAME IS NULL THEN 'NO_CATEGORY' ELSE CATEGORY.NAME END AS CATEGORY_NAME
+                    CASE WHEN CATEGORY.NAME IS NULL THEN 'NO_CATEGORY' ELSE CATEGORY.NAME END AS CATEGORY_NAME,
+                    '' as CLASS
                     FROM TBL_SITES SITES LEFT JOIN TBL_REL_CATEGORY REL_CATEGORY
                     ON SITES.URL_KEY = REL_CATEGORY.URL_KEY
                     LEFT JOIN TBL_CATEGORY CATEGORY
@@ -152,6 +153,7 @@ export default {
                    depth,
                    mouseOver,
                    dropOver,
+                   class,
                    SUM(CNT) as cnt
             FROM (
                      SELECT IDX     as id,
@@ -160,6 +162,7 @@ export default {
                             DEPTH   as depth,
                             false   as mouseOver,
                             false   as dropOver,
+                            ''      as class,
                             CASE
                                 WHEN B.CATEGORY_IDX IS NULL
                                     THEN 0
@@ -238,6 +241,17 @@ export default {
                 SET NAME = ? 
                 , PARENT = ?
                 WHERE IDX = ? 
+		`;
+  },
+  insertCategoryItem: () => {
+    return `INSERT INTO TBL_CATEGORY(
+                                     EMAIL,
+                                     NAME,
+                                     PARENT,
+                                     DEPTH,
+                                     SORT,
+                                     DATE_CREATE) 
+                VALUES (?,?,?,?,?,?) 
 		`;
   }
 };

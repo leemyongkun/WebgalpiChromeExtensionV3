@@ -49,7 +49,7 @@ export default {
       tx.executeSql(TRUNC_OPTIONS, []);
       tx.executeSql(INIT_OPTIONS, []);
       tx.executeSql(TRUNC_CATEGORY, []);
-      tx.executeSql(INIT_CATEGORY, []);
+      // tx.executeSql(INIT_CATEGORY, []);
     });
   },
   selectData: query => {
