@@ -1,15 +1,10 @@
 import Vue from "vue";
 import PopupApp from "./PopupApp";
-import BootstrapVue from "bootstrap-vue";
-
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-
-//global.browser = require("webextension-polyfill");
-Vue.use(BootstrapVue);
+import vuetify from "../lib/vuetify/vuetify";
 
 /* eslint-disable no-new */
 new Vue({
   el: "#app",
+  vuetify,
   render: h => h(PopupApp)
 });

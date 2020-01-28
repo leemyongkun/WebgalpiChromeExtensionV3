@@ -1,5 +1,7 @@
 import Vue from "vue";
+import "vuetify/dist/vuetify.min.css";
 import Vuetify, {
+  VTabsItems,
   VDatePicker,
   VAutocomplete,
   VSelect,
@@ -62,7 +64,6 @@ import Vuetify, {
   VSubheader,
   VList
 } from "vuetify/lib";
-import "vuetify/dist/vuetify.min.css";
 
 Vue.use(Vuetify);
 Vue.component("VListItemGroup", VListItemGroup);
@@ -118,6 +119,7 @@ Vue.component("VListItemAvatar", VListItemAvatar);
 Vue.component("VTab", VTab);
 Vue.component("VTabs", VTabs);
 Vue.component("VTabItem", VTabItem);
+Vue.component("VTabsItems", VTabsItems);
 
 Vue.component("VWindow", VWindow);
 Vue.component("VWindowItem", VWindowItem);

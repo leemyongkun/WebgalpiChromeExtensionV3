@@ -1,6 +1,16 @@
 <template>
   <div>
-    <b-card no-body>
+    <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+      <v-tab v-for="item in items" :key="item">
+        {{ item }}
+      </v-tab>
+    </v-tabs>
+
+    <v-tabs-items v-model="tab">
+      <SiteInfoTab></SiteInfoTab>
+    </v-tabs-items>
+
+    <!--<b-card no-body>
       <b-tabs card>
         <b-tab title="SITE INFO">
           <SiteInfoTab></SiteInfoTab>
@@ -10,22 +20,24 @@
           <HighlightTab></HighlightTab>
         </b-tab>
       </b-tabs>
-    </b-card>
+    </b-card>-->
   </div>
 </template>
 
 <script>
 //https://i.picsum.photos/id/20/400/400.jpg
 import SiteInfoTab from "./tabs/SiteInfoTab";
-import HighlightTab from "./tabs/HighlightTab";
+//import HighlightTab from "./tabs/HighlightTab";
 
 export default {
   name: "App",
   components: {
-    SiteInfoTab,
-    HighlightTab
+    SiteInfoTab
   },
-  data: () => ({}),
+  data: () => ({
+    tab: null,
+    items: ["SITE", "HIGHLIGHT"]
+  }),
   created() {},
   methods: {},
 
