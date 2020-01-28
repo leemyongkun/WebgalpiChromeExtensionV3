@@ -2,9 +2,9 @@
   <v-card max-width="400" class="mx-auto">
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-title class="headline">{{
-          siteInfo.TITLE
-        }}</v-list-item-title>
+        <v-list-item-title class="headline"
+          >{{ siteInfo.TITLE }}
+        </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 
@@ -15,14 +15,23 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-autocomplete
+      <v-btn color="blue-grey" class="ma-1 white--text" @click="goDashboard">
+        <v-icon right dark>mdi-view-dashboard</v-icon>
+      </v-btn>
+
+      <v-spacer></v-spacer>
+      <v-select
         :items="category"
         item-value="id"
         item-text="name"
         v-model="selectCategory"
-      ></v-autocomplete>
-      <v-spacer></v-spacer>
-      <v-btn text color="deep-purple accent-4">
+        label="CATEGORY"
+        dense
+        outlined
+        class="ma-1"
+      ></v-select>
+
+      <v-btn color="primary accent-4">
         SAVE
       </v-btn>
     </v-card-actions>
@@ -38,7 +47,7 @@ export default {
   name: "SiteInfoTab",
   components: {},
   data: () => ({
-    category: [{ name: "1", id: "1" }],
+    category: [],
     selectCategory: null,
     src:
       "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
@@ -61,22 +70,28 @@ export default {
     isCollapse: true
   }),
   methods: {
+    goDashboard: () => {
+      let extensionDashboard =
+        "chrome-extension://" + chrome.runtime.id + "/dashboard/dashboard.html";
+      let open = window.open(extensionDashboard, "_blank");
+      open.focus();
+    },
     saveSite: () => {
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         let tabId = tabs[0].id;
 
         /*chrome.tabs.sendMessage(
-                      tabId,
-                      { action: "get.site.info" },
-                      siteInfo => {
-                        POPUP_LISTENER.postMessage(
-                          "popup.save.site",
-                          siteInfo
-                        ).onMessage.addListener(response => {
-                          GLOBAL_CONFIG.USE_CURRENT_SITE = "Y";
-                        });
-                      }
-                    );*/
+                                  tabId,
+                                  { action: "get.site.info" },
+                                  siteInfo => {
+                                    POPUP_LISTENER.postMessage(
+                                      "popup.save.site",
+                                      siteInfo
+                                    ).onMessage.addListener(response => {
+                                      GLOBAL_CONFIG.USE_CURRENT_SITE = "Y";
+                                    });
+                                  }
+                                );*/
       });
     },
     capture: () => {
@@ -126,14 +141,24 @@ export default {
         type: "get.category",
         data: null
       }).then(category => {
-        //this.category = category;
-        // console.log("category ", this.category);
-        /* let test = category.filter(item => {
-                         return item.parent !== 0;
-                     });
-                     console.log("teszt ", test);*/
+        this.category = category.filter(item => {
+          return item.parent !== 0;
+        });
+        this.category.unshift({ id: -1, name: "NO CATEGORY" });
+        if (this.category.length !== 0) {
+          this.selectCategory = this.category[0].id;
+        }
       });
     });
   }
 };
 </script>
+<style>
+.v-text-field__details {
+  display: none !important;
+}
+
+.v-input__slot {
+  margin-bottom: 0px !important;
+}
+</style>

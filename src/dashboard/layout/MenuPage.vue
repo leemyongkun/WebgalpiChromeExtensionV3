@@ -282,7 +282,6 @@ export default {
         data: null
       })
         .then(category => {
-          console.log("category ", category);
           this.category = this.generateTree(category, 0);
         })
         .then(() => {

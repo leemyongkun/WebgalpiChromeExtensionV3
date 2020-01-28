@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app>
     <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
       <v-tab v-for="item in items" :key="item">
         {{ item }}
@@ -11,17 +11,17 @@
     </v-tabs-items>
 
     <!--<b-card no-body>
-      <b-tabs card>
-        <b-tab title="SITE INFO">
-          <SiteInfoTab></SiteInfoTab>
-        </b-tab>
+          <b-tabs card>
+            <b-tab title="SITE INFO">
+              <SiteInfoTab></SiteInfoTab>
+            </b-tab>
 
-        <b-tab no-body title="HIGHLIGHT">
-          <HighlightTab></HighlightTab>
-        </b-tab>
-      </b-tabs>
-    </b-card>-->
-  </div>
+            <b-tab no-body title="HIGHLIGHT">
+              <HighlightTab></HighlightTab>
+            </b-tab>
+          </b-tabs>
+        </b-card>-->
+  </v-app>
 </template>
 
 <script>
@@ -30,7 +30,6 @@ import SiteInfoTab from "./tabs/SiteInfoTab";
 //import HighlightTab from "./tabs/HighlightTab";
 
 export default {
-  name: "App",
   components: {
     SiteInfoTab
   },
@@ -40,7 +39,6 @@ export default {
   }),
   created() {},
   methods: {},
-
   mounted() {}
 };
 </script>

@@ -4,8 +4,8 @@
     <MenuPage />
     <v-content>
       <v-container fluid>
-        <!--<SiteListPage />-->
-        <SiteListWidePage></SiteListWidePage>
+        <SiteListPage />
+        <!--<SiteListWidePage></SiteListWidePage>-->
       </v-container>
     </v-content>
   </v-app>
