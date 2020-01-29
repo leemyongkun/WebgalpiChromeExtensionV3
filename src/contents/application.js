@@ -53,14 +53,16 @@ let APPLICATION = {
     GLOBAL_CONFIG.HIGHLIGHT_LIST = data.allItems.HIGHLIGHT_LIST;
 
     //SPA 의 사이트의 경우, tag가 남아있는 현상이 있으나, 이를 제거하느다.
-    let targetDeleteHighlightCustomTag = document.querySelectorAll(
+    //ex : https://www.webprofessional.jp/custom-pdf-rendering/
+    // youtube 와 다른방법으로 개발을 해야함.
+    /* let targetDeleteHighlightCustomTag = document.querySelectorAll(
       GLOBAL_CONFIG.HL_TAG_NAME
     );
     for (let i = targetDeleteHighlightCustomTag.length - 1; 0 <= i; i--) {
       targetDeleteHighlightCustomTag[i].parentElement.removeChild(
         targetDeleteHighlightCustomTag[i]
       );
-    }
+    }*/
 
     // 팔렛트 생성
     CONTENTS.createColorPicker(data.options.COLOR)
