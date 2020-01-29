@@ -1,0 +1,495 @@
+.waf-inlineFlex {
+  display: inline-flex !important;
+  display: -webkit-inline-flex !important;
+  display: -ms-inline-flexbox !important;
+  display: -moz-inline-box !important;
+}
+
+.highlight-color-1 {
+  background: #a1887f !important;
+  display: inline !important;
+}
+
+.highlight-color-2 {
+  background: #cddc39 !important;
+  display: inline !important;
+}
+
+.highlight-color-3 {
+  background: #4caf50 !important;
+  display: inline !important;
+}
+
+.highlight-color-4 {
+  background: #ff9800 !important;
+  display: inline !important;
+}
+
+.highlight-color-5 {
+  background: #fbc02d !important;
+  display: inline !important;
+}
+
+.highlight-color-6 {
+  background: #b2ebf2 !important;
+  display: inline !important;
+}
+
+.hlt-btn.highlight-color-1 {
+  background: #a1887f !important;
+  width: 14px !important;
+  height: 14px !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  border-radius: 100% !important;
+  -webkit-border-radius: 100% !important;
+  -ms-border-radius: 100% !important;
+  -moz-border-radius: 100% !important;
+}
+
+.hlt-btn.highlight-color-2 {
+  background: #cddc39 !important;
+  width: 14px !important;
+  height: 14px !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  border-radius: 100% !important;
+  -webkit-border-radius: 100% !important;
+  -ms-border-radius: 100% !important;
+  -moz-border-radius: 100% !important;
+}
+
+.hlt-btn.highlight-color-3 {
+  background: #4caf50 !important;
+  width: 14px !important;
+  height: 14px !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  border-radius: 100% !important;
+  -webkit-border-radius: 100% !important;
+  -ms-border-radius: 100% !important;
+  -moz-border-radius: 100% !important;
+}
+
+.hlt-btn.highlight-color-4 {
+  background: #ff9800 !important;
+  width: 14px !important;
+  height: 14px !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  border-radius: 100% !important;
+  -webkit-border-radius: 100% !important;
+  -ms-border-radius: 100% !important;
+  -moz-border-radius: 100% !important;
+}
+
+.hlt-btn.highlight-color-5 {
+  background: #fbc02d !important;
+  width: 14px !important;
+  height: 14px !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  border-radius: 100% !important;
+  -webkit-border-radius: 100% !important;
+  -ms-border-radius: 100% !important;
+  -moz-border-radius: 100% !important;
+}
+
+.hlt-btn.highlight-color-6 {
+  background: #b2ebf2 !important;
+  width: 14px !important;
+  height: 14px !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  border-radius: 100% !important;
+  -webkit-border-radius: 100% !important;
+  -ms-border-radius: 100% !important;
+  -moz-border-radius: 100% !important;
+}
+
+.hlt-wafflepen-toolbox {
+  position: absolute !important;
+  font-family: Meiryo, 微软雅黑, STXihei, MS PGothic, Helvetica Neue, Helvetica,
+    Arial, sans-serif !important;
+  font-size: 12px !important;
+  width: auto !important;
+  z-index: 2147483647 !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-toolbox {
+  position: relative !important;
+  width: 100% !important;
+  height: 26px !important;
+  border: 1px solid #ccc !important;
+  padding: 13px 10px !important;
+  background: #fff !important;
+  border-radius: 3px !important;
+  -webkit-border-radius: 3px !important;
+  -moz-border-radius: 3px !important;
+  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+  -webkit-justify-content: center !important;
+  -moz-justify-content: center !important;
+  justify-content: center !important;
+  -webkit-align-items: center !important;
+  -moz-align-items: center !important;
+  align-items: center !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-toolbox .wafflepen-color-picker {
+  position: relative !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: -webkit-flex !important;
+  display: -ms-flex !important;
+  display: flex !important;
+  -webkit-justify-content: center !important;
+  -moz-justify-content: center !important;
+  justify-content: center !important;
+  -webkit-align-items: center !important;
+  -moz-align-items: center !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-toolbox .wafflepen-color-picker a {
+  background-color: transparent !important;
+  margin: 0px 1px !important;
+  display: -webkit-inline-flex !important;
+  display: -moz-inline-box !important;
+  display: -ms-inline-flexbox !important;
+  display: inline-flex !important;
+  -webkit-justify-content: center !important;
+  -moz-justify-content: center !important;
+  justify-content: center !important;
+  -webkit-align-items: center !important;
+  -moz-align-items: center !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+  border: 2px solid transparent !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  border-radius: 50% !important;
+  -webkit-border-radius: 50% !important;
+  -ms-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  -webkit-transition: all 0.5s !important;
+  -moz-transition: all 0.5s !important;
+  transition: all 0.5s !important;
+  -o-transition: all 0.5s !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-toolbox .wafflepen-color-picker a::before {
+  position: relative;
+  content: "";
+  width: 16px !important;
+  height: 16px !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  margin: 2px !important;
+  border-radius: 50% !important;
+  -webkit-border-radius: 50% !important;
+  -ms-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-1.on,
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-1:hover {
+  border-color: #6c41ff !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-1::before {
+  background: #a1887f !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-2.on,
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-2:hover {
+  border-color: #6c41ff !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-2::before {
+  background: #cddc39 !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-3.on,
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-3:hover {
+  border-color: #6c41ff !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-3::before {
+  background: #4caf50 !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-4.on,
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-4:hover {
+  border-color: #6c41ff !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-4::before {
+  background: #ff9800 !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-5.on,
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-5:hover {
+  border-color: #6c41ff !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-5::before {
+  background: #fbc02d !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-6.on,
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-6:hover {
+  border-color: #6c41ff !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-toolbox
+  .wafflepen-color-picker
+  a.highlight-color-6::before {
+  background: #b2ebf2 !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-toolbox .wafflepen-color-picker a.on::before {
+  /*background-image: url("chrome-extension://__MSG_@@extension_id__/images/simple-widget-clear.png") !important;*/
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 10px !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-toolbox .tool-list {
+  position: relative !important;
+  list-style: none !important;
+  margin: 0 0 0 0px !important;
+  padding: 0 0 0 1px !important;
+  display: -webkit-inline-flex !important;
+  display: -moz-inline-box !important;
+  display: -ms-inline-flexbox !important;
+  display: inline-flex !important;
+  -webkit-justify-content: center !important;
+  -moz-justify-content: center !important;
+  justify-content: center !important;
+  -webkit-align-items: center !important;
+  -moz-align-items: center !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+  -ms-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-toolbox .tool-list:before {
+  display: inline-block !important;
+  position: absolute !important;
+  content: "" !important;
+  width: 1px !important;
+  height: 80% !important;
+  left: 0 !important;
+  top: 10% !important;
+  background: #dcdcdc !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-toolbox .tool-list a.hlt-btn {
+  margin: 2px 4px !important;
+  padding: 0 !important;
+  display: -webkit-inline-flex !important;
+  display: -moz-inline-box !important;
+  display: -ms-inline-flexbox !important;
+  display: inline-flex !important;
+  -webkit-justify-content: center !important;
+  -moz-justify-content: center !important;
+  justify-content: center !important;
+  -webkit-align-items: center !important;
+  -moz-align-items: center !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+  -ms-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-writebox {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  display: inline-block;
+  font-family: Meiryo, 微软雅黑, STXihei, MS PGothic, Helvetica Neue, Helvetica,
+    Arial, sans-serif !important;
+  font-size: 12px !important;
+  background: #fff !important;
+  width: auto !important;
+  border: 1px solid #ccc !important;
+  padding: 8px !important;
+  margin-top: 4px !important;
+  resize: both !important;
+  border-radius: 3px !important;
+  -webkit-border-radius: 3px !important;
+  -ms-border-radius: 3px !important;
+  -moz-border-radius: 3px !important;
+  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+  -ms-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+  -ms-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-writebox .rspen-txtarea {
+  position: relative !important;
+  border: 1px solid #eee !important;
+  border-color: #dcdcdc !important;
+  /*max-height: 100px !important;*/
+  resize: both !important;
+  line-height: 1.4 !important;
+  padding: 10px !important;
+  min-width: 360px;
+  min-height: 120px;
+  font-family: Meiryo, 微软雅黑, STXihei, MS PGothic, Helvetica Neue, Helvetica,
+    Arial, sans-serif !important;
+  font-size: 12px !important;
+  border-radius: 3px !important;
+  -webkit-border-radius: 3px !important;
+  -ms-border-radius: 3px !important;
+  -moz-border-radius: 3px !important;
+  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+  -ms-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-writebox .rspen-txtarea::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-writebox
+  .rspen-txtarea::-webkit-scrollbar-track {
+  background: #f2f2f2 !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-writebox
+  .rspen-txtarea::-webkit-scrollbar-thumb {
+  background: #aaa !important;
+  border-radius: 6px !important;
+  -webkit-border-radius: 6px !important;
+  -ms-border-radius: 6px !important;
+  -moz-border-radius: 6px !important;
+}
+
+.hlt-wafflepen-toolbox
+  .wafflepen-writebox
+  .rspen-txtarea::-webkit-scrollbar-thumb:hover {
+  background: #999 !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-writebox .writebox-submit {
+  margin-top: 3px !important;
+  font-family: Meiryo, 微软雅黑, STXihei, MS PGothic, Helvetica Neue, Helvetica,
+    Arial, sans-serif !important;
+  font-size: 12px !important;
+  display: -webkit-flex !important;
+  display: -ms-flex !important;
+  display: flex !important;
+  box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
+  -ms-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+  -webkit-justify-content: space-between !important;
+  -moz-justify-content: space-between !important;
+  justify-content: space-between !important;
+  -webkit-align-items: center !important;
+  -moz-align-items: center !important;
+  align-items: center !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-writebox .writebox-submit .write-date {
+  display: inline-block !important;
+  font-family: Meiryo, 微软雅黑, STXihei, MS PGothic, Helvetica Neue, Helvetica,
+    Arial, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: bold !important;
+  color: #6c41ff !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-writebox .writebox-submit .save-btn {
+  display: inline-block !important;
+  padding: 5px 12px !important;
+  background: #6c41ff !important;
+  font-size: 11px !important;
+  color: #fff !important;
+  border: 1px solid #5828ff !important;
+  cursor: pointer !important;
+  border-radius: 2em !important;
+  -webkit-border-radius: 2em !important;
+  -ms-border-radius: 2em !important;
+  -moz-border-radius: 2em !important;
+  line-height: 1 !important;
+}
+
+.hlt-wafflepen-toolbox .wafflepen-writebox .writebox-submit .save-btn:hover {
+  background: #5828ff !important;
+  border-color: #450eff !important;
+}

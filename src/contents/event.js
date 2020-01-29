@@ -34,6 +34,16 @@ let EVENT = {
         }
       );
   },
+  highlightClickEvent2: e => {
+    console.log("## highlightClickEvent2");
+    //마우스를 따라간다.
+    $("#highlight-update-toolbar").css({
+      top: e.pageY + 10,
+      left: e.pageX,
+      position: "absolute"
+    });
+    $("#highlight-update-toolbar").fadeIn(300);
+  },
   highlightClickEvent: e => {
     //mouseOnOverEvent
 

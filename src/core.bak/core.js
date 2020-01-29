@@ -134,6 +134,7 @@ var HighlightCore = {
     //같은 highlight Id의 영역에 마우스를 올렸을 경우, 다른 ID에 올리기 전까지 유지된다.(혹은 다른곳을 클릭하기 전까지 유지된다.)
     if (HighlightData.mouseOverId != HighlightData.currentIdx) {
       $("#highlight-toolbar").hide();
+      $("#highlight-update-toolbar").hide();
     } else {
       return false;
     }

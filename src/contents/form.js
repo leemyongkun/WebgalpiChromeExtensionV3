@@ -46,6 +46,19 @@ let FORM = {
                 </div>
                 </div>`;
   },
+  updateColorPicker: () => {
+    return `<div  class="liner-tooltip-wrap" id="highlight-update-toolbar" style="display:none;">
+                    <div class="liner-color-picker">
+                      <a class="liner-color-yellow liner-color-circle"/>
+                      <a class="liner-color-yellow liner-color-circle"/>
+                      <a class="liner-color-yellow liner-color-circle"/>
+                      <a class="liner-color-yellow liner-color-circle"/>
+                      <a class="liner-color-yellow liner-color-circle"/>
+                      <a class="liner-color-yellow liner-color-circle"/>
+                    </div>
+                </div>
+                `;
+  },
   createColorPicker: COLORS => {
     return `
       <div id="highlight-toolbar" style="display: none;
