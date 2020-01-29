@@ -37,8 +37,8 @@
               <v-row>
                 <v-col>
                   <v-btn block small color="primary" @click="saveColor"
-                    >SAVE</v-btn
-                  >
+                    >SAVE
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-expansion-panel-content>
@@ -61,32 +61,33 @@ export default {
       "highlight-color-2",
       "highlight-color-3",
       "highlight-color-4",
-      "highlight-color-5"
+      "highlight-color-5",
+      "highlight-color-6"
     ],
     colorValue: [
       {
         className: "highlight-color-1",
-        style: "background: #a1887f; border-radius: 5px;"
+        style: "background: #e35a69; border-radius: 5px;"
       },
       {
         className: "highlight-color-2",
-        style: "background: #CDDC39; border-radius: 5px;"
+        style: "background: #f7b900; border-radius: 5px;"
       },
       {
         className: "highlight-color-3",
-        style: "background: #4CAF50; border-radius: 5px;"
+        style: "background: #2da64e; border-radius: 5px;"
       },
       {
         className: "highlight-color-4",
-        style: "background: #FF9800; border-radius: 5px;"
+        style: "background: #d9c3ff; border-radius: 5px;"
       },
       {
         className: "highlight-color-5",
-        style: "background: #FBC02D; border-radius: 5px;"
+        style: "background: #97c2dd; border-radius: 5px;"
       },
       {
         className: "highlight-color-6",
-        style: "background: #B2EBF2; border-radius: 5px;"
+        style: "background: #ef9a9a; border-radius: 5px;"
       },
       {
         className: "highlight-color-7",
@@ -94,33 +95,33 @@ export default {
       },
       {
         className: "highlight-color-8",
-        style: "background: #ba68c8; border-radius: 5px;"
+        style: "background: #CDDC39; border-radius: 5px;"
       },
       {
         className: "highlight-color-9",
-        style: "background: #5c6bc0; border-radius: 5px;"
+        style: "background: #ffb540; border-radius: 5px;"
       },
       {
         className: "highlight-color-10",
-        style: "background: #ef9a9a; border-radius: 5px;"
+        style: "background: #B2EBF2; border-radius: 5px;"
       },
       {
         className: "highlight-color-11",
-        style: "background: #64b5f6; border-radius: 5px;"
+        style: "background: #c0b6a7; border-radius: 5px;"
       }
     ],
     colorList: [
-      "#a1887f",
-      "#CDDC39",
-      "#4CAF50",
-      "#FF9800",
-      "#FBC02D",
-      "#B2EBF2",
-      "#90a4ae",
-      "#ba68c8",
-      "#5c6bc0",
+      "#e35a69",
+      "#f7b900",
+      "#2da64e",
+      "#d9c3ff",
+      "#97c2dd",
       "#ef9a9a",
-      "#64b5f6"
+      "#90a4ae",
+      "#CDDC39",
+      "#ffb540",
+      "#B2EBF2",
+      "#c0b6a7"
     ]
   }),
   created() {},

@@ -32,9 +32,8 @@ let CONTENTS = {
       // 팔렛트를 생성
       let hlGroupElement = document.createElement(GLOBAL_CONFIG.GROUP_ELEMENT);
       hlGroupElement.innerHTML =
-        FORM.createColorPicker(COLORS) +
-        FORM.createCaptureArea() +
-        FORM.updateColorPicker();
+        FORM.createColorPicker(COLORS) + FORM.updateColorPicker(COLORS);
+      //FORM.createCaptureArea() +
 
       let targetElement = document.getElementsByTagName(
         GLOBAL_CONFIG.TARGET_ELEMENT
@@ -74,14 +73,14 @@ let CONTENTS = {
       ogImage = $('meta[property="og:image"]').attr("content");
 
       /* if (location.host.indexOf('youtube.com') === -1) {
-                      ogTitle = $('meta[property="og:title"]').attr("content");
-                      ogDescription = $('meta[property="og:description"]').attr("content");
-                      ogImage = $('meta[property="og:image"]').attr("content");
-                  }else{
-                      ogTitle = $('meta[property="og:title"]').attr("content");
-                      ogDescription = $('meta[property="og:description"]').attr("content");
-                      ogImage = $('meta[property="og:image"]').attr("content");
-                  }*/
+                            ogTitle = $('meta[property="og:title"]').attr("content");
+                            ogDescription = $('meta[property="og:description"]').attr("content");
+                            ogImage = $('meta[property="og:image"]').attr("content");
+                        }else{
+                            ogTitle = $('meta[property="og:title"]').attr("content");
+                            ogDescription = $('meta[property="og:description"]').attr("content");
+                            ogImage = $('meta[property="og:image"]').attr("content");
+                        }*/
 
       if (ogTitle == undefined) {
         ogTitle = "";
@@ -179,16 +178,15 @@ let CONTENTS = {
     param.URL_KEY = URL.KEY;
     param.MEMO = "";
 
-    FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
+    //FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
 
     //이거 처리 해야함.
-    $("[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + param.IDX + '"]').each(function(
-      idx,
-      item
-    ) {
-      $(item).removeClass();
-      $(item).addClass(param.COLOR);
-    });
+    $("[" + GLOBAL_CONFIG.HL_ID_NAME + "='" + param.IDX + "']").each(
+      (idx, item) => {
+        $(item).removeClass();
+        $(item).addClass(param.COLOR);
+      }
+    );
 
     // 저장
     CONTENT_LISTENER.sendMessage({
@@ -272,8 +270,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                  $('#highlight-toolbar').hide();
-                                                                                                                } */
+                                                                                                                      $('#highlight-toolbar').hide();
+                                                                                                                    } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화

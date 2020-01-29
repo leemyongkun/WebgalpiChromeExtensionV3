@@ -1,3 +1,19 @@
+/*
+,colorList: [
+    "#e35a69",
+    "#f7b900",
+    "#2da64e",
+    "#d9c3ff",
+    "#97c2dd",
+    "#ef9a9a",
+    "#90a4ae",
+    "#CDDC39",
+    "#ffb540",
+    "#B2EBF2",
+    "#c0b6a7"
+]
+*/
+
 let GLOBAL_CONFIG = {
   //HIGHLIGHT_POINT: false, //highlightPoint
   ELEMENT: null,

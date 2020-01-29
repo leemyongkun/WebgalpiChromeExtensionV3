@@ -35,7 +35,11 @@ let EVENT = {
       );
   },
   highlightClickEvent2: e => {
-    console.log("## highlightClickEvent2");
+    /* 현재 하이라이팅의 ID를 넣는다.*/
+    GLOBAL_CONFIG.CURRENT_IDX = parseInt(
+      $(e.target).attr(GLOBAL_CONFIG.HL_ID_NAME)
+    );
+
     //마우스를 따라간다.
     $("#highlight-update-toolbar").css({
       top: e.pageY + 10,
@@ -57,10 +61,10 @@ let EVENT = {
 
     //같은 highlight Id의 영역에 마우스를 올렸을 경우, 다른 ID에 올리기 전까지 유지된다.(혹은 다른곳을 클릭하기 전까지 유지된다.)
     /*if (GLOBAL_CONFIG.MOUSE_OVER_ID != GLOBAL_CONFIG.CURRENT_IDX) {
-                                            $("#highlight-toolbar").hide();
-                                        } else {
-                                            return false;
-                                        }*/
+                                                $("#highlight-toolbar").hide();
+                                            } else {
+                                                return false;
+                                            }*/
 
     GLOBAL_CONFIG.MOUSE_OVER_ID = GLOBAL_CONFIG.CURRENT_IDX;
 
@@ -184,14 +188,14 @@ let EVENT = {
           event.target.nodeName === GLOBAL_CONFIG.HL_TAG_NAME.toUpperCase()
         ) {
           /* let currentId;
-                                          STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
-                                          if (HighlightCore.isNumber(STATUS.mouseUpId)) {
-                                            currentId = STATUS.mouseUpId;
-                                          } */
+                                                    STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
+                                                    if (HighlightCore.isNumber(STATUS.mouseUpId)) {
+                                                      currentId = STATUS.mouseUpId;
+                                                    } */
 
           /* if (HighlightCore.isNumber(HighlightData.downId)) {
-                                                    currentId = HighlightData.downId;
-                                                  } */
+                                                              currentId = HighlightData.downId;
+                                                            } */
           STATUS.mouseDownFlag = false;
           return false;
         }
@@ -208,11 +212,11 @@ let EVENT = {
         // 위젯영역일경우 컬러 팔레트를 보여주지 않는다.
         // 컬러 피커가 사용하지 않음일경우 보여주지 않는다.
         /* chrome.storage.sync.get(['options'], result => {
-                                                                               let highlightYN = result.options.HIGHLIGHT;
-                                                                               if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
-                                                                                 HighlightCore.mouseDragAction(event); // todo 가장 중요!!
-                                                                               }
-                                                                             }); */
+                                                                                       let highlightYN = result.options.HIGHLIGHT;
+                                                                                       if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
+                                                                                         HighlightCore.mouseDragAction(event); // todo 가장 중요!!
+                                                                                       }
+                                                                                     }); */
 
         setTimeout(() => {
           if (!window.getSelection().isCollapsed) {
@@ -225,6 +229,20 @@ let EVENT = {
         }, 100);
 
         // });
+      });
+  },
+  colorPickerUpdateBtnEvent: () => {
+    $("#highlight-update-toolbar")
+      .find("a")
+      .each(function(idx, item) {
+        $(item)
+          .unbind("click")
+          .on("click", e => {
+            CONTENTS.updateHighlight(
+              e.target.className.split(" ")[0],
+              GLOBAL_CONFIG.CURRENT_IDX
+            );
+          });
       });
   },
   colorPickerBtnEvent: () => {
@@ -347,16 +365,16 @@ let EVENT = {
 
               //Button 생성
               /*console.log("document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) ", document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID));
-                                                                                                                                    if (document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) == null) {
-                                                                                                                                        let captureButtonElement = document.createElement("button");
-                                                                                                                                        captureButtonElement.innerText = "CAPTURE";
-                                                                                                                                        captureButtonElement.id = GLOBAL_CONFIG.CAPTURE_BUTTON_ID;
-                                                                                                                                        captureButtonElement.style.marginTop = "5px";
-                                                                                                                                        $('.ord-s.jcrop-dragbar').append(captureButtonElement);
+                                                                                                                                                  if (document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) == null) {
+                                                                                                                                                      let captureButtonElement = document.createElement("button");
+                                                                                                                                                      captureButtonElement.innerText = "CAPTURE";
+                                                                                                                                                      captureButtonElement.id = GLOBAL_CONFIG.CAPTURE_BUTTON_ID;
+                                                                                                                                                      captureButtonElement.style.marginTop = "5px";
+                                                                                                                                                      $('.ord-s.jcrop-dragbar').append(captureButtonElement);
 
-                                                                                                                                    } else {
-                                                                                                                                        $('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).show();
-                                                                                                                                    }*/
+                                                                                                                                                  } else {
+                                                                                                                                                      $('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).show();
+                                                                                                                                                  }*/
 
               let img = new Image();
               // create a temporary canvas sized to the cropped size
@@ -384,21 +402,21 @@ let EVENT = {
                 $("#prevCapture").attr("src", prevImage);
                 //capture 영역 제거
                 /*
-                                                                                                                                                          $('highlight-capture-area').remove();
-                                                                                                                                                          rootElement.style.overflow = "visible";
-                                                                                                                                                          */
+                                                                                                                                                                          $('highlight-capture-area').remove();
+                                                                                                                                                                          rootElement.style.overflow = "visible";
+                                                                                                                                                                          */
               };
               console.log("imageDataUrl ", imageDataUrl);
               img.src = imageDataUrl;
 
               /*  document.addEventListener('keydown', event => {
-                                                                                                                                        if (event.key === 'Escape' || event.keyCode === 27) {
-                                                                                                                                            console.log("ESC")
-                                                                                                                                            $(GLOBAL_CONFIG.CAPTURE_ELEMENT).remove();
-                                                                                                                                            let rootElement = document.getElementsByTagName("html")[0];
-                                                                                                                                            rootElement.style.overflow = "visible";
-                                                                                                                                        }
-                                                                                                                                    });*/
+                                                                                                                                                      if (event.key === 'Escape' || event.keyCode === 27) {
+                                                                                                                                                          console.log("ESC")
+                                                                                                                                                          $(GLOBAL_CONFIG.CAPTURE_ELEMENT).remove();
+                                                                                                                                                          let rootElement = document.getElementsByTagName("html")[0];
+                                                                                                                                                          rootElement.style.overflow = "visible";
+                                                                                                                                                      }
+                                                                                                                                                  });*/
             }
           },
           function() {

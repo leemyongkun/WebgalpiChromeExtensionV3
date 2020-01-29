@@ -25,7 +25,10 @@ let APPLICATION = {
     });
   },
   init: async data => {
-    console.log("application.js### ", data);
+    //body (target element) 가 없으면 취소한다.
+    if (document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length === 0)
+      return false;
+
     CONTENTS.initUrlInfo();
 
     //todo : 이건 나중에.. 해야할듯.
@@ -65,6 +68,8 @@ let APPLICATION = {
         // 버튼 이벤트
         EVENT.colorPickerBtnEvent();
         EVENT.mouseOnDownUpEvent();
+
+        EVENT.colorPickerUpdateBtnEvent();
 
         //capture
         $("#extensionMenu")

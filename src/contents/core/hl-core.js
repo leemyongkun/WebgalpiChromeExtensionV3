@@ -5,17 +5,27 @@ let $ = require("jquery");
 let colorMap = new Object();
 (function() {
   colorMap["highlight-color-1"] =
-    "background: #a1887f !important;display: inline !important;";
+    "background: #e35a69 !important;display: inline !important;";
   colorMap["highlight-color-2"] =
-    "background: #CDDC39 !important;display: inline !important;";
+    "background: #f7b900 !important;display: inline !important;";
   colorMap["highlight-color-3"] =
-    "background: #4CAF50 !important;display: inline !important;";
+    "background: #2da64e !important;display: inline !important;";
   colorMap["highlight-color-4"] =
-    "background: #FF9800 !important;display: inline !important;";
+    "background: #d9c3ff !important;display: inline !important;";
   colorMap["highlight-color-5"] =
-    "background: #FBC02D !important;display: inline !important;";
+    "background: #97c2dd !important;display: inline !important;";
   colorMap["highlight-color-6"] =
+    "background: #ef9a9a !important;display: inline !important;";
+  colorMap["highlight-color-7"] =
+    "background: #90a4ae !important;display: inline !important;";
+  colorMap["highlight-color-8"] =
+    "background: #CDDC39 !important;display: inline !important;";
+  colorMap["highlight-color-9"] =
+    "background: #ffb540 !important;display: inline !important;";
+  colorMap["highlight-color-10"] =
     "background: #B2EBF2 !important;display: inline !important;";
+  colorMap["highlight-color-11"] =
+    "background: #c0b6a7 !important;display: inline !important;";
 })();
 
 function getColor(colorClass) {
