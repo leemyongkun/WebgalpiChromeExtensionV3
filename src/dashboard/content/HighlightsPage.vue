@@ -11,7 +11,7 @@
           <v-row>
             <v-divider />
           </v-row>
-          <v-row :style="rowStyle" class="overflow-y-auto">
+          <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
             <v-timeline :dense="true">
               <v-timeline-item
                 v-for="item in highlights"
@@ -53,10 +53,14 @@ import SiteFunction from "./function/SiteFunction";
 import SiteListPage from "./SiteListPage";
 export default {
   components: { SiteListPage, SiteFunction },
-  props: ["previewContent", "previewTitle", "previewStatus", "highlights"],
-  data: () => ({
-    rowStyle: "max-height: 570px"
-  }),
+  props: [
+    "previewContent",
+    "previewTitle",
+    "previewStatus",
+    "highlights",
+    "reviewAreaHeightStyle"
+  ],
+  data: () => ({}),
   created() {},
   methods: {
     convertColor(color) {

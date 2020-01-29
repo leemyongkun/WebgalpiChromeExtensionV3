@@ -14,7 +14,7 @@
           <v-row>
             <v-divider />
           </v-row>
-          <v-row style="max-height: 570px" class="overflow-y-auto">
+          <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
             <div v-html="previewContent"></div>
           </v-row>
         </v-card-text>
@@ -29,7 +29,13 @@ import CORE from "../../contents/core/core";
 
 export default {
   components: { SiteFunction },
-  props: ["previewContent", "previewTitle", "previewStatus", "sourceUrl"],
+  props: [
+    "previewContent",
+    "previewTitle",
+    "previewStatus",
+    "sourceUrl",
+    "reviewAreaHeightStyle"
+  ],
   data: () => ({
     window: 0
   }),

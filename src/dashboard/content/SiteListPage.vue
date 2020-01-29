@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-row>
-      <v-col cols="3" style="max-height: 700px" class="overflow-y-auto">
+      <v-col cols="3" :style="documentHeightStyle" class="overflow-y-auto">
         <v-row>
           <v-col v-if="sites.length === 0">
             <v-card class="mx-auto">
@@ -95,7 +95,7 @@
         </v-row>
       </v-col>
 
-      <v-col cols="9">
+      <v-col cols="9" :style="documentHeightStyle">
         <v-tabs right>
           <v-tab v-show="viewMode === '1'">PREVIEW</v-tab>
           <v-tab v-show="viewMode === '1'">HIGHLIGHTS</v-tab>
@@ -105,6 +105,7 @@
               <v-row>
                 <v-col v-if="n == 1">
                   <PreviewPage
+                    :reviewAreaHeightStyle="reviewAreaHeightStyle"
                     :sourceUrl="sourceUrl"
                     :previewContent="previewContent"
                     :previewTitle="previewTitle"
@@ -113,6 +114,7 @@
                 </v-col>
                 <v-col v-if="n == 2">
                   <HighlightsPage
+                    :reviewAreaHeightStyle="reviewAreaHeightStyle"
                     :previewContent="previewContent"
                     :previewTitle="previewTitle"
                     :previewStatus="previewStatus"
@@ -183,6 +185,8 @@ import EventBus from "../event-bus";
 export default {
   components: { HighlightsPage, PreviewPage },
   data: () => ({
+    documentHeightStyle: "max-height: 800px;",
+    reviewAreaHeightStyle: "max-height: 600px;",
     sites: [],
     highlights: [],
     previewContent: null,
@@ -216,9 +220,24 @@ export default {
     EventBus.$on("hideSite", siteUrlKey => {
       this.hideSites(siteUrlKey);
     });
+
+    //window resize event
+    this.$nextTick(function() {
+      window.addEventListener("resize", this.getWindowHeight);
+      //Init
+      this.getWindowHeight();
+    });
   },
 
   methods: {
+    getWindowHeight(event) {
+      this.documentHeightStyle =
+        "max-height: " + (document.documentElement.clientHeight - 84) + "px;";
+      this.reviewAreaHeightStyle =
+        "max-height: " +
+        (document.documentElement.clientHeight - 84 - 200) +
+        "px;";
+    },
     hideSites(siteUrlKey) {
       let i = this.sites.map(item => item.URL_KEY).indexOf(siteUrlKey);
       this.sites.splice(i, 1);
@@ -304,7 +323,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                      justify-content: center;*/
+                                                                                            justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

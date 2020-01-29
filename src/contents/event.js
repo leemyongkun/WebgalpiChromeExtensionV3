@@ -233,7 +233,7 @@ let EVENT = {
             let color = $(_this).attr("class"); // hltcolor-x 값을 가져옴
             let colorTF = false;
 
-            console.log("colorPicker ", color);
+            if (color === "default-color") color = "highlight-color-2";
 
             // 이미 선택되어진 컬러의 경우..
             if ($(_this).hasClass("on")) {
