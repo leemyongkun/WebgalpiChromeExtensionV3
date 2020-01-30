@@ -86,6 +86,32 @@ let Common = {
   },
   getColor: color => {
     return colorMap[color];
+  },
+  getConvertColor: color => {
+    switch (color) {
+      case "highlight-color-1":
+        return "#e35a69";
+      case "highlight-color-2":
+        return "#f7b900";
+      case "highlight-color-3":
+        return "#2da64e";
+      case "highlight-color-4":
+        return "#d9c3ff";
+      case "highlight-color-5":
+        return "#97c2dd";
+      case "highlight-color-6":
+        return "#ef9a9a";
+      case "highlight-color-7":
+        return "#90a4ae";
+      case "highlight-color-8":
+        return "#CDDC39";
+      case "highlight-color-9":
+        return "#ffb540";
+      case "highlight-color-10":
+        return "#B2EBF2";
+      case "highlight-color-11":
+        return "#c0b6a7";
+    }
   }
 };
 

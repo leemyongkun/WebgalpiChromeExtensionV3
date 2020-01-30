@@ -68,6 +68,10 @@ let BackgrounEvent = {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
     });
+
+    chrome.runtime.onSuspend.addListener(suspend => {
+      alert("suspend");
+    });
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
@@ -106,10 +110,3 @@ BackgrounEvent.onInstalled();
 
 //Tab이 열릴때
 BackgrounEvent.onUpdated();
-
-let PROTECTION_SITE = {
-  DEFAULT: {},
-  SNS: ["www.facebook"]
-};
-
-// $('#authorize-button').on('click', handleAuthClick);

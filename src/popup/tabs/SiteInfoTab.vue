@@ -32,8 +32,19 @@
           class="ma-1"
         ></v-select>
 
-        <v-btn color="primary accent-4" @click="saveSite">
+        <v-btn
+          v-if="siteInfo.USE_CURRENT_SITE === 'N'"
+          color="primary accent-4"
+          @click="saveSite"
+        >
           SAVE
+        </v-btn>
+        <v-btn
+          v-if="siteInfo.USE_CURRENT_SITE === 'Y'"
+          color="warning accent-4"
+          @click="updateCategory"
+        >
+          UPDATE
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -82,6 +93,7 @@ export default {
       let open = window.open(extensionDashboard, "_blank");
       open.focus();
     },
+    updateCategory() {},
     saveSite() {
       this.siteInfo.DEFAULT_CATEGORY_IDX = this.selectCategory;
 
@@ -91,9 +103,7 @@ export default {
       }).then(site => {
         this.siteInfo.USE_CURRENT_SITE = "Y";
 
-        console.log("site ", site);
-
-        //DB에 저장하기
+        //카테고리 저장하기
         if (this.selectCategory !== -1) {
           let param = [
             this.selectCategory, //"CATEGORY_IDX":
@@ -119,20 +129,6 @@ export default {
       });
       alert("저장완료");
     }
-    /*,capture() {
-                                chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-                                    let tabId = tabs[0].id;
-
-                                    chrome.tabs.sendMessage(
-                                        tabId,
-                                        {
-                                            action: "capture"
-                                        },
-                                        res => {
-                                        }
-                                    );
-                                });
-                            }*/
   },
   created() {},
   mounted() {
@@ -149,10 +145,10 @@ export default {
                 siteInfo.OG_IMAGE = "";
               }
               if (siteInfo.OG_TITLE === null) {
-                siteInfo.OG_TITLE = "";
+                siteInfo.OG_TITLE = "NO TITLE";
               }
               if (siteInfo.OG_DESCRIPTION === null) {
-                siteInfo.OG_DESCRIPTION = "";
+                siteInfo.OG_DESCRIPTION = "NO DESCRIPTION";
               }
 
               if (siteInfo.URL === "") {

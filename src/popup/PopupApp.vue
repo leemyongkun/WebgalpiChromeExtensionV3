@@ -7,31 +7,21 @@
     </v-tabs>
 
     <v-tabs-items v-model="tab">
-      <SiteInfoTab></SiteInfoTab>
+      <SiteInfoTab v-show="tab === 0"></SiteInfoTab>
+      <HighlightTab v-show="tab === 1"></HighlightTab>
     </v-tabs-items>
-
-    <!--<b-card no-body>
-          <b-tabs card>
-            <b-tab title="SITE INFO">
-              <SiteInfoTab></SiteInfoTab>
-            </b-tab>
-
-            <b-tab no-body title="HIGHLIGHT">
-              <HighlightTab></HighlightTab>
-            </b-tab>
-          </b-tabs>
-        </b-card>-->
   </v-app>
 </template>
 
 <script>
 //https://i.picsum.photos/id/20/400/400.jpg
 import SiteInfoTab from "./tabs/SiteInfoTab";
-//import HighlightTab from "./tabs/HighlightTab";
+import HighlightTab from "./tabs/HighlightTab";
 
 export default {
   components: {
-    SiteInfoTab
+    SiteInfoTab,
+    HighlightTab
   },
   data: () => ({
     tab: null,

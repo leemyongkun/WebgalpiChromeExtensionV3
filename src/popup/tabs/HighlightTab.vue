@@ -1,37 +1,28 @@
-<template>
-  <div style="padding: 10px">
-    <div>
-      <ul class="list-unstyled">
-        <b-media
-          tag="li"
-          v-for="item in Highlight.activities"
-          v-bind:key="item.IDX"
-        >
-          <template v-slot:aside>
-            <b-img
-              blank
-              :blank-color="getColor(item.COLOR)"
-              style="padding-top: 4px;
-                            height: 100%;
-                            width: 15px;
-                        "
-            ></b-img>
-          </template>
-          <p
-            style="cursor: pointer;font-size: 11pt;margin-bottom: 0px"
-            @click="goPosition(item.IDX)"
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+  <v-card flat>
+    <v-card-text>
+      <v-row class="overflow-y-auto">
+        <v-timeline :dense="true">
+          <v-timeline-item
+            v-for="item in highlights"
+            :color="convertColor(item.COLOR)"
+            :key="item.IDX"
+            :fill-dot="true"
+            :hide-dot="false"
+            :small="true"
           >
-            {{ item.PRINT_TEXT }}
-          </p>
-          <label style="font-size:12px; color: #aaaaaa">{{
-            getDate(item.DATE_CREATE)
-          }}</label>
-        </b-media>
-      </ul>
-    </div>
-  </div>
+            <span slot="opposite">Tus eu perfecto</span>
+            <v-card class="elevation-2">
+              <v-card-text>
+                {{ item.PRINT_TEXT }}
+              </v-card-text>
+            </v-card>
+          </v-timeline-item>
+        </v-timeline>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
-
 <script>
 //https://i.picsum.photos/id/20/400/400.jpg
 import CONTENT_LISTENER from "../../common/content-listener";
@@ -41,27 +32,15 @@ export default {
   name: "SiteInfoTab",
   data() {
     return {
-      Highlight: {
-        activities: []
-      }
+      highlights: []
     };
   },
   methods: {
+    convertColor(color) {
+      return Common.getConvertColor(color);
+    },
     getDate: date => {
       return Common.getConvertDate(date);
-    },
-    capture: () => {
-      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        let tabId = tabs[0].id;
-
-        chrome.tabs.sendMessage(
-          tabId,
-          {
-            action: "capture"
-          },
-          res => {}
-        );
-      });
     },
     getColor: colorClass => {
       return Common.getColor(colorClass);
@@ -95,7 +74,9 @@ export default {
             type: "get.highlights",
             data: urlInfo
           }).then(response => {
-            this.Highlight.activities = response;
+            /*this.Highlight.activities = response;*/
+            console.log("response ", response);
+            this.highlights = response;
           });
         });
       });

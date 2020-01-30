@@ -31,17 +31,17 @@
             </v-timeline>
 
             <!--<v-timeline dense>
-                                        <v-slide-x-reverse-transition group hide-on-leave>
-                                            <v-timeline-item
-                                                    v-for="item in highlights"
-                                                    :key="item.IDX"
-                                                    :color="convertColor(item.COLOR)"
-                                                    :small="true"
-                                            >
-                                                {{ item.PRINT_TEXT }}
-                                            </v-timeline-item>
-                                        </v-slide-x-reverse-transition>
-                                    </v-timeline>-->
+                                                    <v-slide-x-reverse-transition group hide-on-leave>
+                                                        <v-timeline-item
+                                                                v-for="item in highlights"
+                                                                :key="item.IDX"
+                                                                :color="convertColor(item.COLOR)"
+                                                                :small="true"
+                                                        >
+                                                            {{ item.PRINT_TEXT }}
+                                                        </v-timeline-item>
+                                                    </v-slide-x-reverse-transition>
+                                                </v-timeline>-->
           </v-row>
         </v-card-text>
       </v-card>
@@ -51,6 +51,7 @@
 <script>
 import SiteFunction from "./function/SiteFunction";
 import SiteListPage from "./SiteListPage";
+import Common from "../../common/common";
 
 export default {
   components: { SiteListPage, SiteFunction },
@@ -65,31 +66,7 @@ export default {
   created() {},
   methods: {
     convertColor(color) {
-      console.log("convertColor ", color);
-      switch (color) {
-        case "highlight-color-1":
-          return "#e35a69";
-        case "highlight-color-2":
-          return "#f7b900";
-        case "highlight-color-3":
-          return "#2da64e";
-        case "highlight-color-4":
-          return "#d9c3ff";
-        case "highlight-color-5":
-          return "#97c2dd";
-        case "highlight-color-6":
-          return "#ef9a9a";
-        case "highlight-color-7":
-          return "#90a4ae";
-        case "highlight-color-8":
-          return "#CDDC39";
-        case "highlight-color-9":
-          return "#ffb540";
-        case "highlight-color-10":
-          return "#B2EBF2";
-        case "highlight-color-11":
-          return "#c0b6a7";
-      }
+      return Common.getConvertColor(color);
     }
   }
 };
