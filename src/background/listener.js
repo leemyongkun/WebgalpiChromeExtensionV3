@@ -17,6 +17,14 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       API.deleteItem(msg.data);
       break;
 
+    case "post.site":
+      if (msg.data.USE_CURRENT_SITE === "N") {
+        API.postSite(msg.data);
+        console.log("post.site param ", msg.data);
+      }
+
+      break;
+
     case "full.before.capture":
       chrome.tabs.captureVisibleTab(
         sender.tab.windowId,

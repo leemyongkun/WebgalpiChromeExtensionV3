@@ -1,6 +1,8 @@
 import Vue from "vue";
 import "vuetify/dist/vuetify.min.css";
 import Vuetify, {
+  VProgressCircular,
+  VOverlay,
   VMenu,
   VTabsItems,
   VDatePicker,
@@ -142,6 +144,8 @@ Vue.component("VSelect", VSelect);
 Vue.component("VAutocomplete", VAutocomplete);
 Vue.component("VDatePicker", VDatePicker);
 Vue.component("VMenu", VMenu);
+Vue.component("VOverlay", VOverlay);
+Vue.component("VProgressCircular", VProgressCircular);
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
   theme: { dark: false },
