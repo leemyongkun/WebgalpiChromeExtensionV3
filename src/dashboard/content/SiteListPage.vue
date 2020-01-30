@@ -23,15 +23,11 @@
           </v-col>
           <v-col v-else>
             <v-list style="background: none;padding: 0;">
-              <div
-                v-for="(item, index) in sites"
-                :key="index"
-                :class="item.CLASS"
-              >
+              <div v-for="(item, index) in sites" :key="index">
                 <v-row>
                   <v-col cols="12" style="padding-top: 0px;">
                     <v-hover v-slot:default="{ hover }">
-                      <drag :transfer-data="item">
+                      <drag :transfer-data="item" :class="item.CLASS">
                         <div slot="image" class="drag-image">
                           <v-chip
                             class="ma-2"
@@ -323,7 +319,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                            justify-content: center;*/
+                                                                                                  justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

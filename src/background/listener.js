@@ -23,6 +23,8 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
         console.log("post.site param ", msg.data);
       }
 
+      if (msg.data.DEFAULT_CATEGORY_IDX !== -1) {
+      }
       break;
 
     case "full.before.capture":

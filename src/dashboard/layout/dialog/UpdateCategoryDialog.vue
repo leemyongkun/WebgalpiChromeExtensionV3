@@ -136,7 +136,7 @@ export default {
     checkRootChange() {
       this.$nextTick(() => {
         if (this.checkRoot) {
-          this.categoryParent = 0;
+          this.categoryParent = "";
         } else {
           this.categoryParent = this.category[0].id;
         }
@@ -196,13 +196,13 @@ export default {
     updateCategory() {
       let param = [];
       /* if (this.checkParent) {
-                                                  if (confirm("해당 카테고리를 PARENT로 지정 시, 컨텐츠들은 카테고리 정보를 잃게 됩니다.")) {
-                                                      param = [this.categoryName, null, this.categoryId];
-                                                  }
-                                                  return false;
-                                              } else {
-                                                  param = [this.categoryName, this.categoryParent, this.categoryId];
-                                              }*/
+                                                            if (confirm("해당 카테고리를 PARENT로 지정 시, 컨텐츠들은 카테고리 정보를 잃게 됩니다.")) {
+                                                                param = [this.categoryName, null, this.categoryId];
+                                                            }
+                                                            return false;
+                                                        } else {
+                                                            param = [this.categoryName, this.categoryParent, this.categoryId];
+                                                        }*/
 
       param = [
         this.categoryName,

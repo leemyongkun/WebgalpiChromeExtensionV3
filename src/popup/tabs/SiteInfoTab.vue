@@ -38,9 +38,9 @@
       </v-card-actions>
     </v-card>
     <v-overlay :value="overlay.status">
-      <v-progress-circular indeterminate size="64">{{
-        overlay.message
-      }}</v-progress-circular>
+      <v-progress-circular indeterminate size="64"
+        >{{ overlay.message }}
+      </v-progress-circular>
     </v-overlay>
   </div>
 </template>
@@ -102,19 +102,19 @@ export default {
       alert("저장완료");
     }
     /*,capture() {
-                chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-                    let tabId = tabs[0].id;
+                        chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+                            let tabId = tabs[0].id;
 
-                    chrome.tabs.sendMessage(
-                        tabId,
-                        {
-                            action: "capture"
-                        },
-                        res => {
-                        }
-                    );
-                });
-            }*/
+                            chrome.tabs.sendMessage(
+                                tabId,
+                                {
+                                    action: "capture"
+                                },
+                                res => {
+                                }
+                            );
+                        });
+                    }*/
   },
   created() {},
   mounted() {
