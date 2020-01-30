@@ -56,6 +56,7 @@ let FORM = {
                      ` +
       colorButtons +
       `
+                     <span class="mdi mdi-slack"></span>
                     </div>
                 </div>
                 `

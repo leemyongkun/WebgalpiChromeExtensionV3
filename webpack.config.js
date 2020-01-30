@@ -21,6 +21,7 @@ const config = {
     "contents/common": "./contents/common.js",
     "background/background": "./background/background.js",
     "background/listener": "./background/listener.js",
+    "background/contextMenu": "./background/contextMenu.js",
     "popup/popup": "./popup/popup.js",
     "dashboard/dashboard": "./dashboard/dashboard.js",
     "options/options": "./options/options.js",
