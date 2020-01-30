@@ -15,12 +15,16 @@ let CONTENTS = {
     );
   },
   initUrlInfo: () => {
-    CURRENT_URL = CONTENTS.getUrl();
-    if (URL.KEY != md5(CURRENT_URL.split("#")[0])) {
-      GLOBAL_CONFIG.USE_CURRENT_SITE = "N";
-    }
-    //URL.SITE = CURRENT_URL.split("#")[0];
-    //URL.KEY = md5(URL.SITE);
+    return new Promise(res => {
+      CURRENT_URL = CONTENTS.getUrl();
+      if (URL.KEY != md5(CURRENT_URL.split("#")[0])) {
+        GLOBAL_CONFIG.USE_CURRENT_SITE = "N";
+      }
+
+      res(true);
+      //URL.SITE = CURRENT_URL.split("#")[0];
+      //URL.KEY = md5(URL.SITE);
+    });
   },
   createColorPicker: COLORS => {
     return new Promise(res => {
