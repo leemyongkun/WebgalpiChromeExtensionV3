@@ -88,8 +88,26 @@ export default {
       CONTENT_LISTENER.sendMessage({
         type: "post.site",
         data: this.siteInfo
-      }).then(() => {
+      }).then(site => {
         this.siteInfo.USE_CURRENT_SITE = "Y";
+
+        console.log("site ", site);
+
+        //DB에 저장하기
+        if (this.selectCategory !== -1) {
+          let param = [
+            this.selectCategory, //"CATEGORY_IDX":
+            site[0].URL_KEY, //"URL_KEY":
+            site[0].EMAIL, //"EMAIL":
+            site[0].IDX, //"SITE_IDX":
+            new Date().getTime() //"DATE_CREATE":
+          ];
+          console.log("param ", param);
+          CONTENT_LISTENER.sendMessage({
+            type: "post.category.relation",
+            data: param
+          });
+        }
       });
 
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
@@ -102,19 +120,19 @@ export default {
       alert("저장완료");
     }
     /*,capture() {
-                        chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-                            let tabId = tabs[0].id;
+                                chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+                                    let tabId = tabs[0].id;
 
-                            chrome.tabs.sendMessage(
-                                tabId,
-                                {
-                                    action: "capture"
-                                },
-                                res => {
-                                }
-                            );
-                        });
-                    }*/
+                                    chrome.tabs.sendMessage(
+                                        tabId,
+                                        {
+                                            action: "capture"
+                                        },
+                                        res => {
+                                        }
+                                    );
+                                });
+                            }*/
   },
   created() {},
   mounted() {
@@ -157,7 +175,9 @@ export default {
         this.category = category.filter(item => {
           return item.parent !== 0;
         });
+
         this.category.unshift({ id: -1, name: "NO CATEGORY" });
+
         if (this.category.length !== 0) {
           this.selectCategory = this.category[0].id;
         }

@@ -19,11 +19,10 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
 
     case "post.site":
       if (msg.data.USE_CURRENT_SITE === "N") {
-        API.postSite(msg.data);
+        API.postSite(msg.data).then(site => {
+          sendResponse(site);
+        });
         console.log("post.site param ", msg.data);
-      }
-
-      if (msg.data.DEFAULT_CATEGORY_IDX !== -1) {
       }
       break;
 

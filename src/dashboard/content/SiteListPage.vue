@@ -50,6 +50,23 @@
                           :key="item.URL_KEY"
                           ref="siteList"
                         >
+                          <!-- <v-expand-transition>
+                                            <div
+                                              v-if="hover"
+                                              class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
+                                              style="height: 25%;z-index: 9000;"
+                                            >
+                                              <v-btn
+                                                small
+                                                fat
+                                                @click="goSourceSite(item, $event)"
+                                                color="orange"
+                                              >
+                                                <v-icon>mdi-home-outline</v-icon>
+                                              </v-btn>
+                                            </div>
+                                          </v-expand-transition>-->
+
                           <v-list-item three-line>
                             <v-list-item-content>
                               <v-list-item-title>

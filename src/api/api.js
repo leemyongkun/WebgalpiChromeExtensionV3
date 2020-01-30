@@ -108,7 +108,7 @@ let Api = {
     let param = [params.URL_KEY, params.IDX];
     return remove(Query.deleteItem(), param);
   },
-  postSite: params => {
+  postSite: async params => {
     let date = new Date().getTime();
     let param = [
       params.URL_KEY,
@@ -128,7 +128,8 @@ let Api = {
       params.TAG
     ];
 
-    return insert(Query.insertSite(), param);
+    await insert(Query.insertSite(), param);
+    return Api.getSite(params);
   },
 
   updateOptionColor: params => {
