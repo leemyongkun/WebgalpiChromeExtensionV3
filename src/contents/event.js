@@ -34,7 +34,7 @@ let EVENT = {
         }
       );
   },
-  highlightClickEvent2: e => {
+  highlightClickEvent: e => {
     /* 현재 하이라이팅의 ID를 넣는다.*/
     GLOBAL_CONFIG.CURRENT_IDX = parseInt(
       $(e.target).attr(GLOBAL_CONFIG.HL_ID_NAME)
@@ -42,80 +42,82 @@ let EVENT = {
 
     //마우스를 따라간다.
     $("#highlight-update-toolbar").css({
-      top: e.pageY + 10,
-      left: e.pageX,
+      top: e.pageY - 25,
+      left: e.pageX + 10,
       position: "absolute"
     });
+
     $("#highlight-update-toolbar").fadeIn(300);
   },
-  highlightClickEvent: e => {
-    //mouseOnOverEvent
+  /*highlightClickEvent: e => {
 
-    //클릭한 영역이 textarea 영역이면 팔렛트를 고정한다.
-    //if (GLOBAL_CONFIG.MOUSE_CLICK_ID === "highlightMemoArea") return false;
+        //mouseOnOverEvent
 
-    /* 현재 하이라이팅의 ID를 넣는다.*/
-    GLOBAL_CONFIG.CURRENT_IDX = parseInt(
-      $(e.target).attr(GLOBAL_CONFIG.HL_ID_NAME)
-    );
+        //클릭한 영역이 textarea 영역이면 팔렛트를 고정한다.
+        //if (GLOBAL_CONFIG.MOUSE_CLICK_ID === "highlightMemoArea") return false;
 
-    //같은 highlight Id의 영역에 마우스를 올렸을 경우, 다른 ID에 올리기 전까지 유지된다.(혹은 다른곳을 클릭하기 전까지 유지된다.)
-    /*if (GLOBAL_CONFIG.MOUSE_OVER_ID != GLOBAL_CONFIG.CURRENT_IDX) {
-                                                $("#highlight-toolbar").hide();
-                                            } else {
-                                                return false;
-                                            }*/
+        /!* 현재 하이라이팅의 ID를 넣는다.*!/
+        GLOBAL_CONFIG.CURRENT_IDX = parseInt(
+            $(e.target).attr(GLOBAL_CONFIG.HL_ID_NAME)
+        );
 
-    GLOBAL_CONFIG.MOUSE_OVER_ID = GLOBAL_CONFIG.CURRENT_IDX;
+        //같은 highlight Id의 영역에 마우스를 올렸을 경우, 다른 ID에 올리기 전까지 유지된다.(혹은 다른곳을 클릭하기 전까지 유지된다.)
+        /!*if (GLOBAL_CONFIG.MOUSE_OVER_ID != GLOBAL_CONFIG.CURRENT_IDX) {
+                                                    $("#highlight-toolbar").hide();
+                                                } else {
+                                                    return false;
+                                                }*!/
 
-    /*레이어초기화*/
-    let color = $(e.target)
-      .attr("class")
-      .split(" ")[0];
-    $("#highlight-toolbar")
-      .find("a")
-      .removeClass("on");
-    $("#highlight-toolbar")
-      .find("." + color)
-      .addClass("on");
-    $("#editArea").show();
-    //텍스트를 넣는다.
-    $("#highlightMemoArea").val(
-      GLOBAL_CONFIG.MEMO_LIST.get(parseInt(e.target.id))
-    );
-    $("#highlightDeleteBtn").show();
+        GLOBAL_CONFIG.MOUSE_OVER_ID = GLOBAL_CONFIG.CURRENT_IDX;
 
-    GLOBAL_CONFIG.CURRENT_COLOR = color;
+        /!*레이어초기화*!/
+        let color = $(e.target)
+            .attr("class")
+            .split(" ")[0];
+        $("#highlight-toolbar")
+            .find("a")
+            .removeClass("on");
+        $("#highlight-toolbar")
+            .find("." + color)
+            .addClass("on");
+        $("#editArea").show();
+        //텍스트를 넣는다.
+        $("#highlightMemoArea").val(
+            GLOBAL_CONFIG.MEMO_LIST.get(parseInt(e.target.id))
+        );
+        $("#highlightDeleteBtn").show();
 
-    let selectorTarget = $(
-      "[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + GLOBAL_CONFIG.CURRENT_IDX + '"]'
-    )[0];
+        GLOBAL_CONFIG.CURRENT_COLOR = color;
 
-    //HighlightData.highlightPoint = true;
+        let selectorTarget = $(
+            "[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + GLOBAL_CONFIG.CURRENT_IDX + '"]'
+        )[0];
 
-    //마우스를 따라간다.
-    $("#highlight-toolbar").css({
-      top: e.pageY + 10,
-      left: e.pageX,
-      position: "absolute"
-    });
+        //HighlightData.highlightPoint = true;
 
-    //마우스 올렸을대 팔렛트가 나오는 속도
-    setTimeout(function() {
-      //메모가 있으면 보여준다.
-      let memo = GLOBAL_CONFIG.MEMO_LIST.get(GLOBAL_CONFIG.CURRENT_IDX);
-      if ($.trim(memo) != "") {
-        $("#highlightMemoArea").val(memo);
-        $("#highlight-toolbar-memo-area").show();
-      } else {
-        $("#highlight-toolbar-memo-area").hide();
-      }
+        //마우스를 따라간다.
+        $("#highlight-toolbar").css({
+            top: e.pageY + 10,
+            left: e.pageX,
+            position: "absolute"
+        });
 
-      $("#highlight-toolbar").fadeIn();
-    }, 100);
+        //마우스 올렸을대 팔렛트가 나오는 속도
+        setTimeout(function () {
+            //메모가 있으면 보여준다.
+            let memo = GLOBAL_CONFIG.MEMO_LIST.get(GLOBAL_CONFIG.CURRENT_IDX);
+            if ($.trim(memo) != "") {
+                $("#highlightMemoArea").val(memo);
+                $("#highlight-toolbar-memo-area").show();
+            } else {
+                $("#highlight-toolbar-memo-area").hide();
+            }
 
-    GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = "drag";
-  },
+            $("#highlight-toolbar").fadeIn();
+        }, 100);
+
+        GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = "drag";
+    },*/
   mouseOnDownUpEvent: () => {
     CONTENTS.initUrlInfo(); //urlInitConfig();
 
@@ -188,14 +190,14 @@ let EVENT = {
           event.target.nodeName === GLOBAL_CONFIG.HL_TAG_NAME.toUpperCase()
         ) {
           /* let currentId;
-                                                    STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
-                                                    if (HighlightCore.isNumber(STATUS.mouseUpId)) {
-                                                      currentId = STATUS.mouseUpId;
-                                                    } */
+                                                              STATUS.mouseUpId = $(event.target).attr(HighlightData.idName);
+                                                              if (HighlightCore.isNumber(STATUS.mouseUpId)) {
+                                                                currentId = STATUS.mouseUpId;
+                                                              } */
 
           /* if (HighlightCore.isNumber(HighlightData.downId)) {
-                                                              currentId = HighlightData.downId;
-                                                            } */
+                                                                        currentId = HighlightData.downId;
+                                                                      } */
           STATUS.mouseDownFlag = false;
           return false;
         }
@@ -212,11 +214,11 @@ let EVENT = {
         // 위젯영역일경우 컬러 팔레트를 보여주지 않는다.
         // 컬러 피커가 사용하지 않음일경우 보여주지 않는다.
         /* chrome.storage.sync.get(['options'], result => {
-                                                                                       let highlightYN = result.options.HIGHLIGHT;
-                                                                                       if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
-                                                                                         HighlightCore.mouseDragAction(event); // todo 가장 중요!!
-                                                                                       }
-                                                                                     }); */
+                                                                                               let highlightYN = result.options.HIGHLIGHT;
+                                                                                               if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
+                                                                                                 HighlightCore.mouseDragAction(event); // todo 가장 중요!!
+                                                                                               }
+                                                                                             }); */
 
         setTimeout(() => {
           if (!window.getSelection().isCollapsed) {
@@ -262,6 +264,8 @@ let EVENT = {
             let colorTF = false;
 
             if (color === "default-color") color = "highlight-color-2";
+            //저장한다.
+            CONTENTS.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
 
             // 이미 선택되어진 컬러의 경우..
             if ($(_this).hasClass("on")) {
@@ -278,24 +282,24 @@ let EVENT = {
               }
             }
 
-            $("#highlight-toolbar")
-              .find("a")
-              .each((idx, item) => {
-                if ($(item).hasClass("on")) {
-                  colorTF = true;
-                }
-              })
-              .promise()
-              .then(function() {
-                //수정한다.
-                if (colorTF) {
-                  // 클릭할 경우 수정
-                  CONTENTS.updateHighlight(color, GLOBAL_CONFIG.CURRENT_IDX);
-                } else {
-                  //저장한다.
-                  CONTENTS.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
-                }
-              });
+            /*  $("#highlight-toolbar")
+                            .find("a")
+                            .each((idx, item) => {
+                              if ($(item).hasClass("on")) {
+                                colorTF = true;
+                              }
+                            })
+                            .promise()
+                            .then(function() {
+                              //수정한다.
+                              if (colorTF) {
+                                // 클릭할 경우 수정
+                                CONTENTS.updateHighlight(color, GLOBAL_CONFIG.CURRENT_IDX);
+                              } else {
+                                //저장한다.
+                                CONTENTS.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
+                              }
+                            });*/
           });
       });
   },
@@ -365,16 +369,16 @@ let EVENT = {
 
               //Button 생성
               /*console.log("document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) ", document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID));
-                                                                                                                                                  if (document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) == null) {
-                                                                                                                                                      let captureButtonElement = document.createElement("button");
-                                                                                                                                                      captureButtonElement.innerText = "CAPTURE";
-                                                                                                                                                      captureButtonElement.id = GLOBAL_CONFIG.CAPTURE_BUTTON_ID;
-                                                                                                                                                      captureButtonElement.style.marginTop = "5px";
-                                                                                                                                                      $('.ord-s.jcrop-dragbar').append(captureButtonElement);
+                                                                                                                                                                if (document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) == null) {
+                                                                                                                                                                    let captureButtonElement = document.createElement("button");
+                                                                                                                                                                    captureButtonElement.innerText = "CAPTURE";
+                                                                                                                                                                    captureButtonElement.id = GLOBAL_CONFIG.CAPTURE_BUTTON_ID;
+                                                                                                                                                                    captureButtonElement.style.marginTop = "5px";
+                                                                                                                                                                    $('.ord-s.jcrop-dragbar').append(captureButtonElement);
 
-                                                                                                                                                  } else {
-                                                                                                                                                      $('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).show();
-                                                                                                                                                  }*/
+                                                                                                                                                                } else {
+                                                                                                                                                                    $('#' + GLOBAL_CONFIG.CAPTURE_BUTTON_ID).show();
+                                                                                                                                                                }*/
 
               let img = new Image();
               // create a temporary canvas sized to the cropped size
@@ -402,21 +406,21 @@ let EVENT = {
                 $("#prevCapture").attr("src", prevImage);
                 //capture 영역 제거
                 /*
-                                                                                                                                                                          $('highlight-capture-area').remove();
-                                                                                                                                                                          rootElement.style.overflow = "visible";
-                                                                                                                                                                          */
+                                                                                                                                                                                          $('highlight-capture-area').remove();
+                                                                                                                                                                                          rootElement.style.overflow = "visible";
+                                                                                                                                                                                          */
               };
               console.log("imageDataUrl ", imageDataUrl);
               img.src = imageDataUrl;
 
               /*  document.addEventListener('keydown', event => {
-                                                                                                                                                      if (event.key === 'Escape' || event.keyCode === 27) {
-                                                                                                                                                          console.log("ESC")
-                                                                                                                                                          $(GLOBAL_CONFIG.CAPTURE_ELEMENT).remove();
-                                                                                                                                                          let rootElement = document.getElementsByTagName("html")[0];
-                                                                                                                                                          rootElement.style.overflow = "visible";
-                                                                                                                                                      }
-                                                                                                                                                  });*/
+                                                                                                                                                                    if (event.key === 'Escape' || event.keyCode === 27) {
+                                                                                                                                                                        console.log("ESC")
+                                                                                                                                                                        $(GLOBAL_CONFIG.CAPTURE_ELEMENT).remove();
+                                                                                                                                                                        let rootElement = document.getElementsByTagName("html")[0];
+                                                                                                                                                                        rootElement.style.overflow = "visible";
+                                                                                                                                                                    }
+                                                                                                                                                                });*/
             }
           },
           function() {

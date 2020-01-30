@@ -193,7 +193,7 @@ let CORE = {
           win.getSelection().removeAllRanges();
           $("[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
             .unbind("click")
-            .on("click", EVENT.highlightClickEvent2); //
+            .on("click", EVENT.highlightClickEvent); //
         });
       }
       res(idx);

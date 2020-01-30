@@ -130,31 +130,18 @@ let FORM = {
   },
   showPicker: e => {
     // 초기화
-    $("#highlight-toolbar")
-      .find("a")
-      .removeClass("on");
+    //$("#highlight-toolbar").find("a").removeClass("on");
     FORM.hidePicker();
 
-    let s = window.getSelection();
-    let oRange = s.getRangeAt(0); // get the text range
-    let oRect = oRange.getBoundingClientRect();
-
     // Drag 영역이 없으면 false 리턴한다.
-    if (s.isCollapsed) return false;
+    if (window.getSelection().isCollapsed) return false;
 
     $("#highlight-toolbar").css({
-      top: e.pageY,
-      left: e.pageX,
+      top: e.pageY - 25,
+      left: e.pageX + 10,
       position: "absolute"
       /*,width: "200px"*/
     });
-
-    /* $("#highlight-toolbar").css({
-                                top: GLOBAL_CONFIG.MOUSE_DOWN_XY.y,
-                                left: GLOBAL_CONFIG.MOUSE_DOWN_XY.x,
-                                position: "absolute",
-                                width: "auto"
-                            });*/
 
     $("#highlight-toolbar-memo-area").hide();
     $("#highlight-toolbar").fadeIn(300);

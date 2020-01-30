@@ -125,7 +125,11 @@ export default {
     ]
   }),
   created() {},
-  mounted() {},
+  mounted() {
+    chrome.storage.sync.get(["options"], result => {
+      this.pickColor = result.options.COLOR.split(",");
+    });
+  },
   methods: {
     saveColor() {
       if (this.pickColor.length === 0) {

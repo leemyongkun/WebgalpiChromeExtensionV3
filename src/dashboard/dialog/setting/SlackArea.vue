@@ -12,17 +12,26 @@
               <v-row v-for="(item, index) in 5" :key="index">
                 <v-col cols="4">
                   <v-text-field
-                    label="Outlined"
-                    placeholder="slack channel name"
+                    label="NAME"
+                    placeholder="Slack Channel"
                     outlined
+                    dense
                   ></v-text-field>
                 </v-col>
                 <v-col cols="8">
                   <v-text-field
-                    label="Outlined"
-                    placeholder="week hook address"
+                    label="URL"
+                    placeholder="incoming-webhook URL"
                     outlined
+                    dense
                   ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn block small color="primary" @click="saveSlack"
+                    >SAVE
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-expansion-panel-content>
@@ -39,6 +48,15 @@ export default {
   data: () => ({}),
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    saveSlack() {
+      alert("save slack");
+    }
+  }
 };
 </script>
+<style>
+.v-text-field__details {
+  display: none !important;
+}
+</style>

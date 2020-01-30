@@ -293,7 +293,6 @@ CREATE TABLE IF NOT EXISTS TBL_LOG_LOGIN (
 let DDL = {
   DROP: db => {
     return new Promise(function(res) {
-      console.log("DROP TABLE");
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_SITES(), []);
       });
