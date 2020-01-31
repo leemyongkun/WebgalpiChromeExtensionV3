@@ -45,6 +45,9 @@
           </v-expansion-panel>
         </v-expansion-panels>
       </v-list-item-title>
+      <v-list-item-subtitle>
+        &nbsp;
+      </v-list-item-subtitle>
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -145,7 +148,7 @@ export default {
     selectedColor() {
       if (this.pickColor.length === 7) {
         alert("6개까지입니다.");
-        this.pickColor = this.pickColor.slice(0, 5);
+        this.pickColor = this.pickColor.slice(0, 6);
         return false;
       }
 

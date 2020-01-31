@@ -4,7 +4,9 @@
       <v-icon>mdi-theme-light-dark</v-icon>
     </v-list-item-action>
     <v-list-item-content>
-      <v-list-item-title>Theme</v-list-item-title>
+      <v-list-item-title
+        >THEME : 색상 커스텀 할 수 있도록 개발 진행중</v-list-item-title
+      >
       <v-list-item-subtitle>
         <v-radio-group v-model="theme" row>
           <v-radio label="DARK" value="dark" @change="changeTheme"></v-radio>

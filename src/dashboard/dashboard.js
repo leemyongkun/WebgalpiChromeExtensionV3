@@ -1,4 +1,5 @@
 import Vue from "vue";
+import VueLodash from "vue-lodash";
 import DashboardApp from "./DashboardApp";
 import vuetify from "../lib/vuetify/vuetify";
 
@@ -6,6 +7,9 @@ import { Drag, Drop } from "vue-drag-drop";
 
 Vue.component("drag", Drag);
 Vue.component("drop", Drop);
+
+const lodashOption = { name: "lodash" };
+Vue.use(VueLodash, lodashOption);
 
 //global.browser = require("webextension-polyfill");
 

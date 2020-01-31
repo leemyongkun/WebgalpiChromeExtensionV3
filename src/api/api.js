@@ -3,6 +3,18 @@ import Query from "../database/query.js";
 var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 
 let Api = {
+  getBackupData: () => {
+    return new Promise(res => {
+      //todo : 모든 데이타를 가져온다.
+      //getBackupSites
+      //getBackupHighlights
+      //getBackupOption
+      //getBackupCategorys
+      //getBackupCategorysRelation
+
+      res(true);
+    });
+  },
   getInitInfo: parameter => {
     return new Promise(res => {
       let obj = new Object();

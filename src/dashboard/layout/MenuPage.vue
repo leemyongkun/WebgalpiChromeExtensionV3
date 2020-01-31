@@ -4,12 +4,7 @@
       :category="category"
       ref="updateCategoryDialog"
     ></UpdateCategoryDialog>
-    <!-- CATEGORY : START -->
-    <CategoryManagerDialog
-      :dialog="categoryDialog"
-      :category="category"
-      @closeDialog="switchDialogCategoryEditor"
-    ></CategoryManagerDialog>
+
     <SettingsManagerDialog
       :dialog="settingDialog"
       @closeDialog="switchDialogSetting"
@@ -35,16 +30,6 @@
 
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
-        <v-row align="center">
-          <v-col
-            cols="12"
-            class="text-right"
-            style="padding-top: 0px;padding-bottom: 0px;"
-          >
-            <v-btn small text @click="switchDialogCategoryEditor">edit</v-btn>
-          </v-col>
-        </v-row>
-
         <v-row align="center">
           <v-col style="padding-bottom:0px; padding-top:0px;">
             <v-expansion-panels focusable flat multiple v-model="panel">
@@ -235,7 +220,6 @@
 <script>
 //https://cameronhimself.github.io/vue-drag-drop/
 import CONTENT_LISTENER from "../../common/content-listener";
-import CategoryManagerDialog from "../dialog/CategoryManagerDialog";
 import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
 import EventBus from "../event-bus";
 import UpdateCategoryDialog from "./dialog/UpdateCategoryDialog";
@@ -244,9 +228,7 @@ import { POPUP_LISTENER } from "../../common/port-listener";
 export default {
   components: {
     UpdateCategoryDialog,
-    SettingsManagerDialog,
-    CategoryManagerDialog,
-    CategoryManagerDialog
+    SettingsManagerDialog
   },
   data: () => ({
     panel: [1], //accordian 의 오픈 index
@@ -350,9 +332,6 @@ export default {
         .then(() => {
           this.getCategory();
         });
-    },
-    switchDialogCategoryEditor() {
-      this.categoryDialog = !this.categoryDialog;
     },
     switchDialogSetting() {
       this.settingDialog = !this.settingDialog;

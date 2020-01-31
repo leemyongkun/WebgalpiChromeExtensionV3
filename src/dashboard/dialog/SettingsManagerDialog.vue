@@ -18,34 +18,8 @@
         </v-toolbar-items>
       </v-toolbar>
 
-      <v-list three-line subheader>
-        <v-subheader>Data Controll</v-subheader>
-
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>Connect Socket</v-list-item-title>
-            <v-list-item-subtitle
-              >같은 대역의 네트워크에 포함된 플랫폼끼리 데이터를 공유 할 수
-              있다.
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>Backup</v-list-item-title>
-            <v-list-item-subtitle>
-              <v-btn color="secondary" fab x-small dark @click="backupDownload">
-                <v-icon>mdi-television</v-icon>
-              </v-btn>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-
-      <v-divider></v-divider>
       <v-row>
-        <v-col cols="6">
+        <v-col cols="8">
           <v-list three-line subheader>
             <v-subheader>General</v-subheader>
             <!--VIEWMODE-->
@@ -59,9 +33,10 @@
           </v-list>
         </v-col>
 
-        <v-col cols="6">
-          <v-divider vertical></v-divider>
-          READY
+        <v-col cols="4">
+          <v-btn color="secondary" fab x-small dark @click="backupDownload">
+            <v-icon>mdi-television</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
     </v-card>

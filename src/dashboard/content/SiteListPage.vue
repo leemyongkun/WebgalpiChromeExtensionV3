@@ -50,22 +50,23 @@
                           :key="item.URL_KEY"
                           ref="siteList"
                         >
-                          <!-- <v-expand-transition>
-                                            <div
-                                              v-if="hover"
-                                              class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
-                                              style="height: 25%;z-index: 9000;"
-                                            >
-                                              <v-btn
-                                                small
-                                                fat
-                                                @click="goSourceSite(item, $event)"
-                                                color="orange"
-                                              >
-                                                <v-icon>mdi-home-outline</v-icon>
-                                              </v-btn>
-                                            </div>
-                                          </v-expand-transition>-->
+                          <!--<v-expand-transition>
+                                                        <div
+                                                                v-if="hover"
+                                                                class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
+                                                                style="height: 25%;z-index: 9000;"
+                                                        >
+                                                            <v-spacer/>
+                                                                    <v-btn
+                                                                            small
+                                                                            @click="goSourceSite(item, $event)"
+                                                                            color="orange"
+                                                                    >
+                                                                        <v-icon>mdi-home-outline</v-icon>
+                                                                    </v-btn>
+                                                                    <v-checkbox>j</v-checkbox>
+                                                        </div>
+                                                    </v-expand-transition>-->
 
                           <v-list-item three-line>
                             <v-list-item-content>
@@ -273,7 +274,8 @@ export default {
           }
         });
     },
-    goSourceSite(site) {
+    goSourceSite(site, event) {
+      event.preventDefault();
       let open = window.open(site.URL, "_blank");
       open.focus();
     },
@@ -336,7 +338,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                  justify-content: center;*/
+                                                                                                        justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

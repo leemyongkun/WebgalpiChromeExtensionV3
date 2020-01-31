@@ -2,6 +2,9 @@ import API from "../api/api.js";
 
 chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
   switch (msg.type) {
+    case "get.backup.data":
+      API.getBackupData();
+      break;
     case "create.highlight":
       if (msg.data.SITE_CHECK === "N") {
         API.postSite(msg.data);

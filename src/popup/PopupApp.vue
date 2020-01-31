@@ -10,6 +10,21 @@
       <SiteInfoTab v-show="tab === 0"></SiteInfoTab>
       <HighlightTab v-show="tab === 1"></HighlightTab>
     </v-tabs-items>
+
+    <!-- <v-tabs vertical>
+            <v-tab>
+                <v-icon left>mdi-account</v-icon>
+            </v-tab>
+            <v-tab>
+                <v-icon left>mdi-lock</v-icon>
+            </v-tab>
+            <v-tab-item>
+                <SiteInfoTab></SiteInfoTab>
+            </v-tab-item>
+            <v-tab-item>
+                <HighlightTab></HighlightTab>
+            </v-tab-item>
+        </v-tabs>-->
   </v-app>
 </template>
 
