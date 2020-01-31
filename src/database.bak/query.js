@@ -193,29 +193,6 @@ export default {
                 WHERE URL_KEY = ?
                 AND FL_DELETE = 'N'`;
   },
-  selectSlack: () => {
-    return `
-            SELECT
-                IDX, 
-                CHANNEL_NAME ,
-                WEBHOOK_URL ,
-                DATE_CREATE 
-             FROM TBL_SLACK
-             `;
-  },
-
-  insertSlack: () => {
-    return `
-            INSERT INTO TBL_SLACK
-                        (
-                        EMAIL,
-                        CHANNEL_NAME ,
-                        WEBHOOK_URL ,
-                        DATE_CREATE
-                        )
-                        VALUES (?,?,?,?)
-             `;
-  },
   updateOptionColor: () => {
     return `UPDATE TBL_OPTIONS 
                 SET COLOR = ? 

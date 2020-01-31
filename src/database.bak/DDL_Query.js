@@ -14,9 +14,11 @@ let DROP_TABLE_QUERY = {
   TBL_CATEGORY: () => {
     return `DROP TABLE TBL_CATEGORY `;
   },
+
   TBL_ITEMS: () => {
     return `DROP TABLE TBL_ITEMS `;
   },
+
   TBL_MEMBER: () => {
     return `DROP TABLE TBL_MEMBER `;
   },
@@ -83,7 +85,6 @@ let CREATE_TABLE_QUERY = {
           MEMO TEXT
           )`;
   },
-
   TBL_CATEGORY: () => {
     (0, "kkuni.bear@gmail.com", "기술", null, 0, 0, null),
       (3, "kkuni.bear@gmail.com", "자바", 0, 1, 1, null),
@@ -99,7 +100,7 @@ let CREATE_TABLE_QUERY = {
       (11, "kkuni.bear@gmail.com", "도서", 2, 1, 3, null);
 
     return `
-        CREATE TABLE IF NOT EXISTS TBL_CATEGORY (
+CREATE TABLE IF NOT EXISTS TBL_CATEGORY (
                IDX INTEGER PRIMARY KEY AUTOINCREMENT,
                EMAIL TEXT,
                NAME TEXT,
@@ -112,7 +113,7 @@ let CREATE_TABLE_QUERY = {
 
   TBL_ITEMS: () => {
     return `
-        CREATE TABLE IF NOT EXISTS TBL_ITEMS (
+CREATE TABLE IF NOT EXISTS TBL_ITEMS (
         IDX INTEGER PRIMARY KEY,
         URL_KEY TEXT,
         EMAIL TEXT,
@@ -163,7 +164,6 @@ let CREATE_TABLE_QUERY = {
 
   TBL_SLACK: () => {
     return `CREATE TABLE IF NOT EXISTS TBL_SLACK (
-                      IDX INTEGER PRIMARY KEY AUTOINCREMENT,
                       EMAIL TEXT,
                       CHANNEL_NAME TEXT,
                       WEBHOOK_URL TEXT,
@@ -183,14 +183,20 @@ let DDL = {
       });
 
       db.transaction(function(tx) {
+        tx.executeSql(DROP_TABLE_QUERY.TBL_CAPTURE(), []);
+      });
+
+      db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_CATEGORY(), []);
       });
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_ITEMS(), []);
       });
+
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_MEMBER(), []);
       });
+
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_OPTIONS(), []);
       });
@@ -209,18 +215,23 @@ let DDL = {
     db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_REL_CATEGORY(), []);
     });
+
     db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_CAPTURE(), []);
     });
+
     db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_CATEGORY(), []);
     });
+
     db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_ITEMS(), []);
     });
+
     db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_MEMBER(), []);
     });
+
     db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_OPTIONS(), []);
     });

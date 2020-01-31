@@ -1,5 +1,17 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-list-item>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="snackbarTimeout"
+      :color="`success`"
+      top
+    >
+      {{ snackbarMessage }}
+      <v-btn dark text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
+
     <v-list-item-action>
       <v-icon>mdi-slack</v-icon>
     </v-list-item-action>
@@ -47,6 +59,7 @@
                     autofocus
                     clearable
                     :value="slackChannelName"
+                    v-model="slackChannelName"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
@@ -57,6 +70,7 @@
                     dense
                     clearable
                     :value="slackChannelUrl"
+                    v-model="slackChannelUrl"
                   >
                     <template v-slot:append>
                       <v-tooltip bottom>
@@ -75,20 +89,20 @@
                     v-if="slackStatus === 1"
                     color="primary"
                     @click="saveSlack"
-                    >SAVE</v-btn
-                  >
+                    >SAVE
+                  </v-btn>
                   <v-btn
                     v-if="slackStatus === 2"
                     color="warning"
                     @click="updateSlack"
-                    >UPDATE</v-btn
-                  >
+                    >UPDATE
+                  </v-btn>
                   <v-btn
                     v-if="slackStatus === 2"
                     color="red"
                     @click="deleteSlack"
-                    >DELETE</v-btn
-                  >
+                    >DELETE
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-expansion-panel-content>
@@ -102,26 +116,34 @@
   </v-list-item>
 </template>
 <script>
+import CONTENT_LISTENER from "../../../common/content-listener";
+
 export default {
   components: {},
   props: [],
   data: () => ({
-    slackChannels: [
-      { CHANNEL_NAME: "001_co공지", CHANNEL_URL: "www.naver.com" },
-      { CHANNEL_NAME: "OS_그냥방", CHANNEL_URL: "www.naver.com" },
-      { CHANNEL_NAME: "OS_업무방", CHANNEL_URL: "www.naver.com" },
-      { CHANNEL_NAME: "전사공지", CHANNEL_URL: "www.naver.com" },
-      { CHANNEL_NAME: "게임방", CHANNEL_URL: "www.naver.com" },
-      { CHANNEL_NAME: "중고나라", CHANNEL_URL: "www.naver.com" },
-      { CHANNEL_NAME: "서비스 배포", CHANNEL_URL: "www.naver.com" }
-    ],
+    snackbarTimeout: 3000, //스낵바 유지시간
+    snackbarMessage: "", //스낵바 기본 메시지
+    snackbar: false, //스낵바 open /close 여부
+    slackChannels: [],
     slackChannelName: "",
     slackChannelUrl: "",
     slackStatus: 1 // 1 : SAVE , 2 : UPDATE
   }),
   created() {},
-  mounted() {},
+  mounted() {
+    this.getSlackList();
+  },
   methods: {
+    getSlackList() {
+      CONTENT_LISTENER.sendMessage({
+        type: "get.slack",
+        data: null
+      }).then(slackList => {
+        console.log("slackList ", slackList);
+        this.slackChannels = slackList;
+      });
+    },
     helpUrl() {
       let open = window.open(
         "https://api.slack.com/messaging/webhooks#getting-started",
@@ -139,18 +161,38 @@ export default {
     },
     deleteSlack() {},
     saveSlack() {
-      /*if(this._.trim(this.slackChannelName) === ''){
-                    alert('비었음.')
-                }
+      console.log("slackChannelName ", this.slackChannelName);
+      if (this._.trim(this.slackChannelName) === "") {
+        alert("이름을 넣어주세요.");
+        return false;
+      }
 
-                if(this._.trim(this.slackChannelName) === ''){
-                    alert('비었음.')
-                }*/
+      if (this._.trim(this.slackChannelUrl) === "") {
+        alert("URL이 비었음.");
+        return false;
+      }
+
+      let slackParam = [
+        "",
+        this.slackChannelName,
+        this.slackChannelUrl,
+        new Date().getTime()
+      ];
+      CONTENT_LISTENER.sendMessage({
+        type: "post.slack",
+        data: slackParam
+      }).then(response => {
+        this.snackbarMessage = "SLACK URL이 저장되었습니다.";
+        this.snackbar = true;
+        this.slackChannelUrl = "";
+        this.slackChannelName = "";
+        this.getSlackList();
+      });
     },
     detailSlackInfo(item) {
       this.slackStatus = 2;
       this.slackChannelName = item.CHANNEL_NAME;
-      this.slackChannelUrl = item.CHANNEL_URL;
+      this.slackChannelUrl = item.WEBHOOK_URL;
     }
   }
 };

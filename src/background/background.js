@@ -64,6 +64,11 @@ let BackgrounEvent = {
         dbcon.dropTable();
         dbcon.createTable();
         dbcon.initData();
+        /*Api.getOptions().then(option => {
+                    if (option.length !== 1) {
+
+                    }
+                });*/
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }

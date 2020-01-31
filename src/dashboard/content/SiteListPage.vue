@@ -21,6 +21,7 @@
               </v-card-actions>
             </v-card>
           </v-col>
+
           <v-col v-else>
             <v-list style="background: none;padding: 0;">
               <div v-for="(item, index) in sites" :key="index">
@@ -109,7 +110,7 @@
         </v-row>
       </v-col>
 
-      <v-col cols="9" :style="documentHeightStyle">
+      <v-col cols="9" :style="documentHeightStyle" v-if="currentSite !== ''">
         <v-tabs right>
           <v-tab v-show="viewMode === '1'">PREVIEW</v-tab>
           <v-tab v-show="viewMode === '1'">HIGHLIGHTS</v-tab>
@@ -271,6 +272,8 @@ export default {
               this.$refs.siteList[0].click();
               this.$refs.siteList[0].CLASS = "border";
             }, 500);
+          } else {
+            this.currentSite = "";
           }
         });
     },

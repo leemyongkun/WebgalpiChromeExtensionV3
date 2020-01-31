@@ -21,19 +21,16 @@ let Api = {
 
       let site = Api.getSite(parameter);
       let items = Api.getAllItems(parameter);
-      let authority = Api.getAuthority();
-      let options = Api.getOptions();
-      let excludes_url = Api.getExcludeSite();
 
-      const arr = [site, items, authority, options, excludes_url];
+      let options = Api.getOptions();
+
+      const arr = [site, items, options];
       Promise.all(arr).then(
         values => {
           let obj = new Object();
           let site = values[0];
           let items = values[1];
-          let authority = values[2];
-          let options = values[3];
-          let excludes_url = values[4];
+          let options = values[2];
 
           let allItems = new Object();
           if (site.length != 0) {
@@ -52,8 +49,6 @@ let Api = {
 
           obj.allItems = allItems;
           obj.options = options[0];
-          obj.authority = authority;
-          obj.excludes_url = excludes_url;
           obj.loginInfo = loginInfo;
 
           res(obj);
@@ -62,9 +57,7 @@ let Api = {
       );
     });
   },
-  getExcludeSite: () => {
-    return select(Query.getExcludeSite(), []);
-  },
+
   getOptions: () => {
     return select(Query.getOptions(), []);
   },
@@ -88,9 +81,6 @@ let Api = {
   getAllItems: parameter => {
     let result = select(Query.getAllItems(), [parameter.URL_KEY]);
     return result;
-  },
-  getAuthority: () => {
-    return select(Query.getAuthority(), []);
   },
   updateItem: params => {
     let param = [params.MEMO, params.COLOR, params.URL_KEY, params.IDX];
@@ -143,7 +133,12 @@ let Api = {
     await insert(Query.insertSite(), param);
     return Api.getSite(params);
   },
-
+  getSlack: params => {
+    return select(Query.selectSlack(), params);
+  },
+  postSlack: params => {
+    return insert(Query.insertSlack(), params);
+  },
   updateOptionColor: params => {
     return update(Query.updateOptionColor(), params);
   },

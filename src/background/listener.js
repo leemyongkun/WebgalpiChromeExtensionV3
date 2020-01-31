@@ -67,6 +67,18 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       });
       return true;
       break;
+
+    case "get.slack":
+      API.getSlack(null).then(res => {
+        sendResponse(res);
+      });
+      break;
+    case "post.slack":
+      API.postSlack(msg.data).then(res => {
+        sendResponse(res);
+      });
+      break;
+
     case "update.option.color":
       API.updateOptionColor(msg.data).then(res => {
         sendResponse(res);
