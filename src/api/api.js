@@ -136,6 +136,12 @@ let Api = {
   getSlack: params => {
     return select(Query.selectSlack(), params);
   },
+  updateSlack: params => {
+    return insert(Query.updateSlack(), params);
+  },
+  deleteSlack: params => {
+    return insert(Query.deleteSlack(), params);
+  },
   postSlack: params => {
     return insert(Query.insertSlack(), params);
   },

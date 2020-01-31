@@ -203,7 +203,20 @@ export default {
              FROM TBL_SLACK
              `;
   },
-
+  updateSlack: () => {
+    return `
+             UPDATE TBL_SLACK
+                SET CHANNEL_NAME = ?,
+                WEBHOOK_URL = ? 
+            WHERE IDX = ?
+             `;
+  },
+  deleteSlack: () => {
+    return `
+             DELETE FROM TBL_SLACK
+            WHERE IDX = ?
+             `;
+  },
   insertSlack: () => {
     return `
             INSERT INTO TBL_SLACK

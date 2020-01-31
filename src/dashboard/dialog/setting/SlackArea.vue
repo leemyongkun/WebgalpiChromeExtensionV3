@@ -128,6 +128,7 @@ export default {
     slackChannels: [],
     slackChannelName: "",
     slackChannelUrl: "",
+    slackIdx: "",
     slackStatus: 1 // 1 : SAVE , 2 : UPDATE
   }),
   created() {},
@@ -157,9 +158,35 @@ export default {
       this.slackChannelUrl = "";
     },
     updateSlack() {
-      alert("update slack");
+      if (!confirm("선택하신 Slack Url을 수정하시겠습니까?")) return false;
+      let slackParam = [
+        this.slackChannelName,
+        this.slackChannelUrl,
+        this.slackIdx
+      ];
+      CONTENT_LISTENER.sendMessage({
+        type: "update.slack",
+        data: slackParam
+      }).then(response => {
+        this.snackbarMessage = "SLACK URL이 수정되었습니다.";
+        this.snackbar = true;
+        this.getSlackList();
+      });
     },
-    deleteSlack() {},
+    deleteSlack() {
+      if (!confirm("선택하신 Slack Url을 삭제하시겠습니까?")) return false;
+      let slackParam = [this.slackIdx];
+      CONTENT_LISTENER.sendMessage({
+        type: "delete.slack",
+        data: slackParam
+      }).then(response => {
+        this.snackbarMessage = "SLACK URL이 삭제되었습니다.";
+        this.snackbar = true;
+        this.slackChannelName = "";
+        this.slackChannelUrl = "";
+        this.getSlackList();
+      });
+    },
     saveSlack() {
       console.log("slackChannelName ", this.slackChannelName);
       if (this._.trim(this.slackChannelName) === "") {
@@ -190,9 +217,11 @@ export default {
       });
     },
     detailSlackInfo(item) {
+      console.log("slack item ", item);
       this.slackStatus = 2;
       this.slackChannelName = item.CHANNEL_NAME;
       this.slackChannelUrl = item.WEBHOOK_URL;
+      this.slackIdx = item.IDX;
     }
   }
 };

@@ -73,6 +73,18 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
         sendResponse(res);
       });
       break;
+
+    case "update.slack":
+      API.updateSlack(msg.data).then(res => {
+        sendResponse(res);
+      });
+      break;
+
+    case "delete.slack":
+      API.deleteSlack(msg.data).then(res => {
+        sendResponse(res);
+      });
+      break;
     case "post.slack":
       API.postSlack(msg.data).then(res => {
         sendResponse(res);
