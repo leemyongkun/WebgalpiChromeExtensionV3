@@ -93,7 +93,9 @@
                             @click="editCategory(item, $event, true, 'update')"
                             v-show="item.mouseOver"
                           >
-                            <v-icon right>mdi-settings</v-icon>
+                            <v-icon dense size="18px" right
+                              >mdi-settings</v-icon
+                            >
                           </v-list-item-icon>
                         </template>
 
@@ -140,7 +142,9 @@
                                 "
                                 v-show="subItem.mouseOver"
                               >
-                                <v-icon right>mdi-settings</v-icon>
+                                <v-icon dense size="18px" right
+                                  >mdi-settings</v-icon
+                                >
                               </v-list-item-icon>
                             </v-list-item>
                           </drop>
@@ -178,7 +182,7 @@
                         @click="editCategory(lostItem, $event, false, 'update')"
                         v-show="lostItem.mouseOver"
                       >
-                        <v-icon right>mdi-settings</v-icon>
+                        <v-icon size="18px" dense right>mdi-settings</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
                   </v-list>
