@@ -13,15 +13,15 @@
     <v-app-bar app clipped-left color="">
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <span class="title ml-3 mr-5"
-        >WEB&nbsp;<span class="font-weight-light">Galpi </span>
+        >WEB&nbsp;<span class="font-weight-light">Galpi</span>
       </span>
       <!--<v-text-field
-                    solo-inverted
-                    flat
-                    hide-details
-                    label="Search"
-                    prepend-inner-icon="mdi-feature-search-outline"
-            />-->
+                          solo-inverted
+                          flat
+                          hide-details
+                          label="Search"
+                          prepend-inner-icon="mdi-feature-search-outline"
+                  />-->
       <v-spacer />
       <v-btn text @click=""
         ><v-icon>mdi-information-outline</v-icon>&nbsp;README
@@ -94,8 +94,8 @@
                             v-show="item.mouseOver"
                           >
                             <v-icon dense size="18px" right
-                              >mdi-settings</v-icon
-                            >
+                              >mdi-settings
+                            </v-icon>
                           </v-list-item-icon>
                         </template>
 
@@ -143,8 +143,8 @@
                                 v-show="subItem.mouseOver"
                               >
                                 <v-icon dense size="18px" right
-                                  >mdi-settings</v-icon
-                                >
+                                  >mdi-settings
+                                </v-icon>
                               </v-list-item-icon>
                             </v-list-item>
                           </drop>
@@ -196,7 +196,7 @@
         <v-divider dark class="my-4" />
         <v-list-item link @click="switchDialogSetting">
           <v-list-item-action>
-            <v-icon>mdi-file-settings-variant-outline</v-icon>
+            <v-icon size="18px">mdi-file-settings-variant-outline</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title class="grey--text">
@@ -395,5 +395,9 @@ export default {
 
 .v-list-item__icon {
   margin-right: 5px !important;
+}
+
+.v-list-item__action {
+  margin-right: 10px !important;
 }
 </style>

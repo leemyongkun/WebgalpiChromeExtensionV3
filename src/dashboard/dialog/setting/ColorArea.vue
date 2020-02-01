@@ -1,8 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-list-item>
-    <v-list-item-action>
-      <v-icon>mdi-format-color-fill</v-icon>
-    </v-list-item-action>
     <v-list-item-content>
       <v-list-item-title>
         <v-expansion-panels focusable flat>

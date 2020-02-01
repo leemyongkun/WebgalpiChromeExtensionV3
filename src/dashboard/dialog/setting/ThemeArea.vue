@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-list-item>
+  <!--<v-list-item>
     <v-list-item-action>
       <v-icon>mdi-theme-light-dark</v-icon>
     </v-list-item-action>
@@ -12,6 +12,38 @@
           <v-radio label="DARK" value="dark" @change="changeTheme"></v-radio>
           <v-radio label="LIGHT" value="light" @change="changeTheme"></v-radio>
         </v-radio-group>
+      </v-list-item-subtitle>
+    </v-list-item-content>
+  </v-list-item>-->
+
+  <v-list-item>
+    <v-list-item-content>
+      <v-list-item-title>
+        <v-expansion-panels focusable flat>
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              THEME : 색상 커스텀 할 수 있도록 개발 진행중
+            </v-expansion-panel-header>
+
+            <v-expansion-panel-content>
+              <v-radio-group v-model="theme" row>
+                <v-radio
+                  label="DARK"
+                  value="dark"
+                  @change="changeTheme"
+                ></v-radio>
+                <v-radio
+                  label="LIGHT"
+                  value="light"
+                  @change="changeTheme"
+                ></v-radio>
+              </v-radio-group>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-list-item-title>
+      <v-list-item-subtitle>
+        &nbsp;
       </v-list-item-subtitle>
     </v-list-item-content>
   </v-list-item>

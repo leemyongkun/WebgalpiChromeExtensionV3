@@ -12,9 +12,6 @@
       </v-btn>
     </v-snackbar>
 
-    <v-list-item-action>
-      <v-icon>mdi-slack</v-icon>
-    </v-list-item-action>
     <v-list-item-content>
       <v-list-item-title>
         <v-expansion-panels focusable flat>

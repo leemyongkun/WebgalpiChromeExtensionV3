@@ -41,7 +41,10 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       break;
     case "get.highlights":
       let param = new Object();
-      console.log("get.highlights > msg.data ", msg.data.KEY);
+      if (msg.data === undefined) {
+        alert("제공되지 않는 페이지입니다.");
+        return false;
+      }
       param.URL_KEY = msg.data.KEY;
       API.getAllItems(param).then(res => {
         sendResponse(res);

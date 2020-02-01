@@ -65,10 +65,10 @@ let BackgrounEvent = {
         dbcon.createTable();
         dbcon.initData();
         /*Api.getOptions().then(option => {
-                    if (option.length !== 1) {
+                            if (option.length !== 1) {
 
-                    }
-                });*/
+                            }
+                        });*/
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
@@ -80,7 +80,6 @@ let BackgrounEvent = {
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
-      console.log("info.status ", info.status);
       if (
         info.status == "loading" &&
         tab.status == "loading" &&
@@ -93,7 +92,19 @@ let BackgrounEvent = {
         //팝업인지 확인.
         BackgroundModule.isPopup();
 
-        console.log("tab.url ", tab.url);
+        //대쉬보드의 TABID를 저장해둔다. (재진입시 STATUS를 변경하여 리로딩 하기 위함)
+        if (
+          tab.url ===
+          "chrome-extension://" +
+            chrome.runtime.id +
+            "/dashboard/dashboard.html"
+        ) {
+          chrome.storage.sync.set({
+            activeDashboardTabId: tab.id
+          });
+        }
+
+        console.log("tab.url ", tab);
 
         //현재 사이트에 하이라이트 초기화
         BackgroundModule.initApplication(tabId, tab.url);
@@ -115,3 +126,12 @@ BackgrounEvent.onInstalled();
 
 //Tab이 열릴때
 BackgrounEvent.onUpdated();
+
+//DashBoard에 재진입 했을때 데이타를 다시 가져온다.
+chrome.tabs.onActivated.addListener((activeInfo, act) => {
+  chrome.storage.sync.get(["activeDashboardTabId"], result => {
+    if (result.activeDashboardTabId === activeInfo.tabId) {
+      chrome.storage.sync.set({ activeDashboardStatus: true });
+    }
+  });
+});

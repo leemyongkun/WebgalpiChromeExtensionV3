@@ -5,9 +5,6 @@ import vuetify from "../lib/vuetify/vuetify";
 
 import { Drag, Drop } from "vue-drag-drop";
 
-import VueYouTubeEmbed from "vue-youtube-embed";
-Vue.use(VueYouTubeEmbed);
-
 Vue.component("drag", Drag);
 Vue.component("drop", Drop);
 

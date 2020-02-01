@@ -22,6 +22,7 @@
         <v-col cols="8">
           <v-list three-line subheader>
             <v-subheader>General</v-subheader>
+
             <!--VIEWMODE-->
             <ViewModeArea></ViewModeArea>
             <!--THEME-->

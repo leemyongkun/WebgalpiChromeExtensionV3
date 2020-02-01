@@ -4,16 +4,31 @@
       <v-card flat>
         <v-card-text>
           <v-row class="mb-4" align="center">
-            <strong class="title">{{ previewTitle }}</strong>
-            <v-spacer></v-spacer>
-            <SiteFunction
-              :sourceUrl="sourceUrl"
-              :previewStatus="previewStatus"
-            />
+            <strong class="title headline">
+              {{ previewTitle }}
+            </strong>
+            <v-banner
+              two-line
+              style="width:100%; padding-left: 0px; padding-right: 10px;"
+            >
+              <span class="grey--text">
+                <v-icon color="green" size="16px">mdi-timetable</v-icon>&nbsp;{{
+                  convertDate
+                }}<br />
+                <img :src="`chrome://favicon/` + currentSite.URL" />&nbsp;{{
+                  currentSite.URL
+                }}
+              </span>
+              <v-spacer></v-spacer>
+              <template v-slot:actions>
+                <SiteFunction
+                  :sourceUrl="sourceUrl"
+                  :previewStatus="previewStatus"
+                />
+              </template>
+            </v-banner>
           </v-row>
-          <v-row>
-            <v-divider />
-          </v-row>
+
           <v-row v-if="youtubeVideoId !== ''">
             <v-col cols="12">
               <iframe
@@ -21,11 +36,7 @@
                 type="text/html"
                 width="640"
                 height="360"
-                :src="
-                  'https://www.youtube.com/embed/' +
-                    youtubeVideoId +
-                    '?autoplay=0&origin=http://example.com'
-                "
+                :src="youtubeVideoId + '?autoplay=0'"
                 frameborder="0"
               ></iframe>
             </v-col>
@@ -40,16 +51,14 @@
 </template>
 <script>
 import SiteFunction from "./function/SiteFunction";
-import { GLOBAL_CONFIG } from "../../contents/global/config";
-import CORE from "../../contents/core/core";
-
-import { getIdFromURL, getTimeFromURL } from "vue-youtube-embed";
+import Common from "../../common/common";
 
 //https://www.npmjs.com/package/vue-youtube-embed
 export default {
   components: { SiteFunction },
   props: [
     "youtubeVideoId",
+    "currentSite",
     "previewContent",
     "previewTitle",
     "previewStatus",
@@ -63,6 +72,11 @@ export default {
       startTime: ""
     }
   }),
+  computed: {
+    convertDate() {
+      return Common.getConvertDate(this.currentSite.DATE_CREATE);
+    }
+  },
   created() {},
   mounted() {},
   methods: {
@@ -91,5 +105,14 @@ img {
 
 .galpi-preview-area svg {
   width: 30%;
+}
+
+.v-banner__actions {
+  margin-left: 0px !important;
+}
+
+.v-banner__wrapper {
+  padding-left: 0px !important;
+  padding-top: 0px !important;
 }
 </style>

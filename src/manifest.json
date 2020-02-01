@@ -43,7 +43,7 @@
     "management",
     "notifications",
     "alarms",
-    { "fileSystem": ["write", "retainEntries", "directory"] }
+    "chrome://favicon/*,"
   ],
   "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
 
