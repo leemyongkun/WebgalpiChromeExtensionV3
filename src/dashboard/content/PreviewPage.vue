@@ -14,6 +14,22 @@
           <v-row>
             <v-divider />
           </v-row>
+          <v-row v-if="youtubeVideoId !== ''">
+            <v-col cols="12">
+              <iframe
+                id="ytplayer"
+                type="text/html"
+                width="640"
+                height="360"
+                :src="
+                  'https://www.youtube.com/embed/' +
+                    youtubeVideoId +
+                    '?autoplay=0&origin=http://example.com'
+                "
+                frameborder="0"
+              ></iframe>
+            </v-col>
+          </v-row>
           <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
             <div v-html="previewContent"></div>
           </v-row>
@@ -27,9 +43,13 @@ import SiteFunction from "./function/SiteFunction";
 import { GLOBAL_CONFIG } from "../../contents/global/config";
 import CORE from "../../contents/core/core";
 
+import { getIdFromURL, getTimeFromURL } from "vue-youtube-embed";
+
+//https://www.npmjs.com/package/vue-youtube-embed
 export default {
   components: { SiteFunction },
   props: [
+    "youtubeVideoId",
     "previewContent",
     "previewTitle",
     "previewStatus",
@@ -37,7 +57,11 @@ export default {
     "reviewAreaHeightStyle"
   ],
   data: () => ({
-    window: 0
+    window: 0,
+    youtube: {
+      videoId: "",
+      startTime: ""
+    }
   }),
   created() {},
   mounted() {},
@@ -56,6 +80,7 @@ img {
   max-width: 50% !important;
   max-height: 50% !important;
 }
+
 .galpi-preview-area {
   width: 80%;
 }

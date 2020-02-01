@@ -11,6 +11,7 @@ export default {
             OG_TITLE,
             OG_DESCRIPTION,
             OG_IMAGE,
+            EMBEDURL,
             SHARE_KEY,
             HOST,
             FULL_TEXT,
@@ -23,7 +24,7 @@ export default {
 		)
 		VALUES
 		(
-         ?,'','',?,?,?,?,?,?,?,?,?,'N',?,?,?,?,?)`;
+         ?,'','',?,?,?,?,?,?,?,?,?,?,'N',?,?,?,?,?)`;
   },
   updateItem: () => {
     return `UPDATE TBL_ITEMS
@@ -85,6 +86,7 @@ export default {
                     OG_TITLE,
                     OG_DESCRIPTION,
                     OG_IMAGE,
+                    EMBEDURL,
                     SHARE_KEY,
                     HOST,
                     TAGS,
@@ -112,6 +114,7 @@ export default {
                     OG_TITLE,
                     OG_DESCRIPTION,
                     OG_IMAGE,
+                    EMBEDURL,
                     SHARE_KEY,
                     HOST,
                     FULL_TEXT,

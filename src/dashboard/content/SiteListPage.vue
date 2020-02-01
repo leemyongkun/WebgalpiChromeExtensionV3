@@ -52,22 +52,22 @@
                           ref="siteList"
                         >
                           <!--<v-expand-transition>
-                                                        <div
-                                                                v-if="hover"
-                                                                class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
-                                                                style="height: 25%;z-index: 9000;"
-                                                        >
-                                                            <v-spacer/>
-                                                                    <v-btn
-                                                                            small
-                                                                            @click="goSourceSite(item, $event)"
-                                                                            color="orange"
-                                                                    >
-                                                                        <v-icon>mdi-home-outline</v-icon>
-                                                                    </v-btn>
-                                                                    <v-checkbox>j</v-checkbox>
-                                                        </div>
-                                                    </v-expand-transition>-->
+                                                                                  <div
+                                                                                          v-if="hover"
+                                                                                          class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
+                                                                                          style="height: 25%;z-index: 9000;"
+                                                                                  >
+                                                                                      <v-spacer/>
+                                                                                              <v-btn
+                                                                                                      small
+                                                                                                      @click="goSourceSite(item, $event)"
+                                                                                                      color="orange"
+                                                                                              >
+                                                                                                  <v-icon>mdi-home-outline</v-icon>
+                                                                                              </v-btn>
+                                                                                              <v-checkbox>j</v-checkbox>
+                                                                                  </div>
+                                                                              </v-expand-transition>-->
 
                           <v-list-item three-line>
                             <v-list-item-content>
@@ -120,6 +120,7 @@
               <v-row>
                 <v-col v-if="n == 1">
                   <PreviewPage
+                    :youtubeVideoId="youtubeVideoId"
                     :reviewAreaHeightStyle="reviewAreaHeightStyle"
                     :sourceUrl="sourceUrl"
                     :previewContent="previewContent"
@@ -143,6 +144,7 @@
               <v-row>
                 <v-col cols="6">
                   <PreviewPage
+                    :youtubeVideoId="youtubeVideoId"
                     :sourceUrl="sourceUrl"
                     :previewContent="previewContent"
                     :previewTitle="previewTitle"
@@ -164,6 +166,7 @@
               <v-row>
                 <v-col cols="12">
                   <PreviewPage
+                    :youtubeVideoId="youtubeVideoId"
                     :sourceUrl="sourceUrl"
                     :previewContent="previewContent"
                     :previewTitle="previewTitle"
@@ -207,6 +210,7 @@ export default {
     previewContent: null,
     previewTitle: null,
     previewStatus: "N",
+    youtubeVideoId: "",
     sourceUrl: "",
     viewMode: "1",
     currentSite: ""
@@ -323,6 +327,10 @@ export default {
       let parser = new DOMParser();
       let idoc = parser.parseFromString(site.READERMODE_CONTENTS, "text/html");
       let previewDoc = new PreviewMode(uri, idoc).parse();
+
+      this.youtubeVideoId =
+        site.EMBEDURL !== "" ? this.$youtube.getIdFromURL(site.EMBEDURL) : "";
+      console.log("site.EMBEDURL ", this.youtubeVideoId, site.EMBEDURL);
       //변환할 수없는 사이트 일경우
       if (previewDoc === null) {
         this.previewContent = "";
@@ -341,7 +349,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                        justify-content: center;*/
+                                                                                                              justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

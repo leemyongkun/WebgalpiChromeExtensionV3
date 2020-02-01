@@ -120,6 +120,7 @@ let Api = {
       params.OG_TITLE,
       params.OG_DESCRIPTION,
       params.OG_IMAGE,
+      params.EMBEDURL,
       "", //params.SHARE_KEY,
       params.HOST,
       params.FULL_TEXT,

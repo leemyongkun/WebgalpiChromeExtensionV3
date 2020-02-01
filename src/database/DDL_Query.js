@@ -41,6 +41,7 @@ let CREATE_TABLE_QUERY = {
             OG_TITLE TEXT,
             OG_DESCRIPTION TEXT,
             OG_IMAGE TEXT,
+            EMBEDURL TEXT,
             SHARE_KEY TEXT,
             HOST TEXT,
             FULL_TEXT TEXT,
