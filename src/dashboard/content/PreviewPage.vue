@@ -1,53 +1,49 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-window v-model="window" class="elevation-1" vertical>
-    <v-window-item>
-      <v-card flat>
-        <v-card-text>
-          <v-row class="mb-4" align="center">
-            <strong class="title headline">
-              {{ previewTitle }}
-            </strong>
-            <v-banner
-              two-line
-              style="width:100%; padding-left: 0px; padding-right: 10px;"
-            >
-              <span class="grey--text">
-                <v-icon color="green" size="16px">mdi-timetable</v-icon>&nbsp;{{
-                  convertDate
-                }}<br />
-                <img :src="`chrome://favicon/` + currentSite.URL" />&nbsp;{{
-                  currentSite.URL
-                }}
-              </span>
-              <v-spacer></v-spacer>
-              <template v-slot:actions>
-                <SiteFunction
-                  :sourceUrl="sourceUrl"
-                  :previewStatus="previewStatus"
-                />
-              </template>
-            </v-banner>
-          </v-row>
+  <v-card flat>
+    <v-card-text>
+      <v-row class="mb-4" align="center">
+        <strong class="title headline">
+          {{ previewTitle }}
+        </strong>
+        <v-banner
+          two-line
+          style="width:100%; padding-left: 0px; padding-right: 10px;"
+        >
+          <span class="grey--text">
+            <v-icon color="green" size="16px">mdi-timetable</v-icon>&nbsp;{{
+              convertDate
+            }}<br />
+            <img :src="`chrome://favicon/` + currentSite.URL" />&nbsp;{{
+              currentSite.URL
+            }}
+          </span>
+          <v-spacer></v-spacer>
+          <template v-slot:actions>
+            <SiteFunction
+              :sourceUrl="sourceUrl"
+              :previewStatus="previewStatus"
+            />
+          </template>
+        </v-banner>
+      </v-row>
 
-          <v-row v-if="youtubeVideoId !== ''">
-            <v-col cols="12">
-              <iframe
-                id="ytplayer"
-                type="text/html"
-                width="640"
-                height="360"
-                :src="youtubeVideoId + '?autoplay=0'"
-                frameborder="0"
-              ></iframe>
-            </v-col>
-          </v-row>
-          <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
-            <div v-html="previewContent"></div>
-          </v-row>
-        </v-card-text>
-      </v-card>
-    </v-window-item>
-  </v-window>
+      <v-row v-if="youtubeVideoId !== ''">
+        <v-col cols="12">
+          <iframe
+            id="ytplayer"
+            type="text/html"
+            width="640"
+            height="360"
+            :src="youtubeVideoId + '?autoplay=0'"
+            frameborder="0"
+          ></iframe>
+        </v-col>
+      </v-row>
+      <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
+        <div v-html="previewContent"></div>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 <script>
 import SiteFunction from "./function/SiteFunction";

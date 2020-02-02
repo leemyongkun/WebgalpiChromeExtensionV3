@@ -47,12 +47,12 @@ let FORM = {
   updateColorPicker: COLORS => {
     let colorButtons = "";
     COLORS.split(",").forEach(color => {
-      colorButtons += " <a class='" + color + " liner-color-circle'></a>";
+      colorButtons += " <a class='" + color + " webgalpi-color-form'></a>";
     });
 
     return (
-      `<div  class="liner-tooltip-wrap" id="highlight-update-toolbar" style="display:none;">
-                    <div class="liner-color-picker">
+      `<div  class="webgalpi-toolbar" id="highlight-update-toolbar" style="display:none;">
+                    <div class="webgalpi-color-picker">
                      ` +
       colorButtons +
       `

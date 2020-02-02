@@ -189,7 +189,7 @@ let CORE = {
           idx,
           text
         ).then(function() {
-          console.log("in highlightClickEvent");
+          console.log("in highlightClickEvent", GLOBAL_CONFIG.HL_ID_NAME, idx);
           win.getSelection().removeAllRanges();
           $("[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
             .unbind("click")

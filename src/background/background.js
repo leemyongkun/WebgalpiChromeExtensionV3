@@ -31,6 +31,7 @@ let BackgroundModule = {
         URL: urlPath,
         EXT: ext
       };
+      console.log("param >>> ", param);
 
       //현재 urlKey를 저장한다.
       chrome.storage.sync.set({ [tabId]: currentUrl }, null);
@@ -65,10 +66,10 @@ let BackgrounEvent = {
         dbcon.createTable();
         dbcon.initData();
         /*Api.getOptions().then(option => {
-                            if (option.length !== 1) {
+                                    if (option.length !== 1) {
 
-                            }
-                        });*/
+                                    }
+                                });*/
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
@@ -80,14 +81,6 @@ let BackgrounEvent = {
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
-      if (
-        info.status == "loading" &&
-        tab.status == "loading" &&
-        tab.url != undefined
-      ) {
-        //todo : badge 변경 및 로딩중 처리 내역이 있으면 추가.
-      }
-
       if (info.status == "complete") {
         //팝업인지 확인.
         BackgroundModule.isPopup();
@@ -104,7 +97,7 @@ let BackgrounEvent = {
           });
         }
 
-        console.log("tab.url ", tab);
+        console.log("COMPLETE tab.url ", tab);
 
         //현재 사이트에 하이라이트 초기화
         BackgroundModule.initApplication(tabId, tab.url);

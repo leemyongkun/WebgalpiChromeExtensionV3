@@ -1,28 +1,12 @@
-/*
-,colorList: [
-    "#e35a69",
-    "#f7b900",
-    "#2da64e",
-    "#d9c3ff",
-    "#97c2dd",
-    "#ef9a9a",
-    "#90a4ae",
-    "#CDDC39",
-    "#ffb540",
-    "#B2EBF2",
-    "#c0b6a7"
-]
-*/
-
 let GLOBAL_CONFIG = {
   //HIGHLIGHT_POINT: false, //highlightPoint
   ELEMENT: null,
-  GROUP_ELEMENT: "highlight-group",
-  CAPTURE_ELEMENT: "highlight-capture-area",
-  CAPTURE_BUTTON_ID: "highlight-capture-button",
+  GROUP_ELEMENT: "webgalpi-group",
+  CAPTURE_ELEMENT: "webgalpi-capture-area",
+  CAPTURE_BUTTON_ID: "webgalpi-capture-button",
   TARGET_ELEMENT: "body", //targetElement
-  HL_TAG_NAME: "highlight-custom-tag", //custom-tagName :wafflepen-highlight
-  HL_ID_NAME: "highlight-id", //idName
+  HL_TAG_NAME: "webgalpi-tag", //custom-tagName :wafflepen-highlight
+  HL_ID_NAME: "webgalpi-id", //idName
   IS_LOGIN: true,
   URL_TYPE: "",
   PREV_NEXT_OFFSET: 20, //prevNextOffset
