@@ -116,9 +116,9 @@
           <v-tab v-show="viewMode === '1'">HIGHLIGHTS</v-tab>
 
           <v-tab-item v-for="n in 2" :key="n">
-            <v-container fluid v-if="viewMode === '1'">
+            <v-container fluid v-if="viewMode === '1'" style="padding-top: 0px">
               <v-row>
-                <v-col v-if="n == 1">
+                <v-col v-if="n == 1" style="padding-top: 0px">
                   <PreviewPage
                     :currentSite="currentSite"
                     :youtubeVideoId="youtubeVideoId"

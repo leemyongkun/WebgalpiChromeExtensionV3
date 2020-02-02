@@ -12,19 +12,19 @@
     </v-tabs-items>
 
     <!-- <v-tabs vertical>
-            <v-tab>
-                <v-icon left>mdi-account</v-icon>
-            </v-tab>
-            <v-tab>
-                <v-icon left>mdi-lock</v-icon>
-            </v-tab>
-            <v-tab-item>
-                <SiteInfoTab></SiteInfoTab>
-            </v-tab-item>
-            <v-tab-item>
-                <HighlightTab></HighlightTab>
-            </v-tab-item>
-        </v-tabs>-->
+                <v-tab>
+                    <v-icon left>mdi-account</v-icon>
+                </v-tab>
+                <v-tab>
+                    <v-icon left>mdi-lock</v-icon>
+                </v-tab>
+                <v-tab-item>
+                    <SiteInfoTab></SiteInfoTab>
+                </v-tab-item>
+                <v-tab-item>
+                    <HighlightTab></HighlightTab>
+                </v-tab-item>
+            </v-tabs>-->
   </v-app>
 </template>
 
@@ -44,6 +44,20 @@ export default {
   }),
   created() {},
   methods: {},
-  mounted() {}
+  mounted() {
+    /* let popupWidth = 400;  // default width of popup in px
+            let animationDelay = 250;  // wait time for popup animation to complete
+            setInterval( () => {
+                let zlass = document.getElementsByClassName("v-window__container")[0];
+                console.log("zlass.offsetHeight " , zlass.offsetHeight);
+
+                let popupHTML = document.getElementById('app');
+                let rawHeight = parseInt(popupHTML.offsetHeight) + 20;
+console.log("rawHeight " ,rawHeight);
+                document.body.style.minWidth = popupWidth + 'px';
+                document.body.style.minHeight =  zlass.offsetHeight+ 'px';
+                window.scroll(0, 0);
+            }, animationDelay);*/
+  }
 };
 </script>

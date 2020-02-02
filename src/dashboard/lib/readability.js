@@ -27,6 +27,7 @@
  * @param {Object}       options The options object.
  */
 function kkuni() {}
+
 kkuni.prototype = {
   gogo: function() {
     alert("!gogo");
@@ -1136,20 +1137,20 @@ PreviewMode.prototype = {
           // for the previous loop, so there's no point trying to create a new div, and then
           // move all the children over. Just assign IDs and class names here. No need to append
           // because that already happened anyway.
-          topCandidate.id = "galpi-privew-area"; //"waf-readmode-page-1";
+          topCandidate.id = "galpi-privew-area";
           topCandidate.className = "page";
         } else {
-          var childDiv = doc.createElement("DIV");
-          childDiv.id = "galpi-privew-area-contents"; //"waf-readmode-page-contents";
+          let childDiv = doc.createElement("DIV");
+          childDiv.id = "galpi-privew-area-contents";
           childDiv.className = "page-contents";
 
-          var children = articleContent.childNodes;
+          let children = articleContent.childNodes;
           while (children.length) {
             childDiv.appendChild(children[0]);
           }
 
-          var div = doc.createElement("DIV");
-          div.id = "galpi-privew-area"; //"waf-readmode-page-1";
+          let div = doc.createElement("DIV");
+          div.id = "galpi-privew-area";
           div.className = "page galpi-preview-area";
 
           div.appendChild(childDiv);

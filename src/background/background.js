@@ -66,10 +66,10 @@ let BackgrounEvent = {
         dbcon.createTable();
         dbcon.initData();
         /*Api.getOptions().then(option => {
-                                    if (option.length !== 1) {
+                                            if (option.length !== 1) {
 
-                                    }
-                                });*/
+                                            }
+                                        });*/
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
@@ -81,7 +81,7 @@ let BackgrounEvent = {
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
-      if (info.status == "complete") {
+      if (info.status === "complete") {
         //팝업인지 확인.
         BackgroundModule.isPopup();
 
