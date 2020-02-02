@@ -23,14 +23,16 @@
           <v-list three-line subheader>
             <v-subheader>General</v-subheader>
 
-            <!--VIEWMODE-->
-            <ViewModeArea></ViewModeArea>
-            <!--THEME-->
-            <ThemeArea></ThemeArea>
-            <!--SLACK-->
-            <SlackArea></SlackArea>
-            <!--COLOR-->
-            <ColorArea></ColorArea>
+            <v-expansion-panels focusable accordion>
+              <!--THEME-->
+              <ThemeArea></ThemeArea>
+              <!--SLACK-->
+              <SlackArea></SlackArea>
+              <!--COLOR-->
+              <ColorArea></ColorArea>
+              <!--VIEWMODE-->
+              <ViewModeArea></ViewModeArea>
+            </v-expansion-panels>
           </v-list>
         </v-col>
 

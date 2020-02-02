@@ -1,59 +1,46 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-list-item>
-    <v-list-item-content>
-      <v-list-item-title>
-        <v-expansion-panels focusable flat>
-          <v-expansion-panel>
-            <v-expansion-panel-header
-              >COLOR : 최대 6개의 컬러를 지정할 수 있습니다.
-            </v-expansion-panel-header>
+  <v-expansion-panel>
+    <v-expansion-panel-header
+      >COLOR : 최대 6개의 컬러를 지정할 수 있습니다.
+    </v-expansion-panel-header>
 
-            <v-expansion-panel-content>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="3"
-                  md="3"
-                  v-for="(item, idx) in colorValue"
-                  :key="idx"
-                >
-                  <v-checkbox
-                    @change="selectedColor"
-                    v-model="pickColor"
-                    :value="item.className"
-                    hide-details
-                  >
-                    <template v-slot:label>
-                      <div :style="item.style">
-                        <span style="color: black">&nbsp;COLOR&nbsp;</span>
-                      </div>
-                    </template>
-                  </v-checkbox>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-btn block small color="primary" @click="saveColor"
-                    >SAVE
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-list-item-title>
-      <v-list-item-subtitle>
-        &nbsp;
-      </v-list-item-subtitle>
-    </v-list-item-content>
-  </v-list-item>
+    <v-expansion-panel-content>
+      <v-row>
+        <v-col
+          cols="12"
+          sm="3"
+          md="3"
+          v-for="(item, idx) in colorValue"
+          :key="idx"
+        >
+          <v-checkbox
+            @change="selectedColor"
+            v-model="pickColor"
+            :value="item.className"
+            hide-details
+          >
+            <template v-slot:label>
+              <div :style="item.style">
+                <span style="color: black">&nbsp;COLOR&nbsp;</span>
+              </div>
+            </template>
+          </v-checkbox>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn block small color="primary" @click="saveColor">SAVE </v-btn>
+        </v-col>
+      </v-row>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
 </template>
 <script>
 //color https://www.materialpalette.com/colors
 import CONTENT_LISTENER from "../../../common/content-listener";
-
+import SnackBar from "../../snack/SnackBar";
 export default {
-  components: {},
+  components: { SnackBar },
   props: [],
   data: () => ({
     pickColor: [
@@ -140,7 +127,10 @@ export default {
       CONTENT_LISTENER.sendMessage({
         type: "update.option.color",
         data: [this.pickColor.join(","), "kkuni.bear@gmail.com"] //[todo] 2번째 파라메터는 Email 로 한다.
-      }).then(response => {});
+      }).then(response => {
+        this.snackbarMessage = "COLOR가 저장되었습니다."; //스낵바 기본 메시지
+        this.snackbar = true; //스낵바 open /close 여부
+      });
     },
     selectedColor() {
       if (this.pickColor.length === 7) {
