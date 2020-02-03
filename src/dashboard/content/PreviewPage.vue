@@ -20,6 +20,7 @@
           <v-spacer></v-spacer>
           <template v-slot:actions>
             <SiteFunction
+              :currentSite="currentSite"
               :sourceUrl="sourceUrl"
               :previewStatus="previewStatus"
             />
@@ -42,12 +43,12 @@
       <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
         <div v-html="previewContent"></div>
         <!--  <iframe
-                  type="text/html"
-                  width="100%"
-                  height="603px"
-                  src="https://blog.naver.com/rachel0067/221780986497"
-                  frameborder="0"
-          ></iframe>-->
+                          type="text/html"
+                          width="100%"
+                          height="603px"
+                          src="https://blog.naver.com/rachel0067/221780986497"
+                          frameborder="0"
+                  ></iframe>-->
       </v-row>
     </v-card-text>
   </v-card>
@@ -118,6 +119,7 @@ img {
   padding-left: 0px !important;
   padding-top: 0px !important;
 }
+
 #galpi-privew-area-contents {
   align: left !important;
 }

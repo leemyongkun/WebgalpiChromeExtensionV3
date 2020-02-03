@@ -10,7 +10,10 @@
       <v-icon>mdi-facebook-box</v-icon>
     </v-btn>
 
-    <ShareSlackDialog v-if="previewStatus === 'Y'"></ShareSlackDialog>
+    <ShareSlackDialog
+      :currentSite="currentSite"
+      v-if="previewStatus === 'Y'"
+    ></ShareSlackDialog>
 
     <DeleteSiteDialog></DeleteSiteDialog>
   </div>
@@ -20,7 +23,7 @@ import ShareSlackDialog from "./dialog/ShareSlackDialog";
 import DeleteSiteDialog from "./dialog/DeleteSiteDialog";
 export default {
   components: { DeleteSiteDialog, ShareSlackDialog },
-  props: ["previewStatus", "sourceUrl"],
+  props: ["previewStatus", "sourceUrl", "currentSite"],
   data: () => ({
     window: 0
   }),

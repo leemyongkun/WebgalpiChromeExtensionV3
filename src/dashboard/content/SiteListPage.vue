@@ -339,8 +339,6 @@ export default {
           loc.pathname.substr(0, loc.pathname.lastIndexOf("/") + 1)
       };
 
-      console.log(" >>> SITE ", site);
-
       let parser = new DOMParser();
       let idoc = parser.parseFromString(site.READERMODE_CONTENTS, "text/html");
       let previewDoc = new PreviewMode(uri, idoc).parse();
