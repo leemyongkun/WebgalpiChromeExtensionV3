@@ -16,12 +16,12 @@
         >WEB&nbsp;<span class="font-weight-light">Galpi</span>
       </span>
       <!--<v-text-field
-                          solo-inverted
-                          flat
-                          hide-details
-                          label="Search"
-                          prepend-inner-icon="mdi-feature-search-outline"
-                  />-->
+                                solo-inverted
+                                flat
+                                hide-details
+                                label="Search"
+                                prepend-inner-icon="mdi-feature-search-outline"
+                        />-->
       <v-spacer />
       <v-btn text @click=""
         ><v-icon>mdi-information-outline</v-icon>&nbsp;README
@@ -73,7 +73,12 @@
                         </v-list-item-content>
                       </v-list-item>
                     </v-list-item-group>
-
+                    <span
+                      v-if="category.length === 0"
+                      style="padding-left: 30%;color: darkorange"
+                    >
+                      NO CATEGORY
+                    </span>
                     <div v-for="(item, i) in category" :key="i">
                       <v-list-group
                         sub-group
@@ -152,8 +157,13 @@
                       </v-list-group>
                     </div>
                   </v-list>
-                  <v-divider dark class="my-4" />
+
                   <!-- 미아가 된 카테고리 -->
+                  <v-divider
+                    v-if="lostCategory.length !== 0"
+                    dark
+                    class="my-4"
+                  />
                   <v-list>
                     <v-list-item
                       v-for="(lostItem, index) in lostCategory"

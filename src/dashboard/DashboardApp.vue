@@ -22,7 +22,7 @@ export default {
   methods: {},
   created() {
     this.$nextTick(() => {
-      chrome.storage.sync.get(["options"], result => {
+      chrome.storage.local.get(["options"], result => {
         let options = result.options;
         console.log(" >>> options ", options);
         if (options.THEME === "dark") {

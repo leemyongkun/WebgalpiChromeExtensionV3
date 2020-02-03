@@ -226,11 +226,11 @@ export default {
   mounted() {
     //2초에 한번씩 Dashboard 진입을 확인한다.
     setInterval(() => {
-      chrome.storage.sync.get(["activeDashboardStatus"], result => {
+      chrome.storage.local.get(["activeDashboardStatus"], result => {
         if (result.activeDashboardStatus === true) {
           //this.getSites(null);
         }
-        chrome.storage.sync.set({ activeDashboardStatus: false });
+        chrome.storage.local.set({ activeDashboardStatus: false });
       });
     }, 2000);
 

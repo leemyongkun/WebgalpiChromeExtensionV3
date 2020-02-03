@@ -34,7 +34,7 @@ let BackgroundModule = {
       console.log("param >>> ", param);
 
       //현재 urlKey를 저장한다.
-      chrome.storage.sync.set({ [tabId]: currentUrl }, null);
+      chrome.storage.local.set({ [tabId]: currentUrl }, null);
 
       Api.getInitInfo(param).then(res => {
         //todo : excludesUrl 등록 기능 추가 할것.
@@ -42,7 +42,7 @@ let BackgroundModule = {
 
         console.log("getInitInfo >>>  ", res);
         //옵션을 저장해둔다.
-        chrome.storage.sync.set({ options: res.options });
+        chrome.storage.local.set({ options: res.options });
 
         chrome.tabs.sendMessage(
           tabId,
@@ -92,7 +92,7 @@ let BackgrounEvent = {
             chrome.runtime.id +
             "/dashboard/dashboard.html"
         ) {
-          chrome.storage.sync.set({
+          chrome.storage.local.set({
             activeDashboardTabId: tab.id
           });
         }
@@ -122,9 +122,9 @@ BackgrounEvent.onUpdated();
 
 //DashBoard에 재진입 했을때 데이타를 다시 가져온다.
 chrome.tabs.onActivated.addListener((activeInfo, act) => {
-  chrome.storage.sync.get(["activeDashboardTabId"], result => {
+  chrome.storage.local.get(["activeDashboardTabId"], result => {
     if (result.activeDashboardTabId === activeInfo.tabId) {
-      chrome.storage.sync.set({ activeDashboardStatus: true });
+      chrome.storage.local.set({ activeDashboardStatus: true });
     }
   });
 });

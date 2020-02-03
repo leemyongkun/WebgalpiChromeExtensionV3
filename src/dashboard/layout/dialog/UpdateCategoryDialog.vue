@@ -9,15 +9,7 @@
       <v-card-text>
         <v-container>
           <v-row>
-            <v-col cols="5">
-              <v-text-field
-                label="CATEGORY NAME"
-                :value="categoryId"
-                v-model="categoryName"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="5">
+            <v-col cols="4">
               <v-autocomplete
                 :items="category"
                 item-value="id"
@@ -25,6 +17,14 @@
                 v-model="categoryParent"
                 :disabled="checkRoot"
               ></v-autocomplete>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                label="CATEGORY NAME"
+                :value="categoryId"
+                v-model="categoryName"
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="2" style="padding-left: 0px;">
               <v-checkbox
@@ -131,6 +131,11 @@ export default {
         }
       }
 
+      //Category가 없을때, ROOT를 강제로 체크한다.
+      if (this.category.length === 0) {
+        this.checkRoot = true;
+      }
+
       this.dialog = true;
     },
     checkRootChange() {
@@ -148,10 +153,6 @@ export default {
       //1. index 최대값을 가져온다.
       //2. PARENT / CHILD를 구분하여 parameter 를 구성한다.
       //3. 저장한다. (reload category)
-
-      console.log("this categoryName", this.categoryName);
-      console.log("categoryParent", this.categoryParent);
-      console.log("this.checkRoot ", this.checkRoot);
 
       this.categoryName = this.categoryName.replace(/ /g, "");
       if (this.categoryName === "") {
@@ -195,14 +196,6 @@ export default {
     },
     updateCategory() {
       let param = [];
-      /* if (this.checkParent) {
-                                                            if (confirm("해당 카테고리를 PARENT로 지정 시, 컨텐츠들은 카테고리 정보를 잃게 됩니다.")) {
-                                                                param = [this.categoryName, null, this.categoryId];
-                                                            }
-                                                            return false;
-                                                        } else {
-                                                            param = [this.categoryName, this.categoryParent, this.categoryId];
-                                                        }*/
 
       param = [
         this.categoryName,

@@ -214,7 +214,7 @@ let EVENT = {
 
         // 위젯영역일경우 컬러 팔레트를 보여주지 않는다.
         // 컬러 피커가 사용하지 않음일경우 보여주지 않는다.
-        /* chrome.storage.sync.get(['options'], result => {
+        /* chrome.storage.local.get(['options'], result => {
                                                                                                        let highlightYN = result.options.HIGHLIGHT;
                                                                                                        if (STATUS.widgetArea === 0 && highlightYN === 'Y') {
                                                                                                          HighlightCore.mouseDragAction(event); // todo 가장 중요!!

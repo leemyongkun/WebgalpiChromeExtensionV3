@@ -13,13 +13,10 @@
         </v-btn>
         <v-toolbar-title>Settings</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn dark text @click="closeDialog">Save</v-btn>
-        </v-toolbar-items>
       </v-toolbar>
 
       <v-row>
-        <v-col cols="8">
+        <v-col cols="6">
           <v-list three-line subheader>
             <v-subheader>General</v-subheader>
 
@@ -36,7 +33,7 @@
           </v-list>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="6">
           <v-btn color="secondary" fab x-small dark @click="backupDownload">
             <v-icon>mdi-television</v-icon>
           </v-btn>

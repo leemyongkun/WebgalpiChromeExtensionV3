@@ -113,7 +113,7 @@ export default {
   }),
   created() {},
   mounted() {
-    chrome.storage.sync.get(["options"], result => {
+    chrome.storage.local.get(["options"], result => {
       this.pickColor = result.options.COLOR.split(",");
     });
   },

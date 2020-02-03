@@ -62,7 +62,7 @@ export default {
       let tabId = tabs[0].id;
 
       chrome.tabs.sendMessage(tabId, { action: "get.url.info" }, urlInfo => {
-        chrome.storage.sync.get(String(tabId), items => {
+        chrome.storage.local.get(String(tabId), items => {
           // items: 저장한 객체의 key/value
 
           CONTENT_LISTENER.sendMessage({

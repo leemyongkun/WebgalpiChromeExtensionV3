@@ -34,9 +34,9 @@ export default {
         })
           .then(response => {
             //option을 수정한다.
-            chrome.storage.sync.get(["options"], result => {
+            chrome.storage.local.get(["options"], result => {
               result.THEME = this.theme;
-              chrome.storage.sync.set({ options: result });
+              chrome.storage.local.set({ options: result });
             });
           })
           .then(() => {
