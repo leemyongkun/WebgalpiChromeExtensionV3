@@ -11,24 +11,24 @@
     ></SettingsManagerDialog>
 
     <v-app-bar app clipped-left color="">
-      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <!--<v-app-bar-nav-icon @click="drawer = !drawer"/>-->
       <span class="title ml-3 mr-5"
         >WEB&nbsp;<span class="font-weight-light">Galpi</span>
       </span>
       <!--<v-text-field
-                                solo-inverted
-                                flat
-                                hide-details
-                                label="Search"
-                                prepend-inner-icon="mdi-feature-search-outline"
-                        />-->
+                                      solo-inverted
+                                      flat
+                                      hide-details
+                                      label="Search"
+                                      prepend-inner-icon="mdi-feature-search-outline"
+                              />-->
       <v-spacer />
       <v-btn text @click=""
         ><v-icon>mdi-information-outline</v-icon>&nbsp;README
       </v-btn>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" app clipped>
+    <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>
         <v-row align="center">
           <v-col style="padding-bottom:0px; padding-top:0px;">
@@ -73,12 +73,9 @@
                         </v-list-item-content>
                       </v-list-item>
                     </v-list-item-group>
-                    <span
-                      v-if="category.length === 0"
-                      style="padding-left: 30%;color: darkorange"
-                    >
+                    <p v-if="category.length === 0" class="text-center">
                       NO CATEGORY
-                    </span>
+                    </p>
                     <div v-for="(item, i) in category" :key="i">
                       <v-list-group
                         sub-group
@@ -216,6 +213,13 @@
         </v-list-item>
         <!-- /template -->
       </v-list>
+
+      <template v-slot:append>
+        <v-spacer></v-spacer>
+        <v-btn block @click="switchDialogSetting">
+          <v-icon size="18px">mdi-file-settings-variant-outline</v-icon>
+        </v-btn>
+      </template>
     </v-navigation-drawer>
 
     <v-snackbar
