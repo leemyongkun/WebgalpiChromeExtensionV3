@@ -20,6 +20,19 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       API.deleteItem(msg.data);
       break;
 
+    case "delete.all.highlight":
+      API.deleteItems(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+
+    case "delete.site":
+      API.deleteSite(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
     case "post.site":
       if (msg.data.USE_CURRENT_SITE === "N") {
         API.postSite(msg.data).then(site => {

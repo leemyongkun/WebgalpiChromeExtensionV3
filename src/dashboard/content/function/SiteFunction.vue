@@ -15,7 +15,7 @@
       v-if="previewStatus === 'Y'"
     ></ShareSlackDialog>
 
-    <DeleteSiteDialog></DeleteSiteDialog>
+    <DeleteSiteDialog :currentSite="currentSite"></DeleteSiteDialog>
   </div>
 </template>
 <script>

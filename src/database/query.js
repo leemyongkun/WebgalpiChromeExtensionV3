@@ -37,6 +37,10 @@ export default {
 		WHERE URL_KEY = ?
 		AND IDX = ?`;
   },
+  deleteItems: () => {
+    return `DELETE FROM TBL_ITEMS
+		WHERE URL_KEY = ?`;
+  },
   insertItem: () => {
     return `INSERT INTO TBL_ITEMS
 		( 	IDX,
@@ -138,6 +142,7 @@ export default {
                     `
     );
   },
+
   getCategory: flag => {
     let lostCondition = "WHERE PARENT = -1";
     if (flag === "all") {
@@ -212,6 +217,12 @@ export default {
                 SET CHANNEL_NAME = ?,
                 WEBHOOK_URL = ? 
             WHERE IDX = ?
+             `;
+  },
+  deleteSite: () => {
+    return `
+             DELETE FROM TBL_SITES
+            WHERE URL_KEY = ?
              `;
   },
   deleteSlack: () => {

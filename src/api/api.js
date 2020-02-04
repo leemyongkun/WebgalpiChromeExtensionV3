@@ -110,6 +110,14 @@ let Api = {
     let param = [params.URL_KEY, params.IDX];
     return remove(Query.deleteItem(), param);
   },
+  deleteItems: params => {
+    let param = [params.URL_KEY];
+    return remove(Query.deleteItems(), param);
+  },
+  deleteSite: params => {
+    let param = [params.URL_KEY];
+    return remove(Query.deleteSite(), param);
+  },
   postSite: async params => {
     let date = new Date().getTime();
     let param = [

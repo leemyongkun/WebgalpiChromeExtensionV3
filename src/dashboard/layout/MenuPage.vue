@@ -16,12 +16,12 @@
         >WEB&nbsp;<span class="font-weight-light">Galpi</span>
       </span>
       <!--<v-text-field
-                                      solo-inverted
-                                      flat
-                                      hide-details
-                                      label="Search"
-                                      prepend-inner-icon="mdi-feature-search-outline"
-                              />-->
+                                            solo-inverted
+                                            flat
+                                            hide-details
+                                            label="Search"
+                                            prepend-inner-icon="mdi-feature-search-outline"
+                                    />-->
       <v-spacer />
       <v-btn text @click=""
         ><v-icon>mdi-information-outline</v-icon>&nbsp;README
@@ -32,7 +32,7 @@
       <v-list dense>
         <v-row align="center">
           <v-col style="padding-bottom:0px; padding-top:0px;">
-            <v-expansion-panels focusable flat multiple v-model="panel">
+            <v-expansion-panels focusable multiple v-model="panel">
               <v-expansion-panel>
                 <v-expansion-panel-header>FILTER</v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -68,11 +68,13 @@
                       >
                         <v-list-item-content>
                           <v-list-item-title
+                            class="text-center"
                             v-text="`전체`"
                           ></v-list-item-title>
                         </v-list-item-content>
                       </v-list-item>
                     </v-list-item-group>
+                    <br />
                     <p v-if="category.length === 0" class="text-center">
                       NO CATEGORY
                     </p>
@@ -199,24 +201,10 @@
           </v-col>
         </v-row>
         <!-- CATEGORY : END -->
-
-        <v-divider dark class="my-4" />
-        <v-list-item link @click="switchDialogSetting">
-          <v-list-item-action>
-            <v-icon size="18px">mdi-file-settings-variant-outline</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title class="grey--text">
-              Settings
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <!-- /template -->
       </v-list>
 
       <template v-slot:append>
-        <v-spacer></v-spacer>
-        <v-btn block @click="switchDialogSetting">
+        <v-btn text block class="text-right" @click="switchDialogSetting">
           <v-icon size="18px">mdi-file-settings-variant-outline</v-icon>
         </v-btn>
       </template>
