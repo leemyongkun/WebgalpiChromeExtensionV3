@@ -1,63 +1,60 @@
 <template>
   <v-app>
-    <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-      <v-tab v-for="item in items" :key="item">
-        {{ item }}
-      </v-tab>
-    </v-tabs>
-
-    <v-tabs-items v-model="tab">
-      <SiteInfoTab v-show="tab === 0"></SiteInfoTab>
-      <HighlightTab v-show="tab === 1"></HighlightTab>
-    </v-tabs-items>
-
-    <!-- <v-tabs vertical>
-                <v-tab>
-                    <v-icon left>mdi-account</v-icon>
-                </v-tab>
-                <v-tab>
-                    <v-icon left>mdi-lock</v-icon>
-                </v-tab>
-                <v-tab-item>
-                    <SiteInfoTab></SiteInfoTab>
-                </v-tab-item>
-                <v-tab-item>
-                    <HighlightTab></HighlightTab>
-                </v-tab-item>
-            </v-tabs>-->
+    <v-card id="scroll-target" max-width="490">
+      <v-tabs vertical>
+        <v-tab>
+          <v-icon color="green">mdi-web</v-icon>
+        </v-tab>
+        <v-tab>
+          <v-icon color="blue">mdi-grease-pencil</v-icon>
+        </v-tab>
+        <v-tab-item
+          class="mx-auto overflow-y-auto"
+          v-scroll:#scroll-target="onScroll"
+          :style="style"
+        >
+          <SiteInfoTab></SiteInfoTab>
+        </v-tab-item>
+        <v-tab-item
+          class="mx-auto overflow-y-auto"
+          v-scroll:#scroll-target="onScroll"
+          :style="style"
+        >
+          <HighlightTab></HighlightTab>
+        </v-tab-item>
+      </v-tabs>
+    </v-card>
   </v-app>
 </template>
 
 <script>
 //https://i.picsum.photos/id/20/400/400.jpg
+
 import SiteInfoTab from "./tabs/SiteInfoTab";
 import HighlightTab from "./tabs/HighlightTab";
 
 export default {
   components: {
-    SiteInfoTab,
-    HighlightTab
+    HighlightTab,
+    SiteInfoTab
   },
   data: () => ({
     tab: null,
-    items: ["SITE", "HIGHLIGHT"]
+    items: ["SITE", "HIGHLIGHT"],
+    offsetTop: 0,
+    style: "max-height: 390px; height: 463px; width: 400px;"
   }),
   created() {},
-  methods: {},
-  mounted() {
-    /* let popupWidth = 400;  // default width of popup in px
-            let animationDelay = 250;  // wait time for popup animation to complete
-            setInterval( () => {
-                let zlass = document.getElementsByClassName("v-window__container")[0];
-                console.log("zlass.offsetHeight " , zlass.offsetHeight);
-
-                let popupHTML = document.getElementById('app');
-                let rawHeight = parseInt(popupHTML.offsetHeight) + 20;
-console.log("rawHeight " ,rawHeight);
-                document.body.style.minWidth = popupWidth + 'px';
-                document.body.style.minHeight =  zlass.offsetHeight+ 'px';
-                window.scroll(0, 0);
-            }, animationDelay);*/
-  }
+  methods: {
+    onScroll(e) {
+      this.offsetTop = e.target.scrollTop;
+    }
+  },
+  mounted() {}
 };
 </script>
+<style>
+.v-tab {
+  min-width: 40px !important;
+}
+</style>

@@ -1,59 +1,59 @@
 <template>
-  <div>
-    <v-card max-width="400" class="mx-auto">
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="headline"
-            >{{ siteInfo.OG_TITLE }}
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+  <v-card flat>
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title class="headline"
+          >{{ siteInfo.OG_TITLE }}
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
 
-      <v-img :src="siteInfo.OG_IMAGE" height="194"></v-img>
-
-      <v-card-text>
-        {{ siteInfo.OG_DESCRIPTION }}
-      </v-card-text>
-
-      <v-card-actions>
-        <v-btn color="blue-grey" class="ma-1 white--text" @click="goDashboard">
-          <v-icon right dark>mdi-view-dashboard</v-icon>
-        </v-btn>
-
-        <v-spacer></v-spacer>
-        <v-select
-          :items="category"
-          item-value="id"
-          item-text="name"
-          v-model="selectCategory"
-          label="CATEGORY"
-          dense
-          outlined
-          class="ma-1"
-        ></v-select>
-
-        <v-btn
-          v-if="siteInfo.USE_CURRENT_SITE === 'N'"
-          color="primary accent-4"
-          @click="saveSite"
-        >
-          SAVE
-        </v-btn>
-        <v-btn
-          v-if="siteInfo.USE_CURRENT_SITE === 'Y'"
-          color="warning accent-4"
-          @click="updateCategory"
-        >
-          UPDATE
-        </v-btn>
-      </v-card-actions>
-    </v-card>
     <v-overlay :value="overlay.status">
       <v-progress-circular indeterminate size="64"
         >{{ overlay.message }}
       </v-progress-circular>
     </v-overlay>
-  </div>
+    <v-img :src="siteInfo.OG_IMAGE" height="194"></v-img>
+
+    <v-card-text
+      class="mx-auto overflow-y-auto"
+      style="height:76px; max-height: 76px;"
+    >
+      {{ siteInfo.OG_DESCRIPTION }}
+    </v-card-text>
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-select
+        :items="category"
+        item-value="id"
+        item-text="name"
+        v-model="selectCategory"
+        label="CATEGORY"
+        dense
+        outlined
+        class="ma-1"
+      ></v-select>
+
+      <v-btn
+        v-if="siteInfo.USE_CURRENT_SITE === 'N'"
+        color="primary accent-4"
+        @click="saveSite"
+      >
+        SAVE
+      </v-btn>
+      <v-btn
+        v-if="siteInfo.USE_CURRENT_SITE === 'Y'"
+        color="warning accent-4"
+        @click="updateCategory"
+      >
+        UPDATE
+      </v-btn>
+      <v-btn color="blue-grey" class="ma-1 white--text" @click="goDashboard">
+        <v-icon right dark>mdi-view-dashboard</v-icon>
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>

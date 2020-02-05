@@ -12,9 +12,12 @@
       >
         <v-avatar slot="icon" :color="convertColor(item.COLOR)" size="40">
         </v-avatar>
+
         {{ item.PRINT_TEXT }}
         <template v-slot:actions>
-          <v-btn text color="accent-4">DELETE</v-btn>
+          <v-btn text color="accent-4">
+            <v-icon>mdi-delete-forever</v-icon>
+          </v-btn>
         </template>
       </v-banner>
     </v-row>
@@ -26,7 +29,7 @@ import CONTENT_LISTENER from "../../common/content-listener";
 import Common from "../../common/common";
 
 export default {
-  name: "SiteInfoTab",
+  name: "HighlightTab",
   data() {
     return {
       highlights: []
