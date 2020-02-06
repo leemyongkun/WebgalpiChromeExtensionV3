@@ -14,17 +14,23 @@ let APPLICATION = {
       // let iframe = document.getElementById("mainFrame").innerHTML;
       //let ifr = $('#mainFrame').contents();
       /*  let val = document.frames["mainFrame"].document.getElementsByTagName('html')[0];*/
-      let val = $("#mainFrame")
+
+      /*let val = $("#mainFrame")
         .contents()
         .find("html")
-        .html();
+        .html();*/
 
-      document.getElementsByTagName("html")[0].innerHTML = val;
+      let head = document.querySelector("#mainFrame").contentDocument.head;
+      console.log("getNaverBlog ", head);
+      //document.getElementsByTagName("html")[0].innerHTML = val;
 
       res(true);
     });
   },
   init: async data => {
+    /*let head = document.querySelector("#mainFrame").contentDocument.head;
+      console.log("getNaverBlog ", head);*/
+
     //body (target element) 가 없으면 취소한다.
     if (document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length === 0)
       return false;

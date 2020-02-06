@@ -20,7 +20,7 @@
   },
   "content_scripts": [
     {
-      "all_frames": false,
+      "all_frames": true,
       "run_at": "document_start",
       "matches": ["*://*/*"],
       "css": ["css/hl.css", "lib/jcrop/jcrop.css"],
