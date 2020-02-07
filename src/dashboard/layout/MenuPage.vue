@@ -16,12 +16,12 @@
         >WEB&nbsp;<span class="font-weight-light">Galpi</span>
       </span>
       <!--<v-text-field
-                                            solo-inverted
-                                            flat
-                                            hide-details
-                                            label="Search"
-                                            prepend-inner-icon="mdi-feature-search-outline"
-                                    />-->
+                                                  solo-inverted
+                                                  flat
+                                                  hide-details
+                                                  label="Search"
+                                                  prepend-inner-icon="mdi-feature-search-outline"
+                                          />-->
       <v-spacer />
       <v-btn text @click=""
         ><v-icon>mdi-information-outline</v-icon>&nbsp;README
@@ -93,6 +93,7 @@
                               v-text="item.name"
                             ></v-list-item-title>
                           </v-list-item-content>
+
                           <v-list-item-icon
                             @click="editCategory(item, $event, true, 'update')"
                             v-show="item.mouseOver"
