@@ -79,26 +79,28 @@ export default {
                 FROM TBL_OPTIONS`;
   },
   getSite: () => {
-    return `SELECT 
-                    IDX,
-                    URL_KEY,
-                    EMAIL,
-                    TITLE,
-                    UPDATE_TITLE,
-                    URL,
-                    DATE_CREATE,
-                    OG_TITLE,
-                    OG_DESCRIPTION,
-                    OG_IMAGE,
-                    EMBEDURL,
-                    SHARE_KEY,
-                    HOST,
-                    TAGS,
-                    MEMO
-                    FROM TBL_SITES
-                    WHERE URL_KEY = ?
-                    AND FL_DELETE = 'N'
-                    LIMIT 1 `;
+    return `SELECT
+                IDX,
+                SITE.URL_KEY,
+                SITE.EMAIL,
+                TITLE,
+                UPDATE_TITLE,
+                URL,
+                SITE.DATE_CREATE,
+                OG_TITLE,
+                OG_DESCRIPTION,
+                OG_IMAGE,
+                EMBEDURL,
+                SHARE_KEY,
+                HOST,
+                TAGS,
+                MEMO,
+       CATEGORY.CATEGORY_IDX
+            FROM TBL_SITES SITE LEFT JOIN TBL_REL_CATEGORY CATEGORY
+            ON SITE.URL_KEY = CATEGORY.URL_KEY
+            WHERE SITE.URL_KEY = ?
+            AND FL_DELETE = 'N'
+            LIMIT 1 `;
   },
   getSites: params => {
     let joinCondition = ""; //" WHERE CATEGORY.URL_KEY IS NULL";

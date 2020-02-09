@@ -65,6 +65,18 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       return true;
       break;
 
+    case "get.site": //dashboard
+      console.log("getSITE : msg.data ", msg.data);
+
+      let getSiteParameter = new Object();
+      getSiteParameter.URL_KEY = msg.data;
+
+      API.getSite(getSiteParameter).then(res => {
+        sendResponse(res); //조건
+      });
+      return true;
+      break;
+
     case "get.sites": //dashboard
       API.getSites(msg.data).then(res => {
         sendResponse(res); //조건
@@ -131,19 +143,29 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       });
       return true;
       break;
+
+    case "delete.category.item": //dashboard
+      //삭제 시, 하위 Directory 는 미아로 변경
+      //Contents들은 No category로 변경.
+
+      break;
     case "update.category.item": //dashboard
       let categoryParam = msg.data;
-      console.log(">>> update.category.item ", categoryParam);
+
       let categoryId = [categoryParam[2]];
+      let categoryParent = categoryParam[1];
+      let checkRoot = categoryParam[3];
+
       if (categoryParam[3]) {
+        //checkRoot가 true 일경우
         API.deleteCategoryRelationParent(categoryId);
       }
 
       //if(this.categoryParent === 0 && this.checkRoot){
-      if (categoryParam[1] === 0 && categoryParam[3]) {
+      if (categoryParent === 0 && checkRoot) {
       } else {
         //카테고리 변경 시, parent에 포함된 category를 미아로 변경
-        let lostTargetCateggory = [categoryParam[2]];
+        let lostTargetCateggory = categoryId;
         API.updateLostCategoryItem(lostTargetCateggory);
       }
 

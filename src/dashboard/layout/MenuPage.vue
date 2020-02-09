@@ -69,14 +69,14 @@
                         <v-list-item-content>
                           <v-list-item-title
                             class="text-center"
-                            v-text="`전체`"
+                            v-text="`NO CATEGORY LIST`"
                           ></v-list-item-title>
                         </v-list-item-content>
                       </v-list-item>
                     </v-list-item-group>
                     <br />
                     <p v-if="category.length === 0" class="text-center">
-                      NO CATEGORY
+                      EMPTY CATEGORY
                     </p>
                     <div v-for="(item, i) in category" :key="i">
                       <v-list-group

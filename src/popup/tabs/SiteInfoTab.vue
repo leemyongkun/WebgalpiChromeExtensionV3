@@ -93,7 +93,9 @@ export default {
       let open = window.open(extensionDashboard, "_blank");
       open.focus();
     },
-    updateCategory() {},
+    updateCategory() {
+      this.selectCategory = 2;
+    },
     saveSite() {
       this.siteInfo.DEFAULT_CATEGORY_IDX = this.selectCategory;
 

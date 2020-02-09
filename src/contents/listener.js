@@ -2,7 +2,7 @@ import CONTENTS from "./contents";
 import EVENT from "./event";
 import APPLICATION from "./application.js";
 import { GLOBAL_CONFIG, URL } from "./global/config";
-
+import CONTENT_LISTENER from "../common/content-listener";
 chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
   switch (msg.action) {
     case "update.global.config.useCurrentSite":
@@ -10,10 +10,10 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
     case "application.init":
       /*
-            같은 사이트에서 여러번의 호출(ajax)이 발생할 경우, 페이지 로딩이 생긴다.
-            새로 로딩된 사이트가 URL.SITE(전에 저장된 사이트)와 같으면 SPA로 판단하여 더이상 진행하지 않는다.
-            youtube , https://www.webprofessional.jp/custom-pdf-rendering/ 등을 처리한다.
-             */
+                  같은 사이트에서 여러번의 호출(ajax)이 발생할 경우, 페이지 로딩이 생긴다.
+                  새로 로딩된 사이트가 URL.SITE(전에 저장된 사이트)와 같으면 SPA로 판단하여 더이상 진행하지 않는다.
+                  youtube , https://www.webprofessional.jp/custom-pdf-rendering/ 등을 처리한다.
+                   */
       if (URL.SITE === msg.site.URL) return false;
       console.log("INIT ###");
       URL.SITE = msg.site.URL;
@@ -25,15 +25,33 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       return true;
       break;
     case "get.site.info":
-      console.log(URL.SITE);
-      let content = await CONTENTS.firstVisitSite(new Object());
-      content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
-      content.TITLE = document.title;
-      content.UPDATE_TITLE = document.title;
-      content.URL = URL.SITE;
-      content.URL_KEY = URL.KEY;
-      console.log("content >>> ", content);
-      sendResponse(content);
+      CONTENT_LISTENER.sendMessage({
+        type: "get.site",
+        data: URL.KEY
+      }).then(async site => {
+        if (site.length !== 0) {
+          sendResponse(site);
+          return true;
+        }
+        let content = await CONTENTS.firstVisitSite(new Object());
+        content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
+        content.TITLE = document.title;
+        content.UPDATE_TITLE = document.title;
+        content.URL = URL.SITE;
+        content.URL_KEY = URL.KEY;
+        sendResponse(content);
+        return true;
+      });
+      console.log("URL.KEY", URL.KEY);
+      /*
+            let content = await CONTENTS.firstVisitSite(new Object());
+            content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
+            content.TITLE = document.title;
+            content.UPDATE_TITLE = document.title;
+            content.URL = URL.SITE;
+            content.URL_KEY = URL.KEY;
+            console.log("content >>> ", content);
+            sendResponse(content);*/
       return true;
       break;
 

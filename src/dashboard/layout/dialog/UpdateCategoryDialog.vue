@@ -147,7 +147,9 @@ export default {
         }
       });
     },
-    deleteCategory() {},
+    deleteCategory() {
+      alert("delete");
+    },
     insertCategory() {
       //todo : Category 등록
       //1. index 최대값을 가져온다.
