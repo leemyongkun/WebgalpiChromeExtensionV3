@@ -8,18 +8,10 @@
         <v-tab>
           <v-icon color="blue">mdi-grease-pencil</v-icon>
         </v-tab>
-        <v-tab-item
-          class="mx-auto overflow-y-auto"
-          v-scroll:#scroll-target="onScroll"
-          :style="style"
-        >
+        <v-tab-item class="mx-auto overflow-y-auto" :style="style">
           <SiteInfoTab></SiteInfoTab>
         </v-tab-item>
-        <v-tab-item
-          class="mx-auto overflow-y-auto"
-          v-scroll:#scroll-target="onScroll"
-          :style="style"
-        >
+        <v-tab-item class="mx-auto overflow-y-auto" :style="style">
           <HighlightTab></HighlightTab>
         </v-tab-item>
       </v-tabs>

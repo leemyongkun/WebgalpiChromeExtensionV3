@@ -3,6 +3,7 @@ import EVENT from "./event";
 import APPLICATION from "./application.js";
 import { GLOBAL_CONFIG, URL } from "./global/config";
 import CONTENT_LISTENER from "../common/content-listener";
+
 chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
   switch (msg.action) {
     case "update.global.config.useCurrentSite":
@@ -25,33 +26,15 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       return true;
       break;
     case "get.site.info":
-      CONTENT_LISTENER.sendMessage({
-        type: "get.site",
-        data: URL.KEY
-      }).then(async site => {
-        if (site.length !== 0) {
-          sendResponse(site);
-          return true;
-        }
-        let content = await CONTENTS.firstVisitSite(new Object());
-        content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
-        content.TITLE = document.title;
-        content.UPDATE_TITLE = document.title;
-        content.URL = URL.SITE;
-        content.URL_KEY = URL.KEY;
-        sendResponse(content);
-        return true;
-      });
       console.log("URL.KEY", URL.KEY);
-      /*
-            let content = await CONTENTS.firstVisitSite(new Object());
-            content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
-            content.TITLE = document.title;
-            content.UPDATE_TITLE = document.title;
-            content.URL = URL.SITE;
-            content.URL_KEY = URL.KEY;
-            console.log("content >>> ", content);
-            sendResponse(content);*/
+      let content = await CONTENTS.firstVisitSite(new Object());
+      content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
+      content.TITLE = document.title;
+      content.UPDATE_TITLE = document.title;
+      content.URL = URL.SITE;
+      content.URL_KEY = URL.KEY;
+      console.log("content >>> ", content);
+      sendResponse(content);
       return true;
       break;
 
