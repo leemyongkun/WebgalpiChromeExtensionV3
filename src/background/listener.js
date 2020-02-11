@@ -66,12 +66,12 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       break;
 
     case "get.site": //dashboard
-      console.log("getSITE : msg.data ", msg.data);
-
       let getSiteParameter = new Object();
       getSiteParameter.URL_KEY = msg.data;
 
+      console.log("getSiteParameter", getSiteParameter);
       API.getSite(getSiteParameter).then(res => {
+        console.log("API.getSite ", res);
         sendResponse(res); //조건
       });
       return true;

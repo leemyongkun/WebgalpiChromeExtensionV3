@@ -63,7 +63,6 @@ let Api = {
   },
   getSite: params => {
     let param = [params.URL_KEY];
-    console.log("param ", param);
     return select(Query.getSite(), param);
   },
   getSites: params => {

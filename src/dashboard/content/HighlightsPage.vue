@@ -46,11 +46,10 @@
 </template>
 <script>
 import SiteFunction from "./function/SiteFunction";
-import SiteListPage from "./SiteListPage";
 import Common from "../../common/common";
 
 export default {
-  components: { SiteListPage, SiteFunction },
+  components: { SiteFunction },
   props: [
     "previewContent",
     "previewTitle",

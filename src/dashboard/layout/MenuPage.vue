@@ -57,7 +57,8 @@
                     @click="editCategory(null, $event, false, 'insert')"
                     style="margin-top: 10px;"
                   >
-                    <v-icon>mdi-playlist-plus</v-icon>
+                    <v-icon left>mdi-folder-plus</v-icon>
+                    CATEGORY
                   </v-btn>
                   <v-list>
                     <v-list-item-group>
@@ -69,7 +70,7 @@
                         <v-list-item-content>
                           <v-list-item-title
                             class="text-center"
-                            v-text="`NO CATEGORY LIST`"
+                            v-text="`ALL CONTENTS`"
                           ></v-list-item-title>
                         </v-list-item-content>
                       </v-list-item>

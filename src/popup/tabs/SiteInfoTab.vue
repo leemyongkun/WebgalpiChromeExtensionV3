@@ -134,6 +134,7 @@ export default {
   },
   created() {},
   mounted() {
+    this.overlay.message = "Loading";
     this.$nextTick(() => {
       let interval = setInterval(() => {
         chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
@@ -143,6 +144,7 @@ export default {
             tabId,
             { action: "get.site.info" },
             siteInfo => {
+              console.log("siteInfo", siteInfo);
               if (siteInfo.OG_IMAGE === null) {
                 siteInfo.OG_IMAGE = "";
               }
@@ -153,9 +155,7 @@ export default {
                 siteInfo.OG_DESCRIPTION = "NO DESCRIPTION";
               }
 
-              if (siteInfo.URL === "") {
-                this.overlay.message = "Loading";
-              } else {
+              if (siteInfo.URL !== "") {
                 clearInterval(interval);
                 this.siteInfo = siteInfo;
                 this.overlay.status = false;
@@ -164,7 +164,7 @@ export default {
             }
           );
         });
-      }, 1000);
+      }, 3000);
 
       CONTENT_LISTENER.sendMessage({
         type: "get.category",
