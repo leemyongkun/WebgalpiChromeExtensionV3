@@ -3,6 +3,13 @@
     <v-row>
       <v-col cols="3" :style="documentHeightStyle" class="overflow-y-auto">
         <v-row>
+          <v-col cols="12">
+            <v-btn small text block outlined>
+              MORE
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col v-if="sites.length === 0">
             <v-card class="mx-auto">
               <v-card-text>
@@ -216,7 +223,8 @@ export default {
     youtubeVideoId: "",
     sourceUrl: "",
     viewMode: "1",
-    currentSite: ""
+    currentSite: "",
+    page: 1
   }),
   created() {
     EventBus.$on("view-mode", viewMode => {
