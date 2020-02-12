@@ -1,9 +1,9 @@
 import { DROP_TABLE_QUERY, CREATE_TABLE_QUERY, DDL } from "./DDL_Query";
+
 let db = openDatabase("HL", "1.0", "DATABASE", 200000);
 
 export default {
   initData: () => {
-    //let insertData = `insert into TBL_AUTHORITY values ('kkuni.bear@gmail.com', '1' , 'n', 11029394)`;
     let TRUNC_OPTIONS = `DELETE FROM TBL_OPTIONS`;
     let INIT_OPTIONS = `INSERT INTO TBL_OPTIONS  VALUES(
                         'kkuni.bear@gmail.com'
@@ -20,9 +20,26 @@ export default {
                         ,'light' --THEME
                     )`;
 
+    let TRUNC_CATEGORY = `DELETE FROM TBL_CATEGORY`;
+    let INIT_CATEGORY = `INSERT INTO TBL_CATEGORY(
+                                    IDX,
+                                     EMAIL,
+                                     NAME,
+                                     PARENT,
+                                     DEPTH,
+                                     SORT,
+                                     TYPE,
+                                     DATE_CREATE
+                            ) VALUES  (1,'', 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM', null),
+                                          (5,'', 'ALL CATEGORY', 1, 1, 1, 'SYSTEM', null),
+                                          (6,'', 'NO CATEGORY', 1, 1, 2, 'SYSTEM', null)
+                                          `;
+
     db.transaction(function(tx) {
       tx.executeSql(TRUNC_OPTIONS, []);
       tx.executeSql(INIT_OPTIONS, []);
+      tx.executeSql(TRUNC_CATEGORY, []);
+      tx.executeSql(INIT_CATEGORY, []);
     });
   },
   selectData: query => {

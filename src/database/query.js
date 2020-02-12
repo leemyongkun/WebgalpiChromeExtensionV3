@@ -155,6 +155,7 @@ export default {
                    name,
                    parent,
                    depth,
+                   type,
                    mouseOver,
                    dropOver,
                    class,
@@ -164,6 +165,7 @@ export default {
                             NAME    as name,
                             PARENT  as parent,
                             DEPTH   as depth,
+                            TYPE    as type,
                             false   as mouseOver,
                             false   as dropOver,
                             ''      as class,
@@ -296,8 +298,9 @@ export default {
                                      PARENT,
                                      DEPTH,
                                      SORT,
-                                     DATE_CREATE) 
-                VALUES (?,?,?,?,?,?) 
+                                     DATE_CREATE,
+                                     TYPE) 
+                VALUES (?,?,?,?,?,?,'CUSTOM') 
 		`;
   }
 };

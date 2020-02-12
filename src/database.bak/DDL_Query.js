@@ -86,6 +86,7 @@ let CREATE_TABLE_QUERY = {
           )`;
   },
   TBL_CATEGORY: () => {
+    /*
     (0, "kkuni.bear@gmail.com", "기술", null, 0, 0, null),
       (3, "kkuni.bear@gmail.com", "자바", 0, 1, 1, null),
       (4, "kkuni.bear@gmail.com", "크롬", 0, 1, 2, null),
@@ -98,6 +99,7 @@ let CREATE_TABLE_QUERY = {
       (9, "kkuni.bear@gmail.com", "사진", 2, 1, 1, null),
       (10, "kkuni.bear@gmail.com", "영화", 2, 1, 2, null),
       (11, "kkuni.bear@gmail.com", "도서", 2, 1, 3, null);
+*/
 
     return `
 CREATE TABLE IF NOT EXISTS TBL_CATEGORY (

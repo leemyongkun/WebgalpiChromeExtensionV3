@@ -107,6 +107,7 @@ let CREATE_TABLE_QUERY = {
                PARENT INTEGER,
                DEPTH INTEGER,
                SORT INTEGER,
+               TYPE TEXT,
                DATE_CREATE NUMERIC
                )`;
   },

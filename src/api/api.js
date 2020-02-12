@@ -76,6 +76,7 @@ let Api = {
   },
   getCategory: params => {
     let query = Query.getCategory("all");
+    console.log("getCategoryQuery ", query);
     return select(query, params);
   },
   getAllItems: parameter => {
