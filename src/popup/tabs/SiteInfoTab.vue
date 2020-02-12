@@ -170,6 +170,7 @@ export default {
         type: "get.category",
         data: null
       }).then(category => {
+        console.log("category ", category);
         this.category = category.filter(item => {
           return item.parent !== 0;
         });
