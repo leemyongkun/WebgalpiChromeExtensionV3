@@ -263,8 +263,7 @@ export default {
 
   methods: {
     getWindowHeight(event) {
-      this.documentHeightStyle =
-        "max-height: " + (document.documentElement.clientHeight - 84) + "px;";
+      "max-height: " + (document.documentElement.clientHeight - 84) + "px;";
       this.reviewAreaHeightStyle =
         "max-height: " +
         (document.documentElement.clientHeight - 84 - 200) +

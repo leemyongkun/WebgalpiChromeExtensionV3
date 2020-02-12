@@ -61,24 +61,6 @@
                     CATEGORY
                   </v-btn>
                   <v-list>
-                    <v-list-item-group>
-                      <v-list-item
-                        @click="selectCategory(0, $event)"
-                        active-class="border"
-                        ref="allCategory"
-                      >
-                        <v-list-item-content>
-                          <v-list-item-title
-                            class="text-center"
-                            v-text="`ALL CONTENTS`"
-                          ></v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list-item-group>
-                    <br />
-                    <p v-if="category.length === 0" class="text-center">
-                      EMPTY CATEGORY
-                    </p>
                     <div v-for="(item, i) in category" :key="i">
                       <v-list-group
                         sub-group
