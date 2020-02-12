@@ -16,12 +16,12 @@
         >WEB&nbsp;<span class="font-weight-light">Galpi</span>
       </span>
       <!--<v-text-field
-                                                  solo-inverted
-                                                  flat
-                                                  hide-details
-                                                  label="Search"
-                                                  prepend-inner-icon="mdi-feature-search-outline"
-                                          />-->
+                                                        solo-inverted
+                                                        flat
+                                                        hide-details
+                                                        label="Search"
+                                                        prepend-inner-icon="mdi-feature-search-outline"
+                                                />-->
       <v-spacer />
       <v-btn text @click=""
         ><v-icon>mdi-information-outline</v-icon>&nbsp;README
@@ -61,28 +61,29 @@
                     CATEGORY
                   </v-btn>
                   <v-list>
-                    <v-list-item-group>
-                      <v-list-item
-                        @click="selectCategory(0, $event)"
-                        active-class="border"
-                        ref="allCategory"
-                      >
-                        <v-list-item-content>
-                          <v-list-item-title
-                            class="text-center"
-                            v-text="`ALL CONTENTS`"
-                          ></v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list-item-group>
-                    <br />
-                    <p v-if="category.length === 0" class="text-center">
-                      EMPTY CATEGORY
-                    </p>
+                    <!-- <v-list-item-group>
+                                           <v-list-item
+                                             @click="selectCategory(0, $event)"
+                                             active-class="border"
+                                             ref="allCategory"
+                                           >
+                                             <v-list-item-content>
+                                               <v-list-item-title
+                                                 class="text-center"
+                                                 v-text="`ALL CONTENTS`"
+                                               ></v-list-item-title>
+                                             </v-list-item-content>
+                                           </v-list-item>
+                                         </v-list-item-group>
+                                         <br />-->
+                    <!--  <p v-if="category.length === 0" class="text-center">
+                                            EMPTY CATEGORY
+                                          </p>-->
                     <div v-for="(item, i) in category" :key="i">
                       <v-list-group
                         sub-group
                         no-action
+                        value="true"
                         class="custom_style"
                         @mouseover="item.mouseOver = true"
                         @mouseleave="item.mouseOver = false"
@@ -270,21 +271,19 @@ export default {
       CONTENT_LISTENER.sendMessage({
         type: "get.category",
         data: null
-      })
-        .then(category => {
-          this.category = this.generateTree(category, 0);
-        })
-        .then(() => {
-          // 첫번째꺼 클릭
-          //this.$refs.allCategory.click();
-        });
+      }).then(category => {
+        this.category = this.generateTree(category, 0);
+      });
 
+      //미아 카테고리(Parent가 없는 자식 Category)
       CONTENT_LISTENER.sendMessage({
         type: "get.lost.category",
         data: null
       }).then(lostCategory => {
         this.lostCategory = lostCategory;
       });
+
+      //[todo] SYSTEM Category 의 갯수를 가져온다.
     },
     editCategory(item, event, checkRoot, statusFlag) {
       event.preventDefault();
