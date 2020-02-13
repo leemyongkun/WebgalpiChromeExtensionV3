@@ -112,8 +112,12 @@
 
       <v-col cols="9" :style="documentHeightStyle" v-if="currentSite !== ''">
         <v-tabs right>
-          <v-tab v-show="viewMode === '1'">PREVIEW</v-tab>
-          <v-tab v-show="viewMode === '1'">HIGHLIGHTS</v-tab>
+          <v-tab v-show="viewMode === '1'"
+            ><v-icon>mdi-content-paste</v-icon></v-tab
+          >
+          <v-tab v-show="viewMode === '1'"
+            ><v-icon>mdi-grease-pencil</v-icon></v-tab
+          >
 
           <v-tab-item v-for="n in 2" :key="n">
             <v-container fluid v-if="viewMode === '1'" style="padding-top: 0px">

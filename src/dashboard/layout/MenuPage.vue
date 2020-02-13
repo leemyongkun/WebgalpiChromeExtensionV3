@@ -16,21 +16,6 @@
           <v-col style="padding-bottom:0px; padding-top:0px;">
             <v-expansion-panels focusable multiple v-model="panel">
               <v-expansion-panel>
-                <v-expansion-panel-header>FILTER</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div>
-                    <v-text-field
-                      solo-inverted
-                      flat
-                      hide-details
-                      label="Search"
-                      prepend-inner-icon="mdi-feature-search-outline"
-                    />
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-
-              <v-expansion-panel>
                 <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-btn
@@ -44,23 +29,23 @@
                   </v-btn>
                   <v-list>
                     <!-- <v-list-item-group>
-                                           <v-list-item
-                                             @click="selectCategory(0, $event)"
-                                             active-class="border"
-                                             ref="allCategory"
-                                           >
-                                             <v-list-item-content>
-                                               <v-list-item-title
-                                                 class="text-center"
-                                                 v-text="`ALL CONTENTS`"
-                                               ></v-list-item-title>
-                                             </v-list-item-content>
-                                           </v-list-item>
-                                         </v-list-item-group>
-                                         <br />-->
+                                                               <v-list-item
+                                                                 @click="selectCategory(0, $event)"
+                                                                 active-class="border"
+                                                                 ref="allCategory"
+                                                               >
+                                                                 <v-list-item-content>
+                                                                   <v-list-item-title
+                                                                     class="text-center"
+                                                                     v-text="`ALL CONTENTS`"
+                                                                   ></v-list-item-title>
+                                                                 </v-list-item-content>
+                                                               </v-list-item>
+                                                             </v-list-item-group>
+                                                             <br />-->
                     <!--  <p v-if="category.length === 0" class="text-center">
-                                            EMPTY CATEGORY
-                                          </p>-->
+                                                                EMPTY CATEGORY
+                                                              </p>-->
                     <div v-for="(item, i) in category" :key="i">
                       <v-list-group
                         sub-group
@@ -182,6 +167,12 @@
                   </v-list>
                 </v-expansion-panel-content>
               </v-expansion-panel>
+              <v-expansion-panel>
+                <v-expansion-panel-header>BOOKMARK</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  준비중
+                </v-expansion-panel-content>
+              </v-expansion-panel>
             </v-expansion-panels>
           </v-col>
         </v-row>
@@ -222,7 +213,7 @@ export default {
     SettingsManagerDialog
   },
   data: () => ({
-    panel: [1], //accordian 의 오픈 index
+    panel: [0], //accordian 의 오픈 index
     snackbarTimeout: 3000, //스낵바 유지시간
     snackbarMessage: "", //스낵바 기본 메시지
     snackbar: false, //스낵바 open /close 여부

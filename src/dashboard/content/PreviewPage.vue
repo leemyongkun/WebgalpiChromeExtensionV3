@@ -10,13 +10,22 @@
           style="width:100%; padding-left: 0px; padding-right: 10px;"
         >
           <span class="grey--text">
-            <v-icon color="green" size="16px">mdi-timetable</v-icon>&nbsp;{{
+            <v-icon size="16px">mdi-timetable</v-icon>&nbsp;&nbsp;{{
               convertDate
             }}<br />
-            <img :src="`chrome://favicon/` + currentSite.URL" />&nbsp;{{
-              currentSite.URL
+            <img :src="`chrome://favicon/` + currentSite.URL" />&nbsp;&nbsp;{{
+              getLocation(currentSite.URL)
             }}
           </span>
+          <v-btn
+            text
+            outlined
+            x-small
+            color="green"
+            @click="copyUrl(currentSite.URL)"
+          >
+            URL COPY
+          </v-btn>
           <v-spacer></v-spacer>
           <template v-slot:actions>
             <SiteFunction
@@ -46,23 +55,25 @@
           NO CONTENTS
         </v-col>
         <!--  <iframe
-                          type="text/html"
-                          width="100%"
-                          height="603px"
-                          src="https://blog.naver.com/rachel0067/221780986497"
-                          frameborder="0"
-                  ></iframe>-->
+                                  type="text/html"
+                                  width="100%"
+                                  height="603px"
+                                  src="https://blog.naver.com/rachel0067/221780986497"
+                                  frameborder="0"
+                          ></iframe>-->
       </v-row>
     </v-card-text>
+    <SnackBar ref="snackbar"></SnackBar>
   </v-card>
 </template>
 <script>
 import SiteFunction from "./function/SiteFunction";
 import Common from "../../common/common";
+import SnackBar from "../snack/SnackBar";
 
 //https://www.npmjs.com/package/vue-youtube-embed
 export default {
-  components: { SiteFunction },
+  components: { SnackBar, SiteFunction },
   props: [
     "youtubeVideoId",
     "currentSite",
@@ -88,10 +99,20 @@ export default {
   mounted() {},
   methods: {
     print() {},
+    copyUrl(url) {
+      let t = document.createElement("textarea");
+      document.body.appendChild(t);
+      t.value = url;
+      t.select();
+      document.execCommand("copy");
+      document.body.removeChild(t);
+
+      this.$refs.snackbar.open("URL이 복사되었습니다.");
+    },
     getLocation(url) {
       let l = document.createElement("a");
       l.href = url;
-      console.log(">>> ", l.hostname, l.protocol);
+      return l.hostname;
     }
   }
 };
