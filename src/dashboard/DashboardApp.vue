@@ -52,14 +52,14 @@ export default {
      * - 없을경우 DB에서 조회 google login
      *
      */
-    /*CONTENT_LISTENER.sendMessage({
+    CONTENT_LISTENER.sendMessage({
       type: "get.members",
       data: null
     }).then(members => {
       if (members.length === 0) {
         this.$refs.signDialog.open();
       }
-    });*/
+    });
   }
 };
 </script>

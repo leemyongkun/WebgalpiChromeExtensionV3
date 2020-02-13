@@ -41,7 +41,10 @@
         </v-col>
       </v-row>
       <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
-        <div v-html="previewContent"></div>
+        <div v-html="previewContent" v-if="previewStatus === 'Y'"></div>
+        <v-col cols="12" align="center" v-if="previewStatus === 'N'">
+          NO CONTENTS
+        </v-col>
         <!--  <iframe
                           type="text/html"
                           width="100%"

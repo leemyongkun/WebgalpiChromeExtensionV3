@@ -2,13 +2,6 @@
   <div>
     <v-row>
       <v-col cols="3" :style="documentHeightStyle" class="overflow-y-auto">
-        <v-row>
-          <v-col cols="12">
-            <v-btn small text block outlined>
-              MORE
-            </v-btn>
-          </v-col>
-        </v-row>
         <v-row :style="listAreaHeightStyle" class="overflow-y-auto">
           <v-col v-if="sites.length === 0">
             <v-card class="mx-auto">
@@ -59,22 +52,22 @@
                           ref="siteList"
                         >
                           <!--<v-expand-transition>
-                                                                                                            <div
-                                                                                                                    v-if="hover"
-                                                                                                                    class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
-                                                                                                                    style="height: 40%;z-index: 9000;"
-                                                                                                            >
-                                                                                                                <v-spacer/>
-                                                                                                                &lt;!&ndash;<v-btn
-                                                                                                                        small
-                                                                                                                        @click="goSourceSite(item, $event)"
-                                                                                                                        color="orange"
-                                                                                                                >
-                                                                                                                    <v-icon>mdi-home-outline</v-icon>
-                                                                                                                </v-btn>&ndash;&gt;
-                                                                                                                <v-checkbox style="background-color: orangered">j</v-checkbox>
-                                                                                                            </div>
-                                                                                                        </v-expand-transition>-->
+                                                                                                                                      <div
+                                                                                                                                              v-if="hover"
+                                                                                                                                              class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
+                                                                                                                                              style="height: 40%;z-index: 9000;"
+                                                                                                                                      >
+                                                                                                                                          <v-spacer/>
+                                                                                                                                          &lt;!&ndash;<v-btn
+                                                                                                                                                  small
+                                                                                                                                                  @click="goSourceSite(item, $event)"
+                                                                                                                                                  color="orange"
+                                                                                                                                          >
+                                                                                                                                              <v-icon>mdi-home-outline</v-icon>
+                                                                                                                                          </v-btn>&ndash;&gt;
+                                                                                                                                          <v-checkbox style="background-color: orangered">j</v-checkbox>
+                                                                                                                                      </div>
+                                                                                                                                  </v-expand-transition>-->
 
                           <v-list-item three-line>
                             <v-list-item-content>
@@ -199,6 +192,13 @@
         </v-tabs>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="3" class="pb-0 pt-2">
+        <v-btn small text block outlined>
+          MORE
+        </v-btn>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>
@@ -275,11 +275,11 @@ export default {
       //"max-height: " + (document.documentElement.clientHeight - 84) + "px;";
 
       this.reviewAreaHeightStyle =
-        "max-height: " + (document.documentElement.clientHeight - 325) + "px;";
+        "max-height: " + (document.documentElement.clientHeight - 315) + "px;";
       this.listAreaHeightStyle =
-        "max-height: " + (document.documentElement.clientHeight - 100) + "px;";
+        "max-height: " + (document.documentElement.clientHeight - 130) + "px;";
       this.documentHeightStyle =
-        "max-height: " + (document.documentElement.clientHeight - 100) + "px;";
+        "max-height: " + (document.documentElement.clientHeight - 130) + "px;";
     },
     hideSites(siteUrlKey) {
       let i = this.sites.map(item => item.URL_KEY).indexOf(siteUrlKey);
@@ -357,8 +357,8 @@ export default {
       this.youtubeVideoId = site.EMBEDURL;
       //변환할 수없는 사이트 일경우
       if (previewDoc === null) {
-        this.previewContent = "";
-        this.previewTitle = "Can't Create Preview";
+        this.previewContent = "PREVIEW 정보가 없습니다.";
+        this.previewTitle = site.TITLE;
         this.previewStatus = "N";
       } else {
         this.previewContent = previewDoc.content;
@@ -373,7 +373,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                      justify-content: center;*/
+                                                                                                                                            justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
