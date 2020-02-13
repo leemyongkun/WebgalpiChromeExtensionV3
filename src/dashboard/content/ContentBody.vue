@@ -9,7 +9,7 @@
             </v-btn>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row :style="listAreaHeightStyle" class="overflow-y-auto">
           <v-col v-if="sites.length === 0">
             <v-card class="mx-auto">
               <v-card-text>
@@ -59,22 +59,22 @@
                           ref="siteList"
                         >
                           <!--<v-expand-transition>
-                                                                                  <div
-                                                                                          v-if="hover"
-                                                                                          class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
-                                                                                          style="height: 40%;z-index: 9000;"
-                                                                                  >
-                                                                                      <v-spacer/>
-                                                                                      &lt;!&ndash;<v-btn
-                                                                                              small
-                                                                                              @click="goSourceSite(item, $event)"
-                                                                                              color="orange"
-                                                                                      >
-                                                                                          <v-icon>mdi-home-outline</v-icon>
-                                                                                      </v-btn>&ndash;&gt;
-                                                                                      <v-checkbox style="background-color: orangered">j</v-checkbox>
-                                                                                  </div>
-                                                                              </v-expand-transition>-->
+                                                                                                            <div
+                                                                                                                    v-if="hover"
+                                                                                                                    class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
+                                                                                                                    style="height: 40%;z-index: 9000;"
+                                                                                                            >
+                                                                                                                <v-spacer/>
+                                                                                                                &lt;!&ndash;<v-btn
+                                                                                                                        small
+                                                                                                                        @click="goSourceSite(item, $event)"
+                                                                                                                        color="orange"
+                                                                                                                >
+                                                                                                                    <v-icon>mdi-home-outline</v-icon>
+                                                                                                                </v-btn>&ndash;&gt;
+                                                                                                                <v-checkbox style="background-color: orangered">j</v-checkbox>
+                                                                                                            </div>
+                                                                                                        </v-expand-transition>-->
 
                           <v-list-item three-line>
                             <v-list-item-content>
@@ -213,8 +213,9 @@ import EventBus from "../event-bus";
 export default {
   components: { HighlightsPage, PreviewPage },
   data: () => ({
-    documentHeightStyle: "max-height: 800px;",
-    reviewAreaHeightStyle: "max-height: 600px;",
+    documentHeightStyle: "max-height: 660px;",
+    reviewAreaHeightStyle: "max-height: 660px;",
+    listAreaHeightStyle: "max-height: 400px;",
     sites: [],
     highlights: [],
     previewContent: null,
@@ -271,11 +272,14 @@ export default {
 
   methods: {
     getWindowHeight(event) {
-      "max-height: " + (document.documentElement.clientHeight - 84) + "px;";
+      //"max-height: " + (document.documentElement.clientHeight - 84) + "px;";
+
       this.reviewAreaHeightStyle =
-        "max-height: " +
-        (document.documentElement.clientHeight - 84 - 200) +
-        "px;";
+        "max-height: " + (document.documentElement.clientHeight - 325) + "px;";
+      this.listAreaHeightStyle =
+        "max-height: " + (document.documentElement.clientHeight - 100) + "px;";
+      this.documentHeightStyle =
+        "max-height: " + (document.documentElement.clientHeight - 100) + "px;";
     },
     hideSites(siteUrlKey) {
       let i = this.sites.map(item => item.URL_KEY).indexOf(siteUrlKey);
@@ -369,7 +373,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                justify-content: center;*/
+                                                                                                                                      justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
