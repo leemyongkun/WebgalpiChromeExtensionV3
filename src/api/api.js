@@ -191,6 +191,12 @@ let Api = {
 
     console.log("param ", param);
     return update(Query.updateCategoryItem(), param);
+  },
+  postMember: param => {
+    return insert(Query.insertMember(), param);
+  },
+  getMember: () => {
+    return select(Query.selectMembers(), null);
   }
 };
 

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import "vuetify/dist/vuetify.min.css";
 import Vuetify, {
+  VForm,
   VPagination,
   VBottomNavigation,
   VBanner,
@@ -152,6 +153,7 @@ Vue.component("VProgressCircular", VProgressCircular);
 Vue.component("VBanner", VBanner);
 Vue.component("VBottomNavigation", VBottomNavigation);
 Vue.component("VPagination", VPagination);
+Vue.component("VForm", VForm);
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {
   theme: { dark: false },

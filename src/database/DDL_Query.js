@@ -127,8 +127,7 @@ let CREATE_TABLE_QUERY = {
                          NAME TEXT,
                          PASSWORD TEXT,
                          IMAGE_URL TEXT,
-                         SIGNUP_FLAG TEXT,
-                         AUTH_MAIL TEXT,
+                         IS_USE TEXT,
                          DATE_CREATE NUMERIC
                          )`;
   },

@@ -5,6 +5,28 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
     case "get.backup.data":
       API.getBackupData();
       break;
+
+    case "insert.member":
+      let data = msg.data;
+      let memberParameter = [
+        data.email,
+        "", //name
+        data.password, //password
+        data.picture, //image
+        "Y",
+        new Date().getTime()
+      ];
+      API.postMember(memberParameter).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "get.members":
+      API.getMember().then(members => {
+        sendResponse(members);
+      });
+      return true;
+      break;
     case "create.highlight":
       if (msg.data.SITE_CHECK === "N") {
         API.postSite(msg.data);

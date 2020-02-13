@@ -1,4 +1,32 @@
 export default {
+  selectMembers: () => {
+    return `
+             SELECT     
+                EMAIL,
+                NAME,
+                IMAGE_URL,
+                IS_USE
+            FROM TBL_MEMBER
+        `;
+  },
+  insertMember: () => {
+    return `INSERT INTO TBL_MEMBER
+                (
+                    EMAIL,
+                    NAME,
+                    PASSWORD,
+                    IMAGE_URL,
+                    IS_USE,
+                    DATE_CREATE
+                )VALUES(
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?
+                )`;
+  },
   insertSite: () => {
     return `INSERT INTO TBL_SITES
 		(
