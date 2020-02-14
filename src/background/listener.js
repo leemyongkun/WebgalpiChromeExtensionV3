@@ -111,6 +111,12 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       });
       return true;
       break;
+    case "get.system.category": //dashboard
+      API.getSystemCategory(null).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
     case "get.lost.category": //dashboard
       API.getLostCategory(null).then(res => {
         sendResponse(res);

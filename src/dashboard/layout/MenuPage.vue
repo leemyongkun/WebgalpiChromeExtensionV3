@@ -28,25 +28,7 @@
                     CATEGORY
                   </v-btn>
                   <v-list>
-                    <!-- <v-list-item-group>
-                                                               <v-list-item
-                                                                 @click="selectCategory(0, $event)"
-                                                                 active-class="border"
-                                                                 ref="allCategory"
-                                                               >
-                                                                 <v-list-item-content>
-                                                                   <v-list-item-title
-                                                                     class="text-center"
-                                                                     v-text="`ALL CONTENTS`"
-                                                                   ></v-list-item-title>
-                                                                 </v-list-item-content>
-                                                               </v-list-item>
-                                                             </v-list-item-group>
-                                                             <br />-->
-                    <!--  <p v-if="category.length === 0" class="text-center">
-                                                                EMPTY CATEGORY
-                                                              </p>-->
-                    <div v-for="(item, i) in category" :key="i">
+                    <div v-for="(item, i) in systemCategory" :key="i">
                       <v-list-group
                         sub-group
                         no-action
@@ -77,54 +59,128 @@
                           v-for="(subItem, index) in item.children"
                           :key="subItem.name"
                         >
-                          <drop
-                            @drop="dropEvent"
-                            @dragover="subItem.dropOver = true"
-                            @dragleave="subItem.dropOver = false"
+                          <!-- child menu -->
+                          <v-list-item
+                            style="padding-right: 3px;padding-left: 30px;"
+                            :style="subItem.dropOver ? overColor : ''"
+                            @click="selectCategory(subItem, $event)"
+                            @mouseover="subItem.mouseOver = true"
+                            @mouseleave="subItem.mouseOver = false"
+                            :id="subItem.id"
+                            :class="subItem.class"
                           >
-                            <!-- child menu -->
-                            <v-list-item
-                              style="padding-right: 3px;padding-left: 30px;"
-                              :style="subItem.dropOver ? overColor : ''"
-                              @click="selectCategory(subItem, $event)"
-                              @mouseover="subItem.mouseOver = true"
-                              @mouseleave="subItem.mouseOver = false"
-                              :id="subItem.id"
-                              :class="subItem.class"
-                            >
-                              <v-list-item-icon style="margin-right: 2px;">
-                                <v-icon size="15px" color="green" left
-                                  >mdi-folder-outline
-                                </v-icon>
-                              </v-list-item-icon>
+                            <v-list-item-icon style="margin-right: 2px;">
+                              <v-icon size="15px" color="green" left
+                                >mdi-folder-outline
+                              </v-icon>
+                            </v-list-item-icon>
 
-                              <v-list-item-content :id="subItem.id">
-                                <v-list-item-title
-                                  v-html="
-                                    subItem.name +
-                                      ` <span class='red--text text--lighten-2'> ` +
-                                      subItem.cnt +
-                                      `</span>`
-                                  "
-                                  :id="subItem.id"
-                                ></v-list-item-title>
-                              </v-list-item-content>
-
-                              <v-list-item-icon
-                                @click="
-                                  editCategory(subItem, $event, false, 'update')
+                            <v-list-item-content :id="subItem.id">
+                              <v-list-item-title
+                                v-html="
+                                  subItem.name +
+                                    ` <span class='red--text text--lighten-2'> ` +
+                                    subItem.cnt +
+                                    `</span>`
                                 "
-                                v-show="subItem.mouseOver"
-                              >
-                                <v-icon dense size="18px" right
-                                  >mdi-settings
-                                </v-icon>
-                              </v-list-item-icon>
-                            </v-list-item>
-                          </drop>
+                                :id="subItem.id"
+                              ></v-list-item-title>
+                            </v-list-item-content>
+
+                            <v-list-item-icon
+                              @click="
+                                editCategory(subItem, $event, false, 'update')
+                              "
+                              v-show="subItem.mouseOver"
+                            >
+                              <v-icon dense size="18px" right
+                                >mdi-settings
+                              </v-icon>
+                            </v-list-item-icon>
+                          </v-list-item>
                         </div>
                       </v-list-group>
                     </div>
+
+                    <!--<div v-for="(item, i) in category" :key="i">
+                                            <v-list-group
+                                                    sub-group
+                                                    no-action
+                                                    value="true"
+                                                    class="custom_style"
+                                                    @mouseover="item.mouseOver = true"
+                                                    @mouseleave="item.mouseOver = false"
+                                            >
+                                                &lt;!&ndash; parent menu &ndash;&gt;
+                                                <template v-slot:activator>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title
+                                                                v-text="item.name"
+                                                        ></v-list-item-title>
+                                                    </v-list-item-content>
+
+                                                    <v-list-item-icon
+                                                            @click="editCategory(item, $event, true, 'update')"
+                                                            v-show="item.mouseOver"
+                                                    >
+                                                        <v-icon dense size="18px" right
+                                                        >mdi-settings
+                                                        </v-icon>
+                                                    </v-list-item-icon>
+                                                </template>
+
+                                                <div
+                                                        v-for="(subItem, index) in item.children"
+                                                        :key="subItem.name"
+                                                >
+                                                    <drop
+                                                            @drop="dropEvent"
+                                                            @dragover="subItem.dropOver = true"
+                                                            @dragleave="subItem.dropOver = false"
+                                                    >
+                                                        &lt;!&ndash; child menu &ndash;&gt;
+                                                        <v-list-item
+                                                                style="padding-right: 3px;padding-left: 30px;"
+                                                                :style="subItem.dropOver ? overColor : ''"
+                                                                @click="selectCategory(subItem, $event)"
+                                                                @mouseover="subItem.mouseOver = true"
+                                                                @mouseleave="subItem.mouseOver = false"
+                                                                :id="subItem.id"
+                                                                :class="subItem.class"
+                                                        >
+                                                            <v-list-item-icon style="margin-right: 2px;">
+                                                                <v-icon size="15px" color="green" left
+                                                                >mdi-folder-outline
+                                                                </v-icon>
+                                                            </v-list-item-icon>
+
+                                                            <v-list-item-content :id="subItem.id">
+                                                                <v-list-item-title
+                                                                        v-html="
+                                                      subItem.name +
+                                                        ` <span class='red&#45;&#45;text text&#45;&#45;lighten-2'> ` +
+                                                        subItem.cnt +
+                                                        `</span>`
+                                                    "
+                                                                        :id="subItem.id"
+                                                                ></v-list-item-title>
+                                                            </v-list-item-content>
+
+                                                            <v-list-item-icon
+                                                                    @click="
+                                                    editCategory(subItem, $event, false, 'update')
+                                                  "
+                                                                    v-show="subItem.mouseOver"
+                                                            >
+                                                                <v-icon dense size="18px" right
+                                                                >mdi-settings
+                                                                </v-icon>
+                                                            </v-list-item-icon>
+                                                        </v-list-item>
+                                                    </drop>
+                                                </div>
+                                            </v-list-group>
+                                        </div>-->
                   </v-list>
 
                   <!-- 미아가 된 카테고리 -->
@@ -223,6 +279,7 @@ export default {
     drawer: true, //왼쪽 메뉴 open / close 여부
     category: [], //Category
     lostCategory: [],
+    systemCategory: [],
     icon: {
       on: "mdi-bookmark",
       off: "mdi-bookmark-outline"
@@ -241,6 +298,14 @@ export default {
   computed: {},
   methods: {
     getCategory() {
+      CONTENT_LISTENER.sendMessage({
+        type: "get.system.category",
+        data: null
+      }).then(systemCategory => {
+        console.log("systemCategory ", systemCategory);
+        this.systemCategory = this.generateTree(systemCategory, 0);
+      });
+
       CONTENT_LISTENER.sendMessage({
         type: "get.category",
         data: null

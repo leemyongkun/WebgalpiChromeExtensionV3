@@ -70,6 +70,11 @@ let Api = {
     return select(query, params);
   },
 
+  getSystemCategory: params => {
+    let query = Query.getCategory("system");
+    console.log("getSystemCategory query ", query);
+    return select(query, params);
+  },
   getLostCategory: params => {
     let query = Query.getCategory("lost");
     return select(query, params);

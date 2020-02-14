@@ -174,10 +174,19 @@ export default {
   },
 
   getCategory: flag => {
-    let lostCondition = "WHERE PARENT = -1";
+    let lostCondition = "";
+    let systemCondition = " AND TYPE='CUSTOM'";
     if (flag === "all") {
       lostCondition = "WHERE PARENT != -1";
     }
+    if (flag === "lost") {
+      lostCondition = "WHERE PARENT = -1";
+    }
+    if (flag === "system") {
+      systemCondition = " WHERE TYPE='SYSTEM'";
+    }
+
+    console.log("systemCondition ", flag, systemCondition);
     return (
       `SELECT id,
                    name,
@@ -207,6 +216,9 @@ export default {
                                         ON A.IDX = B.CATEGORY_IDX
                                        ` +
       lostCondition +
+      `
+                ` +
+      systemCondition +
       `
                  )
             GROUP BY id, name, parent, depth, mouseOver, dropOver`
