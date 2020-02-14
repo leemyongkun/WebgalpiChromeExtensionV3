@@ -27,7 +27,9 @@
                     <v-icon left>mdi-folder-plus</v-icon>
                     CATEGORY
                   </v-btn>
+
                   <v-list>
+                    <!-- SYSTEM CATEGORY : START -->
                     <div v-for="(item, i) in systemCategory" :key="i">
                       <v-list-group
                         sub-group
@@ -101,6 +103,7 @@
                         </div>
                       </v-list-group>
                     </div>
+                    <!-- SYSTEM CATEGORY : END -->
 
                     <!--<div v-for="(item, i) in category" :key="i">
                                             <v-list-group

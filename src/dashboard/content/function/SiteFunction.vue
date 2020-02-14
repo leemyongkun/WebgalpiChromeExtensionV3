@@ -3,9 +3,9 @@
     <v-btn @click="goSourceSite" icon>
       <v-icon>mdi-home-outline</v-icon>
     </v-btn>
-    <v-btn @click="print" icon v-if="previewStatus === 'Y'">
+    <!--<v-btn @click="print" icon v-if="previewStatus === 'Y'">
       <v-icon>mdi-printer</v-icon>
-    </v-btn>
+    </v-btn>-->
     <v-btn icon v-if="previewStatus === 'Y'" @click="shareFacebook">
       <v-icon>mdi-facebook-box</v-icon>
     </v-btn>

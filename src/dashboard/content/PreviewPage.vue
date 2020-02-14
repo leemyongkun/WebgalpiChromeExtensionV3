@@ -37,7 +37,7 @@
         </v-banner>
       </v-row>
 
-      <v-row v-if="youtubeVideoId !== ''">
+      <!-- <v-row v-if="youtubeVideoId !== ''">
         <v-col cols="12">
           <iframe
             id="ytplayer"
@@ -48,8 +48,18 @@
             frameborder="0"
           ></iframe>
         </v-col>
-      </v-row>
+      </v-row>-->
       <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
+        <v-col cols="12" v-if="youtubeVideoId !== ''">
+          <iframe
+            type="text/html"
+            width="640"
+            height="360"
+            :src="youtubeVideoId + '?autoplay=0'"
+            frameborder="0"
+          ></iframe>
+        </v-col>
+
         <div v-html="previewContent" v-if="previewStatus === 'Y'"></div>
         <v-col cols="12" align="center" v-if="previewStatus === 'N'">
           NO CONTENTS
