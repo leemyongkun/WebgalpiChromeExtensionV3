@@ -52,22 +52,22 @@
                           ref="siteList"
                         >
                           <!--<v-expand-transition>
-                                                                                                                                      <div
-                                                                                                                                              v-if="hover"
-                                                                                                                                              class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
-                                                                                                                                              style="height: 40%;z-index: 9000;"
-                                                                                                                                      >
-                                                                                                                                          <v-spacer/>
-                                                                                                                                          &lt;!&ndash;<v-btn
-                                                                                                                                                  small
-                                                                                                                                                  @click="goSourceSite(item, $event)"
-                                                                                                                                                  color="orange"
-                                                                                                                                          >
-                                                                                                                                              <v-icon>mdi-home-outline</v-icon>
-                                                                                                                                          </v-btn>&ndash;&gt;
-                                                                                                                                          <v-checkbox style="background-color: orangered">j</v-checkbox>
-                                                                                                                                      </div>
-                                                                                                                                  </v-expand-transition>-->
+                                                                                                                                                                <div
+                                                                                                                                                                        v-if="hover"
+                                                                                                                                                                        class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
+                                                                                                                                                                        style="height: 40%;z-index: 9000;"
+                                                                                                                                                                >
+                                                                                                                                                                    <v-spacer/>
+                                                                                                                                                                    &lt;!&ndash;<v-btn
+                                                                                                                                                                            small
+                                                                                                                                                                            @click="goSourceSite(item, $event)"
+                                                                                                                                                                            color="orange"
+                                                                                                                                                                    >
+                                                                                                                                                                        <v-icon>mdi-home-outline</v-icon>
+                                                                                                                                                                    </v-btn>&ndash;&gt;
+                                                                                                                                                                    <v-checkbox style="background-color: orangered">j</v-checkbox>
+                                                                                                                                                                </div>
+                                                                                                                                                            </v-expand-transition>-->
 
                           <v-list-item three-line>
                             <v-list-item-content>
@@ -112,12 +112,12 @@
 
       <v-col cols="9" :style="documentHeightStyle" v-if="currentSite !== ''">
         <v-tabs right>
-          <v-tab v-show="viewMode === '1'"
-            ><v-icon>mdi-content-paste</v-icon></v-tab
-          >
-          <v-tab v-show="viewMode === '1'"
-            ><v-icon>mdi-grease-pencil</v-icon></v-tab
-          >
+          <v-tab v-show="viewMode === '1'">
+            <v-icon>mdi-content-paste</v-icon>
+          </v-tab>
+          <v-tab v-show="viewMode === '1'">
+            <v-icon>mdi-grease-pencil</v-icon>
+          </v-tab>
 
           <v-tab-item v-for="n in 2" :key="n">
             <v-container fluid v-if="viewMode === '1'" style="padding-top: 0px">
@@ -198,7 +198,7 @@
     </v-row>
     <v-row>
       <v-col cols="3" class="pb-0 pt-2">
-        <v-btn small text block outlined>
+        <v-btn small text block outlined :disabled="moreBtnDisabled">
           MORE
         </v-btn>
       </v-col>
@@ -229,7 +229,8 @@ export default {
     sourceUrl: "",
     viewMode: "1",
     currentSite: "",
-    page: 1
+    page: 1,
+    moreBtnDisabled: false
   }),
   created() {
     EventBus.$on("view-mode", viewMode => {
@@ -253,7 +254,7 @@ export default {
     //카테고리 클릭 시
     EventBus.$on("selectCategoryForSite", categoryInfo => {
       if (categoryInfo === 0) {
-        //전체일
+        //전체
         this.getSites(null);
       } else {
         let param = [categoryInfo.id];
@@ -305,9 +306,11 @@ export default {
               this.$refs.siteList[0].CLASS = "border";
               this.currentSite = this.sites[0];
               console.log("this.currentSite ", this.currentSite);
-            }, 500);
+            }, 100);
+            this.moreBtnDisabled = false;
           } else {
             this.currentSite = "";
+            this.moreBtnDisabled = true;
           }
         });
     },
@@ -377,7 +380,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                            justify-content: center;*/
+                                                                                                                                                  justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

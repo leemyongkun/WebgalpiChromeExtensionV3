@@ -30,6 +30,7 @@
               <v-checkbox
                 v-model="checkRoot"
                 label="ROOT"
+                :disabled="categoryType === 'SYSTEM'"
                 @change="checkRootChange"
                 required
               ></v-checkbox>
@@ -37,9 +38,8 @@
           </v-row>
           <v-row>
             <v-col>
-              <span v-show="checkRoot" style="color: red;"
-                >* PARENT로 지정 시, 컨텐츠들의 카테고리 정보를 모두 잃게
-                됩니다.
+              <span v-show="categoryType === 'SYSTEM'" style="color: red;"
+                >* SYSTEM 카테고리는 카테고리명만 수정 가능합니다.
               </span>
             </v-col>
           </v-row>
@@ -51,7 +51,7 @@
           color="red darken-1"
           text
           @click="deleteCategory"
-          v-if="categoryStatus === 'update'"
+          v-if="categoryStatus === 'update' && categoryType === 'CUSTOM'"
           >DELETE
         </v-btn>
         <v-spacer></v-spacer>
@@ -91,12 +91,15 @@ export default {
     categoryName: "",
     categoryId: "",
     category: [],
-    categoryStatus: ""
+    categoryStatus: "",
+    categoryType: false
   }),
   created() {},
   mounted() {},
   methods: {
     openDialog(categoryInfo, category, checkRoot, statusFlag) {
+      this.categoryType = category[0].type;
+
       this.categoryStatus = statusFlag;
 
       //수정일때 수행
@@ -133,6 +136,11 @@ export default {
 
       //Category가 없을때, ROOT를 강제로 체크한다.
       if (this.category.length === 0) {
+        this.checkRoot = true;
+      }
+
+      //위의 조건들은 categoryType이 CUSTOM일경우이며, SYSTEM일경우, autocomplete와 ROOT 체크박스는 비활성한다.
+      if (this.categoryType === "SYSTEM") {
         this.checkRoot = true;
       }
 
