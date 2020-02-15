@@ -37,6 +37,7 @@
                   <LostCategoryComponent ref="lostCategoryComponent" />
                 </v-expansion-panel-content>
               </v-expansion-panel>
+
               <v-expansion-panel>
                 <v-expansion-panel-header>BOOKMARK</v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -103,14 +104,18 @@ export default {
         this.getReloadCategory();
       });
 
-      EventBus.$on("edit.category", (item, category, checkRoot, statusFlag) => {
-        this.$refs.updateCategoryDialog.openDialog(
-          item,
-          category,
-          checkRoot,
-          statusFlag //update , insert
-        );
-      });
+      EventBus.$on(
+        "edit.category",
+        (item, checkRoot, statusFlag, categoryFlag) => {
+          this.$refs.updateCategoryDialog.openDialog(
+            item,
+            this.$refs.categoryComponent.category,
+            checkRoot,
+            statusFlag, //update , insert
+            categoryFlag //system / custom/ lost
+          );
+        }
+      );
 
       EventBus.$on("select.category", (category, event) => {
         this.selectCategory(category, event);
@@ -130,9 +135,10 @@ export default {
       event.stopPropagation();
       this.$refs.updateCategoryDialog.openDialog(
         item,
-        this.$refs.categoryComponent.category,
+        this.$refs.categoryComponent.category, // 어차필 대상은 이 category 뿐이므로..
         checkRoot,
-        statusFlag //update , insert
+        statusFlag, //update , insert
+        "CUSTOM"
       );
     },
     selectCategory(category, event) {

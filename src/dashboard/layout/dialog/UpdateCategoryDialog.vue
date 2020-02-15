@@ -30,7 +30,7 @@
               <v-checkbox
                 v-model="checkRoot"
                 label="ROOT"
-                :disabled="categoryType === 'SYSTEM'"
+                :disabled="categoryType === 'SYSTEM' || useCategory === false"
                 @change="checkRootChange"
                 required
               ></v-checkbox>
@@ -92,13 +92,17 @@ export default {
     categoryId: "",
     category: [],
     categoryStatus: "",
-    categoryType: false
+    categoryType: "CUSTOM",
+    useCategory: true //category가 없을때 ROOT로 지정하지않았을 경우, 에러발생이므로 이를 강제로 막아준다.
   }),
   created() {},
   mounted() {},
   methods: {
-    openDialog(categoryInfo, category, checkRoot, statusFlag) {
-      this.categoryType = category[0].type;
+    openDialog(categoryInfo, category, checkRoot, statusFlag, categoryFlag) {
+      this.categoryType = categoryFlag;
+      if (category === null || category.length === 0) {
+        this.useCategory = false; //Parent(ROOT)가 없으면 ROOT체크를 해제하지 못하도록 한다.
+      }
 
       this.categoryStatus = statusFlag;
 
@@ -231,7 +235,7 @@ export default {
       this.categoryId = "";
       this.category = [];
       this.categoryStatus = "";
-
+      this.useCategory = true;
       this.dialog = false;
     }
   }

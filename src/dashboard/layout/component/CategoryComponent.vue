@@ -130,13 +130,7 @@ export default {
       event.preventDefault();
       event.stopPropagation();
 
-      EventBus.$emit(
-        "edit.category",
-        item,
-        this.category,
-        checkRoot,
-        statusFlag
-      );
+      EventBus.$emit("edit.category", item, checkRoot, statusFlag, "CUSTOM");
     },
     selectCategory(category, event) {
       EventBus.$emit("select.category", category, event);

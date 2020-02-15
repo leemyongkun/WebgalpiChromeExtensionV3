@@ -21,7 +21,7 @@
         </v-list-item-icon>
 
         <v-list-item-content>
-          <v-list-item-title>{{ lostItem.name }} </v-list-item-title>
+          <v-list-item-title>{{ lostItem.name }}</v-list-item-title>
         </v-list-item-content>
 
         <v-list-item-icon
@@ -38,6 +38,7 @@
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
+
 export default {
   components: {},
   data: () => ({
@@ -62,13 +63,7 @@ export default {
       event.preventDefault();
       event.stopPropagation();
 
-      EventBus.$emit(
-        "edit.category",
-        item,
-        this.lostCategory,
-        checkRoot,
-        statusFlag
-      );
+      EventBus.$emit("edit.category", item, checkRoot, statusFlag, "LOST");
     },
 
     selectCategory(category, event) {

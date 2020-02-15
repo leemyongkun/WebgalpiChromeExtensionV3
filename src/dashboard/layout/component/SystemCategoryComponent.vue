@@ -95,13 +95,7 @@ export default {
       event.preventDefault();
       event.stopPropagation();
 
-      EventBus.$emit(
-        "edit.category",
-        item,
-        this.systemCategory,
-        checkRoot,
-        statusFlag
-      );
+      EventBus.$emit("edit.category", item, checkRoot, statusFlag, "SYSTEM");
     },
     selectCategory(category, event) {
       EventBus.$emit("select.category", category, event);
