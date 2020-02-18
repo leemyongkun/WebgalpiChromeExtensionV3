@@ -56,8 +56,11 @@ export default {
       type: "get.members",
       data: null
     }).then(members => {
+      console.log("members ", members);
       if (members.length === 0) {
         this.$refs.signDialog.open();
+      } else {
+        //todo member중 isUse가 'Y' 인것들.
       }
     });
   }
