@@ -6,13 +6,7 @@
 
     <v-expansion-panel-content>
       <v-row>
-        <v-col
-          cols="12"
-          sm="3"
-          md="3"
-          v-for="(item, idx) in colorValue"
-          :key="idx"
-        >
+        <v-col cols="auto" v-for="(item, idx) in colorValue" :key="idx">
           <v-checkbox
             @change="selectedColor"
             v-model="pickColor"

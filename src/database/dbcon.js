@@ -29,10 +29,11 @@ export default {
                                      DEPTH,
                                      SORT,
                                      TYPE,
+                                     FLAG,
                                      DATE_CREATE
-                            ) VALUES  (1,'', 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM', null),
-                                          (5,'', 'ALL CATEGORY', 1, 1, 1, 'SYSTEM', null),
-                                          (6,'', 'NO CATEGORY', 1, 1, 2, 'SYSTEM', null)
+                            ) VALUES  (1,'', 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM','root', null),
+                                          (5,'', 'ALL CATEGORY', 1, 1, 1, 'SYSTEM','all', null),
+                                          (6,'', 'NO CATEGORY', 1, 1, 2, 'SYSTEM','nocategory', null)
                                           `;
 
     db.transaction(function(tx) {

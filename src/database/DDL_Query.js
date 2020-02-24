@@ -95,6 +95,7 @@ let CREATE_TABLE_QUERY = {
                DEPTH INTEGER,
                SORT INTEGER,
                TYPE TEXT,
+               FLAG TEXT,
                DATE_CREATE NUMERIC
                )`;
   },

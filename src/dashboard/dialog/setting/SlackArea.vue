@@ -6,9 +6,7 @@
     <v-expansion-panel-content>
       <v-row>
         <v-col
-          cols="12"
-          sm="2"
-          md="2"
+          cols="auto"
           v-for="(item, idx) in slackChannels"
           :key="idx"
           style="padding-top: 0px; padding-bottom: 0px;"
@@ -31,7 +29,7 @@
       </v-row>
 
       <v-row>
-        <v-col cols="3">
+        <v-col cols="auto">
           <v-text-field
             label="NAME"
             placeholder="Slack Channel"
@@ -43,7 +41,7 @@
             v-model="slackChannelName"
           ></v-text-field>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="auto">
           <v-text-field
             label="URL"
             placeholder="incoming-webhook URL"
@@ -65,7 +63,7 @@
             </template>
           </v-text-field>
         </v-col>
-        <v-col cols="2">
+        <v-col cols="auto">
           <v-btn v-if="slackStatus === 1" color="primary" @click="saveSlack"
             >SAVE
           </v-btn>

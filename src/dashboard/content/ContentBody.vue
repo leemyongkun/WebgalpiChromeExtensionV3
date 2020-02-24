@@ -257,8 +257,8 @@ export default {
         //전체
         this.getSites(null);
       } else {
-        let param = [categoryInfo.id];
-        this.getSites(param);
+        //let param = [categoryInfo.id];
+        this.getSites(categoryInfo);
       }
     });
 

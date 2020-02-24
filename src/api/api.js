@@ -66,8 +66,17 @@ let Api = {
     return select(Query.getSite(), param);
   },
   getSites: params => {
+    console.log("getSites ", params);
     let query = Query.getSites(params);
-    return select(query, params);
+
+    let parameter = params;
+    if (params !== null && params.flag === null) {
+      //일반 카테고리
+      parameter = [params.id];
+    } else {
+      parameter = null;
+    }
+    return select(query, parameter);
   },
 
   getSystemCategory: params => {

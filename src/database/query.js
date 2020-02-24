@@ -132,10 +132,22 @@ export default {
   },
   getSites: params => {
     let joinCondition = ""; //" WHERE CATEGORY.URL_KEY IS NULL";
-    let limit = ""; //"LIMIT 5";
-    if (params !== null) {
+    if (params !== null && params.flag === null) {
+      //일반 카테고리
       joinCondition = " WHERE REL_CATEGORY.CATEGORY_IDX = ?";
     }
+    if (params !== null && params.flag === "nocategory") {
+      //NO 카테고리
+      joinCondition =
+        "WHERE SITES.URL_KEY NOT IN (SELECT URL_KEY from TBL_REL_CATEGORY)";
+    }
+    if (params !== null && params.flag === "all") {
+      //모든 SITE
+      joinCondition = "";
+    }
+
+    let limit = ""; //"LIMIT 5";
+
     return (
       `SELECT 
                     SITES.IDX,
@@ -193,6 +205,7 @@ export default {
                    parent,
                    depth,
                    type,
+                   flag,
                    mouseOver,
                    dropOver,
                    class,
@@ -203,6 +216,7 @@ export default {
                             PARENT  as parent,
                             DEPTH   as depth,
                             TYPE    as type,
+                            FLAG    as flag,
                             false   as mouseOver,
                             false   as dropOver,
                             ''      as class,
