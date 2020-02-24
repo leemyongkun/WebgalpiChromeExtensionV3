@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app clipped-left color="">
     <!--<v-app-bar-nav-icon @click="drawer = !drawer"/>-->
-    <span class="title ml-3 mr-5"
+    <span class="title ml-3 mr-5" @click="googleLogout"
       >WEB&nbsp;<span class="font-weight-light" @click="googleLogin"
         >Galpi
       </span>
@@ -26,6 +26,14 @@ import ACCOUNT from "../../common/account";
 export default {
   data: () => ({}),
   methods: {
+    googleLogout() {
+      chrome.identity.getAuthToken({ interactive: true }, function(token) {
+        console.log("token!", token);
+        chrome.identity.removeCachedAuthToken({ token: token }, () => {
+          alert("delete cache");
+        });
+      });
+    },
     googleLogin() {
       ACCOUNT.googleLogin();
     }

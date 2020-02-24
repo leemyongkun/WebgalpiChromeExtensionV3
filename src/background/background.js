@@ -66,10 +66,10 @@ let BackgrounEvent = {
         dbcon.createTable();
         dbcon.initData();*/
         /*Api.getOptions().then(option => {
-                                            if (option.length !== 1) {
+                                                    if (option.length !== 1) {
 
-                                            }
-                                        });*/
+                                                    }
+                                                });*/
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
@@ -78,6 +78,29 @@ let BackgrounEvent = {
     chrome.runtime.onSuspend.addListener(suspend => {
       alert("suspend");
     });
+  },
+  getBookmarks: () => {
+    let bookmark = new Array();
+    chrome.bookmarks.getTree(function(itemTree) {
+      $(itemTree)
+        .each(function(idx, item) {
+          processNode(item);
+        })
+        .promise()
+        .then(() => {
+          console.log("bookmark ", bookmark);
+        });
+    });
+
+    function processNode(node) {
+      // recursively process child nodes
+      if (node.children) {
+        node.children.forEach(function(child) {
+          processNode(child);
+        });
+      }
+      bookmark.push(node);
+    }
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
@@ -120,6 +143,8 @@ BackgrounEvent.onInstalled();
 //Tab이 열릴때
 BackgrounEvent.onUpdated();
 
+//Bookmark
+BackgrounEvent.getBookmarks();
 //DashBoard에 재진입 했을때 데이타를 다시 가져온다.
 chrome.tabs.onActivated.addListener((activeInfo, act) => {
   chrome.storage.local.get(["activeDashboardTabId"], result => {
