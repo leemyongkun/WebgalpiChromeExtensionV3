@@ -33,10 +33,11 @@ kkuni.prototype = {
     alert("!gogo");
   }
 };
+let globalUri;
 
 function PreviewMode(uri, doc, options) {
   options = options || {};
-
+  globalUri = uri;
   this._uri = uri;
   this._doc = doc;
   this._biggestFrame = false;
@@ -278,8 +279,9 @@ PreviewMode.prototype = {
       // If this is already an absolute URI, return it.
       if (/^[a-zA-Z][a-zA-Z0-9\+\-\.]*:/.test(uri)) return uri;
 
+      //ykleem@ scheme => https로 변경
       // Scheme-rooted relative URI.
-      if (uri.substr(0, 2) == "//") return scheme + "://" + uri.substr(2);
+      if (uri.substr(0, 2) == "//") return "http://" + uri.substr(2);
 
       // Prepath-rooted relative URI.
       if (uri[0] == "/") return prePath + uri;
@@ -306,6 +308,7 @@ PreviewMode.prototype = {
           link.parentNode.replaceChild(text, link);
         } else {
           link.setAttribute("href", toAbsoluteURI(href));
+          link.setAttribute("target", "_blank"); //ykleem@update
         }
       }
     });
