@@ -89,12 +89,8 @@ export default {
           }
         ]
       };
-
-      console.log("payload ", payload);
       this.slackChannels.forEach(slackChannelUrl => {
-        axios.post(slackChannelUrl, payload).then(res => {
-          //console.log("res.data >>> ", res.data);
-        });
+        axios.post(slackChannelUrl, payload).then(res => {});
       });
 
       this.close();

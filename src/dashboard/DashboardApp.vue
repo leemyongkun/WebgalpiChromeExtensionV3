@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <AppBarPage />
+    <AppBarPage :member="member" />
     <MenuPage />
     <v-content>
       <v-container fluid>
@@ -10,6 +10,7 @@
     </v-content>
 
     <SignDialog ref="signDialog"></SignDialog>
+    <SelectMemberDialog ref="selectMemberDialog"></SelectMemberDialog>
   </v-app>
 </template>
 
@@ -20,22 +21,28 @@ import ContentBody from "./content/ContentBody";
 import AppBarPage from "./layout/AppBarPage";
 import CONTENT_LISTENER from "../common/content-listener";
 import SignDialog from "./layout/dialog/SignDialog";
+import SelectMemberDialog from "./layout/dialog/SelectMemberDialog";
 
 export default {
   components: {
+    SelectMemberDialog,
     SignDialog,
     AppBarPage,
     ContentBody,
     SiteListWidePage,
     MenuPage
   },
-  data: () => ({}),
+  data: () => ({
+    member: {
+      EMAIL: "",
+      IMAGE_URL: null
+    }
+  }),
   methods: {},
   created() {
     this.$nextTick(() => {
       chrome.storage.local.get(["options"], result => {
         let options = result.options;
-        console.log(" >>> options ", options);
         if (options.THEME === "dark") {
           this.$vuetify.theme.dark = true;
         } else {
@@ -59,9 +66,23 @@ export default {
       console.log("members ", members);
       if (members.length === 0) {
         this.$refs.signDialog.open();
-      } else {
-        //todo member중 isUse가 'Y' 인것들.
       }
+      /* else {
+                    //todo member중 isUse가 'Y' 인것들.
+                    let result = members.filter(member => {
+                        return member.IS_USE === 'Y';
+                    });
+                    console.log("result", result);
+                    //this.$refs.selectMemberDialog.open(members);
+                    if (result.length === 0) {
+                        //todo : 선택할 수 있는 dialog를 오픈한다.
+                        this.$refs.selectMemberDialog.open(members);
+                    } else {
+                        //Y인 회원으로 로그인처리 한다.
+                        this.member = result[0];
+                    }
+
+                }*/
     });
   }
 };

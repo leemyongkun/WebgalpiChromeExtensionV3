@@ -21,17 +21,17 @@ let Api = {
 
       let site = Api.getSite(parameter);
       let items = Api.getAllItems(parameter);
-
       let options = Api.getOptions();
+      let member = Api.getMember();
 
-      const arr = [site, items, options];
+      const arr = [site, items, options, member];
       Promise.all(arr).then(
         values => {
           let obj = new Object();
           let site = values[0];
           let items = values[1];
           let options = values[2];
-
+          let member = values[3];
           let allItems = new Object();
           if (site.length != 0) {
             allItems.SITE = site;
@@ -43,10 +43,15 @@ let Api = {
           }
 
           let loginInfo = new Object();
-          loginInfo.NAME = "임용근";
-          loginInfo.IMAGE_URL = "";
-          loginInfo.EMMAIL = "kkuni.bear@gmail.com";
-
+          if (member.length === 0) {
+            loginInfo.NAME = "NO_NAME";
+            loginInfo.IMAGE_URL = "";
+            loginInfo.EMAIL = "";
+          } else {
+            loginInfo.NAME = member[0].NAME;
+            loginInfo.IMAGE_URL = member[0].IMAGE_URL;
+            loginInfo.EMAIL = member[0].EMAIL;
+          }
           obj.allItems = allItems;
           obj.options = options[0];
           obj.loginInfo = loginInfo;
@@ -66,7 +71,6 @@ let Api = {
     return select(Query.getSite(), param);
   },
   getSites: params => {
-    console.log("getSites ", params);
     let query = Query.getSites(params);
 
     let parameter = params;
@@ -81,7 +85,6 @@ let Api = {
 
   getSystemCategory: params => {
     let query = Query.getCategory("system");
-    console.log("getSystemCategory query ", query);
     return select(query, params);
   },
   getLostCategory: params => {
@@ -90,7 +93,6 @@ let Api = {
   },
   getCategory: params => {
     let query = Query.getCategory("all");
-    console.log("getCategoryQuery ", query);
     return select(query, params);
   },
   getAllItems: parameter => {
@@ -173,7 +175,6 @@ let Api = {
     return update(Query.updateOptionColor(), params);
   },
   updateOptionTheme: params => {
-    console.log("updateOptionTheme.params ", params);
     return update(Query.updateOptionTheme(), params);
   },
   deleteCategoryRelation: param => {
@@ -192,8 +193,6 @@ let Api = {
     return update(Query.updateLostCategoryItem(), param);
   },
   insertCategoryItem: param => {
-    console.log("Query.insertCategoryItem() ", Query.insertCategoryItem());
-    console.log("insertCategoryItem ", param);
     return insert(Query.insertCategoryItem(), param);
   },
   updateCategoryItem: param => {
@@ -203,7 +202,6 @@ let Api = {
     }
     param = param.slice(0, 3);
 
-    console.log("param ", param);
     return update(Query.updateCategoryItem(), param);
   },
   postMember: param => {
@@ -218,7 +216,7 @@ function update(query, param) {
   return new Promise((res, rej) => {
     db.transaction(tx => {
       tx.executeSql(query, param, (tx, rs) => {
-        console.log(tx, rs);
+        //console.log(tx, rs);
         res(param);
       });
     });
@@ -229,7 +227,6 @@ function remove(query, param) {
   return new Promise(res => {
     db.transaction(tx => {
       tx.executeSql(query, param, (tx, rs) => {
-        console.log("REMOVE", tx, rs);
         res(param);
       });
     });
@@ -243,7 +240,6 @@ function insert(query, param) {
         query,
         param,
         (tx, rs) => {
-          console.log(tx, rs);
           res(param);
         },
         (tx, error) => {

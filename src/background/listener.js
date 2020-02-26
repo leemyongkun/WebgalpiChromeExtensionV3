@@ -60,7 +60,6 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
         API.postSite(msg.data).then(site => {
           sendResponse(site);
         });
-        console.log("post.site param ", msg.data);
       }
       break;
 
@@ -91,9 +90,7 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       let getSiteParameter = new Object();
       getSiteParameter.URL_KEY = msg.data;
 
-      console.log("getSiteParameter", getSiteParameter);
       API.getSite(getSiteParameter).then(res => {
-        console.log("API.getSite ", res);
         sendResponse(res); //조건
       });
       return true;
@@ -208,7 +205,6 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
 
 chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(async msg => {
-    console.log("background/listener / msg.action ", msg.action);
     switch (msg.action) {
       case "popup.save.site":
         API.postSite(msg.data);

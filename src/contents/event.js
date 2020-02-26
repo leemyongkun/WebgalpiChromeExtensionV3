@@ -39,7 +39,6 @@ let EVENT = {
     GLOBAL_CONFIG.CURRENT_IDX = parseInt(
       $(e.target).attr(GLOBAL_CONFIG.HL_ID_NAME)
     );
-    console.log("highlightClickEvent", GLOBAL_CONFIG.CURRENT_IDX);
 
     //마우스를 따라간다.
     $("#highlight-update-toolbar").css({
@@ -255,8 +254,6 @@ let EVENT = {
         $(item)
           .unbind("click")
           .on("click", function(e) {
-            console.log("a click event ", e);
-
             e.stopPropagation();
             e.preventDefault();
 
@@ -305,8 +302,6 @@ let EVENT = {
       });
   },
   captureEvent: () => {
-    console.log("## captureEvent");
-
     CONTENT_LISTENER.sendMessage({
       type: "full.before.capture"
     }).then(imageDataUrl => {
@@ -366,7 +361,6 @@ let EVENT = {
                 onSelectCount++;
                 return false;
               }
-              console.log(">>>  onSelect ", position);
 
               //Button 생성
               /*console.log("document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID) ", document.getElementById(GLOBAL_CONFIG.CAPTURE_BUTTON_ID));
@@ -402,8 +396,6 @@ let EVENT = {
                 );
                 let prevImage = canvas.toDataURL();
 
-                console.log("prev", prevImage);
-
                 $("#prevCapture").attr("src", prevImage);
                 //capture 영역 제거
                 /*
@@ -411,7 +403,6 @@ let EVENT = {
                                                                                                                                                                                                           rootElement.style.overflow = "visible";
                                                                                                                                                                                                           */
               };
-              console.log("imageDataUrl ", imageDataUrl);
               img.src = imageDataUrl;
 
               /*  document.addEventListener('keydown', event => {

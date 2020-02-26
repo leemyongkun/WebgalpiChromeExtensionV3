@@ -118,7 +118,6 @@ export default {
       );
 
       EventBus.$on("select.category", (category, event) => {
-        console.log("category ", category);
         this.selectCategory(category, event);
       });
     });

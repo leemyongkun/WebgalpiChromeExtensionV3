@@ -70,7 +70,6 @@ export default {
         data: param
       }).then(response => {
         this.sites = response;
-        console.log("this. sites ", this.sites);
       });
     }
   }

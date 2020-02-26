@@ -31,16 +31,23 @@ let BackgroundModule = {
         URL: urlPath,
         EXT: ext
       };
-      console.log("param >>> ", param);
 
       //현재 urlKey를 저장한다.
       chrome.storage.local.set({ [tabId]: currentUrl }, null);
 
       Api.getInitInfo(param).then(res => {
+        console.log("####### ", res);
+
+        //로그인 정보 저장해둔다.
+        chrome.storage.local.set({ loginInfo: res.loginInfo });
+
+        if (res.loginInfo.EMAIL === "") {
+          return false;
+        }
         //todo : excludesUrl 등록 기능 추가 할것.
         res.tabid = tabId;
 
-        console.log("getInitInfo >>>  ", res);
+        console.log("####");
         //옵션을 저장해둔다.
         chrome.storage.local.set({ options: res.options });
 
@@ -62,14 +69,9 @@ let BackgrounEvent = {
     chrome.runtime.onInstalled.addListener(details => {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
-        /*dbcon.dropTable();
+        dbcon.dropTable();
         dbcon.createTable();
-        dbcon.initData();*/
-        /*Api.getOptions().then(option => {
-                                                    if (option.length !== 1) {
-
-                                                    }
-                                                });*/
+        dbcon.initData();
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
@@ -120,8 +122,6 @@ let BackgrounEvent = {
           });
         }
 
-        console.log("COMPLETE tab.url ", tab);
-
         //현재 사이트에 하이라이트 초기화
         BackgroundModule.initApplication(tabId, tab.url);
       }
@@ -136,6 +136,16 @@ function checkLastError(message) {
     return;
   }
 }
+chrome.notifications.onClicked.addListener(function(notifId) {
+  alert(notifId);
+  if (notifId == "notification_1") {
+    //handle notification 1 being clicked
+  }
+  if (notifId == "notification_2") {
+    //handle notification 2 being clicked
+  }
+  //etc.
+});
 
 //설치 및 리로딩시
 BackgrounEvent.onInstalled();
@@ -145,6 +155,7 @@ BackgrounEvent.onUpdated();
 
 //Bookmark
 BackgrounEvent.getBookmarks();
+
 //DashBoard에 재진입 했을때 데이타를 다시 가져온다.
 chrome.tabs.onActivated.addListener((activeInfo, act) => {
   chrome.storage.local.get(["activeDashboardTabId"], result => {

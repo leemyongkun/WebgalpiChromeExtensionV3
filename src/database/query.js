@@ -198,7 +198,6 @@ export default {
       systemCondition = " WHERE TYPE='SYSTEM'";
     }
 
-    console.log("systemCondition ", flag, systemCondition);
     return (
       `SELECT id,
                    name,

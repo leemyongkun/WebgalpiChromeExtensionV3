@@ -10,9 +10,7 @@ let CONTENT_LISTENER = {
   sendMessage: parameter => {
     return new Promise(res => {
       try {
-        console.log("parameter ", parameter);
         chrome.runtime.sendMessage(parameter, function(response) {
-          console.log("response", response);
           CONTENT_LISTENER.checkLastError("action.js:272" + parameter.type);
 
           res(response);

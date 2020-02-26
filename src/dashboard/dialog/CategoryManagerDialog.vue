@@ -83,7 +83,6 @@ export default {
     },
     selectCategory(subItem) {
       this.selectedItem = subItem;
-      console.log(">>  ", subItem);
     }
   }
 };

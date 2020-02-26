@@ -102,7 +102,6 @@ export default {
         type: "get.slack",
         data: null
       }).then(slackList => {
-        console.log("slackList ", slackList);
         this.slackChannels = slackList;
       });
     },
@@ -149,7 +148,6 @@ export default {
       });
     },
     saveSlack() {
-      console.log("slackChannelName ", this.slackChannelName);
       if (this._.trim(this.slackChannelName) === "") {
         alert("이름을 넣어주세요.");
         return false;
@@ -178,7 +176,6 @@ export default {
       });
     },
     detailSlackInfo(item) {
-      console.log("slack item ", item);
       this.slackStatus = 2;
       this.slackChannelName = item.CHANNEL_NAME;
       this.slackChannelUrl = item.WEBHOOK_URL;

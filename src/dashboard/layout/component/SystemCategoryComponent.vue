@@ -87,7 +87,6 @@ export default {
         type: "get.system.category",
         data: null
       }).then(systemCategory => {
-        console.log("systemCategory ", systemCategory);
         this.systemCategory = Utils.generateTree(systemCategory, 0);
       });
     },

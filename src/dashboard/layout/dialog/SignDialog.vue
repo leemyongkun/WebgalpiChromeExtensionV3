@@ -7,17 +7,17 @@
   >
     <v-card>
       <v-card-title class="headline" v-if="signInProcess === 1"
-        >Google 계정 등록을 하셨나요?</v-card-title
-      >
+        >Google 계정 등록을 하셨나요?
+      </v-card-title>
       <v-card-text v-if="signInProcess === 1">
         WEBGALPI를 사용하기 위해, Google 계정으로 로그인을 하셔야 합니다.<br />
-        데이타 백업으로 Google Drive 를 사용하며, 하나의 PC에서 여러명이 사용할
-        경우 사용자로 데이타를 취급합니다.
+        데이타 백업으로 Firebase를 사용예정이며, WEBGALPI는 한 PC에서 한명의
+        사용자만 사용 가능합니다.
       </v-card-text>
 
       <v-card-title class="headline" v-if="signInProcess === 2"
-        >Google 계정 인증이 정상완료 되었습니다.</v-card-title
-      >
+        >Google 계정 인증이 정상완료 되었습니다.
+      </v-card-title>
       <v-card-text v-if="signInProcess === 2">
         <span style="background: #cddc39">{{ googleEmail }}</span
         >님 WEBGALPI에 오신것을 환영합니다.<br />
@@ -44,15 +44,22 @@
           text
           :disabled="isDisabled"
           @click="googleSignin"
-          >Google SignIn
+          >구글 로그인
+        </v-btn>
+        <v-btn
+          color="green darken-1"
+          v-if="signInProcess === 2"
+          text
+          @click="anotherMember"
+          >다른계정으로 변경하기
         </v-btn>
         <v-btn
           color="green darken-1"
           v-if="signInProcess === 2"
           text
           @click="registerMember"
-          >OK</v-btn
-        >
+          >등록
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -91,6 +98,19 @@ export default {
         .catch(err => {
           console.log("error ", err);
         });
+    },
+    anotherMember() {
+      chrome.identity.getAuthToken({ interactive: true }, token => {
+        if (token === undefined) {
+          location.reload();
+        }
+        window.fetch(
+          "https://accounts.google.com/o/oauth2/revoke?token=" + token
+        );
+        chrome.identity.removeCachedAuthToken({ token: token }, () => {
+          location.reload();
+        });
+      });
     },
     registerMember() {
       if (!this.$refs.form.validate()) {

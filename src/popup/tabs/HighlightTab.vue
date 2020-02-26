@@ -60,7 +60,6 @@ export default {
     }
   },
   mounted() {
-    console.log("HIGHLIGHT MOUNTED");
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       let tabId = tabs[0].id;
 
@@ -73,7 +72,6 @@ export default {
             data: urlInfo
           }).then(response => {
             /*this.Highlight.activities = response;*/
-            console.log("response ", response);
             this.highlights = response;
           });
         });

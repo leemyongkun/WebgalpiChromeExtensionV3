@@ -114,7 +114,6 @@ export default {
             site[0].IDX, //"SITE_IDX":
             new Date().getTime() //"DATE_CREATE":
           ];
-          console.log("param ", param);
           CONTENT_LISTENER.sendMessage({
             type: "post.category.relation",
             data: param
@@ -144,7 +143,6 @@ export default {
             tabId,
             { action: "get.site.info" },
             siteInfo => {
-              console.log("siteInfo", siteInfo);
               if (siteInfo.OG_IMAGE === null) {
                 siteInfo.OG_IMAGE = "";
               }
@@ -160,7 +158,6 @@ export default {
                 this.siteInfo = siteInfo;
                 this.overlay.status = false;
               }
-              console.log("this.siteInfo ", this.siteInfo);
             }
           );
         });
@@ -170,7 +167,6 @@ export default {
         type: "get.category",
         data: null
       }).then(category => {
-        console.log("category ", category);
         this.category = category.filter(item => {
           return item.parent !== 0;
         });

@@ -95,7 +95,7 @@
                             <v-list-item-avatar tile size="100" color="grey">
                               <v-img
                                 v-if="item.OG_IMAGE !== 'undefined'"
-                                :src="item.OG_IMAGE"
+                                :src="checkImagePath(item.OG_IMAGE)"
                               ></v-img>
                             </v-list-item-avatar>
                           </v-list-item>
@@ -290,6 +290,14 @@ export default {
       let i = this.sites.map(item => item.URL_KEY).indexOf(siteUrlKey);
       this.sites.splice(i, 1);
     },
+    checkImagePath(imgUrl) {
+      if (imgUrl !== null) {
+        if (imgUrl.startsWith("//")) {
+          imgUrl = "http:" + imgUrl;
+        }
+      }
+      return imgUrl;
+    },
 
     getSites(param) {
       CONTENT_LISTENER.sendMessage({
@@ -305,7 +313,6 @@ export default {
               this.$refs.siteList[0].click();
               this.$refs.siteList[0].CLASS = "border";
               this.currentSite = this.sites[0];
-              console.log("this.currentSite ", this.currentSite);
             }, 100);
             this.moreBtnDisabled = false;
           } else {

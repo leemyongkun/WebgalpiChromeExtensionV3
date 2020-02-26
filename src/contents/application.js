@@ -21,7 +21,7 @@ let APPLICATION = {
         .html();*/
 
       let head = document.getElementById("mainFrame");
-      console.log("getNaverBlog ", head);
+      //console.log("getNaverBlog ", head);
       //document.getElementsByTagName("html")[0].innerHTML = val;
 
       res(true);

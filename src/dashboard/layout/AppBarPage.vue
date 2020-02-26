@@ -15,6 +15,14 @@
       v-if="false"
     />
     <v-spacer />
+    <v-avatar :tile="true">
+      <img
+        v-if="member.IMAGE_URL !== null"
+        :src="member.IMAGE_URL"
+        alt="logo"
+      />
+    </v-avatar>
+    {{ member.EMAIL }}
     <v-btn text @click="">
       <v-icon>mdi-information-outline</v-icon>&nbsp;README
     </v-btn>
@@ -25,6 +33,7 @@ import ACCOUNT from "../../common/account";
 
 export default {
   data: () => ({}),
+  props: ["member"],
   methods: {
     googleLogout() {
       chrome.identity.getAuthToken({ interactive: true }, function(token) {
