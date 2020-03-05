@@ -1,32 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="106" uuid="90d0ba59-8ba2-45c5-9e25-d4074d254f26">
+    <data-source source="LOCAL" name="361" uuid="90df2707-4f3d-400e-98c7-cb31570e08b8">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$USER_HOME$/Library/Application Support/Google/Chrome/Default/databases/chrome-extension_epegobeocipcjhoongjfnfhigcmfdfih_0/106</jdbc-url>
-      <driver-properties>
-        <property name="enable_load_extension" value="true" />
-      </driver-properties>
-    </data-source>
-    <data-source source="LOCAL" name="121" uuid="5f476876-e0e2-404d-8d2b-1ff5edd53164">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$USER_HOME$/Library/Application Support/Google/Chrome/Default/databases/chrome-extension_epegobeocipcjhoongjfnfhigcmfdfih_0/121</jdbc-url>
-      <driver-properties>
-        <property name="enable_load_extension" value="true" />
-      </driver-properties>
-    </data-source>
-    <data-source source="LOCAL" name="143" uuid="19a05921-0256-4b83-b8ef-1c67eb508a35">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$USER_HOME$/Library/Application Support/Google/Chrome/Default/databases/chrome-extension_dpemoipibdjnnilodimbojpmkaooihin_0/143</jdbc-url>
-      <driver-properties>
-        <property name="enable_load_extension" value="true" />
-      </driver-properties>
+      <jdbc-url>jdbc:sqlite:$USER_HOME$/Library/Application Support/Google/Chrome/Default/databases/chrome-extension_dpemoipibdjnnilodimbojpmkaooihin_0/361</jdbc-url>
     </data-source>
   </component>
 </project>

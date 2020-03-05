@@ -181,6 +181,7 @@ export default {
       `
                     AND SITES.FL_DELETE = 'N'
                      ORDER BY SITES.DATE_CREATE DESC
+                     LIMIT ?,?
                     `
     );
   },
@@ -234,6 +235,8 @@ export default {
       systemCondition +
       `
                  )
+                 
+                 
             GROUP BY id, name, parent, depth, mouseOver, dropOver`
     );
   },

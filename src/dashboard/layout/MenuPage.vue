@@ -142,6 +142,7 @@ export default {
       );
     },
     selectCategory(category, event) {
+      console.log("selectCategory ", category);
       this.clearCheckCategory();
 
       if (category !== 0) category.class = "border";
