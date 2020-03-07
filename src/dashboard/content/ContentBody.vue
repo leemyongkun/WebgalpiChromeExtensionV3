@@ -402,9 +402,9 @@ export default {
 
       let previewDoc = new PreviewMode(uri, idoc).parse();
       // console.log("previewDoc " ,previewDoc);
-      let doc2 = parser.parseFromString(previewDoc.content, "text/html");
+      /*let doc2 = parser.parseFromString(previewDoc.content, "text/html");
       let imgs = doc2.getElementsByTagName("img");
-      console.log("imgs ", imgs, imgs.length);
+      */
 
       this.youtubeVideoId = site.EMBEDURL;
       //변환할 수없는 사이트 일경우

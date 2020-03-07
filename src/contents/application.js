@@ -16,9 +16,9 @@ let APPLICATION = {
       /*  let val = document.frames["mainFrame"].document.getElementsByTagName('html')[0];*/
 
       /*let val = $("#mainFrame")
-        .contents()
-        .find("html")
-        .html();*/
+              .contents()
+              .find("html")
+              .html();*/
 
       let head = document.getElementById("mainFrame");
       //console.log("getNaverBlog ", head);
@@ -29,7 +29,7 @@ let APPLICATION = {
   },
   init: async data => {
     /*let head = document.querySelector("#mainFrame").contentDocument.head;
-      console.log("getNaverBlog ", head);*/
+          console.log("getNaverBlog ", head);*/
     //this.getNaverBlog();
 
     //body (target element) 가 없으면 취소한다.
@@ -60,8 +60,8 @@ let APPLICATION = {
     GLOBAL_CONFIG.HIGHLIGHT_LIST = data.allItems.HIGHLIGHT_LIST;
 
     /*
-        SPA 의 사이트의 경우, tag가 남아있는 현상이 있으나, 이를 제거하느다.
-         */
+            SPA 의 사이트의 경우, tag가 남아있는 현상이 있으나, 이를 제거하느다.
+             */
     let targetDeleteHighlightCustomTag = document.querySelectorAll(
       GLOBAL_CONFIG.HL_TAG_NAME
     );
@@ -71,8 +71,11 @@ let APPLICATION = {
       );
     }
 
+    APPLICATION.createContentsForm(data.options.COLOR);
+  },
+  createContentsForm: color => {
     // 팔렛트 생성
-    CONTENTS.createColorPicker(data.options.COLOR)
+    CONTENTS.createColorPicker(color)
       .then(ret => {
         // 버튼 이벤트
         EVENT.colorPickerBtnEvent();

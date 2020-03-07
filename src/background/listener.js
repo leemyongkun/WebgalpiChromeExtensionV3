@@ -1,5 +1,31 @@
 import API from "../api/api.js";
 
+let emitOptionsAllTabs = (actionCommand, data) => {
+  chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
+    chrome.windows.getAll({ populate: true }, function(windows) {
+      windows.forEach(function(window) {
+        window.tabs.forEach(function(tab) {
+          chrome.tabs.sendMessage(
+            tab.id,
+            { action: actionCommand, data: data },
+            function(response) {
+              checkLastError("emit.action");
+            }
+          );
+        });
+      });
+    });
+  });
+};
+
+function checkLastError(message) {
+  let lastError = chrome.runtime.lastError;
+  if (lastError) {
+    console.log(message, lastError);
+    return;
+  }
+}
+
 chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
   switch (msg.type) {
     case "get.backup.data":
@@ -148,6 +174,12 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       API.updateOptionColor(msg.data).then(res => {
         sendResponse(res);
       });
+      //emit all Tab
+      API.getOptions().then(option => {
+        console.log("options", option);
+        emitOptionsAllTabs("emit.action", option);
+      });
+
       break;
     case "update.option.theme":
       API.updateOptionTheme(msg.data).then(res => {
