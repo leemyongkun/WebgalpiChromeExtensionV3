@@ -23,6 +23,7 @@
     "axios": "^0.19.0",
     "deepmerge": "^4.2.2",
     "fibers": "^4.0.2",
+    "firebase": "^7.10.0",
     "jquery": "^3.4.1",
     "md5": "^2.2.1",
     "readability-js": "^1.0.7",

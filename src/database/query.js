@@ -61,13 +61,15 @@ export default {
 		AND IDX = ?`;
   },
   deleteItem: () => {
-    return `DELETE FROM TBL_ITEMS
+    return `UPDATE TBL_ITEMS
+        SET FL_DELETE = 'Y'
 		WHERE URL_KEY = ?
 		AND IDX = ?`;
   },
   deleteItems: () => {
-    return `DELETE FROM TBL_ITEMS
-		WHERE URL_KEY = ?`;
+    return `UPDATE TBL_ITEMS
+            SET FL_DELETE = 'Y'
+		    WHERE URL_KEY = ?`;
   },
   insertItem: () => {
     return `INSERT INTO TBL_ITEMS
@@ -281,7 +283,8 @@ export default {
   },
   deleteSite: () => {
     return `
-             DELETE FROM TBL_SITES
+             UPDATE TBL_SITES
+             SET FL_DELETE = 'Y'
             WHERE URL_KEY = ?
              `;
   },
