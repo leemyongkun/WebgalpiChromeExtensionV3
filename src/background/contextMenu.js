@@ -1,5 +1,5 @@
 function contextAction(info, tab) {
-  if (info.menuItemId == "dashboard") {
+  if (info.menuItemId == "webGalpi") {
     let extensionDashboard =
       "chrome-extension://" + chrome.runtime.id + "/dashboard/dashboard.html";
     if (tab.url === extensionDashboard) {
@@ -9,10 +9,6 @@ function contextAction(info, tab) {
     let open = window.open(extensionDashboard, "_blank");
     open.focus();
   }
-  /*  if(info.menuItemId == 'capture'){
-          chrome.tabs.sendMessage(tab.id, { action: 'context.capture' }, function(response) {});
-      }
-  */
 
   if (info.menuItemId == "saveSite") {
     if (tab.url.indexOf("chrome-extension://") !== -1) {
@@ -34,7 +30,7 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ["all"]
   });
 
-  chrome.contextMenus.create({
+  /*  chrome.contextMenus.create({
     id: "dashboard",
     title: "DASHBOARD",
     parentId: "webGalpi",
@@ -46,5 +42,5 @@ chrome.runtime.onInstalled.addListener(() => {
     title: "SAVE SITE",
     parentId: "webGalpi",
     contexts: ["all"]
-  });
+  });*/
 });
