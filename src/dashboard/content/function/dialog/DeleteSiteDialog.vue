@@ -39,11 +39,18 @@ export default {
         data: this.currentSite
       });
 
+      //category에 포함된 사이트 삭제
+      CONTENT_LISTENER.sendMessage({
+        type: "delete.site.in.category",
+        data: this.currentSite
+      });
+
       //사이트 삭제
       CONTENT_LISTENER.sendMessage({
         type: "delete.site",
         data: this.currentSite
       }).then(() => {
+        EventBus.$emit("reload.category");
         EventBus.$emit("hideSite", this.currentSite.URL_KEY);
         this.close();
       });

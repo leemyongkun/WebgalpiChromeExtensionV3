@@ -303,6 +303,12 @@ export default {
             WHERE URL_KEY = ?
              `;
   },
+  deleteSiteInCategory: () => {
+    return `
+             DELETE FROM  TBL_REL_CATEGORY
+             WHERE URL_KEY = ?
+             `;
+  },
   deleteSlack: () => {
     return `
              DELETE FROM TBL_SLACK

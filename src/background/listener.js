@@ -75,6 +75,13 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       return true;
       break;
 
+    case "delete.site.in.category":
+      API.deleteSiteInCategory(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+
     case "delete.site":
       API.deleteSite(msg.data).then(res => {
         sendResponse(res);
@@ -142,7 +149,6 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       break;
     case "get.system.all.category.count": //dashboard
       API.getAllCategoryCount(null).then(res => {
-        console.log("getAllCategoryCount ", res);
         sendResponse(res);
       });
       return true;

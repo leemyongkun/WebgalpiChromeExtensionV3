@@ -146,6 +146,10 @@ let Api = {
     let param = [new Date().getTime(), params.URL_KEY];
     return remove(Query.deleteItems(), param);
   },
+  deleteSiteInCategory: params => {
+    let param = [params.URL_KEY];
+    return remove(Query.deleteSiteInCategory(), param);
+  },
   deleteSite: params => {
     let currentDate = new Date().getTime();
     console.log("currentDate ", currentDate);
