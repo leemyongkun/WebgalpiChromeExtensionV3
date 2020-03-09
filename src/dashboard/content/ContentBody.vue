@@ -43,7 +43,6 @@
                         <v-card
                           aria-selected="true"
                           class="mx-auto"
-                          max-width="400"
                           outlined
                           style="cursor:pointer;"
                           @click="selectSite(item, item.URL_KEY)"
@@ -52,22 +51,22 @@
                           ref="siteList"
                         >
                           <!--<v-expand-transition>
-                                                                                                                                                                                                                    <div
-                                                                                                                                                                                                                            v-if="hover"
-                                                                                                                                                                                                                            class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
-                                                                                                                                                                                                                            style="height: 40%;z-index: 9000;"
-                                                                                                                                                                                                                    >
-                                                                                                                                                                                                                        <v-spacer/>
-                                                                                                                                                                                                                        &lt;!&ndash;<v-btn
-                                                                                                                                                                                                                                small
-                                                                                                                                                                                                                                @click="goSourceSite(item, $event)"
-                                                                                                                                                                                                                                color="orange"
-                                                                                                                                                                                                                        >
-                                                                                                                                                                                                                            <v-icon>mdi-home-outline</v-icon>
-                                                                                                                                                                                                                        </v-btn>&ndash;&gt;
-                                                                                                                                                                                                                        <v-checkbox style="background-color: orangered">j</v-checkbox>
-                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                </v-expand-transition>-->
+                                                                                                                                                                                                                                              <div
+                                                                                                                                                                                                                                                      v-if="hover"
+                                                                                                                                                                                                                                                      class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
+                                                                                                                                                                                                                                                      style="height: 40%;z-index: 9000;"
+                                                                                                                                                                                                                                              >
+                                                                                                                                                                                                                                                  <v-spacer/>
+                                                                                                                                                                                                                                                  &lt;!&ndash;<v-btn
+                                                                                                                                                                                                                                                          small
+                                                                                                                                                                                                                                                          @click="goSourceSite(item, $event)"
+                                                                                                                                                                                                                                                          color="orange"
+                                                                                                                                                                                                                                                  >
+                                                                                                                                                                                                                                                      <v-icon>mdi-home-outline</v-icon>
+                                                                                                                                                                                                                                                  </v-btn>&ndash;&gt;
+                                                                                                                                                                                                                                                  <v-checkbox style="background-color: orangered">j</v-checkbox>
+                                                                                                                                                                                                                                              </div>
+                                                                                                                                                                                                                                          </v-expand-transition>-->
 
                           <v-list-item three-line>
                             <v-list-item-content>
@@ -310,6 +309,9 @@ export default {
     hideSites(siteUrlKey) {
       let i = this.sites.map(item => item.URL_KEY).indexOf(siteUrlKey);
       this.sites.splice(i, 1);
+      setTimeout(() => {
+        this.autoSelectSite();
+      }, 200);
     },
     checkImagePath(imgUrl) {
       if (imgUrl !== null) {
@@ -322,6 +324,13 @@ export default {
     more() {
       this.offset.start = this.offset.start + this.offset.end;
       this.getSites(this.currentSiteParameter);
+    },
+    autoSelectSite() {
+      if (this.$refs.siteList.length !== 0) {
+        this.$refs.siteList[0].click();
+        this.$refs.siteList[0].CLASS = "border";
+        this.currentSite = this.sites[0];
+      }
     },
     getSites(param) {
       //페이징 처리를 한다.
@@ -343,9 +352,7 @@ export default {
         .then(() => {
           if (this.sites.length !== 0) {
             setTimeout(() => {
-              this.$refs.siteList[0].click();
-              this.$refs.siteList[0].CLASS = "border";
-              this.currentSite = this.sites[0];
+              this.autoSelectSite();
             }, 100);
           }
         });
@@ -403,8 +410,8 @@ export default {
       let previewDoc = new PreviewMode(uri, idoc).parse();
       // console.log("previewDoc " ,previewDoc);
       /*let doc2 = parser.parseFromString(previewDoc.content, "text/html");
-      let imgs = doc2.getElementsByTagName("img");
-      */
+                let imgs = doc2.getElementsByTagName("img");
+                */
 
       this.youtubeVideoId = site.EMBEDURL;
       //변환할 수없는 사이트 일경우
@@ -425,7 +432,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                              justify-content: center;*/
+                                                                                                                                                                    justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

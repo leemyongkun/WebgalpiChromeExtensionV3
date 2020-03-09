@@ -126,6 +126,7 @@ export default {
   computed: {},
   methods: {
     getReloadCategory() {
+      //카테고리를 가져온다.
       this.$refs.systemCategoryComponent.getSystemCategory();
       this.$refs.lostCategoryComponent.getLostCategory();
       this.$refs.categoryComponent.getCategory();
@@ -142,7 +143,6 @@ export default {
       );
     },
     selectCategory(category, event) {
-      console.log("selectCategory ", category);
       this.clearCheckCategory();
 
       if (category !== 0) category.class = "border";
@@ -150,6 +150,7 @@ export default {
       EventBus.$emit("selectCategoryForSite", category);
     },
     clearCheckCategory() {
+      //선택 영역을 지운다. (클릭할때마다)
       let categoryList = [
         this.$refs.categoryComponent.category,
         this.$refs.systemCategoryComponent.systemCategory,

@@ -23,6 +23,7 @@
 </template>
 <script>
 import CONTENT_LISTENER from "../../../../common/content-listener";
+import EventBus from "../../../event-bus";
 
 export default {
   components: {},
@@ -30,8 +31,6 @@ export default {
   data: () => ({
     deleteDialog: false
   }),
-  created() {},
-  mounted() {},
   methods: {
     remove() {
       //모든 하이라이트 삭제
@@ -45,6 +44,7 @@ export default {
         type: "delete.site",
         data: this.currentSite
       }).then(() => {
+        EventBus.$emit("hideSite", this.currentSite.URL_KEY);
         this.close();
       });
     },

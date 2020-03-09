@@ -19,7 +19,7 @@
             @click="editCategory(item, $event, true, 'update')"
             v-show="item.mouseOver"
           >
-            <v-icon dense size="18px" right>mdi-settings </v-icon>
+            <v-icon dense size="18px" right>mdi-settings</v-icon>
           </v-list-item-icon>
         </template>
 
@@ -45,10 +45,9 @@
                 v-html="
                   subItem.name +
                     ` <span class='red--text text--lighten-2'> ` +
-                    subItem.cnt +
+                    subItem.flag +
                     `</span>`
                 "
-                :id="subItem.id"
               ></v-list-item-title>
             </v-list-item-content>
 
@@ -56,7 +55,7 @@
               @click="editCategory(subItem, $event, false, 'update')"
               v-show="subItem.mouseOver"
             >
-              <v-icon dense size="18px" right>mdi-settings </v-icon>
+              <v-icon dense size="18px" right>mdi-settings</v-icon>
             </v-list-item-icon>
           </v-list-item>
         </div>
@@ -74,7 +73,9 @@ import EventBus from "../../event-bus";
 export default {
   components: {},
   data: () => ({
-    systemCategory: []
+    systemCategory: [],
+    allCategoryCount: 0,
+    noCategoryCount: 0
   }),
   created() {
     this.$nextTick(() => {
@@ -82,13 +83,30 @@ export default {
     });
   },
   methods: {
+    //시스템 카테고리
     getSystemCategory() {
       CONTENT_LISTENER.sendMessage({
         type: "get.system.category",
         data: null
-      }).then(systemCategory => {
-        this.systemCategory = Utils.generateTree(systemCategory, 0);
-      });
+      })
+        .then(systemCategory => {
+          this.systemCategory = Utils.generateTree(systemCategory, 0);
+        })
+        .then(() => {
+          CONTENT_LISTENER.sendMessage({
+            type: "get.system.all.category.count",
+            data: null
+          }).then(allCategory => {
+            console.log("allCategory", allCategory[0].COUNT);
+          });
+
+          CONTENT_LISTENER.sendMessage({
+            type: "get.system.no.category.count",
+            data: null
+          }).then(noCategory => {
+            console.log("noCategory", noCategory[0].COUNT);
+          });
+        });
     },
     editCategory(item, event, checkRoot, statusFlag) {
       event.preventDefault();

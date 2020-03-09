@@ -35,7 +35,6 @@ let APPLICATION = {
     //body (target element) 가 없으면 취소한다.
     if (document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length === 0)
       return false;
-
     await CONTENTS.initUrlInfo();
 
     //todo : 이건 나중에.. 해야할듯.

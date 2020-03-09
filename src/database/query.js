@@ -1,4 +1,18 @@
 export default {
+  getAllCategoryCount: () => {
+    return `SELECT COUNT(*) AS COUNT
+        FROM TBL_SITES
+        WHERE FL_DELETE = 'N'
+        `;
+  },
+  getNoCategoryCount: () => {
+    return `SELECT
+            COUNT(*) AS COUNT
+        FROM TBL_SITES
+        WHERE URL_KEY NOT IN (SELECT URL_KEY from TBL_REL_CATEGORY)
+        AND FL_DELETE = 'N'
+        `;
+  },
   selectMembers: () => {
     return `
              SELECT     
@@ -56,19 +70,19 @@ export default {
   },
   updateItem: () => {
     return `UPDATE TBL_ITEMS
-		SET MEMO = ?, COLOR=?
+		SET MEMO = ?, COLOR=?, DATE_UPDATE=?
 		WHERE URL_KEY = ?
 		AND IDX = ?`;
   },
   deleteItem: () => {
     return `UPDATE TBL_ITEMS
-        SET FL_DELETE = 'Y'
+        SET FL_DELETE = 'Y' , DATE_UPDATE = ?
 		WHERE URL_KEY = ?
 		AND IDX = ?`;
   },
   deleteItems: () => {
     return `UPDATE TBL_ITEMS
-            SET FL_DELETE = 'Y'
+            SET FL_DELETE = 'Y', DATE_UPDATE = ?
 		    WHERE URL_KEY = ?`;
   },
   insertItem: () => {
@@ -88,9 +102,10 @@ export default {
             IMAGE,
             FL_READMODE,
             PAGE_NUMBER,
-            DATE_CREATE
+            DATE_CREATE,
+            DATE_UPDATE
 		)
-		VALUES (?,?,'',?,?,?,?,?,?,?,'N',?,?,?,?,?)`;
+		VALUES (?,?,'',?,?,?,?,?,?,?,'N',?,?,?,?,?,?)`;
   },
 
   getOptions: () => {
@@ -133,7 +148,7 @@ export default {
             LIMIT 1 `;
   },
   getSites: params => {
-    let joinCondition = ""; //" WHERE CATEGORY.URL_KEY IS NULL";
+    let joinCondition = "WHERE 1=1"; //" WHERE CATEGORY.URL_KEY IS NULL";
     if (params !== null && params.flag === null) {
       //일반 카테고리
       joinCondition = " WHERE REL_CATEGORY.CATEGORY_IDX = ?";
@@ -145,7 +160,7 @@ export default {
     }
     if (params !== null && params.flag === "all") {
       //모든 SITE
-      joinCondition = "";
+      joinCondition = "WHERE 1=1";
     }
 
     let limit = ""; //"LIMIT 5";
@@ -284,7 +299,7 @@ export default {
   deleteSite: () => {
     return `
              UPDATE TBL_SITES
-             SET FL_DELETE = 'Y'
+             SET FL_DELETE = 'Y', DATE_UPDATE = ?
             WHERE URL_KEY = ?
              `;
   },

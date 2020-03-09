@@ -140,6 +140,19 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       });
       return true;
       break;
+    case "get.system.all.category.count": //dashboard
+      API.getAllCategoryCount(null).then(res => {
+        console.log("getAllCategoryCount ", res);
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "get.system.no.category.count": //dashboard
+      API.getNoCategoryCount(null).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
     case "get.lost.category": //dashboard
       API.getLostCategory(null).then(res => {
         sendResponse(res);

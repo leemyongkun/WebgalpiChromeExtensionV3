@@ -25,6 +25,7 @@ let Api = {
       let member = Api.getMember();
 
       const arr = [site, items, options, member];
+      console.log("arr ", arr);
       Promise.all(arr).then(
         values => {
           let obj = new Object();
@@ -63,6 +64,12 @@ let Api = {
     });
   },
 
+  getAllCategoryCount: () => {
+    return select(Query.getAllCategoryCount(), []);
+  },
+  getNoCategoryCount: () => {
+    return select(Query.getNoCategoryCount(), []);
+  },
   getOptions: () => {
     return select(Query.getOptions(), []);
   },
@@ -101,7 +108,13 @@ let Api = {
     return result;
   },
   updateItem: params => {
-    let param = [params.MEMO, params.COLOR, params.URL_KEY, params.IDX];
+    let param = [
+      params.MEMO,
+      params.COLOR,
+      new Date().getTime(),
+      params.URL_KEY,
+      params.IDX
+    ];
     return update(Query.updateItem(), param);
   },
 
@@ -120,20 +133,23 @@ let Api = {
       params.IMAGE,
       params.FL_READMODE,
       params.PAGE_NUMBER,
-      params.DATE_CREATE
+      params.DATE_CREATE,
+      params.DATE_CREATE //초기 저장시에는 같은 날짜가 date_update에 들어간다.
     ];
     return insert(Query.insertItem(), param);
   },
   deleteItem: params => {
-    let param = [params.URL_KEY, params.IDX];
+    let param = [new Date().getTime(), params.URL_KEY, params.IDX];
     return remove(Query.deleteItem(), param);
   },
   deleteItems: params => {
-    let param = [params.URL_KEY];
+    let param = [new Date().getTime(), params.URL_KEY];
     return remove(Query.deleteItems(), param);
   },
   deleteSite: params => {
-    let param = [params.URL_KEY];
+    let currentDate = new Date().getTime();
+    console.log("currentDate ", currentDate);
+    let param = [currentDate, params.URL_KEY];
     return remove(Query.deleteSite(), param);
   },
   postSite: async params => {

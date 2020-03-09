@@ -113,12 +113,13 @@ let CREATE_TABLE_QUERY = {
         COLOR TEXT,
         FL_DELETE TEXT,
         GB_FILETYPE TEXT,
-        DATE_CREATE NUMERIC,
         FL_READMODE TEXT,
         PRINT_TEXT TEXT,
         PREV TEXT,
         NEXT TEXT,
-        PAGE_NUMBER INTEGER
+        PAGE_NUMBER INTEGER,
+        DATE_CREATE NUMERIC,
+        DATE_UPDATE NUMERIC
         )`;
   },
 

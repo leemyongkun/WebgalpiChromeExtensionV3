@@ -16,6 +16,7 @@ let BackgroundModule = {
     });
   },
   initApplication: (tabId, currentUrl) => {
+    console.log("initApplication");
     return new Promise(function(res) {
       if (isPopup) {
         isPopup = false;
@@ -34,7 +35,7 @@ let BackgroundModule = {
 
       //현재 urlKey를 저장한다.
       chrome.storage.local.set({ [tabId]: currentUrl }, null);
-
+      console.log("initApplication 2");
       Api.getInitInfo(param).then(res => {
         console.log("####### ", res);
 
@@ -106,6 +107,7 @@ let BackgrounEvent = {
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
+      console.log("info.status ", info.status);
       if (info.status === "complete") {
         //팝업인지 확인.
         BackgroundModule.isPopup();
