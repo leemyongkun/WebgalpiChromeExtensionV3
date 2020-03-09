@@ -1,4 +1,28 @@
 export default {
+  getBackupSites: date => {
+    return `
+            SELECT * 
+            FROM TBL_SITES
+        `;
+  },
+  getBackupHighlights: date => {
+    return `
+            SELECT *
+            FROM TBL_ITEMS
+        `;
+  },
+  getBackupCategorys: () => {
+    return `
+            SELECT *
+            FROM TBL_CATEGORY
+        `;
+  },
+  getBackupCategorysRelation: () => {
+    return `
+            SELECT *
+            FROM TBL_REL_CATEGORY
+        `;
+  },
   getAllCategoryCount: () => {
     return `SELECT COUNT(*) AS COUNT
         FROM TBL_SITES

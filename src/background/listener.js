@@ -29,7 +29,10 @@ function checkLastError(message) {
 chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
   switch (msg.type) {
     case "get.backup.data":
-      API.getBackupData();
+      API.getBackupData().then(backupdata => {
+        sendResponse(backupdata);
+      });
+      return true;
       break;
 
     case "insert.member":

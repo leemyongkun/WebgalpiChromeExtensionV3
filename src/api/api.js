@@ -3,18 +3,40 @@ import Query from "../database/query.js";
 var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 
 let Api = {
-  getBackupData: () => {
+  getBackupData: param => {
     return new Promise(res => {
       //todo : 모든 데이타를 가져온다.
-      //getBackupSites
-      //getBackupHighlights
-      //getBackupOption
-      //getBackupCategorys
-      //getBackupCategorysRelation
+      Promise.all([
+        Api.getBackupSites(null),
+        Api.getBackupHighlights(null),
+        Api.getOptions(),
+        Api.getBackupCategorys(),
+        Api.getBackupCategorysRelation()
+      ]).then(values => {
+        let data = new Object();
+        data.sites = values[0];
+        data.highlights = values[1];
+        data.options = values[2];
+        data.categorys = values[3];
+        data.categoryRelation = values[4];
 
-      res(true);
+        res(data);
+      });
     });
   },
+  getBackupSites: () => {
+    return select(Query.getBackupSites());
+  },
+  getBackupHighlights: () => {
+    return select(Query.getBackupHighlights());
+  },
+  getBackupCategorysRelation: () => {
+    return select(Query.getBackupCategorys());
+  },
+  getBackupCategorys: () => {
+    return select(Query.getBackupCategorysRelation());
+  },
+
   getInitInfo: parameter => {
     return new Promise(res => {
       let obj = new Object();
