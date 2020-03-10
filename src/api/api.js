@@ -101,7 +101,6 @@ let Api = {
   },
   getSites: params => {
     let query = Query.getSites(params);
-    console.log("query getSites ", params, query);
     let parameter = params;
     if (params !== null && params.flag === null) {
       //일반 카테고리
@@ -114,7 +113,6 @@ let Api = {
 
   getSystemCategory: params => {
     let query = Query.getCategory("system");
-    console.log("getSystemCategory query ", query);
     return select(query, params);
   },
   getLostCategory: params => {

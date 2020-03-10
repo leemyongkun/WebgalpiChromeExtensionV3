@@ -53,13 +53,13 @@ export default {
   methods: {
     firebaseTest() {
       alert("!");
-      console.log(
+      /*console.log(
         Firebase.database()
           .ref("users/kkun24")
           .toString()
-      );
+      );*/
 
-      CONTENT_LISTENER.sendMessage({
+      /*CONTENT_LISTENER.sendMessage({
         type: "get.backup.data"
       }).then(backupData => {
         console.log("backupData ", backupData);
@@ -75,7 +75,7 @@ export default {
           .then(res => {
             console.log("res ", res);
           });
-      });
+      });*/
     }
   }
 };

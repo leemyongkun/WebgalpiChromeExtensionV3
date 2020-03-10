@@ -35,19 +35,15 @@
         class="ma-1"
       ></v-select>
 
-      <v-btn
-        v-if="siteInfo.USE_CURRENT_SITE === 'N'"
-        color="primary accent-4"
-        @click="saveSite"
-      >
-        SAVE
+      <v-btn v-if="siteInfo.USE_CURRENT_SITE === 'N'" @click="saveSite">
+        <v-icon>mdi-content-save</v-icon>
       </v-btn>
       <v-btn
         v-if="siteInfo.USE_CURRENT_SITE === 'Y'"
         color="warning accent-4"
         @click="updateCategory"
       >
-        UPDATE
+        <v-icon>mdi-cached</v-icon>
       </v-btn>
       <v-btn color="blue-grey" class="ma-1 white--text" @click="goDashboard">
         <v-icon right dark>mdi-view-dashboard</v-icon>
@@ -133,7 +129,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.overlay.message = "Loading";
+    this.overlay.message = "Loading..";
     this.$nextTick(() => {
       let interval = setInterval(() => {
         chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
@@ -161,7 +157,7 @@ export default {
             }
           );
         });
-      }, 3000);
+      }, 300);
 
       CONTENT_LISTENER.sendMessage({
         type: "get.category",

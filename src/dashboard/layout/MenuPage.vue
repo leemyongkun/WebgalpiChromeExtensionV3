@@ -51,8 +51,8 @@
       </v-list>
 
       <template v-slot:append>
-        <v-btn text block class="text-right" @click="switchDialogSetting">
-          <v-icon size="18px">mdi-file-settings-variant-outline</v-icon>
+        <v-btn text block @click="switchDialogSetting">
+          <v-icon size="18px">mdi-settings</v-icon>
         </v-btn>
       </template>
     </v-navigation-drawer>

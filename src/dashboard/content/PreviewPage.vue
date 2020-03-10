@@ -50,7 +50,7 @@
         </v-col>
       </v-row>-->
       <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
-        <v-col cols="12" v-if="youtubeVideoId !== ''">
+        <v-col cols="auto" v-if="youtubeVideoId !== ''">
           <iframe
             type="text/html"
             width="640"
@@ -60,8 +60,11 @@
           ></iframe>
         </v-col>
 
-        <div v-html="previewContent" v-if="previewStatus === 'Y'"></div>
-        <v-col cols="12" align="center" v-if="previewStatus === 'N'">
+        <v-col cols="auto" v-if="previewStatus === 'Y'">
+          <div v-html="previewContent"></div>
+        </v-col>
+
+        <v-col cols="auto" align="center" v-if="previewStatus === 'N'">
           NO CONTENTS
         </v-col>
         <!--  <iframe
