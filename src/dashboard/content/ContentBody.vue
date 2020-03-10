@@ -51,22 +51,22 @@
                           ref="siteList"
                         >
                           <!--<v-expand-transition>
-                                                                                                                                                                                                                                              <div
-                                                                                                                                                                                                                                                      v-if="hover"
-                                                                                                                                                                                                                                                      class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
-                                                                                                                                                                                                                                                      style="height: 40%;z-index: 9000;"
-                                                                                                                                                                                                                                              >
-                                                                                                                                                                                                                                                  <v-spacer/>
-                                                                                                                                                                                                                                                  &lt;!&ndash;<v-btn
-                                                                                                                                                                                                                                                          small
-                                                                                                                                                                                                                                                          @click="goSourceSite(item, $event)"
-                                                                                                                                                                                                                                                          color="orange"
-                                                                                                                                                                                                                                                  >
-                                                                                                                                                                                                                                                      <v-icon>mdi-home-outline</v-icon>
-                                                                                                                                                                                                                                                  </v-btn>&ndash;&gt;
-                                                                                                                                                                                                                                                  <v-checkbox style="background-color: orangered">j</v-checkbox>
-                                                                                                                                                                                                                                              </div>
-                                                                                                                                                                                                                                          </v-expand-transition>-->
+                                                                                                                                                                                                                                                                        <div
+                                                                                                                                                                                                                                                                                v-if="hover"
+                                                                                                                                                                                                                                                                                class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
+                                                                                                                                                                                                                                                                                style="height: 40%;z-index: 9000;"
+                                                                                                                                                                                                                                                                        >
+                                                                                                                                                                                                                                                                            <v-spacer/>
+                                                                                                                                                                                                                                                                            &lt;!&ndash;<v-btn
+                                                                                                                                                                                                                                                                                    small
+                                                                                                                                                                                                                                                                                    @click="goSourceSite(item, $event)"
+                                                                                                                                                                                                                                                                                    color="orange"
+                                                                                                                                                                                                                                                                            >
+                                                                                                                                                                                                                                                                                <v-icon>mdi-home-outline</v-icon>
+                                                                                                                                                                                                                                                                            </v-btn>&ndash;&gt;
+                                                                                                                                                                                                                                                                            <v-checkbox style="background-color: orangered">j</v-checkbox>
+                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                    </v-expand-transition>-->
 
                           <v-list-item three-line>
                             <v-list-item-content>
@@ -110,16 +110,20 @@
       </v-col>
 
       <v-col cols="9" :style="documentHeightStyle" v-if="currentSite !== ''">
-        <v-tabs right>
-          <v-tab v-show="viewMode === '1'">
+        <v-tabs>
+          <!--  <div class="pa-4" @click="viewMode = 2">
+                        <v-icon size="40px">mdi-view-column</v-icon>
+                    </div>-->
+          <v-spacer></v-spacer>
+          <v-tab v-show="viewMode === 1">
             <v-icon>mdi-content-paste</v-icon>
           </v-tab>
-          <v-tab v-show="viewMode === '1'">
+          <v-tab v-show="viewMode === 1">
             <v-icon>mdi-grease-pencil</v-icon>
           </v-tab>
 
           <v-tab-item v-for="tabNumber in 2" :key="tabNumber">
-            <v-container fluid v-if="viewMode === '1'" style="padding-top: 0px">
+            <v-container fluid v-if="viewMode === 1" style="padding-top: 0px">
               <v-row>
                 <v-col v-if="tabNumber == 1" style="padding-top: 0px">
                   <PreviewPage
@@ -131,6 +135,7 @@
                     :previewContent="previewContent"
                     :previewTitle="previewTitle"
                     :previewStatus="previewStatus"
+                    :highlights="highlights"
                   ></PreviewPage>
                 </v-col>
                 <v-col v-if="tabNumber == 2">
@@ -141,54 +146,7 @@
                     :previewTitle="previewTitle"
                     :previewStatus="previewStatus"
                     :highlights="highlights"
-                  ></HighlightsPage>
-                </v-col>
-              </v-row>
-            </v-container>
-
-            <v-container fluid v-if="viewMode === '2'">
-              <v-row>
-                <v-col cols="6">
-                  <PreviewPage
-                    :currentSite="currentSite"
-                    :youtubeVideoId="youtubeVideoId"
-                    :sourceUrl="sourceUrl"
-                    :previewContent="previewContent"
-                    :previewTitle="previewTitle"
-                    :previewStatus="previewStatus"
-                  ></PreviewPage>
-                </v-col>
-                <v-col cols="6">
-                  <HighlightsPage
-                    :previewContent="previewContent"
-                    :previewTitle="previewTitle"
-                    :previewStatus="previewStatus"
-                    :highlights="highlights"
-                  ></HighlightsPage>
-                </v-col>
-              </v-row>
-            </v-container>
-
-            <v-container fluid v-if="viewMode === '3'">
-              <v-row>
-                <v-col cols="12">
-                  <PreviewPage
-                    :currentSite="currentSite"
-                    :youtubeVideoId="youtubeVideoId"
-                    :sourceUrl="sourceUrl"
-                    :previewContent="previewContent"
-                    :previewTitle="previewTitle"
-                    :previewStatus="previewStatus"
-                  ></PreviewPage>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12">
-                  <HighlightsPage
-                    :previewContent="previewContent"
-                    :previewTitle="previewTitle"
-                    :previewStatus="previewStatus"
-                    :highlights="highlights"
+                    :viewMode="viewMode"
                   ></HighlightsPage>
                 </v-col>
               </v-row>
@@ -241,7 +199,7 @@ export default {
     previewStatus: "N",
     youtubeVideoId: "",
     sourceUrl: "",
-    viewMode: "1",
+    viewMode: 1,
     currentSite: "",
     moreBtnDisabled: false,
     offset: {
@@ -410,8 +368,8 @@ export default {
       let previewDoc = new PreviewMode(uri, idoc).parse();
       // console.log("previewDoc " ,previewDoc);
       /*let doc2 = parser.parseFromString(previewDoc.content, "text/html");
-                let imgs = doc2.getElementsByTagName("img");
-                */
+                          let imgs = doc2.getElementsByTagName("img");
+                          */
 
       this.youtubeVideoId = site.EMBEDURL;
       //변환할 수없는 사이트 일경우
@@ -432,7 +390,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                    justify-content: center;*/
+                                                                                                                                                                          justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

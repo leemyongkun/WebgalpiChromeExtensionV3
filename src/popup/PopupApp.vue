@@ -2,12 +2,18 @@
   <v-app>
     <v-card id="scroll-target" max-width="490" v-if="mainFlag === 1">
       <v-tabs vertical>
+        <!--<v-tab>
+                    <v-icon>mdi-settings</v-icon>
+                </v-tab>-->
         <v-tab>
-          <v-icon color="green">mdi-web</v-icon>
+          <v-icon>mdi-web</v-icon>
         </v-tab>
         <v-tab>
-          <v-icon color="blue">mdi-grease-pencil</v-icon>
+          <v-icon>mdi-grease-pencil</v-icon>
         </v-tab>
+        <!-- <v-tab-item class="mx-auto overflow-y-auto" :style="style">
+                    <SettingTab></SettingTab>
+                </v-tab-item>-->
         <v-tab-item class="mx-auto overflow-y-auto" :style="style">
           <SiteInfoTab></SiteInfoTab>
         </v-tab-item>
@@ -29,9 +35,11 @@
 
 import SiteInfoTab from "./tabs/SiteInfoTab";
 import HighlightTab from "./tabs/HighlightTab";
+import SettingTab from "./tabs/SettingTab";
 
 export default {
   components: {
+    SettingTab,
     HighlightTab,
     SiteInfoTab
   },

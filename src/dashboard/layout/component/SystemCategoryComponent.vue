@@ -45,7 +45,7 @@
                 v-html="
                   subItem.name +
                     ` <span class='red--text text--lighten-2'> ` +
-                    subItem.flag +
+                    subItem.cnt +
                     `</span>`
                 "
               ></v-list-item-title>
@@ -91,20 +91,28 @@ export default {
       })
         .then(systemCategory => {
           this.systemCategory = Utils.generateTree(systemCategory, 0);
+          return this.systemCategory[0].children;
         })
-        .then(() => {
-          CONTENT_LISTENER.sendMessage({
-            type: "get.system.all.category.count",
-            data: null
-          }).then(allCategory => {
-            console.log("allCategory", allCategory[0].COUNT);
-          });
+        .then(children => {
+          let systemCategoryCount = [
+            CONTENT_LISTENER.sendMessage({
+              type: "get.system.all.category.count",
+              data: null
+            }),
+            CONTENT_LISTENER.sendMessage({
+              type: "get.system.no.category.count",
+              data: null
+            })
+          ];
 
-          CONTENT_LISTENER.sendMessage({
-            type: "get.system.no.category.count",
-            data: null
-          }).then(noCategory => {
-            console.log("noCategory", noCategory[0].COUNT);
+          Promise.all(systemCategoryCount).then(values => {
+            children.map(item => {
+              if (item.flag === "all") {
+                item.cnt = values[0][0].COUNT;
+              } else if (item.flag === "nocategory") {
+                item.cnt = values[1][0].COUNT;
+              }
+            });
           });
         });
     },

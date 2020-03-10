@@ -27,19 +27,6 @@
             </v-card>
           </v-timeline-item>
         </v-timeline>
-
-        <!--<v-timeline dense>
-                                                        <v-slide-x-reverse-transition group hide-on-leave>
-                                                            <v-timeline-item
-                                                                    v-for="item in highlights"
-                                                                    :key="item.IDX"
-                                                                    :color="convertColor(item.COLOR)"
-                                                                    :small="true"
-                                                            >
-                                                                {{ item.PRINT_TEXT }}
-                                                            </v-timeline-item>
-                                                        </v-slide-x-reverse-transition>
-                                                    </v-timeline>-->
       </v-row>
     </v-card-text>
   </v-card>

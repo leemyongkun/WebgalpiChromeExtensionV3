@@ -51,7 +51,7 @@ export default {
     this.$nextTick(() => {});
   },
   methods: {
-    firebaseTest() {
+    /*firebaseTest() {
       alert("!");
       Firebase.database()
         .ref("users/kkun24")
@@ -63,7 +63,7 @@ export default {
         .then(res => {
           console.log("res ", res);
         });
-    }
+    }*/
   }
 };
 </script>
