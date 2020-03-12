@@ -17,15 +17,17 @@
 
     <DeleteSiteDialog :currentSite="currentSite"></DeleteSiteDialog>
     |
-    <span>HIGHLIGHT</span>
+
+    <HighlightsWidget :highlights="highlights"></HighlightsWidget>
   </div>
 </template>
 <script>
 import ShareSlackDialog from "./dialog/ShareSlackDialog";
 import DeleteSiteDialog from "./dialog/DeleteSiteDialog";
+import HighlightsWidget from "./widget/HighlightsWidget";
 export default {
-  components: { DeleteSiteDialog, ShareSlackDialog },
-  props: ["previewStatus", "sourceUrl", "currentSite"],
+  components: { HighlightsWidget, DeleteSiteDialog, ShareSlackDialog },
+  props: ["previewStatus", "sourceUrl", "currentSite", "highlights"],
   data: () => ({
     window: 0
   }),
