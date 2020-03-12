@@ -110,35 +110,20 @@
       </v-col>
 
       <v-col cols="9" :style="documentHeightStyle" v-if="currentSite !== ''">
-        <v-tabs>
-          <!--  <div class="pa-4" @click="viewMode = 2">
-                                  <v-icon size="40px">mdi-view-column</v-icon>
-                              </div>-->
-          <v-spacer></v-spacer>
-          <v-tab v-show="viewMode === 1">
-            <v-icon>mdi-content-paste</v-icon>
-          </v-tab>
-          <v-tab v-show="viewMode === 1">
-            <v-icon>mdi-grease-pencil</v-icon>
-          </v-tab>
-
-          <v-tab-item v-for="tabNumber in 2" :key="tabNumber">
-            <v-container fluid v-if="viewMode === 1" style="padding-top: 0px">
-              <v-row>
-                <v-col v-if="tabNumber == 1" style="padding-top: 0px">
-                  <PreviewPage
-                    v-if="sites.length !== 0"
-                    :currentSite="currentSite"
-                    :youtubeVideoId="youtubeVideoId"
-                    :reviewAreaHeightStyle="reviewAreaHeightStyle"
-                    :sourceUrl="sourceUrl"
-                    :previewContent="previewContent"
-                    :previewTitle="previewTitle"
-                    :previewStatus="previewStatus"
-                    :highlights="highlights"
-                  ></PreviewPage>
-                </v-col>
-                <v-col v-if="tabNumber == 2">
+        <v-row>
+          <v-col cols="12" class="ml-0 pl-0">
+            <PreviewPage
+              :currentSite="currentSite"
+              :youtubeVideoId="youtubeVideoId"
+              :reviewAreaHeightStyle="reviewAreaHeightStyle"
+              :sourceUrl="sourceUrl"
+              :previewContent="previewContent"
+              :previewTitle="previewTitle"
+              :previewStatus="previewStatus"
+              :highlights="highlights"
+            ></PreviewPage>
+          </v-col>
+          <!--<v-col v-if="tabNumber == 2">
                   <HighlightsPage
                     v-if="sites.length !== 0"
                     :reviewAreaHeightStyle="reviewAreaHeightStyle"
@@ -148,11 +133,8 @@
                     :highlights="highlights"
                     :viewMode="viewMode"
                   ></HighlightsPage>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-tab-item>
-        </v-tabs>
+                </v-col>-->
+        </v-row>
       </v-col>
     </v-row>
     <v-row>
@@ -258,11 +240,11 @@ export default {
       //"max-height: " + (document.documentElement.clientHeight - 84) + "px;";
 
       this.reviewAreaHeightStyle =
-        "max-height: " + (document.documentElement.clientHeight - 315) + "px;";
+        "max-height: " + (document.documentElement.clientHeight - 237) + "px;";
       this.listAreaHeightStyle =
-        "max-height: " + (document.documentElement.clientHeight - 130) + "px;";
+        "max-height: " + (document.documentElement.clientHeight - 120) + "px;";
       this.documentHeightStyle =
-        "max-height: " + (document.documentElement.clientHeight - 130) + "px;";
+        "max-height: " + (document.documentElement.clientHeight - 110) + "px;";
     },
     hideSites(siteUrlKey) {
       let i = this.sites.map(item => item.URL_KEY).indexOf(siteUrlKey);

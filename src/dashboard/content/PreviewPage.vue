@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-card flat>
+  <v-card flat class="pl-3">
     <v-card-text>
       <v-row class="mb-4" align="center">
         <strong class="title headline">

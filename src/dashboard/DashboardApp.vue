@@ -3,7 +3,7 @@
     <AppBarPage :member="member" />
     <MenuPage />
     <v-content>
-      <v-container fluid>
+      <v-container fluid class="pt-0 mt-0">
         <ContentBody></ContentBody>
         <!--<SiteListWidePage></SiteListWidePage>-->
       </v-container>

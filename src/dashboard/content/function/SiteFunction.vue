@@ -16,6 +16,8 @@
     ></ShareSlackDialog>
 
     <DeleteSiteDialog :currentSite="currentSite"></DeleteSiteDialog>
+    |
+    <span>HIGHLIGHT</span>
   </div>
 </template>
 <script>
