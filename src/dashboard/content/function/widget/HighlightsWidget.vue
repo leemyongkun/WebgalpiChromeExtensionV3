@@ -10,11 +10,11 @@
       </v-btn>
     </template>
     <v-card width="300px" :style="maxHeightWidget">
-      <v-list v-for="item in highlightItems" :cols="3" :key="item.IDX">
-        <v-list-item>
+      <v-list v-if="highlightItems.length !== 0">
+        <v-list-item v-for="item in highlightItems" :key="item.IDX">
           <!--<v-list-item-avatar>
-                                            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
-                                        </v-list-item-avatar>-->
+                                                      <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                                                  </v-list-item-avatar>-->
 
           <v-list-item-content class="mt-0 pt-0">
             {{ item.PRINT_TEXT }}
@@ -28,14 +28,25 @@
         </v-list-item>
         <v-divider></v-divider>
       </v-list>
+      <v-list v-if="highlightItems.length === 0">
+        <v-list-item>
+          <v-list-item-content class="mt-0 pt-0 ">
+            <v-list-item-title class="align-center">
+              NO HIGHLIGHTS
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-card>
+    <SnackBar ref="snackbar"></SnackBar>
   </v-menu>
 </template>
 <script>
 import Common from "../../../../common/common";
+import SnackBar from "../../../snack/SnackBar";
 
 export default {
-  components: {},
+  components: { SnackBar },
   computed: {},
   props: ["highlights"],
   data: () => ({
