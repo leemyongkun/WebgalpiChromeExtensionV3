@@ -13,22 +13,21 @@
       <v-list v-for="item in highlightItems" :cols="3" :key="item.IDX">
         <v-list-item>
           <!--<v-list-item-avatar>
-                        <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
-                    </v-list-item-avatar>-->
+                                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                              </v-list-item-avatar>-->
 
-          <v-list-item-content>
+          <v-list-item-content class="mt-0 pt-0">
             {{ item.PRINT_TEXT }}
           </v-list-item-content>
 
-          <v-list-item-action>
+          <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">
             <v-btn icon>
               <v-icon>mdi-delete-forever</v-icon>
             </v-btn>
           </v-list-item-action>
         </v-list-item>
+        <v-divider></v-divider>
       </v-list>
-
-      <v-divider></v-divider>
     </v-card>
   </v-menu>
 </template>
