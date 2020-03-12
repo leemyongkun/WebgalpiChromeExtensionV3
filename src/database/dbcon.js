@@ -17,7 +17,7 @@ export default {
                         ,0
                         ,null --EXCLUDE_SITE
                         ,'N' --SYNC_BOOKMARK
-                        ,'light' --THEME
+                        ,'dark' --THEME (dark / light);
                     )`;
 
     let TRUNC_CATEGORY = `DELETE FROM TBL_CATEGORY`;

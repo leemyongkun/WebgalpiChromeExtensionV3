@@ -10,8 +10,12 @@
       </v-btn>
     </template>
     <v-card width="300px" :style="maxHeightWidget">
-      <v-list v-if="highlightItems.length !== 0">
-        <v-list-item v-for="item in highlightItems" :key="item.IDX">
+      <v-list v-if="highlightItems.length !== 0" style="background:#6f9aff;">
+        <v-list-item
+          v-for="item in highlightItems"
+          :key="item.IDX"
+          class="pr-2"
+        >
           <!--<v-list-item-avatar>
                                                       <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
                                                   </v-list-item-avatar>-->
@@ -21,7 +25,7 @@
           </v-list-item-content>
 
           <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">
-            <v-btn icon>
+            <v-btn icon color="black">
               <v-icon>mdi-delete-forever</v-icon>
             </v-btn>
           </v-list-item-action>

@@ -31,16 +31,40 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 
   /*  chrome.contextMenus.create({
-    id: "dashboard",
-    title: "DASHBOARD",
-    parentId: "webGalpi",
-    contexts: ["all"]
-  });
+      id: "dashboard",
+      title: "DASHBOARD",
+      parentId: "webGalpi",
+      contexts: ["all"]
+    });
 
-  chrome.contextMenus.create({
-    id: "saveSite",
-    title: "SAVE SITE",
-    parentId: "webGalpi",
-    contexts: ["all"]
-  });*/
+    chrome.contextMenus.create({
+      id: "saveSite",
+      title: "SAVE SITE",
+      parentId: "webGalpi",
+      contexts: ["all"]
+    });*/
 });
+
+/*
+let extensionDashboard =
+            "chrome-extension://" + chrome.runtime.id + "/dashboard/dashboard.html";
+        if (tab.url === extensionDashboard) {
+            location.reload();
+            return false;
+        }
+        chrome.tabs.query({}, tabs => {
+            let sameUrl = tabs.filter(item => {
+                return item.url === extensionDashboard
+            });
+
+            if (sameUrl.length === 0) {
+                let open = window.open(extensionDashboard, "_blank");
+                open.focus();
+            }else{
+                //해당 탭으로 이동 (2개이상일경우, 0번째로 이동)
+                chrome.tabs.reload(sameUrl[0].id, null);
+                chrome.tabs.update(sameUrl[0].id, { 'active': true });
+            }
+
+        });
+ */

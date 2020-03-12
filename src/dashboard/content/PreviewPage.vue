@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-              <v-col cols="12">
-                <iframe
-                  id="ytplayer"
-                  type="text/html"
-                  width="640"
-                  height="360"
-                  :src="youtubeVideoId + '?autoplay=0'"
-                  frameborder="0"
-                ></iframe>
-              </v-col>
-            </v-row>-->
+                    <v-col cols="12">
+                      <iframe
+                        id="ytplayer"
+                        type="text/html"
+                        width="640"
+                        height="360"
+                        :src="youtubeVideoId + '?autoplay=0'"
+                        frameborder="0"
+                      ></iframe>
+                    </v-col>
+                  </v-row>-->
       <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
         <v-col cols="auto" v-if="youtubeVideoId !== ''">
           <iframe
@@ -70,12 +70,12 @@
           NO CONTENTS
         </v-col>
         <!--  <iframe
-                                          type="text/html"
-                                          width="100%"
-                                          height="603px"
-                                          src="https://blog.naver.com/rachel0067/221780986497"
-                                          frameborder="0"
-                                  ></iframe>-->
+                                                  type="text/html"
+                                                  width="100%"
+                                                  height="603px"
+                                                  src="https://blog.naver.com/rachel0067/221780986497"
+                                                  frameborder="0"
+                                          ></iframe>-->
       </v-row>
     </v-card-text>
     <SnackBar ref="snackbar"></SnackBar>
@@ -85,6 +85,7 @@
 import SiteFunction from "./function/SiteFunction";
 import Common from "../../common/common";
 import SnackBar from "../snack/SnackBar";
+import EventBus from "../event-bus";
 
 //https://www.npmjs.com/package/vue-youtube-embed
 export default {
@@ -123,7 +124,7 @@ export default {
       document.execCommand("copy");
       document.body.removeChild(t);
 
-      this.$refs.snackbar.open("URL이 복사되었습니다.");
+      EventBus.$emit("open.snack", "URL이 복사되었습니다.");
     },
     getLocation(url) {
       let l = document.createElement("a");

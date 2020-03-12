@@ -22,9 +22,12 @@ export default {
     snackbarColor: "info"
   }),
   methods: {
-    open(message) {
+    open(message, color) {
       this.snackbar = true;
       this.snackbarMessage = message;
+      if (color !== undefined) {
+        this.snackbarColor = color;
+      }
     }
   }
 };

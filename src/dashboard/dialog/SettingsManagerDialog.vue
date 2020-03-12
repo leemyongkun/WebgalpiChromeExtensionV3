@@ -27,8 +27,6 @@
               <SlackArea></SlackArea>
               <!--COLOR-->
               <ColorArea></ColorArea>
-              <!--VIEWMODE-->
-              <ViewModeArea></ViewModeArea>
             </v-expansion-panels>
           </v-list>
         </v-col>
@@ -47,10 +45,9 @@
 import SlackArea from "./setting/SlackArea";
 import ThemeArea from "./setting/ThemeArea";
 import ColorArea from "./setting/ColorArea";
-import ViewModeArea from "./setting/ViewModeArea";
 
 export default {
-  components: { ViewModeArea, ColorArea, ThemeArea, SlackArea },
+  components: { ColorArea, ThemeArea, SlackArea },
   props: ["dialog"],
   data: () => ({
     notifications: false,

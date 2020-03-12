@@ -50,24 +50,6 @@
                           :key="item.URL_KEY"
                           ref="siteList"
                         >
-                          <!--<v-expand-transition>
-                                                                                                                                                                                                                                                                                                  <div
-                                                                                                                                                                                                                                                                                                          v-if="hover"
-                                                                                                                                                                                                                                                                                                          class="d-flex transition-fast-in-fast-out darken-2 v-card&#45;&#45;reveal display-3 white&#45;&#45;text"
-                                                                                                                                                                                                                                                                                                          style="height: 40%;z-index: 9000;"
-                                                                                                                                                                                                                                                                                                  >
-                                                                                                                                                                                                                                                                                                      <v-spacer/>
-                                                                                                                                                                                                                                                                                                      &lt;!&ndash;<v-btn
-                                                                                                                                                                                                                                                                                                              small
-                                                                                                                                                                                                                                                                                                              @click="goSourceSite(item, $event)"
-                                                                                                                                                                                                                                                                                                              color="orange"
-                                                                                                                                                                                                                                                                                                      >
-                                                                                                                                                                                                                                                                                                          <v-icon>mdi-home-outline</v-icon>
-                                                                                                                                                                                                                                                                                                      </v-btn>&ndash;&gt;
-                                                                                                                                                                                                                                                                                                      <v-checkbox style="background-color: orangered">j</v-checkbox>
-                                                                                                                                                                                                                                                                                                  </div>
-                                                                                                                                                                                                                                                                                              </v-expand-transition>-->
-
                           <v-list-item three-line>
                             <v-list-item-content>
                               <v-list-item-title>
@@ -170,7 +152,7 @@ export default {
     previewStatus: "N",
     youtubeVideoId: "",
     sourceUrl: "",
-    viewMode: 1,
+
     currentSite: "",
     moreBtnDisabled: false,
     offset: {
@@ -181,11 +163,7 @@ export default {
     currentSiteParameter: null,
     currentCategoryInfo: null
   }),
-  created() {
-    EventBus.$on("view-mode", viewMode => {
-      this.viewMode = viewMode;
-    });
-  },
+  created() {},
   mounted() {
     //2초에 한번씩 Dashboard 진입을 확인한다.
     setInterval(() => {
@@ -274,12 +252,12 @@ export default {
         data: param
       })
         .then(response => {
-          response.map(item => {
-            this.sites.push(item);
-          });
+          this.sites = response;
+          return this.sites;
         })
-        .then(() => {
-          if (this.sites.length !== 0) {
+        .then(sites => {
+          console.log("sites ", sites);
+          if (sites.length !== 0) {
             setTimeout(() => {
               this.autoSelectSite();
             }, 100);
@@ -377,7 +355,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                justify-content: center;*/
+                                                                                                                                                                                      justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

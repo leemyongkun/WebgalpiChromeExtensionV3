@@ -11,6 +11,7 @@
 
     <SignDialog ref="signDialog"></SignDialog>
     <SelectMemberDialog ref="selectMemberDialog"></SelectMemberDialog>
+    <SnackBar ref="snackbar"></SnackBar>
   </v-app>
 </template>
 
@@ -22,9 +23,12 @@ import AppBarPage from "./layout/AppBarPage";
 import CONTENT_LISTENER from "../common/content-listener";
 import SignDialog from "./layout/dialog/SignDialog";
 import SelectMemberDialog from "./layout/dialog/SelectMemberDialog";
+import SnackBar from "./snack/SnackBar";
+import EventBus from "./event-bus";
 
 export default {
   components: {
+    SnackBar,
     SelectMemberDialog,
     SignDialog,
     AppBarPage,
@@ -49,6 +53,11 @@ export default {
           this.$vuetify.theme.dark = false;
         }
       });
+
+      //Snack열기
+      EventBus.$on("open.snack", (message, color) => {
+        this.$refs.snackbar.open(message, color);
+      });
     });
   },
   mounted() {
@@ -68,21 +77,39 @@ export default {
         this.$refs.signDialog.open();
       }
       /* else {
-                    //todo member중 isUse가 'Y' 인것들.
-                    let result = members.filter(member => {
-                        return member.IS_USE === 'Y';
-                    });
-                    console.log("result", result);
-                    //this.$refs.selectMemberDialog.open(members);
-                    if (result.length === 0) {
-                        //todo : 선택할 수 있는 dialog를 오픈한다.
-                        this.$refs.selectMemberDialog.open(members);
-                    } else {
-                        //Y인 회원으로 로그인처리 한다.
-                        this.member = result[0];
-                    }
+                              //todo member중 isUse가 'Y' 인것들.
+                              let result = members.filter(member => {
+                                  return member.IS_USE === 'Y';
+                              });
+                              console.log("result", result);
+                              //this.$refs.selectMemberDialog.open(members);
+                              if (result.length === 0) {
+                                  //todo : 선택할 수 있는 dialog를 오픈한다.
+                                  this.$refs.selectMemberDialog.open(members);
+                              } else {
+                                  //Y인 회원으로 로그인처리 한다.
+                                  this.member = result[0];
+                              }
 
-                }*/
+                          }*/
+    });
+    //새탭을 열면서, 기존에 있는 탭은 제거한다.
+    chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {
+      let count = 0;
+      chrome.tabs.query({}, tabs => {
+        tabs.map(item => {
+          if (currentTab[0].id !== item.id && currentTab[0].url === item.url) {
+            chrome.tabs.remove(item.id);
+            count++;
+          }
+        });
+        if (count !== 0) {
+          this.$refs.snackbar.open(
+            "기존에 열려있는 Dashboard Tab은 닫았습니다.",
+            "warning"
+          );
+        }
+      });
     });
   }
 };
