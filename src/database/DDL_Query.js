@@ -51,6 +51,7 @@ let CREATE_TABLE_QUERY = {
             TAGS TEXT,
             OWNER_EMAIL TEXT,
             READERMODE_CONTENTS TEXT,
+            FL_READMODE TEXT,
             FL_FAVORITE TEXT,
             MEMO TEXT,
             DATE_CREATE NUMERIC,

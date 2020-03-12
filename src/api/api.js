@@ -36,7 +36,6 @@ let Api = {
   getBackupCategorys: () => {
     return select(Query.getBackupCategorysRelation());
   },
-
   getInitInfo: parameter => {
     return new Promise(res => {
       let obj = new Object();
@@ -85,7 +84,6 @@ let Api = {
       );
     });
   },
-
   getAllCategoryCount: () => {
     return select(Query.getAllCategoryCount(), []);
   },
@@ -250,6 +248,9 @@ let Api = {
   },
   getMember: () => {
     return select(Query.selectMembers(), null);
+  },
+  updateConvertViewmode: param => {
+    return update(Query.updateConvertViewmode(), param);
   }
 };
 

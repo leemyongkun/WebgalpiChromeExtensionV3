@@ -84,13 +84,14 @@ export default {
             FL_DELETE,
             URL_TYPE,
             READERMODE_CONTENTS,
+            FL_READMODE,
             DATE_CREATE,
             DATE_UPDATE,
             TAGS
 		)
 		VALUES
 		(
-         ?,'','',?,?,?,?,?,?,?,?,?,?,'N',?,?,?,?,?)`;
+         ?,'','',?,?,?,?,?,?,?,?,?,?,'N',?,?,'N',?,?,?)`;
   },
   updateItem: () => {
     return `UPDATE TBL_ITEMS
@@ -164,7 +165,7 @@ export default {
                 HOST,
                 TAGS,
                 MEMO,
-       CATEGORY.CATEGORY_IDX
+                CATEGORY.CATEGORY_IDX
             FROM TBL_SITES SITE LEFT JOIN TBL_REL_CATEGORY CATEGORY
             ON SITE.URL_KEY = CATEGORY.URL_KEY
             WHERE SITE.URL_KEY = ?
@@ -208,6 +209,7 @@ export default {
                     FL_DELETE,
                     URL_TYPE,
                     READERMODE_CONTENTS,
+                    FL_READMODE,
                     SITES.DATE_CREATE,
                     DATE_UPDATE,
                     TAGS,
@@ -406,5 +408,11 @@ export default {
                                      TYPE) 
                 VALUES (?,?,?,?,?,?,'CUSTOM') 
 		`;
+  },
+  updateConvertViewmode: () => {
+    return `UPDATE TBL_SITES
+                  SET READERMODE_CONTENTS = ?, DATE_UPDATE = ?, FL_READMODE='Y'
+                  WHERE URL_KEY = ?
+            `;
   }
 };

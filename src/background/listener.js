@@ -254,6 +254,13 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
 
       return true;
       break;
+    case "update.convert.viewmode":
+      console.log("msg.data ", msg.data);
+      API.updateConvertViewmode(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
   }
 });
 
