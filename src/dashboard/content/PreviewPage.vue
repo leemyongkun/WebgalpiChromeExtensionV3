@@ -33,6 +33,7 @@
               :sourceUrl="sourceUrl"
               :previewStatus="previewStatus"
               :highlights="highlights"
+              :reviewAreaHeightStyle="reviewAreaHeightStyle"
             />
           </template>
         </v-banner>

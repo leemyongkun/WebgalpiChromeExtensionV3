@@ -123,17 +123,6 @@
               :highlights="highlights"
             ></PreviewPage>
           </v-col>
-          <!--<v-col v-if="tabNumber == 2">
-                  <HighlightsPage
-                    v-if="sites.length !== 0"
-                    :reviewAreaHeightStyle="reviewAreaHeightStyle"
-                    :previewContent="previewContent"
-                    :previewTitle="previewTitle"
-                    :previewStatus="previewStatus"
-                    :highlights="highlights"
-                    :viewMode="viewMode"
-                  ></HighlightsPage>
-                </v-col>-->
         </v-row>
       </v-col>
     </v-row>

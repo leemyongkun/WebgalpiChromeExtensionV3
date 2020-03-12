@@ -4,8 +4,8 @@
       <v-icon>mdi-home-outline</v-icon>
     </v-btn>
     <!--<v-btn @click="print" icon v-if="previewStatus === 'Y'">
-      <v-icon>mdi-printer</v-icon>
-    </v-btn>-->
+          <v-icon>mdi-printer</v-icon>
+        </v-btn>-->
     <v-btn icon v-if="previewStatus === 'Y'" @click="shareFacebook">
       <v-icon>mdi-facebook-box</v-icon>
     </v-btn>
@@ -17,17 +17,24 @@
 
     <DeleteSiteDialog :currentSite="currentSite"></DeleteSiteDialog>
     |
-
     <HighlightsWidget :highlights="highlights"></HighlightsWidget>
   </div>
 </template>
 <script>
+let facebookUrl = "http://www.facebook.com/share.php?u=";
 import ShareSlackDialog from "./dialog/ShareSlackDialog";
 import DeleteSiteDialog from "./dialog/DeleteSiteDialog";
 import HighlightsWidget from "./widget/HighlightsWidget";
+
 export default {
   components: { HighlightsWidget, DeleteSiteDialog, ShareSlackDialog },
-  props: ["previewStatus", "sourceUrl", "currentSite", "highlights"],
+  props: [
+    "previewStatus",
+    "sourceUrl",
+    "currentSite",
+    "highlights",
+    "reviewAreaHeightStyle"
+  ],
   data: () => ({
     window: 0
   }),
@@ -36,7 +43,7 @@ export default {
   methods: {
     print() {},
     shareFacebook() {
-      let shareUrl = "http://www.facebook.com/share.php?u=" + this.sourceUrl;
+      let shareUrl = facebookUrl + this.sourceUrl;
       window.open(
         shareUrl,
         "",
@@ -45,7 +52,7 @@ export default {
     },
     goSourceSite() {
       /*event.preventDefault();
-                          event.stopPropagation();*/
+                                    event.stopPropagation();*/
       let open = window.open(this.sourceUrl, "_blank");
       open.focus();
     }

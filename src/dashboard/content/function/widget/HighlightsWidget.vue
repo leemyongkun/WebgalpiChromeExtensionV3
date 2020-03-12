@@ -9,12 +9,12 @@
         <v-icon>mdi-grease-pencil</v-icon>
       </v-btn>
     </template>
-    <v-card width="300px" max-height="600px">
+    <v-card width="300px" :style="maxHeightWidget">
       <v-list v-for="item in highlightItems" :cols="3" :key="item.IDX">
         <v-list-item>
           <!--<v-list-item-avatar>
-                                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
-                              </v-list-item-avatar>-->
+                                            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                                        </v-list-item-avatar>-->
 
           <v-list-item-content class="mt-0 pt-0">
             {{ item.PRINT_TEXT }}
@@ -36,12 +36,24 @@ import Common from "../../../../common/common";
 
 export default {
   components: {},
+  computed: {},
   props: ["highlights"],
   data: () => ({
-    highlightItems: []
+    highlightItems: [],
+    maxHeightWidget: ""
   }),
   created() {},
+  mounted() {
+    this.$nextTick(function() {
+      this.getWindowHeight();
+      window.addEventListener("resize", this.getWindowHeight);
+    });
+  },
   methods: {
+    getWindowHeight(event) {
+      this.maxHeightWidget =
+        "max-height: " + (document.documentElement.clientHeight - 220) + "px;";
+    },
     test() {
       this.highlightItems = this.highlights;
     },
