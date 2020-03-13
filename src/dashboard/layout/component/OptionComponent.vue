@@ -30,6 +30,7 @@ import ThemeArea from "../../dialog/setting/ThemeArea";
 import ColorArea from "../../dialog/setting/ColorArea";
 import SlackArea from "../../dialog/setting/SlackArea";
 import BookmarkArea from "../../dialog/setting/BookmarkArea";
+import EventBus from "../../event-bus";
 
 export default {
   components: { BookmarkArea, SlackArea, ColorArea, ThemeArea },
@@ -54,7 +55,7 @@ export default {
       },
       {
         code: "bookmark",
-        title: "BOOKMARK",
+        title: "BOOKMARK (준비중)",
         subTitle: "자신의 북마크로부터 추가."
       }
     ]
@@ -70,7 +71,12 @@ export default {
       } else if (item.code === "slack") {
         this.$refs.slack.open();
       } else if (item.code === "bookmark") {
-        this.$refs.bookmark.open();
+        EventBus.$emit(
+          "open.snack",
+          "Import Bookmark 기능은 준비중입니다.",
+          "green"
+        );
+        // this.$refs.bookmark.open();
       }
     }
   }

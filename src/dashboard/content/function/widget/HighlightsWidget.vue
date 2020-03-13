@@ -9,6 +9,7 @@
         <v-icon>mdi-grease-pencil</v-icon>
       </v-btn>
     </template>
+
     <v-card width="300px" :style="maxHeightWidget">
       <v-list v-if="highlightItems.length !== 0" style="background:#6f9aff;">
         <v-list-item
@@ -53,6 +54,7 @@ export default {
   computed: {},
   props: ["highlights"],
   data: () => ({
+    hover: false,
     highlightItems: [],
     maxHeightWidget: ""
   }),
