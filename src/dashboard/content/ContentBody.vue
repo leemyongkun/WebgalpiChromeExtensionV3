@@ -207,7 +207,7 @@ export default {
       //"max-height: " + (document.documentElement.clientHeight - 84) + "px;";
 
       this.reviewAreaHeightStyle =
-        "max-height: " + (document.documentElement.clientHeight - 237) + "px;";
+        "height: " + (document.documentElement.clientHeight - 237) + "px;";
       this.listAreaHeightStyle =
         "max-height: " + (document.documentElement.clientHeight - 120) + "px;";
       this.documentHeightStyle =

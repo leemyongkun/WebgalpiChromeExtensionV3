@@ -1,10 +1,10 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-dialog v-model="dialog" scrollable max-width="600px">
+  <v-dialog v-model="dialog" scrollable max-width="650px">
     <v-card>
       <v-card-title>SLACK</v-card-title>
       <v-card-subtitle
-        >Incoming Webhook으로 Slack 채널에 공유할 수 있습니다.</v-card-subtitle
-      >
+        >Incoming Webhook으로 Slack 채널에 공유할 수 있습니다.
+      </v-card-subtitle>
       <v-divider></v-divider>
       <v-card-text>
         <v-row>
@@ -61,10 +61,41 @@
               class="ml-0 pl-0 mr-0 pr-0"
               style="min-width: 15px"
               text
+              v-if="slackStatus === 1"
               @click="saveSlack"
             >
               <!--addSlackInfo-->
               <v-icon>mdi-plus</v-icon>
+            </v-btn>
+
+            <v-btn
+              class="ml-0 pl-0 mr-0 pr-0"
+              style="min-width: 15px"
+              text
+              v-if="slackStatus === 2"
+              @click="updateSlack"
+            >
+              <!--addSlackInfo-->
+              <v-icon>mdi-rotate-left</v-icon>
+            </v-btn>
+
+            <v-btn
+              class="ml-0 pl-0 mr-0 pr-0"
+              style="min-width: 15px"
+              text
+              v-if="slackStatus === 2"
+              @click="deleteSlack"
+            >
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+            <v-btn
+              class="ml-0 pl-0 mr-0 pr-0"
+              style="min-width: 15px"
+              text
+              v-if="slackStatus === 2"
+              @click="addSlackInfo"
+            >
+              <v-icon>mdi-cancel</v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -73,112 +104,14 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn small text color="warning" @click="close">CLOSE</v-btn>
-
-        <!--<v-btn small text v-if="slackStatus === 1" color="primary" @click="saveSlack"
-                >SAVE
-                </v-btn>-->
-        <v-btn
-          small
-          text
-          v-if="slackStatus === 2"
-          color="info"
-          @click="updateSlack"
-          >UPDATE
-        </v-btn>
-        <v-btn
-          small
-          text
-          v-if="slackStatus === 2"
-          color="red"
-          @click="deleteSlack"
-          >DELETE
-        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
-
-  <!--<v-expansion-panel>
-      <v-expansion-panel-header
-        >SLACK : Incoming Webhook으로 Slack 채널에 공유할 수 있습니다.
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <v-row>
-          <v-col
-            cols="auto"
-            v-for="(item, idx) in slackChannels"
-            :key="idx"
-            style="padding-top: 0px; padding-bottom: 0px;"
-          >
-            <v-chip class="ma-2" outlined @click="detailSlackInfo(item)">
-              <v-icon dense size="16px" left>mdi-slack</v-icon>
-              {{ item.CHANNEL_NAME }}
-            </v-chip>
-          </v-col>
-          <v-col
-            cols="12"
-            sm="2"
-            md="2"
-            style="padding-top: 0px; padding-bottom: 0px;"
-          >
-            <v-chip class="ma-2" outlined @click="addSlackInfo">
-              <v-icon>mdi-plus</v-icon>
-            </v-chip>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols="auto">
-            <v-text-field
-              label="NAME"
-              placeholder="Slack Channel"
-              outlined
-              dense
-              autofocus
-              clearable
-              :value="slackChannelName"
-              v-model="slackChannelName"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="auto">
-            <v-text-field
-              label="URL"
-              placeholder="incoming-webhook URL"
-              outlined
-              dense
-              clearable
-              :value="slackChannelUrl"
-              v-model="slackChannelUrl"
-            >
-              <template v-slot:append>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-icon v-on="on" @click="helpUrl"
-                      >mdi-help-circle-outline
-                    </v-icon>
-                  </template>
-                  What is Incoming-Webhook URL?
-                </v-tooltip>
-              </template>
-            </v-text-field>
-          </v-col>
-          <v-col cols="auto">
-            <v-btn v-if="slackStatus === 1" color="primary" @click="saveSlack"
-              >SAVE
-            </v-btn>
-            <v-btn v-if="slackStatus === 2" color="warning" @click="updateSlack"
-              >UPDATE
-            </v-btn>
-            <v-btn v-if="slackStatus === 2" color="red" @click="deleteSlack"
-              >DELETE
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-expansion-panel-content>
-    </v-expansion-panel>-->
 </template>
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";
 import SnackBar from "../../snack/SnackBar";
+import EventBus from "../../event-bus";
 
 export default {
   components: { SnackBar },
@@ -233,8 +166,8 @@ export default {
         type: "update.slack",
         data: slackParam
       }).then(response => {
-        this.snackbarMessage = "SLACK URL이 수정되었습니다.";
-        this.snackbar = true;
+        EventBus.$emit("open.snack", "SLACK URL이 수정되었습니다.");
+        this.addSlackInfo();
         this.getSlackList();
       });
     },
@@ -245,10 +178,8 @@ export default {
         type: "delete.slack",
         data: slackParam
       }).then(response => {
-        this.snackbarMessage = "SLACK URL이 삭제되었습니다.";
-        this.snackbar = true;
-        this.slackChannelName = "";
-        this.slackChannelUrl = "";
+        EventBus.$emit("open.snack", "SLACK URL이 삭제되었습니다.");
+        this.addSlackInfo();
         this.getSlackList();
       });
     },
