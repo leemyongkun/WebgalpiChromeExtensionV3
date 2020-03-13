@@ -22,15 +22,17 @@
     <ThemeArea ref="theme"></ThemeArea>
     <ColorArea ref="color"></ColorArea>
     <SlackArea ref="slack"></SlackArea>
+    <BookmarkArea ref="bookmark"></BookmarkArea>
   </v-menu>
 </template>
 <script>
 import ThemeArea from "../../dialog/setting/ThemeArea";
 import ColorArea from "../../dialog/setting/ColorArea";
 import SlackArea from "../../dialog/setting/SlackArea";
+import BookmarkArea from "../../dialog/setting/BookmarkArea";
 
 export default {
-  components: { SlackArea, ColorArea, ThemeArea },
+  components: { BookmarkArea, SlackArea, ColorArea, ThemeArea },
   computed: {},
   props: [],
   data: () => ({
@@ -40,14 +42,18 @@ export default {
         title: "COLOR",
         subTitle: "원하는 색상의 하이라이트 컬러를 지정."
       },
-      { code: "theme", title: "THEME", subTitle: "화면의 테마를 변경." },
+      {
+        code: "theme",
+        title: "THEME",
+        subTitle: "화면의 테마를 변경."
+      },
       {
         code: "slack",
         title: "SLACK",
         subTitle: "자신의 컨텐츠를 슬랙 채널에 공유."
       },
       {
-        code: "bookmard",
+        code: "bookmark",
         title: "BOOKMARK",
         subTitle: "자신의 북마크로부터 추가."
       }
@@ -63,6 +69,8 @@ export default {
         this.$refs.color.open();
       } else if (item.code === "slack") {
         this.$refs.slack.open();
+      } else if (item.code === "bookmark") {
+        this.$refs.bookmark.open();
       }
     }
   }

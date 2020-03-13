@@ -37,19 +37,6 @@
                   <LostCategoryComponent ref="lostCategoryComponent" />
                 </v-expansion-panel-content>
               </v-expansion-panel>
-
-              <v-expansion-panel>
-                <v-expansion-panel-header>BOOKMARK</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-treeview
-                    hoverable
-                    selectable
-                    selected-color="red"
-                    item-text="title"
-                    :items="bookmarks"
-                  ></v-treeview>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
             </v-expansion-panels>
           </v-col>
         </v-row>
@@ -102,15 +89,10 @@ export default {
     snackbar: false, //스낵바 open /close 여부
     categoryDialog: false, //카테고리 다이얼로그 open / close 여부
     settingDialog: false, //Setting 다이얼로그 open / close 여부
-    drawer: true, //왼쪽 메뉴 open / close 여부
-    bookmarks: []
+    drawer: true //왼쪽 메뉴 open / close 여부
   }),
   created() {
     this.$nextTick(() => {
-      chrome.bookmarks.getTree(itemTree => {
-        this.bookmarks = itemTree[0].children;
-      });
-
       EventBus.$on("reload.category", () => {
         this.getReloadCategory();
       });
