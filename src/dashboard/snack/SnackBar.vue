@@ -3,7 +3,7 @@
     v-model="snackbar"
     :timeout="snackbarTimeout"
     :color="snackbarColor"
-    right
+    top
   >
     {{ snackbarMessage }}
     <v-btn dark text @click="snackbar = false">

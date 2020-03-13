@@ -1,27 +1,21 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-row justify="center">
-    <v-dialog v-model="dialog" scrollable max-width="300px">
-      <v-card>
-        <v-card-title>THEME 설정</v-card-title>
-        <v-divider></v-divider>
-        <v-card-text>
-          <v-radio-group v-model="theme">
-            <v-radio label="DARK" value="dark" @change="changeTheme"></v-radio>
-            <v-radio
-              label="LIGHT"
-              value="light"
-              @change="changeTheme"
-            ></v-radio>
-          </v-radio-group>
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue" text @click="close">CLOSE</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
+  <v-dialog v-model="dialog" scrollable max-width="300px">
+    <v-card>
+      <v-card-title>THEME 설정</v-card-title>
+      <v-divider></v-divider>
+      <v-card-text>
+        <v-radio-group v-model="theme">
+          <v-radio label="DARK" value="dark" @change="changeTheme"></v-radio>
+          <v-radio label="LIGHT" value="light" @change="changeTheme"></v-radio>
+        </v-radio-group>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn small color="blue" text @click="close">CLOSE</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";

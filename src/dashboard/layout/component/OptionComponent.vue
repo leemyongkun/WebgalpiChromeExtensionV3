@@ -20,12 +20,17 @@
       </v-list>
     </v-card>
     <ThemeArea ref="theme"></ThemeArea>
+    <ColorArea ref="color"></ColorArea>
+    <SlackArea ref="slack"></SlackArea>
   </v-menu>
 </template>
 <script>
 import ThemeArea from "../../dialog/setting/ThemeArea";
+import ColorArea from "../../dialog/setting/ColorArea";
+import SlackArea from "../../dialog/setting/SlackArea";
+
 export default {
-  components: { ThemeArea },
+  components: { SlackArea, ColorArea, ThemeArea },
   computed: {},
   props: [],
   data: () => ({
@@ -54,6 +59,10 @@ export default {
     selectOption(item) {
       if (item.code === "theme") {
         this.$refs.theme.open();
+      } else if (item.code === "color") {
+        this.$refs.color.open();
+      } else if (item.code === "slack") {
+        this.$refs.slack.open();
       }
     }
   }

@@ -1,42 +1,45 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-expansion-panel>
-    <v-expansion-panel-header
-      >COLOR : 최대 6개의 컬러를 지정할 수 있습니다.
-    </v-expansion-panel-header>
-
-    <v-expansion-panel-content>
-      <v-row>
-        <v-col cols="auto" v-for="(item, idx) in colorValue" :key="idx">
-          <v-checkbox
-            @change="selectedColor"
-            v-model="pickColor"
-            :value="item.className"
-            hide-details
-          >
-            <template v-slot:label>
-              <div :style="item.style">
-                <span style="color: black">&nbsp;COLOR&nbsp;</span>
-              </div>
-            </template>
-          </v-checkbox>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-btn block small color="primary" @click="saveColor">SAVE </v-btn>
-        </v-col>
-      </v-row>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+  <v-dialog v-model="dialog" scrollable max-width="600px">
+    <v-card>
+      <v-card-title>COLOR</v-card-title>
+      <v-card-subtitle> 최대 6개의 컬러를 지정할 수 있습니다.</v-card-subtitle>
+      <v-divider></v-divider>
+      <v-card-text>
+        <v-row>
+          <v-col cols="auto" v-for="(item, idx) in colorValue" :key="idx">
+            <v-checkbox
+              @change="selectedColor"
+              v-model="pickColor"
+              :value="item.className"
+              hide-details
+            >
+              <template v-slot:label>
+                <div :style="item.style">
+                  <span style="color: black">&nbsp;COLOR&nbsp;</span>
+                </div>
+              </template>
+            </v-checkbox>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn small text color="warning" @click="close">CLOSE</v-btn>
+        <v-btn small text color="primary" @click="saveColor">SAVE</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 //color https://www.materialpalette.com/colors
 import CONTENT_LISTENER from "../../../common/content-listener";
-import SnackBar from "../../snack/SnackBar";
+import EventBus from "../../event-bus";
+
 export default {
-  components: { SnackBar },
   props: [],
   data: () => ({
+    dialog: false,
     pickColor: [
       "highlight-color-1",
       "highlight-color-2",
@@ -112,6 +115,12 @@ export default {
     });
   },
   methods: {
+    open() {
+      this.dialog = true;
+    },
+    close() {
+      this.dialog = false;
+    },
     saveColor() {
       if (this.pickColor.length === 0) {
         alert("1개 이상 선택");
@@ -122,19 +131,19 @@ export default {
         type: "update.option.color",
         data: [this.pickColor.join(","), "kkuni.bear@gmail.com"] //[todo] 2번째 파라메터는 Email 로 한다.
       }).then(response => {
-        this.snackbarMessage = "COLOR가 저장되었습니다."; //스낵바 기본 메시지
-        this.snackbar = true; //스낵바 open /close 여부
+        EventBus.$emit("open.snack", "COLOR가 저장되었습니다.");
+        this.close();
       });
     },
     selectedColor() {
       if (this.pickColor.length === 7) {
-        alert("6개까지입니다.");
+        EventBus.$emit("open.snack", "Color지정은 6개까지입니다.", "red");
         this.pickColor = this.pickColor.slice(0, 6);
         return false;
       }
 
       if (this.pickColor.length === 0) {
-        alert("1개 이상 선택");
+        EventBus.$emit("open.snack", "Color를 1개 이상 지정해야합니다.", "red");
         return false;
       }
     }
