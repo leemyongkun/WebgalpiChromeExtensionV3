@@ -1,31 +1,49 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-expansion-panel>
-    <v-expansion-panel-header>
-      THEME : 색상 커스텀 할 수 있도록 개발 진행중
-    </v-expansion-panel-header>
-
-    <v-expansion-panel-content>
-      <v-radio-group v-model="theme" row>
-        <v-radio label="DARK" value="dark" @change="changeTheme"></v-radio>
-        <v-radio label="LIGHT" value="light" @change="changeTheme"></v-radio>
-      </v-radio-group>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+  <v-row justify="center">
+    <v-dialog v-model="dialog" scrollable max-width="300px">
+      <v-card>
+        <v-card-title>THEME 설정</v-card-title>
+        <v-divider></v-divider>
+        <v-card-text>
+          <v-radio-group v-model="theme">
+            <v-radio label="DARK" value="dark" @change="changeTheme"></v-radio>
+            <v-radio
+              label="LIGHT"
+              value="light"
+              @change="changeTheme"
+            ></v-radio>
+          </v-radio-group>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue" text @click="close">CLOSE</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
 </template>
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";
-import SnackBar from "../../snack/SnackBar";
+import EventBus from "../../event-bus";
+
 export default {
-  components: { SnackBar },
   props: [],
   data: () => ({
-    theme: "light"
+    theme: "light",
+    dialog: false
   }),
   created() {},
   mounted() {
     if (this.$vuetify.theme.dark) this.theme = "dark";
   },
   methods: {
+    open() {
+      this.dialog = true;
+    },
+    close() {
+      this.dialog = false;
+    },
     changeTheme() {
       this.$nextTick(() => {
         CONTENT_LISTENER.sendMessage({
@@ -41,8 +59,10 @@ export default {
           })
           .then(() => {
             this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-            this.snackbarMessage = "테마가 변경되었습니다."; //스낵바 기본 메시지
-            this.snackbar = true; //스낵바 open /close 여부
+            EventBus.$emit(
+              "open.snack",
+              this.theme + "로 테마가 변경되었습니다."
+            );
           });
       });
     }

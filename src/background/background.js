@@ -157,7 +157,7 @@ BackgrounEvent.onInstalled();
 BackgrounEvent.onUpdated();
 
 //Bookmark
-BackgrounEvent.getBookmarks();
+//BackgrounEvent.getBookmarks();
 
 //DashBoard에 재진입 했을때 데이타를 다시 가져온다.
 chrome.tabs.onActivated.addListener((activeInfo, act) => {

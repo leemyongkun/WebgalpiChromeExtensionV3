@@ -57,9 +57,7 @@
       </v-list>
 
       <template v-slot:append>
-        <v-btn text block @click="switchDialogSetting">
-          <v-icon size="18px">mdi-settings</v-icon>
-        </v-btn>
+        <OptionComponent></OptionComponent>
       </template>
     </v-navigation-drawer>
 
@@ -86,9 +84,11 @@ import UpdateCategoryDialog from "./dialog/UpdateCategoryDialog";
 import LostCategoryComponent from "./component/LostCategoryComponent";
 import SystemCategoryComponent from "./component/SystemCategoryComponent";
 import CategoryComponent from "./component/CategoryComponent";
+import OptionComponent from "./component/OptionComponent";
 
 export default {
   components: {
+    OptionComponent,
     CategoryComponent,
     SystemCategoryComponent,
     UpdateCategoryDialog,

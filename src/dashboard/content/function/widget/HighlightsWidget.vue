@@ -5,7 +5,7 @@
     :close-on-content-click="false"
   >
     <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on" @click="test">
+      <v-btn icon v-on="on" @click="setHighlights">
         <v-icon>mdi-grease-pencil</v-icon>
       </v-btn>
     </template>
@@ -42,7 +42,6 @@
         </v-list-item>
       </v-list>
     </v-card>
-    <SnackBar ref="snackbar"></SnackBar>
   </v-menu>
 </template>
 <script>
@@ -50,7 +49,7 @@ import Common from "../../../../common/common";
 import SnackBar from "../../../snack/SnackBar";
 
 export default {
-  components: { SnackBar },
+  components: {},
   computed: {},
   props: ["highlights"],
   data: () => ({
@@ -69,7 +68,7 @@ export default {
       this.maxHeightWidget =
         "max-height: " + (document.documentElement.clientHeight - 220) + "px;";
     },
-    test() {
+    setHighlights() {
       this.highlightItems = this.highlights;
     },
     convertColor(color) {

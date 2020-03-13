@@ -1,0 +1,61 @@
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+  <v-menu top offset-y :close-on-content-click="false">
+    <template v-slot:activator="{ on }">
+      <v-btn text block v-on="on">
+        <v-icon size="18px">mdi-settings</v-icon>
+      </v-btn>
+    </template>
+    <v-card width="300px">
+      <v-list v-for="(item, index) in menus" :key="index">
+        <v-list-item @click="selectOption(item)">
+          <v-list-item-content class="mt-0 pt-0 pb-0">
+            <v-list-item-title class="align-center">
+              {{ item.title }}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              {{ item.subTitle }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-card>
+    <ThemeArea ref="theme"></ThemeArea>
+  </v-menu>
+</template>
+<script>
+import ThemeArea from "../../dialog/setting/ThemeArea";
+export default {
+  components: { ThemeArea },
+  computed: {},
+  props: [],
+  data: () => ({
+    menus: [
+      {
+        code: "color",
+        title: "COLOR",
+        subTitle: "원하는 색상의 하이라이트 컬러를 지정."
+      },
+      { code: "theme", title: "THEME", subTitle: "화면의 테마를 변경." },
+      {
+        code: "slack",
+        title: "SLACK",
+        subTitle: "자신의 컨텐츠를 슬랙 채널에 공유."
+      },
+      {
+        code: "bookmard",
+        title: "BOOKMARK",
+        subTitle: "자신의 북마크로부터 추가."
+      }
+    ]
+  }),
+  created() {},
+  mounted() {},
+  methods: {
+    selectOption(item) {
+      if (item.code === "theme") {
+        this.$refs.theme.open();
+      }
+    }
+  }
+};
+</script>
