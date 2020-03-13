@@ -107,8 +107,9 @@ let BackgrounEvent = {
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
-      console.log("info.status ", info.status);
+      console.log("info.status ", info, tab);
       if (info.status === "complete") {
+        //loading
         //팝업인지 확인.
         BackgroundModule.isPopup();
 

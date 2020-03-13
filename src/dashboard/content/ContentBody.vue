@@ -319,8 +319,11 @@ export default {
           "text/html"
         );
         let previewDoc = new PreviewMode(uri, idoc).parse();
-        preiveContent = previewDoc.content;
-
+        if (previewDoc === null) {
+          preiveContent = null;
+        } else {
+          preiveContent = previewDoc.content;
+        }
         CONTENT_LISTENER.sendMessage({
           type: "update.convert.viewmode",
           data: [preiveContent, new Date().getTime(), site.URL_KEY]
