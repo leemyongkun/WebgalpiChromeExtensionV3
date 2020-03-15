@@ -23,6 +23,7 @@
     <ColorArea ref="color"></ColorArea>
     <SlackArea ref="slack"></SlackArea>
     <BookmarkArea ref="bookmark"></BookmarkArea>
+    <SignArea ref="sign"></SignArea>
   </v-menu>
 </template>
 <script>
@@ -31,9 +32,10 @@ import ColorArea from "../../dialog/setting/ColorArea";
 import SlackArea from "../../dialog/setting/SlackArea";
 import BookmarkArea from "../../dialog/setting/BookmarkArea";
 import EventBus from "../../event-bus";
+import SignArea from "../../dialog/setting/SignArea";
 
 export default {
-  components: { BookmarkArea, SlackArea, ColorArea, ThemeArea },
+  components: { SignArea, BookmarkArea, SlackArea, ColorArea, ThemeArea },
   computed: {},
   props: [],
   data: () => ({
@@ -57,6 +59,11 @@ export default {
         code: "bookmark",
         title: "BOOKMARK (준비중)",
         subTitle: "자신의 북마크로부터 추가."
+      },
+      {
+        code: "sign",
+        title: "SignOut",
+        subTitle: ""
       }
     ]
   }),
@@ -77,6 +84,8 @@ export default {
           "green"
         );
         // this.$refs.bookmark.open();
+      } else if (item.code === "sign") {
+        this.$refs.sign.open();
       }
     }
   }

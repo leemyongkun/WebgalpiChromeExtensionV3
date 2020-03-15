@@ -75,23 +75,21 @@ export default {
       console.log("members ", members);
       if (members.length === 0) {
         this.$refs.signDialog.open();
+      } else {
+        //todo member중 isUse가 'Y' 인것들.
+        let result = members.filter(member => {
+          return member.IS_USE === "Y";
+        });
+        console.log("result", result);
+        //this.$refs.selectMemberDialog.open(members);
+        if (result.length === 0) {
+          //todo : 선택할 수 있는 dialog를 오픈한다.
+          this.$refs.selectMemberDialog.open(members);
+        } else {
+          //Y인 회원으로 로그인처리 한다.
+          this.member = result[0];
+        }
       }
-      /* else {
-                              //todo member중 isUse가 'Y' 인것들.
-                              let result = members.filter(member => {
-                                  return member.IS_USE === 'Y';
-                              });
-                              console.log("result", result);
-                              //this.$refs.selectMemberDialog.open(members);
-                              if (result.length === 0) {
-                                  //todo : 선택할 수 있는 dialog를 오픈한다.
-                                  this.$refs.selectMemberDialog.open(members);
-                              } else {
-                                  //Y인 회원으로 로그인처리 한다.
-                                  this.member = result[0];
-                              }
-
-                          }*/
     });
     //새탭을 열면서, 기존에 있는 탭은 제거한다.
     chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {

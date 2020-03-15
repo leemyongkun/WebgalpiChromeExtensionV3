@@ -100,16 +100,21 @@ export default {
         });
     },
     anotherMember() {
-      chrome.identity.getAuthToken({ interactive: true }, token => {
-        if (token === undefined) {
-          location.reload();
-        }
-        window.fetch(
-          "https://accounts.google.com/o/oauth2/revoke?token=" + token
+      chrome.storage.local.get(["googleToken"], result => {
+        console.log("result ", result.googleToken);
+        chrome.identity.removeCachedAuthToken(
+          { token: result.googleToken },
+          () => {
+            window
+              .fetch(
+                "https://accounts.google.com/o/oauth2/revoke?token=" +
+                  result.googleToken
+              )
+              .then(() => {
+                this.googleSignin();
+              });
+          }
         );
-        chrome.identity.removeCachedAuthToken({ token: token }, () => {
-          location.reload();
-        });
       });
     },
     registerMember() {

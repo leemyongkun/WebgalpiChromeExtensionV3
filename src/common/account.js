@@ -3,7 +3,10 @@ let ACCOUNT = {
     return new Promise((res, rej) => {
       chrome.identity.getAuthToken({ interactive: true }, function(token) {
         console.log("getAuthToken", token);
-        chrome.identity.removeCachedAuthToken({ token: token }, () => {});
+        chrome.storage.local.set({
+          googleToken: token
+        });
+        // chrome.identity.removeCachedAuthToken({ token: token }, () => {});
         if (token === undefined) return false;
         //https://www.google.com/search?q=chrome.identity.getAuthToken+cache&rlz=1C5CHFA_enKR819KR819&oq=chrome.identity.getAuthToken+cache&aqs=chrome..69i57.1571j0j7&sourceid=chrome&ie=UTF-8
         //https://developer.chrome.com/apps/tut_oauth
