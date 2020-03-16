@@ -25,7 +25,7 @@ import SignDialog from "./layout/dialog/SignDialog";
 import SelectMemberDialog from "./layout/dialog/SelectMemberDialog";
 import SnackBar from "./snack/SnackBar";
 import EventBus from "./event-bus";
-import Api from "../api/api";
+import store from "../store";
 
 export default {
   components: {
@@ -95,6 +95,9 @@ export default {
 
           //전역에 저장한다.
 
+          this.member = result[0];
+
+          store.commit("setMemberInfo", result[0]);
           this.member = result[0];
 
           //todo : global emit 발생

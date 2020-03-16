@@ -1,6 +1,7 @@
 import Query from "../database/query.js";
 
-let db = openDatabase("HL", "1.0", "DATABASE", 200000);
+import store from "../store";
+var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 let Api = {
   getBackupData: param => {
     return new Promise(res => {
@@ -111,6 +112,7 @@ let Api = {
       parameter = [params.startOffset, params.endOffset];
     }
 
+    console.log("################### store ", store.state.memberInfo);
     return select(query, parameter);
   },
 
