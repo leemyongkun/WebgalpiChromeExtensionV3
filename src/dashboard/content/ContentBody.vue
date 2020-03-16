@@ -134,6 +134,7 @@ import PreviewPage from "./PreviewPage";
 import HighlightsPage from "./HighlightsPage";
 import CONTENT_LISTENER from "../../common/content-listener";
 import EventBus from "../event-bus";
+import store from "../../store";
 
 let OFFSET_START = 0;
 let OFFSET_END = 10;
@@ -165,16 +166,13 @@ export default {
   created() {},
   mounted() {
     //2초에 한번씩 Dashboard 진입을 확인한다.
-    setInterval(() => {
-      chrome.storage.local.get(["activeDashboardStatus"], result => {
-        if (result.activeDashboardStatus === true) {
-        }
-        chrome.storage.local.set({ activeDashboardStatus: false });
-      });
-    }, 2000);
-
-    // 로딩 시 호출 처음 호출
-    this.getSites(new Object());
+    /*setInterval(() => {
+              chrome.storage.local.get(["activeDashboardStatus"], result => {
+                if (result.activeDashboardStatus === true) {
+                }
+                chrome.storage.local.set({ activeDashboardStatus: false });
+              });
+            }, 2000);*/
 
     //카테고리 클릭 시
     EventBus.$on("selectCategoryForSite", categoryInfo => {
@@ -198,6 +196,11 @@ export default {
       window.addEventListener("resize", this.getWindowHeight);
       //Init
       this.getWindowHeight();
+
+      // 로딩 시 호출 처음 호출
+      setTimeout(() => {
+        this.getSites(new Object());
+      }, 300);
     });
   },
 
@@ -239,10 +242,10 @@ export default {
       }
     },
     getSites(param) {
-      console.log("getSite ", param);
       //페이징 처리를 한다.
       param.startOffset = this.offset.start;
       param.endOffset = this.offset.end;
+      param.EMAIL = store.state.memberInfo.EMAIL;
 
       //more 버튼 클릭시, parameter를 유지하기 위해, 임시로 저장해둔다.
       this.currentSiteParameter = param;
@@ -256,7 +259,6 @@ export default {
           return this.sites;
         })
         .then(sites => {
-          console.log("sites ", sites);
           if (sites.length !== 0) {
             setTimeout(() => {
               this.autoSelectSite();
@@ -358,7 +360,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                      justify-content: center;*/
+                                                                                                                                                                                            justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

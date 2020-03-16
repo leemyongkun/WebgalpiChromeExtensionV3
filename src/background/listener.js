@@ -143,7 +143,7 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       return true;
       break;
 
-    case "get.sites": //dashboard
+    case "get.sites":
       console.log("get.sites msg.data ", msg.data);
       API.getSites(msg.data).then(res => {
         sendResponse(res); //조건

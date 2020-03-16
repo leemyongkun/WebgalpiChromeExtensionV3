@@ -240,6 +240,7 @@ export default {
       joinCondition +
       `
         AND SITES.FL_DELETE = 'N'
+        AND SITES.EMAIL = ?
         ORDER BY
         SITES.DATE_CREATE
         DESC
@@ -322,6 +323,7 @@ export default {
             ` +
       systemCondition +
       `
+      
             )
 
         GROUP

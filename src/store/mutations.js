@@ -4,7 +4,7 @@ export default {
   [types.UPDATE_FOO](state, payload) {
     state.foo = payload;
   },
-  setMemberInfo(state, payload) {
+  memberInfo(state, payload) {
     state.memberInfo = payload;
   }
 };

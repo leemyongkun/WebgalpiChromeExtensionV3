@@ -69,7 +69,7 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import Utils from "../../utils/Utils";
 import EventBus from "../../event-bus";
-
+import store from "../../../store";
 export default {
   components: {},
   data: () => ({

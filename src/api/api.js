@@ -107,12 +107,16 @@ let Api = {
     let parameter = params;
     if (params !== null && params.flag === null) {
       //일반 카테고리
-      parameter = [params.id, params.startOffset, params.endOffset];
+      parameter = [
+        params.id,
+        params.EMAIL,
+        params.startOffset,
+        params.endOffset
+      ];
     } else {
-      parameter = [params.startOffset, params.endOffset];
+      parameter = [params.EMAIL, params.startOffset, params.endOffset];
     }
 
-    console.log("################### store ", store.state.memberInfo);
     return select(query, parameter);
   },
 
