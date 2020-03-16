@@ -213,9 +213,8 @@ export default {
         CATEGORY
         ON
         SITE.URL_KEY = CATEGORY.URL_KEY
-        WHERE
-        SITE.URL_KEY = ?
-            AND FL_DELETE = 'N'
+        WHERE SITE.URL_KEY = ?
+        AND FL_DELETE = 'N'
         LIMIT
         1`;
   },

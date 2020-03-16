@@ -24,7 +24,11 @@
       "run_at": "document_start",
       "matches": ["*://*/*"],
       "css": ["css/hl.css", "lib/jcrop/jcrop.css"],
-      "js": ["contents/listener.js", "contents/core/hl-core.js"]
+      "js": [
+        "contents/listener.js",
+        "contents/core/hl-core.js",
+        "dashboard/lib/readability.js"
+      ]
     }
   ],
   "options_ui": {

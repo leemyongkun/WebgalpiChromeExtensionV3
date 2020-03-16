@@ -130,7 +130,6 @@
 <script>
 //https://www.npmjs.com/package/vue-drag-drop
 //https://cameronhimself.github.io/vue-drag-drop/
-import { POPUP_LISTENER } from "../../common/port-listener.js";
 import PreviewPage from "./PreviewPage";
 import HighlightsPage from "./HighlightsPage";
 import CONTENT_LISTENER from "../../common/content-listener";
