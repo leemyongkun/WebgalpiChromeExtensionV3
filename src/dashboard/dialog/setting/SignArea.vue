@@ -16,6 +16,8 @@
   </v-dialog>
 </template>
 <script>
+import CONTENT_LISTENER from "../../../common/content-listener";
+
 export default {
   props: [],
   data: () => ({
@@ -31,22 +33,32 @@ export default {
       this.dialog = false;
     },
     logout() {
-      chrome.storage.local.get(["googleToken"], result => {
-        chrome.identity.removeCachedAuthToken(
-          { token: result.googleToken },
-          () => {
-            window
-              .fetch(
-                "https://accounts.google.com/o/oauth2/revoke?token=" +
-                  result.googleToken
-              )
-              .then(() => {
-                //todo : 현재 계정 IS_USE=N 로 수정하기
-                alert("로그아웃 완료.다른 계정 띄우기");
-              });
-          }
-        );
+      chrome.storage.local.get(["member"], result => {
+        let param = ["N", result.member.EMAIL];
+        CONTENT_LISTENER.sendMessage({
+          type: "update.member.use",
+          data: param
+        }).then(() => {
+          location.reload();
+        });
       });
+
+      /* chrome.storage.local.get(["googleToken"], result => {
+                     chrome.identity.removeCachedAuthToken(
+                         {token: result.googleToken},
+                         () => {
+                             window
+                                 .fetch(
+                                     "https://accounts.google.com/o/oauth2/revoke?token=" +
+                                     result.googleToken
+                                 )
+                                 .then(() => {
+                                     //todo : 현재 계정 IS_USE=N 로 수정하기
+                                     alert("로그아웃 완료.다른 계정 띄우기");
+                                 });
+                         }
+                     );
+                 });*/
     }
   }
 };

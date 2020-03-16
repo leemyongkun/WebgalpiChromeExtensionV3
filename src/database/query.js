@@ -37,37 +37,63 @@ export default {
         AND FL_DELETE = 'N'
         `;
   },
+  updateMemberUse: () => {
+    return `UPDATE TBL_MEMBER
+        SET IS_USE = ?
+        WHERE EMAIL = ?`;
+  },
   selectMembers: () => {
     return `
-             SELECT     
-                EMAIL,
-                NAME,
-                IMAGE_URL,
-                IS_USE
-            FROM TBL_MEMBER
-        `;
+        SELECT
+        EMAIL,
+            NAME,
+            IMAGE_URL,
+            IS_USE
+        FROM
+        TBL_MEMBER
+        WHERE IS_USE = 'Y'
+            `;
+  },
+  selectAllMembers: () => {
+    return `
+        SELECT
+            EMAIL,
+            PASSWORD,
+            NAME,
+            IMAGE_URL,
+            IS_USE
+        FROM
+        TBL_MEMBER
+            `;
   },
   insertMember: () => {
-    return `INSERT INTO TBL_MEMBER
-                (
-                    EMAIL,
-                    NAME,
-                    PASSWORD,
-                    IMAGE_URL,
-                    IS_USE,
-                    DATE_CREATE
-                )VALUES(
+    return `
+        INSERT
+        INTO
+        TBL_MEMBER
+        (
+            EMAIL,
+            NAME,
+            PASSWORD,
+            IMAGE_URL,
+            IS_USE,
+            DATE_CREATE
+        )
+        VALUES(
                 ?,
                 ?,
                 ?,
                 ?,
                 ?,
                 ?
-                )`;
+        )`;
   },
   insertSite: () => {
-    return `INSERT INTO TBL_SITES
-		(
+    return `
+        INSERT
+        INTO
+        TBL_SITES
+        (
             URL_KEY,
             EMAIL,
             OWNER_EMAIL,
@@ -88,31 +114,40 @@ export default {
             DATE_CREATE,
             DATE_UPDATE,
             TAGS
-		)
-		VALUES
-		(
-         ?,'','',?,?,?,?,?,?,?,?,?,?,'N',?,?,'N',?,?,?)`;
+        )
+        VALUES
+        (
+                ?, '', '', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, 'N', ?, ?, ?)`;
   },
   updateItem: () => {
-    return `UPDATE TBL_ITEMS
-		SET MEMO = ?, COLOR=?, DATE_UPDATE=?
-		WHERE URL_KEY = ?
-		AND IDX = ?`;
+    return `
+        UPDATE
+        TBL_ITEMS
+        SET
+        MEMO = ?, COLOR = ?, DATE_UPDATE = ?
+            WHERE URL_KEY = ?
+                AND IDX = ? `;
   },
   deleteItem: () => {
-    return `UPDATE TBL_ITEMS
-        SET FL_DELETE = 'Y' , DATE_UPDATE = ?
-		WHERE URL_KEY = ?
-		AND IDX = ?`;
+    return `UPDATE
+        TBL_ITEMS
+        SET
+        FL_DELETE = 'Y' , DATE_UPDATE = ?
+            WHERE URL_KEY = ?
+                AND IDX = ? `;
   },
   deleteItems: () => {
-    return `UPDATE TBL_ITEMS
-            SET FL_DELETE = 'Y', DATE_UPDATE = ?
-		    WHERE URL_KEY = ?`;
+    return `UPDATE
+        TBL_ITEMS
+        SET
+        FL_DELETE = 'Y', DATE_UPDATE = ?
+            WHERE URL_KEY = ? `;
   },
   insertItem: () => {
-    return `INSERT INTO TBL_ITEMS
-		( 	IDX,
+    return `INSERT
+        INTO
+        TBL_ITEMS
+        (IDX,
             URL_KEY,
             EMAIL,
             TEXT,
@@ -129,48 +164,60 @@ export default {
             PAGE_NUMBER,
             DATE_CREATE,
             DATE_UPDATE
-		)
-		VALUES (?,?,'',?,?,?,?,?,?,?,'N',?,?,?,?,?,?)`;
+        )
+        VALUES(?, ?, '', ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, ?, ?, ?, ?)`;
   },
 
   getOptions: () => {
-    return `SELECT
-                    EMAIL
-                    ,COLOR
-                    ,MESSAGE_ALERT
-                    ,LANGUAGE
-                    ,EXCLUDE_SITE
-                    ,HIGHLIGHT
-                    ,ROOT_SITE
-                    ,VIEW_WIDGET
-                    ,THEME
-                    ,DATE_CREATE
-                    ,SYNC_BOOKMARK
-                FROM TBL_OPTIONS`;
+    return `
+        SELECT
+        EMAIL
+            , COLOR
+            , MESSAGE_ALERT
+            , LANGUAGE
+            , EXCLUDE_SITE
+            , HIGHLIGHT
+            , ROOT_SITE
+            , VIEW_WIDGET
+            , THEME
+            , DATE_CREATE
+            , SYNC_BOOKMARK
+        FROM
+        TBL_OPTIONS`;
   },
   getSite: () => {
-    return `SELECT
-                IDX,
-                SITE.URL_KEY,
-                SITE.EMAIL,
-                TITLE,
-                UPDATE_TITLE,
-                URL,
-                SITE.DATE_CREATE,
-                OG_TITLE,
-                OG_DESCRIPTION,
-                OG_IMAGE,
-                EMBEDURL,
-                SHARE_KEY,
-                HOST,
-                TAGS,
-                MEMO,
-                CATEGORY.CATEGORY_IDX
-            FROM TBL_SITES SITE LEFT JOIN TBL_REL_CATEGORY CATEGORY
-            ON SITE.URL_KEY = CATEGORY.URL_KEY
-            WHERE SITE.URL_KEY = ?
+    return `
+        SELECT
+        IDX,
+            SITE.URL_KEY,
+            SITE.EMAIL,
+            TITLE,
+            UPDATE_TITLE,
+            URL,
+            SITE.DATE_CREATE,
+            OG_TITLE,
+            OG_DESCRIPTION,
+            OG_IMAGE,
+            EMBEDURL,
+            SHARE_KEY,
+            HOST,
+            TAGS,
+            MEMO,
+            CATEGORY.CATEGORY_IDX
+        FROM
+        TBL_SITES
+        SITE
+        LEFT
+        JOIN
+        TBL_REL_CATEGORY
+        CATEGORY
+        ON
+        SITE.URL_KEY = CATEGORY.URL_KEY
+        WHERE
+        SITE.URL_KEY = ?
             AND FL_DELETE = 'N'
-            LIMIT 1 `;
+        LIMIT
+        1`;
   },
   getSites: params => {
     let joinCondition = "WHERE 1=1"; //" WHERE CATEGORY.URL_KEY IS NULL";
@@ -191,41 +238,68 @@ export default {
     let limit = ""; //"LIMIT 5";
 
     return (
-      `SELECT 
-                    SITES.IDX,
-                     SITES.URL_KEY,
-                    SITES.EMAIL,
-                    SITES.OWNER_EMAIL,
-                    TITLE,
-                    UPDATE_TITLE,
-                    URL,
-                    OG_TITLE,
-                    OG_DESCRIPTION,
-                    OG_IMAGE,
-                    EMBEDURL,
-                    SHARE_KEY,
-                    HOST,
-                    FULL_TEXT,
-                    FL_DELETE,
-                    URL_TYPE,
-                    READERMODE_CONTENTS,
-                    FL_READMODE,
-                    SITES.DATE_CREATE,
-                    DATE_UPDATE,
-                    TAGS,
-                    CASE WHEN CATEGORY.NAME IS NULL THEN 'NO_CATEGORY' ELSE CATEGORY.NAME END AS CATEGORY_NAME,
-                    '' as CLASS
-                    FROM TBL_SITES SITES LEFT JOIN TBL_REL_CATEGORY REL_CATEGORY
-                    ON SITES.URL_KEY = REL_CATEGORY.URL_KEY
-                    LEFT JOIN TBL_CATEGORY CATEGORY
-                    ON REL_CATEGORY.CATEGORY_IDX = CATEGORY.IDX
-                    ` +
+      `
+        SELECT
+        SITES.IDX,
+            SITES.URL_KEY,
+            SITES.EMAIL,
+            SITES.OWNER_EMAIL,
+            TITLE,
+            UPDATE_TITLE,
+            URL,
+            OG_TITLE,
+            OG_DESCRIPTION,
+            OG_IMAGE,
+            EMBEDURL,
+            SHARE_KEY,
+            HOST,
+            FULL_TEXT,
+            FL_DELETE,
+            URL_TYPE,
+            READERMODE_CONTENTS,
+            FL_READMODE,
+            SITES.DATE_CREATE,
+            DATE_UPDATE,
+            TAGS,
+            CASE
+        WHEN
+        CATEGORY.NAME
+        IS
+        NULL
+        THEN
+        'NO_CATEGORY'
+        ELSE
+        CATEGORY.NAME
+        END
+        AS
+        CATEGORY_NAME,
+        '' as CLASS
+        FROM
+        TBL_SITES
+        SITES
+        LEFT
+        JOIN
+        TBL_REL_CATEGORY
+        REL_CATEGORY
+        ON
+        SITES.URL_KEY = REL_CATEGORY.URL_KEY
+        LEFT
+        JOIN
+        TBL_CATEGORY
+        CATEGORY
+        ON
+        REL_CATEGORY.CATEGORY_IDX = CATEGORY.IDX
+            ` +
       joinCondition +
       `
-                    AND SITES.FL_DELETE = 'N'
-                     ORDER BY SITES.DATE_CREATE DESC
-                     LIMIT ?,?
-                    `
+        AND
+        SITES.FL_DELETE = 'N'
+        ORDER
+        BY
+        SITES.DATE_CREATE
+        DESC
+        LIMIT ?, ?
+            `
     );
   },
 
@@ -243,176 +317,236 @@ export default {
     }
 
     return (
-      `SELECT id,
-                   name,
-                   parent,
-                   depth,
-                   type,
-                   flag,
-                   mouseOver,
-                   dropOver,
-                   class,
-                   SUM(CNT) as cnt
-            FROM (
-                     SELECT IDX     as id,
-                            NAME    as name,
-                            PARENT  as parent,
-                            DEPTH   as depth,
-                            TYPE    as type,
-                            FLAG    as flag,
-                            false   as mouseOver,
-                            false   as dropOver,
-                            ''      as class,
-                            CASE
-                                WHEN B.CATEGORY_IDX IS NULL
-                                    THEN 0
-                                ELSE 1
-                                END AS CNT
-                     FROM TBL_CATEGORY A
-                              LEFT JOIN TBL_REL_CATEGORY B
-                                        ON A.IDX = B.CATEGORY_IDX
-                                       ` +
+      `SELECT
+        id,
+            name,
+            parent,
+            depth,
+            type,
+            flag,
+            mouseOver,
+            dropOver,
+            class,
+        SUM(CNT) as cnt
+        FROM(
+            SELECT
+        IDX as id,
+        NAME as name,
+        PARENT as parent,
+        DEPTH as depth,
+        TYPE as type,
+        FLAG as flag,
+        false as mouseOver,
+        false as dropOver,
+        '' as class,
+            CASE
+        WHEN
+        B.CATEGORY_IDX
+        IS
+        NULL
+        THEN
+        0
+        ELSE
+        1
+        END
+        AS
+        CNT
+        FROM
+        TBL_CATEGORY
+        A
+        LEFT
+        JOIN
+        TBL_REL_CATEGORY
+        B
+        ON
+        A.IDX = B.CATEGORY_IDX
+            ` +
       lostCondition +
       `
-                ` +
+            ` +
       systemCondition +
       `
-                 )
-                 
-                 
-            GROUP BY id, name, parent, depth, mouseOver, dropOver`
+    )
+
+
+        GROUP
+        BY
+        id, name, parent, depth, mouseOver, dropOver`
     );
   },
   getAllItems: () => {
-    return `SELECT 
-                    IDX,
-                    URL_KEY,
-                    TEXT,
-                    NEXT,
-                    PREV,
-                    PRINT_TEXT,
-                    IMAGE,
-                    POSITION,
-                    COLOR,
-                    MEMO,
-                    FL_DELETE,
-                    GB_FILETYPE,
-                    DATE_CREATE,
-                    PAGE_NUMBER,
-                    FL_READMODE AS FL_READERMODE
-                FROM TBL_ITEMS 
-                WHERE URL_KEY = ?
-                AND FL_DELETE = 'N'`;
+    return `
+        SELECT
+        IDX,
+            URL_KEY,
+            TEXT,
+            NEXT,
+            PREV,
+            PRINT_TEXT,
+            IMAGE,
+            POSITION,
+            COLOR,
+            MEMO,
+            FL_DELETE,
+            GB_FILETYPE,
+            DATE_CREATE,
+            PAGE_NUMBER,
+            FL_READMODE
+        AS
+        FL_READERMODE
+        FROM
+        TBL_ITEMS
+        WHERE
+        URL_KEY = ?
+            AND FL_DELETE = 'N'`;
   },
   selectSlack: () => {
     return `
-            SELECT
-                IDX, 
-                CHANNEL_NAME ,
-                WEBHOOK_URL ,
-                DATE_CREATE 
-             FROM TBL_SLACK
-             `;
+        SELECT
+        IDX,
+            CHANNEL_NAME ,
+            WEBHOOK_URL ,
+            DATE_CREATE
+        FROM
+        TBL_SLACK
+            `;
   },
   updateSlack: () => {
     return `
-             UPDATE TBL_SLACK
-                SET CHANNEL_NAME = ?,
-                WEBHOOK_URL = ? 
-            WHERE IDX = ?
-             `;
+        UPDATE
+        TBL_SLACK
+        SET
+        CHANNEL_NAME = ?,
+            WEBHOOK_URL = ?
+                WHERE IDX = ?
+                    `;
   },
   deleteSite: () => {
     return `
-             UPDATE TBL_SITES
-             SET FL_DELETE = 'Y', DATE_UPDATE = ?
+                    UPDATE
+        TBL_SITES
+        SET
+        FL_DELETE = 'Y', DATE_UPDATE = ?
             WHERE URL_KEY = ?
-             `;
+                `;
   },
   deleteSiteInCategory: () => {
     return `
-             DELETE FROM  TBL_REL_CATEGORY
-             WHERE URL_KEY = ?
-             `;
+                DELETE
+        FROM
+        TBL_REL_CATEGORY
+        WHERE
+        URL_KEY = ?
+            `;
   },
   deleteSlack: () => {
     return `
-             DELETE FROM TBL_SLACK
-            WHERE IDX = ?
-             `;
+            DELETE
+        FROM
+        TBL_SLACK
+        WHERE
+        IDX = ?
+            `;
   },
   insertSlack: () => {
     return `
-            INSERT INTO TBL_SLACK
-                        (
-                        EMAIL,
-                        CHANNEL_NAME ,
-                        WEBHOOK_URL ,
-                        DATE_CREATE
-                        )
-                        VALUES (?,?,?,?)
-             `;
+            INSERT
+        INTO
+        TBL_SLACK
+        (
+            EMAIL,
+            CHANNEL_NAME,
+            WEBHOOK_URL,
+            DATE_CREATE
+        )
+        VALUES(?, ?, ?, ?)
+            `;
   },
   updateOptionColor: () => {
-    return `UPDATE TBL_OPTIONS 
-                SET COLOR = ? 
-                WHERE EMAIL = ?
-      `;
-  },
-  updateOptionTheme: () => {
-    return `UPDATE TBL_OPTIONS 
-                SET THEME = ? 
+    return `
+        UPDATE
+        TBL_OPTIONS
+        SET
+        COLOR = ?
+            WHERE EMAIL = ?
                 `;
   },
+  updateOptionTheme: () => {
+    return `UPDATE
+        TBL_OPTIONS
+        SET
+        THEME = ?
+            `;
+  },
   insertCategoryRelation: () => {
-    return `INSERT INTO TBL_REL_CATEGORY
-		( 	CATEGORY_IDX,
+    return `INSERT
+        INTO
+        TBL_REL_CATEGORY
+        (CATEGORY_IDX,
             URL_KEY,
             EMAIL,
             SITE_IDX,
             DATE_CREATE
-		)
-		VALUES (?,?,?,?,?)`;
+        )
+        VALUES(?, ?, ?, ?, ?)`;
   },
   deleteCategoryRelation: () => {
-    return `DELETE FROM TBL_REL_CATEGORY
-                WHERE URL_KEY = ? 
-		`;
+    return `
+        DELETE
+        FROM
+        TBL_REL_CATEGORY
+        WHERE
+        URL_KEY = ?
+            `;
   },
   deleteCategoryRelationParent: () => {
-    return `DELETE FROM TBL_REL_CATEGORY
-                WHERE CATEGORY_IDX = ? 
-		`;
+    return `DELETE
+        FROM
+        TBL_REL_CATEGORY
+        WHERE
+        CATEGORY_IDX = ?
+            `;
   },
   updateLostCategoryItem: () => {
-    return `UPDATE TBL_CATEGORY
-                SET PARENT = -1 
-                WHERE PARENT = ?
-		`;
+    return `UPDATE
+        TBL_CATEGORY
+        SET
+        PARENT = -1
+        WHERE
+        PARENT = ?
+            `;
   },
   updateCategoryItem: () => {
-    return `UPDATE TBL_CATEGORY
-                SET NAME = ? 
-                , PARENT = ?
-                WHERE IDX = ? 
-		`;
+    return `UPDATE
+        TBL_CATEGORY
+        SET
+        NAME = ?
+            , PARENT = ?
+            WHERE IDX = ?
+                `;
   },
   insertCategoryItem: () => {
-    return `INSERT INTO TBL_CATEGORY(
-                                     EMAIL,
-                                     NAME,
-                                     PARENT,
-                                     DEPTH,
-                                     SORT,
-                                     DATE_CREATE,
-                                     TYPE) 
-                VALUES (?,?,?,?,?,?,'CUSTOM') 
-		`;
+    return `INSERT
+        INTO
+        TBL_CATEGORY(
+            EMAIL,
+            NAME,
+            PARENT,
+            DEPTH,
+            SORT,
+            DATE_CREATE,
+            TYPE)
+        VALUES(?, ?, ?, ?, ?, ?, 'CUSTOM')
+            `;
   },
   updateConvertViewmode: () => {
-    return `UPDATE TBL_SITES
-                  SET READERMODE_CONTENTS = ?, DATE_UPDATE = ?, FL_READMODE='Y'
-                  WHERE URL_KEY = ?
+    return `
+        UPDATE
+        TBL_SITES
+        SET
+        READERMODE_CONTENTS = ?, DATE_UPDATE = ?, FL_READMODE = 'Y'
+        WHERE
+        URL_KEY = ?
             `;
   }
 };

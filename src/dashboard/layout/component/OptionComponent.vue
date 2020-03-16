@@ -23,7 +23,7 @@
     <ColorArea ref="color"></ColorArea>
     <SlackArea ref="slack"></SlackArea>
     <BookmarkArea ref="bookmark"></BookmarkArea>
-    <SignArea ref="sign"></SignArea>
+    <SignArea ref="signout"></SignArea>
   </v-menu>
 </template>
 <script>
@@ -61,7 +61,7 @@ export default {
         subTitle: "자신의 북마크로부터 추가."
       },
       {
-        code: "sign",
+        code: "signout",
         title: "SignOut",
         subTitle: ""
       }
@@ -84,8 +84,8 @@ export default {
           "green"
         );
         // this.$refs.bookmark.open();
-      } else if (item.code === "sign") {
-        this.$refs.sign.open();
+      } else if (item.code === "signout") {
+        this.$refs.signout.open();
       }
     }
   }

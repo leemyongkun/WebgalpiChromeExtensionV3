@@ -43,10 +43,9 @@ let Api = {
       let site = Api.getSite(parameter);
       let items = Api.getAllItems(parameter);
       let options = Api.getOptions();
-      let member = Api.getMember();
+      let member = Api.getMembers();
 
       const arr = [site, items, options, member];
-      console.log("arr ", arr);
       Promise.all(arr).then(
         values => {
           let obj = new Object();
@@ -64,6 +63,7 @@ let Api = {
             allItems.SITE_CHECK = "N";
           }
 
+          console.log("member[0] ", member[0]);
           let loginInfo = new Object();
           if (member.length === 0) {
             loginInfo.NAME = "NO_NAME";
@@ -246,8 +246,14 @@ let Api = {
   postMember: param => {
     return insert(Query.insertMember(), param);
   },
-  getMember: () => {
+  updateMemberUse: param => {
+    return update(Query.updateMemberUse(), param);
+  },
+  getMembers: () => {
     return select(Query.selectMembers(), null);
+  },
+  getAllMembers: () => {
+    return select(Query.selectAllMembers(), null);
   },
   updateConvertViewmode: param => {
     return update(Query.updateConvertViewmode(), param);

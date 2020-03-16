@@ -50,8 +50,14 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       });
       return true;
       break;
-    case "get.members":
-      API.getMember().then(members => {
+    case "update.member.use":
+      API.updateMemberUse(msg.data).then(members => {
+        sendResponse(members);
+      });
+      return true;
+      break;
+    case "get.all.members":
+      API.getAllMembers().then(members => {
         sendResponse(members);
       });
       return true;
