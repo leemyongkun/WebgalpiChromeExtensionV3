@@ -123,10 +123,10 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
     case "get.highlights":
       let param = new Object();
       if (msg.data === undefined) {
-        alert("제공되지 않는 페이지입니다.");
         return false;
       }
       param.URL_KEY = msg.data.KEY;
+      param.EMAIL = msg.data.EMAIL;
       API.getAllItems(param).then(res => {
         sendResponse(res);
       });
@@ -144,38 +144,37 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       break;
 
     case "get.sites":
-      console.log("get.sites msg.data ", msg.data);
       API.getSites(msg.data).then(res => {
         sendResponse(res); //조건
       });
       return true;
       break;
     case "get.category": //dashboard
-      API.getCategory(null).then(res => {
+      API.getCategory(msg.data).then(res => {
         sendResponse(res);
       });
       return true;
       break;
     case "get.system.category": //dashboard
-      API.getSystemCategory(null).then(res => {
+      API.getSystemCategory(msg.data).then(res => {
         sendResponse(res);
       });
       return true;
       break;
     case "get.system.all.category.count": //dashboard
-      API.getAllCategoryCount(null).then(res => {
+      API.getAllCategoryCount(msg.data).then(res => {
         sendResponse(res);
       });
       return true;
       break;
     case "get.system.no.category.count": //dashboard
-      API.getNoCategoryCount(null).then(res => {
+      API.getNoCategoryCount(msg.data).then(res => {
         sendResponse(res);
       });
       return true;
       break;
     case "get.lost.category": //dashboard
-      API.getLostCategory(null).then(res => {
+      API.getLostCategory(msg.data).then(res => {
         sendResponse(res);
       });
       return true;

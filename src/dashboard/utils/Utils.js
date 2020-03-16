@@ -25,6 +25,13 @@ let Utils = {
     }
 
     return rootNodes;
+  },
+  getLocalStorage(stoageName) {
+    return new Promise(res => {
+      chrome.storage.local.get([stoageName], result => {
+        res(result);
+      });
+    });
   }
 };
 

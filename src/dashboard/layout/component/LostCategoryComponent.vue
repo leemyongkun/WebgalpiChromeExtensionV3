@@ -38,6 +38,7 @@
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
+import Utils from "../../utils/Utils";
 
 export default {
   components: {},
@@ -50,12 +51,14 @@ export default {
     });
   },
   methods: {
-    getLostCategory() {
+    async getLostCategory() {
+      let result = await Utils.getLocalStorage("loginInfo");
       //미아 카테고리(Parent가 없는 자식 Category)
       CONTENT_LISTENER.sendMessage({
         type: "get.lost.category",
-        data: null
+        data: [result.loginInfo.EMAIL]
       }).then(lostCategory => {
+        console.log("lostCategory ", lostCategory, lostCategory.length);
         this.lostCategory = lostCategory;
       });
     },

@@ -48,6 +48,7 @@
 <script>
 import axios from "axios";
 import CONTENT_LISTENER from "../../../../common/content-listener";
+import Utils from "../../../utils/Utils";
 
 export default {
   components: {},
@@ -75,12 +76,12 @@ export default {
             title_link: this.currentSite.URL,
             text: this.currentSite.OG_DESCRIPTION,
             /*'fields': [
-                                {
-                                    'title': '공유할 사이트 타이틀',
-                                    'value': '공유할 사이트 DESCRIPTION',
-                                    'short': false
-                                }
-                            ],*/
+                                                {
+                                                    'title': '공유할 사이트 타이틀',
+                                                    'value': '공유할 사이트 DESCRIPTION',
+                                                    'short': false
+                                                }
+                                            ],*/
             image_url: "image_url",
             thumb_url: "thumb_url",
             footer: "공유된 날짜",
@@ -102,10 +103,13 @@ export default {
       this.slackMessage = "";
     },
     open() {
-      this.$nextTick(() => {
+      this.$nextTick(async () => {
+        let result = await Utils.getLocalStorage("loginInfo");
         //Highlight 내용 가져오기
         let param = new Object();
         param.KEY = this.currentSite.URL_KEY;
+        param.EMAIL = result.loginInfo.EMAIL;
+
         CONTENT_LISTENER.sendMessage({
           type: "get.highlights",
           data: param
@@ -130,17 +134,17 @@ export default {
   }
 };
 /*    let payload = {
-                      // bot 이름을 바꿀 수 있다.
-                      username: "WEBGALPI",
-                      // bot 아이콘을 바꿀 수 있다.
-                      icon_url:
-                          "https://ca.slack-edge.com/T04GMRZQS-UJFE5M63E-6dafd967707e-48",
-                      // bot 아이콘을 이모티콘으로 사용할 수 있다. 위의 icon_url 중 하나만 사용하면 된다.
-                      icon_emoji: "icon_emoji",
-                      // 본문 내용을 입력한다. (필수)
-                      text: "본문 : https://www.bithumb.com/additional_service/defilending"
-                      // 채널을 override 시킬 수 있다.
-                      //"channel" : ""
-                  };
-  */
+                          // bot 이름을 바꿀 수 있다.
+                          username: "WEBGALPI",
+                          // bot 아이콘을 바꿀 수 있다.
+                          icon_url:
+                              "https://ca.slack-edge.com/T04GMRZQS-UJFE5M63E-6dafd967707e-48",
+                          // bot 아이콘을 이모티콘으로 사용할 수 있다. 위의 icon_url 중 하나만 사용하면 된다.
+                          icon_emoji: "icon_emoji",
+                          // 본문 내용을 입력한다. (필수)
+                          text: "본문 : https://www.bithumb.com/additional_service/defilending"
+                          // 채널을 override 시킬 수 있다.
+                          //"channel" : ""
+                      };
+      */
 </script>

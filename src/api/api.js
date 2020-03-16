@@ -89,11 +89,11 @@ let Api = {
       );
     });
   },
-  getAllCategoryCount: () => {
-    return select(Query.getAllCategoryCount(), []);
+  getAllCategoryCount: params => {
+    return select(Query.getAllCategoryCount(), params);
   },
-  getNoCategoryCount: () => {
-    return select(Query.getNoCategoryCount(), []);
+  getNoCategoryCount: params => {
+    return select(Query.getNoCategoryCount(), params);
   },
   getOptions: () => {
     return select(Query.getOptions(), []);

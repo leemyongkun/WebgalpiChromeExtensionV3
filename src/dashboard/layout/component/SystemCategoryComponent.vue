@@ -69,7 +69,7 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import Utils from "../../utils/Utils";
 import EventBus from "../../event-bus";
-import store from "../../../store";
+
 export default {
   components: {},
   data: () => ({
@@ -84,10 +84,12 @@ export default {
   },
   methods: {
     //시스템 카테고리
-    getSystemCategory() {
+    async getSystemCategory() {
+      let result = await Utils.getLocalStorage("loginInfo");
+
       CONTENT_LISTENER.sendMessage({
         type: "get.system.category",
-        data: null
+        data: [result.loginInfo.EMAIL]
       })
         .then(systemCategory => {
           this.systemCategory = Utils.generateTree(systemCategory, 0);
@@ -97,11 +99,11 @@ export default {
           let systemCategoryCount = [
             CONTENT_LISTENER.sendMessage({
               type: "get.system.all.category.count",
-              data: null
+              data: [result.loginInfo.EMAIL]
             }),
             CONTENT_LISTENER.sendMessage({
               type: "get.system.no.category.count",
-              data: null
+              data: [result.loginInfo.EMAIL]
             })
           ];
 

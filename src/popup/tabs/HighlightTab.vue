@@ -67,6 +67,11 @@ export default {
         chrome.storage.local.get(String(tabId), items => {
           // items: 저장한 객체의 key/value
 
+          chrome.storage.local.get(["loginInfo"], result => {
+            console.log(">>> ", result);
+          });
+
+          //todo 여기 해야함.
           CONTENT_LISTENER.sendMessage({
             type: "get.highlights",
             data: urlInfo

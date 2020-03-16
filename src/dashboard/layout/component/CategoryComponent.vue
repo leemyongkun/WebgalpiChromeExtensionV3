@@ -18,7 +18,7 @@
             @click="editCategory(item, $event, true, 'update')"
             v-show="item.mouseOver"
           >
-            <v-icon dense size="18px" right>mdi-settings </v-icon>
+            <v-icon dense size="18px" right>mdi-settings</v-icon>
           </v-list-item-icon>
         </template>
 
@@ -60,7 +60,7 @@
                 @click="editCategory(subItem, $event, false, 'update')"
                 v-show="subItem.mouseOver"
               >
-                <v-icon dense size="18px" right>mdi-settings </v-icon>
+                <v-icon dense size="18px" right>mdi-settings</v-icon>
               </v-list-item-icon>
             </v-list-item>
           </drop>
@@ -87,12 +87,15 @@ export default {
     });
   },
   methods: {
-    getCategory() {
+    async getCategory() {
+      let result = await Utils.getLocalStorage("loginInfo");
       CONTENT_LISTENER.sendMessage({
         type: "get.category",
-        data: null
+        data: [result.loginInfo.EMAIL]
       }).then(category => {
-        this.category = Utils.generateTree(category, 0);
+        if (category.length !== 0) {
+          this.category = Utils.generateTree(category, 0);
+        }
       });
     },
     dropEvent(data, event) {

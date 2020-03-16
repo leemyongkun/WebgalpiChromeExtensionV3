@@ -27,6 +27,7 @@ export default {
     return `SELECT COUNT(*) AS COUNT
         FROM TBL_SITES
         WHERE FL_DELETE = 'N'
+        AND EMAIL = ?
         `;
   },
   getNoCategoryCount: () => {
@@ -35,6 +36,7 @@ export default {
         FROM TBL_SITES
         WHERE URL_KEY NOT IN (SELECT URL_KEY from TBL_REL_CATEGORY)
         AND FL_DELETE = 'N'
+        AND EMAIL = ?
         `;
   },
   updateMemberUse: () => {
@@ -278,13 +280,13 @@ export default {
     let lostCondition = "";
     let systemCondition = " AND TYPE='CUSTOM'";
     if (flag === "all") {
-      lostCondition = "WHERE PARENT != -1";
+      lostCondition = "AND PARENT != -1";
     }
     if (flag === "lost") {
-      lostCondition = "WHERE PARENT = -1";
+      lostCondition = "AND PARENT = -1";
     }
     if (flag === "system") {
-      systemCondition = " WHERE TYPE='SYSTEM'";
+      systemCondition = " AND TYPE='SYSTEM'";
     }
 
     return (
@@ -317,6 +319,7 @@ export default {
                     END AS CNT
             FROM TBL_CATEGORY A LEFT JOIN TBL_REL_CATEGORY B
             ON A.IDX = B.CATEGORY_IDX
+            WHERE A.EMAIL = ?
             ` +
       lostCondition +
       `

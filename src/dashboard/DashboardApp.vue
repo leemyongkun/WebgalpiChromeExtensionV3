@@ -94,7 +94,6 @@ export default {
           });
 
           //전역에 저장한다.
-          store.commit("memberInfo", result[0]);
           this.member = result[0];
 
           //todo : global emit 발생
