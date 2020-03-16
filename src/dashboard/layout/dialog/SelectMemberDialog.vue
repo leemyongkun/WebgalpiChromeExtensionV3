@@ -24,7 +24,13 @@
               </v-list-item-content>
             </v-list-item>
             <v-list-item-action>
-              <v-btn small text @click="registMember">사용자 등록</v-btn>
+              <v-row>
+                <v-col cols="12">
+                  <v-btn block small outlined @click="registMember"
+                    >사용자 등록</v-btn
+                  >
+                </v-col>
+              </v-row>
             </v-list-item-action>
           </v-list>
         </v-list-item-group>
@@ -116,9 +122,6 @@ export default {
             type: "update.member.use",
             data: param
           }).then(() => {
-            /*chrome.storage.local.get(["loginInfo"], loginInfo => {
-              console.log("loginInfo", loginInfo);
-            });*/
             location.reload();
           });
         } else {

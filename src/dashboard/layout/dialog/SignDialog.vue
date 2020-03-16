@@ -68,6 +68,7 @@
 <script>
 import ACCOUNT from "../../../common/account";
 import CONTENT_LISTENER from "../../../common/content-listener";
+import EventBus from "../../event-bus";
 
 export default {
   data: () => ({
@@ -84,20 +85,35 @@ export default {
   methods: {
     googleSignin() {
       this.isDisabled = true;
-      ACCOUNT.googleLogin()
-        .then(accountInfo => {
-          console.log("accountInfo ", accountInfo);
-          if (accountInfo === null) {
-            alert("구글 계정 로그인 에러");
-            return false;
+
+      chrome.storage.local.get(["googleToken"], result => {
+        chrome.identity.removeCachedAuthToken(
+          { token: result.googleToken },
+          () => {
+            window
+              .fetch(
+                "https://accounts.google.com/o/oauth2/revoke?token=" +
+                  result.googleToken
+              )
+              .then(() => {
+                ACCOUNT.googleLogin()
+                  .then(accountInfo => {
+                    console.log("accountInfo ", accountInfo);
+                    if (accountInfo === null) {
+                      alert("구글 계정 로그인 에러");
+                      return false;
+                    }
+                    this.accountInfo = accountInfo;
+                    this.googleEmail = accountInfo.email;
+                    this.signInProcess = 2;
+                  })
+                  .catch(err => {
+                    console.log("error ", err);
+                  });
+              });
           }
-          this.accountInfo = accountInfo;
-          this.googleEmail = accountInfo.email;
-          this.signInProcess = 2;
-        })
-        .catch(err => {
-          console.log("error ", err);
-        });
+        );
+      });
     },
     anotherMember() {
       chrome.storage.local.get(["googleToken"], result => {
@@ -121,22 +137,39 @@ export default {
       if (!this.$refs.form.validate()) {
         return false;
       }
-      if (this.accountInfo !== null) {
-        this.accountInfo.password = this.password;
 
-        CONTENT_LISTENER.sendMessage({
-          type: "init.data",
-          data: this.accountInfo
-        });
-        CONTENT_LISTENER.sendMessage({
-          type: "insert.member",
-          data: this.accountInfo
-        }).then(() => {
-          location.reload();
-        });
-      } else {
-        alert("계정정보가 존재 하지 않습니다.");
-      }
+      CONTENT_LISTENER.sendMessage({
+        type: "get.all.members",
+        data: null
+      })
+        .then(members => {
+          //기존에 있는 계정인지 체크
+          let result = members.filter(item => {
+            return item.EMAIL === this.googleEmail;
+          });
+
+          if (result.length !== 0) {
+            EventBus.$emit("open.snack", "이미 존재하는 계정입니다.", "red");
+          } else {
+            if (this.accountInfo !== null) {
+              this.accountInfo.password = this.password;
+
+              CONTENT_LISTENER.sendMessage({
+                type: "init.data",
+                data: this.accountInfo
+              });
+              CONTENT_LISTENER.sendMessage({
+                type: "insert.member",
+                data: this.accountInfo
+              }).then(() => {
+                location.reload();
+              });
+            } else {
+              alert("계정정보가 존재 하지 않습니다.");
+            }
+          }
+        })
+        .then(() => {});
     },
     open() {
       this.loginDialog = true;

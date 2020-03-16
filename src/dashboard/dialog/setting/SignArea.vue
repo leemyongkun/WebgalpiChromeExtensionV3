@@ -33,8 +33,8 @@ export default {
       this.dialog = false;
     },
     logout() {
-      chrome.storage.local.get(["member"], result => {
-        let param = ["N", result.member.EMAIL];
+      chrome.storage.local.get(["loginInfo"], result => {
+        let param = ["N", result.loginInfo.EMAIL];
         CONTENT_LISTENER.sendMessage({
           type: "update.member.use",
           data: param
@@ -42,23 +42,6 @@ export default {
           location.reload();
         });
       });
-
-      /* chrome.storage.local.get(["googleToken"], result => {
-                     chrome.identity.removeCachedAuthToken(
-                         {token: result.googleToken},
-                         () => {
-                             window
-                                 .fetch(
-                                     "https://accounts.google.com/o/oauth2/revoke?token=" +
-                                     result.googleToken
-                                 )
-                                 .then(() => {
-                                     //todo : 현재 계정 IS_USE=N 로 수정하기
-                                     alert("로그아웃 완료.다른 계정 띄우기");
-                                 });
-                         }
-                     );
-                 });*/
     }
   }
 };

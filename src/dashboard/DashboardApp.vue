@@ -68,6 +68,9 @@ export default {
      * - 없을경우 DB에서 조회 google login
      *
      */
+
+    //RESOLVE : 어떠한 액션이 있을경우 reload를 한다. 이후, 항상 이 구간을 지나기 때문에 사용여부/loginInfo 의 값에 대한 validation 체크는 자동으로 이루어진다.
+    //todo : 단, global emit을 통해, 열려있는 창에 대한 변경사항에 대한 update는 해주어야한다.
     CONTENT_LISTENER.sendMessage({
       type: "get.all.members",
       data: null
@@ -89,6 +92,8 @@ export default {
             loginInfo: result[0]
           });
           this.member = result[0];
+
+          //todo : global emit 발생
         }
       }
     });

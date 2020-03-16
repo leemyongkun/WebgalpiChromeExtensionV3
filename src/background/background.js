@@ -34,6 +34,7 @@ let BackgroundModule = {
 
       //현재 urlKey를 저장한다.
       chrome.storage.local.set({ [tabId]: currentUrl }, null);
+
       Api.getInitInfo(param).then(res => {
         console.log("#######  RES", res);
 
@@ -49,7 +50,6 @@ let BackgroundModule = {
         //옵션을 저장해둔다.
         chrome.storage.local.set({ options: res.options });
 
-        console.log("####", param);
         chrome.tabs.sendMessage(
           tabId,
           { action: "application.init", data: res, site: param },
@@ -68,8 +68,8 @@ let BackgrounEvent = {
     chrome.runtime.onInstalled.addListener(details => {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
-        dbcon.dropTable();
-        dbcon.createTable();
+        /*dbcon.dropTable();
+        dbcon.createTable();*/
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
