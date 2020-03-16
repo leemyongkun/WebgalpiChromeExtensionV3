@@ -1,7 +1,7 @@
 import CONTENTS from "./contents";
 import EVENT from "./event";
 import APPLICATION from "./application.js";
-import { GLOBAL_CONFIG, URL } from "./global/config";
+import { GLOBAL_CONFIG, URL, USER_INFO } from "./global/config";
 import CORE from "./core/core";
 import COMMON from "./common";
 
@@ -14,15 +14,17 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
     case "application.init":
       /*
-                              같은 사이트에서 여러번의 호출(ajax)이 발생할 경우, 페이지 로딩이 생긴다.
-                              새로 로딩된 사이트가 URL.SITE(전에 저장된 사이트)와 같으면 SPA로 판단하여 더이상 진행하지 않는다.
-                              youtube , https://www.webprofessional.jp/custom-pdf-rendering/ 등을 처리한다.
-                               */
+                                    같은 사이트에서 여러번의 호출(ajax)이 발생할 경우, 페이지 로딩이 생긴다.
+                                    새로 로딩된 사이트가 URL.SITE(전에 저장된 사이트)와 같으면 SPA로 판단하여 더이상 진행하지 않는다.
+                                    youtube , https://www.webprofessional.jp/custom-pdf-rendering/ 등을 처리한다.
+                                     */
       if (URL.SITE === msg.site.URL) return false;
       console.log("INIT ###");
       URL.SITE = msg.site.URL;
       URL.KEY = msg.site.URL_KEY;
       URL.TYPE = msg.site.EXT;
+
+      USER_INFO.EMAIL = msg.data.loginInfo.EMAIL;
 
       APPLICATION.init(msg.data);
       sendResponse(true);

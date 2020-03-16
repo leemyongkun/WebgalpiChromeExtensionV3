@@ -2,7 +2,7 @@ let md5 = require("md5");
 let $ = require("jquery");
 
 import FORM from "./form.js";
-import { GLOBAL_CONFIG, URL, STATUS } from "./global/config.js";
+import { GLOBAL_CONFIG, URL, STATUS, USER_INFO } from "./global/config.js";
 import CORE from "./core/core.js";
 import EVENT from "./event";
 import CONTENT_LISTENER from "../common/content-listener";
@@ -222,7 +222,9 @@ let CONTENTS = {
     param.COLOR = color; // HIGHLIGHT
     param.SITE_CHECK = GLOBAL_CONFIG.USE_CURRENT_SITE; // 사이트를 한번이상 저장한적있으면 Y, 처음이면 N
     param.GB_FILETYPE = "T"; // Text인지 Image인지 구분
-    param.EMAIL = "kkuni.bear@gmail.com"; // loginInfo.EMAIL;
+
+    param.EMAIL = USER_INFO.EMAIL;
+
     param.IMAGE = GLOBAL_CONFIG.SELECT_IMAGE;
     param.PAGE_NUMBER = GLOBAL_CONFIG.PAGE_NUMBER; // PDF의 pagenumber를 넣는다. (PDF가 아닌경우 0으로 들어간다.)
     param.DATE_CREATE = new Date().getTime();
@@ -276,8 +278,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                      $('#highlight-toolbar').hide();
-                                                                                                                                    } */
+                                                                                                                                          $('#highlight-toolbar').hide();
+                                                                                                                                        } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화

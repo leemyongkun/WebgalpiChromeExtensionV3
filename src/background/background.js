@@ -35,7 +35,7 @@ let BackgroundModule = {
       //현재 urlKey를 저장한다.
       chrome.storage.local.set({ [tabId]: currentUrl }, null);
       Api.getInitInfo(param).then(res => {
-        console.log("####### ", res);
+        console.log("#######  RES", res);
 
         //로그인 정보 저장해둔다.
         chrome.storage.local.set({ loginInfo: res.loginInfo });
@@ -46,10 +46,10 @@ let BackgroundModule = {
         //todo : excludesUrl 등록 기능 추가 할것.
         res.tabid = tabId;
 
-        console.log("####", param);
         //옵션을 저장해둔다.
         chrome.storage.local.set({ options: res.options });
 
+        console.log("####", param);
         chrome.tabs.sendMessage(
           tabId,
           { action: "application.init", data: res, site: param },
@@ -68,9 +68,8 @@ let BackgrounEvent = {
     chrome.runtime.onInstalled.addListener(details => {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
-        /*dbcon.dropTable();
+        dbcon.dropTable();
         dbcon.createTable();
-        dbcon.initData();*/
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
@@ -105,7 +104,6 @@ let BackgrounEvent = {
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
-      console.log("info.status ", info, tab);
       if (info.status === "complete") {
         //loading
         //팝업인지 확인.

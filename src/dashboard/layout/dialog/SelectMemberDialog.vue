@@ -116,10 +116,10 @@ export default {
             type: "update.member.use",
             data: param
           }).then(() => {
-            chrome.storage.local.get(["loginInfo"], loginInfo => {
+            /*chrome.storage.local.get(["loginInfo"], loginInfo => {
               console.log("loginInfo", loginInfo);
-            });
-            //  location.reload();
+            });*/
+            location.reload();
           });
         } else {
           EventBus.$emit("open.snack", "패스워드가 맞지 않습니다.", "red");

@@ -46,6 +46,9 @@ let STATUS = {
   mouseDownId: null
 };
 
+let USER_INFO = {
+  EMAIL: null
+};
 let ELEMENT = {};
 
-export { GLOBAL_CONFIG, URL, STATUS };
+export { GLOBAL_CONFIG, URL, STATUS, USER_INFO };

@@ -1,5 +1,5 @@
 import API from "../api/api.js";
-
+import dbcon from "../database/dbcon";
 let emitOptionsAllTabs = (actionCommand, data) => {
   chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
     chrome.windows.getAll({ populate: true }, function(windows) {
@@ -28,6 +28,10 @@ function checkLastError(message) {
 
 chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
   switch (msg.type) {
+    case "init.data":
+      console.log("msg.data", msg.data);
+      dbcon.initData(msg.data);
+      break;
     case "get.backup.data":
       API.getBackupData().then(backupdata => {
         sendResponse(backupdata);
@@ -270,7 +274,7 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
   }
 });
 
-chrome.extension.onConnect.addListener(function(port) {
+/*chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(async msg => {
     switch (msg.action) {
       case "popup.save.site":
@@ -278,4 +282,4 @@ chrome.extension.onConnect.addListener(function(port) {
         break;
     }
   });
-});
+});*/

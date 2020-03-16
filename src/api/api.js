@@ -140,6 +140,7 @@ let Api = {
     let param = [
       params.IDX,
       params.URL_KEY,
+      params.EMAIL,
       params.TEXT,
       params.PREV,
       params.NEXT,
@@ -175,9 +176,12 @@ let Api = {
     return remove(Query.deleteSite(), param);
   },
   postSite: async params => {
+    console.log("### ", params);
     let date = new Date().getTime();
     let param = [
       params.URL_KEY,
+      params.EMAIL, //email
+      params.EMAIL, //owner_email
       params.TITLE,
       params.UPDATE_TITLE,
       params.URL,

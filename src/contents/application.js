@@ -28,6 +28,7 @@ let APPLICATION = {
     });
   },
   init: async data => {
+    console.log("application.inint");
     /*let head = document.querySelector("#mainFrame").contentDocument.head;
           console.log("getNaverBlog ", head);*/
     //this.getNaverBlog();

@@ -123,13 +123,16 @@ export default {
       }
       if (this.accountInfo !== null) {
         this.accountInfo.password = this.password;
+
+        CONTENT_LISTENER.sendMessage({
+          type: "init.data",
+          data: this.accountInfo
+        });
         CONTENT_LISTENER.sendMessage({
           type: "insert.member",
           data: this.accountInfo
         }).then(() => {
-          alert("등록이 완료 되었습니다.");
-          this.$refs.form.reset();
-          this.loginDialog = false;
+          location.reload();
         });
       } else {
         alert("계정정보가 존재 하지 않습니다.");

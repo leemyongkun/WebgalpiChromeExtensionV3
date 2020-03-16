@@ -3,11 +3,13 @@ import { DROP_TABLE_QUERY, CREATE_TABLE_QUERY, DDL } from "./DDL_Query";
 let db = openDatabase("HL", "1.0", "DATABASE", 200000);
 
 export default {
-  initData: () => {
+  initData: accountInfo => {
+    console.log("accountInfo ", accountInfo);
     let TRUNC_OPTIONS = `DELETE FROM TBL_OPTIONS`;
-    let INIT_OPTIONS = `INSERT INTO TBL_OPTIONS  VALUES(
-                        'kkuni.bear@gmail.com'
-                        ,'highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
+    let INIT_OPTIONS =
+      `INSERT INTO TBL_OPTIONS  VALUES(\'` +
+      accountInfo.email +
+      `\','highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
                         ,'KR'
                         ,'Y'--MESSAGE_ALTER
                         ,'Y' --highlight
@@ -21,7 +23,8 @@ export default {
                     )`;
 
     let TRUNC_CATEGORY = `DELETE FROM TBL_CATEGORY`;
-    let INIT_CATEGORY = `INSERT INTO TBL_CATEGORY(
+    let INIT_CATEGORY =
+      `INSERT INTO TBL_CATEGORY(
                                     IDX,
                                      EMAIL,
                                      NAME,
@@ -31,11 +34,19 @@ export default {
                                      TYPE,
                                      FLAG,
                                      DATE_CREATE
-                            ) VALUES  (1,'', 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM','root', null),
-                                          (5,'', 'ALL CATEGORY', 1, 1, 1, 'SYSTEM','all', null),
-                                          (6,'', 'NO CATEGORY', 1, 1, 2, 'SYSTEM','nocategory', null)
+                            ) VALUES  (1,\'` +
+      accountInfo.email +
+      `\', 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM','root', null),
+                                          (5,\'` +
+      accountInfo.email +
+      `\', 'ALL CATEGORY', 1, 1, 1, 'SYSTEM','all', null),
+                                          (6,\'` +
+      accountInfo.email +
+      `\', 'NO CATEGORY', 1, 1, 2, 'SYSTEM','nocategory', null)
                                           `;
 
+    console.log("INIT_OPTIONS ", INIT_OPTIONS);
+    console.log("INIT_CATEGORY ", INIT_CATEGORY);
     db.transaction(function(tx) {
       tx.executeSql(TRUNC_OPTIONS, []);
       tx.executeSql(INIT_OPTIONS, []);
