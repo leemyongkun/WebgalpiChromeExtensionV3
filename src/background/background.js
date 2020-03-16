@@ -26,7 +26,7 @@ let BackgroundModule = {
       let ext = urlPath.substr(urlPath.length - 4, urlPath.length);
       currentUrl = md5(currentUrl.split("#")[0]);
 
-      let param = {
+      let initParameter = {
         URL_KEY: currentUrl,
         URL: urlPath,
         EXT: ext
@@ -35,28 +35,33 @@ let BackgroundModule = {
       //현재 urlKey를 저장한다.
       chrome.storage.local.set({ [tabId]: currentUrl }, null);
 
-      Api.getInitInfo(param).then(res => {
-        console.log("#######  RES", res);
-
-        //로그인 정보 저장해둔다.
-        chrome.storage.local.set({ loginInfo: res.loginInfo });
-
-        if (res.loginInfo.EMAIL === "") {
+      Api.getMemberInfo().then(memberInfo => {
+        console.log("memberInfo ", memberInfo);
+        if (memberInfo.EMAIL === "") {
           return false;
         }
-        //todo : excludesUrl 등록 기능 추가 할것.
-        res.tabid = tabId;
+        //로그인 정보 저장해둔다.
+        chrome.storage.local.set({ loginInfo: memberInfo });
 
-        //옵션을 저장해둔다.
-        chrome.storage.local.set({ options: res.options });
+        initParameter.EMAIL = memberInfo.EMAIL;
 
-        chrome.tabs.sendMessage(
-          tabId,
-          { action: "application.init", data: res, site: param },
-          response => {
-            checkLastError("application.init");
-          }
-        );
+        Api.getInitInfo(initParameter).then(res => {
+          console.log("#######  RES", res);
+
+          //todo : excludesUrl 등록 기능 추가 할것.
+          res.tabid = tabId;
+
+          //옵션을 저장해둔다.
+          chrome.storage.local.set({ options: res.options });
+
+          chrome.tabs.sendMessage(
+            tabId,
+            { action: "application.init", data: res, site: initParameter },
+            response => {
+              checkLastError("application.init");
+            }
+          );
+        });
       });
 
       res(true);
@@ -69,7 +74,7 @@ let BackgrounEvent = {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
         /*dbcon.dropTable();
-        dbcon.createTable();*/
+                dbcon.createTable();*/
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
@@ -135,6 +140,7 @@ function checkLastError(message) {
     return;
   }
 }
+
 chrome.notifications.onClicked.addListener(function(notifId) {
   alert(notifId);
   if (notifId == "notification_1") {

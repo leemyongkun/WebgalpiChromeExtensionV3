@@ -1,5 +1,6 @@
 import API from "../api/api.js";
 import dbcon from "../database/dbcon";
+
 let emitOptionsAllTabs = (actionCommand, data) => {
   chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
     chrome.windows.getAll({ populate: true }, function(windows) {
@@ -132,7 +133,7 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       return true;
       break;
 
-    case "get.site": //dashboard
+    case "get.site": //미사용
       let getSiteParameter = new Object();
       getSiteParameter.URL_KEY = msg.data;
 
@@ -143,6 +144,7 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       break;
 
     case "get.sites": //dashboard
+      console.log("get.sites msg.data ", msg.data);
       API.getSites(msg.data).then(res => {
         sendResponse(res); //조건
       });

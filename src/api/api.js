@@ -1,7 +1,6 @@
 import Query from "../database/query.js";
 
-var db = openDatabase("HL", "1.0", "DATABASE", 200000);
-
+let db = openDatabase("HL", "1.0", "DATABASE", 200000);
 let Api = {
   getBackupData: param => {
     return new Promise(res => {
@@ -36,6 +35,24 @@ let Api = {
   getBackupCategorys: () => {
     return select(Query.getBackupCategorysRelation());
   },
+  getMemberInfo: () => {
+    return new Promise(res => {
+      Api.getMembers().then(members => {
+        let loginInfo = new Object();
+        if (members.length === 0) {
+          loginInfo.NAME = "NO_NAME";
+          loginInfo.IMAGE_URL = "";
+          loginInfo.EMAIL = "";
+        } else {
+          loginInfo.NAME = members[0].NAME;
+          loginInfo.IMAGE_URL = members[0].IMAGE_URL;
+          loginInfo.EMAIL = members[0].EMAIL;
+        }
+
+        res(loginInfo);
+      });
+    });
+  },
   getInitInfo: parameter => {
     return new Promise(res => {
       let obj = new Object();
@@ -43,16 +60,15 @@ let Api = {
       let site = Api.getSite(parameter);
       let items = Api.getAllItems(parameter);
       let options = Api.getOptions();
-      let member = Api.getMembers();
 
-      const arr = [site, items, options, member];
+      const arr = [site, items, options];
       Promise.all(arr).then(
         values => {
           let obj = new Object();
           let site = values[0];
           let items = values[1];
           let options = values[2];
-          let member = values[3];
+
           let allItems = new Object();
           if (site.length != 0) {
             allItems.SITE = site;
@@ -63,20 +79,8 @@ let Api = {
             allItems.SITE_CHECK = "N";
           }
 
-          console.log("member[0] ", member[0]);
-          let loginInfo = new Object();
-          if (member.length === 0) {
-            loginInfo.NAME = "NO_NAME";
-            loginInfo.IMAGE_URL = "";
-            loginInfo.EMAIL = "";
-          } else {
-            loginInfo.NAME = member[0].NAME;
-            loginInfo.IMAGE_URL = member[0].IMAGE_URL;
-            loginInfo.EMAIL = member[0].EMAIL;
-          }
           obj.allItems = allItems;
           obj.options = options[0];
-          obj.loginInfo = loginInfo;
 
           res(obj);
         },
@@ -94,7 +98,7 @@ let Api = {
     return select(Query.getOptions(), []);
   },
   getSite: params => {
-    let param = [params.URL_KEY];
+    let param = [params.URL_KEY, params.EMAIL];
     return select(Query.getSite(), param);
   },
   getSites: params => {
@@ -106,6 +110,7 @@ let Api = {
     } else {
       parameter = [params.startOffset, params.endOffset];
     }
+
     return select(query, parameter);
   },
 
@@ -122,7 +127,10 @@ let Api = {
     return select(query, params);
   },
   getAllItems: parameter => {
-    let result = select(Query.getAllItems(), [parameter.URL_KEY]);
+    let result = select(Query.getAllItems(), [
+      parameter.URL_KEY,
+      parameter.EMAIL
+    ]);
     return result;
   },
   updateItem: params => {

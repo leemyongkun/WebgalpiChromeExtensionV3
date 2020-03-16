@@ -239,6 +239,7 @@ export default {
       }
     },
     getSites(param) {
+      console.log("getSite ", param);
       //페이징 처리를 한다.
       param.startOffset = this.offset.start;
       param.endOffset = this.offset.end;

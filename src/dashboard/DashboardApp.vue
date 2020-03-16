@@ -25,6 +25,7 @@ import SignDialog from "./layout/dialog/SignDialog";
 import SelectMemberDialog from "./layout/dialog/SelectMemberDialog";
 import SnackBar from "./snack/SnackBar";
 import EventBus from "./event-bus";
+import Api from "../api/api";
 
 export default {
   components: {
@@ -87,10 +88,13 @@ export default {
           //사용자 선택
           this.$refs.selectMemberDialog.open(members);
         } else {
-          //Y인 회원으로 로그인처리 한다.
+          //로그인 정보를 localStorage에 저장해둔다.
           chrome.storage.local.set({
             loginInfo: result[0]
           });
+
+          //전역에 저장한다.
+
           this.member = result[0];
 
           //todo : global emit 발생

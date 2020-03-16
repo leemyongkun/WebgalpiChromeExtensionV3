@@ -24,7 +24,7 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       URL.KEY = msg.site.URL_KEY;
       URL.TYPE = msg.site.EXT;
 
-      USER_INFO.EMAIL = msg.data.loginInfo.EMAIL;
+      USER_INFO.EMAIL = msg.site.EMAIL;
 
       APPLICATION.init(msg.data);
       sendResponse(true);

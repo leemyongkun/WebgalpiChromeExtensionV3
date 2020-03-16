@@ -88,11 +88,9 @@ export default {
                 ?
         )`;
   },
-  insertSite: () => {
+  insertSite: param => {
     return `
-        INSERT
-        INTO
-        TBL_SITES
+        INSERT INTO TBL_SITES
         (
             URL_KEY,
             EMAIL,
@@ -116,8 +114,7 @@ export default {
             TAGS
         )
         VALUES
-        (
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, 'N', ?, ?, ?)`;
+            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, 'N', ?, ?, ?) `;
   },
   updateItem: () => {
     return `
@@ -185,39 +182,6 @@ export default {
         FROM
         TBL_OPTIONS`;
   },
-  getSite: () => {
-    return `
-        SELECT
-        IDX,
-            SITE.URL_KEY,
-            SITE.EMAIL,
-            TITLE,
-            UPDATE_TITLE,
-            URL,
-            SITE.DATE_CREATE,
-            OG_TITLE,
-            OG_DESCRIPTION,
-            OG_IMAGE,
-            EMBEDURL,
-            SHARE_KEY,
-            HOST,
-            TAGS,
-            MEMO,
-            CATEGORY.CATEGORY_IDX
-        FROM
-        TBL_SITES
-        SITE
-        LEFT
-        JOIN
-        TBL_REL_CATEGORY
-        CATEGORY
-        ON
-        SITE.URL_KEY = CATEGORY.URL_KEY
-        WHERE SITE.URL_KEY = ?
-        AND FL_DELETE = 'N'
-        LIMIT
-        1`;
-  },
   getSites: params => {
     let joinCondition = "WHERE 1=1"; //" WHERE CATEGORY.URL_KEY IS NULL";
     if (params !== null && params.flag === null) {
@@ -260,46 +224,53 @@ export default {
             SITES.DATE_CREATE,
             DATE_UPDATE,
             TAGS,
-            CASE
-        WHEN
-        CATEGORY.NAME
-        IS
-        NULL
-        THEN
-        'NO_CATEGORY'
-        ELSE
-        CATEGORY.NAME
-        END
-        AS
-        CATEGORY_NAME,
-        '' as CLASS
+            CASE WHEN CATEGORY.NAME
+                IS NULL
+                THEN 'NO_CATEGORY'
+                ELSE CATEGORY.NAME
+             END AS CATEGORY_NAME,
+            '' as CLASS
         FROM
-        TBL_SITES
-        SITES
-        LEFT
-        JOIN
-        TBL_REL_CATEGORY
-        REL_CATEGORY
-        ON
-        SITES.URL_KEY = REL_CATEGORY.URL_KEY
-        LEFT
-        JOIN
-        TBL_CATEGORY
-        CATEGORY
-        ON
-        REL_CATEGORY.CATEGORY_IDX = CATEGORY.IDX
+        TBL_SITES SITES
+        LEFT JOIN TBL_REL_CATEGORY REL_CATEGORY
+        ON SITES.URL_KEY = REL_CATEGORY.URL_KEY
+        LEFT JOIN TBL_CATEGORY CATEGORY
+        ON REL_CATEGORY.CATEGORY_IDX = CATEGORY.IDX
             ` +
       joinCondition +
       `
-        AND
-        SITES.FL_DELETE = 'N'
-        ORDER
-        BY
+        AND SITES.FL_DELETE = 'N'
+        ORDER BY
         SITES.DATE_CREATE
         DESC
-        LIMIT ?, ?
-            `
+        LIMIT ?, ? `
     );
+  },
+  getSite: () => {
+    return `
+        SELECT
+        IDX,
+            SITE.URL_KEY,
+            SITE.EMAIL,
+            TITLE,
+            UPDATE_TITLE,
+            URL,
+            SITE.DATE_CREATE,
+            OG_TITLE,
+            OG_DESCRIPTION,
+            OG_IMAGE,
+            EMBEDURL,
+            SHARE_KEY,
+            HOST,
+            TAGS,
+            MEMO,
+            CATEGORY.CATEGORY_IDX
+        FROM TBL_SITES SITE LEFT JOIN TBL_REL_CATEGORY CATEGORY
+        ON SITE.URL_KEY = CATEGORY.URL_KEY
+        WHERE SITE.URL_KEY = ?
+        AND SITE.EMAIL = ?
+        AND SITE.FL_DELETE = 'N'
+        LIMIT 1`;
   },
 
   getCategory: flag => {
@@ -329,44 +300,29 @@ export default {
         SUM(CNT) as cnt
         FROM(
             SELECT
-        IDX as id,
-        NAME as name,
-        PARENT as parent,
-        DEPTH as depth,
-        TYPE as type,
-        FLAG as flag,
-        false as mouseOver,
-        false as dropOver,
-        '' as class,
-            CASE
-        WHEN
-        B.CATEGORY_IDX
-        IS
-        NULL
-        THEN
-        0
-        ELSE
-        1
-        END
-        AS
-        CNT
-        FROM
-        TBL_CATEGORY
-        A
-        LEFT
-        JOIN
-        TBL_REL_CATEGORY
-        B
-        ON
-        A.IDX = B.CATEGORY_IDX
+                IDX as id,
+                NAME as name,
+                PARENT as parent,
+                DEPTH as depth,
+                TYPE as type,
+                FLAG as flag,
+                false as mouseOver,
+                false as dropOver,
+                '' as class,
+                CASE
+                    WHEN B.CATEGORY_IDX IS NULL
+                    THEN 0
+                    ELSE 1
+                    END AS CNT
+            FROM TBL_CATEGORY A LEFT JOIN TBL_REL_CATEGORY B
+            ON A.IDX = B.CATEGORY_IDX
             ` +
       lostCondition +
       `
             ` +
       systemCondition +
       `
-    )
-
+            )
 
         GROUP
         BY
@@ -390,14 +346,11 @@ export default {
             GB_FILETYPE,
             DATE_CREATE,
             PAGE_NUMBER,
-            FL_READMODE
-        AS
-        FL_READERMODE
-        FROM
-        TBL_ITEMS
-        WHERE
-        URL_KEY = ?
-            AND FL_DELETE = 'N'`;
+            FL_READMODE AS FL_READERMODE
+        FROM TBL_ITEMS
+        WHERE URL_KEY = ?
+        AND EMAIL = ?
+        AND FL_DELETE = 'N'`;
   },
   selectSlack: () => {
     return `
