@@ -1,6 +1,7 @@
 import Query from "../database/query.js";
 
 import store from "../store";
+
 var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 let Api = {
   getBackupData: param => {
@@ -36,6 +37,7 @@ let Api = {
   getBackupCategorys: () => {
     return select(Query.getBackupCategorysRelation());
   },
+
   getMemberInfo: () => {
     return new Promise(res => {
       Api.getMembers().then(members => {
@@ -60,7 +62,7 @@ let Api = {
 
       let site = Api.getSite(parameter);
       let items = Api.getAllItems(parameter);
-      let options = Api.getOptions();
+      let options = Api.getOptions(parameter.EMAIL);
 
       const arr = [site, items, options];
       Promise.all(arr).then(
@@ -90,13 +92,15 @@ let Api = {
     });
   },
   getAllCategoryCount: params => {
+    console.log("getAllCategoryCount ", params, Query.getAllCategoryCount());
     return select(Query.getAllCategoryCount(), params);
   },
   getNoCategoryCount: params => {
     return select(Query.getNoCategoryCount(), params);
   },
-  getOptions: () => {
-    return select(Query.getOptions(), []);
+  getOptions: Email => {
+    console.log("Email ", Email);
+    return select(Query.getOptions(), [Email]);
   },
   getSite: params => {
     let param = [params.URL_KEY, params.EMAIL];
@@ -275,6 +279,15 @@ let Api = {
   },
   updateConvertViewmode: param => {
     return update(Query.updateConvertViewmode(), param);
+  },
+  initDataOption: param => {
+    return insert(Query.initDataOption(), param);
+  },
+  initDataCategory: param => {
+    return insert(Query.initDataCategory(), param);
+  },
+  getCategoryMaxId: () => {
+    return select(Query.getCategoryMaxId(), []);
   }
 };
 

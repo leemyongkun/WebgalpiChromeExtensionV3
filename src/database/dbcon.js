@@ -4,12 +4,11 @@ let db = openDatabase("HL", "1.0", "DATABASE", 200000);
 
 export default {
   initData: accountInfo => {
-    console.log("accountInfo ", accountInfo);
-    let TRUNC_OPTIONS = `DELETE FROM TBL_OPTIONS`;
-    let INIT_OPTIONS =
-      `INSERT INTO TBL_OPTIONS  VALUES(\'` +
-      accountInfo.email +
-      `\','highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
+    return new Promise(res => {
+      let INIT_OPTIONS =
+        `INSERT INTO TBL_OPTIONS  VALUES(\'` +
+        accountInfo.email +
+        `\','highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
                         ,'KR'
                         ,'Y'--MESSAGE_ALTER
                         ,'Y' --highlight
@@ -22,9 +21,8 @@ export default {
                         ,'dark' --THEME (dark / light);
                     )`;
 
-    let TRUNC_CATEGORY = `DELETE FROM TBL_CATEGORY`;
-    let INIT_CATEGORY =
-      `INSERT INTO TBL_CATEGORY(
+      let INIT_CATEGORY =
+        `INSERT INTO TBL_CATEGORY(
                                     IDX,
                                      EMAIL,
                                      NAME,
@@ -35,23 +33,23 @@ export default {
                                      FLAG,
                                      DATE_CREATE
                             ) VALUES  (1,\'` +
-      accountInfo.email +
-      `\', 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM','root', null),
+        accountInfo.email +
+        `\', 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM','root', null),
                                           (5,\'` +
-      accountInfo.email +
-      `\', 'ALL CATEGORY', 1, 1, 1, 'SYSTEM','all', null),
+        accountInfo.email +
+        `\', 'ALL CATEGORY', 1, 1, 1, 'SYSTEM','all', null),
                                           (6,\'` +
-      accountInfo.email +
-      `\', 'NO CATEGORY', 1, 1, 2, 'SYSTEM','nocategory', null)
+        accountInfo.email +
+        `\', 'NO CATEGORY', 1, 1, 2, 'SYSTEM','nocategory', null)
                                           `;
 
-    console.log("INIT_OPTIONS ", INIT_OPTIONS);
-    console.log("INIT_CATEGORY ", INIT_CATEGORY);
-    db.transaction(function(tx) {
-      tx.executeSql(TRUNC_OPTIONS, []);
-      tx.executeSql(INIT_OPTIONS, []);
-      tx.executeSql(TRUNC_CATEGORY, []);
-      tx.executeSql(INIT_CATEGORY, []);
+      console.log("INIT_OPTIONS ", INIT_OPTIONS);
+      console.log("INIT_CATEGORY ", INIT_CATEGORY);
+      db.transaction(tx => {
+        tx.executeSql(INIT_OPTIONS, []);
+        tx.executeSql(INIT_CATEGORY, []);
+      });
+      res(true);
     });
   },
   selectData: query => {

@@ -35,6 +35,7 @@
 //color https://www.materialpalette.com/colors
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
+import Utils from "../../utils/Utils";
 
 export default {
   props: [],
@@ -121,15 +122,15 @@ export default {
     close() {
       this.dialog = false;
     },
-    saveColor() {
+    async saveColor() {
       if (this.pickColor.length === 0) {
         alert("1개 이상 선택");
         return false;
       }
-
+      let result = await Utils.getLocalStorage("loginInfo");
       CONTENT_LISTENER.sendMessage({
         type: "update.option.color",
-        data: [this.pickColor.join(","), "kkuni.bear@gmail.com"] //[todo] 2번째 파라메터는 Email 로 한다.
+        data: [this.pickColor.join(","), result.loginInfo.EMAIL] //[todo] 2번째 파라메터는 Email 로 한다.
       }).then(response => {
         EventBus.$emit("open.snack", "COLOR가 저장되었습니다.");
         this.close();

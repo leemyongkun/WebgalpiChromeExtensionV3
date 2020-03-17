@@ -100,6 +100,7 @@ export default {
             console.log("error ", err);
           });
       };
+
       this.isDisabled = true;
 
       chrome.storage.local.get(["googleToken"], result => {
@@ -149,7 +150,7 @@ export default {
         type: "get.all.members",
         data: null
       })
-        .then(members => {
+        .then(async members => {
           //기존에 있는 계정인지 체크
           let result = members.filter(item => {
             return item.EMAIL === this.googleEmail;
@@ -161,15 +162,41 @@ export default {
             if (this.accountInfo !== null) {
               this.accountInfo.password = this.password;
 
-              CONTENT_LISTENER.sendMessage({
-                type: "init.data",
-                data: this.accountInfo
+              let result = await CONTENT_LISTENER.sendMessage({
+                type: "get.category.max.id",
+                data: null
               });
-              CONTENT_LISTENER.sendMessage({
-                type: "insert.member",
-                data: this.accountInfo
-              }).then(() => {
-                location.reload();
+              let categoryNewId;
+              if (result[0].MAXID === null) {
+                categoryNewId = 1;
+              } else {
+                categoryNewId = result[0].MAXID + 1;
+              }
+
+              let initEnvironment = [
+                CONTENT_LISTENER.sendMessage({
+                  type: "init.data.option",
+                  data: [this.accountInfo.email]
+                }),
+                CONTENT_LISTENER.sendMessage({
+                  type: "init.data.category",
+                  data: [
+                    this.accountInfo.email,
+                    this.accountInfo.email,
+                    categoryNewId,
+                    this.accountInfo.email,
+                    categoryNewId
+                  ]
+                }),
+                CONTENT_LISTENER.sendMessage({
+                  type: "insert.member",
+                  data: this.accountInfo
+                })
+              ];
+
+              Promise.all(initEnvironment).then(values => {
+                //todo 이거 잘 안되네..
+                alert("완료 되었습니다. 새로고침을 하십시오.");
               });
             } else {
               alert("계정정보가 존재 하지 않습니다.");
@@ -180,6 +207,9 @@ export default {
     },
     open() {
       this.loginDialog = true;
+    },
+    close() {
+      this.loginDialog = false;
     }
   }
 };

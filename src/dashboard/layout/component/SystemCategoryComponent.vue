@@ -77,7 +77,7 @@ export default {
     allCategoryCount: 0,
     noCategoryCount: 0
   }),
-  created() {
+  mounted() {
     this.$nextTick(() => {
       this.getSystemCategory();
     });
@@ -86,12 +86,12 @@ export default {
     //시스템 카테고리
     async getSystemCategory() {
       let result = await Utils.getLocalStorage("loginInfo");
-
       CONTENT_LISTENER.sendMessage({
         type: "get.system.category",
         data: [result.loginInfo.EMAIL]
       })
         .then(systemCategory => {
+          if (systemCategory.length === 0) return false;
           this.systemCategory = Utils.generateTree(systemCategory, 0);
           return this.systemCategory[0].children;
         })

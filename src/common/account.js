@@ -2,7 +2,6 @@ let ACCOUNT = {
   googleLogin: () => {
     return new Promise((res, rej) => {
       chrome.identity.getAuthToken({ interactive: true }, function(token) {
-        console.log("getAuthToken", token);
         chrome.storage.local.set({
           googleToken: token
         });
@@ -36,39 +35,39 @@ let ACCOUNT = {
         return false;
 
         /* let upload = () => {
-                  let fileContent = "sample text2"; // As a sample, upload a text file.
-                  let file = new Blob([fileContent], { type: "text/plain" });
-                  let metadata = {
-                    name: token.split("_")[0], // Filename at Google Drive
-                    mimeType: "text/plain" // mimeType at Google Drive
-                    //'parents': ['WEBGALPI'], // Folder ID at Google Drive
-                  };
+                          let fileContent = "sample text2"; // As a sample, upload a text file.
+                          let file = new Blob([fileContent], { type: "text/plain" });
+                          let metadata = {
+                            name: token.split("_")[0], // Filename at Google Drive
+                            mimeType: "text/plain" // mimeType at Google Drive
+                            //'parents': ['WEBGALPI'], // Folder ID at Google Drive
+                          };
 
-                  let accessToken = token; //gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
-                  let form = new FormData();
-                  form.append(
-                    "metadata",
-                    new Blob([JSON.stringify(metadata)], { type: "application/json" })
-                  );
-                  form.append("file", file);
+                          let accessToken = token; //gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
+                          let form = new FormData();
+                          form.append(
+                            "metadata",
+                            new Blob([JSON.stringify(metadata)], { type: "application/json" })
+                          );
+                          form.append("file", file);
 
-                  fetch(
-                    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",
-                    {
-                      method: "POST",
-                      headers: new Headers({
-                        Authorization: "Bearer " + accessToken
-                      }),
-                      body: form
-                    }
-                  )
-                    .then(res => {
-                      return res.json();
-                    })
-                    .then(function(val) {
-                      console.log(val);
-                    });
-                };*/
+                          fetch(
+                            "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",
+                            {
+                              method: "POST",
+                              headers: new Headers({
+                                Authorization: "Bearer " + accessToken
+                              }),
+                              body: form
+                            }
+                          )
+                            .then(res => {
+                              return res.json();
+                            })
+                            .then(function(val) {
+                              console.log(val);
+                            });
+                        };*/
 
         //https://console.developers.google.com/apis/api/drive.googleapis.com/metrics?project=chrome-webgalpi
         //https://developers.google.com/drive/api/v3/reference/files/create
@@ -76,21 +75,21 @@ let ACCOUNT = {
 
         /*
 
-                                                                                            let init = {
-                                                                                                method: "GET",
-                                                                                                async: true,
-                                                                                                headers: {
-                                                                                                    Authorization: "Bearer " + token,
-                                                                                                    "Content-Type": "application/json"
-                                                                                                },
-                                                                                                contentType: "json"
-                                                                                            };
-                                                                                            fetch(
-                                                                                                "https://people.googleapis.com/v1/contactGroups/all?maxMembers=20&key=AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
-                                                                                                init
-                                                                                            ).then(response => response.json()).then(function (data) {
-                                                                                                console.log(data);
-                                                                                            });*/
+                                                                                                    let init = {
+                                                                                                        method: "GET",
+                                                                                                        async: true,
+                                                                                                        headers: {
+                                                                                                            Authorization: "Bearer " + token,
+                                                                                                            "Content-Type": "application/json"
+                                                                                                        },
+                                                                                                        contentType: "json"
+                                                                                                    };
+                                                                                                    fetch(
+                                                                                                        "https://people.googleapis.com/v1/contactGroups/all?maxMembers=20&key=AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
+                                                                                                        init
+                                                                                                    ).then(response => response.json()).then(function (data) {
+                                                                                                        console.log(data);
+                                                                                                    });*/
       });
     });
   }

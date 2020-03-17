@@ -94,6 +94,7 @@ export default {
         data: [result.loginInfo.EMAIL]
       }).then(category => {
         if (category.length !== 0) {
+          console.log("category", JSON.stringify(category));
           this.category = Utils.generateTree(category, 0);
         }
       });

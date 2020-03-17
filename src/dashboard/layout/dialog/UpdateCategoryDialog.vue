@@ -80,6 +80,7 @@
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
+import Utils from "../../utils/Utils";
 
 export default {
   components: {},
@@ -162,7 +163,7 @@ export default {
     deleteCategory() {
       alert("delete");
     },
-    insertCategory() {
+    async insertCategory() {
       //todo : Category 등록
       //1. index 최대값을 가져온다.
       //2. PARENT / CHILD를 구분하여 parameter 를 구성한다.
@@ -187,8 +188,9 @@ export default {
         return false;
       }
 
+      let result = await Utils.getLocalStorage("loginInfo");
       let param = [
-        "kkuni.bear@gmail.com", //email
+        result.loginInfo.EMAIL, //email
         this.categoryName, //NAME
         categoryParent, //parent
         depth, //depth

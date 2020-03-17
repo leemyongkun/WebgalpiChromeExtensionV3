@@ -58,7 +58,6 @@ export default {
         type: "get.lost.category",
         data: [result.loginInfo.EMAIL]
       }).then(lostCategory => {
-        console.log("lostCategory ", lostCategory, lostCategory.length);
         this.lostCategory = lostCategory;
       });
     },

@@ -170,7 +170,7 @@ export default {
   getOptions: () => {
     return `
         SELECT
-        EMAIL
+            EMAIL
             , COLOR
             , MESSAGE_ALERT
             , LANGUAGE
@@ -181,8 +181,8 @@ export default {
             , THEME
             , DATE_CREATE
             , SYNC_BOOKMARK
-        FROM
-        TBL_OPTIONS`;
+        FROM TBL_OPTIONS
+        WHERE EMAIL = ?`;
   },
   getSites: params => {
     let joinCondition = "WHERE 1=1"; //" WHERE CATEGORY.URL_KEY IS NULL";
@@ -505,5 +505,37 @@ export default {
         WHERE
         URL_KEY = ?
             `;
+  },
+  initDataOption: () => {
+    return `INSERT INTO TBL_OPTIONS  VALUES(?,'highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
+                        ,'KR'
+                        ,'Y'--MESSAGE_ALTER
+                        ,'Y' --highlight
+                        ,'N' --rootsite
+                        ,'N' --excute_iframe
+                        ,'N' --viewWidget
+                        ,0
+                        ,null --EXCLUDE_SITE
+                        ,'N' --SYNC_BOOKMARK
+                        ,'dark' --THEME (dark / light);
+                    )`;
+  },
+  initDataCategory: () => {
+    return `INSERT INTO TBL_CATEGORY(
+                                     EMAIL,
+                                     NAME,
+                                     PARENT,
+                                     DEPTH,
+                                     SORT,
+                                     TYPE,
+                                     FLAG,
+                                     DATE_CREATE
+                            ) VALUES  (? , 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM','root', null),
+                                      (? , 'ALL CATEGORY', ?, 1, 1, 'SYSTEM','all', null),
+                                      (? , 'NO CATEGORY', ?, 1, 2, 'SYSTEM','nocategory', null)
+                 `;
+  },
+  getCategoryMaxId: () => {
+    return `select MAX(IDX) AS MAXID from TBL_CATEGORY`;
   }
 };

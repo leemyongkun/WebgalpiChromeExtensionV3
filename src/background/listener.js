@@ -27,19 +27,26 @@ function checkLastError(message) {
   }
 }
 
-chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
+chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
   switch (msg.type) {
-    case "init.data":
-      console.log("msg.data", msg.data);
-      dbcon.initData(msg.data);
-      break;
-    case "get.backup.data":
-      API.getBackupData().then(backupdata => {
-        sendResponse(backupdata);
+    case "init.data.option":
+      API.initDataOption(msg.data).then(() => {
+        sendResponse(true);
       });
       return true;
       break;
-
+    case "get.category.max.id":
+      API.getCategoryMaxId().then(result => {
+        sendResponse(result);
+      });
+      return true;
+      break;
+    case "init.data.category":
+      API.initDataCategory(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
     case "insert.member":
       let data = msg.data;
       let memberParameter = [
@@ -53,8 +60,14 @@ chrome.extension.onMessage.addListener((msg, sender, sendResponse) => {
       API.postMember(memberParameter).then(() => {
         sendResponse(true);
       });
+      break;
+    case "get.backup.data":
+      API.getBackupData().then(backupdata => {
+        sendResponse(backupdata);
+      });
       return true;
       break;
+
     case "update.member.use":
       API.updateMemberUse(msg.data).then(members => {
         sendResponse(members);
