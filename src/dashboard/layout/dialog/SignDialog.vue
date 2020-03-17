@@ -84,35 +84,42 @@ export default {
   }),
   methods: {
     googleSignin() {
+      let accountGoogleLogin = () => {
+        ACCOUNT.googleLogin()
+          .then(accountInfo => {
+            console.log("accountInfo ", accountInfo);
+            if (accountInfo === null) {
+              alert("구글 계정 로그인 에러");
+              return false;
+            }
+            this.accountInfo = accountInfo;
+            this.googleEmail = accountInfo.email;
+            this.signInProcess = 2;
+          })
+          .catch(err => {
+            console.log("error ", err);
+          });
+      };
       this.isDisabled = true;
 
       chrome.storage.local.get(["googleToken"], result => {
-        chrome.identity.removeCachedAuthToken(
-          { token: result.googleToken },
-          () => {
-            window
-              .fetch(
-                "https://accounts.google.com/o/oauth2/revoke?token=" +
-                  result.googleToken
-              )
-              .then(() => {
-                ACCOUNT.googleLogin()
-                  .then(accountInfo => {
-                    console.log("accountInfo ", accountInfo);
-                    if (accountInfo === null) {
-                      alert("구글 계정 로그인 에러");
-                      return false;
-                    }
-                    this.accountInfo = accountInfo;
-                    this.googleEmail = accountInfo.email;
-                    this.signInProcess = 2;
-                  })
-                  .catch(err => {
-                    console.log("error ", err);
-                  });
-              });
-          }
-        );
+        if (result.googleToken === undefined) {
+          accountGoogleLogin();
+        } else {
+          chrome.identity.removeCachedAuthToken(
+            { token: result.googleToken },
+            () => {
+              window
+                .fetch(
+                  "https://accounts.google.com/o/oauth2/revoke?token=" +
+                    result.googleToken
+                )
+                .then(() => {
+                  accountGoogleLogin();
+                });
+            }
+          );
+        }
       });
     },
     anotherMember() {
