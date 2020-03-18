@@ -77,11 +77,6 @@ export default {
     allCategoryCount: 0,
     noCategoryCount: 0
   }),
-  mounted() {
-    this.$nextTick(() => {
-      this.getSystemCategory();
-    });
-  },
   methods: {
     //시스템 카테고리
     async getSystemCategory() {

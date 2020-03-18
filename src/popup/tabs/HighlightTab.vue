@@ -27,6 +27,7 @@
 //https://i.picsum.photos/id/20/400/400.jpg
 import CONTENT_LISTENER from "../../common/content-listener";
 import Common from "../../common/common";
+import Utils from "../../dashboard/utils/Utils";
 
 export default {
   name: "HighlightTab",
@@ -68,16 +69,15 @@ export default {
           // items: 저장한 객체의 key/value
 
           chrome.storage.local.get(["loginInfo"], result => {
-            console.log(">>> ", result);
-          });
+            urlInfo.EMAIL = result.loginInfo.EMAIL;
 
-          //todo 여기 해야함.
-          CONTENT_LISTENER.sendMessage({
-            type: "get.highlights",
-            data: urlInfo
-          }).then(response => {
-            /*this.Highlight.activities = response;*/
-            this.highlights = response;
+            CONTENT_LISTENER.sendMessage({
+              type: "get.highlights",
+              data: urlInfo
+            }).then(response => {
+              /*this.Highlight.activities = response;*/
+              this.highlights = response;
+            });
           });
         });
       });

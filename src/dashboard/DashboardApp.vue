@@ -1,10 +1,10 @@
 <template>
   <v-app>
     <AppBarPage :member="member" />
-    <MenuPage />
+    <MenuPage ref="menuPage" />
     <v-content>
       <v-container fluid class="pt-0 mt-0">
-        <ContentBody></ContentBody>
+        <ContentBody ref="contentBody"></ContentBody>
         <!--<SiteListWidePage></SiteListWidePage>-->
       </v-container>
     </v-content>
@@ -26,6 +26,7 @@ import SelectMemberDialog from "./layout/dialog/SelectMemberDialog";
 import SnackBar from "./snack/SnackBar";
 import EventBus from "./event-bus";
 import store from "../store";
+import Utils from "./utils/Utils";
 
 export default {
   components: {
@@ -78,6 +79,11 @@ export default {
 
             //전역에 저장한다.
             this.member = result[0];
+
+            //MenuPage 초기화
+            this.$refs.menuPage.getReloadCategory();
+            //ContentBody 초기화
+            this.$refs.contentBody.getSites(new Object());
 
             //todo : global emit 발생
           }

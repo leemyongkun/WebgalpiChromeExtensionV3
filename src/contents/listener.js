@@ -57,7 +57,6 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
 
     case "emit.action":
-      //document.getElementById('highlight-update-toolbar').remove();
       document.getElementsByTagName("webgalpi-group")[0].remove();
 
       APPLICATION.createContentsForm(msg.data[0].COLOR);

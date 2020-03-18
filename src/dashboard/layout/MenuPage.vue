@@ -115,8 +115,6 @@ export default {
       });
     });
   },
-  mounted() {},
-  computed: {},
   methods: {
     getReloadCategory() {
       //카테고리를 가져온다.

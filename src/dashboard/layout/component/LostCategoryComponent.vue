@@ -45,11 +45,6 @@ export default {
   data: () => ({
     lostCategory: []
   }),
-  created() {
-    this.$nextTick(() => {
-      this.getLostCategory();
-    });
-  },
   methods: {
     async getLostCategory() {
       let result = await Utils.getLocalStorage("loginInfo");

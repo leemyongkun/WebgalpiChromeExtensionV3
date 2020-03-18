@@ -81,11 +81,7 @@ export default {
     category: [],
     overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;" //드래드 시 오버 대상에 마우스 over 했을때 스타일
   }),
-  created() {
-    this.$nextTick(() => {
-      this.getCategory();
-    });
-  },
+  created() {},
   methods: {
     async getCategory() {
       let result = await Utils.getLocalStorage("loginInfo");

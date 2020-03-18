@@ -27,8 +27,8 @@
               <v-row>
                 <v-col cols="12">
                   <v-btn block small outlined @click="registMember"
-                    >사용자 등록</v-btn
-                  >
+                    >사용자 등록
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-list-item-action>
@@ -122,7 +122,8 @@ export default {
             type: "update.member.use",
             data: param
           }).then(() => {
-            location.reload();
+            EventBus.$emit("init.dashboard");
+            this.loginDialog = false;
           });
         } else {
           EventBus.$emit("open.snack", "패스워드가 맞지 않습니다.", "red");

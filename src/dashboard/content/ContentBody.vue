@@ -164,44 +164,42 @@ export default {
     currentSiteParameter: null,
     currentCategoryInfo: null
   }),
-  created() {},
-  mounted() {
-    //2초에 한번씩 Dashboard 진입을 확인한다.
-    /*setInterval(() => {
-                              chrome.storage.local.get(["activeDashboardStatus"], result => {
-                                if (result.activeDashboardStatus === true) {
-                                }
-                                chrome.storage.local.set({ activeDashboardStatus: false });
-                              });
-                            }, 2000);*/
+  created() {
+    this.$nextTick(() => {
+      //2초에 한번씩 Dashboard 진입을 확인한다.
+      /*setInterval(() => {
+                                    chrome.storage.local.get(["activeDashboardStatus"], result => {
+                                      if (result.activeDashboardStatus === true) {
+                                      }
+                                      chrome.storage.local.set({ activeDashboardStatus: false });
+                                    });
+                                  }, 2000);*/
 
-    //카테고리 클릭 시
-    EventBus.$on("selectCategoryForSite", categoryInfo => {
-      //페이징 offset 초기화
-      this.offset.start = OFFSET_START;
-      this.offset.end = OFFSET_END;
-      this.sites = [];
+      //카테고리 클릭 시
+      EventBus.$on("selectCategoryForSite", categoryInfo => {
+        //페이징 offset 초기화
+        this.offset.start = OFFSET_START;
+        this.offset.end = OFFSET_END;
+        this.sites = [];
 
-      this.currentCategoryInfo = categoryInfo;
-      //let param = [categoryInfo.id];
-      this.getSites(categoryInfo);
-    });
+        this.currentCategoryInfo = categoryInfo;
+        //let param = [categoryInfo.id];
+        this.getSites(categoryInfo);
+      });
 
-    //카테고리 이동 완료 시, SITE를 제거한다.
-    EventBus.$on("hideSite", siteUrlKey => {
-      this.hideSites(siteUrlKey);
-    });
+      //카테고리 이동 완료 시, SITE를 제거한다.
+      EventBus.$on("hideSite", siteUrlKey => {
+        this.hideSites(siteUrlKey);
+      });
 
-    //window resize event
-    this.$nextTick(function() {
-      window.addEventListener("resize", this.getWindowHeight);
-      //Init
-      this.getWindowHeight();
+      //window resize event
+      this.$nextTick(function() {
+        window.addEventListener("resize", this.getWindowHeight);
+        //Init
+        this.getWindowHeight();
 
-      // 로딩 시 호출 처음 호출
-      //setTimeout(() => {
-      this.getSites(new Object());
-      //}, 300);
+        // 로딩 시 호출 처음 호출
+      });
     });
   },
 
