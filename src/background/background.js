@@ -35,6 +35,7 @@ let BackgroundModule = {
       //현재 urlKey를 저장한다.
       chrome.storage.local.set({ [tabId]: currentUrl }, null);
 
+      //EMAIL로 조건을 걸지 않고, 사용중(IS_USE=Y)의 데이타만 가져온다
       Api.getMemberInfo().then(memberInfo => {
         console.log("memberInfo ", memberInfo);
         if (memberInfo.EMAIL === "") {

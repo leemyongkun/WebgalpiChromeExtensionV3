@@ -3,24 +3,28 @@ export default {
     return `
             SELECT * 
             FROM TBL_SITES
+            WHERE EMAIL = ?
         `;
   },
   getBackupHighlights: date => {
     return `
             SELECT *
             FROM TBL_ITEMS
+            WHERE EMAIL = ?
         `;
   },
   getBackupCategorys: () => {
     return `
             SELECT *
             FROM TBL_CATEGORY
+            WHERE EMAIL = ?
         `;
   },
   getBackupCategorysRelation: () => {
     return `
             SELECT *
             FROM TBL_REL_CATEGORY
+            WHERE EMAIL = ?
         `;
   },
   getAllCategoryCount: () => {
@@ -47,7 +51,7 @@ export default {
   selectMembers: () => {
     return `
         SELECT
-        EMAIL,
+            EMAIL,
             NAME,
             IMAGE_URL,
             IS_USE
@@ -120,27 +124,24 @@ export default {
   },
   updateItem: () => {
     return `
-        UPDATE
-        TBL_ITEMS
-        SET
-        MEMO = ?, COLOR = ?, DATE_UPDATE = ?
-            WHERE URL_KEY = ?
-                AND IDX = ? `;
+        UPDATE TBL_ITEMS
+        SET MEMO = ?, COLOR = ?, DATE_UPDATE = ?
+        WHERE URL_KEY = ?
+        AND IDX = ?
+        AND EMAIL = ? `;
   },
   deleteItem: () => {
-    return `UPDATE
-        TBL_ITEMS
-        SET
-        FL_DELETE = 'Y' , DATE_UPDATE = ?
-            WHERE URL_KEY = ?
-                AND IDX = ? `;
+    return `UPDATE TBL_ITEMS
+        SET FL_DELETE = 'Y' , DATE_UPDATE = ?
+        WHERE URL_KEY = ?
+        AND IDX = ? 
+        AND EMAIL = ?`;
   },
   deleteItems: () => {
-    return `UPDATE
-        TBL_ITEMS
-        SET
-        FL_DELETE = 'Y', DATE_UPDATE = ?
-            WHERE URL_KEY = ? `;
+    return `UPDATE TBL_ITEMS
+        SET FL_DELETE = 'Y', DATE_UPDATE = ?
+        WHERE URL_KEY = ? 
+        AND EMAIL = ?`;
   },
   insertItem: () => {
     return `INSERT
@@ -379,106 +380,79 @@ export default {
                     `;
   },
   deleteSite: () => {
-    return `
-                    UPDATE
-        TBL_SITES
-        SET
-        FL_DELETE = 'Y', DATE_UPDATE = ?
+    return `UPDATE TBL_SITES
+            SET FL_DELETE = 'Y', DATE_UPDATE = ?
             WHERE URL_KEY = ?
+            AND EMAIL = ?
                 `;
   },
   deleteSiteInCategory: () => {
-    return `
-                DELETE
-        FROM
-        TBL_REL_CATEGORY
-        WHERE
-        URL_KEY = ?
+    return `DELETE FROM TBL_REL_CATEGORY
+            WHERE URL_KEY = ?
+            AND EMAIL = ?
             `;
   },
   deleteSlack: () => {
-    return `
-            DELETE
-        FROM
-        TBL_SLACK
-        WHERE
-        IDX = ?
+    return `DELETE FROM TBL_SLACK
+            WHERE IDX = ?
+            AND EMAIL = ?
             `;
   },
   insertSlack: () => {
-    return `
-            INSERT
-        INTO
-        TBL_SLACK
-        (
-            EMAIL,
-            CHANNEL_NAME,
-            WEBHOOK_URL,
-            DATE_CREATE
-        )
-        VALUES(?, ?, ?, ?)
+    return `INSERT INTO TBL_SLACK
+            (
+                EMAIL,
+                CHANNEL_NAME,
+                WEBHOOK_URL,
+                DATE_CREATE
+            )
+            VALUES(?, ?, ?, ?)
             `;
   },
   updateOptionColor: () => {
-    return `
-        UPDATE
-        TBL_OPTIONS
-        SET
-        COLOR = ?
+    return `UPDATE TBL_OPTIONS
+            SET COLOR = ?
             WHERE EMAIL = ?
-                `;
+            `;
   },
   updateOptionTheme: () => {
-    return `UPDATE
-        TBL_OPTIONS
-        SET
-        THEME = ?
+    return `UPDATE TBL_OPTIONS
+            SET THEME = ?
+            WHERE EMAIL = ?
             `;
   },
   insertCategoryRelation: () => {
-    return `INSERT
-        INTO
-        TBL_REL_CATEGORY
-        (CATEGORY_IDX,
-            URL_KEY,
-            EMAIL,
-            SITE_IDX,
-            DATE_CREATE
-        )
-        VALUES(?, ?, ?, ?, ?)`;
+    return `INSERT INTO TBL_REL_CATEGORY
+            (
+                CATEGORY_IDX,
+                URL_KEY,
+                EMAIL,
+                SITE_IDX,
+                DATE_CREATE
+            )
+            VALUES(?, ?, ?, ?, ?)`;
   },
   deleteCategoryRelation: () => {
-    return `
-        DELETE
-        FROM
-        TBL_REL_CATEGORY
-        WHERE
-        URL_KEY = ?
+    return `DELETE FROM TBL_REL_CATEGORY
+            WHERE URL_KEY = ?
+            AND EMAIL = ?
             `;
   },
   deleteCategoryRelationParent: () => {
-    return `DELETE
-        FROM
-        TBL_REL_CATEGORY
-        WHERE
-        CATEGORY_IDX = ?
+    return `DELETE FROM TBL_REL_CATEGORY
+            WHERE CATEGORY_IDX = ?
+            AND EMAIL = ?
             `;
   },
   updateLostCategoryItem: () => {
-    return `UPDATE
-        TBL_CATEGORY
-        SET
-        PARENT = -1
-        WHERE
-        PARENT = ?
+    return `UPDATE  TBL_CATEGORY
+            SET  PARENT = -1
+            WHERE PARENT = ?
             `;
   },
   updateCategoryItem: () => {
-    return `UPDATE
-        TBL_CATEGORY
-        SET
-        NAME = ?
-            , PARENT = ?
+    return `UPDATE  TBL_CATEGORY
+            SET  NAME = ? , PARENT = ?
             WHERE IDX = ?
                 `;
   },
@@ -497,13 +471,10 @@ export default {
             `;
   },
   updateConvertViewmode: () => {
-    return `
-        UPDATE
-        TBL_SITES
-        SET
-        READERMODE_CONTENTS = ?, DATE_UPDATE = ?, FL_READMODE = 'Y'
-        WHERE
-        URL_KEY = ?
+    return `UPDATE TBL_SITES
+            SET READERMODE_CONTENTS = ?, DATE_UPDATE = ?, FL_READMODE = 'Y'
+            WHERE URL_KEY = ?
+            AND EMAIL = ?
             `;
   },
   initDataOption: () => {

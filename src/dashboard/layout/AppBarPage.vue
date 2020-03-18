@@ -31,6 +31,7 @@
 <script>
 import Firebase from "firebase";
 import CONTENT_LISTENER from "../../common/content-listener";
+
 let firebaseConfig = {
   apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
   authDomain: "chrome-webgalpi.firebaseapp.com",
@@ -54,28 +55,29 @@ export default {
     firebaseTest() {
       alert("!");
       /*console.log(
-        Firebase.database()
-          .ref("users/kkun24")
-          .toString()
-      );*/
-
+                  Firebase.database()
+                    .ref("users/kkun24")
+                    .toString()
+                );*/
+      /*let result = await Utils.getLocalStorage("loginInfo");
+                result.loginInfo.EMAIL*/
       /*CONTENT_LISTENER.sendMessage({
-        type: "get.backup.data"
-      }).then(backupData => {
-        console.log("backupData ", backupData);
-        Firebase.database()
-          .ref("users/kkuni_bear_gmail_com")
-          .set({
-            username: "leem",
-            email: "kkuni.bear@gmail.com",
-            image:
-              "https://lh4.googleusercontent.com/-SaJAd76NDOM/AAAAAAAAAAI/AAAAAAAAAAA/ZJdVidSY2HU/photo.jpg",
-            items: backupData
-          })
-          .then(res => {
-            console.log("res ", res);
-          });
-      });*/
+                  type: "get.backup.data"
+                }).then(backupData => {
+                  console.log("backupData ", backupData);
+                  Firebase.database()
+                    .ref("users/kkuni_bear_gmail_com")
+                    .set({
+                      username: "leem",
+                      email: "kkuni.bear@gmail.com",
+                      image:
+                        "https://lh4.googleusercontent.com/-SaJAd76NDOM/AAAAAAAAAAI/AAAAAAAAAAA/ZJdVidSY2HU/photo.jpg",
+                      items: backupData
+                    })
+                    .then(res => {
+                      console.log("res ", res);
+                    });
+                });*/
     }
   }
 };

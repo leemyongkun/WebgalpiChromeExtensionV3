@@ -24,6 +24,7 @@
 <script>
 import CONTENT_LISTENER from "../../../../common/content-listener";
 import EventBus from "../../../event-bus";
+import Utils from "../../../utils/Utils";
 
 export default {
   components: {},
@@ -32,15 +33,15 @@ export default {
     deleteDialog: false
   }),
   methods: {
-    remove() {
+    async remove() {
       //모든 하이라이트 삭제
-      CONTENT_LISTENER.sendMessage({
+      await CONTENT_LISTENER.sendMessage({
         type: "delete.all.highlight",
         data: this.currentSite
       });
 
       //category에 포함된 사이트 삭제
-      CONTENT_LISTENER.sendMessage({
+      await CONTENT_LISTENER.sendMessage({
         type: "delete.site.in.category",
         data: this.currentSite
       });

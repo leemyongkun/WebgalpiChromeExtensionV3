@@ -1,5 +1,6 @@
 import API from "../api/api.js";
 import dbcon from "../database/dbcon";
+import Utils from "../dashboard/utils/Utils";
 
 let emitOptionsAllTabs = (actionCommand, data) => {
   chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
@@ -221,8 +222,8 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
         sendResponse(res);
       });
       //emit all Tab
-      API.getOptions().then(option => {
-        console.log("options", option);
+      let parameter = [msg.data[1]]; //email
+      API.getOptions(parameter).then(option => {
         emitOptionsAllTabs("emit.action", option);
       });
 

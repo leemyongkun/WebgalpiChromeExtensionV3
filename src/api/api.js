@@ -1,6 +1,7 @@
 import Query from "../database/query.js";
 
 import store from "../store";
+import Utils from "../dashboard/utils/Utils";
 
 var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 let Api = {
@@ -62,7 +63,7 @@ let Api = {
 
       let site = Api.getSite(parameter);
       let items = Api.getAllItems(parameter);
-      let options = Api.getOptions(parameter.EMAIL);
+      let options = Api.getOptions(parameter);
 
       const arr = [site, items, options];
       Promise.all(arr).then(
@@ -98,9 +99,9 @@ let Api = {
   getNoCategoryCount: params => {
     return select(Query.getNoCategoryCount(), params);
   },
-  getOptions: Email => {
-    console.log("Email ", Email);
-    return select(Query.getOptions(), [Email]);
+  getOptions: parameter => {
+    let param = [parameter.EMAIL];
+    return select(Query.getOptions(), param);
   },
   getSite: params => {
     let param = [params.URL_KEY, params.EMAIL];
@@ -149,7 +150,8 @@ let Api = {
       params.COLOR,
       new Date().getTime(),
       params.URL_KEY,
-      params.IDX
+      params.IDX,
+      params.EMAIL
     ];
     return update(Query.updateItem(), param);
   },
@@ -176,21 +178,25 @@ let Api = {
     return insert(Query.insertItem(), param);
   },
   deleteItem: params => {
-    let param = [new Date().getTime(), params.URL_KEY, params.IDX];
+    let param = [
+      new Date().getTime(),
+      params.URL_KEY,
+      params.IDX,
+      params.EMAIL
+    ];
     return remove(Query.deleteItem(), param);
   },
   deleteItems: params => {
-    let param = [new Date().getTime(), params.URL_KEY];
+    let param = [new Date().getTime(), params.URL_KEY, params.EMAIL];
     return remove(Query.deleteItems(), param);
   },
   deleteSiteInCategory: params => {
-    let param = [params.URL_KEY];
+    let param = [params.URL_KEY, params.EMAIL];
     return remove(Query.deleteSiteInCategory(), param);
   },
   deleteSite: params => {
     let currentDate = new Date().getTime();
-    console.log("currentDate ", currentDate);
-    let param = [currentDate, params.URL_KEY];
+    let param = [currentDate, params.URL_KEY, params.EMAIL];
     return remove(Query.deleteSite(), param);
   },
   postSite: async params => {
@@ -227,7 +233,7 @@ let Api = {
     return insert(Query.updateSlack(), params);
   },
   deleteSlack: params => {
-    return insert(Query.deleteSlack(), params);
+    return remove(Query.deleteSlack(), params);
   },
   postSlack: params => {
     return insert(Query.insertSlack(), params);
@@ -239,12 +245,15 @@ let Api = {
     return update(Query.updateOptionTheme(), params);
   },
   deleteCategoryRelation: param => {
-    param = param.slice(1, 2); //URL_KEY만 가져온다
-    return remove(Query.deleteCategoryRelation(), param);
+    return remove(Query.deleteCategoryRelation(), [param[1], param[2]]); //URLKEY , EMAIL
   },
-  deleteCategoryRelationParent: categoryId => {
+  deleteCategoryRelationParent: async categoryId => {
+    let result = await Utils.getLocalStorage("loginInfo");
     //Relation 에 있는 parent <-> site 의 정보를 삭제한다.
-    remove(Query.deleteCategoryRelationParent(), categoryId); //parent IDX를 보낸다
+    remove(Query.deleteCategoryRelationParent(), [
+      categoryId[0],
+      result.loginInfo.EMAIL
+    ]); //parent IDX를 보낸다
   },
   postCategoryRelation: param => {
     return insert(Query.insertCategoryRelation(), param);

@@ -112,6 +112,7 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import SnackBar from "../../snack/SnackBar";
 import EventBus from "../../event-bus";
+import Utils from "../../utils/Utils";
 
 export default {
   components: { SnackBar },
@@ -171,9 +172,11 @@ export default {
         this.getSlackList();
       });
     },
-    deleteSlack() {
+    async deleteSlack() {
       if (!confirm("선택하신 Slack Url을 삭제하시겠습니까?")) return false;
-      let slackParam = [this.slackIdx];
+      let result = await Utils.getLocalStorage("loginInfo");
+
+      let slackParam = [this.slackIdx, result.loginInfo.EMAIL];
       CONTENT_LISTENER.sendMessage({
         type: "delete.slack",
         data: slackParam
@@ -183,7 +186,7 @@ export default {
         this.getSlackList();
       });
     },
-    saveSlack() {
+    async saveSlack() {
       if (this._.trim(this.slackChannelName) === "") {
         alert("이름을 넣어주세요.");
         return false;
@@ -194,8 +197,9 @@ export default {
         return false;
       }
 
+      let result = await Utils.getLocalStorage("loginInfo");
       let slackParam = [
-        "",
+        result.loginInfo.EMAIL,
         this.slackChannelName,
         this.slackChannelUrl,
         new Date().getTime()

@@ -168,12 +168,12 @@ export default {
   mounted() {
     //2초에 한번씩 Dashboard 진입을 확인한다.
     /*setInterval(() => {
-                      chrome.storage.local.get(["activeDashboardStatus"], result => {
-                        if (result.activeDashboardStatus === true) {
-                        }
-                        chrome.storage.local.set({ activeDashboardStatus: false });
-                      });
-                    }, 2000);*/
+                              chrome.storage.local.get(["activeDashboardStatus"], result => {
+                                if (result.activeDashboardStatus === true) {
+                                }
+                                chrome.storage.local.set({ activeDashboardStatus: false });
+                              });
+                            }, 2000);*/
 
     //카테고리 클릭 시
     EventBus.$on("selectCategoryForSite", categoryInfo => {
@@ -300,7 +300,7 @@ export default {
           this.currentSite = site;
         });
     },
-    generatePreviewDoc(site) {
+    async generatePreviewDoc(site) {
       let siteLocationInfo = document.createElement("a");
       siteLocationInfo.href = site.HOST;
 
@@ -331,9 +331,16 @@ export default {
         } else {
           preiveContent = previewDoc.content;
         }
+
+        let result = await Utils.getLocalStorage("loginInfo");
         CONTENT_LISTENER.sendMessage({
           type: "update.convert.viewmode",
-          data: [preiveContent, new Date().getTime(), site.URL_KEY]
+          data: [
+            preiveContent,
+            new Date().getTime(),
+            site.URL_KEY,
+            result.loginInfo.EMAIL
+          ]
         }).then(() => {
           this.sites.map(item => {
             if (item.URL_KEY === site.URL_KEY) {
@@ -365,7 +372,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                                  justify-content: center;*/
+                                                                                                                                                                                                        justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

@@ -146,6 +146,7 @@ export default {
         return false;
       }
 
+      //신규 사용자 등록을 위해, 현재 모든 Member를 가져와 비교한다.
       CONTENT_LISTENER.sendMessage({
         type: "get.all.members",
         data: null
@@ -156,12 +157,15 @@ export default {
             return item.EMAIL === this.googleEmail;
           });
 
+          //이미 존재하면 에러.
           if (result.length !== 0) {
             EventBus.$emit("open.snack", "이미 존재하는 계정입니다.", "red");
           } else {
             if (this.accountInfo !== null) {
+              //입력한 비밀번호를 대입힌다.
               this.accountInfo.password = this.password;
 
+              //카테고리의 최근IDX를 가져온다.
               let result = await CONTENT_LISTENER.sendMessage({
                 type: "get.category.max.id",
                 data: null

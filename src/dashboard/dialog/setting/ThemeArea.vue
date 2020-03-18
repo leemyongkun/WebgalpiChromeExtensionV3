@@ -20,6 +20,7 @@
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
+import Utils from "../../utils/Utils";
 
 export default {
   props: [],
@@ -39,10 +40,12 @@ export default {
       this.dialog = false;
     },
     changeTheme() {
-      this.$nextTick(() => {
+      this.$nextTick(async () => {
+        let result = await Utils.getLocalStorage("loginInfo");
+        //Highlight 내용 가져오기
         CONTENT_LISTENER.sendMessage({
           type: "update.option.theme",
-          data: [this.theme] //[todo] 2번째 파라메터는 Email 로 한다.
+          data: [this.theme, result.loginInfo.EMAIL]
         })
           .then(response => {
             //option을 수정한다.

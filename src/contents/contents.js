@@ -1,3 +1,5 @@
+import Utils from "../dashboard/utils/Utils";
+
 let md5 = require("md5");
 let $ = require("jquery");
 
@@ -145,8 +147,8 @@ let CONTENTS = {
       }
 
       /*param.READERMODE_CONTENTS = document.getElementsByTagName(
-                "html"
-            )[0].outerHTML;*/
+                      "html"
+                  )[0].outerHTML;*/
 
       res(param);
     });
@@ -187,10 +189,12 @@ let CONTENTS = {
         });
     }
   },
-  deleteHighlight: idx => {
+  deleteHighlight: async idx => {
+    let result = await Utils.getLocalStorage("loginInfo");
     let param = new Object();
     param.IDX = idx;
     param.URL_KEY = URL.KEY;
+    param.EMAIL = result.loginInfo.EMAIL;
 
     $("[" + GLOBAL_CONFIG.HL_ID_NAME + "=" + param.IDX + "]").each(function(
       idx,
@@ -212,6 +216,8 @@ let CONTENTS = {
     param.IDX = idx;
     param.URL_KEY = URL.KEY;
     param.MEMO = "";
+    let result = await Utils.getLocalStorage("loginInfo");
+    param.EMAIL = result.loginInfo.EMAIL;
 
     //FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
 
@@ -307,8 +313,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                              $('#highlight-toolbar').hide();
-                                                                                                                                            } */
+                                                                                                                                                  $('#highlight-toolbar').hide();
+                                                                                                                                                } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
