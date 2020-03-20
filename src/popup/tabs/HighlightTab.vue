@@ -15,7 +15,7 @@
 
         {{ item.PRINT_TEXT }}
         <template v-slot:actions>
-          <v-btn text color="accent-4">
+          <v-btn text color="accent-4" @click="deleteHighlight(item)">
             <v-icon>mdi-delete-forever</v-icon>
           </v-btn>
         </template>
@@ -46,7 +46,19 @@ export default {
     getColor: colorClass => {
       return Common.getColor(colorClass);
     },
-    goPosition: IDX => {
+    deleteHighlight(item) {
+      if (!confirm("하이라이트를 삭제하시겠습니까?")) return false;
+      CONTENT_LISTENER.sendMessage({
+        type: "delete.highlight",
+        data: item
+      }).then(() => {
+        let index = this.highlights.filter((highlight, index) => {
+          return item.IDX === highlight.IDX ? index : null;
+        });
+        this.highlights.splice(index, 1);
+      });
+    },
+    goPosition(IDX) {
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         let tabId = tabs[0].id;
         chrome.tabs.sendMessage(
@@ -58,29 +70,35 @@ export default {
           null
         );
       });
-    }
-  },
-  mounted() {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      let tabId = tabs[0].id;
+    },
+    getHighlights() {
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        let tabId = tabs[0].id;
 
-      chrome.tabs.sendMessage(tabId, { action: "get.url.info" }, urlInfo => {
-        chrome.storage.local.get(String(tabId), items => {
-          // items: 저장한 객체의 key/value
+        chrome.tabs.sendMessage(tabId, { action: "get.url.info" }, urlInfo => {
+          chrome.storage.local.get(String(tabId), items => {
+            // items: 저장한 객체의 key/value
 
-          chrome.storage.local.get(["loginInfo"], result => {
-            urlInfo.EMAIL = result.loginInfo.EMAIL;
+            chrome.storage.local.get(["loginInfo"], result => {
+              urlInfo.EMAIL = result.loginInfo.EMAIL;
 
-            CONTENT_LISTENER.sendMessage({
-              type: "get.highlights",
-              data: urlInfo
-            }).then(response => {
-              /*this.Highlight.activities = response;*/
-              this.highlights = response;
+              CONTENT_LISTENER.sendMessage({
+                type: "get.highlights",
+                data: urlInfo
+              }).then(response => {
+                /*this.Highlight.activities = response;*/
+                console.log("response ", response);
+                this.highlights = response;
+              });
             });
           });
         });
       });
+    }
+  },
+  created() {
+    this.$nextTick(() => {
+      this.getHighlights();
     });
   }
 };

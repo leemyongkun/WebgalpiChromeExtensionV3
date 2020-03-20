@@ -338,7 +338,8 @@ export default {
   getAllItems: () => {
     return `
         SELECT
-        IDX,
+            EMAIL,
+            IDX,
             URL_KEY,
             TEXT,
             NEXT,

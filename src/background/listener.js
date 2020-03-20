@@ -93,7 +93,10 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
 
     case "delete.highlight":
-      API.deleteItem(msg.data);
+      API.deleteItem(msg.data).then(res => {
+        sendResponse(true);
+      });
+      return true;
       break;
 
     case "delete.all.highlight":

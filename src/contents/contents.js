@@ -196,14 +196,13 @@ let CONTENTS = {
     param.URL_KEY = URL.KEY;
     param.EMAIL = result.loginInfo.EMAIL;
 
-    $("[" + GLOBAL_CONFIG.HL_ID_NAME + "=" + param.IDX + "]").each(function(
-      idx,
-      item
-    ) {
-      $(item)
-        .contents()
-        .unwrap();
-    });
+    $("[" + GLOBAL_CONFIG.HL_ID_NAME + "=" + param.IDX + "]").each(
+      (idx, item) => {
+        $(item)
+          .contents()
+          .unwrap();
+      }
+    );
 
     CONTENT_LISTENER.sendMessage({
       type: "delete.highlight",
