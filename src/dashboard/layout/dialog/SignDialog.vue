@@ -57,7 +57,7 @@
           color="green darken-1"
           v-if="signInProcess === 2"
           text
-          @click="registerMember"
+          @click="checkMember"
           >등록
         </v-btn>
       </v-card-actions>
@@ -141,7 +141,53 @@ export default {
         );
       });
     },
-    registerMember() {
+    async registMember() {
+      if (this.accountInfo !== null) {
+        //입력한 비밀번호를 대입힌다.
+        this.accountInfo.password = this.password;
+
+        //카테고리의 최근IDX를 가져온다.
+        let result = await CONTENT_LISTENER.sendMessage({
+          type: "get.category.max.id",
+          data: null
+        });
+        let categoryNewId;
+        if (result === undefined || result[0].MAXID === null) {
+          categoryNewId = 1;
+        } else {
+          categoryNewId = result[0].MAXID + 1;
+        }
+
+        let initEnvironment = [
+          CONTENT_LISTENER.sendMessage({
+            type: "init.data.option",
+            data: [this.accountInfo.email]
+          }),
+          CONTENT_LISTENER.sendMessage({
+            type: "init.data.category",
+            data: [
+              this.accountInfo.email,
+              this.accountInfo.email,
+              categoryNewId,
+              this.accountInfo.email,
+              categoryNewId
+            ]
+          }),
+          CONTENT_LISTENER.sendMessage({
+            type: "insert.member",
+            data: this.accountInfo
+          })
+        ];
+
+        Promise.all(initEnvironment).then(values => {
+          //todo 이거 잘 안되네..
+          location.reload();
+        });
+      } else {
+        alert("계정정보가 존재 하지 않습니다.");
+      }
+    },
+    checkMember() {
       if (!this.$refs.form.validate()) {
         return false;
       }
@@ -152,6 +198,11 @@ export default {
         data: null
       })
         .then(async members => {
+          //처음 가입일 경우
+          if (members === undefined) {
+            this.registMember();
+            return false;
+          }
           //기존에 있는 계정인지 체크
           let result = members.filter(item => {
             return item.EMAIL === this.googleEmail;
@@ -161,50 +212,7 @@ export default {
           if (result.length !== 0) {
             EventBus.$emit("open.snack", "이미 존재하는 계정입니다.", "red");
           } else {
-            if (this.accountInfo !== null) {
-              //입력한 비밀번호를 대입힌다.
-              this.accountInfo.password = this.password;
-
-              //카테고리의 최근IDX를 가져온다.
-              let result = await CONTENT_LISTENER.sendMessage({
-                type: "get.category.max.id",
-                data: null
-              });
-              let categoryNewId;
-              if (result[0].MAXID === null) {
-                categoryNewId = 1;
-              } else {
-                categoryNewId = result[0].MAXID + 1;
-              }
-
-              let initEnvironment = [
-                CONTENT_LISTENER.sendMessage({
-                  type: "init.data.option",
-                  data: [this.accountInfo.email]
-                }),
-                CONTENT_LISTENER.sendMessage({
-                  type: "init.data.category",
-                  data: [
-                    this.accountInfo.email,
-                    this.accountInfo.email,
-                    categoryNewId,
-                    this.accountInfo.email,
-                    categoryNewId
-                  ]
-                }),
-                CONTENT_LISTENER.sendMessage({
-                  type: "insert.member",
-                  data: this.accountInfo
-                })
-              ];
-
-              Promise.all(initEnvironment).then(values => {
-                //todo 이거 잘 안되네..
-                alert("완료 되었습니다. 새로고침을 하십시오.");
-              });
-            } else {
-              alert("계정정보가 존재 하지 않습니다.");
-            }
+            this.registMember();
           }
         })
         .then(() => {});

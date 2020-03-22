@@ -67,7 +67,7 @@ export default {
     chrome.storage.local.get(["loginInfo"], result => {
       console.log("loginInfo.EMAIL ", result.loginInfo);
       let loginInfo = result.loginInfo;
-      if (loginInfo.EMAIL === "") {
+      if (result.loginInfo === undefined || loginInfo.EMAIL === "") {
         this.mainFlag = 2;
         document.getElementById("body").style.width = "200px";
       } else {

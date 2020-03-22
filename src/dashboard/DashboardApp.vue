@@ -45,7 +45,7 @@ export default {
     }
   }),
   methods: {
-    initDashboard() {
+    async initDashboard() {
       /**
        * - cookie 혹은 localStorage에 member data확인
        * - 1명 이상일경우, 선택할 수있는 popup
@@ -60,7 +60,8 @@ export default {
         type: "get.all.members",
         data: null
       }).then(members => {
-        if (members.length === 0) {
+        console.log("!@@#@$$$$$$$$$$$$$$  ", members);
+        if (members === undefined || members.length === 0) {
           this.$refs.signDialog.open();
         } else {
           //member중 isUse가 'Y' 인것들.
@@ -117,7 +118,8 @@ export default {
     this.$nextTick(() => {
       chrome.storage.local.get(["options"], result => {
         let options = result.options;
-        if (options.THEME === "dark") {
+
+        if (options === undefined || options.THEME === "dark") {
           this.$vuetify.theme.dark = true;
         } else {
           this.$vuetify.theme.dark = false;
