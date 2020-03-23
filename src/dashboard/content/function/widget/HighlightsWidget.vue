@@ -10,16 +10,16 @@
       </v-btn>
     </template>
 
-    <v-card width="300px" :style="maxHeightWidget">
-      <v-list v-if="highlightItems.length !== 0" style="background:#6f9aff;">
+    <v-card width="400px" :style="maxHeightWidget">
+      <v-list v-if="highlightItems.length !== 0">
         <v-list-item
           v-for="item in highlightItems"
           :key="item.IDX"
           class="pr-2"
         >
           <!--<v-list-item-avatar>
-                                                                <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
-                                                            </v-list-item-avatar>-->
+                                                                          <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                                                                      </v-list-item-avatar>-->
 
           <v-list-item-content class="mt-0 pt-0">
             {{ item.PRINT_TEXT }}

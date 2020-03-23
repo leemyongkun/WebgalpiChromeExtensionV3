@@ -8,7 +8,7 @@ export default {
       let INIT_OPTIONS =
         `INSERT INTO TBL_OPTIONS  VALUES(\'` +
         accountInfo.email +
-        `\','highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
+        `\','highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5,highlight-color-6' --COLOR
                         ,'KR'
                         ,'Y'--MESSAGE_ALTER
                         ,'Y' --highlight

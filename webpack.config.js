@@ -141,7 +141,7 @@ const config = {
   ],
   performance: {
     maxEntrypointSize: 4000000,
-    maxAssetSize: 1000000
+    maxAssetSize: 10000000
   }
 };
 

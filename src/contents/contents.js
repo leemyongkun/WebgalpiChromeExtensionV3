@@ -147,8 +147,8 @@ let CONTENTS = {
       }
 
       /*param.READERMODE_CONTENTS = document.getElementsByTagName(
-                      "html"
-                  )[0].outerHTML;*/
+                            "html"
+                        )[0].outerHTML;*/
 
       res(param);
     });
@@ -312,8 +312,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                                  $('#highlight-toolbar').hide();
-                                                                                                                                                } */
+                                                                                                                                                      $('#highlight-toolbar').hide();
+                                                                                                                                                    } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화

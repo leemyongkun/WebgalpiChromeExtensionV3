@@ -15,7 +15,7 @@
 
         {{ item.PRINT_TEXT }}
         <template v-slot:actions>
-          <v-btn text color="accent-4" @click="deleteHighlight(item)">
+          <v-btn text color="accent-4" @click="deleteHighlight(item, $event)">
             <v-icon>mdi-delete-forever</v-icon>
           </v-btn>
         </template>
@@ -46,7 +46,10 @@ export default {
     getColor: colorClass => {
       return Common.getColor(colorClass);
     },
-    deleteHighlight(item) {
+    deleteHighlight(item, event) {
+      event.preventDefault();
+      event.stopPropagation();
+
       if (!confirm("하이라이트를 삭제하시겠습니까?")) return false;
       CONTENT_LISTENER.sendMessage({
         type: "delete.highlight",
@@ -56,6 +59,14 @@ export default {
           return item.IDX === highlight.IDX ? index : null;
         });
         this.highlights.splice(index, 1);
+
+        //본문의 highlight를 삭제한다.
+        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+          chrome.tabs.sendMessage(tabs[0].id, {
+            action: "unwrap.highlight",
+            data: item
+          });
+        });
       });
     },
     goPosition(IDX) {

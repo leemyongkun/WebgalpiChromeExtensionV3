@@ -60,7 +60,6 @@ export default {
         type: "get.all.members",
         data: null
       }).then(members => {
-        console.log("!@@#@$$$$$$$$$$$$$$  ", members);
         if (members === undefined || members.length === 0) {
           this.$refs.signDialog.open();
         } else {

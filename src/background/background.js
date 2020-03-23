@@ -37,7 +37,6 @@ let BackgroundModule = {
 
       //EMAIL로 조건을 걸지 않고, 사용중(IS_USE=Y)의 데이타만 가져온다
       Api.getMemberInfo().then(memberInfo => {
-        console.log("memberInfo ", memberInfo);
         if (memberInfo.EMAIL === "") {
           return false;
         }
@@ -76,7 +75,7 @@ let BackgrounEvent = {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
         /*dbcon.dropTable();
-        dbcon.createTable();*/
+          dbcon.createTable();*/
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }

@@ -136,6 +136,8 @@ import CONTENT_LISTENER from "../../common/content-listener";
 import EventBus from "../event-bus";
 import store from "../../store";
 import Utils from "../utils/Utils";
+import { GLOBAL_CONFIG } from "../../contents/global/config";
+import CORE from "../../contents/core/core";
 
 let OFFSET_START = 0;
 let OFFSET_END = 10;
@@ -153,7 +155,6 @@ export default {
     previewStatus: "N",
     youtubeVideoId: "",
     sourceUrl: "",
-
     currentSite: "",
     moreBtnDisabled: false,
     offset: {
@@ -168,12 +169,12 @@ export default {
     this.$nextTick(() => {
       //2초에 한번씩 Dashboard 진입을 확인한다.
       /*setInterval(() => {
-                                    chrome.storage.local.get(["activeDashboardStatus"], result => {
-                                      if (result.activeDashboardStatus === true) {
-                                      }
-                                      chrome.storage.local.set({ activeDashboardStatus: false });
-                                    });
-                                  }, 2000);*/
+                                              chrome.storage.local.get(["activeDashboardStatus"], result => {
+                                                if (result.activeDashboardStatus === true) {
+                                                }
+                                                chrome.storage.local.set({ activeDashboardStatus: false });
+                                              });
+                                            }, 2000);*/
 
       //카테고리 클릭 시
       EventBus.$on("selectCategoryForSite", categoryInfo => {
@@ -193,7 +194,7 @@ export default {
       });
 
       //window resize event
-      this.$nextTick(function() {
+      this.$nextTick(() => {
         window.addEventListener("resize", this.getWindowHeight);
         //Init
         this.getWindowHeight();
@@ -293,6 +294,9 @@ export default {
       })
         .then(response => {
           this.highlights = response;
+
+          GLOBAL_CONFIG.ELEMENT = document.getElementById("galpi-privew-area");
+          CORE.printHighlightForDashboard(this.highlights);
         })
         .then(() => {
           this.currentSite = site;
@@ -331,6 +335,7 @@ export default {
         }
 
         let result = await Utils.getLocalStorage("loginInfo");
+
         CONTENT_LISTENER.sendMessage({
           type: "update.convert.viewmode",
           data: [
@@ -370,7 +375,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                                        justify-content: center;*/
+                                                                                                                                                                                                              justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
@@ -381,5 +386,71 @@ export default {
 
 .border {
   border: 2px dashed orange;
+}
+
+.highlight-color-1 {
+  background: #e35a69 !important;
+  display: inline !important;
+  cursor: pointer;
+}
+
+.highlight-color-2 {
+  background: #f7b900 !important;
+  display: inline !important;
+  cursor: pointer;
+}
+
+.highlight-color-3 {
+  background: #2da64e !important;
+  display: inline !important;
+  cursor: pointer;
+}
+
+.highlight-color-4 {
+  background: #d9c3ff !important;
+  display: inline !important;
+  cursor: pointer;
+}
+
+.highlight-color-5 {
+  background: #97c2dd !important;
+  display: inline !important;
+  cursor: pointer;
+}
+
+.highlight-color-6 {
+  background: #ef9a9a !important;
+  display: inline !important;
+  cursor: pointer;
+}
+
+.highlight-color-7 {
+  background: #90a4ae !important;
+  display: inline !important;
+  cursor: pointer;
+}
+
+.highlight-color-8 {
+  background: #cddc39 !important;
+  display: inline !important;
+  cursor: pointer;
+}
+
+.highlight-color-9 {
+  background: #ffb540 !important;
+  display: inline !important;
+  cursor: pointer;
+}
+
+.highlight-color-10 {
+  background: #b2ebf2 !important;
+  display: inline !important;
+  cursor: pointer;
+}
+
+.highlight-color-11 {
+  background: #c0b6a7 !important;
+  display: inline !important;
+  cursor: pointer;
 }
 </style>
