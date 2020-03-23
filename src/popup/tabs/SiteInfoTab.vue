@@ -150,9 +150,12 @@ export default {
               }
 
               if (siteInfo.URL !== "") {
-                clearInterval(interval);
-                this.siteInfo = siteInfo;
-                this.overlay.status = false;
+                chrome.storage.local.get(["loginInfo"], result => {
+                  siteInfo.EMAIL = result.loginInfo.EMAIL;
+                  clearInterval(interval);
+                  this.siteInfo = siteInfo;
+                  this.overlay.status = false;
+                });
               }
             }
           );

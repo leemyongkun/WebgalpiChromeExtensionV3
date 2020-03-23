@@ -113,15 +113,20 @@ let Api = {
     if (params !== null && params.flag === null) {
       //일반 카테고리
       parameter = [
+        params.EMAIL,
         params.id,
         params.EMAIL,
         params.startOffset,
         params.endOffset
       ];
     } else {
-      parameter = [params.EMAIL, params.startOffset, params.endOffset];
+      parameter = [
+        params.EMAIL,
+        params.EMAIL,
+        params.startOffset,
+        params.endOffset
+      ];
     }
-
     return select(query, parameter);
   },
 
