@@ -147,8 +147,8 @@ let CONTENTS = {
       }
 
       /*param.READERMODE_CONTENTS = document.getElementsByTagName(
-                            "html"
-                        )[0].outerHTML;*/
+                                  "html"
+                              )[0].outerHTML;*/
 
       res(param);
     });
@@ -210,6 +210,12 @@ let CONTENTS = {
     });
   },
   updateHighlight: async (color, idx) => {
+    console.log("updateHighlight ", color, idx);
+    if (color === "") {
+      alert("delete!!");
+      return false;
+    }
+
     let param = new Object();
     param.COLOR = color;
     param.IDX = idx;
@@ -220,7 +226,7 @@ let CONTENTS = {
 
     //FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
 
-    //이거 처리 해야함.
+    //update일경우, 지정한 컬러로 색상을 바꾼다.
     $("[" + GLOBAL_CONFIG.HL_ID_NAME + "='" + param.IDX + "']").each(
       (idx, item) => {
         $(item).removeClass();
@@ -312,8 +318,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                                      $('#highlight-toolbar').hide();
-                                                                                                                                                    } */
+                                                                                                                                                          $('#highlight-toolbar').hide();
+                                                                                                                                                        } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화

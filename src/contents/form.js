@@ -50,8 +50,12 @@ let FORM = {
       colorButtons += " <a class='" + color + " webgalpi-color-form'></a>";
     });
 
+    colorButtons += " <a>X</a>";
+    //<img width='18px' height='18px' src='"+chrome.extension.getURL("/icons/trash.png")+"'>
+
     let widthRate = COLORS.split(",").length * 16;
     let pickerWidth = "width: " + widthRate + "% !important;";
+    pickerWidth = "";
 
     return (
       `<div  class="webgalpi-toolbar" id="highlight-update-toolbar" style="display:none;">
@@ -81,36 +85,36 @@ let FORM = {
   },
   /*
 
-     createColorPicker: COLORS => {
-            let colorButtons = "";
-            COLORS.split(",").forEach(color => {
-                colorButtons +=
-                    "<a href='javascript:void(0)' class='" + color + '\' id="color-1"></a>';
-            });
+       createColorPicker: COLORS => {
+              let colorButtons = "";
+              COLORS.split(",").forEach(color => {
+                  colorButtons +=
+                      "<a href='javascript:void(0)' class='" + color + '\' id="color-1"></a>';
+              });
 
-            return (
-                `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
-                           <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
-                              <wafflepen-ul class='wafflepen-color-picker'>
-                                 ` +
-                colorButtons +
-                `
-                              </wafflepen-ul>
-                              <wafflepen class='tool-list'>
-                                  <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
-                                  <!-- wafflepen-li><wafflepen class='hlt-btn trash waf-inlineBlock' id='deleteHighlightBtn'></wafflepen></wafflepen-li -->
-                              </wafflepen>
-                          </wafflepen>
-                          <wafflepen class='wafflepen-writebox' style='display:none; !important' id='highlight-toolbar-memo-area'>
-                              <textarea name='' class='rspen-txtarea' placeholder='Memo' id='highlightMemoArea' ></textarea>
-                              <wafflepen class='writebox-submit'>
-                                  <wafflepen class='write-date'><wafflepen class='wdate'> </wafflepen> </wafflepen>
-                                  <wafflepen class='save-btn' id='highlightMemoRegistBtn' >Save</wafflepen>
-                              </wafflepen>
-                          </wafflepen>
-                      </wafflepen>`
-            );
-        },*/
+              return (
+                  `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
+                             <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
+                                <wafflepen-ul class='wafflepen-color-picker'>
+                                   ` +
+                  colorButtons +
+                  `
+                                </wafflepen-ul>
+                                <wafflepen class='tool-list'>
+                                    <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
+                                    <!-- wafflepen-li><wafflepen class='hlt-btn trash waf-inlineBlock' id='deleteHighlightBtn'></wafflepen></wafflepen-li -->
+                                </wafflepen>
+                            </wafflepen>
+                            <wafflepen class='wafflepen-writebox' style='display:none; !important' id='highlight-toolbar-memo-area'>
+                                <textarea name='' class='rspen-txtarea' placeholder='Memo' id='highlightMemoArea' ></textarea>
+                                <wafflepen class='writebox-submit'>
+                                    <wafflepen class='write-date'><wafflepen class='wdate'> </wafflepen> </wafflepen>
+                                    <wafflepen class='save-btn' id='highlightMemoRegistBtn' >Save</wafflepen>
+                                </wafflepen>
+                            </wafflepen>
+                        </wafflepen>`
+              );
+          },*/
   hidePicker: () => {
     //$(".wafflepen-color-picker").find("a").removeClass("on");
 

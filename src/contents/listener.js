@@ -37,6 +37,8 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       USER_INFO.EMAIL = msg.site.EMAIL;
 
       APPLICATION.init(msg.data);
+
+      //91(command),16(shift),89(y)
       sendResponse(true);
       return true;
       break;

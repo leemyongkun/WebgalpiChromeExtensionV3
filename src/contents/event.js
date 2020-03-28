@@ -137,11 +137,6 @@ let EVENT = {
         if (event.target.nodeName === GLOBAL_CONFIG.HL_TAG_NAME.toUpperCase()) {
           STATUS.mouseDownFlag = true;
         }
-
-        console.log(
-          "window.getSelection().isCollapsed ",
-          window.getSelection().isCollapsed
-        );
       })
       .unbind("mouseup")
       .on("mouseup", async event => {

@@ -78,7 +78,6 @@ let APPLICATION = {
         // 버튼 이벤트
         EVENT.colorPickerBtnEvent();
         EVENT.mouseOnDownUpEvent();
-
         EVENT.colorPickerUpdateBtnEvent();
 
         //capture
