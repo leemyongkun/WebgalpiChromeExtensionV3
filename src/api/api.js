@@ -101,6 +101,7 @@ let Api = {
   },
   getOptions: parameter => {
     let param = [parameter.EMAIL];
+    console.log("Query.getOptions() ", Query.getOptions());
     return select(Query.getOptions(), param);
   },
   getSite: params => {

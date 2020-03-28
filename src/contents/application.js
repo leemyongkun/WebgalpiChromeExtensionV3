@@ -92,10 +92,6 @@ let APPLICATION = {
       .then(() => {
         //1초에 한번씩 하이라이트를 다시 생성한다.
         setInterval(() => {
-          console.log(
-            "GLOBAL_CONFIG.HIGHLIGHT_LIST ",
-            GLOBAL_CONFIG.HIGHLIGHT_LIST
-          );
           CORE.printHighlight(GLOBAL_CONFIG.HIGHLIGHT_LIST);
         }, 1000);
       })

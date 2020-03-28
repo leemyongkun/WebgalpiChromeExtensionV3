@@ -221,15 +221,15 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
 
     case "update.option.color":
-      API.updateOptionColor(msg.data).then(res => {
-        sendResponse(res);
-      });
+      API.updateOptionColor(msg.data);
       //emit all Tab
-      let parameter = [msg.data[1]]; //email
+      let parameter = new Object();
+      parameter.EMAIL = msg.data[1]; //email
       API.getOptions(parameter).then(option => {
         emitOptionsAllTabs("emit.action", option);
+        sendResponse(true);
       });
-
+      return true;
       break;
     case "update.option.theme":
       API.updateOptionTheme(msg.data).then(res => {

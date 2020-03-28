@@ -107,3 +107,25 @@
   display: inline !important;
   cursor: pointer;
 }
+
+.default-color {
+  background-color: transparent;
+  display: inline-block !important;
+  cursor: pointer !important;
+  width: 20px !important;
+  height: 20px !important;
+  position: absolute !important;
+  left: 0px !important;
+  top: 0px !important;
+  opacity: 1 !important;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
+  background-size: cover !important;
+  border-width: initial !important;
+  border-style: none !important;
+  border-color: initial !important;
+  border-image: initial !important;
+  border-radius: 4px !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-image: url("chrome-extension://__MSG_@@extension_id__/icons/pen.png") !important;
+}

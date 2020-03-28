@@ -50,13 +50,18 @@ let FORM = {
       colorButtons += " <a class='" + color + " webgalpi-color-form'></a>";
     });
 
+    let widthRate = COLORS.split(",").length * 16;
+    let pickerWidth = "width: " + widthRate + "% !important;";
+
     return (
       `<div  class="webgalpi-toolbar" id="highlight-update-toolbar" style="display:none;">
-                    <div class="webgalpi-color-picker">
+                    <div class="webgalpi-color-picker" style="` +
+      pickerWidth +
+      `">
                      ` +
       colorButtons +
       `
-                     <span class="mdi mdi-slack"></span>
+                     
                     </div>
                 </div>
                 `
@@ -70,59 +75,42 @@ let FORM = {
             width: auto !important;
             height: 20px !important;
             z-index: 2147483647 !important;">
-          <a class="default-color" style="background-color: transparent;
-            display: inline-block !important;
-            cursor: pointer !important;
-            width: 20px !important;
-            height: 20px !important;
-            position: absolute !important;
-            left: 0px !important;
-            top: 0px !important;
-            opacity: 1.00 !important;
-            box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
-            background-size: cover !important;
-            border-width: initial !important;
-            border-style: none !important;
-            border-color: initial !important;
-            border-image: initial !important;
-            border-radius: 4px !important;
-            background-position: center center !important;
-            background-repeat: no-repeat !important;background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTi7H5fAWiCe3Jv4sCHl4_-tY977JYXDPUGBJVwgBx9rxdYZJq1); !important;"></a>
+          <a class="default-color" style=""></a>
         </div>
       `;
   },
   /*
 
-   createColorPicker: COLORS => {
-          let colorButtons = "";
-          COLORS.split(",").forEach(color => {
-              colorButtons +=
-                  "<a href='javascript:void(0)' class='" + color + '\' id="color-1"></a>';
-          });
+     createColorPicker: COLORS => {
+            let colorButtons = "";
+            COLORS.split(",").forEach(color => {
+                colorButtons +=
+                    "<a href='javascript:void(0)' class='" + color + '\' id="color-1"></a>';
+            });
 
-          return (
-              `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
-                         <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
-                            <wafflepen-ul class='wafflepen-color-picker'>
-                               ` +
-              colorButtons +
-              `
-                            </wafflepen-ul>
-                            <wafflepen class='tool-list'>
-                                <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
-                                <!-- wafflepen-li><wafflepen class='hlt-btn trash waf-inlineBlock' id='deleteHighlightBtn'></wafflepen></wafflepen-li -->
-                            </wafflepen>
-                        </wafflepen>
-                        <wafflepen class='wafflepen-writebox' style='display:none; !important' id='highlight-toolbar-memo-area'>
-                            <textarea name='' class='rspen-txtarea' placeholder='Memo' id='highlightMemoArea' ></textarea>
-                            <wafflepen class='writebox-submit'>
-                                <wafflepen class='write-date'><wafflepen class='wdate'> </wafflepen> </wafflepen>
-                                <wafflepen class='save-btn' id='highlightMemoRegistBtn' >Save</wafflepen>
-                            </wafflepen>
-                        </wafflepen>
-                    </wafflepen>`
-          );
-      },*/
+            return (
+                `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
+                           <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
+                              <wafflepen-ul class='wafflepen-color-picker'>
+                                 ` +
+                colorButtons +
+                `
+                              </wafflepen-ul>
+                              <wafflepen class='tool-list'>
+                                  <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
+                                  <!-- wafflepen-li><wafflepen class='hlt-btn trash waf-inlineBlock' id='deleteHighlightBtn'></wafflepen></wafflepen-li -->
+                              </wafflepen>
+                          </wafflepen>
+                          <wafflepen class='wafflepen-writebox' style='display:none; !important' id='highlight-toolbar-memo-area'>
+                              <textarea name='' class='rspen-txtarea' placeholder='Memo' id='highlightMemoArea' ></textarea>
+                              <wafflepen class='writebox-submit'>
+                                  <wafflepen class='write-date'><wafflepen class='wdate'> </wafflepen> </wafflepen>
+                                  <wafflepen class='save-btn' id='highlightMemoRegistBtn' >Save</wafflepen>
+                              </wafflepen>
+                          </wafflepen>
+                      </wafflepen>`
+            );
+        },*/
   hidePicker: () => {
     //$(".wafflepen-color-picker").find("a").removeClass("on");
 

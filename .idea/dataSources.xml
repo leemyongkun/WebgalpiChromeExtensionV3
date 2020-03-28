@@ -5,7 +5,7 @@
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$USER_HOME$/Library/Application Support/Google/Chrome/Default/databases/chrome-extension_dpemoipibdjnnilodimbojpmkaooihin_0/38</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$USER_HOME$/Library/Application Support/Google/Chrome/Default/databases/chrome-extension_dpemoipibdjnnilodimbojpmkaooihin_0/39</jdbc-url>
     </data-source>
     <data-source source="LOCAL" name="MySQL - @localhost" uuid="b7fbff78-40d7-4e34-a009-b0508a867d2c">
       <driver-ref>mysql.8</driver-ref>
