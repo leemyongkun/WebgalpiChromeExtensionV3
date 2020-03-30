@@ -33,6 +33,7 @@
             @mouseleave="subItem.mouseOver = false"
             :id="subItem.id"
             :class="subItem.class"
+            ref="systemCategoryList"
           >
             <v-list-item-icon style="margin-right: 2px;">
               <v-icon size="15px" color="green" left

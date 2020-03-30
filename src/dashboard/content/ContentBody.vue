@@ -23,6 +23,7 @@
           </v-col>
 
           <v-col v-else>
+            <!-- 컨텐츠 리스트 -->
             <v-list style="background: none;padding: 0;">
               <div v-for="(item, index) in sites" :key="index">
                 <v-row>
@@ -91,6 +92,7 @@
         </v-row>
       </v-col>
 
+      <!-- 본문:프리뷰 -->
       <v-col cols="9" :style="documentHeightStyle" v-if="currentSite !== ''">
         <v-row>
           <v-col cols="12" class="ml-0 pl-0">
@@ -169,12 +171,12 @@ export default {
     this.$nextTick(() => {
       //2초에 한번씩 Dashboard 진입을 확인한다.
       /*setInterval(() => {
-                                              chrome.storage.local.get(["activeDashboardStatus"], result => {
-                                                if (result.activeDashboardStatus === true) {
-                                                }
-                                                chrome.storage.local.set({ activeDashboardStatus: false });
-                                              });
-                                            }, 2000);*/
+                                                        chrome.storage.local.get(["activeDashboardStatus"], result => {
+                                                          if (result.activeDashboardStatus === true) {
+                                                          }
+                                                          chrome.storage.local.set({ activeDashboardStatus: false });
+                                                        });
+                                                      }, 2000);*/
 
       //카테고리 클릭 시
       EventBus.$on("selectCategoryForSite", categoryInfo => {
@@ -375,7 +377,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                                              justify-content: center;*/
+                                                                                                                                                                                                                    justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

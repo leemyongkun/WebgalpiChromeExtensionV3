@@ -2,7 +2,7 @@
   <v-card flat class="pl-3">
     <v-card-text>
       <v-row class="mb-4" align="center">
-        <strong class="title headline">
+        <strong class="title headline text-truncate">
           {{ previewTitle }}
         </strong>
         <v-banner

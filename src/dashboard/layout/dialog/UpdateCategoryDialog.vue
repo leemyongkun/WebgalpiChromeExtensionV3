@@ -169,7 +169,7 @@ export default {
       //2. PARENT / CHILD를 구분하여 parameter 를 구성한다.
       //3. 저장한다. (reload category)
 
-      this.categoryName = this.categoryName.replace(/ /g, "");
+      this.categoryName = this.categoryName.trim();
       if (this.categoryName === "") {
         alert("카테고리명을 입력하세요.");
         return false;
@@ -212,7 +212,7 @@ export default {
     },
     updateCategory() {
       let param = [];
-
+      this.categoryName = this.categoryName.trim();
       param = [
         this.categoryName,
         this.categoryParent,
