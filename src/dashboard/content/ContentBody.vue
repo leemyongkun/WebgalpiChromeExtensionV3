@@ -133,7 +133,7 @@
 //https://www.npmjs.com/package/vue-drag-drop
 //https://cameronhimself.github.io/vue-drag-drop/
 import PreviewPage from "./PreviewPage";
-import HighlightsPage from "./HighlightsPage";
+// import HighlightsPage from "./HighlightsPage";
 import CONTENT_LISTENER from "../../common/content-listener";
 import EventBus from "../event-bus";
 import store from "../../store";
@@ -145,7 +145,7 @@ let OFFSET_START = 0;
 let OFFSET_END = 10;
 
 export default {
-  components: { HighlightsPage, PreviewPage },
+  components: { PreviewPage },
   data: () => ({
     documentHeightStyle: "max-height: 660px;",
     reviewAreaHeightStyle: "max-height: 660px;",

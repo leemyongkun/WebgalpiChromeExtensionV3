@@ -74,8 +74,8 @@ let BackgrounEvent = {
     chrome.runtime.onInstalled.addListener(details => {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
-        /*dbcon.dropTable();
-                  dbcon.createTable();*/
+        dbcon.dropTable();
+        dbcon.createTable();
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }

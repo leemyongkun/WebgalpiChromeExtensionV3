@@ -1,26 +1,29 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
-    <v-row
-      v-for="item in highlights"
-      :key="item.IDX"
-      @click="goPosition(item.IDX)"
-      style="cursor:pointer;"
-    >
-      <v-banner
-        two-line
-        style="width:100%; padding-left: 10px; padding-right: 10px;"
-      >
-        <v-avatar slot="icon" :color="convertColor(item.COLOR)" size="40">
-        </v-avatar>
-
-        {{ item.PRINT_TEXT }}
-        <template v-slot:actions>
-          <v-btn text color="accent-4" @click="deleteHighlight(item, $event)">
-            <v-icon>mdi-delete-forever</v-icon>
-          </v-btn>
-        </template>
-      </v-banner>
-    </v-row>
+    <v-list v-if="highlights.length !== 0">
+      <template v-for="(item, index) in highlights">
+        <v-list-item :key="item.IDX" class="pr-2" @click="goPosition(item.IDX)">
+          <v-list-item-content class="mt-0 pt-0">
+            {{ item.PRINT_TEXT }}
+          </v-list-item-content>
+          <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">
+            <v-btn icon color="black" @click="deleteHighlight(item, $event)">
+              <v-icon>mdi-delete-forever</v-icon>
+            </v-btn>
+          </v-list-item-action>
+        </v-list-item>
+        <v-divider :key="index"></v-divider>
+      </template>
+    </v-list>
+    <v-list v-if="highlights.length === 0">
+      <v-list-item>
+        <v-list-item-content class="mt-0 pt-0 ">
+          <v-list-item-title class="align-center">
+            NO HIGHLIGHTS
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
   </div>
 </template>
 <script>
