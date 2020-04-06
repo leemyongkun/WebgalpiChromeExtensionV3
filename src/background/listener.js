@@ -286,16 +286,16 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       let categoryParent = categoryParam[1];
       let checkRoot = categoryParam[3];
 
-      if (categoryParam[3]) {
+      if (categoryParam.CHECK_ROOT) {
         //checkRoot가 true 일경우
-        API.deleteCategoryRelationParent(categoryId);
+        API.deleteCategoryRelationParent(categoryParam.CATEGORY_ID);
       }
 
       //if(this.categoryParent === 0 && this.checkRoot){
-      if (categoryParent === 0 && checkRoot) {
+      if (categoryParam.CATEGORY_PARENT === 0 && categoryParam.CHECK_ROOT) {
       } else {
         //카테고리 변경 시, parent에 포함된 category를 미아로 변경
-        let lostTargetCateggory = categoryId;
+        let lostTargetCateggory = categoryParam.CATEGORY_ID;
         API.updateLostCategoryItem(lostTargetCateggory);
       }
 

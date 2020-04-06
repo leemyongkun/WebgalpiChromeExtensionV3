@@ -23,6 +23,7 @@
                 label="CATEGORY NAME"
                 :value="categoryId"
                 v-model="categoryName"
+                @keyup="categoryNameKeyUpEvent($event)"
                 required
               ></v-text-field>
             </v-col>
@@ -99,6 +100,12 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    categoryNameKeyUpEvent(event) {
+      if (event.keyCode === 13) {
+        if (this.categoryStatus === "insert") this.insertCategory();
+        else this.updateCategory();
+      }
+    },
     openDialog(categoryInfo, category, checkRoot, statusFlag, categoryFlag) {
       this.categoryType = categoryFlag;
       if (category === null || category.length === 0) {
@@ -211,14 +218,20 @@ export default {
       //todo : 해당 category의 parent를 null로 변경, title을 변경한다.
     },
     updateCategory() {
-      let param = [];
+      let params = [];
       this.categoryName = this.categoryName.trim();
-      param = [
+      params = [
         this.categoryName,
         this.categoryParent,
         this.categoryId,
         this.checkRoot
       ];
+
+      let param = new Object();
+      param.CATEGORY_NAME = this.categoryName;
+      param.CATEGORY_PARENT = this.categoryParent;
+      param.CATEGORY_ID = this.categoryId;
+      param.CHECK_ROOT = this.checkRoot;
 
       //db 저장하기
       CONTENT_LISTENER.sendMessage({

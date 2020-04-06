@@ -103,13 +103,13 @@ export default {
 
         //카테고리 저장하기
         if (this.selectCategory !== -1) {
-          let param = [
-            this.selectCategory, //"CATEGORY_IDX":
-            site[0].URL_KEY, //"URL_KEY":
-            site[0].EMAIL, //"EMAIL":
-            site[0].IDX, //"SITE_IDX":
-            new Date().getTime() //"DATE_CREATE":
-          ];
+          let param = new Object();
+          param.CATEGORY_ID = this.selectCategory;
+          param.URL_KEY = site[0].URL_KEY;
+          param.EMAIL = site[0].EMAIL;
+          param.IDX = site[0].IDX;
+          param.DATE_CREATE = new Date().getTime();
+
           CONTENT_LISTENER.sendMessage({
             type: "post.category.relation",
             data: param

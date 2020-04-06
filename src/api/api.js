@@ -249,8 +249,9 @@ let Api = {
   updateOptionTheme: params => {
     return update(Query.updateOptionTheme(), params);
   },
+  deleteCategory: param => {},
   deleteCategoryRelation: param => {
-    return remove(Query.deleteCategoryRelation(), [param[1], param[2]]); //URLKEY , EMAIL
+    return remove(Query.deleteCategoryRelation(), [param.URL_KEY, param.EMAIL]); //URLKEY , EMAIL
   },
   deleteCategoryRelationParent: async categoryId => {
     let result = await Utils.getLocalStorage("loginInfo");
@@ -261,7 +262,14 @@ let Api = {
     ]); //parent IDX를 보낸다
   },
   postCategoryRelation: param => {
-    return insert(Query.insertCategoryRelation(), param);
+    let params = [
+      param.CATEGORY_ID,
+      param.URL_KEY, //"URL_KEY":
+      param.EMAIL, //"EMAIL":
+      param.IDX, //"SITE_IDX":
+      param.DATE_CREATE
+    ];
+    return insert(Query.insertCategoryRelation(), params);
   },
   updateLostCategoryItem: param => {
     //parentId에 categoryId가 포함된 column 을 모두 -1로 변경 (미아로 만든다)
@@ -271,13 +279,13 @@ let Api = {
     return insert(Query.insertCategoryItem(), param);
   },
   updateCategoryItem: param => {
-    if (param[3]) {
+    if (param.CHECK_ROOT) {
       //root에서 child로 수정 시,
-      param[1] = 0; //rootId
+      param.CATEGORY_PARENT = 0; //rootId
     }
-    param = param.slice(0, 3);
+    delete param.CHECK_ROOT;
 
-    return update(Query.updateCategoryItem(), param);
+    return update(Query.updateCategoryItem(), Object.values(param));
   },
   postMember: param => {
     return insert(Query.insertMember(), param);
