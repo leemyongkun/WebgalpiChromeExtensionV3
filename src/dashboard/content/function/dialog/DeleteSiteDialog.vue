@@ -51,6 +51,11 @@ export default {
         type: "delete.site",
         data: this.currentSite
       }).then(() => {
+        //처음 저장 하므로 같은 사이트를 리로딩 한다.
+        CONTENT_LISTENER.sendMessage({
+          type: "reloading.same.site",
+          data: this.currentSite
+        });
         EventBus.$emit("reload.category");
         EventBus.$emit("hideSite", this.currentSite.URL_KEY);
         this.close();

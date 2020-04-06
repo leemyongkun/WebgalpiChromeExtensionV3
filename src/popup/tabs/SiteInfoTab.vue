@@ -115,8 +115,11 @@ export default {
             data: param
           });
         }
-
-        //todo : 같은 사이트를 리로딩 한다.
+        //처음 저장 하므로 같은 사이트를 리로딩 한다.
+        CONTENT_LISTENER.sendMessage({
+          type: "reloading.same.site",
+          data: null
+        });
       });
 
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {

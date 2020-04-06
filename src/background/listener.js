@@ -48,6 +48,29 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       });
       return true;
       break;
+    case "reloading.same.site":
+      //todo : 같은 사이트를 리로딩 한다.
+      chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {
+        chrome.tabs.query({}, tabs => {
+          tabs.map(item => {
+            //하이라이팅 / 사이트 저장시
+            if (msg.data === null) {
+              if (
+                currentTab[0].id !== item.id &&
+                currentTab[0].url === item.url
+              ) {
+                chrome.tabs.reload(item.id);
+              }
+            } else {
+              //dashboard에서 사이트 삭제 시
+              if (msg.data.URL === item.url) {
+                chrome.tabs.reload(item.id);
+              }
+            }
+          });
+        });
+      });
+      break;
     case "insert.member":
       let data = msg.data;
       let memberParameter = [
