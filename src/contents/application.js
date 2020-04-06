@@ -28,7 +28,7 @@ let APPLICATION = {
     });
   },
   init: async data => {
-    console.log("application.inint");
+    console.log("application.init");
     /*let head = document.querySelector("#mainFrame").contentDocument.head;
               console.log("getNaverBlog ", head);*/
     //this.getNaverBlog();
@@ -38,7 +38,7 @@ let APPLICATION = {
       return false;
     await CONTENTS.initUrlInfo();
 
-    //todo : 이건 나중에.. 해야할듯.
+    //todo :getNaverBlog 이건 나중에.. 해야할듯.
     //await APPLICATION.getNaverBlog();
 
     if (data == null) {

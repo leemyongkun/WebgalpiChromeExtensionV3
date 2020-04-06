@@ -115,6 +115,8 @@ export default {
             data: param
           });
         }
+
+        //todo : 같은 사이트를 리로딩 한다.
       });
 
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
@@ -166,14 +168,16 @@ export default {
         type: "get.category",
         data: null
       }).then(category => {
-        this.category = category.filter(item => {
-          return item.parent !== 0;
-        });
+        if (category !== undefined) {
+          this.category = category.filter(item => {
+            return item.parent !== 0;
+          });
 
-        this.category.unshift({ id: -1, name: "NO CATEGORY" });
+          this.category.unshift({ id: -1, name: "NO CATEGORY" });
 
-        if (this.category.length !== 0) {
-          this.selectCategory = this.category[0].id;
+          if (this.category.length !== 0) {
+            this.selectCategory = this.category[0].id;
+          }
         }
       });
     });

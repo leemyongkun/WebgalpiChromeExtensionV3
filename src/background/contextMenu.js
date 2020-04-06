@@ -15,7 +15,6 @@ function contextAction(info, tab) {
       alert("Dashboard에서는 저장할 수 없습니다.");
       return false;
     }
-    //todo
     alert("준비중");
   }
 }

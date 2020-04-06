@@ -257,11 +257,12 @@ let EVENT = {
             let colorTF = false;
 
             if (color === "default-color") color = "highlight-color-2";
+
             //저장한다.
             CONTENTS.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
 
             // 이미 선택되어진 컬러의 경우..
-            if ($(_this).hasClass("on")) {
+            /* if ($(_this).hasClass("on")) {
               // 하이라이팅을 삭제
               let msg = "are you sure you want to delete the highlight?";
 
@@ -273,7 +274,7 @@ let EVENT = {
                 });
                 return false;
               }
-            }
+            }*/
 
             /*  $("#highlight-toolbar")
                                         .find("a")

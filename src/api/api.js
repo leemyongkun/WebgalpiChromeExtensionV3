@@ -7,7 +7,6 @@ var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 let Api = {
   getBackupData: param => {
     return new Promise(res => {
-      //todo : 모든 데이타를 가져온다.
       Promise.all([
         Api.getBackupSites(null),
         Api.getBackupHighlights(null),
