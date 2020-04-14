@@ -15,22 +15,33 @@
       v-if="false"
     />
     <v-spacer />
-    <v-avatar :tile="true">
-      <img
-        v-if="member.IMAGE_URL !== null"
-        :src="member.IMAGE_URL"
-        alt="logo"
-      />
-    </v-avatar>
-    {{ member.EMAIL }}
+
+    <v-menu
+      transition="slide-y-transition"
+      offset-y
+      :close-on-content-click="false"
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn text x-small v-on="on">
+          {{ member.EMAIL }}
+        </v-btn>
+      </template>
+      <v-list class="pt-0 pb-0">
+        <v-list-item class="pt-0 pb-0" @click="signOut">
+          SIGNOUT
+        </v-list-item>
+      </v-list>
+    </v-menu>
     <v-btn text @click="">
       <v-icon>mdi-information-outline</v-icon>&nbsp;README
     </v-btn>
+    <SignArea ref="signout"></SignArea>
   </v-app-bar>
 </template>
 <script>
 import Firebase from "firebase";
 import CONTENT_LISTENER from "../../common/content-listener";
+import SignArea from "../dialog/setting/SignArea";
 
 let firebaseConfig = {
   apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
@@ -46,38 +57,42 @@ let firebaseConfig = {
 Firebase.initializeApp(firebaseConfig);
 
 export default {
+  components: { SignArea },
   data: () => ({}),
   props: ["member"],
   mounted() {
     this.$nextTick(() => {});
   },
   methods: {
+    signOut() {
+      this.$refs.signout.open();
+    },
     firebaseTest() {
       alert("!");
       /*console.log(
-                  Firebase.database()
-                    .ref("users/kkun24")
-                    .toString()
-                );*/
+                            Firebase.database()
+                              .ref("users/kkun24")
+                              .toString()
+                          );*/
       /*let result = await Utils.getLocalStorage("loginInfo");
-                result.loginInfo.EMAIL*/
+                          result.loginInfo.EMAIL*/
       /*CONTENT_LISTENER.sendMessage({
-                  type: "get.backup.data"
-                }).then(backupData => {
-                  console.log("backupData ", backupData);
-                  Firebase.database()
-                    .ref("users/kkuni_bear_gmail_com")
-                    .set({
-                      username: "leem",
-                      email: "kkuni.bear@gmail.com",
-                      image:
-                        "https://lh4.googleusercontent.com/-SaJAd76NDOM/AAAAAAAAAAI/AAAAAAAAAAA/ZJdVidSY2HU/photo.jpg",
-                      items: backupData
-                    })
-                    .then(res => {
-                      console.log("res ", res);
-                    });
-                });*/
+                            type: "get.backup.data"
+                          }).then(backupData => {
+                            console.log("backupData ", backupData);
+                            Firebase.database()
+                              .ref("users/kkuni_bear_gmail_com")
+                              .set({
+                                username: "leem",
+                                email: "kkuni.bear@gmail.com",
+                                image:
+                                  "https://lh4.googleusercontent.com/-SaJAd76NDOM/AAAAAAAAAAI/AAAAAAAAAAA/ZJdVidSY2HU/photo.jpg",
+                                items: backupData
+                              })
+                              .then(res => {
+                                console.log("res ", res);
+                              });
+                          });*/
     }
   }
 };
