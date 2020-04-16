@@ -71,7 +71,7 @@ export default {
         let index = this.highlightItems.filter((highlight, index) => {
           return item.IDX === highlight.IDX ? index : null;
         });
-        this.highlightItems.splice(index, 1);
+        this.highlightItems = this.highlightItems.splice(index, 1);
       });
     },
     getWindowHeight(event) {

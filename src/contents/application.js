@@ -16,9 +16,9 @@ let APPLICATION = {
       /*  let val = document.frames["mainFrame"].document.getElementsByTagName('html')[0];*/
 
       /*let val = $("#mainFrame")
-                    .contents()
-                    .find("html")
-                    .html();*/
+                          .contents()
+                          .find("html")
+                          .html();*/
 
       let head = document.getElementById("mainFrame");
       //console.log("getNaverBlog ", head);
@@ -30,7 +30,7 @@ let APPLICATION = {
   init: async data => {
     console.log("application.init");
     /*let head = document.querySelector("#mainFrame").contentDocument.head;
-              console.log("getNaverBlog ", head);*/
+                  console.log("getNaverBlog ", head);*/
     //this.getNaverBlog();
 
     //body (target element) 가 없으면 취소한다.
@@ -52,10 +52,6 @@ let APPLICATION = {
     //현재 저장되어있는지 확인.
     GLOBAL_CONFIG.USE_CURRENT_SITE = data.allItems.SITE_CHECK;
 
-    console.log(
-      "GLOBAL_CONFIG.USE_CURRENT_SITE ",
-      GLOBAL_CONFIG.USE_CURRENT_SITE
-    );
     //하이라이트 Item을 저장한다.
     GLOBAL_CONFIG.HIGHLIGHT_LIST = data.allItems.HIGHLIGHT_LIST;
 

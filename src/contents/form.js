@@ -50,17 +50,7 @@ let FORM = {
       colorButtons += " <a class='" + color + " webgalpi-color-form'></a>";
     });
 
-    colorButtons +=
-      " <a style='background-image: url(https://static.tumblr.com/iawroni/SUOmozg5a/drib-g_2x.png);\n" +
-      "    width: 24px;\n" +
-      "    height: 0px;\n" +
-      "    display: inline-block;\n" +
-      "    padding-top: 24px;\n" +
-      "    background-size: 100%;\n" +
-      "    background-repeat: no-repeat;\n" +
-      "    background-position: center;\n" +
-      "    overflow: hidden;'>X</a>";
-    //<img width='18px' height='18px' src='"+chrome.extension.getURL("/icons/trash.png")+"'>
+    // colorButtons +=" <a class='webgalpi-trashbox'>X</a>";
 
     let widthRate = COLORS.split(",").length * 16;
     let pickerWidth = "width: " + widthRate + "% !important;";
