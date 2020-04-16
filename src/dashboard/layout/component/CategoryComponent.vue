@@ -89,8 +89,8 @@ export default {
         type: "get.category",
         data: [result.loginInfo.EMAIL]
       }).then(category => {
+        this.category = [];
         if (category.length !== 0) {
-          console.log("category", JSON.stringify(category));
           this.category = Utils.generateTree(category, 0);
         }
       });
@@ -109,17 +109,17 @@ export default {
 
       //DB에 저장하기
       /*let param = [
-                    event.target.id, //"CATEGORY_IDX":
-                    data.URL_KEY, //"URL_KEY":
-                    data.EMAIL, //"EMAIL":
-                    data.IDX, //"SITE_IDX":
-                    new Date().getTime() //"DATE_CREATE":
-                ];*/
+                              event.target.id, //"CATEGORY_IDX":
+                              data.URL_KEY, //"URL_KEY":
+                              data.EMAIL, //"EMAIL":
+                              data.IDX, //"SITE_IDX":
+                              new Date().getTime() //"DATE_CREATE":
+                          ];*/
       /*
-                    data.URL_KEY, //"URL_KEY":
-                    data.EMAIL, //"EMAIL":
-                    data.IDX, //"SITE_IDX":
-                 */
+                              data.URL_KEY, //"URL_KEY":
+                              data.EMAIL, //"EMAIL":
+                              data.IDX, //"SITE_IDX":
+                           */
       data.CATEGORY_ID = event.target.id;
       data.DATE_CREATE = new Date().getTime();
 

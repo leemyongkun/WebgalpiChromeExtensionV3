@@ -276,24 +276,19 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
 
     case "delete.category.item": //dashboard
       let deleteCategoryParam = msg.data;
+
       if (deleteCategoryParam.CHECK_ROOT) {
         //삭제 시, 하위 Directory 는 미아로 변경
         let lostTargetCateggory = [deleteCategoryParam.CATEGORY_ID];
         await API.updateLostCategoryItem(lostTargetCateggory);
-
-        //삭제한다.
-        API.deleteCategory(deleteCategoryParam.CATEGORY_ID).then(() => {
-          sendResponse(true);
-        });
       } else {
         //category와 연관되어있는 contents relation을 삭제한다.
         await API.deleteCategoryRelationParent(deleteCategoryParam.CATEGORY_ID);
-
-        //child category 를 삭제한다.
-        API.deleteCategory(deleteCategoryParam.CATEGORY_ID).then(() => {
-          sendResponse(true);
-        });
       }
+      //삭제한다.
+      API.deleteCategory(deleteCategoryParam.CATEGORY_ID).then(() => {
+        sendResponse(true);
+      });
       return true;
       break;
     case "update.category.item": //dashboard

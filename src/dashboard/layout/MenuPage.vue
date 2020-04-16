@@ -127,7 +127,7 @@ export default {
       event.stopPropagation();
       this.$refs.updateCategoryDialog.openDialog(
         item,
-        this.$refs.categoryComponent.category, // 어차필 대상은 이 category 뿐이므로..
+        this.$refs.categoryComponent.category, // 어차피 대상은 이 category 뿐이므로..
         checkRoot,
         statusFlag, //update , insert
         "CUSTOM"
