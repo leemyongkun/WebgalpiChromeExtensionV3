@@ -129,3 +129,15 @@
   background-repeat: no-repeat !important;
   background-image: url("chrome-extension://__MSG_@@extension_id__/icons/pen.png") !important;
 }
+
+.webgalpi-trashbox {
+  background-image: url(https://static.tumblr.com/iawroni/SUOmozg5a/drib-g_2x.png);
+  width: 24px;
+  height: 0px;
+  display: inline-block;
+  padding-top: 24px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+}
