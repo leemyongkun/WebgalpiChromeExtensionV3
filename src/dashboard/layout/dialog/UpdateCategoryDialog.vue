@@ -87,6 +87,7 @@ export default {
   components: {},
   props: [],
   data: () => ({
+    currentCategoryInfo: new Object(),
     checkRoot: false,
     dialog: false,
     categoryParent: "",
@@ -107,6 +108,9 @@ export default {
       }
     },
     openDialog(categoryInfo, category, checkRoot, statusFlag, categoryFlag) {
+      console.log("categoryInfo ", categoryInfo);
+      this.currentCategoryInfo = categoryInfo;
+
       this.categoryType = categoryFlag;
       if (category === null || category.length === 0) {
         this.useCategory = false; //Parent(ROOT)가 없으면 ROOT체크를 해제하지 못하도록 한다.
@@ -168,10 +172,40 @@ export default {
       });
     },
     deleteCategory() {
-      alert("delete");
+      if (!confirm("카테고리를 삭제 하시겠습니까?")) {
+        return false;
+      }
+      /*
+                root의경우 :
+                1. 하위 카테고리의 연결을 제거한다.
+                2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
+                3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
+
+                child의 경우 :
+                1. root와의 연결을 끊는다.
+                2. Contents들은 NO_CATEGORY 상태로 변경한다.
+                 */
+
+      let param = new Object();
+      if (this.currentCategoryInfo.parent === 0) {
+        param.CHECK_ROOT = true;
+      } else {
+        param.CHECK_ROOT = false;
+      }
+
+      param.CATEGORY_ID = this.currentCategoryInfo.id;
+
+      //category 삭제
+      CONTENT_LISTENER.sendMessage({
+        type: "delete.category.item",
+        data: param
+      }).then(() => {
+        EventBus.$emit("reload.category");
+        this.close();
+      });
     },
     async insertCategory() {
-      //todo : Category 등록
+      //Category 등록
       //1. index 최대값을 가져온다.
       //2. PARENT / CHILD를 구분하여 parameter 를 구성한다.
       //3. 저장한다. (reload category)
@@ -218,14 +252,8 @@ export default {
       //todo : 해당 category의 parent를 null로 변경, title을 변경한다.
     },
     updateCategory() {
-      let params = [];
+      console.log("update Category ");
       this.categoryName = this.categoryName.trim();
-      params = [
-        this.categoryName,
-        this.categoryParent,
-        this.categoryId,
-        this.checkRoot
-      ];
 
       let param = new Object();
       param.CATEGORY_NAME = this.categoryName;

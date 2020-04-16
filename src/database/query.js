@@ -446,6 +446,11 @@ export default {
             AND EMAIL = ?
             `;
   },
+  deleteCategory: () => {
+    return `DELETE FROM TBL_CATEGORY
+                WHERE IDX = ?
+                AND EMAIL = ?`;
+  },
   updateLostCategoryItem: () => {
     return `UPDATE  TBL_CATEGORY
             SET  PARENT = -1

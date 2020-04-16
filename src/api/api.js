@@ -249,7 +249,10 @@ let Api = {
   updateOptionTheme: params => {
     return update(Query.updateOptionTheme(), params);
   },
-  deleteCategory: param => {},
+  deleteCategory: async categoryId => {
+    let result = await Utils.getLocalStorage("loginInfo");
+    return remove(Query.deleteCategory(), [categoryId, result.loginInfo.EMAIL]); //URLKEY , EMAIL
+  },
   deleteCategoryRelation: param => {
     return remove(Query.deleteCategoryRelation(), [param.URL_KEY, param.EMAIL]); //URLKEY , EMAIL
   },
@@ -257,7 +260,7 @@ let Api = {
     let result = await Utils.getLocalStorage("loginInfo");
     //Relation 에 있는 parent <-> site 의 정보를 삭제한다.
     remove(Query.deleteCategoryRelationParent(), [
-      categoryId[0],
+      categoryId,
       result.loginInfo.EMAIL
     ]); //parent IDX를 보낸다
   },

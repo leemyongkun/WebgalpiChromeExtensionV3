@@ -275,16 +275,29 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
 
     case "delete.category.item": //dashboard
-      //삭제 시, 하위 Directory 는 미아로 변경
-      //Contents들은 No category로 변경.
+      let deleteCategoryParam = msg.data;
+      if (deleteCategoryParam.CHECK_ROOT) {
+        //삭제 시, 하위 Directory 는 미아로 변경
+        let lostTargetCateggory = [deleteCategoryParam.CATEGORY_ID];
+        await API.updateLostCategoryItem(lostTargetCateggory);
 
+        //삭제한다.
+        API.deleteCategory(deleteCategoryParam.CATEGORY_ID).then(() => {
+          sendResponse(true);
+        });
+      } else {
+        //category와 연관되어있는 contents relation을 삭제한다.
+        await API.deleteCategoryRelationParent(deleteCategoryParam.CATEGORY_ID);
+
+        //child category 를 삭제한다.
+        API.deleteCategory(deleteCategoryParam.CATEGORY_ID).then(() => {
+          sendResponse(true);
+        });
+      }
+      return true;
       break;
     case "update.category.item": //dashboard
       let categoryParam = msg.data;
-
-      let categoryId = [categoryParam[2]];
-      let categoryParent = categoryParam[1];
-      let checkRoot = categoryParam[3];
 
       if (categoryParam.CHECK_ROOT) {
         //checkRoot가 true 일경우
@@ -292,12 +305,12 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       }
 
       //if(this.categoryParent === 0 && this.checkRoot){
-      if (categoryParam.CATEGORY_PARENT === 0 && categoryParam.CHECK_ROOT) {
-      } else {
-        //카테고리 변경 시, parent에 포함된 category를 미아로 변경
-        let lostTargetCateggory = categoryParam.CATEGORY_ID;
-        API.updateLostCategoryItem(lostTargetCateggory);
-      }
+
+      //if (categoryParam.CATEGORY_PARENT === 0 && categoryParam.CHECK_ROOT) {
+      //카테고리 변경 시, parent에 포함된 category를 미아로 변경
+      let lostTargetCateggory = [categoryParam.CATEGORY_ID];
+      API.updateLostCategoryItem(lostTargetCateggory);
+      //}
 
       API.updateCategoryItem(categoryParam).then(res => {
         sendResponse(res);
