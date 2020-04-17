@@ -6,7 +6,8 @@
   >
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on" @click="setHighlights">
-        <v-icon>mdi-grease-pencil</v-icon>
+        <v-icon>mdi-book-outline</v-icon
+        ><!--mdi-grease-pencil-->
       </v-btn>
     </template>
 

@@ -2,7 +2,7 @@
   <v-dialog v-model="deleteDialog" persistent max-width="290">
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
-        <v-icon>mdi-delete-forever</v-icon>
+        <v-icon>mdi-trash-can-outline</v-icon>
       </v-btn>
     </template>
     <v-card>
