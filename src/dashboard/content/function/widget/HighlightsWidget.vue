@@ -14,7 +14,7 @@
       <v-list v-if="highlightItems.length !== 0">
         <template v-for="(item, index) in highlightItems">
           <v-list-item :key="item.IDX" class="pr-2">
-            <v-list-item-content class="mt-0 pt-0">
+            <v-list-item-content class="mt-0">
               {{ item.PRINT_TEXT }}
             </v-list-item-content>
 
@@ -68,10 +68,11 @@ export default {
         type: "delete.highlight",
         data: item
       }).then(() => {
-        let index = this.highlightItems.filter((highlight, index) => {
-          return item.IDX === highlight.IDX ? index : null;
+        this.highlightItems.map((highlight, index) => {
+          if (item.IDX === highlight.IDX) {
+            this.highlightItems.splice(index, 1);
+          }
         });
-        this.highlightItems = this.highlightItems.splice(index, 1);
       });
     },
     getWindowHeight(event) {

@@ -3,7 +3,7 @@
     <v-list v-if="highlights.length !== 0">
       <template v-for="(item, index) in highlights">
         <v-list-item :key="item.IDX" class="pr-2" @click="goPosition(item.IDX)">
-          <v-list-item-content class="mt-0 pt-0">
+          <v-list-item-content class="mt-0">
             {{ item.PRINT_TEXT }}
           </v-list-item-content>
           <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">
@@ -58,10 +58,11 @@ export default {
         type: "delete.highlight",
         data: item
       }).then(() => {
-        let index = this.highlights.filter((highlight, index) => {
-          return item.IDX === highlight.IDX ? index : null;
+        this.highlights.map((highlight, index) => {
+          if (item.IDX === highlight.IDX) {
+            this.highlights.splice(index, 1);
+          }
         });
-        this.highlights.splice(index, 1);
 
         //본문의 highlight를 삭제한다.
         chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
