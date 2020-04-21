@@ -65,7 +65,6 @@ export default {
   mounted() {
     //로그인이 되어있는지 확인.
     chrome.storage.local.get(["loginInfo"], result => {
-      console.log("loginInfo.EMAIL ", result.loginInfo);
       let loginInfo = result.loginInfo;
       if (result.loginInfo === undefined || loginInfo.EMAIL === "") {
         this.mainFlag = 2;

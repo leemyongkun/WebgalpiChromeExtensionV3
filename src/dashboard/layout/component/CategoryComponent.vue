@@ -107,19 +107,15 @@ export default {
         }
       });
 
-      //DB에 저장하기
-      /*let param = [
-                              event.target.id, //"CATEGORY_IDX":
-                              data.URL_KEY, //"URL_KEY":
-                              data.EMAIL, //"EMAIL":
-                              data.IDX, //"SITE_IDX":
-                              new Date().getTime() //"DATE_CREATE":
-                          ];*/
-      /*
-                              data.URL_KEY, //"URL_KEY":
-                              data.EMAIL, //"EMAIL":
-                              data.IDX, //"SITE_IDX":
-                           */
+      /**
+         *
+         ## 이미 포함 ##
+             param.CATEGORY_ID,
+             param.URL_KEY, //"URL_KEY":
+             param.EMAIL, //"EMAIL":
+             param.IDX, //"SITE_IDX":
+
+         */
       data.CATEGORY_ID = event.target.id;
       data.DATE_CREATE = new Date().getTime();
 

@@ -35,6 +35,12 @@ let BackgroundModule = {
       //현재 urlKey를 저장한다.
       chrome.storage.local.set({ [tabId]: currentUrl }, null);
 
+      //target popup을 변경한다.
+      /*chrome.browserAction.setPopup({
+                tabId: tabId,
+                popup: "popup/naver.html"
+            })*/
+
       //EMAIL로 조건을 걸지 않고, 사용중(IS_USE=Y)의 데이타만 가져온다
       Api.getMemberInfo().then(memberInfo => {
         if (memberInfo.EMAIL === "") {
@@ -74,10 +80,9 @@ let BackgrounEvent = {
     chrome.runtime.onInstalled.addListener(details => {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
-        /*
-                                chrome.storage.local.remove(["loginInfo"]);
-                                dbcon.dropTable();
-                                dbcon.createTable();*/
+        /*chrome.storage.local.remove(["loginInfo"]);
+                                        dbcon.dropTable();
+                                        dbcon.createTable();*/
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }

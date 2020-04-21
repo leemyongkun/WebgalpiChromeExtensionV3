@@ -190,7 +190,9 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       return true;
       break;
     case "get.category": //dashboard
+      console.log("get.category@@@@@");
       API.getCategory(msg.data).then(res => {
+        console.log("get.category ################### ", res);
         sendResponse(res);
       });
       return true;

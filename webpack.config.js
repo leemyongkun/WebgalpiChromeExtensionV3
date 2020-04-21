@@ -98,8 +98,8 @@ const config = {
     new CopyWebpackPlugin([
       { from: "icons", to: "icons", ignore: ["icon.xcf"] },
       {
-        from: "popup/popup.html",
-        to: "popup/popup.html",
+        from: "popup/*.html",
+        to: "./",
         transform: transformHtml
       },
       {

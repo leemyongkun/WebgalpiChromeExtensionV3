@@ -90,7 +90,22 @@ export default {
       open.focus();
     },
     updateCategory() {
-      this.selectCategory = 2;
+      if (this.selectCategory === -1) {
+        alert(
+          "카테고리 정보를 업데이트 할 수 없습니다.\nDashboard에서 수행하십시오."
+        );
+        return false;
+      }
+      let object = new Object();
+      object = Object.assign(object, this.siteInfo);
+      object.CATEGORY_ID = this.selectCategory;
+      object.DATE_CREATE = new Date().getTime();
+      CONTENT_LISTENER.sendMessage({
+        type: "post.category.relation",
+        data: object
+      }).then(() => {
+        alert("카테고리 정보가 업데이트 되었습니다.");
+      });
     },
     saveSite() {
       this.siteInfo.DEFAULT_CATEGORY_IDX = this.selectCategory;
@@ -167,21 +182,24 @@ export default {
         });
       }, 300);
 
-      CONTENT_LISTENER.sendMessage({
-        type: "get.category",
-        data: null
-      }).then(category => {
-        if (category !== undefined) {
-          this.category = category.filter(item => {
-            return item.parent !== 0;
-          });
+      chrome.storage.local.get(["loginInfo"], result => {
+        let email = result.loginInfo.EMAIL;
+        CONTENT_LISTENER.sendMessage({
+          type: "get.category",
+          data: [email]
+        }).then(category => {
+          if (category !== undefined) {
+            this.category = category.filter(item => {
+              return item.parent !== 0;
+            });
 
-          this.category.unshift({ id: -1, name: "NO CATEGORY" });
+            this.category.unshift({ id: -1, name: "NO CATEGORY" });
 
-          if (this.category.length !== 0) {
-            this.selectCategory = this.category[0].id;
+            if (this.category.length !== 0) {
+              this.selectCategory = this.category[0].id;
+            }
           }
-        }
+        });
       });
     });
   }
