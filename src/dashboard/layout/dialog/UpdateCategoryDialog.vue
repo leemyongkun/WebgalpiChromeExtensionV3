@@ -104,6 +104,7 @@ export default {
   mounted() {},
   methods: {
     categoryNameKeyUpEvent(event) {
+      //string length byte : https://stove99.tistory.com/83
       if (event.keyCode === 13) {
         if (this.categoryStatus === "insert") this.insertCategory();
         else this.updateCategory();
