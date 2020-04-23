@@ -173,11 +173,18 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       return true;
       break;
 
-    case "get.site": //미사용
-      let getSiteParameter = new Object();
-      getSiteParameter.URL_KEY = msg.data;
+    /*case "get.site": //미사용
+          let getSiteParameter = new Object();
+          getSiteParameter.URL_KEY = msg.data;
 
-      API.getSite(getSiteParameter).then(res => {
+          API.getSite(getSiteParameter).then(res => {
+            sendResponse(res); //조건
+          });
+          return true;
+          break;*/
+
+    case "get.sites.count":
+      API.getSites(msg.data).then(res => {
         sendResponse(res); //조건
       });
       return true;
