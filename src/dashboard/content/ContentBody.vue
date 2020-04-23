@@ -293,9 +293,6 @@ export default {
           setTimeout(() => {
             this.autoSelectSite();
           }, 100);
-        })
-        .then(() => {
-          console.log(">>> ", document.getElementById("contentsList"));
         });
     },
     goSourceSite(site, event) {
