@@ -268,7 +268,6 @@ export default {
       param.CATEGORY_ID = this.categoryId;
       param.CHECK_ROOT = this.checkRoot;
 
-      console.log("param > ", param);
       //db 저장하기
       CONTENT_LISTENER.sendMessage({
         type: "update.category.item",

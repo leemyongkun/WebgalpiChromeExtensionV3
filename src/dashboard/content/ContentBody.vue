@@ -285,7 +285,11 @@ export default {
             this.sites = this.sites.concat(response);
             return this.sites;
           } else {
-            EventBus.$emit("open.snack", "마지막 ITEM 입니다.");
+            if (this.sites.length === 0) {
+              EventBus.$emit("open.snack", "ITEM(s)이 없습니다.");
+            } else {
+              EventBus.$emit("open.snack", "마지막 ITEM 입니다.");
+            }
             return response;
           }
         })
