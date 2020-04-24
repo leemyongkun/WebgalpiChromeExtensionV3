@@ -210,7 +210,6 @@ let CONTENTS = {
     });
   },
   updateHighlight: async (color, idx) => {
-    console.log("updateHighlight ", color, idx);
     if (color === "") {
       alert("delete!!");
       return false;

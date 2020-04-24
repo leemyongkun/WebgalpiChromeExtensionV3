@@ -102,7 +102,6 @@ export default {
                 data: urlInfo
               }).then(response => {
                 /*this.Highlight.activities = response;*/
-                console.log("response ", response);
                 this.highlights = response;
               });
             });

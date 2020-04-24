@@ -111,7 +111,6 @@ export default {
         data: null
       }).then(members => {
         let selectedMemberEmail = this.members[this.memberIndex].EMAIL;
-        console.log("members", members);
         let member = members.filter(item => {
           return item.EMAIL === selectedMemberEmail;
         });

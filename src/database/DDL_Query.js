@@ -193,7 +193,6 @@ let DDL = {
     });
   },
   CREATE: db => {
-    console.log("DDL Init Database");
     db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_SITES(), []);
     });

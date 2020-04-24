@@ -92,7 +92,6 @@ let Api = {
     });
   },
   getAllCategoryCount: params => {
-    console.log("getAllCategoryCount ", params, Query.getAllCategoryCount());
     return select(Query.getAllCategoryCount(), params);
   },
   getNoCategoryCount: params => {
@@ -100,7 +99,6 @@ let Api = {
   },
   getOptions: parameter => {
     let param = [parameter.EMAIL];
-    console.log("Query.getOptions() ", Query.getOptions());
     return select(Query.getOptions(), param);
   },
   getSite: params => {
@@ -205,7 +203,6 @@ let Api = {
     return remove(Query.deleteSite(), param);
   },
   postSite: async params => {
-    console.log("### ", params);
     let date = new Date().getTime();
     let param = [
       params.URL_KEY,

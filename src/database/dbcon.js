@@ -43,8 +43,6 @@ export default {
         `\', 'NO CATEGORY', 1, 1, 2, 'SYSTEM','nocategory', null)
                                           `;
 
-      console.log("INIT_OPTIONS ", INIT_OPTIONS);
-      console.log("INIT_CATEGORY ", INIT_CATEGORY);
       db.transaction(tx => {
         tx.executeSql(INIT_OPTIONS, []);
         tx.executeSql(INIT_CATEGORY, []);

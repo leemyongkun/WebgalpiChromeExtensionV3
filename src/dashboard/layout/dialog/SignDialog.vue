@@ -87,7 +87,6 @@ export default {
       let accountGoogleLogin = () => {
         ACCOUNT.googleLogin()
           .then(accountInfo => {
-            console.log("accountInfo ", accountInfo);
             if (accountInfo === null) {
               alert("구글 계정 로그인 에러");
               return false;
@@ -125,7 +124,6 @@ export default {
     },
     anotherMember() {
       chrome.storage.local.get(["googleToken"], result => {
-        console.log("result ", result.googleToken);
         chrome.identity.removeCachedAuthToken(
           { token: result.googleToken },
           () => {

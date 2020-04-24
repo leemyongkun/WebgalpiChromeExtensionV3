@@ -201,7 +201,6 @@ export default {
     this.$nextTick(() => {
       //카테고리 클릭 시
       EventBus.$on("selectCategoryForSite", categoryInfo => {
-        console.log("categoryInfo ", categoryInfo);
         //페이징 offset 초기화
         this.offset.start = OFFSET_START;
         this.offset.end = OFFSET_END;

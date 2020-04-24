@@ -36,7 +36,6 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
                                                             youtube , https://www.webprofessional.jp/custom-pdf-rendering/ 등을 처리한다.
                                                              */
       if (URL.SITE === msg.site.URL) return false;
-      console.log("INIT ###");
       URL.SITE = msg.site.URL;
       URL.KEY = msg.site.URL_KEY;
       URL.TYPE = msg.site.EXT;
@@ -77,7 +76,6 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
 
     case "emit.action":
       document.getElementsByTagName("webgalpi-group")[0].remove();
-      console.log("msg.data[0] ", msg.data[0]);
       APPLICATION.createContentsForm(msg.data[0].COLOR);
 
       console.log("EMIT.ACTion!!", msg.data);

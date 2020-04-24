@@ -111,8 +111,6 @@ export default {
       }
     },
     openDialog(categoryInfo, category, checkRoot, statusFlag, categoryFlag) {
-      console.log("categoryFlag ", categoryInfo, categoryFlag);
-
       this.currentCategoryInfo = categoryInfo;
 
       this.categoryType = categoryFlag;
@@ -259,7 +257,6 @@ export default {
       //todo : 해당 category의 parent를 null로 변경, title을 변경한다.
     },
     updateCategory() {
-      console.log("update Category ");
       this.categoryName = this.categoryName.trim();
 
       let param = new Object();

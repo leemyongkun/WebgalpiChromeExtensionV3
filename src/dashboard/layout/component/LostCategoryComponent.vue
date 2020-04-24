@@ -59,7 +59,6 @@ export default {
     editCategory(item, event, checkRoot, statusFlag) {
       event.preventDefault();
       event.stopPropagation();
-      console.log("item ", item);
       EventBus.$emit("edit.category", item, checkRoot, statusFlag, "LOST");
     },
 
