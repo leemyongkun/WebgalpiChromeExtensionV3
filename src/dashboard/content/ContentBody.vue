@@ -24,7 +24,7 @@
 
           <v-col v-else>
             <!-- 컨텐츠 리스트 -->
-            <v-list style="background: none;padding: 0;">
+            <v-list style="background: none;padding: 0;" id="contentsList">
               <div v-for="(item, index) in sites" :key="index">
                 <v-row>
                   <v-col cols="12" style="padding-top: 0px;">
@@ -111,20 +111,50 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="3" class="pb-0 pt-2">
-        <v-btn
-          small
-          text
-          block
-          outlined
-          @click="more"
-          :disabled="moreBtnDisabled"
-        >
-          MORE
-          <span v-if="currentCategoryInfo !== null">
-            ( {{ sites.length }} / {{ currentCategoryInfo.cnt }} )</span
-          >
-        </v-btn>
+      <v-col cols="3" class="pb-0 pt-0">
+        <v-row>
+          <v-col cols="12">
+            <v-btn
+              small
+              text
+              block
+              outlined
+              @click="more"
+              :disabled="moreBtnDisabled"
+            >
+              MORE ( items : {{ sites.length }} )
+            </v-btn>
+          </v-col>
+        </v-row>
+        <!-- <v-row>
+                     <v-col cols="5">
+                         <v-btn
+                                 small
+                                 text
+                                 block
+                                 outlined
+                                 @click="more"
+                                 :disabled="moreBtnDisabled"
+                         >
+                             PREV
+                         </v-btn>
+                     </v-col>
+                     <v-col cols="2">
+                         1/2
+                     </v-col>
+                     <v-col cols="5">
+                         <v-btn
+                                 small
+                                 text
+                                 block
+                                 outlined
+                                 @click="more"
+                                 :disabled="moreBtnDisabled"
+                         >
+                             NEXT
+                         </v-btn>
+                     </v-col>
+                 </v-row>-->
       </v-col>
     </v-row>
   </div>
@@ -169,17 +199,9 @@ export default {
   }),
   created() {
     this.$nextTick(() => {
-      //2초에 한번씩 Dashboard 진입을 확인한다.
-      /*setInterval(() => {
-                                                        chrome.storage.local.get(["activeDashboardStatus"], result => {
-                                                          if (result.activeDashboardStatus === true) {
-                                                          }
-                                                          chrome.storage.local.set({ activeDashboardStatus: false });
-                                                        });
-                                                      }, 2000);*/
-
       //카테고리 클릭 시
       EventBus.$on("selectCategoryForSite", categoryInfo => {
+        console.log("categoryInfo ", categoryInfo);
         //페이징 offset 초기화
         this.offset.start = OFFSET_START;
         this.offset.end = OFFSET_END;
@@ -232,10 +254,7 @@ export default {
       }
       return imgUrl;
     },
-    more() {
-      this.offset.start = this.offset.start + this.offset.end;
-      this.getSites(this.currentSiteParameter);
-    },
+
     autoSelectSite() {
       if (this.$refs.siteList.length !== 0) {
         this.$refs.siteList[0].click();
@@ -243,10 +262,15 @@ export default {
         this.currentSite = this.sites[0];
       }
     },
+    more() {
+      this.offset.start = this.offset.start + this.offset.end;
+      this.getSites(this.currentSiteParameter);
+    },
     async getSites(param) {
       //페이징 처리를 한다.
       param.startOffset = this.offset.start;
       param.endOffset = this.offset.end;
+
       let result = await Utils.getLocalStorage("loginInfo");
       param.EMAIL = result.loginInfo.EMAIL;
       //more 버튼 클릭시, parameter를 유지하기 위해, 임시로 저장해둔다.
@@ -257,15 +281,22 @@ export default {
         data: param
       })
         .then(response => {
-          this.sites = response;
-          return this.sites;
+          if (response.length !== 0) {
+            this.sites = this.sites.concat(response);
+            return this.sites;
+          } else {
+            if (this.sites.length === 0) {
+              EventBus.$emit("open.snack", "ITEM(s)이 없습니다.");
+            } else {
+              EventBus.$emit("open.snack", "마지막 ITEM 입니다.");
+            }
+            return response;
+          }
         })
         .then(sites => {
-          if (sites.length !== 0) {
-            setTimeout(() => {
-              this.autoSelectSite();
-            }, 100);
-          }
+          setTimeout(() => {
+            this.autoSelectSite();
+          }, 100);
         });
     },
     goSourceSite(site, event) {
@@ -377,7 +408,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                                                    justify-content: center;*/
+                                                                                                                                                                                                                                justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

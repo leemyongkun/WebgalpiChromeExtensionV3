@@ -82,6 +82,7 @@ export default {
 
             //MenuPage 초기화
             this.$refs.menuPage.getReloadCategory();
+
             //ContentBody 초기화
             this.$refs.contentBody.getSites(new Object());
 

@@ -183,15 +183,15 @@ export default {
         return false;
       }
       /*
-                          root의경우 :
-                          1. 하위 카테고리의 연결을 제거한다.
-                          2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
-                          3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
+      root의경우 :
+      1. 하위 카테고리의 연결을 제거한다.
+      2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
+      3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
 
-                          child의 경우 :
-                          1. root와의 연결을 끊는다.
-                          2. Contents들은 NO_CATEGORY 상태로 변경한다.
-                           */
+      child의 경우 :
+      1. root와의 연결을 끊는다.
+      2. Contents들은 NO_CATEGORY 상태로 변경한다.
+       */
 
       let param = new Object();
       if (this.currentCategoryInfo.parent === 0) {

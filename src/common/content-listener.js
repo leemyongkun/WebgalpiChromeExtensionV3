@@ -11,7 +11,7 @@ let CONTENT_LISTENER = {
     return new Promise(res => {
       try {
         chrome.runtime.sendMessage(parameter, function(response) {
-          CONTENT_LISTENER.checkLastError("action.js:272" + parameter.type);
+          CONTENT_LISTENER.checkLastError("checkLastError : " + parameter.type);
 
           res(response);
         });
