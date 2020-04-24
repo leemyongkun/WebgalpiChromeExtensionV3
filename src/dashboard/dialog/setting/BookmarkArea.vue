@@ -3,8 +3,8 @@
     <v-dialog v-model="dialog" persistent max-width="900">
       <v-card>
         <v-card-title class="headline"
-          >Bookmark를 WEBGALPI로 Import합니다.</v-card-title
-        >
+          >Bookmark를 WEBGALPI로 Import합니다.
+        </v-card-title>
         <v-card-text>
           <v-row>
             <v-col cols="7">
@@ -22,7 +22,13 @@
             </v-col>
             <v-divider vertical />
             <v-col cols="4">
-              <v-btn block small outlined style="margin-top: 10px;">
+              <v-btn
+                block
+                small
+                outlined
+                style="margin-top: 10px;"
+                @click="runCrawling"
+              >
                 실행
               </v-btn>
             </v-col>
@@ -31,8 +37,8 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" text @click="dialog = false"
-            >취소</v-btn
-          >
+            >취소
+          </v-btn>
           <v-btn color="green darken-1" text @click="check">데이타 체크</v-btn>
           <v-btn color="green darken-1" text @click="getData">GET DATA</v-btn>
         </v-card-actions>
@@ -42,6 +48,7 @@
 </template>
 <script>
 import axios from "axios";
+import CRAWLER from "../../common/cheerio";
 
 export default {
   components: {},
@@ -58,6 +65,11 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    async runCrawling() {
+      var url = "http://lemonweb/MyDesk/Home/Index/160";
+      url = "https://www.fnnews.com/news/202004231837158267";
+      await CRAWLER.getHtml(url);
+    },
     open() {
       this.dialog = true;
       this.getBookmarks();

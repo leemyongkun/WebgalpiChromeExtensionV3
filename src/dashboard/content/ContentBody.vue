@@ -23,6 +23,9 @@
           </v-col>
 
           <v-col v-else>
+            <!-- Option -->
+            <!--<OptionDialog></OptionDialog>-->
+
             <!-- 컨텐츠 리스트 -->
             <v-list style="background: none;padding: 0;" id="contentsList">
               <div v-for="(item, index) in sites" :key="index">
