@@ -1,23 +1,23 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
-const log = console.log;
+const instance = axios.create();
+instance.defaults.timeout = 5000;
 
 let CRAWLER = {
   getSiteInfo: async html => {
-    /*  await axios.get(html).catch(error => {
-            console.log(error.response)
-            console.log(error.request)
-            console.log(error.message)
-        })*/
-    try {
-      return await axios.get(html);
-    } catch (error) {
-      console.log(">>> error ", error.request);
-    }
+    return await instance.get(html).catch(error => {
+      let reason = new Object();
+      reason.message = error.message;
+
+      errorSites.push(reason);
+      console.log(error.request);
+      console.log(error.message);
+    });
   },
-  getHtml: html => {
+  getHtml: url => {
     return new Promise(async res => {
-      CRAWLER.getSiteInfo(html)
+      console.log("URL : ", url);
+      CRAWLER.getSiteInfo(url)
         .then(source => {
           const $ = cheerio.load(source.data);
           let ogTitle = $('meta[property="og:title"]').attr("content");
@@ -29,6 +29,8 @@ let CRAWLER = {
           console.log("ogTitle ", ogTitle);
           console.log("ogDescription ", ogDescription);
           console.log("ogImage ", ogImage);
+
+          //todo : 저장로직을 넣는다.
 
           res(source.data);
         })

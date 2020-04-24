@@ -66,8 +66,26 @@ export default {
   mounted() {},
   methods: {
     async runCrawling() {
+      console.log("selectedBookmark ", this.selectedBookmark);
+      /*   if(this.selectedBookmark.length === 0){
+            alert("선택 된 BOOKMARK가 없습니다.");
+            return false;
+        }*/
+
+      /*if(this.selectedBookmark.length > 10){
+            alert("한번에 10개 까지 가능합니다.");
+            return false;
+        }*/
+
+      /* this.selectedBookmark.map( async bookmark => {
+            //console.log("bookmark >> " , bookmark.url);
+            await CRAWLER.getHtml(bookmark.url);
+            console.log("==================================================");
+        })*/
+
       var url = "http://lemonweb/MyDesk/Home/Index/160";
       url = "https://www.fnnews.com/news/202004231837158267";
+      url = "http://182.162.91.27:7614/admin-webapp/";
       await CRAWLER.getHtml(url);
     },
     open() {
