@@ -146,10 +146,6 @@ let CONTENTS = {
         param.READERMODE_CONTENTS = previewDoc.content;
       }
 
-      /*param.READERMODE_CONTENTS = document.getElementsByTagName(
-                                              "html"
-                                          )[0].outerHTML;*/
-
       res(param);
     });
   },
@@ -317,25 +313,21 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                                                  $('#highlight-toolbar').hide();
-                                                                                                                                                                } */
+                                                                                                                                                                      $('#highlight-toolbar').hide();
+                                                                                                                                                                    } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
 
-    console.log(
-      "GLOBAL_CONFIG.USE_CURRENT_SITE >>>>>  ",
-      GLOBAL_CONFIG.USE_CURRENT_SITE
-    );
     if (GLOBAL_CONFIG.USE_CURRENT_SITE == "N") {
       // 처음 저장이면...
       GLOBAL_CONFIG.USE_CURRENT_SITE = "Y";
       param = await CONTENTS.firstVisitSite(param); // 사이트 정보를 가져온다.
       GLOBAL_CONFIG.SITE_INFO = param;
 
-      //처음 저장 하므로 같은 사이트를 리로딩 한다.
+      //2개이상은 같은 사이트를 리로딩 (비동기)
       CONTENT_LISTENER.sendMessage({
-        type: "reloading.same.site",
+        type: "reloading.dashboard",
         data: null
       });
     }
@@ -346,6 +338,12 @@ let CONTENTS = {
     CONTENT_LISTENER.sendMessage({
       type: "create.highlight",
       data: param
+    });
+
+    //2개이상은 같은 사이트를 리로딩 (비동기)
+    CONTENT_LISTENER.sendMessage({
+      type: "reloading.same.site",
+      data: null
     });
 
     return param;

@@ -260,40 +260,6 @@ let EVENT = {
 
             //저장한다.
             CONTENTS.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
-
-            // 이미 선택되어진 컬러의 경우..
-            /* if ($(_this).hasClass("on")) {
-              // 하이라이팅을 삭제
-              let msg = "are you sure you want to delete the highlight?";
-
-              if (confirm(msg)) {
-                CONTENTS.deleteHighlight(GLOBAL_CONFIG.CURRENT_IDX);
-                let highlightList = GLOBAL_CONFIG.HIGHLIGHT_LIST;
-                GLOBAL_CONFIG.HIGHLIGHT_LIST = highlightList.filter(item => {
-                  return item.IDX != GLOBAL_CONFIG.CURRENT_IDX;
-                });
-                return false;
-              }
-            }*/
-
-            /*  $("#highlight-toolbar")
-                                        .find("a")
-                                        .each((idx, item) => {
-                                          if ($(item).hasClass("on")) {
-                                            colorTF = true;
-                                          }
-                                        })
-                                        .promise()
-                                        .then(function() {
-                                          //수정한다.
-                                          if (colorTF) {
-                                            // 클릭할 경우 수정
-                                            CONTENTS.updateHighlight(color, GLOBAL_CONFIG.CURRENT_IDX);
-                                          } else {
-                                            //저장한다.
-                                            CONTENTS.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
-                                          }
-                                        });*/
           });
       });
   },

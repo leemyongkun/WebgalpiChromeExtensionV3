@@ -53,20 +53,23 @@
                         >
                           <v-list-item three-line>
                             <v-list-item-content>
-                              <v-list-item-title>
+                              <v-list-item-title style="padding-bottom: 5px;">
                                 {{ item.UPDATE_TITLE }}
                               </v-list-item-title>
-                              <v-list-item-subtitle>
+                              <v-list-item-subtitle style="font-size: 13px;">
                                 <span
                                   v-if="item.OG_DESCRIPTION !== 'undefined'"
                                   >{{ item.OG_DESCRIPTION }}</span
                                 >
                               </v-list-item-subtitle>
-                              <v-list-item-subtitle style="font-size: 12px;">
+                              <v-list-item-subtitle
+                                style="font-size: 10px; margin-top: 4px;"
+                              >
                                 <v-icon
-                                  size="12px"
+                                  size="16px"
                                   color="green"
                                   left
+                                  style="margin-right: 1px;"
                                   v-if="item.CATEGORY_NAME !== 'NO_CATEGORY'"
                                   >mdi-folder-outline
                                 </v-icon>
@@ -74,7 +77,12 @@
                               </v-list-item-subtitle>
                             </v-list-item-content>
 
-                            <v-list-item-avatar tile size="100" color="grey">
+                            <v-list-item-avatar
+                              tile
+                              size="70"
+                              style="margin-top: 14px;padding-bottom: 0px;margin-bottom: 0px;"
+                              color="grey"
+                            >
                               <v-img
                                 v-if="item.OG_IMAGE !== 'undefined'"
                                 :src="checkImagePath(item.OG_IMAGE)"
@@ -126,35 +134,6 @@
             </v-btn>
           </v-col>
         </v-row>
-        <!-- <v-row>
-                     <v-col cols="5">
-                         <v-btn
-                                 small
-                                 text
-                                 block
-                                 outlined
-                                 @click="more"
-                                 :disabled="moreBtnDisabled"
-                         >
-                             PREV
-                         </v-btn>
-                     </v-col>
-                     <v-col cols="2">
-                         1/2
-                     </v-col>
-                     <v-col cols="5">
-                         <v-btn
-                                 small
-                                 text
-                                 block
-                                 outlined
-                                 @click="more"
-                                 :disabled="moreBtnDisabled"
-                         >
-                             NEXT
-                         </v-btn>
-                     </v-col>
-                 </v-row>-->
       </v-col>
     </v-row>
   </div>
@@ -407,7 +386,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                                                                justify-content: center;*/
+                                                                                                                                                                                                                                      justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

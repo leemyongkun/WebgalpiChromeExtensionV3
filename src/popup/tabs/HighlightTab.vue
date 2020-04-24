@@ -71,6 +71,12 @@ export default {
             data: item
           });
         });
+
+        //같은 사이트가 열려있다면 리로딩 한다.
+        CONTENT_LISTENER.sendMessage({
+          type: "reloading.same.site",
+          data: null
+        });
       });
     },
     goPosition(IDX) {

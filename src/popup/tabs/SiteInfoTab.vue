@@ -135,6 +135,11 @@ export default {
           type: "reloading.same.site",
           data: null
         });
+        //Dashboard를 리로딩한다.
+        CONTENT_LISTENER.sendMessage({
+          type: "reloading.dashboard",
+          data: null
+        });
       });
 
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
