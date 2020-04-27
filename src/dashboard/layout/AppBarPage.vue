@@ -44,6 +44,7 @@ import CONTENT_LISTENER from "../../common/content-listener";
 import SignArea from "../dialog/setting/SignArea";
 import Utils from "../utils/Utils";
 
+let md5 = require("md5");
 let firebaseConfig = {
   apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
   authDomain: "chrome-webgalpi.firebaseapp.com",
@@ -70,13 +71,12 @@ export default {
     },
     async firebaseTest() {
       /*   console.log(
-                                         Firebase.database()
-                                           .ref("users/kkun24")
-                                           .toString()
-                                       );*/
+                                                   Firebase.database()
+                                                     .ref("users/kkun24")
+                                                     .toString()
+                                                 );*/
 
       let result = await Utils.getLocalStorage("loginInfo");
-      let EMAIL = result.loginInfo.EMAIL;
 
       CONTENT_LISTENER.sendMessage({
         type: "get.backup.data",
@@ -84,12 +84,12 @@ export default {
       }).then(backupData => {
         console.log("backupData ", backupData);
         if (backupData !== undefined) {
-          /*Firebase.database()
-                            .ref("users/"+result.loginInfo.EMAIL.replace(/@\\./g,'_'))
-                            .set(backupData)
-                            .then(res => {
-                                console.log("res ", res);
-                            });*/
+          Firebase.database()
+            .ref("users/" + md5(result.loginInfo.EMAIL))
+            .set(backupData)
+            .then(res => {
+              console.log("res ", res);
+            });
         }
       });
     }
