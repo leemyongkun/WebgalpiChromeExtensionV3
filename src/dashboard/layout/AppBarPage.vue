@@ -42,6 +42,7 @@
 import Firebase from "firebase";
 import CONTENT_LISTENER from "../../common/content-listener";
 import SignArea from "../dialog/setting/SignArea";
+import Utils from "../utils/Utils";
 
 let firebaseConfig = {
   apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
@@ -67,32 +68,30 @@ export default {
     signOut() {
       this.$refs.signout.open();
     },
-    firebaseTest() {
-      alert("!");
-      /*console.log(
-                            Firebase.database()
-                              .ref("users/kkun24")
-                              .toString()
-                          );*/
-      /*let result = await Utils.getLocalStorage("loginInfo");
-                          result.loginInfo.EMAIL*/
-      /*CONTENT_LISTENER.sendMessage({
-                            type: "get.backup.data"
-                          }).then(backupData => {
-                            console.log("backupData ", backupData);
-                            Firebase.database()
-                              .ref("users/kkuni_bear_gmail_com")
-                              .set({
-                                username: "leem",
-                                email: "kkuni.bear@gmail.com",
-                                image:
-                                  "https://lh4.googleusercontent.com/-SaJAd76NDOM/AAAAAAAAAAI/AAAAAAAAAAA/ZJdVidSY2HU/photo.jpg",
-                                items: backupData
-                              })
-                              .then(res => {
+    async firebaseTest() {
+      /*   console.log(
+                                         Firebase.database()
+                                           .ref("users/kkun24")
+                                           .toString()
+                                       );*/
+
+      let result = await Utils.getLocalStorage("loginInfo");
+      let EMAIL = result.loginInfo.EMAIL;
+
+      CONTENT_LISTENER.sendMessage({
+        type: "get.backup.data",
+        data: result.loginInfo.EMAIL
+      }).then(backupData => {
+        console.log("backupData ", backupData);
+        if (backupData !== undefined) {
+          /*Firebase.database()
+                            .ref("users/"+result.loginInfo.EMAIL.replace(/@\\./g,'_'))
+                            .set(backupData)
+                            .then(res => {
                                 console.log("res ", res);
-                              });
-                          });*/
+                            });*/
+        }
+      });
     }
   }
 };

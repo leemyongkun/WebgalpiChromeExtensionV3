@@ -42,7 +42,7 @@ let CREATE_TABLE_QUERY = {
             OG_DESCRIPTION TEXT,
             OG_IMAGE TEXT,
             EMBEDURL TEXT,
-            SHARE_KEY TEXT,
+            FL_BOOKMARK TEXT,
             HOST TEXT,
             FULL_TEXT TEXT,
             FL_DELETE TEXT,
@@ -53,6 +53,7 @@ let CREATE_TABLE_QUERY = {
             READERMODE_CONTENTS TEXT,
             FL_READMODE TEXT,
             FL_FAVORITE TEXT,
+            FL_BACKUP TEXT,
             MEMO TEXT,
             DATE_CREATE NUMERIC,
             DATE_UPDATE NUMERIC

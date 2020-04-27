@@ -1,16 +1,40 @@
 export default {
   getBackupSites: date => {
     return `
-            SELECT * 
+            SELECT 
+                IDX,
+                URL_KEY ,
+                EMAIL ,
+                TITLE,
+                URL ,
+                OG_TITLE,
+                OG_DESCRIPTION,
+                OG_IMAGE ,
+                EMBEDURL ,
+                FL_BOOKMARK,
+                HOST ,
+                FL_DELETE,
+                UPDATE_TITLE,
+                URL_TYPE ,
+                TAGS,
+                OWNER_EMAIL,
+                FL_READMODE,
+                FL_FAVORITE,
+                FL_BACKUP,
+                MEMO ,
+                DATE_CREATE,
+                DATE_UPDATE 
             FROM TBL_SITES
             WHERE EMAIL = ?
-        `;
+            AND FL_DELETE = 'N'
+            `;
   },
   getBackupHighlights: date => {
     return `
             SELECT *
             FROM TBL_ITEMS
             WHERE EMAIL = ?
+            AND FL_DELETE='N'
         `;
   },
   getBackupCategorys: () => {
@@ -108,7 +132,7 @@ export default {
             OG_DESCRIPTION,
             OG_IMAGE,
             EMBEDURL,
-            SHARE_KEY,
+            FL_BOOKMARK,
             HOST,
             FULL_TEXT,
             FL_DELETE,
@@ -117,10 +141,11 @@ export default {
             FL_READMODE,
             DATE_CREATE,
             DATE_UPDATE,
-            TAGS
+            TAGS,
+            FL_BACKUP
         )
         VALUES
-            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, 'N', ?, ?, ?) `;
+            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, 'N', ?, ?, ?,?) `;
   },
   updateItem: () => {
     return `
@@ -217,7 +242,7 @@ export default {
             OG_DESCRIPTION,
             OG_IMAGE,
             EMBEDURL,
-            SHARE_KEY,
+            FL_BOOKMARK,
             HOST,
             FULL_TEXT,
             FL_DELETE,
@@ -227,6 +252,7 @@ export default {
             SITES.DATE_CREATE,
             DATE_UPDATE,
             TAGS,
+            FL_BACKUP,
             CASE WHEN CATEGORY.NAME
                 IS NULL
                 THEN 'NO_CATEGORY'
@@ -265,10 +291,11 @@ export default {
             OG_DESCRIPTION,
             OG_IMAGE,
             EMBEDURL,
-            SHARE_KEY,
+            FL_BOOKMARK,
             HOST,
             TAGS,
             MEMO,
+            FL_BACKUP,
             CATEGORY.CATEGORY_IDX
         FROM TBL_SITES SITE LEFT JOIN TBL_REL_CATEGORY CATEGORY
         ON SITE.URL_KEY = CATEGORY.URL_KEY

@@ -77,7 +77,7 @@ export default {
           "Import Bookmark 기능은 준비중입니다.",
           "green"
         );
-        this.$refs.bookmark.open();
+        //this.$refs.bookmark.open();
       }
     }
   }

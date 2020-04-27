@@ -5,14 +5,17 @@ import Utils from "../dashboard/utils/Utils";
 
 var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 let Api = {
-  getBackupData: param => {
-    return new Promise(res => {
+  getBackupData: email => {
+    return new Promise(async res => {
+      let param = [email];
+      let obj = new Object();
+      obj.EMAIL = email;
       Promise.all([
-        Api.getBackupSites(null),
-        Api.getBackupHighlights(null),
-        Api.getOptions(),
-        Api.getBackupCategorys(),
-        Api.getBackupCategorysRelation()
+        Api.getBackupSites(param),
+        Api.getBackupHighlights(param),
+        Api.getOptions(obj),
+        Api.getBackupCategorys(param),
+        Api.getBackupCategorysRelation(param)
       ]).then(values => {
         let data = new Object();
         data.sites = values[0];
@@ -25,17 +28,17 @@ let Api = {
       });
     });
   },
-  getBackupSites: () => {
-    return select(Query.getBackupSites());
+  getBackupSites: param => {
+    return select(Query.getBackupSites(), param);
   },
-  getBackupHighlights: () => {
-    return select(Query.getBackupHighlights());
+  getBackupHighlights: param => {
+    return select(Query.getBackupHighlights(), param);
   },
-  getBackupCategorysRelation: () => {
-    return select(Query.getBackupCategorys());
+  getBackupCategorysRelation: param => {
+    return select(Query.getBackupCategorys(), param);
   },
-  getBackupCategorys: () => {
-    return select(Query.getBackupCategorysRelation());
+  getBackupCategorys: param => {
+    return select(Query.getBackupCategorysRelation(), param);
   },
 
   getMemberInfo: () => {
@@ -215,14 +218,15 @@ let Api = {
       params.OG_DESCRIPTION,
       params.OG_IMAGE,
       params.EMBEDURL,
-      "", //params.SHARE_KEY,
+      "N", //params.FL_BOOKMARK,
       params.HOST,
       params.FULL_TEXT,
       params.URL_TYPE,
       params.READERMODE_CONTENTS,
       date,
       date,
-      params.TAG
+      params.TAG,
+      "N" //FL_BACKUP
     ];
 
     await insert(Query.insertSite(), param);

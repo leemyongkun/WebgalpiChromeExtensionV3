@@ -85,7 +85,7 @@ export default {
 
       var url = "http://lemonweb/MyDesk/Home/Index/160";
       url = "https://www.fnnews.com/news/202004231837158267";
-      url = "http://182.162.91.27:7614/admin-webapp/";
+      //url = "http://182.162.91.27:7614/admin-webapp/";
       await CRAWLER.getHtml(url);
     },
     open() {

@@ -30,6 +30,7 @@ let CRAWLER = {
           console.log("ogDescription ", ogDescription);
           console.log("ogImage ", ogImage);
 
+          console.log("$body", $("body"));
           //todo : 저장로직을 넣는다.
 
           res(source.data);

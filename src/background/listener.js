@@ -103,7 +103,8 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       });
       break;
     case "get.backup.data":
-      API.getBackupData().then(backupdata => {
+      console.log("msg.data ", msg.data);
+      API.getBackupData(msg.data).then(backupdata => {
         sendResponse(backupdata);
       });
       return true;
