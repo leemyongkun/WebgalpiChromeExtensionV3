@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-dialog v-model="dialog" scrollable max-width="600px">
+  <v-dialog v-model="dialog" scrollable max-width="650px">
     <v-card>
       <v-card-title>백업/복구</v-card-title>
       <v-divider></v-divider>
@@ -77,7 +77,8 @@
                     <br />
                     GIT :
                     <font style="color: orangered"
-                      >죄송합니다. ... 사실 아직 못만들었습니다.</font
+                      >죄송합니다.. 사실 회사일이 바빠서 아직
+                      못만들었습니다.</font
                     >
                   </v-col>
                 </v-row>
