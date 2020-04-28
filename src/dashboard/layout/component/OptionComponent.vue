@@ -70,7 +70,7 @@ export default {
       },
       {
         code: "backup",
-        title: "BACKUP",
+        title: "BACKUP / CLOUD",
         subTitle: "WEB-GALPI 컨텐츠를 백업/복구."
       },
       {
