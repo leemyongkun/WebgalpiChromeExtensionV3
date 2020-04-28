@@ -23,6 +23,7 @@
     <ColorArea ref="color"></ColorArea>
     <SlackArea ref="slack"></SlackArea>
     <BookmarkArea ref="bookmark"></BookmarkArea>
+    <BackupArea ref="backup"></BackupArea>
   </v-menu>
 </template>
 <script>
@@ -32,9 +33,17 @@ import SlackArea from "../../dialog/setting/SlackArea";
 import BookmarkArea from "../../dialog/setting/BookmarkArea";
 import EventBus from "../../event-bus";
 import SignArea from "../../dialog/setting/SignArea";
+import BackupArea from "../../dialog/setting/BackupArea";
 
 export default {
-  components: { SignArea, BookmarkArea, SlackArea, ColorArea, ThemeArea },
+  components: {
+    BackupArea,
+    SignArea,
+    BookmarkArea,
+    SlackArea,
+    ColorArea,
+    ThemeArea
+  },
   computed: {},
   props: [],
   data: () => ({
@@ -94,11 +103,7 @@ export default {
           //this.$refs.bookmark.open();
           break;
         case "backup":
-          EventBus.$emit(
-            "open.snack",
-            "'BACKUP' 기능은 준비중입니다.",
-            "green"
-          );
+          this.$refs.backup.open();
           break;
         case "option":
           EventBus.$emit(
