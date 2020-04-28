@@ -44,6 +44,7 @@ import CONTENT_LISTENER from "../../common/content-listener";
 import SignArea from "../dialog/setting/SignArea";
 import Utils from "../utils/Utils";
 
+let CryptoJS = require("crypto-js");
 let md5 = require("md5");
 let firebaseConfig = {
   apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
@@ -60,21 +61,62 @@ Firebase.initializeApp(firebaseConfig);
 
 export default {
   components: { SignArea },
-  data: () => ({}),
+  data: () => ({
+    backupPassword: "KKUNI_BEAR_GMAIL.COM_KKUNI"
+  }),
   props: ["member"],
   mounted() {
     this.$nextTick(() => {});
   },
   methods: {
+    fileBackup(backupData) {
+      backupData.email = result.loginInfo.EMAIL;
+      let backupObj = new Object();
+
+      // Encrypt
+      let cipherBackupData = CryptoJS.AES.encrypt(
+        JSON.stringify(backupData),
+        this.backupPassword
+      ).toString();
+      backupObj.data = cipherBackupData;
+
+      // Decrypt
+      /*let bytes  = CryptoJS.AES.decrypt(ciphertext, 'secret key 123');
+                let originalText = bytes.toString(CryptoJS.enc.Utf8);*/
+
+      //FILE
+      let filename = "backup.json";
+      let ele = document.createElement("a");
+      ele.setAttribute(
+        "href",
+        "data:text/plain;charset=utf-8," +
+          encodeURIComponent(JSON.stringify(backupObj))
+      );
+      ele.setAttribute("download", filename);
+
+      ele.style.display = "none";
+      document.body.appendChild(ele);
+      ele.click();
+      document.body.removeChild(ele);
+    },
+    firebaseBackup(backupData) {
+      //FIREBASE
+      Firebase.database()
+        .ref("users/" + md5(result.loginInfo.EMAIL))
+        .set(backupData)
+        .then(res => {
+          console.log("res ", res);
+        });
+    },
     signOut() {
       this.$refs.signout.open();
     },
     async firebaseTest() {
       /*   console.log(
-                                                   Firebase.database()
-                                                     .ref("users/kkun24")
-                                                     .toString()
-                                                 );*/
+                         Firebase.database()
+                           .ref("users/kkun24")
+                           .toString()
+                       );*/
 
       let result = await Utils.getLocalStorage("loginInfo");
 
@@ -82,14 +124,9 @@ export default {
         type: "get.backup.data",
         data: result.loginInfo.EMAIL
       }).then(backupData => {
-        console.log("backupData ", backupData);
         if (backupData !== undefined) {
-          Firebase.database()
-            .ref("users/" + md5(result.loginInfo.EMAIL))
-            .set(backupData)
-            .then(res => {
-              console.log("res ", res);
-            });
+          this.fileBackup(backupData);
+          //this.firebaseBackup(backupData);
         }
       });
     }

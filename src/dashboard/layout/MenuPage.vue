@@ -2,10 +2,10 @@
   <div>
     <UpdateCategoryDialog ref="updateCategoryDialog"></UpdateCategoryDialog>
 
-    <SettingsManagerDialog
+    <!--<SettingsManagerDialog
       :dialog="settingDialog"
       @closeDialog="switchDialogSetting"
-    ></SettingsManagerDialog>
+    ></SettingsManagerDialog>-->
 
     <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>

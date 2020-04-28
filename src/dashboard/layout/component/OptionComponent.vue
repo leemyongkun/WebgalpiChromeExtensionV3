@@ -55,6 +55,16 @@ export default {
         subTitle: "자신의 컨텐츠를 슬랙 채널에 공유."
       },
       {
+        code: "option",
+        title: "OPTION",
+        subTitle: "각종 OPTION을 설정."
+      },
+      {
+        code: "backup",
+        title: "BACKUP",
+        subTitle: "WEB-GALPI 컨텐츠를 백업/복구."
+      },
+      {
         code: "bookmark",
         title: "BOOKMARK (준비중)",
         subTitle: "자신의 북마크로부터 추가."
@@ -65,19 +75,38 @@ export default {
   mounted() {},
   methods: {
     selectOption(item) {
-      if (item.code === "theme") {
-        this.$refs.theme.open();
-      } else if (item.code === "color") {
-        this.$refs.color.open();
-      } else if (item.code === "slack") {
-        this.$refs.slack.open();
-      } else if (item.code === "bookmark") {
-        EventBus.$emit(
-          "open.snack",
-          "Import Bookmark 기능은 준비중입니다.",
-          "green"
-        );
-        //this.$refs.bookmark.open();
+      switch (item.code) {
+        case "theme":
+          this.$refs.theme.open();
+          break;
+        case "color":
+          this.$refs.color.open();
+          break;
+        case "slack":
+          this.$refs.slack.open();
+          break;
+        case "bookmark":
+          EventBus.$emit(
+            "open.snack",
+            "'IMPORT BOOKMARK' 기능은 준비중입니다.",
+            "green"
+          );
+          //this.$refs.bookmark.open();
+          break;
+        case "backup":
+          EventBus.$emit(
+            "open.snack",
+            "'BACKUP' 기능은 준비중입니다.",
+            "green"
+          );
+          break;
+        case "option":
+          EventBus.$emit(
+            "open.snack",
+            "'OPTION' 기능은 준비중입니다.",
+            "green"
+          );
+          break;
       }
     }
   }
