@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-dialog v-model="dialog" scrollable max-width="600px">
+  <v-dialog v-model="dialog" persistent scrollable max-width="600px">
     <v-card>
       <v-card-title>COLOR</v-card-title>
       <v-card-subtitle> 최대 6개의 컬러를 지정할 수 있습니다.</v-card-subtitle>

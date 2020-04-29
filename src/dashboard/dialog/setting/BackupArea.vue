@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-dialog v-model="dialog" scrollable max-width="650px">
+  <v-dialog v-model="dialog" persistent scrollable max-width="650px">
     <v-card>
       <v-card-title>백업/복구</v-card-title>
       <v-divider></v-divider>
@@ -34,10 +34,10 @@
                 <v-row>
                   <v-col cols="6">
                     <v-btn small color="primary" @click="backup('file')"
-                      >백업</v-btn
-                    >
+                      >백업
+                    </v-btn>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="5">
                     <v-file-input
                       label="select a restore file"
                       outlined
@@ -45,6 +45,8 @@
                       dense
                     >
                     </v-file-input>
+                  </v-col>
+                  <v-col cols="1" class="pl-0">
                     <v-btn small color="warning" @click="restore">복구</v-btn>
                   </v-col>
                 </v-row>
@@ -111,6 +113,7 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import Utils from "../../utils/Utils";
 import Firebase from "firebase";
+import EventBus from "../../event-bus";
 
 let CryptoJS = require("crypto-js");
 let md5 = require("md5");
@@ -214,13 +217,20 @@ export default {
       reader.readAsText(this.restoreFile);
       reader.onload = () => {
         // this.data = reader.result;
-        let data = JSON.parse(reader.result);
-
-        // Decrypt
-        let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
-        let originalText = bytes.toString(CryptoJS.enc.Utf8);
-
-        console.log("originalText ", JSON.parse(originalText));
+        try {
+          let data = JSON.parse(reader.result);
+          // Decrypt
+          let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
+          let originalText = bytes.toString(CryptoJS.enc.Utf8);
+          //console.log("originalText ", JSON.parse(originalText));
+        } catch (e) {
+          EventBus.$emit(
+            "open.snack",
+            "정상적인 백업 파일이 아닙니다.",
+            "error"
+          );
+          console.log("e", e);
+        }
       };
     }
   }

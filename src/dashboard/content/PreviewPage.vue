@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                          <v-col cols="12">
-                            <iframe
-                              id="ytplayer"
-                              type="text/html"
-                              width="640"
-                              height="360"
-                              :src="youtubeVideoId + '?autoplay=0'"
-                              frameborder="0"
-                            ></iframe>
-                          </v-col>
-                        </v-row>-->
+                                <v-col cols="12">
+                                  <iframe
+                                    id="ytplayer"
+                                    type="text/html"
+                                    width="640"
+                                    height="360"
+                                    :src="youtubeVideoId + '?autoplay=0'"
+                                    frameborder="0"
+                                  ></iframe>
+                                </v-col>
+                              </v-row>-->
       <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
         <v-col cols="auto" v-if="youtubeVideoId !== ''">
           <iframe
@@ -70,12 +70,12 @@
           NO CONTENTS
         </v-col>
         <!--  <iframe
-                                                          type="text/html"
-                                                          width="100%"
-                                                          height="603px"
-                                                          src="https://blog.naver.com/rachel0067/221780986497"
-                                                          frameborder="0"
-                                                  ></iframe>-->
+                                                                  type="text/html"
+                                                                  width="100%"
+                                                                  height="603px"
+                                                                  src="https://blog.naver.com/rachel0067/221780986497"
+                                                                  frameborder="0"
+                                                          ></iframe>-->
       </v-row>
     </v-card-text>
     <SnackBar ref="snackbar"></SnackBar>
@@ -136,12 +136,13 @@ export default {
 </script>
 <style>
 img {
-  max-width: 50% !important;
-  max-height: 50% !important;
+  width: auto;
+  height: auto;
+  max-width: 90%;
+  max-height: 90%;
 }
-
 .galpi-preview-area {
-  width: 80%;
+  width: 85%;
 }
 
 .galpi-preview-area img {
@@ -164,6 +165,7 @@ img {
 #galpi-privew-area-contents {
   align: left !important;
 }
+
 .column {
   text-align: justify;
   column-count: 4;

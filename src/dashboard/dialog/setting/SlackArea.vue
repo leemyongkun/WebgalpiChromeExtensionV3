@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-dialog v-model="dialog" scrollable max-width="650px">
+  <v-dialog v-model="dialog" persistent scrollable max-width="650px">
     <v-card>
       <v-card-title>SLACK</v-card-title>
       <v-card-subtitle

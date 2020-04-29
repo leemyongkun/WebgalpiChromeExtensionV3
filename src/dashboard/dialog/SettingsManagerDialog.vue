@@ -5,6 +5,7 @@
     v-model="dialog"
     fullscreen
     hide-overlay
+    persistent
     transition="dialog-bottom-transition"
   >
     <v-card>
