@@ -222,7 +222,7 @@ export default {
           // Decrypt
           let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
           let originalText = bytes.toString(CryptoJS.enc.Utf8);
-          //console.log("originalText ", JSON.parse(originalText));
+          console.log("originalText ", JSON.parse(originalText));
         } catch (e) {
           EventBus.$emit(
             "open.snack",

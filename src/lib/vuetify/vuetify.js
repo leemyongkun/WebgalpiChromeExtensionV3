@@ -1,6 +1,9 @@
 import Vue from "vue";
 import "vuetify/dist/vuetify.min.css";
 import Vuetify, {
+  VStepperContent,
+  VStepper,
+  VStepperStep,
   VFileInput,
   VSwitch,
   VForm,
@@ -158,6 +161,9 @@ Vue.component("VPagination", VPagination);
 Vue.component("VForm", VForm);
 Vue.component("VSwitch", VSwitch);
 Vue.component("VFileInput", VFileInput);
+Vue.component("VStepperContent", VStepperContent);
+Vue.component("VStepper", VStepper);
+Vue.component("VStepperStep", VStepperStep);
 
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {

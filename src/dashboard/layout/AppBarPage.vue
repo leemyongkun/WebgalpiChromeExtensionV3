@@ -2,7 +2,9 @@
   <v-app-bar app clipped-left color="">
     <!--<v-app-bar-nav-icon @click="drawer = !drawer"/>-->
     <span class="title ml-3 mr-5"
-      >WEB&nbsp;<span class="font-weight-light">Galpi </span>
+      >WEB&nbsp;<span class="font-weight-light" @click="openRestore"
+        >Galpi</span
+      >
     </span>
     <v-text-field
       solo-inverted
@@ -33,13 +35,15 @@
       <v-icon>mdi-information-outline</v-icon>&nbsp;README
     </v-btn>
     <SignArea ref="signout"></SignArea>
+    <RestoreDialog ref="restoreDialog"></RestoreDialog>
   </v-app-bar>
 </template>
 <script>
 import SignArea from "../dialog/setting/SignArea";
+import RestoreDialog from "../dialog/RestoreDialog";
 
 export default {
-  components: { SignArea },
+  components: { RestoreDialog, SignArea },
   data: () => ({}),
   props: ["member"],
   mounted() {
@@ -48,6 +52,9 @@ export default {
   methods: {
     signOut() {
       this.$refs.signout.open();
+    },
+    openRestore() {
+      this.$refs.restoreDialog.open();
     }
   }
 };
