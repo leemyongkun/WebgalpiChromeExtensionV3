@@ -15,7 +15,7 @@
                 item-value="id"
                 item-text="name"
                 v-model="categoryParent"
-                :disabled="checkRoot"
+                :disabled="autocompleteDisabled"
               ></v-autocomplete>
             </v-col>
             <v-col cols="6">
@@ -91,6 +91,7 @@ export default {
     autofocus: true,
     currentCategoryInfo: new Object(),
     checkRoot: false,
+    autocompleteDisabled: false,
     dialog: false,
     categoryParent: "",
     categoryName: "",
@@ -110,10 +111,11 @@ export default {
         else this.updateCategory();
       }
     },
-    openDialog(categoryInfo, category, checkRoot, statusFlag, categoryFlag) {
+    openDialog(categoryInfo, category, checkRoot, statusFlag, categoryType) {
+      console.log("category >> ", category);
       this.currentCategoryInfo = categoryInfo;
 
-      this.categoryType = categoryFlag;
+      this.categoryType = categoryType;
       if (category === null || category.length === 0) {
         this.useCategory = false; //Parent(ROOT)가 없으면 ROOT체크를 해제하지 못하도록 한다.
       }
@@ -125,6 +127,9 @@ export default {
         //현재 root 인지 child인지 구분.
         this.checkRoot = checkRoot;
 
+        if (this.checkRoot) {
+          this.autocompleteDisabled = true;
+        }
         //root를 수정 시, 자기자신으로 변경할 수 없도록 category에서 제외시킨다.
         let targetRootId;
         if (categoryInfo.parent === 0) {
@@ -158,21 +163,25 @@ export default {
       //Category가 없을때, ROOT를 강제로 체크한다.
       if (this.category.length === 0) {
         this.checkRoot = true;
+        this.autocompleteDisabled = true;
       }
 
       //위의 조건들은 categoryType이 CUSTOM일경우이며, SYSTEM일경우, autocomplete와 ROOT 체크박스는 비활성한다.
       if (this.categoryType === "SYSTEM") {
-        this.checkRoot = true;
+        this.autocompleteDisabled = true;
       }
 
       this.dialog = true;
     },
     checkRootChange() {
+      console.log("this.category ", this.category);
       this.$nextTick(() => {
         if (this.checkRoot) {
           this.categoryParent = "";
+          this.autocompleteDisabled = true;
         } else {
           this.categoryParent = this.category[0].id;
+          this.autocompleteDisabled = false;
         }
       });
     },
@@ -181,15 +190,15 @@ export default {
         return false;
       }
       /*
-      root의경우 :
-      1. 하위 카테고리의 연결을 제거한다.
-      2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
-      3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
+                root의경우 :
+                1. 하위 카테고리의 연결을 제거한다.
+                2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
+                3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
 
-      child의 경우 :
-      1. root와의 연결을 끊는다.
-      2. Contents들은 NO_CATEGORY 상태로 변경한다.
-       */
+                child의 경우 :
+                1. root와의 연결을 끊는다.
+                2. Contents들은 NO_CATEGORY 상태로 변경한다.
+                 */
 
       let param = new Object();
       if (this.currentCategoryInfo.parent === 0) {
@@ -264,7 +273,9 @@ export default {
       param.CATEGORY_PARENT = this.categoryParent;
       param.CATEGORY_ID = this.categoryId;
       param.CHECK_ROOT = this.checkRoot;
+      param.CATEGORY_TYPE = this.categoryType;
 
+      console.log("updateCategory param  ", param);
       //db 저장하기
       CONTENT_LISTENER.sendMessage({
         type: "update.category.item",
@@ -275,6 +286,7 @@ export default {
       });
     },
     close() {
+      this.autocompleteDisabled = false;
       this.checkRoot = false;
       this.dialog = false;
       this.categoryParent = "";

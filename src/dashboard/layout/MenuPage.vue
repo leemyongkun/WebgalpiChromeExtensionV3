@@ -3,9 +3,9 @@
     <UpdateCategoryDialog ref="updateCategoryDialog"></UpdateCategoryDialog>
 
     <!--<SettingsManagerDialog
-      :dialog="settingDialog"
-      @closeDialog="switchDialogSetting"
-    ></SettingsManagerDialog>-->
+          :dialog="settingDialog"
+          @closeDialog="switchDialogSetting"
+        ></SettingsManagerDialog>-->
 
     <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>
@@ -102,7 +102,9 @@ export default {
         (item, checkRoot, statusFlag, categoryFlag) => {
           this.$refs.updateCategoryDialog.openDialog(
             item,
-            this.$refs.categoryComponent.category,
+            categoryFlag === "SYSTEM"
+              ? this.$refs.systemCategoryComponent.systemCategory
+              : this.$refs.categoryComponent.category,
             checkRoot,
             statusFlag, //update , insert
             categoryFlag //system / custom/ lost

@@ -192,14 +192,14 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
 
     /*case "get.site": //미사용
-                  let getSiteParameter = new Object();
-                  getSiteParameter.URL_KEY = msg.data;
+                      let getSiteParameter = new Object();
+                      getSiteParameter.URL_KEY = msg.data;
 
-                  API.getSite(getSiteParameter).then(res => {
-                    sendResponse(res); //조건
-                  });
-                  return true;
-                  break;*/
+                      API.getSite(getSiteParameter).then(res => {
+                        sendResponse(res); //조건
+                      });
+                      return true;
+                      break;*/
 
     case "get.sites.count":
       API.getSites(msg.data).then(res => {
@@ -319,16 +319,18 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
     case "update.category.item": //dashboard
       let categoryParam = msg.data;
 
-      if (categoryParam.CHECK_ROOT) {
-        //checkRoot가 true 일경우
-        API.deleteCategoryRelationParent(categoryParam.CATEGORY_ID);
-      }
+      if (categoryParam.CATEGORY_TYPE !== "SYSTEM") {
+        if (categoryParam.CHECK_ROOT) {
+          //checkRoot가 true 일경우
+          API.deleteCategoryRelationParent(categoryParam.CATEGORY_ID);
+        }
 
-      if (categoryParam.CATEGORY_PARENT === 0 && categoryParam.CHECK_ROOT) {
-      } else {
-        //카테고리 변경 시, parent에 포함된 category를 미아로 변경
-        let lostTargetCateggory = [categoryParam.CATEGORY_ID];
-        API.updateLostCategoryItem(lostTargetCateggory);
+        if (categoryParam.CATEGORY_PARENT === 0 && categoryParam.CHECK_ROOT) {
+        } else {
+          //카테고리 변경 시, parent에 포함된 category를 미아로 변경
+          let lostTargetCateggory = [categoryParam.CATEGORY_ID];
+          API.updateLostCategoryItem(lostTargetCateggory);
+        }
       }
 
       API.updateCategoryItem(categoryParam).then(res => {

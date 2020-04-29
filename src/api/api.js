@@ -283,12 +283,15 @@ let Api = {
     return insert(Query.insertCategoryItem(), param);
   },
   updateCategoryItem: param => {
+    console.log("updateCategoryItem param ", param);
     if (param.CHECK_ROOT) {
       //root에서 child로 수정 시,
       param.CATEGORY_PARENT = 0; //rootId
     }
     delete param.CHECK_ROOT;
+    delete param.CATEGORY_TYPE;
 
+    console.log("param ", param);
     return update(Query.updateCategoryItem(), Object.values(param));
   },
   postMember: param => {
