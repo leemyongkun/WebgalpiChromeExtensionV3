@@ -10,13 +10,12 @@
       <v-card-title class="headline">복구를 시작합니다.</v-card-title>
 
       <v-card-text>
-        <v-stepper v-model="e13" vertical>
-          <v-stepper-step step="1" complete>
+        <v-stepper v-model="step" vertical>
+          <v-stepper-step step="1" :complete="process.step1.status">
             사용자 정보
           </v-stepper-step>
-
           <v-stepper-content step="1">
-            완료완료~ 완료완료~ 완료완료~완료완료~
+            {{ process.step1.message }}
           </v-stepper-content>
 
           <v-stepper-step step="2" complete>카테고리 정보</v-stepper-step>
@@ -26,7 +25,7 @@
               class="mb-12"
               height="200px"
             ></v-card>
-            <v-btn color="primary" @click="e13 = 3">Continue</v-btn>
+            <v-btn color="primary" @click="step = 3">Continue</v-btn>
             <v-btn text>Cancel</v-btn>
           </v-stepper-content>
 
@@ -38,7 +37,7 @@
               class="mb-12"
               height="200px"
             ></v-card>
-            <v-btn color="primary" @click="e13 = 1">Continue</v-btn>
+            <v-btn color="primary" @click="step = 1">Continue</v-btn>
             <v-btn text>Cancel</v-btn>
           </v-stepper-content>
 
@@ -50,7 +49,7 @@
               class="mb-12"
               height="200px"
             ></v-card>
-            <v-btn color="primary" @click="e13 = 1">Continue</v-btn>
+            <v-btn color="primary" @click="step = 1">Continue</v-btn>
             <v-btn text>Cancel</v-btn>
           </v-stepper-content>
 
@@ -62,7 +61,7 @@
               class="mb-12"
               height="200px"
             ></v-card>
-            <v-btn color="primary" @click="e13 = 1">Continue</v-btn>
+            <v-btn color="primary" @click="step = 1">Continue</v-btn>
             <v-btn text>Cancel</v-btn>
           </v-stepper-content>
 
@@ -77,7 +76,7 @@
               class="mb-12"
               height="200px"
             ></v-card>
-            <v-btn color="primary" @click="e13 = 4">Continue</v-btn>
+            <v-btn color="primary" @click="step = 4">Continue</v-btn>
             <v-btn text>Cancel</v-btn>
           </v-stepper-content>
         </v-stepper>
@@ -95,9 +94,24 @@
 <script>
 export default {
   data: () => ({
-    e13: 1,
+    step: 1,
+    process: {
+      step1: {
+        status: false,
+        message: "진행중",
+        onerror: null
+      }
+    },
     dialog: false
   }),
+  created() {
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.step++;
+        this.step1.status = true;
+      }, 2000);
+    });
+  },
   methods: {
     open() {
       this.dialog = true;
