@@ -35,18 +35,25 @@
         class="ma-1"
       ></v-select>
 
-      <v-btn v-if="siteInfo.USE_CURRENT_SITE === 'N'" @click="saveSite">
+      <v-btn
+        small
+        icon
+        v-if="siteInfo.USE_CURRENT_SITE === 'N'"
+        @click="saveSite"
+      >
         <v-icon>mdi-content-save</v-icon>
       </v-btn>
       <v-btn
         v-if="siteInfo.USE_CURRENT_SITE === 'Y'"
         color="warning accent-4"
         @click="updateCategory"
+        small
+        icon
       >
         <v-icon>mdi-cached</v-icon>
       </v-btn>
-      <v-btn color="blue-grey" class="ma-1 white--text" @click="goDashboard">
-        <v-icon right dark>mdi-view-dashboard</v-icon>
+      <v-btn small icon class="ma-1" @click="goDashboard">
+        <v-icon right>mdi-view-dashboard</v-icon>
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -164,13 +171,17 @@ export default {
             tabId,
             { action: "get.site.info" },
             siteInfo => {
-              if (siteInfo.OG_IMAGE === null) {
+              console.log("siteInfo ", siteInfo);
+              if (siteInfo.OG_IMAGE === null || siteInfo.OG_IMAGE === "") {
                 siteInfo.OG_IMAGE = "";
               }
-              if (siteInfo.OG_TITLE === null) {
+              if (siteInfo.OG_TITLE === null || siteInfo.OG_TITLE === "") {
                 siteInfo.OG_TITLE = "NO TITLE";
               }
-              if (siteInfo.OG_DESCRIPTION === null) {
+              if (
+                siteInfo.OG_DESCRIPTION === null ||
+                siteInfo.OG_DESCRIPTION === ""
+              ) {
                 siteInfo.OG_DESCRIPTION = "NO DESCRIPTION";
               }
 
