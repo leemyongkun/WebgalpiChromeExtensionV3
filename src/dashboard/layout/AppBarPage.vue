@@ -1,11 +1,7 @@
 <template>
   <v-app-bar app clipped-left color="">
     <!--<v-app-bar-nav-icon @click="drawer = !drawer"/>-->
-    <span class="title ml-3 mr-5"
-      >WEB&nbsp;<span class="font-weight-light" @click="openRestore"
-        >Galpi</span
-      >
-    </span>
+    <span class="title ml-3 mr-5">WEB-GALPI </span>
     <v-text-field
       solo-inverted
       flat

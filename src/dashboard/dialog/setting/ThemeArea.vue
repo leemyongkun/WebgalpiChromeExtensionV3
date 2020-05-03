@@ -3,10 +3,24 @@
     <v-card>
       <v-card-title>THEME 설정</v-card-title>
       <v-divider></v-divider>
-      <v-card-text>
+      <v-card-text class="pb-0">
         <v-radio-group v-model="theme">
-          <v-radio label="DARK" value="dark" @change="changeTheme"></v-radio>
-          <v-radio label="LIGHT" value="light" @change="changeTheme"></v-radio>
+          <v-row>
+            <v-col cols="6">
+              <v-radio
+                label="DARK"
+                value="dark"
+                @change="changeTheme"
+              ></v-radio>
+            </v-col>
+            <v-col cols="6">
+              <v-radio
+                label="LIGHT"
+                value="light"
+                @change="changeTheme"
+              ></v-radio>
+            </v-col>
+          </v-row>
         </v-radio-group>
       </v-card-text>
       <v-divider></v-divider>

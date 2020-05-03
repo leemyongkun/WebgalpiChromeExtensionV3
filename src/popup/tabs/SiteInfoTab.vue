@@ -16,7 +16,7 @@
     <v-img :src="siteInfo.OG_IMAGE" height="194"></v-img>
 
     <v-card-text
-      class="mx-auto overflow-y-auto"
+      class="mx-auto overflow-y-auto text-center"
       style="height:76px; max-height: 76px;"
     >
       {{ siteInfo.OG_DESCRIPTION }}
@@ -176,7 +176,7 @@ export default {
                 siteInfo.OG_IMAGE = "";
               }
               if (siteInfo.OG_TITLE === null || siteInfo.OG_TITLE === "") {
-                siteInfo.OG_TITLE = "NO TITLE";
+                siteInfo.OG_TITLE = siteInfo.UPDATE_TITLE;
               }
               if (
                 siteInfo.OG_DESCRIPTION === null ||

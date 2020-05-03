@@ -18,7 +18,7 @@
     <v-list v-if="highlights.length === 0">
       <v-list-item>
         <v-list-item-content class="mt-0 pt-0 ">
-          <v-list-item-title class="align-center">
+          <v-list-item-title class="text-center">
             NO HIGHLIGHTS
           </v-list-item-title>
         </v-list-item-content>
