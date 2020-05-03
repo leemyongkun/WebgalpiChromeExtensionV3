@@ -4,7 +4,51 @@
       <v-card-title>백업/복구</v-card-title>
       <v-divider></v-divider>
       <v-card-text class="pl-0 pr-0">
-        <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+        <v-row>
+          <v-col cols="6">
+            <v-card flat>
+              <v-card-title>백업</v-card-title>
+              <v-card-text>
+                파일 형태로 백업이 진행되며, 모든 데이타는 암호화 처리
+                됩니다.<br />
+                아래와 같은 경우, 복구되지 않을 수 있으니 주의 바랍니다.<br />
+                <li>파일 내용을 임의로 수정하지 마세요.</li>
+                <li>현재 계정과 같은 계정으로 복구됩니다.</li>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="6">
+            <v-card flat>
+              <v-card-title>복구</v-card-title>
+              <v-card-text>
+                복구 시, 기존 데이타는 모두 제거 됩니다.<br />
+                <span style="color: orangered"
+                  >현재 계정과 불일치 할 경우, 복구되지 않으니 주의
+                  바랍니다.</span
+                >
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6" class="text-right">
+            <v-btn small color="primary" @click="backup('file')">백업 </v-btn>
+          </v-col>
+          <v-col cols="4" class="text-left pr-0">
+            <v-file-input
+              label="select a restore file"
+              outlined
+              v-model="restoreFile"
+              dense
+            >
+            </v-file-input>
+          </v-col>
+          <v-col cols="2" class="pl-0 text-right">
+            <v-btn small color="warning" @click="restore">복구</v-btn>
+          </v-col>
+        </v-row>
+
+        <!--<v-tabs v-model="tab" background-color="transparent" color="basil" grow>
           <v-tab>
             FILE
           </v-tab>
@@ -14,9 +58,9 @@
           <v-tab>
             PRIVATE CLOUD
           </v-tab>
-        </v-tabs>
+        </v-tabs>-->
 
-        <v-tabs-items v-model="tab">
+        <!-- <v-tabs-items v-model="tab">
           <v-tab-item>
             <v-row>
               <v-col cols="6">
@@ -111,7 +155,7 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
-        </v-tabs-items>
+        </v-tabs-items>-->
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>

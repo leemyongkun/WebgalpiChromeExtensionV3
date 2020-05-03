@@ -6,14 +6,11 @@
     <!--<v-btn @click="print" icon v-if="previewStatus === 'Y'">
           <v-icon>mdi-printer</v-icon>
         </v-btn>-->
-    <v-btn icon v-if="previewStatus === 'Y'" @click="shareFacebook">
+    <v-btn icon @click="shareFacebook">
       <v-icon>mdi-facebook-box</v-icon>
     </v-btn>
 
-    <ShareSlackDialog
-      :currentSite="currentSite"
-      v-if="previewStatus === 'Y'"
-    ></ShareSlackDialog>
+    <ShareSlackDialog :currentSite="currentSite"></ShareSlackDialog>
 
     <DeleteSiteDialog :currentSite="currentSite"></DeleteSiteDialog>
     |

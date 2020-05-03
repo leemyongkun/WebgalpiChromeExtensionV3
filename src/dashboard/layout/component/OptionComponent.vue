@@ -63,11 +63,11 @@ export default {
         title: "SLACK",
         subTitle: "자신의 컨텐츠를 슬랙 채널에 공유."
       },
-      {
+      /*   {
         code: "option",
         title: "OPTION",
         subTitle: "각종 OPTION을 설정."
-      },
+      },*/
       {
         code: "backup",
         title: "BACKUP / CLOUD",

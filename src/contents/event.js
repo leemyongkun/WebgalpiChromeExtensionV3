@@ -256,7 +256,7 @@ let EVENT = {
             let color = $(_this).attr("class"); // hltcolor-x 값을 가져옴
             let colorTF = false;
 
-            if (color === "default-color") color = "highlight-color-2";
+            if (color === "default-color") color = "highlight-color-1";
 
             //저장한다.
             CONTENTS.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
