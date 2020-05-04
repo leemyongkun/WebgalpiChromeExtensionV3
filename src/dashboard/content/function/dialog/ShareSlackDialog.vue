@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog v-model="dialog" persistent max-width="600px" overlay-opacity="0.9">
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on" @click="open">
         <v-icon>mdi-slack</v-icon>

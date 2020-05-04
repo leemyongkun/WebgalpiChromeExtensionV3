@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="deleteDialog" persistent max-width="290">
+  <v-dialog
+    v-model="deleteDialog"
+    persistent
+    max-width="290"
+    overlay-opacity="0.9"
+  >
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
         <v-icon>mdi-trash-can-outline</v-icon>

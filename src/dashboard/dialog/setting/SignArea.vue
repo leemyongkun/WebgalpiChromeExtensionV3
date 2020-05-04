@@ -1,5 +1,11 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-dialog v-model="dialog" persistent scrollable max-width="300px">
+  <v-dialog
+    v-model="dialog"
+    persistent
+    scrollable
+    max-width="300px"
+    overlay-opacity="0.9"
+  >
     <v-card>
       <v-card-title>SignOut</v-card-title>
       <v-divider></v-divider>

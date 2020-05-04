@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog v-model="dialog" persistent max-width="600px" overlay-opacity="0.9">
     <v-card>
       <v-card-title>
         <span class="headline"

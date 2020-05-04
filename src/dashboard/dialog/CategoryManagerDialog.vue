@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <!-- 다이얼로그 -->
-  <v-dialog v-model="dialog" persistent max-width="600">
+  <v-dialog v-model="dialog" persistent max-width="600" overlay-opacity="0.9">
     <v-card style="height: 400px">
       <v-card-title class="headline">Category Editor</v-card-title>
       <v-card-text style="height: 270px">

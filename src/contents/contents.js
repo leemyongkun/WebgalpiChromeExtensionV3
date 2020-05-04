@@ -50,25 +50,37 @@ let CONTENTS = {
       res(true);
     });
   },
+  getReadmodeContents: (html, url) => {
+    return new Promise(res => {
+      let parser = new DOMParser();
+      let idoc = parser.parseFromString(html, "text/html");
+      let previewDoc = new PreviewMode(CONTENTS.getUriInfo(url), idoc).parse();
+      if (previewDoc === null) {
+        res(null);
+      } else {
+        res(previewDoc.content);
+      }
+    });
+  },
+  getUriInfo: url => {
+    let siteLocationInfo = document.createElement("a");
+    siteLocationInfo.href = url;
+
+    let loc = siteLocationInfo;
+    return {
+      spec: loc.href,
+      host: loc.host,
+      prePath: loc.protocol + "//" + loc.host,
+      scheme: loc.protocol.substr(0, loc.protocol.indexOf(":")),
+      pathBase:
+        loc.protocol +
+        "//" +
+        loc.host +
+        loc.pathname.substr(0, loc.pathname.lastIndexOf("/") + 1)
+    };
+  },
   firstVisitSite: param => {
     return new Promise(async function(res) {
-      let siteLocationInfo = document.createElement("a");
-      siteLocationInfo.href = URL.SITE;
-
-      //console.log("siteLocationInfo ",siteLocationInfo.host,siteLocationInfo.href,siteLocationInfo.protocol,siteLocationInfo.pathname)
-      let loc = siteLocationInfo;
-      let uri = {
-        spec: loc.href,
-        host: loc.host,
-        prePath: loc.protocol + "//" + loc.host,
-        scheme: loc.protocol.substr(0, loc.protocol.indexOf(":")),
-        pathBase:
-          loc.protocol +
-          "//" +
-          loc.host +
-          loc.pathname.substr(0, loc.pathname.lastIndexOf("/") + 1)
-      };
-
       //공통은 항상 위에 둔다.
       if (param.TAGS == undefined) {
         param.TAGS = "";
@@ -134,18 +146,10 @@ let CONTENTS = {
       param.DEFAULT_CATEGORY_IDX = 0; //loginInfo.DEFAULT_CATEGORY_IDX;
       param.URL_TYPE = "WEB";
 
-      let parser = new DOMParser();
-      let idoc = parser.parseFromString(
+      param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
         document.getElementsByTagName("html")[0].outerHTML,
-        "text/html"
+        URL.SITE
       );
-      let previewDoc = new PreviewMode(uri, idoc).parse();
-      if (previewDoc === null) {
-        param.READERMODE_CONTENTS = null;
-      } else {
-        param.READERMODE_CONTENTS = previewDoc.content;
-      }
-
       res(param);
     });
   },
@@ -313,8 +317,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                                                      $('#highlight-toolbar').hide();
-                                                                                                                                                                    } */
+                                                                                                                                                                          $('#highlight-toolbar').hide();
+                                                                                                                                                                        } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화

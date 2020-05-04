@@ -35,10 +35,10 @@ let Api = {
     return select(Query.getBackupHighlights(), param);
   },
   getBackupCategorysRelation: param => {
-    return select(Query.getBackupCategorys(), param);
+    return select(Query.getBackupCategorysRelation(), param);
   },
   getBackupCategorys: param => {
-    return select(Query.getBackupCategorysRelation(), param);
+    return select(Query.getBackupCategorys(), param);
   },
 
   getMemberInfo: () => {
@@ -204,6 +204,36 @@ let Api = {
     let currentDate = new Date().getTime();
     let param = [currentDate, params.URL_KEY, params.EMAIL];
     return remove(Query.deleteSite(), param);
+  },
+
+  restoreSite: params => {
+    let param = [
+      params.DATE_CREATE,
+      params.DATE_UPDATE,
+      params.EMAIL,
+      params.EMBEDURL,
+      params.FL_BACKUP,
+      params.FL_BOOKMARK,
+      params.FL_DELETE,
+      params.FL_FAVORITE,
+      params.FL_READMODE,
+      params.HOST,
+      params.MEMO,
+      params.OG_DESCRIPTION,
+      params.OG_IMAGE,
+      params.OG_TITLE,
+      params.OWNER_EMAIL,
+      params.TAGS,
+      params.TITLE,
+      params.UPDATE_TITLE,
+      params.URL,
+      params.URL_KEY,
+      params.URL_TYPE,
+      params.READERMODE_CONTENTS,
+      params.FULL_TEXT
+    ];
+
+    return insert(Query.restoreSite(), param);
   },
   postSite: async params => {
     let date = new Date().getTime();

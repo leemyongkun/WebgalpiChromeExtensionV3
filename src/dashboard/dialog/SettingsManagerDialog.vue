@@ -7,6 +7,7 @@
     hide-overlay
     persistent
     transition="dialog-bottom-transition"
+    overlay-opacity="0.9"
   >
     <v-card>
       <v-toolbar dark color="primary">

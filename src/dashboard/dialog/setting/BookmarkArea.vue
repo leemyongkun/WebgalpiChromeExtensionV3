@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="900">
+    <v-dialog v-model="dialog" persistent max-width="900" overlay-opacity="0.9">
       <v-card>
         <v-card-title class="headline"
           >Bookmark를 WEBGALPI로 Import합니다.

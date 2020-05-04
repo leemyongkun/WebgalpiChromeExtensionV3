@@ -118,6 +118,37 @@ export default {
                 ?
         )`;
   },
+  restoreSite: param => {
+    return `
+        INSERT INTO TBL_SITES
+        (
+            DATE_CREATE,
+            DATE_UPDATE,
+            EMAIL,
+            EMBEDURL,
+            FL_BACKUP,
+            FL_BOOKMARK,
+            FL_DELETE,
+            FL_FAVORITE,
+            FL_READMODE,
+            HOST,
+            MEMO,
+            OG_DESCRIPTION,
+            OG_IMAGE,
+            OG_TITLE,
+            OWNER_EMAIL,
+            TAGS,
+            TITLE,
+            UPDATE_TITLE,
+            URL,
+            URL_KEY,
+            URL_TYPE,
+            READERMODE_CONTENTS,
+            FULL_TEXT
+        )
+        VALUES
+            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
+  },
   insertSite: param => {
     return `
         INSERT INTO TBL_SITES
