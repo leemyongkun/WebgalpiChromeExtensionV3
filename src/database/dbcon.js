@@ -1,4 +1,4 @@
-import { DROP_TABLE_QUERY, CREATE_TABLE_QUERY, DDL } from "./DDL_Query";
+import { DDL } from "./DDL_Query";
 
 let db = openDatabase("HL", "1.0", "DATABASE", 200000);
 
@@ -68,5 +68,8 @@ export default {
   },
   dropTable: () => {
     DDL.DROP(db);
+  },
+  truncateTable: () => {
+    DDL.TRUNCATE(db);
   }
 };

@@ -25,8 +25,8 @@
               <v-chip>CREATED : {{ data.info.created }}</v-chip>
               <br />
               <v-chip class="mt-3"
-                >CHROME ID : {{ data.info.chrome_id }}</v-chip
-              >
+                >CHROME ID : {{ data.info.chrome_id }}
+              </v-chip>
             </v-expansion-panel-content>
           </v-expansion-panel>
 
@@ -39,7 +39,7 @@
                 <v-icon color="teal">mdi-check</v-icon>
               </template>
             </v-expansion-panel-header>
-            <v-expansion-panel-content> </v-expansion-panel-content>
+            <v-expansion-panel-content></v-expansion-panel-content>
           </v-expansion-panel>
 
           <!--사이트 정보-->
@@ -54,18 +54,26 @@
             <v-expansion-panel-content>
               <v-row>
                 <v-col cols="12">
-                  COMPLETE ({{ progress.siteCompletePer }}%)
+                  COMPLETE ({{ progress.siteComplete }} /
+                  {{ progress.siteCompletePer }}%)
                   <v-progress-linear
                     :value="progress.siteCompletePer"
                     height="5"
                     color="success"
                   ></v-progress-linear>
-                  FAIL ({{ progress.siteFailPer }}%)
+                  FAIL ({{ progress.siteFail }} / {{ progress.siteFailPer }}%)
                   <v-progress-linear
                     :value="progress.siteFailPer"
                     height="5"
                     color="error"
                   ></v-progress-linear>
+                </v-col>
+              </v-row>
+              <v-row v-if="errorSite.length > 0">
+                <v-col cols="12">
+                  <v-btn color="error">
+                    FAIL 확인하기
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-expansion-panel-content>
@@ -102,11 +110,10 @@
 </template>
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";
-
-let CryptoJS = require("crypto-js");
 import CRAWLER from "../../common/cheerio";
 import CONTENTS from "../../../contents/contents";
-
+import dbcon from "../../../database/dbcon";
+let CryptoJS = require("crypto-js");
 export default {
   props: [],
   data: () => ({
@@ -126,7 +133,8 @@ export default {
       siteFailPer: 0,
       highlightComplete: 0,
       highlightCompletePer: 0
-    }
+    },
+    errorSite: []
   }),
   created() {},
   mounted() {},
@@ -138,22 +146,34 @@ export default {
         )
       )
         return false;
-      this.runCrawling();
+
+      //TBL_SITE / TBL_HIGHLIGHTS / TBL_CATEGORY(REL) 모두 삭제.
+      //dbcon.truncateTable();
+
+      //사이트 크롤링 및 저장 시작
+      this.runRestoreSiteCrawling();
+
+      //하이라이트 저장 시작
+
+      //카테고리 저장 시
     },
-    async runCrawling() {
+    runRestoreHighlight() {},
+    runRestoreCategory() {},
+    async runRestoreSiteCrawling() {
       this.data.site.map(async site => {
-        CRAWLER.getHtml(site.URL)
+        //var url = "http://lemonweb/MyDesk/Home/Index/160";
+        await CRAWLER.getHtml(site.URL)
           .then(async data => {
             this.progress.siteComplete += 1;
-            this.progress.siteCompletePer =
-              (this.progress.siteComplete / this.data.site.length) * 100;
+            this.progress.siteCompletePer = Math.floor(
+              (this.progress.siteComplete / this.data.site.length) * 100
+            );
 
-            let readmodeContents = await CONTENTS.getReadmodeContents(
+            site.FULL_TEXT = data.fullText;
+            site.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
               data.body,
               site.URL
             );
-            site.FULL_TEXT = data.fullText;
-            site.READERMODE_CONTENTS = readmodeContents;
 
             await CONTENT_LISTENER.sendMessage({
               type: "restore.site",
@@ -161,16 +181,16 @@ export default {
             });
           })
           .catch(error => {
-            console.log("error ", error);
             this.progress.siteFail += 1;
-            this.progress.siteFailPer =
-              (this.progress.siteFail / this.data.site.length) * 100;
-            //console.log("error " , error)
+            this.progress.siteFailPer = Math.floor(
+              (this.progress.siteFail / this.data.site.length) * 100
+            );
+            this.errorSite.push(error);
           });
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                 url = "https://www.fnnews.com/news/202004231837158267";*/
+                           url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     dataParsing(data) {
@@ -189,7 +209,7 @@ export default {
 
       let obj = JSON.parse(originalText);
 
-      console.log("OBJ ", obj.categorys);
+      console.log("OBJ ", obj);
 
       //로딩된 데이타를 분석하여 화면에 출력한다.
       this.dataParsing(JSON.parse(originalText));

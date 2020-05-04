@@ -1,7 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const instance = axios.create();
-instance.defaults.timeout = 5000;
+instance.defaults.timeout = 10000;
 
 let CRAWLER = {
   getHtml: url => {
@@ -25,9 +25,10 @@ let CRAWLER = {
           res(obj);
         })
         .catch(error => {
-          /*console.log(error.request);
-                    console.log(error.message);*/
-          rej(error);
+          let errorObj = new Object();
+          errorObj.message = error.message;
+          errorObj.url = url;
+          rej(errorObj);
         });
     });
   }

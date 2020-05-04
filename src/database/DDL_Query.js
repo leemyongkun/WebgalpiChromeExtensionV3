@@ -1,3 +1,17 @@
+let TRUNCATION_TABLE_QUERY = {
+  SITES: () => {
+    return `DELETE TABLE TBL_SITES`;
+  },
+  HIGHLIGHTS: () => {
+    return `DELETE TABLE TBL_ITEMS`;
+  },
+  CATEGORY: () => {
+    return `DELETE TABLE TBL_CATEGORY`;
+  },
+  CATEGORY_RELATION: () => {
+    return `DELETE TABLE TBL_REL_CATEGORY`;
+  }
+};
 let DROP_TABLE_QUERY = {
   TBL_SITES: () => {
     return `DROP TABLE TBL_SITES `;
@@ -217,6 +231,26 @@ let DDL = {
     });
     db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_SLACK(), []);
+    });
+  },
+  TRUNCATE: db => {
+    //SITE
+    db.transaction(function(tx) {
+      tx.executeSql(TRUNCATION_TABLE_QUERY.SITES(), []);
+    });
+
+    //HIGHLIGHT
+    db.transaction(function(tx) {
+      tx.executeSql(TRUNCATION_TABLE_QUERY.HIGHLIGHTS(), []);
+    });
+
+    //CATEGORY
+    db.transaction(function(tx) {
+      tx.executeSql(TRUNCATION_TABLE_QUERY.CATEGORY(), []);
+    });
+    //CATEGORY_RELATION
+    db.transaction(function(tx) {
+      tx.executeSql(TRUNCATION_TABLE_QUERY.CATEGORY_RELATION(), []);
     });
   }
 };
