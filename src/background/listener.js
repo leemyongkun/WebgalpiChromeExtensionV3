@@ -161,6 +161,8 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       return true;
       break;
     case "post.site":
+      console.log("post.site ", msg.data);
+
       if (msg.data.USE_CURRENT_SITE === "N") {
         API.postSite(msg.data).then(site => {
           sendResponse(site);
@@ -192,14 +194,14 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
 
     /*case "get.site": //미사용
-                              let getSiteParameter = new Object();
-                              getSiteParameter.URL_KEY = msg.data;
+                                  let getSiteParameter = new Object();
+                                  getSiteParameter.URL_KEY = msg.data;
 
-                              API.getSite(getSiteParameter).then(res => {
-                                sendResponse(res); //조건
-                              });
-                              return true;
-                              break;*/
+                                  API.getSite(getSiteParameter).then(res => {
+                                    sendResponse(res); //조건
+                                  });
+                                  return true;
+                                  break;*/
 
     case "get.sites.count":
       API.getSites(msg.data).then(res => {
