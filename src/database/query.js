@@ -118,37 +118,7 @@ export default {
                 ?
         )`;
   },
-  restoreSite: param => {
-    return `
-        INSERT INTO TBL_SITES
-        (
-            DATE_CREATE,
-            DATE_UPDATE,
-            EMAIL,
-            EMBEDURL,
-            FL_BACKUP,
-            FL_BOOKMARK,
-            FL_DELETE,
-            FL_FAVORITE,
-            FL_READMODE,
-            HOST,
-            MEMO,
-            OG_DESCRIPTION,
-            OG_IMAGE,
-            OG_TITLE,
-            OWNER_EMAIL,
-            TAGS,
-            TITLE,
-            UPDATE_TITLE,
-            URL,
-            URL_KEY,
-            URL_TYPE,
-            READERMODE_CONTENTS,
-            FULL_TEXT
-        )
-        VALUES
-            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
-  },
+
   insertSite: param => {
     return `
         INSERT INTO TBL_SITES
@@ -573,5 +543,78 @@ export default {
   },
   getCategoryMaxId: () => {
     return `select MAX(IDX) AS MAXID from TBL_CATEGORY`;
+  },
+  restoreSite: param => {
+    return `
+        INSERT INTO TBL_SITES
+        (
+            DATE_CREATE,
+            DATE_UPDATE,
+            EMAIL,
+            EMBEDURL,
+            FL_BACKUP,
+            FL_BOOKMARK,
+            FL_DELETE,
+            FL_FAVORITE,
+            FL_READMODE,
+            HOST,
+            MEMO,
+            OG_DESCRIPTION,
+            OG_IMAGE,
+            OG_TITLE,
+            OWNER_EMAIL,
+            TAGS,
+            TITLE,
+            UPDATE_TITLE,
+            URL,
+            URL_KEY,
+            URL_TYPE,
+            READERMODE_CONTENTS,
+            FULL_TEXT
+        )
+        VALUES
+            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
+  },
+  restoreCategory: param => {
+    return `
+        INSERT INTO TBL_CATEGORY
+        (
+            IDX,
+            DEPTH,
+            EMAIL,
+            FLAG,
+            NAME,
+            PARENT,
+            SORT,
+            TYPE,
+            DATE_CREATE
+        )
+        VALUES
+            (?, ?, ?, ?, ?, ?, ?, ?, ?) `;
+  },
+  restoreHighlight: param => {
+    return `
+        INSERT INTO TBL_ITEMS
+        (
+            COLOR,
+            EMAIL,
+            FL_DELETE,
+            FL_READMODE,
+            GB_FILETYPE,
+            IDX,
+            IMAGE,
+            MEMO,
+            NEXT,
+            PAGE_NUMBER,
+            POSITION,
+            PREV,
+            PRINT_TEXT,
+            TEXT,
+            URL_KEY,
+            DATE_CREATE,
+            DATE_UPDATE
+        )
+        VALUES
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
   }
 };

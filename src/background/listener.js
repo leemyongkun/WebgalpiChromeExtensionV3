@@ -160,13 +160,6 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       });
       return true;
       break;
-    case "restore.site":
-      console.log("restore.site ", msg.data);
-      API.restoreSite(msg.data).then(site => {
-        sendResponse(site);
-      });
-      return true;
-      break;
     case "post.site":
       if (msg.data.USE_CURRENT_SITE === "N") {
         API.postSite(msg.data).then(site => {
@@ -199,14 +192,14 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
 
     /*case "get.site": //미사용
-                          let getSiteParameter = new Object();
-                          getSiteParameter.URL_KEY = msg.data;
+                              let getSiteParameter = new Object();
+                              getSiteParameter.URL_KEY = msg.data;
 
-                          API.getSite(getSiteParameter).then(res => {
-                            sendResponse(res); //조건
-                          });
-                          return true;
-                          break;*/
+                              API.getSite(getSiteParameter).then(res => {
+                                sendResponse(res); //조건
+                              });
+                              return true;
+                              break;*/
 
     case "get.sites.count":
       API.getSites(msg.data).then(res => {
@@ -349,6 +342,27 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
     case "update.convert.viewmode":
       API.updateConvertViewmode(msg.data).then(res => {
         sendResponse(res);
+      });
+      return true;
+      break;
+    case "restore.site":
+      console.log("restore.site ", msg.data);
+      API.restoreSite(msg.data).then(site => {
+        sendResponse(site);
+      });
+      return true;
+      break;
+    case "restore.category":
+      console.log("restore.category ", msg.data);
+      API.restoreCategory(msg.data).then(site => {
+        sendResponse(site);
+      });
+      return true;
+      break;
+    case "restore.highlight":
+      console.log("restore.highlight ", msg.data);
+      API.restoreHighlight(msg.data).then(site => {
+        sendResponse(site);
       });
       return true;
       break;

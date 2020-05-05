@@ -1,17 +1,18 @@
 let TRUNCATION_TABLE_QUERY = {
   SITES: () => {
-    return `DELETE TABLE TBL_SITES`;
+    return `DELETE FROM TBL_SITES`;
   },
   HIGHLIGHTS: () => {
-    return `DELETE TABLE TBL_ITEMS`;
+    return `DELETE FROM TBL_ITEMS`;
   },
   CATEGORY: () => {
-    return `DELETE TABLE TBL_CATEGORY`;
+    return `DELETE FROM TBL_CATEGORY WHERE TYPE ='CUSTOM'`;
   },
   CATEGORY_RELATION: () => {
-    return `DELETE TABLE TBL_REL_CATEGORY`;
+    return `DELETE FROM TBL_REL_CATEGORY`;
   }
 };
+
 let DROP_TABLE_QUERY = {
   TBL_SITES: () => {
     return `DROP TABLE TBL_SITES `;
@@ -43,6 +44,7 @@ let DROP_TABLE_QUERY = {
     return `DROP TABLE TBL_SLACK `;
   }
 };
+
 let CREATE_TABLE_QUERY = {
   TBL_SITES: () => {
     return `
@@ -255,4 +257,4 @@ let DDL = {
   }
 };
 
-export { DROP_TABLE_QUERY, CREATE_TABLE_QUERY, DDL };
+export { DDL };

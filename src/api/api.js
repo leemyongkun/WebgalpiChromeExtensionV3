@@ -350,16 +350,17 @@ let Api = {
   },
   restoreCategory: params => {
     let param = [
+      params.IDX,
       params.DEPTH,
       params.EMAIL,
       params.FLAG,
-      params.IDX,
       params.NAME,
       params.PARENT,
       params.SORT,
       params.TYPE,
       new Date().getTime() //params.DATE_CREATE,
     ];
+    return insert(Query.restoreCategory(), param);
   },
   restoreCategoryRelation: params => {},
   restoreHighlight: params => {
@@ -383,6 +384,7 @@ let Api = {
       date, //params.DATE_CREATE,
       date //params.DATE_UPDATE
     ];
+    return insert(Query.restoreHighlight(), param);
   }
 };
 

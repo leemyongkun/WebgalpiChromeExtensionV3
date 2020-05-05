@@ -71,7 +71,7 @@
               </v-row>
               <v-row v-if="errorSite.length > 0">
                 <v-col cols="12">
-                  <v-btn color="error">
+                  <v-btn color="error" @click="checkFail">
                     FAIL 확인하기
                   </v-btn>
                 </v-col>
@@ -113,6 +113,7 @@ import CONTENT_LISTENER from "../../../common/content-listener";
 import CRAWLER from "../../common/cheerio";
 import CONTENTS from "../../../contents/contents";
 import dbcon from "../../../database/dbcon";
+
 let CryptoJS = require("crypto-js");
 export default {
   props: [],
@@ -139,6 +140,9 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    checkFail() {
+      console.log("fail sites ", this.errorSite);
+    },
     runRestore() {
       if (
         !confirm(
@@ -147,18 +151,45 @@ export default {
       )
         return false;
 
+      //todo : Global 변수로 복구중임을 표시함.(로딩같은..)
+
       //TBL_SITE / TBL_HIGHLIGHTS / TBL_CATEGORY(REL) 모두 삭제.
-      //dbcon.truncateTable();
+      dbcon.truncateTable();
 
-      //사이트 크롤링 및 저장 시작
-      this.runRestoreSiteCrawling();
+      setTimeout(() => {
+        //카테고리 저장 시작
+        this.runRestoreCategory();
 
-      //하이라이트 저장 시작
+        //사이트 크롤링 및 저장 시작
+        this.runRestoreSiteCrawling();
 
-      //카테고리 저장 시
+        //하이라이트 저장 시작
+        this.runRestoreHighlight();
+      }, 1000);
     },
-    runRestoreHighlight() {},
-    runRestoreCategory() {},
+    runRestoreHighlight() {
+      this.data.highlight.map(async highlight => {
+        this.progress.highlightComplete += 1;
+        this.progress.highlightCompletePer = Math.floor(
+          (this.progress.highlightComplete / this.data.highlight.length) * 100
+        );
+
+        await CONTENT_LISTENER.sendMessage({
+          type: "restore.highlight",
+          data: highlight
+        });
+      });
+    },
+    runRestoreCategory() {
+      this.data.category.map(async category => {
+        if (category.TYPE === "CUSTOM") {
+          await CONTENT_LISTENER.sendMessage({
+            type: "restore.category",
+            data: category
+          });
+        }
+      });
+    },
     async runRestoreSiteCrawling() {
       this.data.site.map(async site => {
         //var url = "http://lemonweb/MyDesk/Home/Index/160";
@@ -190,7 +221,7 @@ export default {
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                           url = "https://www.fnnews.com/news/202004231837158267";*/
+                                     url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     dataParsing(data) {
