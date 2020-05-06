@@ -7,7 +7,7 @@
     overlay-opacity="0.9"
   >
     <v-card>
-      <v-card-title>SignOut</v-card-title>
+      <v-card-title>로그아웃</v-card-title>
       <v-divider></v-divider>
       <v-card-text>
         <v-row>
@@ -51,6 +51,7 @@ export default {
           data: param
         }).then(() => {
           EventBus.$emit("init.dashboard");
+          chrome.storage.local.remove(["loginInfo"]);
           this.dialog = false;
         });
       });

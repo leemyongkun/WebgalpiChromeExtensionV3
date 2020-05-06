@@ -321,6 +321,7 @@ let Api = {
   },
   restoreSite: params => {
     let param = [
+      params.IDX,
       params.DATE_CREATE,
       params.DATE_UPDATE,
       params.EMAIL,
@@ -362,7 +363,16 @@ let Api = {
     ];
     return insert(Query.restoreCategory(), param);
   },
-  restoreCategoryRelation: params => {},
+  restoreCategoryRelation: params => {
+    let param = [
+      params.CATEGORY_IDX,
+      params.URL_KEY,
+      params.EMAIL,
+      params.SITE_IDX,
+      new Date().getTime() //params.DATE_CREATE,
+    ];
+    return insert(Query.restoreCategoryRelation(), param);
+  },
   restoreHighlight: params => {
     let date = new Date().getTime();
     let param = [

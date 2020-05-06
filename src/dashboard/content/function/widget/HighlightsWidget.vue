@@ -15,7 +15,7 @@
       <v-list v-if="highlightItems.length !== 0">
         <template v-for="(item, index) in highlightItems">
           <v-list-item :key="item.IDX" class="pr-2">
-            <v-list-item-content class="mt-0">
+            <v-list-item-content class="mt-0 body-2">
               {{ item.PRINT_TEXT }}
             </v-list-item-content>
 
@@ -32,7 +32,7 @@
       <v-list v-if="highlightItems.length === 0">
         <v-list-item>
           <v-list-item-content class="mt-0 pt-0 ">
-            <v-list-item-title class="align-center">
+            <v-list-item-title class="title text-center">
               NO HIGHLIGHTS
             </v-list-item-title>
           </v-list-item-content>

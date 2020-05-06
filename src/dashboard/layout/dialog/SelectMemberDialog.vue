@@ -38,7 +38,7 @@
       <v-col :cols="cols" v-if="viewPasswordArea" class="pr-0 pt-0 pb-0">
         <v-list subheader>
           <v-subheader
-            >login
+            >로그인
             <v-spacer />
             <span @click="cancelPassword" style="cursor:pointer"
               >닫기</span
@@ -48,9 +48,12 @@
             <v-list-item-content class="pb-0">
               <v-text-field
                 dense
+                :rules="[rules.required]"
                 label="Password"
                 prepend-inner-icon="mdi-feature-search-outline"
                 v-model="password"
+                :type="'password'"
+                :error="passwordError"
               />
             </v-list-item-content>
           </v-list-item>
@@ -83,6 +86,7 @@ export default {
     members: [],
     memberIndex: null,
     password: null,
+    passwordError: false,
     viewPasswordArea: false,
     width: 300,
     cols: 12
@@ -125,6 +129,7 @@ export default {
             this.loginDialog = false;
           });
         } else {
+          this.passwordError = true;
           EventBus.$emit("open.snack", "패스워드가 맞지 않습니다.", "red");
         }
       });

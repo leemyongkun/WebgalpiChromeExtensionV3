@@ -194,14 +194,14 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
 
     /*case "get.site": //미사용
-                                  let getSiteParameter = new Object();
-                                  getSiteParameter.URL_KEY = msg.data;
+                                      let getSiteParameter = new Object();
+                                      getSiteParameter.URL_KEY = msg.data;
 
-                                  API.getSite(getSiteParameter).then(res => {
-                                    sendResponse(res); //조건
-                                  });
-                                  return true;
-                                  break;*/
+                                      API.getSite(getSiteParameter).then(res => {
+                                        sendResponse(res); //조건
+                                      });
+                                      return true;
+                                      break;*/
 
     case "get.sites.count":
       API.getSites(msg.data).then(res => {
@@ -356,15 +356,22 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
     case "restore.category":
       console.log("restore.category ", msg.data);
-      API.restoreCategory(msg.data).then(site => {
-        sendResponse(site);
+      API.restoreCategory(msg.data).then(category => {
+        sendResponse(category);
+      });
+      return true;
+      break;
+    case "restore.category.relation":
+      console.log("restore.category.relation ", msg.data);
+      API.restoreCategoryRelation(msg.data).then(relation => {
+        sendResponse(relation);
       });
       return true;
       break;
     case "restore.highlight":
       console.log("restore.highlight ", msg.data);
-      API.restoreHighlight(msg.data).then(site => {
-        sendResponse(site);
+      API.restoreHighlight(msg.data).then(highlight => {
+        sendResponse(highlight);
       });
       return true;
       break;

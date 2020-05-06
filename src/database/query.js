@@ -41,7 +41,8 @@ export default {
     return `
             SELECT *
             FROM TBL_CATEGORY
-            WHERE EMAIL = ?
+            WHERE TYPE='CUSTOM'
+            AND EMAIL = ?
         `;
   },
   getBackupCategorysRelation: () => {
@@ -548,6 +549,7 @@ export default {
     return `
         INSERT INTO TBL_SITES
         (
+            IDX,
             DATE_CREATE,
             DATE_UPDATE,
             EMAIL,
@@ -573,7 +575,7 @@ export default {
             FULL_TEXT
         )
         VALUES
-            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
   },
   restoreCategory: param => {
     return `
@@ -591,6 +593,19 @@ export default {
         )
         VALUES
             (?, ?, ?, ?, ?, ?, ?, ?, ?) `;
+  },
+  restoreCategoryRelation: param => {
+    return `
+        INSERT INTO TBL_REL_CATEGORY
+        (
+            CATEGORY_IDX,
+            URL_KEY,
+            EMAIL,
+            SITE_IDX,
+            DATE_CREATE
+        )
+        VALUES
+            (?, ?, ?, ?, ?) `;
   },
   restoreHighlight: param => {
     return `

@@ -67,6 +67,7 @@ export default {
     //로그인이 되어있는지 확인.
     chrome.storage.local.get(["loginInfo"], result => {
       let loginInfo = result.loginInfo;
+      console.log("loginInfo ", loginInfo);
       if (result.loginInfo === undefined || loginInfo.EMAIL === "") {
         this.mainFlag = 2;
         document.getElementById("body").style.width = "200px";

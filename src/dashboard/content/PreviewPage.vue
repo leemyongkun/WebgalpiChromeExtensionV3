@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                                      <v-col cols="12">
-                                        <iframe
-                                          id="ytplayer"
-                                          type="text/html"
-                                          width="640"
-                                          height="360"
-                                          :src="youtubeVideoId + '?autoplay=0'"
-                                          frameborder="0"
-                                        ></iframe>
-                                      </v-col>
-                                    </v-row>-->
+                                            <v-col cols="12">
+                                              <iframe
+                                                id="ytplayer"
+                                                type="text/html"
+                                                width="640"
+                                                height="360"
+                                                :src="youtubeVideoId + '?autoplay=0'"
+                                                frameborder="0"
+                                              ></iframe>
+                                            </v-col>
+                                          </v-row>-->
       <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
         <v-col cols="auto" v-if="youtubeVideoId !== ''">
           <iframe
@@ -66,16 +66,23 @@
           <div v-html="previewContent"></div>
         </v-col>
 
-        <v-col cols="auto" align="center" v-if="previewStatus === 'N'">
-          NO CONTENTS
+        <v-col
+          cols="12"
+          class="text-center display-1 font-weight-bold"
+          v-if="previewStatus === 'N'"
+        >
+          NO CONTENTS<br /><br />
+          <v-btn small color="primary" v-if="currentSite.FL_READMODE === 'N'"
+            >스크래핑 다시 시도하기</v-btn
+          >
         </v-col>
         <!--  <iframe
-                                                                          type="text/html"
-                                                                          width="100%"
-                                                                          height="603px"
-                                                                          src="https://blog.naver.com/rachel0067/221780986497"
-                                                                          frameborder="0"
-                                                                  ></iframe>-->
+                                                                                  type="text/html"
+                                                                                  width="100%"
+                                                                                  height="603px"
+                                                                                  src="https://blog.naver.com/rachel0067/221780986497"
+                                                                                  frameborder="0"
+                                                                          ></iframe>-->
       </v-row>
     </v-card-text>
     <SnackBar ref="snackbar"></SnackBar>
