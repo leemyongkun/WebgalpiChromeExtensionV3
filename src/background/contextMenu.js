@@ -1,7 +1,7 @@
 function contextAction(info, tab) {
   if (info.menuItemId == "webGalpi") {
     let extensionDashboard =
-      "chrome-extension://" + chrome.runtime.id + "/dashboard/dashboard.html";
+      "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
     if (tab.url === extensionDashboard) {
       location.reload();
       return false;
@@ -46,7 +46,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 /*
 let extensionDashboard =
-            "chrome-extension://" + chrome.runtime.id + "/dashboard/dashboard.html";
+            "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
         if (tab.url === extensionDashboard) {
             location.reload();
             return false;

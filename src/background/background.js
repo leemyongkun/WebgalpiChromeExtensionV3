@@ -77,9 +77,9 @@ let BackgrounEvent = {
     chrome.runtime.onInstalled.addListener(details => {
       if (!!window.openDatabase) {
         console.log("현재 브라우저는 Web SQL Database를 지원합니다");
-        /*chrome.storage.local.remove(["loginInfo"]);
+        chrome.storage.local.remove(["loginInfo"]);
         dbcon.dropTable();
-        dbcon.createTable();*/
+        dbcon.createTable();
       } else {
         alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
       }
@@ -122,9 +122,7 @@ let BackgrounEvent = {
         //대쉬보드의 TABID를 저장해둔다. (재진입시 STATUS를 변경하여 리로딩 하기 위함)
         if (
           tab.url ===
-          "chrome-extension://" +
-            chrome.runtime.id +
-            "/dashboard/dashboard.html"
+          "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html"
         ) {
           chrome.storage.local.set({
             activeDashboardTabId: tab.id

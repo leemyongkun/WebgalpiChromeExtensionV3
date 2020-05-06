@@ -103,8 +103,8 @@ const config = {
         transform: transformHtml
       },
       {
-        from: "dashboard/dashboard.html",
-        to: "dashboard/dashboard.html",
+        from: "dashboard/index.html",
+        to: "dashboard/index.html",
         transform: transformHtml
       },
       {

@@ -79,7 +79,9 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
             //하이라이팅 / 사이트 저장시
             if (
               item.url ===
-              "chrome-extension://dpemoipibdjnnilodimbojpmkaooihin/dashboard/dashboard.html"
+              "chrome-extension://" +
+                chrome.runtime.id +
+                "/dashboard/index.html"
             ) {
               chrome.tabs.reload(item.id);
             }
@@ -348,30 +350,32 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       return true;
       break;
     case "restore.site":
-      console.log("restore.site ", msg.data);
       API.restoreSite(msg.data).then(site => {
         sendResponse(site);
       });
       return true;
       break;
     case "restore.category":
-      console.log("restore.category ", msg.data);
       API.restoreCategory(msg.data).then(category => {
         sendResponse(category);
       });
       return true;
       break;
     case "restore.category.relation":
-      console.log("restore.category.relation ", msg.data);
       API.restoreCategoryRelation(msg.data).then(relation => {
         sendResponse(relation);
       });
       return true;
       break;
     case "restore.highlight":
-      console.log("restore.highlight ", msg.data);
       API.restoreHighlight(msg.data).then(highlight => {
         sendResponse(highlight);
+      });
+      return true;
+      break;
+    case "restore.log":
+      API.restoreLog(msg.data).then(log => {
+        sendResponse(log);
       });
       return true;
       break;

@@ -395,7 +395,8 @@ let Api = {
       date //params.DATE_UPDATE
     ];
     return insert(Query.restoreHighlight(), param);
-  }
+  },
+  restoreLog: params => {}
 };
 
 function update(query, param) {

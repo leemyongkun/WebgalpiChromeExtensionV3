@@ -92,7 +92,7 @@ export default {
   methods: {
     goDashboard() {
       let extensionDashboard =
-        "chrome-extension://" + chrome.runtime.id + "/dashboard/dashboard.html";
+        "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
       let open = window.open(extensionDashboard, "_blank");
       open.focus();
     },
