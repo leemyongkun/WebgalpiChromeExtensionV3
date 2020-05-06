@@ -177,16 +177,6 @@ let CREATE_TABLE_QUERY = {
                       WEBHOOK_URL TEXT,
                       DATE_CREATE NUMERIC
                       )`;
-  },
-
-  TBL_LOG: () => {
-    return `CREATE TABLE IF NOT EXISTS TBL_LOG (
-                      IDX INTEGER PRIMARY KEY AUTOINCREMENT,
-                      EMAIL TEXT,
-                      TYPE TEXT, 
-                      DATA TEXT,
-                      DATE_CREATE NUMERIC
-                      )`;
   }
 };
 

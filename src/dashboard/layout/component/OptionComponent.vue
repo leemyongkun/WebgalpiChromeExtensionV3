@@ -9,7 +9,7 @@
       <v-list v-for="(item, index) in menus" :key="index">
         <v-list-item @click="selectOption(item)">
           <v-list-item-content class="mt-0 pt-0 pb-0">
-            <v-list-item-title class="align-center">
+            <v-list-item-title>
               {{ item.title }}
             </v-list-item-title>
             <v-list-item-subtitle>

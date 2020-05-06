@@ -24,77 +24,70 @@
 
           <v-col v-else>
             <!-- Option -->
-            <!--<OptionDialog></OptionDialog>-->
+            <OptionDialog></OptionDialog>
 
             <!-- 컨텐츠 리스트 -->
             <v-list style="background: none;padding: 0;" id="contentsList">
               <div v-for="(item, index) in sites" :key="index">
                 <v-row>
                   <v-col cols="12" style="padding-top: 0px;">
-                    <v-hover v-slot:default="{ hover }">
-                      <drag :transfer-data="item" :class="item.CLASS">
-                        <div slot="image" class="drag-image">
-                          <v-chip
-                            class="ma-2"
-                            color="orange"
-                            text-color="white"
-                          >
-                            {{ item.UPDATE_TITLE }}
-                            <v-icon right>mdi-star</v-icon>
-                          </v-chip>
-                        </div>
-
-                        <v-card
-                          aria-selected="true"
-                          class="mx-auto"
-                          outlined
-                          style="cursor:pointer;"
-                          @click="selectSite(item, item.URL_KEY)"
-                          @dblclick="goSourceSite(item, $event)"
-                          :key="item.URL_KEY"
-                          ref="siteList"
-                        >
-                          <v-list-item three-line>
-                            <v-list-item-content>
-                              <v-list-item-title style="padding-bottom: 5px;">
-                                {{ item.UPDATE_TITLE }}
-                              </v-list-item-title>
-                              <v-list-item-subtitle style="font-size: 13px;">
-                                <span
-                                  v-if="item.OG_DESCRIPTION !== 'undefined'"
-                                  >{{ item.OG_DESCRIPTION }}</span
-                                >
-                              </v-list-item-subtitle>
-                              <v-list-item-subtitle
-                                style="font-size: 10px; margin-top: 4px;"
+                    <drag :transfer-data="item" :class="item.CLASS">
+                      <div slot="image" class="drag-image">
+                        <v-chip class="ma-2" color="orange" text-color="white">
+                          {{ item.UPDATE_TITLE }}
+                          <v-icon right>mdi-star</v-icon>
+                        </v-chip>
+                      </div>
+                      <v-card
+                        aria-selected="true"
+                        class="mx-auto"
+                        outlined
+                        style="cursor:pointer;"
+                        @click="selectSite(item, item.URL_KEY)"
+                        @dblclick="goSourceSite(item, $event)"
+                        :key="item.URL_KEY"
+                        ref="siteList"
+                      >
+                        <v-list-item three-line>
+                          <v-list-item-content>
+                            <v-list-item-title style="padding-bottom: 5px;">
+                              {{ item.UPDATE_TITLE }}
+                            </v-list-item-title>
+                            <v-list-item-subtitle style="font-size: 13px;">
+                              <span
+                                v-if="item.OG_DESCRIPTION !== 'undefined'"
+                                >{{ item.OG_DESCRIPTION }}</span
                               >
-                                <v-icon
-                                  size="16px"
-                                  color="green"
-                                  left
-                                  style="margin-right: 1px;"
-                                  v-if="item.CATEGORY_NAME !== 'NO_CATEGORY'"
-                                  >mdi-folder-outline
-                                </v-icon>
-                                {{ item.CATEGORY_NAME }}
-                              </v-list-item-subtitle>
-                            </v-list-item-content>
-
-                            <v-list-item-avatar
-                              tile
-                              size="70"
-                              style="margin-top: 14px;padding-bottom: 0px;margin-bottom: 0px;"
-                              color="grey"
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle
+                              style="font-size: 10px; margin-top: 4px;"
                             >
-                              <v-img
-                                v-if="item.OG_IMAGE !== 'undefined'"
-                                :src="checkImagePath(item.OG_IMAGE)"
-                              ></v-img>
-                            </v-list-item-avatar>
-                          </v-list-item>
-                        </v-card>
-                      </drag>
-                    </v-hover>
+                              <v-icon
+                                size="16px"
+                                color="green"
+                                left
+                                style="margin-right: 1px;"
+                                v-if="item.CATEGORY_NAME !== 'NO_CATEGORY'"
+                                >mdi-folder-outline
+                              </v-icon>
+                              {{ item.CATEGORY_NAME }}
+                            </v-list-item-subtitle>
+                          </v-list-item-content>
+
+                          <v-list-item-avatar
+                            tile
+                            size="70"
+                            style="margin-top: 14px;padding-bottom: 0px;margin-bottom: 0px;"
+                            color="grey"
+                          >
+                            <v-img
+                              v-if="item.OG_IMAGE !== 'undefined'"
+                              :src="checkImagePath(item.OG_IMAGE)"
+                            ></v-img>
+                          </v-list-item-avatar>
+                        </v-list-item>
+                      </v-card>
+                    </drag>
                   </v-col>
                 </v-row>
               </div>
@@ -152,12 +145,13 @@ import store from "../../store";
 import Utils from "../utils/Utils";
 import { GLOBAL_CONFIG } from "../../contents/global/config";
 import CORE from "../../contents/core/core";
+import OptionDialog from "../dialog/OptionDialog";
 
 let OFFSET_START = 0;
 let OFFSET_END = 10;
 
 export default {
-  components: { PreviewPage },
+  components: { OptionDialog, PreviewPage },
   data: () => ({
     documentHeightStyle: "max-height: 660px;",
     reviewAreaHeightStyle: "max-height: 660px;",
@@ -319,39 +313,39 @@ export default {
     async generatePreviewDoc(site) {
       let preiveContent = "";
       /*if (site.FL_READMODE === "N") {
-                  let parser = new DOMParser();
-                  let idoc = parser.parseFromString(
-                    site.READERMODE_CONTENTS,
-                    "text/html"
-                  );
-                  let previewDoc = new PreviewMode(uri, idoc).parse();
-                  if (previewDoc === null) {
-                    preiveContent = null;
-                  } else {
-                    preiveContent = previewDoc.content;
-                  }
+                            let parser = new DOMParser();
+                            let idoc = parser.parseFromString(
+                              site.READERMODE_CONTENTS,
+                              "text/html"
+                            );
+                            let previewDoc = new PreviewMode(uri, idoc).parse();
+                            if (previewDoc === null) {
+                              preiveContent = null;
+                            } else {
+                              preiveContent = previewDoc.content;
+                            }
 
-                  let result = await Utils.getLocalStorage("loginInfo");
+                            let result = await Utils.getLocalStorage("loginInfo");
 
-                  CONTENT_LISTENER.sendMessage({
-                    type: "update.convert.viewmode",
-                    data: [
-                      preiveContent,
-                      new Date().getTime(),
-                      site.URL_KEY,
-                      result.loginInfo.EMAIL
-                    ]
-                  }).then(() => {
-                    this.sites.map(item => {
-                      if (item.URL_KEY === site.URL_KEY) {
-                        item.FL_READMODE = "Y";
-                        item.READERMODE_CONTENTS = preiveContent;
-                      }
-                    });
-                  });
-                } else {
-                  preiveContent = site.READERMODE_CONTENTS;
-                }*/
+                            CONTENT_LISTENER.sendMessage({
+                              type: "update.convert.viewmode",
+                              data: [
+                                preiveContent,
+                                new Date().getTime(),
+                                site.URL_KEY,
+                                result.loginInfo.EMAIL
+                              ]
+                            }).then(() => {
+                              this.sites.map(item => {
+                                if (item.URL_KEY === site.URL_KEY) {
+                                  item.FL_READMODE = "Y";
+                                  item.READERMODE_CONTENTS = preiveContent;
+                                }
+                              });
+                            });
+                          } else {
+                            preiveContent = site.READERMODE_CONTENTS;
+                          }*/
       preiveContent = site.READERMODE_CONTENTS;
 
       this.youtubeVideoId = site.EMBEDURL;
@@ -373,7 +367,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                                                                            justify-content: center;*/
+                                                                                                                                                                                                                                                  justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

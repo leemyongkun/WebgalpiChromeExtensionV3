@@ -1,8 +1,30 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <div class="text-xs-center">
+  <div class="text-lg-right">
     <v-btn icon>
-      <v-icon color="yellow">mdi-star</v-icon>
+      <v-icon color="gray">mdi-star</v-icon>
     </v-btn>
+
+    <v-menu
+      ref="calendar"
+      v-model="calendar"
+      :close-on-content-click="false"
+      transition="scale-transition"
+      offset-y
+      max-width="290px"
+      min-width="290px"
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on">
+          <v-icon color="gray">mdi-calendar-month</v-icon>
+        </v-btn>
+      </template>
+      <v-date-picker v-model="dates" range no-title scrollable>
+        <v-spacer></v-spacer>
+        <v-btn text color="primary" @click="calendar = false">Cancel</v-btn>
+        <v-btn text color="primary" @click="pickDate()">OK</v-btn>
+      </v-date-picker>
+    </v-menu>
+
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
@@ -39,6 +61,10 @@
 
         <v-list>
           <v-list-item>
+            <v-list-item-title>Fail Contents</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
             <v-list-item-action>
               <v-switch v-model="message" color="purple"></v-switch>
             </v-list-item-action>
@@ -70,7 +96,15 @@ export default {
     fav: true,
     menu: false,
     message: false,
-    hints: true
-  })
+    hints: true,
+    dates: ["2020-05-07", "2020-05-07"],
+    calendar: false
+  }),
+  methods: {
+    pickDate() {
+      console.log("t", this.dates);
+      this.calendar = false;
+    }
+  }
 };
 </script>
