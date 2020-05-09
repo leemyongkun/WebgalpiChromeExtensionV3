@@ -8,7 +8,7 @@
   >
     <v-card>
       <v-card-title>
-        Restore List
+        Backup Files
       </v-card-title>
       <v-card-text class="pl-0 pr-0">
         <v-data-table v-model="selected" :headers="headers" :items="items">
