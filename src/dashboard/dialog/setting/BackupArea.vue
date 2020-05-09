@@ -3,7 +3,7 @@
     v-model="dialog"
     persistent
     scrollable
-    max-width="650px"
+    max-width="750px"
     overlay-opacity="0.9"
   >
     <v-card>
@@ -16,10 +16,9 @@
               <v-card-title>백업</v-card-title>
               <v-card-text>
                 <ul>
-                  <li>파일형태로 백업됩니다.</li>
+                  <li>구글 드라이브에 파일형태로 백업됩니다.</li>
                   <li>모든 데이타는 암호화 처리됩니다.</li>
-                  <li>파일 내용을 임의로 수정하지 마십시오.</li>
-                  <li>현재 계정과 같은 계정으로 복구됩니다.</li>
+                  <li>임의로 파일명/폴더명/파일내용을 변경하지 마십시오.</li>
                 </ul>
               </v-card-text>
             </v-card>
@@ -40,130 +39,25 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="6" class="text-right">
-            <v-btn small color="primary" @click="backup('file')">백업</v-btn>
+          <v-col cols="6">
+            <v-card flat>
+              <v-card-text>
+                <v-btn small color="primary" @click="backup('google')"
+                  >백업</v-btn
+                >
+              </v-card-text>
+            </v-card>
           </v-col>
-          <v-col cols="5" class="text-left pr-0">
-            <v-file-input
-              accept=".json"
-              label="select a restore file"
-              outlined
-              v-model="restoreFile"
-              dense
-              @change="restore"
-            >
-            </v-file-input>
+          <v-col cols="6">
+            <v-card flat>
+              <v-card-text>
+                <v-btn small color="warning" @click="googleRestore()"
+                  >복구</v-btn
+                >
+              </v-card-text>
+            </v-card>
           </v-col>
         </v-row>
-
-        <!--<v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-                          <v-tab>
-                            FILE
-                          </v-tab>
-                          <v-tab>
-                            PUBLIC CLOUD
-                          </v-tab>
-                          <v-tab>
-                            PRIVATE CLOUD
-                          </v-tab>
-                        </v-tabs>-->
-
-        <!-- <v-tabs-items v-model="tab">
-                          <v-tab-item>
-                            <v-row>
-                              <v-col cols="6">
-                                <v-card flat>
-                                  <v-card-title>백업</v-card-title>
-                                  <v-card-text>
-                                    파일 형태로 백업이 진행되며, 모든 데이타는 암호화 처리
-                                    됩니다.<br />
-                                    아래와 같은 경우, 복구되지 않을 수 있으니 주의 바랍니다.<br />
-                                    <li>파일 내용을 임의로 수정하지 마세요.</li>
-                                    <li>현재 계정과 같은 계정으로 복구됩니다.</li>
-                                  </v-card-text>
-                                </v-card>
-                              </v-col>
-                              <v-col cols="6">
-                                <v-card flat>
-                                  <v-card-title>복구</v-card-title>
-                                  <v-card-text>
-                                    복구 시, 기존 데이타는 모두 제거 됩니다.<br />
-                                    <span style="color: orangered"
-                                      >현재 계정과 불일치 할 경우, 복구되지 않으니 주의
-                                      바랍니다.</span
-                                    >
-                                  </v-card-text>
-                                </v-card>
-                              </v-col>
-                            </v-row>
-
-                            <v-row>
-                              <v-col cols="6" class="text-right">
-                                <v-btn small color="primary" @click="backup('file')"
-                                  >백업
-                                </v-btn>
-                              </v-col>
-                              <v-col cols="4" class="text-left">
-                                <v-file-input
-                                  label="select a restore file"
-                                  outlined
-                                  v-model="restoreFile"
-                                  dense
-                                >
-                                </v-file-input>
-                              </v-col>
-                              <v-col cols="auto" class="pl-0 text-right">
-                                <v-btn small color="warning" @click="restore">복구</v-btn>
-                              </v-col>
-                            </v-row>
-                          </v-tab-item>
-                          <v-tab-item>
-                            <v-card flat>
-                              <v-card-text>
-                                <v-row>
-                                  <v-col cols="12">
-                                    서버 비용이 만만치 않아서요..<br />
-                                    Cloud Backup 편할텐데 말이죠?<br /><br />
-                                    돈 많이 벌면 오픈하겠습니다.
-                                  </v-col>
-                                </v-row>
-                              </v-card-text>
-                            </v-card>
-                          </v-tab-item>
-                          <v-tab-item>
-                            <v-card flat>
-                              <v-card-text>
-                                <v-row>
-                                  <v-col cols="12">
-                                    Server Application과 DATABASE TABLE SCHEME를 제공합니다.<br />
-                                    서버 구성 후, Server Endpoint를 등록 하시면 Private Cloud를
-                                    사용 하실 수 있습니다.<br />
-                                    (구성이 어려우신 분들은 커피한잔으로, 주변 개발자에게
-                                    부탁해보세요~ )<br />
-                                    <br />
-                                    GIT :
-                                    <font style="color: orangered"
-                                      >죄송합니다.. 사실 회사일이 바빠서 아직
-                                      못만들었습니다.</font
-                                    >
-                                  </v-col>
-                                </v-row>
-                                <v-row>
-                                  <v-col cols="12">
-                                    <v-text-field
-                                      placeholder="PRIVATE CLOUD ENDPOINT"
-                                      outlined
-                                      dense
-                                      disabled
-                                    ></v-text-field>
-                                    <v-btn small color="primary">백업</v-btn>
-                                    <v-btn small color="warning">복구</v-btn>
-                                  </v-col>
-                                </v-row>
-                              </v-card-text>
-                            </v-card>
-                          </v-tab-item>
-                        </v-tabs-items>-->
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
@@ -173,6 +67,10 @@
     </v-card>
 
     <RestoreProcessArea ref="restoreProcessArea"></RestoreProcessArea>
+    <RestoreListArea ref="restoreListArea"></RestoreListArea>
+    <v-overlay :value="backupProcess">
+      <v-progress-circular indeterminate size="32"> </v-progress-circular>
+    </v-overlay>
   </v-dialog>
 </template>
 <script>
@@ -181,6 +79,7 @@ import Utils from "../../utils/Utils";
 import Firebase from "firebase";
 import EventBus from "../../event-bus";
 import RestoreProcessArea from "./RestoreProcessArea";
+import RestoreListArea from "./RestoreListArea";
 
 let CryptoJS = require("crypto-js");
 let md5 = require("md5");
@@ -198,13 +97,15 @@ let firebaseConfig = {
 Firebase.initializeApp(firebaseConfig);
 
 export default {
-  components: { RestoreProcessArea },
+  components: { RestoreListArea, RestoreProcessArea },
   props: [],
   data: () => ({
     tab: null,
     dialog: false,
     backupPassword: "KKUNI_BEAR_GMAIL.COM_KKUNI",
-    restoreFile: null
+    restoreFile: null,
+    BACKUP_FOLDER_TITLE: "WEBGALPI",
+    backupProcess: false
   }),
   created() {},
   mounted() {},
@@ -218,7 +119,111 @@ export default {
     close() {
       this.dialog = false;
     },
-    async fileBackup(backupData) {
+    getBackupFolderId() {
+      return new Promise(resolve => {
+        chrome.identity.getAuthToken({ interactive: true }, token => {
+          gapi.auth.setToken({
+            access_token: token
+          });
+
+          let BACKUP_FOLDER_ID = null;
+          gapi.client.load("drive", "v2", () => {
+            let retrievePageOfFiles = request => {
+              request.execute(async resp => {
+                resp.items.filter(item => {
+                  if (
+                    item.title === this.BACKUP_FOLDER_TITLE &&
+                    item.explicitlyTrashed === false
+                  ) {
+                    resolve(item.id);
+                    return true;
+                  }
+                });
+
+                let nextPageToken = resp.nextPageToken;
+                if (nextPageToken) {
+                  request = gapi.client.drive.files.list({
+                    pageToken: nextPageToken
+                  });
+                  retrievePageOfFiles(request);
+                } else {
+                  resolve(false);
+                }
+              });
+            };
+            let initialRequest = gapi.client.drive.files.list();
+            retrievePageOfFiles(initialRequest);
+          });
+        });
+      });
+    },
+    createBackupFolder() {
+      return new Promise(res => {
+        chrome.identity.getAuthToken({ interactive: true }, token => {
+          gapi.client
+            .request({
+              path: "/drive/v2/files/",
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
+              },
+              body: {
+                title: this.BACKUP_FOLDER_TITLE,
+                mimeType: "application/vnd.google-apps.folder"
+              }
+            })
+            .execute(backupFolder => {
+              res(backupFolder.id);
+            });
+        });
+      });
+    },
+    sendBackupFile(fileContent, backupFolderId) {
+      return new Promise(res => {
+        chrome.identity.getAuthToken({ interactive: true }, token => {
+          //let fileContent = "sample text2"; // As a sample, upload a text file.
+
+          let file = new Blob([fileContent], { type: "text/plain" });
+          let metadata = {
+            name: "WEBGALPI_BACKUP_" + new Date().getTime(), // Filename at Google Drive
+            mimeType: "text/plain", // mimeType at Google Drive
+            parents: [backupFolderId] // Folder ID at Google Drive
+          };
+
+          //let accessToken = token; //gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
+          let form = new FormData();
+          form.append(
+            "metadata",
+            new Blob([JSON.stringify(metadata)], { type: "application/json" })
+          );
+          form.append("file", file);
+
+          fetch(
+            "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",
+            {
+              method: "POST",
+              headers: new Headers({
+                Authorization: "Bearer " + token
+              }),
+              body: form
+            }
+          ).then(retValue => {
+            res(retValue);
+          });
+        });
+      });
+    },
+
+    async googleBackup(backupData) {
+      if (!confirm("구글 드라이브로 백업을 진행하시겠습니까?")) return false;
+
+      this.backupProcess = true;
+      let BACKUP_FOLDER_ID = await this.getBackupFolderId();
+      if (!BACKUP_FOLDER_ID) {
+        BACKUP_FOLDER_ID = await this.createBackupFolder();
+      }
+
       let result = await Utils.getLocalStorage("loginInfo");
 
       let info = new Object();
@@ -232,26 +237,52 @@ export default {
       let backupObj = new Object();
 
       // Encrypt
-      let cipherBackupData = CryptoJS.AES.encrypt(
+      backupObj.data = CryptoJS.AES.encrypt(
         JSON.stringify(backupData),
         this.backupPassword
       ).toString();
-      backupObj.data = cipherBackupData;
+
+      this.sendBackupFile(JSON.stringify(backupObj), BACKUP_FOLDER_ID)
+        .then(res => {
+          alert("완료");
+        })
+        .catch(error => {
+          alert("에러!");
+        })
+        .finally(() => {
+          this.backupProcess = false;
+        });
 
       //FILE
-      let filename = "backup.json";
-      let ele = document.createElement("a");
-      ele.setAttribute(
-        "href",
-        "data:text/plain;charset=utf-8," +
-          encodeURIComponent(JSON.stringify(backupObj))
-      );
-      ele.setAttribute("download", filename);
+      /*let filename = "backup.json";
+                let ele = document.createElement("a");
+                ele.setAttribute(
+                    "href",
+                    "data:text/plain;charset=utf-8," +
+                    encodeURIComponent(JSON.stringify(backupObj))
+                );
+                ele.setAttribute("download", filename);
 
-      ele.style.display = "none";
-      document.body.appendChild(ele);
-      ele.click();
-      document.body.removeChild(ele);
+                ele.style.display = "none";
+                document.body.appendChild(ele);
+                ele.click();
+                document.body.removeChild(ele);*/
+    },
+    async fileBackup(backupData) {
+      //FILE
+      /*let filename = "backup.json";
+                let ele = document.createElement("a");
+                ele.setAttribute(
+                    "href",
+                    "data:text/plain;charset=utf-8," +
+                    encodeURIComponent(JSON.stringify(backupObj))
+                );
+                ele.setAttribute("download", filename);
+
+                ele.style.display = "none";
+                document.body.appendChild(ele);
+                ele.click();
+                document.body.removeChild(ele);*/
     },
     firebaseBackup(backupData) {
       //FIREBASE
@@ -271,6 +302,9 @@ export default {
       }).then(backupData => {
         if (backupData !== undefined) {
           switch (type) {
+            case "google":
+              this.googleBackup(backupData);
+              break;
             case "file":
               this.fileBackup(backupData);
               break;
@@ -283,36 +317,101 @@ export default {
         }
       });
     },
-    restore() {
-      if (this.restoreFile === null) {
-        alert("파일을 선택하십시오.");
-        return false;
-      }
-      if (!this.restoreFile) {
-        this.data = "No File Chosen";
-      }
-      let reader = new FileReader();
-      reader.readAsText(this.restoreFile);
-      reader.onload = () => {
-        // this.data = reader.result;
-        try {
-          let data = JSON.parse(reader.result);
-          // Decrypt
-          let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
-          let originalText = bytes.toString(CryptoJS.enc.Utf8);
+    googleRestore() {
+      //구글 드라이브에서 리스트 가져오기
+      chrome.identity.getAuthToken({ interactive: true }, token => {
+        gapi.auth.setToken({
+          access_token: token
+        });
 
-          this.$refs.restoreProcessArea.open(originalText);
-          this.close();
-        } catch (e) {
-          EventBus.$emit(
-            "open.snack",
-            "정상적인 백업 파일이 아닙니다.",
-            "error"
-          );
-          console.log("e", e);
-        }
-      };
+        let BACKUP_FOLDER_ID = null;
+
+        new Promise(res => {
+          gapi.client.load("drive", "v2", () => {
+            let retrievePageOfFiles = (request, result) => {
+              request.execute(async resp => {
+                BACKUP_FOLDER_ID = resp.items.filter(item => {
+                  if (
+                    item.title === this.BACKUP_FOLDER_TITLE &&
+                    item.explicitlyTrashed === false &&
+                    item.labels.trashed === false
+                  ) {
+                    //console.log("item parent ", item);
+                    return item.id;
+                  }
+                });
+
+                result = result.concat(resp.items);
+                let nextPageToken = resp.nextPageToken;
+                if (nextPageToken) {
+                  request = gapi.client.drive.files.list({
+                    pageToken: nextPageToken
+                  });
+                  retrievePageOfFiles(request, result);
+                } else {
+                  let files = new Array();
+                  const promise = result.map(item => {
+                    if (
+                      item.title.indexOf("WEBGALPI_BACKUP_") !== -1 &&
+                      item.explicitlyTrashed === false &&
+                      item.labels.trashed === false
+                    ) {
+                      //PARENT를 찾는다. , explicitlyTrashed가 false 인것들.
+                      //console.log(item);
+                      files.push(item);
+                    }
+                  });
+                  await Promise.all(promise);
+                  res(files);
+                }
+              });
+            };
+            let initialRequest = gapi.client.drive.files.list();
+            retrievePageOfFiles(initialRequest, []);
+          });
+        }).then(list => {
+          console.log("result ", list);
+          console.log("BACKUP_FOLDER_ID ", BACKUP_FOLDER_ID);
+
+          if (list.length === 0) {
+            alert("복구 할 대상이 존재하지 않습니다.");
+            return false;
+          }
+
+          this.$refs.restoreListArea.open(list, this.backupPassword);
+        });
+      });
     }
+    /*restore() {
+                if (this.restoreFile === null) {
+                    alert("파일을 선택하십시오.");
+                    return false;
+                }
+                if (!this.restoreFile) {
+                    this.data = "No File Chosen";
+                }
+                let reader = new FileReader();
+                reader.readAsText(this.restoreFile);
+                reader.onload = () => {
+                    // this.data = reader.result;
+                    try {
+                        let data = JSON.parse(reader.result);
+                        // Decrypt
+                        let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
+                        let originalText = bytes.toString(CryptoJS.enc.Utf8);
+
+                        this.$refs.restoreProcessArea.open(originalText);
+                        this.close();
+                    } catch (e) {
+                        EventBus.$emit(
+                            "open.snack",
+                            "정상적인 백업 파일이 아닙니다.",
+                            "error"
+                        );
+                        console.log("e", e);
+                    }
+                };
+            }*/
   }
 };
 </script>
