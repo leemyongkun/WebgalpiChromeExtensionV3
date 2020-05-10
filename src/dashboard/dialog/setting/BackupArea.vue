@@ -84,6 +84,7 @@ import RestoreProcessArea from "./backup/RestoreProcessArea";
 import RestoreListArea from "./backup/RestoreListArea";
 import BackupDescriptionArea from "./backup/BackupDescriptionArea";
 import EventBus from "../../event-bus";
+import ACCOUNT from "../../../common/account";
 
 let CryptoJS = require("crypto-js");
 let md5 = require("md5");
@@ -269,34 +270,34 @@ export default {
 
       //FILE
       /*let filename = "backup.json";
-                                    let ele = document.createElement("a");
-                                    ele.setAttribute(
-                                        "href",
-                                        "data:text/plain;charset=utf-8," +
-                                        encodeURIComponent(JSON.stringify(backupObj))
-                                    );
-                                    ele.setAttribute("download", filename);
+                                              let ele = document.createElement("a");
+                                              ele.setAttribute(
+                                                  "href",
+                                                  "data:text/plain;charset=utf-8," +
+                                                  encodeURIComponent(JSON.stringify(backupObj))
+                                              );
+                                              ele.setAttribute("download", filename);
 
-                                    ele.style.display = "none";
-                                    document.body.appendChild(ele);
-                                    ele.click();
-                                    document.body.removeChild(ele);*/
+                                              ele.style.display = "none";
+                                              document.body.appendChild(ele);
+                                              ele.click();
+                                              document.body.removeChild(ele);*/
     },
     async fileBackup(backupData) {
       //FILE
       /*let filename = "backup.json";
-                                    let ele = document.createElement("a");
-                                    ele.setAttribute(
-                                        "href",
-                                        "data:text/plain;charset=utf-8," +
-                                        encodeURIComponent(JSON.stringify(backupObj))
-                                    );
-                                    ele.setAttribute("download", filename);
+                                              let ele = document.createElement("a");
+                                              ele.setAttribute(
+                                                  "href",
+                                                  "data:text/plain;charset=utf-8," +
+                                                  encodeURIComponent(JSON.stringify(backupObj))
+                                              );
+                                              ele.setAttribute("download", filename);
 
-                                    ele.style.display = "none";
-                                    document.body.appendChild(ele);
-                                    ele.click();
-                                    document.body.removeChild(ele);*/
+                                              ele.style.display = "none";
+                                              document.body.appendChild(ele);
+                                              ele.click();
+                                              document.body.removeChild(ele);*/
     },
     firebaseBackup(backupData) {
       //FIREBASE
@@ -338,6 +339,8 @@ export default {
 
       //구글 드라이브에서 리스트 가져오기
       chrome.identity.getAuthToken({ interactive: true }, token => {
+        //todo : 현재 계정과맞는 로그인을 했는지 체크가 필요함.
+
         gapi.auth.setToken({
           access_token: token
         });
@@ -348,6 +351,36 @@ export default {
           gapi.client.load("drive", "v2", () => {
             let retrievePageOfFiles = (request, result) => {
               request.execute(async resp => {
+                console.log("resp ", resp);
+
+                if (resp.code == 401) {
+                  this.backupOverlay = false;
+                  alert(
+                    "Google이 로그아웃 되어있습니다. \n새창이 열리면 로그인 후 다시 시도해주세요."
+                  );
+                  ACCOUNT.removeGoogleTokenCache(token).then(res => {
+                    if (res) {
+                      ACCOUNT.googleLogin().then(async ret => {
+                        let result = await Utils.getLocalStorage("loginInfo");
+                        if (result.loginInfo.EMAIL !== ret.email) {
+                          let token = await Utils.getLocalStorage(
+                            "googleToken"
+                          );
+                          alert(
+                            result.loginInfo.EMAIL +
+                              " 계정과 다른 계정으로 로그인 하셨습니다."
+                          );
+                          console.log("token.googleToken ", token.googleToken);
+                          ACCOUNT.removeGoogleTokenCache(token.googleToken);
+                          return false;
+                        }
+                      });
+                    }
+                  });
+
+                  return false;
+                }
+
                 BACKUP_FOLDER_ID = resp.items.filter(item => {
                   if (
                     item.title === this.BACKUP_FOLDER_TITLE &&
@@ -398,35 +431,35 @@ export default {
       });
     }
     /*restore() {
-                                if (this.restoreFile === null) {
-                                    alert("파일을 선택하십시오.");
-                                    return false;
-                                }
-                                if (!this.restoreFile) {
-                                    this.data = "No File Chosen";
-                                }
-                                let reader = new FileReader();
-                                reader.readAsText(this.restoreFile);
-                                reader.onload = () => {
-                                    // this.data = reader.result;
-                                    try {
-                                        let data = JSON.parse(reader.result);
-                                        // Decrypt
-                                        let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
-                                        let originalText = bytes.toString(CryptoJS.enc.Utf8);
+                                        if (this.restoreFile === null) {
+                                            alert("파일을 선택하십시오.");
+                                            return false;
+                                        }
+                                        if (!this.restoreFile) {
+                                            this.data = "No File Chosen";
+                                        }
+                                        let reader = new FileReader();
+                                        reader.readAsText(this.restoreFile);
+                                        reader.onload = () => {
+                                            // this.data = reader.result;
+                                            try {
+                                                let data = JSON.parse(reader.result);
+                                                // Decrypt
+                                                let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
+                                                let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
-                                        this.$refs.restoreProcessArea.open(originalText);
-                                        this.close();
-                                    } catch (e) {
-                                        EventBus.$emit(
-                                            "open.snack",
-                                            "정상적인 백업 파일이 아닙니다.",
-                                            "error"
-                                        );
-                                        console.log("e", e);
-                                    }
-                                };
-                            }*/
+                                                this.$refs.restoreProcessArea.open(originalText);
+                                                this.close();
+                                            } catch (e) {
+                                                EventBus.$emit(
+                                                    "open.snack",
+                                                    "정상적인 백업 파일이 아닙니다.",
+                                                    "error"
+                                                );
+                                                console.log("e", e);
+                                            }
+                                        };
+                                    }*/
   }
 };
 </script>
