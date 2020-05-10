@@ -173,6 +173,8 @@ import CRAWLER from "../../../common/cheerio";
 import CONTENTS from "../../../../contents/contents";
 import dbcon from "../../../../database/dbcon";
 import EventBus from "../../../event-bus";
+import Utils from "../../../utils/Utils";
+import ACCOUNT from "../../../../common/account";
 
 let CryptoJS = require("crypto-js");
 export default {
@@ -344,7 +346,20 @@ export default {
                                                url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
-    dataParsing(data) {
+    async dataParsing(data) {
+      let result = await Utils.getLocalStorage("loginInfo");
+      if (result.loginInfo.EMAIL !== data.info.email) {
+        alert("백업 대상과 로그인 계정이 다릅니다.");
+        let token = await Utils.getLocalStorage("googleToken");
+        ACCOUNT.removeGoogleTokenCache(token.googleToken).then(res => {
+          if (res) {
+            ACCOUNT.googleLogin();
+            this.close();
+          }
+        });
+
+        return false;
+      }
       this.data.category = data.categorys;
       this.data.categoryRelation = data.categoryRelation;
       this.data.site = data.sites;

@@ -129,6 +129,7 @@ export default {
       );
     },
     selectedTargetRestoreFile(item) {
+      console.log(item.webContentLink);
       // console.log("a", item,item.title, item.id);
       if (!confirm(item.title + "로 복구 하시겠습니까?")) return false;
       this.restoreOverlay = true;
@@ -136,6 +137,7 @@ export default {
         method: "GET"
       }).then(file => {
         file.text().then(result => {
+          console.log("result ", result);
           let data = JSON.parse(result);
           let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
           let originalText = bytes.toString(CryptoJS.enc.Utf8);

@@ -370,7 +370,6 @@ export default {
                             result.loginInfo.EMAIL +
                               " 계정과 다른 계정으로 로그인 하셨습니다."
                           );
-                          console.log("token.googleToken ", token.googleToken);
                           ACCOUNT.removeGoogleTokenCache(token.googleToken);
                           return false;
                         }
