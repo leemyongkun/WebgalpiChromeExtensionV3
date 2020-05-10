@@ -13,10 +13,13 @@
       <v-card-text class="pl-0 pr-0">
         <v-data-table v-model="selected" :headers="headers" :items="items">
           <template slot="item" slot-scope="props">
-            <tr @click="selectedTargetRestoreFile(props.item)">
-              <td>{{ props.item.title }}</td>
+            <tr
+              style="cursor: pointer;"
+              @click="selectedTargetRestoreFile(props.item)"
+            >
+              <td>{{ props.item.description }}</td>
               <td class="text-xs-right">
-                {{ props.item.title.split("_")[2] }}
+                {{ convertDate(props.item.title.split("_")[2]) }}
               </td>
               <td class="text-xs-right">{{ props.item.fileSize }}</td>
             </tr>
@@ -51,13 +54,25 @@ export default {
     backupPassword: null,
     headers: [
       {
-        text: "File Name",
+        text: "Description",
+        align: "center",
+        value: "description",
+        width: "60%"
+      },
+      {
+        text: "Modified Date",
         align: "center",
         sortable: false,
-        value: "title"
+        value: "modifiedDate",
+        width: "25%"
       },
-      { text: "Modified Date", value: "modifiedDate" },
-      { text: "File Size(KB)", value: "fileSize" }
+      {
+        text: "File Size(KB)",
+        align: "center",
+        sortable: false,
+        value: "fileSize",
+        width: "15%"
+      }
     ]
   }),
   created() {},
@@ -73,6 +88,45 @@ export default {
       this.items = [];
       this.backupPassword = [];
       this.dialog = false;
+    },
+    convertDate(time) {
+      let date = new Date(Number(time));
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      let hour = date.getHours();
+      let minute = date.getMinutes();
+      let second = date.getSeconds();
+
+      if (month < 10) {
+        month = "0" + month;
+      }
+      if (day < 10) {
+        day = "0" + day;
+      }
+      if (hour < 10) {
+        hour = "0" + hour;
+      }
+      if (minute < 10) {
+        minute = "0" + minute;
+      }
+      if (second < 10) {
+        second = "0" + second;
+      }
+
+      return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hour +
+        ":" +
+        minute +
+        ":" +
+        second
+      );
     },
     selectedTargetRestoreFile(item) {
       // console.log("a", item,item.title, item.id);

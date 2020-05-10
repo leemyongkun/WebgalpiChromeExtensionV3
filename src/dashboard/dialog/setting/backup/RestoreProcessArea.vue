@@ -168,11 +168,11 @@
   </v-dialog>
 </template>
 <script>
-import CONTENT_LISTENER from "../../../common/content-listener";
-import CRAWLER from "../../common/cheerio";
-import CONTENTS from "../../../contents/contents";
-import dbcon from "../../../database/dbcon";
-import EventBus from "../../event-bus";
+import CONTENT_LISTENER from "../../../../common/content-listener";
+import CRAWLER from "../../../common/cheerio";
+import CONTENTS from "../../../../contents/contents";
+import dbcon from "../../../../database/dbcon";
+import EventBus from "../../../event-bus";
 
 let CryptoJS = require("crypto-js");
 export default {

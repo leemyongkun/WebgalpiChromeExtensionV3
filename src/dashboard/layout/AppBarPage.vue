@@ -37,7 +37,7 @@
 </template>
 <script>
 import SignArea from "../dialog/setting/SignArea";
-import RestoreProcessArea from "../dialog/setting/RestoreProcessArea";
+import RestoreProcessArea from "../dialog/setting/backup/RestoreProcessArea";
 import dbcon from "../../database/dbcon";
 
 export default {

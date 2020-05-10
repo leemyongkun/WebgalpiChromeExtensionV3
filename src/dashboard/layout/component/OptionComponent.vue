@@ -70,8 +70,8 @@ export default {
                 },*/
       {
         code: "backup",
-        title: "BACKUP / CLOUD",
-        subTitle: "WEB-GALPI 컨텐츠를 백업/복구."
+        title: "BACKUP",
+        subTitle: "컨텐츠를 구글 드라이브에 백업/복구."
       },
       {
         code: "bookmark",

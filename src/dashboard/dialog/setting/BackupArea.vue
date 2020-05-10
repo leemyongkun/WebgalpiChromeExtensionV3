@@ -68,6 +68,8 @@
 
     <RestoreProcessArea ref="restoreProcessArea"></RestoreProcessArea>
     <RestoreListArea ref="restoreListArea"></RestoreListArea>
+    <BackupDescriptionArea ref="backupDescriptionArea"></BackupDescriptionArea>
+
     <v-overlay :value="backupOverlay">
       <v-progress-circular indeterminate size="32"></v-progress-circular>
     </v-overlay>
@@ -77,9 +79,11 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import Utils from "../../utils/Utils";
 import Firebase from "firebase";
+
+import RestoreProcessArea from "./backup/RestoreProcessArea";
+import RestoreListArea from "./backup/RestoreListArea";
+import BackupDescriptionArea from "./backup/BackupDescriptionArea";
 import EventBus from "../../event-bus";
-import RestoreProcessArea from "./RestoreProcessArea";
-import RestoreListArea from "./RestoreListArea";
 
 let CryptoJS = require("crypto-js");
 let md5 = require("md5");
@@ -97,7 +101,7 @@ let firebaseConfig = {
 Firebase.initializeApp(firebaseConfig);
 
 export default {
-  components: { RestoreListArea, RestoreProcessArea },
+  components: { BackupDescriptionArea, RestoreListArea, RestoreProcessArea },
   props: [],
   data: () => ({
     tab: null,
@@ -105,9 +109,18 @@ export default {
     backupPassword: "KKUNI_BEAR_GMAIL.COM_KKUNI",
     restoreFile: null,
     BACKUP_FOLDER_TITLE: "WEBGALPI",
-    backupOverlay: false
+    backupOverlay: false,
+    backupData: null,
+    backupDescription: ""
   }),
-  created() {},
+  created() {
+    this.$nextTick(() => {
+      EventBus.$on("run.backup", description => {
+        this.backupDescription = description;
+        this.googleBackup(this.backupData);
+      });
+    });
+  },
   mounted() {},
   methods: {
     onFilePicked() {
@@ -188,7 +201,8 @@ export default {
           let metadata = {
             name: "WEBGALPI_BACKUP_" + new Date().getTime(), // Filename at Google Drive
             mimeType: "text/plain", // mimeType at Google Drive
-            parents: [backupFolderId] // Folder ID at Google Drive
+            parents: [backupFolderId], // Folder ID at Google Drive
+            description: this.backupDescription
           };
 
           //let accessToken = token; //gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
@@ -216,7 +230,7 @@ export default {
     },
 
     async googleBackup(backupData) {
-      if (!confirm("구글 드라이브로 백업을 진행하시겠습니까?")) return false;
+      //if (!confirm("구글 드라이브로 백업을 진행하시겠습니까?")) return false;
 
       this.backupOverlay = true;
       let BACKUP_FOLDER_ID = await this.getBackupFolderId();
@@ -255,34 +269,34 @@ export default {
 
       //FILE
       /*let filename = "backup.json";
-                          let ele = document.createElement("a");
-                          ele.setAttribute(
-                              "href",
-                              "data:text/plain;charset=utf-8," +
-                              encodeURIComponent(JSON.stringify(backupObj))
-                          );
-                          ele.setAttribute("download", filename);
+                                    let ele = document.createElement("a");
+                                    ele.setAttribute(
+                                        "href",
+                                        "data:text/plain;charset=utf-8," +
+                                        encodeURIComponent(JSON.stringify(backupObj))
+                                    );
+                                    ele.setAttribute("download", filename);
 
-                          ele.style.display = "none";
-                          document.body.appendChild(ele);
-                          ele.click();
-                          document.body.removeChild(ele);*/
+                                    ele.style.display = "none";
+                                    document.body.appendChild(ele);
+                                    ele.click();
+                                    document.body.removeChild(ele);*/
     },
     async fileBackup(backupData) {
       //FILE
       /*let filename = "backup.json";
-                          let ele = document.createElement("a");
-                          ele.setAttribute(
-                              "href",
-                              "data:text/plain;charset=utf-8," +
-                              encodeURIComponent(JSON.stringify(backupObj))
-                          );
-                          ele.setAttribute("download", filename);
+                                    let ele = document.createElement("a");
+                                    ele.setAttribute(
+                                        "href",
+                                        "data:text/plain;charset=utf-8," +
+                                        encodeURIComponent(JSON.stringify(backupObj))
+                                    );
+                                    ele.setAttribute("download", filename);
 
-                          ele.style.display = "none";
-                          document.body.appendChild(ele);
-                          ele.click();
-                          document.body.removeChild(ele);*/
+                                    ele.style.display = "none";
+                                    document.body.appendChild(ele);
+                                    ele.click();
+                                    document.body.removeChild(ele);*/
     },
     firebaseBackup(backupData) {
       //FIREBASE
@@ -303,7 +317,9 @@ export default {
         if (backupData !== undefined) {
           switch (type) {
             case "google":
-              this.googleBackup(backupData);
+              this.backupData = backupData;
+              this.$refs.backupDescriptionArea.open();
+              //this.googleBackup(backupData);
               break;
             case "file":
               this.fileBackup(backupData);
@@ -377,41 +393,40 @@ export default {
             alert("복구 할 대상이 존재하지 않습니다.");
             return false;
           }
-
           this.$refs.restoreListArea.open(list, this.backupPassword);
         });
       });
     }
     /*restore() {
-                        if (this.restoreFile === null) {
-                            alert("파일을 선택하십시오.");
-                            return false;
-                        }
-                        if (!this.restoreFile) {
-                            this.data = "No File Chosen";
-                        }
-                        let reader = new FileReader();
-                        reader.readAsText(this.restoreFile);
-                        reader.onload = () => {
-                            // this.data = reader.result;
-                            try {
-                                let data = JSON.parse(reader.result);
-                                // Decrypt
-                                let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
-                                let originalText = bytes.toString(CryptoJS.enc.Utf8);
+                                if (this.restoreFile === null) {
+                                    alert("파일을 선택하십시오.");
+                                    return false;
+                                }
+                                if (!this.restoreFile) {
+                                    this.data = "No File Chosen";
+                                }
+                                let reader = new FileReader();
+                                reader.readAsText(this.restoreFile);
+                                reader.onload = () => {
+                                    // this.data = reader.result;
+                                    try {
+                                        let data = JSON.parse(reader.result);
+                                        // Decrypt
+                                        let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
+                                        let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
-                                this.$refs.restoreProcessArea.open(originalText);
-                                this.close();
-                            } catch (e) {
-                                EventBus.$emit(
-                                    "open.snack",
-                                    "정상적인 백업 파일이 아닙니다.",
-                                    "error"
-                                );
-                                console.log("e", e);
-                            }
-                        };
-                    }*/
+                                        this.$refs.restoreProcessArea.open(originalText);
+                                        this.close();
+                                    } catch (e) {
+                                        EventBus.$emit(
+                                            "open.snack",
+                                            "정상적인 백업 파일이 아닙니다.",
+                                            "error"
+                                        );
+                                        console.log("e", e);
+                                    }
+                                };
+                            }*/
   }
 };
 </script>
