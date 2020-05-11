@@ -173,14 +173,4 @@ img {
 #galpi-privew-area-contents {
   align: left !important;
 }
-
-.column {
-  text-align: justify;
-  column-count: 4;
-  /*        column-width: 200px;*/
-  column-gap: 30px;
-  column-rule-style: solid;
-  column-rule-width: 5px;
-  column-rule-color: red;
-}
 </style>

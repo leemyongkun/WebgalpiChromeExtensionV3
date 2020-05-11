@@ -137,7 +137,6 @@ export default {
         method: "GET"
       }).then(file => {
         file.text().then(result => {
-          console.log("result ", result);
           let data = JSON.parse(result);
           let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
           let originalText = bytes.toString(CryptoJS.enc.Utf8);
