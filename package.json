@@ -31,6 +31,7 @@
     "md5": "^2.2.1",
     "readability-js": "^1.0.7",
     "sass": "^1.24.0",
+    "sweetalert2": "^9.10.12",
     "vue": "^2.6.11",
     "vue-drag-drop": "^1.1.4",
     "vue-lodash": "^2.0.2",

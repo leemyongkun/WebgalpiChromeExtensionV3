@@ -11,7 +11,7 @@
       <v-card-text>
         <v-expansion-panels v-model="panel" multiple>
           <!--백업 정보-->
-          <v-expansion-panel readonly>
+          <v-expansion-panel readonly v-show="isShowBackupInfo">
             <v-expansion-panel-header disable-icon-rotate>
               백업 정보
               <template v-slot:actions>
@@ -129,7 +129,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
 
-          <!--하이라이팅 정보-->
+          <!--하이라이팅 정보 -->
           <v-expansion-panel readonly>
             <v-expansion-panel-header disable-icon-rotate>
               하이라이팅 정보 ({{ data.highlight.length }} 건)
@@ -158,11 +158,11 @@
           color="success"
           v-if="showRestoreBtn"
           @click="runRestore"
-          >RESTORE</v-btn
-        >
+          >RESTORE
+        </v-btn>
         <v-btn small text color="primary" v-if="showCloseBtn" @click="close"
-          >DONE</v-btn
-        >
+          >DONE
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -175,12 +175,14 @@ import dbcon from "../../../../database/dbcon";
 import EventBus from "../../../event-bus";
 import Utils from "../../../utils/Utils";
 import ACCOUNT from "../../../../common/account";
+import MODAL from "../../../../common/modal";
 
 let CryptoJS = require("crypto-js");
 export default {
   props: [],
   data: () => ({
     dialog: false,
+    isShowBackupInfo: true,
     showRestoreBtn: true,
     showCloseBtn: true,
     panel: [0, 1, 2, 3, 4],
@@ -212,6 +214,8 @@ export default {
       console.log("fail sites ", this.errorSite);
     },
     runRestore(values) {
+      let confirm = "해제 하시겠습니까?";
+      MODAL.confirm(confirm).then(conf => {});
       if (
         !confirm(
           "복구를 시작 하시겠습니까?\nSite의 경우 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.\n 절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!"
@@ -219,8 +223,7 @@ export default {
       )
         return false;
 
-      //todo : Global 변수로 복구중임을 표시함.(로딩같은..)
-
+      this.isShowBackupInfo = false; //백업정보를 가린다.
       this.showRestoreBtn = false;
       this.showCloseBtn = false;
       EventBus.$emit("start.restore");
@@ -343,7 +346,7 @@ export default {
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                                               url = "https://www.fnnews.com/news/202004231837158267";*/
+                                                         url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     async dataParsing(data) {
@@ -368,14 +371,14 @@ export default {
     },
     open(restoreData) {
       /*  let bytes = CryptoJS.AES.decrypt(
-                      JSON.parse(restoreData).data,
-                      "KKUNI_BEAR_GMAIL.COM_KKUNI"
-                  );
-                  let originalText = bytes.toString(CryptoJS.enc.Utf8);
+                                JSON.parse(restoreData).data,
+                                "KKUNI_BEAR_GMAIL.COM_KKUNI"
+                            );
+                            let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
-                  let obj = JSON.parse(originalText);
+                            let obj = JSON.parse(originalText);
 
-                  console.log("OBJ ", obj);*/
+                            console.log("OBJ ", obj);*/
 
       //로딩된 데이타를 분석하여 화면에 출력한다.
       this.dataParsing(JSON.parse(restoreData));

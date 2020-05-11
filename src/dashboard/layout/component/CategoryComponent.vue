@@ -122,13 +122,10 @@ export default {
       CONTENT_LISTENER.sendMessage({
         type: "post.category.relation",
         data: data
-      })
-        .then(() => {
-          EventBus.$emit("hideSite", data.URL_KEY);
-        })
-        .then(() => {
-          this.getCategory();
-        });
+      }).then(() => {
+        EventBus.$emit("reload.category");
+        EventBus.$emit("hideSite", data.URL_KEY);
+      });
     },
     editCategory(item, event, checkRoot, statusFlag) {
       event.preventDefault();

@@ -28,10 +28,6 @@ let APPLICATION = {
     });
   },
   init: async data => {
-    /*let head = document.querySelector("#mainFrame").contentDocument.head;
-                  console.log("getNaverBlog ", head);*/
-    //this.getNaverBlog();
-
     //body (target element) 가 없으면 취소한다.
     if (document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length === 0)
       return false;
