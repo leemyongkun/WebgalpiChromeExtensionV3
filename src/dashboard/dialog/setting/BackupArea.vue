@@ -79,6 +79,7 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import Utils from "../../utils/Utils";
 import Firebase from "firebase";
+import MODAL from "../../../common/modal";
 
 import RestoreProcessArea from "./backup/RestoreProcessArea";
 import RestoreListArea from "./backup/RestoreListArea";
@@ -259,10 +260,10 @@ export default {
 
       this.sendBackupFile(JSON.stringify(backupObj), BACKUP_FOLDER_ID)
         .then(res => {
-          alert("완료");
+          MODAL.alert("백업이 완료 되었습니다.");
         })
         .catch(error => {
-          alert("에러!");
+          MODAL.alert("백업 도중 에러가 발생하였습니다.");
         })
         .finally(() => {
           this.backupOverlay = false;

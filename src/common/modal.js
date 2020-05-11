@@ -15,6 +15,7 @@ let MODAL = {
     // }
 
     return Swal.fire({
+      width: "300px",
       html: title || "처리되었습니다.",
       type: type || "success",
       confirmButtonText: confirmBtnText || "확인"
@@ -36,6 +37,7 @@ let MODAL = {
     }
 
     return Swal.fire({
+      width: "300px",
       type: type,
       showCancelButton: true,
       html: title,

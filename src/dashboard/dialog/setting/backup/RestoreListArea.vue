@@ -40,6 +40,7 @@
 </template>
 <script>
 import RestoreProcessArea from "./RestoreProcessArea";
+import MODAL from "../../../../common/modal";
 
 let CryptoJS = require("crypto-js");
 
@@ -128,10 +129,12 @@ export default {
         second
       );
     },
-    selectedTargetRestoreFile(item) {
-      console.log(item.webContentLink);
+    async selectedTargetRestoreFile(item) {
       // console.log("a", item,item.title, item.id);
-      if (!confirm(item.title + "로 복구 하시겠습니까?")) return false;
+
+      let confirm = `<b>${item.title}</b> 로 복구 하시겠습니까?"`;
+      let result = await MODAL.confirm(confirm);
+      if (result.value === undefined) return false;
       this.restoreOverlay = true;
       fetch(item.webContentLink, {
         method: "GET"

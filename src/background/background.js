@@ -85,9 +85,7 @@ let BackgrounEvent = {
       }
     });
 
-    chrome.runtime.onSuspend.addListener(suspend => {
-      alert("suspend");
-    });
+    chrome.runtime.onSuspend.addListener(suspend => {});
   },
   getBookmarks: () => {
     let bookmark = new Array();

@@ -213,15 +213,12 @@ export default {
     checkFail() {
       console.log("fail sites ", this.errorSite);
     },
-    runRestore(values) {
-      let confirm = "해제 하시겠습니까?";
-      MODAL.confirm(confirm).then(conf => {});
-      if (
-        !confirm(
-          "복구를 시작 하시겠습니까?\nSite의 경우 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.\n 절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!"
-        )
-      )
-        return false;
+    async runRestore(values) {
+      let confirm = `복구를 시작 하시겠습니까?<br>
+                        Site의 경우 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
+                        <span style="color:red">절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!</span>`;
+      let result = await MODAL.confirm(confirm);
+      if (result.value === undefined) return false;
 
       this.isShowBackupInfo = false; //백업정보를 가린다.
       this.showRestoreBtn = false;
@@ -346,7 +343,7 @@ export default {
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                                                         url = "https://www.fnnews.com/news/202004231837158267";*/
+                                                                   url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     async dataParsing(data) {
@@ -371,14 +368,14 @@ export default {
     },
     open(restoreData) {
       /*  let bytes = CryptoJS.AES.decrypt(
-                                JSON.parse(restoreData).data,
-                                "KKUNI_BEAR_GMAIL.COM_KKUNI"
-                            );
-                            let originalText = bytes.toString(CryptoJS.enc.Utf8);
+                                          JSON.parse(restoreData).data,
+                                          "KKUNI_BEAR_GMAIL.COM_KKUNI"
+                                      );
+                                      let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
-                            let obj = JSON.parse(originalText);
+                                      let obj = JSON.parse(originalText);
 
-                            console.log("OBJ ", obj);*/
+                                      console.log("OBJ ", obj);*/
 
       //로딩된 데이타를 분석하여 화면에 출력한다.
       this.dataParsing(JSON.parse(restoreData));

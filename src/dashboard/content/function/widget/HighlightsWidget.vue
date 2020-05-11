@@ -45,6 +45,7 @@
 import Common from "../../../../common/common";
 import CONTENT_LISTENER from "../../../../common/content-listener";
 import { GLOBAL_CONFIG } from "../../../../contents/global/config";
+import MODAL from "../../../../common/modal";
 
 export default {
   components: {},
@@ -62,8 +63,10 @@ export default {
     });
   },
   methods: {
-    deleteHighlight(item) {
-      if (!confirm("하이라이트를 삭제하시겠습니까?")) return false;
+    async deleteHighlight(item) {
+      let confirm = "하이라이트를 삭제하시겠습니까?";
+      let result = await MODAL.confirm(confirm);
+      if (result.value === undefined) return false;
 
       CONTENT_LISTENER.sendMessage({
         type: "delete.highlight",
