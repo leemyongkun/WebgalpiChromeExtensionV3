@@ -349,7 +349,7 @@ export default {
     async dataParsing(data) {
       let result = await Utils.getLocalStorage("loginInfo");
       if (result.loginInfo.EMAIL !== data.info.email) {
-        alert("백업 대상과 로그인 계정이 다릅니다.");
+        MODAL.alert("백업 대상과 로그인 계정이 다릅니다.");
         let token = await Utils.getLocalStorage("googleToken");
         ACCOUNT.removeGoogleTokenCache(token.googleToken).then(res => {
           if (res) {

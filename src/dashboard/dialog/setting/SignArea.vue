@@ -28,6 +28,7 @@
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
+import ACCOUNT from "../../../common/account";
 
 export default {
   props: [],
@@ -50,8 +51,15 @@ export default {
           type: "update.member.use",
           data: param
         }).then(() => {
+          //대쉬보드 리프레시
           EventBus.$emit("init.dashboard");
+          //현재 로그인 정보 제거
           chrome.storage.local.remove(["loginInfo"]);
+          //구글 키 제거
+          chrome.identity.getAuthToken({ interactive: true }, token => {
+            ACCOUNT.removeGoogleTokenCache(token);
+          });
+
           this.dialog = false;
         });
       });

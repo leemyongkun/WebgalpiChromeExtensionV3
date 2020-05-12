@@ -62,34 +62,32 @@ export default {
       this.$refs.signout.open();
     },
     async processTest() {
-      chrome.identity.getAuthToken({ interactive: true }, token => {
-        console.log("token ", token);
-        var xhr = new XMLHttpRequest();
-        xhr.open(
-          "GET",
-          "https://content.googleapis.com/drive/v2/files/1sB6z38h-00K-oY_q2rGuK9sckYmLx2Ap?alt=media&source=downloadUrl"
-        );
-        xhr.setRequestHeader("Authorization", "Bearer " + token);
-        xhr.onload = function() {
-          console.log("xhr.responseText ", xhr.responseText);
-        };
-        xhr.onerror = function() {
-          console.log(null);
-        };
-        xhr.send();
-
-        /*console.log("gapi.auth.getToken().access_token " , token);
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("GET", "https://www.googleapis.com/drive/v3/files/1sB6z38h-00K-oY_q2rGuK9sckYmLx2Ap", true);
-                    xhr.setRequestHeader('Authorization','Bearer '+token);
-                    xhr.onload = function(){
-                        console.log("xhr",xhr);
-                    }
-                    xhr.send('alt=media');*/
-      });
-
-      //"1sB6z38h-00K-oY_q2rGuK9sckYmLx2Ap"
+      //"1jUTMxYetjXvUwYslGFARoUP83wsEHpfB"
       //mimeType: "text/plain"
+
+      chrome.identity.getAuthToken({ interactive: true }, token => {
+        gapi.client.load("drive", "v2", () => {
+          console.log("token ", token);
+        });
+
+        /*
+                    var request = gapi.client.drive.files.export({
+                    fileId:id,
+                    mimeType:type
+                })
+                request.execute(function(resp){
+                    console.log(resp);
+                });
+                */
+        /*console.log("gapi.auth.getToken().access_token " , token);
+                                var xhr = new XMLHttpRequest();
+                                xhr.open("GET", "https://www.googleapis.com/drive/v3/files/1sB6z38h-00K-oY_q2rGuK9sckYmLx2Ap", true);
+                                xhr.setRequestHeader('Authorization','Bearer '+token);
+                                xhr.onload = function(){
+                                    console.log("xhr",xhr);
+                                }
+                                xhr.send('alt=media');*/
+      });
 
       //참고 : https://bumbu.me/gapi-in-chrome-extension  , https://qiita.com/takahiro1110/items/4ed2c4e894d2d359751e , https://developers.google.com/drive/api/v2/reference/files/list#javascript
     }
