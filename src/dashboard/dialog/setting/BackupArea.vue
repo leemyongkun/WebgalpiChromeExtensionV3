@@ -78,7 +78,7 @@
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";
 import Utils from "../../utils/Utils";
-import Firebase from "firebase";
+//import Firebase from "firebase";
 import MODAL from "../../../common/modal";
 
 import RestoreProcessArea from "./backup/RestoreProcessArea";
@@ -89,6 +89,7 @@ import ACCOUNT from "../../../common/account";
 
 let CryptoJS = require("crypto-js");
 let md5 = require("md5");
+/*
 let firebaseConfig = {
   apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
   authDomain: "chrome-webgalpi.firebaseapp.com",
@@ -101,6 +102,7 @@ let firebaseConfig = {
 };
 // Initialize Firebase
 Firebase.initializeApp(firebaseConfig);
+*/
 
 export default {
   components: { BackupDescriptionArea, RestoreListArea, RestoreProcessArea },
@@ -302,12 +304,12 @@ export default {
     },
     firebaseBackup(backupData) {
       //FIREBASE
-      Firebase.database()
+      /*Firebase.database()
         .ref("users/" + md5(result.loginInfo.EMAIL))
         .set(backupData)
         .then(res => {
           console.log("res ", res);
-        });
+        });*/
     },
     async backup(type) {
       let result = await Utils.getLocalStorage("loginInfo");

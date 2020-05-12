@@ -242,7 +242,7 @@ export default {
         //하이라이트 저장 시작
         if (this.data.highlight.length !== 0) await this.runRestoreHighlight();
 
-        alert("복구가 완료 되었습니다.");
+        MODAL.alert("복구가 완료 되었습니다.");
         EventBus.$emit("init.dashboard");
         this.close();
       }, 1000);

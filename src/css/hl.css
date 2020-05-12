@@ -141,13 +141,15 @@
 }
 
 .webgalpi-trashbox {
-  background-image: url("chrome-extension://__MSG_@@extension_id__/icons/trash.png") !important;
-  width: 24px;
-  height: 0px;
-  display: inline-block;
-  padding-top: 24px;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  overflow: hidden;
+  background-image: url("chrome-extension://__MSG_@@extension_id__/icons/trash_32.png") !important;
+  cursor: pointer;
+  width: 22px !important;
+  height: 0px !important;
+  display: inline-block !important;
+  margin-left: 2px !important;
+  padding-top: 18px !important;
+  background-size: 100% !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  overflow: hidden !important;
 }

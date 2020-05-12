@@ -1,7 +1,7 @@
 {
-  "name": "my-extension",
-  "description": "A Vue.js web extension",
-  "version": null,
+  "name": "WEB-GALPI",
+  "description": "웹에 책갈피를 꽂다.",
+  "version": "0.0.1",
   "manifest_version": 2,
   "icons": {
     "48": "icons/icon_48.png",

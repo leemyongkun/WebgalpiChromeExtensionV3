@@ -1,7 +1,10 @@
 <template>
   <v-app-bar app clipped-left color="">
     <!--<v-app-bar-nav-icon @click="drawer = !drawer"/>-->
-    <span class="title ml-3 mr-5" @click="processTest">WEB-GALPI</span>
+
+    <span class="title ml-3 mr-5" @click="processTest">
+      WEB-GALPI
+    </span>
     <v-text-field
       solo-inverted
       flat
@@ -44,17 +47,50 @@ import MODAL from "../../common/modal";
 
 export default {
   components: { RestoreProcessArea, SignArea },
-  data: () => ({}),
+  data: () => ({
+    ciPath: ""
+  }),
   props: ["member"],
   created() {
-    this.$nextTick(async () => {});
+    this.$nextTick(async () => {
+      this.ciPath =
+        "chrome-extension://" + chrome.runtime.id + "/icons/icon_48.png";
+    });
   },
   methods: {
     signOut() {
       this.$refs.signout.open();
     },
     async processTest() {
-      MODAL.alert("오키", "error");
+      chrome.identity.getAuthToken({ interactive: true }, token => {
+        console.log("token ", token);
+        var xhr = new XMLHttpRequest();
+        xhr.open(
+          "GET",
+          "https://content.googleapis.com/drive/v2/files/1sB6z38h-00K-oY_q2rGuK9sckYmLx2Ap?alt=media&source=downloadUrl"
+        );
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+        xhr.onload = function() {
+          console.log("xhr.responseText ", xhr.responseText);
+        };
+        xhr.onerror = function() {
+          console.log(null);
+        };
+        xhr.send();
+
+        /*console.log("gapi.auth.getToken().access_token " , token);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "https://www.googleapis.com/drive/v3/files/1sB6z38h-00K-oY_q2rGuK9sckYmLx2Ap", true);
+                    xhr.setRequestHeader('Authorization','Bearer '+token);
+                    xhr.onload = function(){
+                        console.log("xhr",xhr);
+                    }
+                    xhr.send('alt=media');*/
+      });
+
+      //"1sB6z38h-00K-oY_q2rGuK9sckYmLx2Ap"
+      //mimeType: "text/plain"
+
       //참고 : https://bumbu.me/gapi-in-chrome-extension  , https://qiita.com/takahiro1110/items/4ed2c4e894d2d359751e , https://developers.google.com/drive/api/v2/reference/files/list#javascript
     }
   }

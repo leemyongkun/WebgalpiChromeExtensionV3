@@ -80,6 +80,7 @@ export default {
   mounted() {},
   methods: {
     open(list, password) {
+      console.log("restore list ", list);
       this.items = list;
       this.backupPassword = password;
       this.dialog = true;
@@ -130,7 +131,7 @@ export default {
       );
     },
     async selectedTargetRestoreFile(item) {
-      // console.log("a", item,item.title, item.id);
+      console.log("item.webContentLink ", item);
 
       let confirm = `<b>${item.title}</b> 로 복구 하시겠습니까?"`;
       let result = await MODAL.confirm(confirm);

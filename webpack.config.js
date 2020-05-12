@@ -103,6 +103,11 @@ const config = {
         transform: transformHtml
       },
       {
+        from: "images/*",
+        to: "./",
+        transform: transformHtml
+      },
+      {
         from: "dashboard/index.html",
         to: "dashboard/index.html",
         transform: transformHtml
@@ -127,13 +132,6 @@ const config = {
         to: "manifest.json",
         transform: content => {
           const jsonContent = JSON.parse(content);
-          jsonContent.version = version;
-
-          //if (config.mode === "development") {
-          /*jsonContent["content_security_policy"] =
-            "script-src 'self' 'unsafe-eval'; object-src 'self'";*/
-          //}
-
           return JSON.stringify(jsonContent, null, 2);
         }
       }
