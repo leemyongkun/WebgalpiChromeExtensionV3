@@ -11,18 +11,16 @@
       </v-card-title>
       <v-card-text v-if="signInProcess === 1">
         WEBGALPI를 사용하기 위해, Google 계정으로 로그인을 하셔야 합니다.<br />
-        데이타 백업으로 Firebase를 사용예정이며, WEBGALPI는 한 PC에서 한명의
-        사용자만 사용 가능합니다.
+        데이타 백업으로 GOOGLE DRIVE를 사용합니다.
       </v-card-text>
 
       <v-card-title class="headline" v-if="signInProcess === 2"
         >Google 계정 인증이 정상완료 되었습니다.
       </v-card-title>
       <v-card-text v-if="signInProcess === 2">
-        <span style="background: #cddc39">{{ googleEmail }}</span
-        >님 WEBGALPI에 오신것을 환영합니다.<br />
+        [ <b>{{ googleEmail }}</b> ]님 WEBGALPI에 오신것을 환영합니다.<br />
         WEBGALPI에서 사용할 PASSWORD를 입력해주세요.<br />
-        <span style="color: red;">데이타 백업/복구</span>에 사용합니다.<br /><br />
+        <span style="color: red;">계정변경 및 백업/복구</span>에 사용합니다.<br /><br />
         <v-form ref="form">
           <v-text-field
             type="password"

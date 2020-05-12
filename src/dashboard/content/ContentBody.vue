@@ -32,61 +32,77 @@
                 <v-row>
                   <v-col cols="12" style="padding-top: 0px;">
                     <drag :transfer-data="item" :class="item.CLASS">
+                      <!-- DRAG 시 보이는 영역-->
                       <div slot="image" class="drag-image">
                         <v-chip class="ma-2" color="orange" text-color="white">
                           {{ item.UPDATE_TITLE }}
                           <v-icon right>mdi-star</v-icon>
                         </v-chip>
                       </div>
-                      <v-card
-                        aria-selected="true"
-                        class="mx-auto"
-                        outlined
-                        style="cursor:pointer;"
-                        @click="selectSite(item, item.URL_KEY)"
-                        @dblclick="goSourceSite(item, $event)"
-                        :key="item.URL_KEY"
-                        ref="siteList"
-                      >
-                        <v-list-item three-line>
-                          <v-list-item-content>
-                            <v-list-item-title style="padding-bottom: 5px;">
-                              {{ item.UPDATE_TITLE }}
-                            </v-list-item-title>
-                            <v-list-item-subtitle style="font-size: 13px;">
-                              <span
-                                v-if="item.OG_DESCRIPTION !== 'undefined'"
-                                >{{ item.OG_DESCRIPTION }}</span
+                      <!------------------>
+                      <v-hover v-slot:default="{ hover }">
+                        <v-card
+                          aria-selected="true"
+                          class="mx-auto"
+                          outlined
+                          style="cursor:pointer;"
+                          @click="selectSite(item, item.URL_KEY)"
+                          @dblclick="goSourceSite(item, $event)"
+                          :key="item.URL_KEY"
+                          ref="siteList"
+                        >
+                          <v-list-item three-line>
+                            <v-expand-transition>
+                              <div
+                                v-if="hover"
+                                class="v-card--reveal white--text text-lg-right pr-3"
+                                style="height: 40%;z-index: 99;"
                               >
-                            </v-list-item-subtitle>
-                            <v-list-item-subtitle
-                              style="font-size: 10px; margin-top: 4px;"
-                            >
-                              <v-icon
-                                size="16px"
-                                color="green"
-                                left
-                                style="margin-right: 1px;"
-                                v-if="item.CATEGORY_NAME !== 'NO_CATEGORY'"
-                                >mdi-folder-outline
-                              </v-icon>
-                              {{ item.CATEGORY_NAME }}
-                            </v-list-item-subtitle>
-                          </v-list-item-content>
+                                <v-btn @click="setFavorite($event)">
+                                  <v-icon>mdi-star</v-icon>
+                                </v-btn>
+                              </div>
+                            </v-expand-transition>
 
-                          <v-list-item-avatar
-                            tile
-                            size="70"
-                            style="margin-top: 14px;padding-bottom: 0px;margin-bottom: 0px;"
-                            color="grey"
-                          >
-                            <v-img
-                              v-if="item.OG_IMAGE !== 'undefined'"
-                              :src="checkImagePath(item.OG_IMAGE)"
-                            ></v-img>
-                          </v-list-item-avatar>
-                        </v-list-item>
-                      </v-card>
+                            <v-list-item-content>
+                              <v-list-item-title style="padding-bottom: 5px;">
+                                {{ item.UPDATE_TITLE }}
+                              </v-list-item-title>
+                              <v-list-item-subtitle style="font-size: 13px;">
+                                <span
+                                  v-if="item.OG_DESCRIPTION !== 'undefined'"
+                                  >{{ item.OG_DESCRIPTION }}</span
+                                >
+                              </v-list-item-subtitle>
+                              <v-list-item-subtitle
+                                style="font-size: 10px; margin-top: 4px;"
+                              >
+                                <v-icon
+                                  size="16px"
+                                  color="green"
+                                  left
+                                  style="margin-right: 1px;"
+                                  v-if="item.CATEGORY_NAME !== 'NO_CATEGORY'"
+                                  >mdi-folder-outline
+                                </v-icon>
+                                {{ item.CATEGORY_NAME }}
+                              </v-list-item-subtitle>
+                            </v-list-item-content>
+
+                            <v-list-item-avatar
+                              tile
+                              size="70"
+                              style="margin-top: 14px;padding-bottom: 0px;margin-bottom: 0px;"
+                              color="grey"
+                            >
+                              <v-img
+                                v-if="item.OG_IMAGE !== 'undefined'"
+                                :src="checkImagePath(item.OG_IMAGE)"
+                              ></v-img>
+                            </v-list-item-avatar>
+                          </v-list-item>
+                        </v-card>
+                      </v-hover>
                     </drag>
                   </v-col>
                 </v-row>
@@ -204,6 +220,11 @@ export default {
   },
 
   methods: {
+    setFavorite(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      EventBus.$emit("open.snack", "STAR로 지정하였습니다.");
+    },
     getWindowHeight(event) {
       //"max-height: " + (document.documentElement.clientHeight - 84) + "px;";
 
@@ -313,39 +334,39 @@ export default {
     async generatePreviewDoc(site) {
       let preiveContent = "";
       /*if (site.FL_READMODE === "N") {
-                            let parser = new DOMParser();
-                            let idoc = parser.parseFromString(
-                              site.READERMODE_CONTENTS,
-                              "text/html"
-                            );
-                            let previewDoc = new PreviewMode(uri, idoc).parse();
-                            if (previewDoc === null) {
-                              preiveContent = null;
-                            } else {
-                              preiveContent = previewDoc.content;
-                            }
+                                      let parser = new DOMParser();
+                                      let idoc = parser.parseFromString(
+                                        site.READERMODE_CONTENTS,
+                                        "text/html"
+                                      );
+                                      let previewDoc = new PreviewMode(uri, idoc).parse();
+                                      if (previewDoc === null) {
+                                        preiveContent = null;
+                                      } else {
+                                        preiveContent = previewDoc.content;
+                                      }
 
-                            let result = await Utils.getLocalStorage("loginInfo");
+                                      let result = await Utils.getLocalStorage("loginInfo");
 
-                            CONTENT_LISTENER.sendMessage({
-                              type: "update.convert.viewmode",
-                              data: [
-                                preiveContent,
-                                new Date().getTime(),
-                                site.URL_KEY,
-                                result.loginInfo.EMAIL
-                              ]
-                            }).then(() => {
-                              this.sites.map(item => {
-                                if (item.URL_KEY === site.URL_KEY) {
-                                  item.FL_READMODE = "Y";
-                                  item.READERMODE_CONTENTS = preiveContent;
-                                }
-                              });
-                            });
-                          } else {
-                            preiveContent = site.READERMODE_CONTENTS;
-                          }*/
+                                      CONTENT_LISTENER.sendMessage({
+                                        type: "update.convert.viewmode",
+                                        data: [
+                                          preiveContent,
+                                          new Date().getTime(),
+                                          site.URL_KEY,
+                                          result.loginInfo.EMAIL
+                                        ]
+                                      }).then(() => {
+                                        this.sites.map(item => {
+                                          if (item.URL_KEY === site.URL_KEY) {
+                                            item.FL_READMODE = "Y";
+                                            item.READERMODE_CONTENTS = preiveContent;
+                                          }
+                                        });
+                                      });
+                                    } else {
+                                      preiveContent = site.READERMODE_CONTENTS;
+                                    }*/
       preiveContent = site.READERMODE_CONTENTS;
 
       this.youtubeVideoId = site.EMBEDURL;
@@ -367,11 +388,11 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                                                                                  justify-content: center;*/
+                                                                                                                                                                                                                                                        justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
-  opacity: 0.5;
+
   position: absolute;
   width: 100%;
 }
