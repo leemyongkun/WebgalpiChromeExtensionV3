@@ -5,6 +5,7 @@
     <v-content>
       <v-container fluid class="pt-0 mt-0">
         <ContentBody ref="contentBody"></ContentBody>
+
         <!--<SiteListWidePage></SiteListWidePage>-->
       </v-container>
     </v-content>

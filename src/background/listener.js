@@ -196,14 +196,14 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
 
     /*case "get.site": //미사용
-                                      let getSiteParameter = new Object();
-                                      getSiteParameter.URL_KEY = msg.data;
+                                          let getSiteParameter = new Object();
+                                          getSiteParameter.URL_KEY = msg.data;
 
-                                      API.getSite(getSiteParameter).then(res => {
-                                        sendResponse(res); //조건
-                                      });
-                                      return true;
-                                      break;*/
+                                          API.getSite(getSiteParameter).then(res => {
+                                            sendResponse(res); //조건
+                                          });
+                                          return true;
+                                          break;*/
 
     case "get.sites.count":
       API.getSites(msg.data).then(res => {
@@ -375,6 +375,19 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
     case "restore.log":
       API.restoreLog(msg.data).then(log => {
+        sendResponse(log);
+      });
+      return true;
+      break;
+    case "update.favorite":
+      console.log("update.favorite > msg.data ", msg.data);
+      API.updateFavorite(msg.data).then(log => {
+        sendResponse(log);
+      });
+      return true;
+      break;
+    case "delete.favorite":
+      API.deleteFavorite(msg.data).then(log => {
         sendResponse(log);
       });
       return true;

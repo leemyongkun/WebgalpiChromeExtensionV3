@@ -144,10 +144,11 @@ export default {
             DATE_CREATE,
             DATE_UPDATE,
             TAGS,
-            FL_BACKUP
+            FL_BACKUP,
+            FL_FAVORITE
         )
         VALUES
-            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, 'Y', ?, ?, ?,?) `;
+            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, 'Y', ?, ?, ?,?,'N') `;
   },
   updateItem: () => {
     return `
@@ -255,6 +256,7 @@ export default {
             DATE_UPDATE,
             TAGS,
             FL_BACKUP,
+            FL_FAVORITE,
             CASE WHEN CATEGORY.NAME
                 IS NULL
                 THEN 'NO_CATEGORY'
@@ -298,6 +300,7 @@ export default {
             TAGS,
             MEMO,
             FL_BACKUP,
+            FL_FAVORITE,
             CATEGORY.CATEGORY_IDX
         FROM TBL_SITES SITE LEFT JOIN TBL_REL_CATEGORY CATEGORY
         ON SITE.URL_KEY = CATEGORY.URL_KEY
@@ -544,6 +547,20 @@ export default {
   },
   getCategoryMaxId: () => {
     return `select MAX(IDX) AS MAXID from TBL_CATEGORY`;
+  },
+  updateFavorite: () => {
+    return `UPDATE TBL_SITES
+                SET FL_FAVORITE = 'Y'
+                WHERE EMAIL = ?
+                AND IDX = ?
+        `;
+  },
+  deleteFavorite: () => {
+    return `UPDATE TBL_SITES
+                SET FL_FAVORITE = 'N'
+                WHERE EMAIL = ?
+                AND IDX = ?
+        `;
   },
   restoreSite: param => {
     return `

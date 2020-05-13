@@ -59,7 +59,7 @@
                                 style="height: 30%;z-index: 99;"
                               >
                                 <v-btn
-                                  @click="setFavorite($event)"
+                                  @click="setFavorite($event, item)"
                                   small
                                   color="warning"
                                 >
@@ -90,6 +90,15 @@
                                   >mdi-folder-outline
                                 </v-icon>
                                 {{ item.CATEGORY_NAME }}
+
+                                <v-icon
+                                  size="16px"
+                                  color="yellow"
+                                  left
+                                  style="margin-right: 1px;"
+                                  v-if="item.FL_FAVORITE === 'Y'"
+                                  >mdi-star
+                                </v-icon>
                               </v-list-item-subtitle>
                             </v-list-item-content>
 
@@ -224,10 +233,27 @@ export default {
   },
 
   methods: {
-    setFavorite(event) {
+    async setFavorite(event, item) {
       event.preventDefault();
       event.stopPropagation();
-      EventBus.$emit("open.snack", "STAR로 지정하였습니다.");
+      let type = "update.favorite";
+      if (item.FL_FAVORITE === "Y") {
+        type = "delete.favorite";
+      }
+
+      let result = await Utils.getLocalStorage("loginInfo");
+      let param = [result.loginInfo.EMAIL, item.IDX];
+      CONTENT_LISTENER.sendMessage({
+        type: type,
+        data: param
+      }).then(() => {
+        EventBus.$emit("open.snack", "STAR로 지정하였습니다.");
+        if (item.FL_FAVORITE === "Y") {
+          item.FL_FAVORITE = "N";
+        } else {
+          item.FL_FAVORITE = "Y";
+        }
+      });
     },
     getWindowHeight(event) {
       //"max-height: " + (document.documentElement.clientHeight - 84) + "px;";
@@ -282,6 +308,7 @@ export default {
       })
         .then(response => {
           if (response.length !== 0) {
+            console.log("response ", response);
             this.sites = this.sites.concat(response);
             return this.sites;
           } else {
@@ -338,39 +365,39 @@ export default {
     async generatePreviewDoc(site) {
       let preiveContent = "";
       /*if (site.FL_READMODE === "N") {
-                                                let parser = new DOMParser();
-                                                let idoc = parser.parseFromString(
-                                                  site.READERMODE_CONTENTS,
-                                                  "text/html"
-                                                );
-                                                let previewDoc = new PreviewMode(uri, idoc).parse();
-                                                if (previewDoc === null) {
-                                                  preiveContent = null;
-                                                } else {
-                                                  preiveContent = previewDoc.content;
-                                                }
+                                                          let parser = new DOMParser();
+                                                          let idoc = parser.parseFromString(
+                                                            site.READERMODE_CONTENTS,
+                                                            "text/html"
+                                                          );
+                                                          let previewDoc = new PreviewMode(uri, idoc).parse();
+                                                          if (previewDoc === null) {
+                                                            preiveContent = null;
+                                                          } else {
+                                                            preiveContent = previewDoc.content;
+                                                          }
 
-                                                let result = await Utils.getLocalStorage("loginInfo");
+                                                          let result = await Utils.getLocalStorage("loginInfo");
 
-                                                CONTENT_LISTENER.sendMessage({
-                                                  type: "update.convert.viewmode",
-                                                  data: [
-                                                    preiveContent,
-                                                    new Date().getTime(),
-                                                    site.URL_KEY,
-                                                    result.loginInfo.EMAIL
-                                                  ]
-                                                }).then(() => {
-                                                  this.sites.map(item => {
-                                                    if (item.URL_KEY === site.URL_KEY) {
-                                                      item.FL_READMODE = "Y";
-                                                      item.READERMODE_CONTENTS = preiveContent;
-                                                    }
-                                                  });
-                                                });
-                                              } else {
-                                                preiveContent = site.READERMODE_CONTENTS;
-                                              }*/
+                                                          CONTENT_LISTENER.sendMessage({
+                                                            type: "update.convert.viewmode",
+                                                            data: [
+                                                              preiveContent,
+                                                              new Date().getTime(),
+                                                              site.URL_KEY,
+                                                              result.loginInfo.EMAIL
+                                                            ]
+                                                          }).then(() => {
+                                                            this.sites.map(item => {
+                                                              if (item.URL_KEY === site.URL_KEY) {
+                                                                item.FL_READMODE = "Y";
+                                                                item.READERMODE_CONTENTS = preiveContent;
+                                                              }
+                                                            });
+                                                          });
+                                                        } else {
+                                                          preiveContent = site.READERMODE_CONTENTS;
+                                                        }*/
       preiveContent = site.READERMODE_CONTENTS;
 
       this.youtubeVideoId = site.EMBEDURL;
@@ -392,7 +419,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                                                                                              justify-content: center;*/
+                                                                                                                                                                                                                                                                    justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;

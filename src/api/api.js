@@ -284,7 +284,6 @@ let Api = {
     return insert(Query.insertCategoryItem(), param);
   },
   updateCategoryItem: param => {
-    console.log("updateCategoryItem param ", param);
     if (param.CHECK_ROOT) {
       //root에서 child로 수정 시,
       param.CATEGORY_PARENT = 0; //rootId
@@ -318,6 +317,12 @@ let Api = {
   },
   getCategoryMaxId: () => {
     return select(Query.getCategoryMaxId(), []);
+  },
+  updateFavorite: param => {
+    return update(Query.updateFavorite(), param);
+  },
+  deleteFavorite: param => {
+    return update(Query.deleteFavorite(), param);
   },
   restoreSite: params => {
     let param = [
