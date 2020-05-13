@@ -137,16 +137,39 @@ export default {
       let result = await MODAL.confirm(confirm);
       if (result.value === undefined) return false;
       this.restoreOverlay = true;
-      fetch(item.webContentLink, {
-        method: "GET"
-      }).then(file => {
-        file.text().then(result => {
-          let data = JSON.parse(result);
-          let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
-          let originalText = bytes.toString(CryptoJS.enc.Utf8);
-          this.$refs.restoreProcessArea.open(originalText);
-          this.restoreOverlay = false;
-          this.close();
+
+      /*  chrome.identity.getAuthToken({ interactive: true }, token => {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("GET", "https://www.googleapis.com/drive/v3/files/"+item.id+'?alt=media', true);
+                    xhr.setRequestHeader('Authorization','Bearer '+token);
+                    xhr.responseType = item.mimeType;
+                    xhr.onload = function(){
+                        let data = JSON.parse(xhr.response);
+                        let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
+                        let originalText = bytes.toString(CryptoJS.enc.Utf8);
+                        console.log("originalText ",originalText);
+                    }
+                    xhr.send();
+                });
+*/
+
+      chrome.identity.getAuthToken({ interactive: true }, token => {
+        let url =
+          "https://www.googleapis.com/drive/v3/files/" + item.id + "?alt=media";
+        fetch(url, {
+          method: "GET",
+          headers: new Headers({
+            Authorization: "Bearer " + token
+          })
+        }).then(file => {
+          file.text().then(result => {
+            let data = JSON.parse(result);
+            let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
+            this.$refs.restoreProcessArea.open(originalText);
+            this.restoreOverlay = false;
+            this.close();
+          });
         });
       });
     }

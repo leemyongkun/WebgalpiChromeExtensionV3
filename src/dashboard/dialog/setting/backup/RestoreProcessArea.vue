@@ -244,7 +244,11 @@ export default {
 
         MODAL.alert("복구가 완료 되었습니다.");
         EventBus.$emit("init.dashboard");
-        this.close();
+        if (this.siteFail === 0) {
+          this.close();
+        } else {
+          this.showCloseBtn = true;
+        }
       }, 1000);
     },
     runRestoreHighlight() {
@@ -343,7 +347,7 @@ export default {
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                                                                   url = "https://www.fnnews.com/news/202004231837158267";*/
+                                                                             url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     async dataParsing(data) {
@@ -368,14 +372,14 @@ export default {
     },
     open(restoreData) {
       /*  let bytes = CryptoJS.AES.decrypt(
-                                          JSON.parse(restoreData).data,
-                                          "KKUNI_BEAR_GMAIL.COM_KKUNI"
-                                      );
-                                      let originalText = bytes.toString(CryptoJS.enc.Utf8);
+                                                    JSON.parse(restoreData).data,
+                                                    "KKUNI_BEAR_GMAIL.COM_KKUNI"
+                                                );
+                                                let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
-                                      let obj = JSON.parse(originalText);
+                                                let obj = JSON.parse(originalText);
 
-                                      console.log("OBJ ", obj);*/
+                                                console.log("OBJ ", obj);*/
 
       //로딩된 데이타를 분석하여 화면에 출력한다.
       this.dataParsing(JSON.parse(restoreData));

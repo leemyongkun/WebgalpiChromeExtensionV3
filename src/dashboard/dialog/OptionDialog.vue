@@ -1,7 +1,11 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div class="text-lg-right">
     <v-btn icon>
-      <v-icon color="gray">mdi-star</v-icon>
+      <v-icon color="" size="18px">mdi-star</v-icon>
+    </v-btn>
+
+    <v-btn icon>
+      <v-icon size="18px">mdi-shield-off-outline</v-icon>
     </v-btn>
 
     <v-menu
@@ -15,7 +19,7 @@
     >
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
-          <v-icon color="gray">mdi-calendar-month</v-icon>
+          <v-icon size="18px">mdi-calendar-month</v-icon>
         </v-btn>
       </template>
       <v-date-picker v-model="dates" range no-title scrollable>
@@ -25,7 +29,9 @@
       </v-date-picker>
     </v-menu>
 
+    <!-- 잠시 가려두자 -->
     <v-menu
+      v-if="false"
       v-model="menu"
       :close-on-content-click="false"
       :nudge-width="200"
@@ -33,7 +39,7 @@
     >
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
-          <v-icon>mdi-menu</v-icon>
+          <v-icon size="18px">mdi-menu</v-icon>
         </v-btn>
       </template>
 

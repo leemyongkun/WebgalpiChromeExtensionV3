@@ -100,7 +100,8 @@ export default {
 
       this.isDisabled = true;
 
-      chrome.storage.local.get(["googleToken"], result => {
+      chrome.storage.local.get(["googleToken"], async result => {
+        await ACCOUNT.removeGoogleTokenCache(result.googleToken);
         if (result.googleToken === undefined) {
           accountGoogleLogin();
         } else {
