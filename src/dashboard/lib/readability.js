@@ -26,13 +26,7 @@
  * @param {HTMLDocument} doc     The document to parse.
  * @param {Object}       options The options object.
  */
-function kkuni() {}
 
-kkuni.prototype = {
-  gogo: function() {
-    alert("!gogo");
-  }
-};
 let globalUri;
 
 function PreviewMode(uri, doc, options) {

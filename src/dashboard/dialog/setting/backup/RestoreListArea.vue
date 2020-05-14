@@ -21,7 +21,9 @@
               <td class="text-xs-right">
                 {{ convertDate(props.item.title.split("_")[2]) }}
               </td>
-              <td class="text-xs-right">{{ props.item.fileSize }}</td>
+              <td class="text-xs-right">
+                {{ convertByteToKB(props.item.fileSize) }}
+              </td>
             </tr>
           </template>
         </v-data-table>
@@ -32,7 +34,11 @@
       </v-card-actions>
     </v-card>
 
-    <RestoreProcessArea ref="restoreProcessArea"></RestoreProcessArea>
+    <RestoreProcessArea
+      :reRendering="reRendering"
+      :key="Key.restoreProcessArea"
+      ref="restoreProcessArea"
+    ></RestoreProcessArea>
     <v-overlay :value="restoreOverlay">
       <v-progress-circular indeterminate size="32"></v-progress-circular>
     </v-overlay>
@@ -53,6 +59,9 @@ export default {
     selected: [],
     items: [],
     backupPassword: null,
+    Key: {
+      restoreProcessArea: 0
+    },
     headers: [
       {
         text: "Description",
@@ -130,6 +139,10 @@ export default {
         second
       );
     },
+    convertByteToKB(val) {
+      val = val / 1024;
+      return Math.floor(val * 100) / 100;
+    },
     async selectedTargetRestoreFile(item) {
       console.log("item.webContentLink ", item);
 
@@ -139,19 +152,19 @@ export default {
       this.restoreOverlay = true;
 
       /*  chrome.identity.getAuthToken({ interactive: true }, token => {
-                    let xhr = new XMLHttpRequest();
-                    xhr.open("GET", "https://www.googleapis.com/drive/v3/files/"+item.id+'?alt=media', true);
-                    xhr.setRequestHeader('Authorization','Bearer '+token);
-                    xhr.responseType = item.mimeType;
-                    xhr.onload = function(){
-                        let data = JSON.parse(xhr.response);
-                        let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
-                        let originalText = bytes.toString(CryptoJS.enc.Utf8);
-                        console.log("originalText ",originalText);
-                    }
-                    xhr.send();
-                });
-*/
+                              let xhr = new XMLHttpRequest();
+                              xhr.open("GET", "https://www.googleapis.com/drive/v3/files/"+item.id+'?alt=media', true);
+                              xhr.setRequestHeader('Authorization','Bearer '+token);
+                              xhr.responseType = item.mimeType;
+                              xhr.onload = function(){
+                                  let data = JSON.parse(xhr.response);
+                                  let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
+                                  let originalText = bytes.toString(CryptoJS.enc.Utf8);
+                                  console.log("originalText ",originalText);
+                              }
+                              xhr.send();
+                          });
+          */
 
       chrome.identity.getAuthToken({ interactive: true }, token => {
         let url =
@@ -172,6 +185,9 @@ export default {
           });
         });
       });
+    },
+    reRendering(type) {
+      this.Key.restoreProcessArea += 1;
     }
   }
 };

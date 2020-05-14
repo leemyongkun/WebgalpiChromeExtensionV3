@@ -34,19 +34,16 @@
       <v-icon>mdi-information-outline</v-icon>
     </v-btn>
     <SignArea ref="signout"></SignArea>
-
-    <RestoreProcessArea ref="restoreProcessArea"></RestoreProcessArea>
   </v-app-bar>
 </template>
 <script>
 import SignArea from "../dialog/setting/SignArea";
-import RestoreProcessArea from "../dialog/setting/backup/RestoreProcessArea";
 import dbcon from "../../database/dbcon";
 import Utils from "../utils/Utils";
 import MODAL from "../../common/modal";
 
 export default {
-  components: { RestoreProcessArea, SignArea },
+  components: { SignArea },
   data: () => ({
     ciPath: ""
   }),

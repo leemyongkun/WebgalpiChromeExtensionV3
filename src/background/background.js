@@ -4,6 +4,7 @@ global.browser = require("webextension-polyfill");
 let md5 = require("md5");
 import dbcon from "../database/dbcon.js";
 import Api from "../api/api.js";
+import LANG from "../common/language";
 
 let $ = require("jquery");
 
@@ -37,9 +38,9 @@ let BackgroundModule = {
 
       //target popup을 변경한다.
       /*chrome.browserAction.setPopup({
-                tabId: tabId,
-                popup: "popup/naver.html"
-            })*/
+                      tabId: tabId,
+                      popup: "popup/naver.html"
+                  })*/
 
       //EMAIL로 조건을 걸지 않고, 사용중(IS_USE=Y)의 데이타만 가져온다
       Api.getMemberInfo().then(memberInfo => {
@@ -75,13 +76,27 @@ let BackgroundModule = {
 let BackgrounEvent = {
   onInstalled: () => {
     chrome.runtime.onInstalled.addListener(details => {
-      if (!!window.openDatabase) {
-        console.log("현재 브라우저는 Web SQL Database를 지원합니다");
-        chrome.storage.local.remove(["loginInfo"]);
-        dbcon.dropTable();
-        dbcon.createTable();
+      console.log("details.reason ", details.reason);
+      if (details.reason === "install") {
+        if (!!window.openDatabase) {
+          LANG.getMessage("M0001");
+          chrome.storage.local.remove(["loginInfo"]);
+          dbcon.dropTable();
+          dbcon.createTable();
+        } else {
+          alert(LANG.getMessage("M0002"));
+        }
       } else {
-        alert("현재 브라우저는 Web SQL Database를 지원하지 않습니다");
+        //UPDATE
+        /*chrome.identity.getAuthToken({ interactive: true }, token => {
+                  console.log("token " , token);
+                  ACCOUNT.removeGoogleTokenCache(token);
+                })*/
+        //todo : update 일때 Action (Version 별로 관리하는것이 좋을듯)
+        console.log(
+          "chrome.runtime.getManifest().version ",
+          chrome.runtime.getManifest().version
+        );
       }
     });
 

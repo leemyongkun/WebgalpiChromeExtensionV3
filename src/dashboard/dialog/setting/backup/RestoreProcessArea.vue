@@ -179,7 +179,7 @@ import MODAL from "../../../../common/modal";
 
 let CryptoJS = require("crypto-js");
 export default {
-  props: [],
+  props: ["reRendering"],
   data: () => ({
     dialog: false,
     isShowBackupInfo: true,
@@ -387,7 +387,7 @@ export default {
       this.dialog = true;
     },
     close() {
-      this.data.info = [];
+      /* this.data.info = [];
       this.data.category = [];
       this.data.categoryRelation = [];
       this.data.site = [];
@@ -407,7 +407,8 @@ export default {
       this.errorSite = [];
 
       this.showRestoreBtn = true;
-      this.showCloseBtn = true;
+      this.showCloseBtn = true;*/
+      this.reRendering("restoreProcessArea");
       this.dialog = false;
     }
   }
