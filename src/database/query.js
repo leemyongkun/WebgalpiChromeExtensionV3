@@ -229,6 +229,18 @@ export default {
       joinCondition = "WHERE 1=1";
     }
 
+    let starCondition = "",
+      detectCondition = "";
+    if (params.filter !== null) {
+      if (params.filter.star) {
+        starCondition = " AND FL_FAVORITE='Y'";
+      }
+
+      if (params.filter.detect) {
+        detectCondition = " AND FL_READMODE='N'";
+      }
+    }
+
     let limit = ""; //"LIMIT 5";
 
     return (
@@ -274,6 +286,12 @@ export default {
       joinCondition +
       `
         AND SITES.FL_DELETE = 'N'
+            ` +
+      starCondition +
+      `
+            ` +
+      detectCondition +
+      `
         AND SITES.EMAIL = ?
         ORDER BY
         SITES.DATE_CREATE

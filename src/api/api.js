@@ -111,6 +111,7 @@ let Api = {
   getSites: params => {
     let query = Query.getSites(params);
     let parameter = params;
+
     if (params !== null && params.flag === null) {
       //일반 카테고리
       parameter = [
