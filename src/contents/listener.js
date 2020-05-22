@@ -35,7 +35,9 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
                                                             새로 로딩된 사이트가 URL.SITE(전에 저장된 사이트)와 같으면 SPA로 판단하여 더이상 진행하지 않는다.
                                                             youtube , https://www.webprofessional.jp/custom-pdf-rendering/ 등을 처리한다.
                                                              */
+
       if (URL.SITE === msg.site.URL) return false;
+
       URL.SITE = msg.site.URL;
       URL.KEY = msg.site.URL_KEY;
       URL.TYPE = msg.site.EXT;
@@ -44,6 +46,7 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
 
       APPLICATION.init(msg.data);
 
+      console.log("###################");
       //91(command),16(shift),89(y)
       sendResponse(true);
       return true;

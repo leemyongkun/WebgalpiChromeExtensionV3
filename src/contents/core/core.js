@@ -78,27 +78,27 @@ let CORE = {
 
       //메모 위젯에 담기
       /*if (list[i].MEMO != '') {
-                                        memoCount++;
-                                        HlWidgetAction.appendMemoWidget(list[i].IDX, list[i].MEMO, Util.getTimeString(list[i].DATE_CREATE));
-                                    }*/
+                                              memoCount++;
+                                              HlWidgetAction.appendMemoWidget(list[i].IDX, list[i].MEMO, Util.getTimeString(list[i].DATE_CREATE));
+                                          }*/
 
       //이미지에 하이라이팅 하기
       /*if ($.trim(list[i].IMAGE) != '') {
-                                        GLOBAL_CONFIG.SELECT_IMAGE = list[i].IMAGE.split(' ');
-                                        HighlightCore.setImageHighlight(list[i].IMAGE);
-                                        imageCount += HlWidgetAction.appendImageWidget(list[i]);
-                                    }*/
+                                              GLOBAL_CONFIG.SELECT_IMAGE = list[i].IMAGE.split(' ');
+                                              HighlightCore.setImageHighlight(list[i].IMAGE);
+                                              imageCount += HlWidgetAction.appendImageWidget(list[i]);
+                                          }*/
 
       //메모가 있는경우, 메모 아이콘 표시
       /*if (list[i].MEMO != '') {
-                                        var destItem = $('[' + HighlightData.idName + '="' + list[i].IDX + '"]')[0];
-                                        $(destItem).addClass('wf-memo');
-                                    }*/
+                                              var destItem = $('[' + HighlightData.idName + '="' + list[i].IDX + '"]')[0];
+                                              $(destItem).addClass('wf-memo');
+                                          }*/
     }
 
     /*let interval = setInterval(() => {
-                  //todo : 해야함 >> dynamicLoadingItems();
-                }, 3000);*/
+                      //todo : 해야함 >> dynamicLoadingItems();
+                    }, 3000);*/
   },
   getStartEndOffset: element => {
     return new Promise(res => {
@@ -215,10 +215,36 @@ let CORE = {
           idx,
           text
         ).then(function() {
+          let mouseOverTimeOut;
           win.getSelection().removeAllRanges();
+          //클릭 시, color picker 발생
           $("[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
             .unbind("click")
-            .on("click", EVENT.highlightClickEvent); //
+            .on("click", EVENT.highlightClickEvent);
+
+          //클릭 / mouseOut 시, mouse over 했을때 timeout 객체를 clear 한다.
+          $("[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
+            .on("click", () => {
+              clearTimeout(mouseOverTimeOut);
+            })
+            .on("mouseout", () => {
+              clearTimeout(mouseOverTimeOut);
+            });
+
+          //mouseOver 했을 시, 1초후 color picker 발생
+          $("[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
+            .unbind("mouseover")
+            .on("mouseover", e => {
+              mouseOverTimeOut = setTimeout(() => {
+                EVENT.highlightClickEvent(e);
+              }, 700);
+            });
+          //mouseOut 했을 시,  timeout 객체를 clear 한다.
+          /*$("[" + GLOBAL_CONFIG.HL_ID_NAME + '="' + idx + '"]')
+                        .unbind("mouseout")
+                        .on("mouseout", () => {
+                            clearTimeout(mouseOverTimeOut);
+                        });*/
         });
       }
       res(idx);

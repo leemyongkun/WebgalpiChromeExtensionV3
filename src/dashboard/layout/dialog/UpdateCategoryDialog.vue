@@ -23,9 +23,9 @@
                 label="CATEGORY NAME"
                 :value="categoryId"
                 v-model="categoryName"
-                @keyup="categoryNameKeyUpEvent($event)"
+                @keyup.enter="categoryNameKeyUpEvent"
                 required
-                :autofocus="autofocus"
+                autofocus
               ></v-text-field>
             </v-col>
             <v-col cols="2" style="padding-left: 0px;">
@@ -107,10 +107,8 @@ export default {
   methods: {
     categoryNameKeyUpEvent(event) {
       //string length byte : https://stove99.tistory.com/83
-      if (event.keyCode === 13) {
-        if (this.categoryStatus === "insert") this.insertCategory();
-        else this.updateCategory();
-      }
+      if (this.categoryStatus === "insert") this.insertCategory();
+      else this.updateCategory();
     },
     openDialog(categoryInfo, category, checkRoot, statusFlag, categoryType) {
       console.log("category >> ", category);
@@ -192,15 +190,15 @@ export default {
       if (result.value === undefined) return false;
 
       /*
-                          root의경우 :
-                          1. 하위 카테고리의 연결을 제거한다.
-                          2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
-                          3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
+                                    root의경우 :
+                                    1. 하위 카테고리의 연결을 제거한다.
+                                    2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
+                                    3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
 
-                          child의 경우 :
-                          1. root와의 연결을 끊는다.
-                          2. Contents들은 NO_CATEGORY 상태로 변경한다.
-                           */
+                                    child의 경우 :
+                                    1. root와의 연결을 끊는다.
+                                    2. Contents들은 NO_CATEGORY 상태로 변경한다.
+                                     */
 
       let param = new Object();
       if (this.currentCategoryInfo.parent === 0) {

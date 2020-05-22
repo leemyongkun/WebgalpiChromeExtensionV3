@@ -96,6 +96,7 @@ export default {
       });
     },
     dropEvent(data, event) {
+      console.log("data, event ", data, event);
       this.snackbarMessage = "카테고리에 저장되었습니다.";
       this.snackbar = true;
 
@@ -116,9 +117,11 @@ export default {
              param.IDX, //"SITE_IDX":
 
          */
+      console.log("event.target.id ", event.target.id);
       data.CATEGORY_ID = event.target.id;
       data.DATE_CREATE = new Date().getTime();
 
+      console.log("data ", data);
       CONTENT_LISTENER.sendMessage({
         type: "post.category.relation",
         data: data

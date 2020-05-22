@@ -16,7 +16,10 @@ let CONTENT_LISTENER = {
           res(response);
         });
       } catch (e) {
-        alert("ERROR:Message.ChromeException[LANG]");
+        alert(
+          "WEB-GALPI가 설치 및 업데이트 되었습니다.\n해당 페이지를 Reloading 합니다."
+        );
+        location.reload();
       }
     });
 

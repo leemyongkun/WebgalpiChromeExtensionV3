@@ -21,18 +21,17 @@
         [ <b>{{ googleEmail }}</b> ]님 WEBGALPI에 오신것을 환영합니다.<br />
         WEBGALPI에서 사용할 PASSWORD를 입력해주세요.<br />
         <span style="color: red;">계정변경 및 백업/복구</span>에 사용합니다.<br /><br />
-        <v-form ref="form">
-          <v-text-field
-            type="password"
-            label="PASSWORD"
-            v-model="password"
-            outlined
-            dense
-            autofocus
-            clearable
-            :rules="[rules.required]"
-          ></v-text-field>
-        </v-form>
+        <v-text-field
+          type="password"
+          label="PASSWORD"
+          v-model="password"
+          outlined
+          dense
+          autofocus
+          clearable
+          @keyup.enter="passwordKeyUpEvent"
+          :rules="[rules.required]"
+        ></v-text-field>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -154,20 +153,15 @@ export default {
           categoryNewId = result[0].MAXID + 1;
         }
 
+        let email = this.accountInfo.email;
         let initEnvironment = [
           CONTENT_LISTENER.sendMessage({
             type: "init.data.option",
-            data: [this.accountInfo.email]
+            data: [email]
           }),
           CONTENT_LISTENER.sendMessage({
             type: "init.data.category",
-            data: [
-              this.accountInfo.email,
-              this.accountInfo.email,
-              categoryNewId,
-              this.accountInfo.email,
-              categoryNewId
-            ]
+            data: [email, email, categoryNewId, email, categoryNewId]
           }),
           CONTENT_LISTENER.sendMessage({
             type: "insert.member",
@@ -176,17 +170,19 @@ export default {
         ];
 
         Promise.all(initEnvironment).then(values => {
-          //todo 이거 잘 안되네..
-          location.reload();
+          CONTENT_LISTENER.sendMessage({
+            type: "reload.all.tab",
+            data: null
+          });
         });
       } else {
         alert("계정정보가 존재 하지 않습니다.");
       }
     },
     checkMember() {
-      if (!this.$refs.form.validate()) {
-        return false;
-      }
+      /*if (!this.$refs.form.validate()) {
+                    return false;
+                }*/
 
       //신규 사용자 등록을 위해, 현재 모든 Member를 가져와 비교한다.
       CONTENT_LISTENER.sendMessage({
@@ -212,6 +208,9 @@ export default {
           }
         })
         .then(() => {});
+    },
+    passwordKeyUpEvent() {
+      this.checkMember();
     },
     open() {
       this.loginDialog = true;

@@ -5,6 +5,7 @@ let md5 = require("md5");
 import dbcon from "../database/dbcon.js";
 import Api from "../api/api.js";
 import LANG from "../common/language";
+import ACCOUNT from "../common/account";
 
 let $ = require("jquery");
 
@@ -23,6 +24,8 @@ let BackgroundModule = {
         return false;
       }
 
+      console.log("currentUrl ", currentUrl);
+
       let urlPath = currentUrl;
       let ext = urlPath.substr(urlPath.length - 4, urlPath.length);
       currentUrl = md5(currentUrl.split("#")[0]);
@@ -38,9 +41,9 @@ let BackgroundModule = {
 
       //target popup을 변경한다.
       /*chrome.browserAction.setPopup({
-                      tabId: tabId,
-                      popup: "popup/naver.html"
-                  })*/
+                            tabId: tabId,
+                            popup: "popup/naver.html"
+                        })*/
 
       //EMAIL로 조건을 걸지 않고, 사용중(IS_USE=Y)의 데이타만 가져온다
       Api.getMemberInfo().then(memberInfo => {
@@ -56,6 +59,7 @@ let BackgroundModule = {
           //todo : excludesUrl 등록 기능 추가 할것.
           res.tabid = tabId;
 
+          console.log("initParameter ", initParameter);
           //옵션을 저장해둔다.
           chrome.storage.local.set({ options: res.options });
 
@@ -76,7 +80,7 @@ let BackgroundModule = {
 let BackgrounEvent = {
   onInstalled: () => {
     chrome.runtime.onInstalled.addListener(details => {
-      console.log("details.reason ", details.reason);
+      console.log("details ", details);
       if (details.reason === "install") {
         if (!!window.openDatabase) {
           LANG.getMessage("M0001");
@@ -89,9 +93,9 @@ let BackgrounEvent = {
       } else {
         //UPDATE
         /*chrome.identity.getAuthToken({ interactive: true }, token => {
-                  console.log("token " , token);
-                  ACCOUNT.removeGoogleTokenCache(token);
-                })*/
+                          console.log("token " , token);
+                          ACCOUNT.removeGoogleTokenCache(token);
+                        })*/
         //todo : update 일때 Action (Version 별로 관리하는것이 좋을듯)
         console.log(
           "chrome.runtime.getManifest().version ",
@@ -152,7 +156,7 @@ let BackgrounEvent = {
 function checkLastError(message) {
   let lastError = chrome.runtime.lastError;
   if (lastError) {
-    console.log(message, lastError);
+    console.log("ERROR", message, lastError);
     return;
   }
 }

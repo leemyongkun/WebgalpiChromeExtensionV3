@@ -29,6 +29,10 @@ let APPLICATION = {
   },
   init: async data => {
     //body (target element) 가 없으면 취소한다.
+    console.log(
+      "document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT) ",
+      document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length
+    );
     if (document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length === 0)
       return false;
     await CONTENTS.initUrlInfo();
