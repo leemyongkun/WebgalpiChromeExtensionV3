@@ -1,21 +1,25 @@
 import Swal from "sweetalert2";
 
 let MODAL = {
-  alert(title, type, confirmBtnText) {
-    //, cancelBtnText, params, callback
-    // if (title == null) {
-    //   title = "처리되었습니다.";
-    // }
-    // if (type == null) {
-    //   type = "success";
-    // }
+  alert(title, type, confirmBtnText, size) {
+    if (title === null || title === undefined) {
+      title = "처리되었습니다.";
+    }
 
-    // if (confirmBtnText == null) {
-    //   confirmBtnText = "확인";
-    // }
+    if (type === null || type === undefined) {
+      type = "success";
+    }
+
+    if (confirmBtnText === null || confirmBtnText === undefined) {
+      confirmBtnText = "확인";
+    }
+
+    if (size === null || size === undefined) {
+      size = "300px";
+    }
 
     return Swal.fire({
-      width: "300px",
+      width: size,
       html: title || "처리되었습니다.",
       type: type || "success",
       confirmButtonText: confirmBtnText || "확인"

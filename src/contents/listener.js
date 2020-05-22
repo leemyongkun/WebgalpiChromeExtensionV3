@@ -46,7 +46,6 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
 
       APPLICATION.init(msg.data);
 
-      console.log("###################");
       //91(command),16(shift),89(y)
       sendResponse(true);
       return true;
@@ -81,7 +80,6 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       document.getElementsByTagName("webgalpi-group")[0].remove();
       APPLICATION.createContentsForm(msg.data[0].COLOR);
 
-      console.log("EMIT.ACTion!!", msg.data);
       return true;
       break;
   }

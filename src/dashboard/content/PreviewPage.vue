@@ -66,16 +66,17 @@
           <div v-html="previewContent"></div>
         </v-col>
 
-        <v-col
-          cols="12"
-          class="text-center display-1 font-weight-bold"
-          v-if="previewStatus === 'N'"
-        >
-          NO CONTENTS<br /><br />
+        <v-col cols="12" v-if="previewStatus === 'N'" class="text-center">
+          <span class="display-1 font-weight-bold">NO CONTENTS</span
+          ><br /><br />
+          <span style="color: white"
+            >컨텐츠 변환을 할 수 없는 사이트입니다.</span
+          ><br /><br />
           <v-btn small color="primary" v-if="currentSite.FL_READMODE === 'N'"
             >스크래핑 다시 시도하기</v-btn
           >
         </v-col>
+
         <!--  <iframe
                                                                                   type="text/html"
                                                                                   width="100%"

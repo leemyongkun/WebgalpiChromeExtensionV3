@@ -292,7 +292,6 @@ let Api = {
     delete param.CHECK_ROOT;
     delete param.CATEGORY_TYPE;
 
-    console.log("param ", param);
     return update(Query.updateCategoryItem(), Object.values(param));
   },
   postMember: param => {
@@ -436,8 +435,8 @@ function insert(query, param) {
           res(param);
         },
         (tx, error) => {
-          console.log("tx ", tx);
-          console.log("error ", error);
+          //console.log("tx ", tx);
+          //console.log("error ", error);
         }
       );
     });
@@ -453,7 +452,6 @@ function select(query, param) {
             res(obj);
           })
           .catch(error => {
-            console.log("rej ", error);
             rej(error);
           });
       });

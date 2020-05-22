@@ -336,8 +336,6 @@ let CONTENTS = {
         data: null
       });
     }
-    //todo db에 저장
-    console.log("FINAL PARAM ", param);
 
     // 저장
     CONTENT_LISTENER.sendMessage({

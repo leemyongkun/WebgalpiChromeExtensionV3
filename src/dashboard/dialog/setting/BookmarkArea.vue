@@ -66,7 +66,7 @@ export default {
   mounted() {},
   methods: {
     async runCrawling() {
-      console.log("selectedBookmark ", this.selectedBookmark);
+      //console.log("selectedBookmark ", this.selectedBookmark);
       /*   if(this.selectedBookmark.length === 0){
             alert("선택 된 BOOKMARK가 없습니다.");
             return false;
@@ -96,7 +96,6 @@ export default {
       this.dialog = false;
     },
     getData() {
-      console.log("this.selectedBookmark ", this.selectedBookmark);
       this.selectedBookmark.map(bookmark => {
         axios
           .get(bookmark.url)
@@ -113,9 +112,9 @@ export default {
       this.check();
     },
     check() {
-      console.log("selectedBookmark ", this.selectedBookmark);
+      /* console.log("selectedBookmark ", this.selectedBookmark);
       console.log("crawling.complete ", this.crawling.complete);
-      console.log("crawling.fail ", this.crawling.fail);
+      console.log("crawling.fail ", this.crawling.fail);*/
     },
     getBookmarks() {
       chrome.bookmarks.getTree(itemTree => {

@@ -9,6 +9,15 @@
       <v-card-text>
         <v-container>
           <v-row>
+            <v-col cols="2" style="padding-left: 0px;">
+              <v-checkbox
+                v-model="checkRoot"
+                label="PARENT"
+                :disabled="categoryType === 'SYSTEM' || useCategory === false"
+                @change="checkRootChange"
+                required
+              ></v-checkbox>
+            </v-col>
             <v-col cols="4">
               <v-autocomplete
                 :items="category"
@@ -28,20 +37,14 @@
                 autofocus
               ></v-text-field>
             </v-col>
-            <v-col cols="2" style="padding-left: 0px;">
-              <v-checkbox
-                v-model="checkRoot"
-                label="ROOT"
-                :disabled="categoryType === 'SYSTEM' || useCategory === false"
-                @change="checkRootChange"
-                required
-              ></v-checkbox>
-            </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <span v-show="categoryType === 'SYSTEM'" style="color: red;"
-                >* SYSTEM 카테고리는 카테고리명만 수정 가능합니다.
+              <span
+                >※ PARENT로 생성된 카테고리는, 컨텐츠를 담을 수 없습니다.</span
+              ><br />
+              <span v-show="categoryType === 'SYSTEM'"
+                >※ SYSTEM 카테고리는 이름만 수정 가능합니다.
               </span>
             </v-col>
           </v-row>
@@ -190,15 +193,15 @@ export default {
       if (result.value === undefined) return false;
 
       /*
-                                    root의경우 :
-                                    1. 하위 카테고리의 연결을 제거한다.
-                                    2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
-                                    3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
+                                              root의경우 :
+                                              1. 하위 카테고리의 연결을 제거한다.
+                                              2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
+                                              3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
 
-                                    child의 경우 :
-                                    1. root와의 연결을 끊는다.
-                                    2. Contents들은 NO_CATEGORY 상태로 변경한다.
-                                     */
+                                              child의 경우 :
+                                              1. root와의 연결을 끊는다.
+                                              2. Contents들은 NO_CATEGORY 상태로 변경한다.
+                                               */
 
       let param = new Object();
       if (this.currentCategoryInfo.parent === 0) {

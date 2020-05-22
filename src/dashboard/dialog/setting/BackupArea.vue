@@ -354,8 +354,6 @@ export default {
           gapi.client.load("drive", "v2", () => {
             let retrievePageOfFiles = (request, result) => {
               request.execute(async resp => {
-                console.log("resp ", resp);
-
                 if (resp.code == 401) {
                   this.backupOverlay = false;
                   alert(

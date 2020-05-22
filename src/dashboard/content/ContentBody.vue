@@ -328,15 +328,12 @@ export default {
       //more 버튼 클릭시, parameter를 유지하기 위해, 임시로 저장해둔다.
       this.currentSiteParameter = param;
 
-      console.log("this.currentSiteParameter ", this.currentSiteParameter);
-
       CONTENT_LISTENER.sendMessage({
         type: "get.sites",
         data: param
       })
         .then(response => {
           if (response.length !== 0) {
-            console.log("response ", response);
             this.sites = this.sites.concat(response);
             return this.sites;
           } else {

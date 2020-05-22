@@ -117,7 +117,6 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       });
       break;
     case "get.backup.data":
-      console.log("msg.data ", msg.data);
       API.getBackupData(msg.data).then(backupdata => {
         sendResponse(backupdata);
       });
@@ -175,8 +174,6 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       return true;
       break;
     case "post.site":
-      console.log("post.site ", msg.data);
-
       if (msg.data.USE_CURRENT_SITE === "N") {
         API.postSite(msg.data).then(site => {
           sendResponse(site);
@@ -392,7 +389,6 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       return true;
       break;
     case "update.favorite":
-      console.log("update.favorite > msg.data ", msg.data);
       API.updateFavorite(msg.data).then(log => {
         sendResponse(log);
       });

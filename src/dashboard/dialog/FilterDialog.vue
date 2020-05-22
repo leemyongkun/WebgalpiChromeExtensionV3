@@ -23,6 +23,7 @@
     </v-tooltip>
 
     <v-menu
+      v-if="false"
       ref="calendar"
       v-model="calendar"
       :close-on-content-click="false"
@@ -141,13 +142,9 @@ export default {
       EventBus.$emit("setFilter", this.filter);
     },
     pickDate() {
-      console.log("t", this.dates.sort());
       let date = this.dates.sort();
       let startDate = date[0] + " 00:00:00";
       let endDate = date[1] + " 23:59:59";
-
-      console.log("startate", startDate);
-      console.log("endDate", endDate);
       this.calendar = false;
     }
   }

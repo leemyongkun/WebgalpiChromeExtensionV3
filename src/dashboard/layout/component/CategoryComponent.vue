@@ -38,20 +38,14 @@
               :id="subItem.id"
               :class="subItem.class"
             >
-              <v-list-item-icon style="margin-right: 2px;">
-                <v-icon size="15px" color="green" left
-                  >mdi-folder-outline
-                </v-icon>
-              </v-list-item-icon>
+              <!--  <v-list-item-icon style="margin-right: 2px;">
+                                <v-icon size="15px" color="green" left>mdi-folder-outline
+                                </v-icon>
+                            </v-list-item-icon>-->
 
               <v-list-item-content :id="subItem.id">
                 <v-list-item-title
-                  v-html="
-                    subItem.name +
-                      ` <span class='red--text text--lighten-2'> ` +
-                      subItem.cnt +
-                      `</span>`
-                  "
+                  v-html="getItemTitle(subItem.name, subItem.cnt)"
                   :id="subItem.id"
                 ></v-list-item-title>
               </v-list-item-content>
@@ -96,9 +90,14 @@ export default {
       });
     },
     dropEvent(data, event) {
-      console.log("data, event ", data, event);
-      this.snackbarMessage = "카테고리에 저장되었습니다.";
-      this.snackbar = true;
+      if (event.target.id === "") {
+        EventBus.$emit(
+          "open.snack",
+          "카테고리 저장에 실패하였습니다. 다시 시도바랍니다.",
+          "error"
+        );
+        return false;
+      }
 
       this.category.forEach(item => {
         if (item.children !== undefined) {
@@ -109,26 +108,31 @@ export default {
       });
 
       /**
-         *
-         ## 이미 포함 ##
-             param.CATEGORY_ID,
-             param.URL_KEY, //"URL_KEY":
-             param.EMAIL, //"EMAIL":
-             param.IDX, //"SITE_IDX":
+                 *
+                 ## 이미 포함 ##
+                 param.CATEGORY_ID,
+                 param.URL_KEY, //"URL_KEY":
+                 param.EMAIL, //"EMAIL":
+                 param.IDX, //"SITE_IDX":
 
-         */
-      console.log("event.target.id ", event.target.id);
+                 */
+
       data.CATEGORY_ID = event.target.id;
       data.DATE_CREATE = new Date().getTime();
 
-      console.log("data ", data);
       CONTENT_LISTENER.sendMessage({
         type: "post.category.relation",
         data: data
       }).then(() => {
         EventBus.$emit("reload.category");
         EventBus.$emit("hideSite", data.URL_KEY);
+        EventBus.$emit("open.snack", "카테고리에 저장되었습니다.", "primary");
       });
+    },
+    getItemTitle(title, count) {
+      return (
+        title + ` <span class='red--text text--lighten-2'> ` + count + `</span>`
+      );
     },
     editCategory(item, event, checkRoot, statusFlag) {
       event.preventDefault();

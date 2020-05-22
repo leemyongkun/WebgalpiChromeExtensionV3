@@ -35,20 +35,15 @@
             :class="subItem.class"
             ref="systemCategoryList"
           >
-            <v-list-item-icon style="margin-right: 2px;">
-              <v-icon size="15px" color="green" left
-                >mdi-folder-outline
-              </v-icon>
-            </v-list-item-icon>
+            <!--<v-list-item-icon style="margin-right: 2px;">
+                            <v-icon size="15px" color="green" left
+                            >mdi-folder-outline
+                            </v-icon>
+                        </v-list-item-icon>-->
 
             <v-list-item-content :id="subItem.id">
               <v-list-item-title
-                v-html="
-                  subItem.name +
-                    ` <span class='red--text text--lighten-2'> ` +
-                    subItem.cnt +
-                    `</span>`
-                "
+                v-html="getItemTitle(subItem.name, subItem.cnt)"
               ></v-list-item-title>
             </v-list-item-content>
 
@@ -122,6 +117,11 @@ export default {
     },
     selectCategory(category, event) {
       EventBus.$emit("select.category", category, event);
+    },
+    getItemTitle(title, count) {
+      return (
+        title + ` <span class='red--text text--lighten-2'> ` + count + `</span>`
+      );
     }
   }
 };
