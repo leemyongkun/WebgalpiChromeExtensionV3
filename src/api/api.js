@@ -435,8 +435,8 @@ function insert(query, param) {
           res(param);
         },
         (tx, error) => {
-          //console.log("tx ", tx);
-          //console.log("error ", error);
+          console.log("tx ", tx);
+          console.log("error ", error);
         }
       );
     });

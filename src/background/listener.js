@@ -28,7 +28,7 @@ function checkLastError(message) {
   }
 }
 
-chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   switch (msg.type) {
     case "init.data.option":
       API.initDataOption(msg.data).then(() => {
@@ -47,7 +47,6 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
         sendResponse(true);
       });
       return true;
-      break;
     case "reload.all.tab":
       //설치 , 업데이트 시 모든 탭을 리로딩 한다.
       chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
@@ -318,10 +317,10 @@ chrome.extension.onMessage.addListener(async (msg, sender, sendResponse) => {
       if (deleteCategoryParam.CHECK_ROOT) {
         //삭제 시, 하위 Directory 는 미아로 변경
         let lostTargetCateggory = [deleteCategoryParam.CATEGORY_ID];
-        await API.updateLostCategoryItem(lostTargetCateggory);
+        API.updateLostCategoryItem(lostTargetCateggory);
       } else {
         //category와 연관되어있는 contents relation을 삭제한다.
-        await API.deleteCategoryRelationParent(deleteCategoryParam.CATEGORY_ID);
+        API.deleteCategoryRelationParent(deleteCategoryParam.CATEGORY_ID);
       }
       //삭제한다.
       API.deleteCategory(deleteCategoryParam.CATEGORY_ID).then(() => {
