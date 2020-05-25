@@ -7,7 +7,7 @@ import COMMON from "./common";
 
 let $ = require("jquery");
 
-chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   switch (msg.action) {
     case "unwrap.highlight":
       //본문의 highlight를 삭제한다.
@@ -31,10 +31,10 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
       break;
     case "application.init":
       /*
-                                                            같은 사이트에서 여러번의 호출(ajax)이 발생할 경우, 페이지 로딩이 생긴다.
-                                                            새로 로딩된 사이트가 URL.SITE(전에 저장된 사이트)와 같으면 SPA로 판단하여 더이상 진행하지 않는다.
-                                                            youtube , https://www.webprofessional.jp/custom-pdf-rendering/ 등을 처리한다.
-                                                             */
+              같은 사이트에서 여러번의 호출(ajax)이 발생할 경우, 페이지 로딩이 생긴다.
+              새로 로딩된 사이트가 URL.SITE(전에 저장된 사이트)와 같으면 SPA로 판단하여 더이상 진행하지 않는다.
+              youtube , https://www.webprofessional.jp/custom-pdf-rendering/ 등을 처리한다.
+               */
 
       if (URL.SITE === msg.site.URL) return false;
 
@@ -46,22 +46,21 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
 
       APPLICATION.init(msg.data);
 
-      //91(command),16(shift),89(y)
       sendResponse(true);
       return true;
       break;
     case "get.site.info":
-      let content = await CONTENTS.firstVisitSite(new Object());
-      content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
-      content.TITLE = document.title;
-      content.UPDATE_TITLE = document.title;
-      content.URL = URL.SITE;
-      content.URL_KEY = URL.KEY;
-
-      sendResponse(content);
+      //let content = await CONTENTS.firstVisitSite(new Object());
+      CONTENTS.firstVisitSite(new Object()).then(content => {
+        content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
+        content.TITLE = document.title;
+        content.UPDATE_TITLE = document.title;
+        content.URL = URL.SITE;
+        content.URL_KEY = URL.KEY;
+        sendResponse(content);
+      });
       return true;
       break;
-
     case "get.url.info":
       sendResponse(URL);
       return true;
