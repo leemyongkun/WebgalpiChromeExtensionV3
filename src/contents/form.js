@@ -52,9 +52,8 @@ let FORM = {
 
     colorButtons += " <a class='highlight-delete webgalpi-trashbox'>X</a>"; //
 
-    let widthRate = COLORS.split(",").length * 16;
+    let widthRate = (COLORS.split(",").length + 1) * 16;
     let pickerWidth = "width: " + widthRate + "% !important;";
-    pickerWidth = "";
 
     return (
       `<div  class="webgalpi-toolbar" id="highlight-update-toolbar" style="display:none;">
