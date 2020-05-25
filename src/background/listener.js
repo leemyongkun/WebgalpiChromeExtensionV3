@@ -47,6 +47,22 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         sendResponse(true);
       });
       return true;
+    case "close.site":
+      let target = msg.data;
+      //현재 열려있는 구글 TAB 제거
+      chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
+        chrome.windows.getAll({ populate: true }, function(windows) {
+          windows.forEach(function(window) {
+            window.tabs.forEach(function(tab) {
+              if (tab.url === target) {
+                chrome.tabs.remove(tab.id);
+              }
+            });
+          });
+        });
+      });
+      return true;
+      break;
     case "reload.all.tab":
       //설치 , 업데이트 시 모든 탭을 리로딩 한다.
       chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
@@ -204,14 +220,14 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     /*case "get.site": //미사용
-                                              let getSiteParameter = new Object();
-                                              getSiteParameter.URL_KEY = msg.data;
+                                                  let getSiteParameter = new Object();
+                                                  getSiteParameter.URL_KEY = msg.data;
 
-                                              API.getSite(getSiteParameter).then(res => {
-                                                sendResponse(res); //조건
-                                              });
-                                              return true;
-                                              break;*/
+                                                  API.getSite(getSiteParameter).then(res => {
+                                                    sendResponse(res); //조건
+                                                  });
+                                                  return true;
+                                                  break;*/
 
     case "get.sites.count":
       API.getSites(msg.data).then(res => {

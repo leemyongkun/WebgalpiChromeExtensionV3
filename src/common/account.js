@@ -1,3 +1,5 @@
+import CONTENT_LISTENER from "./content-listener";
+
 let ACCOUNT = {
   removeGoogleTokenCache: token => {
     return new Promise(res => {
@@ -40,21 +42,11 @@ let ACCOUNT = {
           .then(response => response.json())
           .then(function(data) {
             //현재 열려있는 구글 TAB 제거
-            chrome.tabs.query(
-              { active: true, currentWindow: true },
-              currentTab => {
-                chrome.tabs.query({}, tabs => {
-                  tabs.map(item => {
-                    if (item.url.indexOf("www.google.com") !== -1) {
-                      chrome.tabs.remove(item.id);
-                    }
-                  });
-                });
-              }
-            );
-
+            CONTENT_LISTENER.sendMessage({
+              type: "close.site",
+              data: "https://www.google.com/"
+            });
             res(data);
-            /*chrome.identity.removeCachedAuthToken({ token: token }, () => {});*/
           })
           .catch(err => {
             rej(err);

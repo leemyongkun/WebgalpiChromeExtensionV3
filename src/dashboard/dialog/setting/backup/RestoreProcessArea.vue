@@ -211,6 +211,7 @@ export default {
   mounted() {},
   methods: {
     checkFail() {
+      MODAL.alert("준비중입니다.");
       console.log("fail sites ", this.errorSite);
     },
     async runRestore(values) {
@@ -347,7 +348,7 @@ export default {
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                                                                             url = "https://www.fnnews.com/news/202004231837158267";*/
+                                                                                       url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     async dataParsing(data) {
@@ -372,14 +373,14 @@ export default {
     },
     open(restoreData) {
       /*  let bytes = CryptoJS.AES.decrypt(
-                                                    JSON.parse(restoreData).data,
-                                                    "KKUNI_BEAR_GMAIL.COM_KKUNI"
-                                                );
-                                                let originalText = bytes.toString(CryptoJS.enc.Utf8);
+                                                              JSON.parse(restoreData).data,
+                                                              "KKUNI_BEAR_GMAIL.COM_KKUNI"
+                                                          );
+                                                          let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
-                                                let obj = JSON.parse(originalText);
+                                                          let obj = JSON.parse(originalText);
 
-                                                console.log("OBJ ", obj);*/
+                                                          console.log("OBJ ", obj);*/
 
       //로딩된 데이타를 분석하여 화면에 출력한다.
       this.dataParsing(JSON.parse(restoreData));
@@ -388,26 +389,26 @@ export default {
     },
     close() {
       /* this.data.info = [];
-      this.data.category = [];
-      this.data.categoryRelation = [];
-      this.data.site = [];
-      this.data.highlight = [];
+                this.data.category = [];
+                this.data.categoryRelation = [];
+                this.data.site = [];
+                this.data.highlight = [];
 
-      this.progress.siteComplete = 0;
-      this.progress.siteCompletePer = 0;
-      this.progress.siteFail = 0;
-      this.progress.siteFailPer = 0;
-      this.progress.highlightComplete = 0;
-      this.progress.highlightCompletePer = 0;
-      this.progress.categoryComplete = 0;
-      this.progress.categoryCompletePer = 0;
-      this.progress.categoryRelationComplete = 0;
-      this.progress.categoryRelationCompletePer = 0;
+                this.progress.siteComplete = 0;
+                this.progress.siteCompletePer = 0;
+                this.progress.siteFail = 0;
+                this.progress.siteFailPer = 0;
+                this.progress.highlightComplete = 0;
+                this.progress.highlightCompletePer = 0;
+                this.progress.categoryComplete = 0;
+                this.progress.categoryCompletePer = 0;
+                this.progress.categoryRelationComplete = 0;
+                this.progress.categoryRelationCompletePer = 0;
 
-      this.errorSite = [];
+                this.errorSite = [];
 
-      this.showRestoreBtn = true;
-      this.showCloseBtn = true;*/
+                this.showRestoreBtn = true;
+                this.showCloseBtn = true;*/
       this.reRendering("restoreProcessArea");
       this.dialog = false;
     }

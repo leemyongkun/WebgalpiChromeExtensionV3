@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                                            <v-col cols="12">
-                                              <iframe
-                                                id="ytplayer"
-                                                type="text/html"
-                                                width="640"
-                                                height="360"
-                                                :src="youtubeVideoId + '?autoplay=0'"
-                                                frameborder="0"
-                                              ></iframe>
-                                            </v-col>
-                                          </v-row>-->
+                                                  <v-col cols="12">
+                                                    <iframe
+                                                      id="ytplayer"
+                                                      type="text/html"
+                                                      width="640"
+                                                      height="360"
+                                                      :src="youtubeVideoId + '?autoplay=0'"
+                                                      frameborder="0"
+                                                    ></iframe>
+                                                  </v-col>
+                                                </v-row>-->
       <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
         <v-col cols="auto" v-if="youtubeVideoId !== ''">
           <iframe
@@ -72,18 +72,22 @@
           <span style="color: white"
             >컨텐츠 변환을 할 수 없는 사이트입니다.</span
           ><br /><br />
-          <v-btn small color="primary" v-if="currentSite.FL_READMODE === 'N'"
-            >스크래핑 다시 시도하기</v-btn
-          >
+          <v-btn
+            small
+            color="primary"
+            v-if="currentSite.FL_READMODE === 'N'"
+            @click="reTryScrapping"
+            >스크래핑 다시 시도하기
+          </v-btn>
         </v-col>
 
         <!--  <iframe
-                                                                                  type="text/html"
-                                                                                  width="100%"
-                                                                                  height="603px"
-                                                                                  src="https://blog.naver.com/rachel0067/221780986497"
-                                                                                  frameborder="0"
-                                                                          ></iframe>-->
+                                                                                          type="text/html"
+                                                                                          width="100%"
+                                                                                          height="603px"
+                                                                                          src="https://blog.naver.com/rachel0067/221780986497"
+                                                                                          frameborder="0"
+                                                                                  ></iframe>-->
       </v-row>
     </v-card-text>
     <SnackBar ref="snackbar"></SnackBar>
@@ -94,6 +98,7 @@ import SiteFunction from "./function/SiteFunction";
 import Common from "../../common/common";
 import SnackBar from "../snack/SnackBar";
 import EventBus from "../event-bus";
+import MODAL from "../../common/modal";
 
 //https://www.npmjs.com/package/vue-youtube-embed
 export default {
@@ -124,6 +129,9 @@ export default {
   mounted() {},
   methods: {
     print() {},
+    reTryScrapping() {
+      MODAL.alert("준비중입니다.");
+    },
     copyUrl(url) {
       let t = document.createElement("textarea");
       document.body.appendChild(t);

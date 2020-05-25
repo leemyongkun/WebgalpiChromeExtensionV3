@@ -59,6 +59,9 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <v-overlay :value="backupOverlay">
+      <v-progress-circular indeterminate size="32"></v-progress-circular>
+    </v-overlay>
   </v-dialog>
 </template>
 
@@ -77,10 +80,12 @@ export default {
     password: "",
     rules: {
       required: value => !!value || "Required."
-    }
+    },
+    backupOverlay: false
   }),
   methods: {
     googleSignin() {
+      this.backupOverlay = true;
       let accountGoogleLogin = () => {
         ACCOUNT.googleLogin()
           .then(accountInfo => {
@@ -91,8 +96,15 @@ export default {
             this.accountInfo = accountInfo;
             this.googleEmail = accountInfo.email;
             this.signInProcess = 2;
+
+            CONTENT_LISTENER.sendMessage({
+              type: "close.site",
+              data: "https://www.google.com/"
+            });
+            this.backupOverlay = false;
           })
           .catch(err => {
+            this.backupOverlay = false;
             console.log("error ", err);
           });
       };
@@ -181,8 +193,8 @@ export default {
     },
     checkMember() {
       /*if (!this.$refs.form.validate()) {
-                    return false;
-                }*/
+                              return false;
+                          }*/
 
       //신규 사용자 등록을 위해, 현재 모든 Member를 가져와 비교한다.
       CONTENT_LISTENER.sendMessage({
