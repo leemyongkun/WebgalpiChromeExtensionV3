@@ -25,23 +25,26 @@ let MODAL = {
       confirmButtonText: confirmBtnText || "확인"
     });
   },
-  confirm(title, type, confirmBtnText, cancelBtnText) {
+  confirm(title, type, confirmBtnText, cancelBtnText, size) {
     //, params, callback
-    if (title == null) {
+    if (title === null || title === undefined) {
       title = "실행하시겠습니까?";
     }
-    if (type == null) {
+    if (type === null || type === undefined) {
       type = "warning";
     }
-    if (confirmBtnText == null) {
+    if (confirmBtnText === null || confirmBtnText === undefined) {
       confirmBtnText = "확인";
     }
-    if (cancelBtnText == null) {
+    if (cancelBtnText === null || cancelBtnText === undefined) {
       cancelBtnText = "취소";
+    }
+    if (size === null || size === undefined) {
+      size = "300px";
     }
 
     return Swal.fire({
-      width: "300px",
+      width: size,
       type: type,
       showCancelButton: true,
       html: title,
