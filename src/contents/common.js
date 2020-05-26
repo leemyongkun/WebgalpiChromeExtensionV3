@@ -1,4 +1,51 @@
 let COMMON = {
+  convert: function(checkNumber) {
+    let replaceUrl = location.href
+      .replace("http://", "http://m.")
+      .replace("https://", "https://m.");
+    switch (checkNumber) {
+      case 0:
+        let str = window.location.origin;
+        let blogId = str.split("//")[1].split(".")[0];
+        let logId = window.location.pathname.replace("/", "");
+        let url =
+          "https://m.blog.naver.com/PostView.nhn?blogId=" +
+          blogId +
+          "&logNo=" +
+          logId +
+          "&redirect=Dlog&widgetTypeCall=true&directAccess=false";
+        location.href = url;
+        break;
+
+      // 1 : "*://post.naver.com/*"
+      // 2 : "*://blog.naver.com/*"
+      // 3 : "*://blog.daum.net/*"
+      default:
+        location.href = replaceUrl;
+        break;
+    }
+  },
+  urlMatch: function(conditionUrl, destUrl) {
+    return destUrl.match(conditionUrl.replace(/\*/g, "[^ ]*"));
+  },
+  checkConvertUrl: function(url) {
+    return new Promise(res => {
+      let convertSites = [
+        "*://*.blog.me/*", //0
+        "*://post.naver.com/*", //1
+        "*://blog.naver.com/*", //2
+        "*://blog.daum.net/*" //3
+      ];
+
+      for (var i = 0; i < convertSites.length; i++) {
+        if (COMMON.urlMatch(convertSites[i], url) !== null) {
+          res(true);
+        }
+      }
+
+      res(false);
+    });
+  },
   detectSite: function() {
     let css = document.createElement("style");
     let head = document.head;

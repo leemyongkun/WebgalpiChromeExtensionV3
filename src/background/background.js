@@ -77,6 +77,7 @@ let BackgroundModule = {
 let BackgrounEvent = {
   onInstalled: () => {
     chrome.runtime.onInstalled.addListener(details => {
+      console.log("details ", details);
       if (details.reason === "install") {
         if (!!window.openDatabase) {
           LANG.getMessage("M0001");
@@ -182,3 +183,9 @@ chrome.tabs.onActivated.addListener((activeInfo, act) => {
     }
   });
 });
+
+function doStuff(request) {
+  chrome.extension.onRequest.removeListener(doStuff);
+  console.log(request);
+}
+chrome.extension.onRequest.addListener(doStuff);

@@ -8,34 +8,10 @@ import COMMON from "./common.js";
 import SELECTION from "../lib/selection.js";
 
 let APPLICATION = {
-  getNaverBlog: () => {
-    return new Promise(res => {
-      //todo : NAVER 일경우 frame 에 있는 내용을 HTML로 갈아야함.
-      // let iframe = document.getElementById("mainFrame").innerHTML;
-      //let ifr = $('#mainFrame').contents();
-      /*  let val = document.frames["mainFrame"].document.getElementsByTagName('html')[0];*/
-
-      /*let val = $("#mainFrame")
-                          .contents()
-                          .find("html")
-                          .html();*/
-
-      let head = document.getElementById("mainFrame");
-      //console.log("getNaverBlog ", head);
-      //document.getElementsByTagName("html")[0].innerHTML = val;
-
-      res(true);
-    });
-  },
   init: async data => {
     //body (target element) 가 없으면 취소한다.
     if (document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length === 0)
       return false;
-
-    await CONTENTS.initUrlInfo();
-
-    //todo :getNaverBlog 이건 나중에.. 해야할듯.
-    //await APPLICATION.getNaverBlog();
 
     if (data == null) {
       return false;
@@ -89,7 +65,14 @@ let APPLICATION = {
       .then(() => {
         COMMON.detectSite();
       })
-      .then(() => {});
+      .then(async () => {
+        let convertResult = await COMMON.checkConvertUrl(URL.SITE);
+        console.log("convertResult >>> ", convertResult);
+        if (convertResult) {
+          //todo 변환 창을 보이도록 한다.
+          $("#highlight-convert-noti-area").show();
+        }
+      });
   }
 };
 

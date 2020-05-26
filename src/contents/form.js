@@ -44,6 +44,56 @@ let FORM = {
                 <img src="" id="prevCapture" width="150px" style="border-radius: 0.6em;">
                 </div>`;
   },
+  createConvertArea: () => {
+    /**
+         position: fixed;
+         min-width: 260px;
+         max-width: 360px;
+         box-sizing: border-box;
+         font-size: 14px;
+         box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 6px;
+         z-index: 2100000000;
+         line-height: 1.6;
+         background: rgb(255, 255, 255);
+         border-radius: 5px;
+         overflow: hidden;
+         border-top: 3px solid rgb(106, 63, 255);
+         display: block !important;
+
+         position: fixed;
+         right: 20px;
+         top: 30px;
+         border-radius: 10px;
+         background: #ffffff;
+         border: 2px solid #73AD21;
+         padding: 20px;
+         width: 250px;
+         height: 100px;
+         display: none;
+         z-index: 99999999;
+         */
+    return `<div style="
+                        position: fixed;
+                        right: 20px;
+                         top: 30px;
+                         min-width: 260px;
+                         max-width: 360px;
+                         box-sizing: border-box;
+                         font-size: 14px;
+                         z-index: 2100000000;
+                         line-height: 1.6;
+                         background: rgb(255, 255, 255);
+                         border-radius: 5px;
+                         overflow: hidden;
+                         border: 2px solid #73AD21;
+                         display: none !important;
+                         "
+                id="highlight-convert-noti-area">
+                마우스 드래그가 되지 않으시나요?
+                <br>
+                <span>MOBILE로 변환하기</span>
+                </div>`;
+  },
   updateColorPicker: COLORS => {
     let colorButtons = "";
     COLORS.split(",").forEach(color => {
@@ -83,36 +133,36 @@ let FORM = {
   },
   /*
 
-         createColorPicker: COLORS => {
-                let colorButtons = "";
-                COLORS.split(",").forEach(color => {
-                    colorButtons +=
-                        "<a href='javascript:void(0)' class='" + color + '\' id="color-1"></a>';
-                });
+           createColorPicker: COLORS => {
+                  let colorButtons = "";
+                  COLORS.split(",").forEach(color => {
+                      colorButtons +=
+                          "<a href='javascript:void(0)' class='" + color + '\' id="color-1"></a>';
+                  });
 
-                return (
-                    `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
-                               <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
-                                  <wafflepen-ul class='wafflepen-color-picker'>
-                                     ` +
-                    colorButtons +
-                    `
-                                  </wafflepen-ul>
-                                  <wafflepen class='tool-list'>
-                                      <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
-                                      <!-- wafflepen-li><wafflepen class='hlt-btn trash waf-inlineBlock' id='deleteHighlightBtn'></wafflepen></wafflepen-li -->
-                                  </wafflepen>
-                              </wafflepen>
-                              <wafflepen class='wafflepen-writebox' style='display:none; !important' id='highlight-toolbar-memo-area'>
-                                  <textarea name='' class='rspen-txtarea' placeholder='Memo' id='highlightMemoArea' ></textarea>
-                                  <wafflepen class='writebox-submit'>
-                                      <wafflepen class='write-date'><wafflepen class='wdate'> </wafflepen> </wafflepen>
-                                      <wafflepen class='save-btn' id='highlightMemoRegistBtn' >Save</wafflepen>
-                                  </wafflepen>
-                              </wafflepen>
-                          </wafflepen>`
-                );
-            },*/
+                  return (
+                      `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
+                                 <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
+                                    <wafflepen-ul class='wafflepen-color-picker'>
+                                       ` +
+                      colorButtons +
+                      `
+                                    </wafflepen-ul>
+                                    <wafflepen class='tool-list'>
+                                        <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
+                                        <!-- wafflepen-li><wafflepen class='hlt-btn trash waf-inlineBlock' id='deleteHighlightBtn'></wafflepen></wafflepen-li -->
+                                    </wafflepen>
+                                </wafflepen>
+                                <wafflepen class='wafflepen-writebox' style='display:none; !important' id='highlight-toolbar-memo-area'>
+                                    <textarea name='' class='rspen-txtarea' placeholder='Memo' id='highlightMemoArea' ></textarea>
+                                    <wafflepen class='writebox-submit'>
+                                        <wafflepen class='write-date'><wafflepen class='wdate'> </wafflepen> </wafflepen>
+                                        <wafflepen class='save-btn' id='highlightMemoRegistBtn' >Save</wafflepen>
+                                    </wafflepen>
+                                </wafflepen>
+                            </wafflepen>`
+                  );
+              },*/
   hidePicker: () => {
     //$(".wafflepen-color-picker").find("a").removeClass("on");
 
@@ -137,7 +187,7 @@ let FORM = {
     });
 
     $("#highlight-toolbar-memo-area").hide();
-    $("#highlight-toolbar").fadeIn(300);
+    $("#highlight-toolbar").fadeIn(200);
     GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = "drag";
 
     return true;
