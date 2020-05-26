@@ -67,7 +67,6 @@ let APPLICATION = {
       })
       .then(async () => {
         let convertResult = await COMMON.checkConvertUrl(URL.SITE);
-        console.log("convertResult >>> ", convertResult);
         if (convertResult) {
           //todo 변환 창을 보이도록 한다.
           $("#highlight-convert-noti-area").show();
