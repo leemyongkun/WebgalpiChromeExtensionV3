@@ -4,8 +4,8 @@
       <template v-slot:activator="{ on }">
         <v-btn icon @click="setStar" v-on="on">
           <v-icon :color="filter.star ? 'yellow' : ''" size="18px"
-            >mdi-star</v-icon
-          >
+            >mdi-star
+          </v-icon>
         </v-btn>
       </template>
       <span>별 표시 컨테츠를 필터링 합니다.</span>
@@ -15,8 +15,8 @@
       <template v-slot:activator="{ on }">
         <v-btn icon @click="setDetect" v-on="on">
           <v-icon size="18px" :color="filter.detect ? 'red' : ''"
-            >mdi-shield-off-outline</v-icon
-          >
+            >mdi-shield-off-outline
+          </v-icon>
         </v-btn>
       </template>
       <span>스크래핑에 실패한 컨텐츠를 필터링 합니다.</span>
@@ -108,6 +108,10 @@
         </v-card-actions>
       </v-card>
     </v-menu>
+
+    <v-btn small text block outlined @click="more">
+      MORE ( items : 3)
+    </v-btn>
   </div>
 </template>
 <script>
@@ -130,6 +134,9 @@ export default {
     }
   }),
   methods: {
+    more() {
+      EventBus.$emit("more.paging");
+    },
     setDetect() {
       this.filter.detect = !this.filter.detect;
       this.sendFilter();

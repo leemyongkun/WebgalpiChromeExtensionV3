@@ -24,8 +24,6 @@ let CONTENTS = {
       }
 
       res(true);
-      //URL.SITE = CURRENT_URL.split("#")[0];
-      //URL.KEY = md5(URL.SITE);
     });
   },
   createColorPicker: COLORS => {
@@ -38,7 +36,9 @@ let CONTENTS = {
       // 팔렛트를 생성
       let hlGroupElement = document.createElement(GLOBAL_CONFIG.GROUP_ELEMENT);
       hlGroupElement.innerHTML =
-        FORM.createColorPicker(COLORS) + FORM.updateColorPicker(COLORS);
+        FORM.createColorPicker(COLORS) +
+        FORM.updateColorPicker(COLORS) +
+        FORM.createConvertArea();
       //FORM.createCaptureArea() +
 
       let targetElement = document.getElementsByTagName(
@@ -318,8 +318,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                                                              $('#highlight-toolbar').hide();
-                                                                                                                                                                            } */
+                                                                                                                                                                                  $('#highlight-toolbar').hide();
+                                                                                                                                                                                } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화

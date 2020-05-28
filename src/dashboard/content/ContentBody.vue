@@ -1,14 +1,19 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-row>
-      <v-col cols="3" :style="documentHeightStyle" class="overflow-y-auto">
+      <v-col cols="3" class="overflow-y-auto"
+        ><!--:style="documentHeightStyle"-->
         <v-row>
           <v-col class="pb-0 pt-0">
             <!-- Option -->
             <FilterDialog></FilterDialog>
           </v-col>
         </v-row>
-        <v-row :style="listAreaHeightStyle" class="overflow-y-auto">
+        <v-row
+          :style="listAreaHeightStyle"
+          style="overflow-x:hidden;"
+          class="overflow-y-auto"
+        >
           <v-col v-if="sites.length === 0">
             <v-card class="mx-auto">
               <v-card-text>
@@ -154,24 +159,23 @@
         </v-row>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="3" class="pb-0 pt-0">
-        <v-row>
-          <v-col cols="12">
-            <v-btn
-              small
-              text
-              block
-              outlined
-              @click="more"
-              :disabled="moreBtnDisabled"
-            >
-              MORE ( items : {{ sites.length }} )
-            </v-btn>
+    <!--<v-row>
+          <v-col cols="3" class="pb-0 pt-0">
+            <v-row>
+              <v-col cols="12">
+                <v-btn
+                  small
+                  text
+                  block
+                  outlined
+                  @click="more"
+                >
+                  MORE ( items : {{ sites.length }} )
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
+        </v-row>-->
   </div>
 </template>
 <script>
@@ -204,7 +208,6 @@ export default {
     youtubeVideoId: "",
     sourceUrl: "",
     currentSite: "",
-    moreBtnDisabled: false,
     offset: {
       //페이징
       start: OFFSET_START,
@@ -242,6 +245,10 @@ export default {
         this.offset.start = OFFSET_START;
         this.offset.end = OFFSET_END;
         this.getSites(this.currentSiteParameter);
+      });
+
+      EventBus.$on("more.paging", () => {
+        this.morePaging();
       });
 
       //window resize event
@@ -288,7 +295,7 @@ export default {
       this.reviewAreaHeightStyle =
         "height: " + (document.documentElement.clientHeight - 237) + "px;";
       this.listAreaHeightStyle =
-        "max-height: " + (document.documentElement.clientHeight - 120) + "px;";
+        "max-height: " + (document.documentElement.clientHeight - 126) + "px;";
       this.documentHeightStyle =
         "max-height: " + (document.documentElement.clientHeight - 110) + "px;";
     },
@@ -317,7 +324,7 @@ export default {
         this.currentSite = this.sites[0];
       }
     },
-    more() {
+    morePaging() {
       this.offset.start = this.offset.start + this.offset.end;
       this.getSites(this.currentSiteParameter);
     },
@@ -395,39 +402,39 @@ export default {
     async generatePreviewDoc(site) {
       let preiveContent = "";
       /*if (site.FL_READMODE === "N") {
-                                                                                                            let parser = new DOMParser();
-                                                                                                            let idoc = parser.parseFromString(
-                                                                                                              site.READERMODE_CONTENTS,
-                                                                                                              "text/html"
-                                                                                                            );
-                                                                                                            let previewDoc = new PreviewMode(uri, idoc).parse();
-                                                                                                            if (previewDoc === null) {
-                                                                                                              preiveContent = null;
-                                                                                                            } else {
-                                                                                                              preiveContent = previewDoc.content;
-                                                                                                            }
+                                                                                                                      let parser = new DOMParser();
+                                                                                                                      let idoc = parser.parseFromString(
+                                                                                                                        site.READERMODE_CONTENTS,
+                                                                                                                        "text/html"
+                                                                                                                      );
+                                                                                                                      let previewDoc = new PreviewMode(uri, idoc).parse();
+                                                                                                                      if (previewDoc === null) {
+                                                                                                                        preiveContent = null;
+                                                                                                                      } else {
+                                                                                                                        preiveContent = previewDoc.content;
+                                                                                                                      }
 
-                                                                                                            let result = await Utils.getLocalStorage("loginInfo");
+                                                                                                                      let result = await Utils.getLocalStorage("loginInfo");
 
-                                                                                                            CONTENT_LISTENER.sendMessage({
-                                                                                                              type: "update.convert.viewmode",
-                                                                                                              data: [
-                                                                                                                preiveContent,
-                                                                                                                new Date().getTime(),
-                                                                                                                site.URL_KEY,
-                                                                                                                result.loginInfo.EMAIL
-                                                                                                              ]
-                                                                                                            }).then(() => {
-                                                                                                              this.sites.map(item => {
-                                                                                                                if (item.URL_KEY === site.URL_KEY) {
-                                                                                                                  item.FL_READMODE = "Y";
-                                                                                                                  item.READERMODE_CONTENTS = preiveContent;
-                                                                                                                }
-                                                                                                              });
-                                                                                                            });
-                                                                                                          } else {
-                                                                                                            preiveContent = site.READERMODE_CONTENTS;
-                                                                                                          }*/
+                                                                                                                      CONTENT_LISTENER.sendMessage({
+                                                                                                                        type: "update.convert.viewmode",
+                                                                                                                        data: [
+                                                                                                                          preiveContent,
+                                                                                                                          new Date().getTime(),
+                                                                                                                          site.URL_KEY,
+                                                                                                                          result.loginInfo.EMAIL
+                                                                                                                        ]
+                                                                                                                      }).then(() => {
+                                                                                                                        this.sites.map(item => {
+                                                                                                                          if (item.URL_KEY === site.URL_KEY) {
+                                                                                                                            item.FL_READMODE = "Y";
+                                                                                                                            item.READERMODE_CONTENTS = preiveContent;
+                                                                                                                          }
+                                                                                                                        });
+                                                                                                                      });
+                                                                                                                    } else {
+                                                                                                                      preiveContent = site.READERMODE_CONTENTS;
+                                                                                                                    }*/
       preiveContent = site.READERMODE_CONTENTS;
 
       this.youtubeVideoId = site.EMBEDURL;
@@ -449,7 +456,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                                                                                                                                  justify-content: center;*/
+                                                                                                                                                                                                                                                                                                        justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
