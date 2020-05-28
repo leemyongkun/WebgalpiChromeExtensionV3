@@ -21,15 +21,14 @@ function contextAction(info, tab) {
 
 chrome.contextMenus.onClicked.addListener(contextAction);
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id: "webGalpi",
-    title: "WEB-GALPI",
-    checked: false,
-    contexts: ["all"]
-  });
+chrome.contextMenus.create({
+  id: "webGalpi",
+  title: "WEB-GALPI",
+  checked: false,
+  contexts: ["all"]
+});
 
-  /*  chrome.contextMenus.create({
+/*  chrome.contextMenus.create({
       id: "dashboard",
       title: "DASHBOARD",
       parentId: "webGalpi",
@@ -42,7 +41,6 @@ chrome.runtime.onInstalled.addListener(() => {
       parentId: "webGalpi",
       contexts: ["all"]
     });*/
-});
 
 /*
 let extensionDashboard =
