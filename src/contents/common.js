@@ -1,9 +1,9 @@
 let COMMON = {
-  convert: function(checkNumber) {
+  convert: function(convertIndex) {
     let replaceUrl = location.href
       .replace("http://", "http://m.")
       .replace("https://", "https://m.");
-    switch (checkNumber) {
+    switch (convertIndex) {
       case 0:
         let str = window.location.origin;
         let blogId = str.split("//")[1].split(".")[0];
@@ -39,7 +39,7 @@ let COMMON = {
 
       for (var i = 0; i < convertSites.length; i++) {
         if (COMMON.urlMatch(convertSites[i], url) !== null) {
-          res(true);
+          res(i);
         }
       }
 

@@ -71,6 +71,7 @@ let APPLICATION = {
           //todo 변환 창을 보이도록 한다.
           $("#highlight-convert-noti-area").show();
         }
+        EVENT.convertBtnEvent(convertResult);
       });
   }
 };

@@ -6,6 +6,7 @@ import CORE from "./core/core";
 import JCROP from "../lib/jcrop/jcrop";
 import CONTENTS from "./contents";
 import CONTENT_LISTENER from "../common/content-listener";
+import COMMON from "./common";
 
 let EVENT = {
   positionEvent: highlightIdx => {
@@ -227,6 +228,15 @@ let EVENT = {
 
         // });
       });
+  },
+  convertBtnEvent: convertIndex => {
+    $("#executeConvert").click("on", function() {
+      COMMON.convert(convertIndex);
+    });
+
+    $("#cancelConvert").click("on", function() {
+      $("#highlight-convert-noti-area").fadeOut(300);
+    });
   },
   colorPickerUpdateBtnEvent: () => {
     $("#highlight-update-toolbar")

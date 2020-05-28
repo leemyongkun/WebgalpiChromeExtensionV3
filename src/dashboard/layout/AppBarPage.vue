@@ -67,6 +67,19 @@ export default {
       this.$refs.signout.open();
     },
     async processTest() {
+      /*  gapi.load('auth2', function() {
+            /!* Ready. Make a call to gapi.auth2.init or some other API *!/
+            var gauth = gapi.auth2.init({
+                client_id: '360661693058-ttivuuvbrjp1n0d8se709414tmoq2u4r.apps.googleusercontent.com',
+                cookie_policy: 'none'
+            });
+
+            gauth.then(function(){
+                console.log('init success');
+            }, function(e){
+                console.error('init fail',e);
+            })
+        });*/
       //"1jUTMxYetjXvUwYslGFARoUP83wsEHpfB"
       //mimeType: "text/plain"
       /*      chrome.identity.getAuthToken({ interactive: true }, token => {

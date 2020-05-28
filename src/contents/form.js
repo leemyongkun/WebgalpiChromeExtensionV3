@@ -89,9 +89,8 @@ let FORM = {
                          display: none !important;
                          "
                 id="highlight-convert-noti-area">
-                마우스 드래그가 되지 않으시나요?
-                <br>
-                <span>MOBILE로 변환하기</span>
+                <h3>[WEBGALPI] 마우스 드래그가 되지 않으시나요?</h3>
+                <span style="cursor: pointer;" id="executeConvert">MOBILE로 변환하기</span> | <span style="cursor: pointer;" id="cancelConvert">취소</span>
                 </div>`;
   },
   updateColorPicker: COLORS => {
