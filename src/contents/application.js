@@ -41,7 +41,7 @@ let APPLICATION = {
   },
   createContentsForm: color => {
     // 팔렛트 생성
-    CONTENTS.createColorPicker(color)
+    CONTENTS.createForm(color)
       .then(ret => {
         // 버튼 이벤트
         EVENT.colorPickerBtnEvent();

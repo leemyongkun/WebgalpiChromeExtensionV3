@@ -58,11 +58,11 @@ export default {
         title: "THEME",
         subTitle: "화면의 테마를 변경."
       },
-      {
+      /*{
         code: "slack",
         title: "SLACK",
         subTitle: "자신의 컨텐츠를 슬랙 채널에 공유."
-      },
+      },*/
       /*   {
                   code: "option",
                   title: "OPTION",

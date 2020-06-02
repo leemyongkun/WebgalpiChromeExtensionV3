@@ -6,6 +6,7 @@ import dbcon from "../database/dbcon.js";
 import Api from "../api/api.js";
 import LANG from "../common/language";
 import ACCOUNT from "../common/account";
+import MODAL from "../common/modal";
 
 let $ = require("jquery");
 
@@ -94,7 +95,13 @@ let BackgrounEvent = {
                                   ACCOUNT.removeGoogleTokenCache(token);
                                 })*/
         //todo : update 일때 Action (Version 별로 관리하는것이 좋을듯)
+
         console.log(chrome.runtime.getManifest().version);
+        let message =
+          "[" +
+          chrome.runtime.getManifest().version +
+          `] 업데이트 되었습니다.\n\n1. MORE 버튼의 Count가 변경되지 않는 현상 수정.\n2. Slack 공유 기능 삭제`;
+        alert(message);
       }
     });
 

@@ -10,7 +10,8 @@
       <v-icon>mdi-facebook-box</v-icon>
     </v-btn>
 
-    <ShareSlackDialog :currentSite="currentSite"></ShareSlackDialog>
+    <!-- 기능 삭제대상 -->
+    <!--<ShareSlackDialog :currentSite="currentSite"></ShareSlackDialog>-->
 
     <DeleteSiteDialog :currentSite="currentSite"></DeleteSiteDialog>
     |
@@ -19,12 +20,11 @@
 </template>
 <script>
 let facebookUrl = "http://www.facebook.com/share.php?u=";
-import ShareSlackDialog from "./dialog/ShareSlackDialog";
 import DeleteSiteDialog from "./dialog/DeleteSiteDialog";
 import HighlightsWidget from "./widget/HighlightsWidget";
 
 export default {
-  components: { HighlightsWidget, DeleteSiteDialog, ShareSlackDialog },
+  components: { HighlightsWidget, DeleteSiteDialog },
   props: [
     "previewStatus",
     "sourceUrl",
