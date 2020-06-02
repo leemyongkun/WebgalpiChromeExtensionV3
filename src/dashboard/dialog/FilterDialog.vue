@@ -110,7 +110,7 @@
     </v-menu>
 
     <v-btn small text block outlined @click="more">
-      MORE ( items : 3)
+      MORE ( items : {{ itemCount }})
     </v-btn>
   </div>
 </template>
@@ -118,6 +118,7 @@
 import EventBus from "../event-bus";
 
 export default {
+  props: ["itemCount"],
   components: {},
   data: () => ({
     starShow: false,

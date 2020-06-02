@@ -4,9 +4,9 @@
       <v-col cols="3" class="overflow-y-auto"
         ><!--:style="documentHeightStyle"-->
         <v-row>
-          <v-col class="pb-0 pt-0">
+          <v-col class="pb-0 pt-0 mb-2">
             <!-- Option -->
-            <FilterDialog></FilterDialog>
+            <FilterDialog :itemCount="itemCount"></FilterDialog>
           </v-col>
         </v-row>
         <v-row
@@ -33,7 +33,7 @@
             </v-card>
           </v-col>
 
-          <v-col v-else>
+          <v-col v-else class="pt-0">
             <!-- 컨텐츠 리스트 -->
             <v-list style="background: none;padding: 0;" id="contentsList">
               <div v-for="(item, index) in sites" :key="index">
@@ -160,22 +160,22 @@
       </v-col>
     </v-row>
     <!--<v-row>
-          <v-col cols="3" class="pb-0 pt-0">
-            <v-row>
-              <v-col cols="12">
-                <v-btn
-                  small
-                  text
-                  block
-                  outlined
-                  @click="more"
-                >
-                  MORE ( items : {{ sites.length }} )
-                </v-btn>
+              <v-col cols="3" class="pb-0 pt-0">
+                <v-row>
+                  <v-col cols="12">
+                    <v-btn
+                      small
+                      text
+                      block
+                      outlined
+                      @click="more"
+                    >
+                      MORE ( items : {{ sites.length }} )
+                    </v-btn>
+                  </v-col>
+                </v-row>
               </v-col>
-            </v-row>
-          </v-col>
-        </v-row>-->
+            </v-row>-->
   </div>
 </template>
 <script>
@@ -218,7 +218,8 @@ export default {
     filter: {
       star: false,
       detect: false
-    }
+    },
+    itemCount: 0
   }),
   created() {
     this.$nextTick(() => {
@@ -347,6 +348,7 @@ export default {
         .then(response => {
           if (response.length !== 0) {
             this.sites = this.sites.concat(response);
+            this.itemCount = this.sites.length;
             return this.sites;
           } else {
             if (this.sites.length === 0) {
@@ -402,39 +404,39 @@ export default {
     async generatePreviewDoc(site) {
       let preiveContent = "";
       /*if (site.FL_READMODE === "N") {
-                                                                                                                      let parser = new DOMParser();
-                                                                                                                      let idoc = parser.parseFromString(
-                                                                                                                        site.READERMODE_CONTENTS,
-                                                                                                                        "text/html"
-                                                                                                                      );
-                                                                                                                      let previewDoc = new PreviewMode(uri, idoc).parse();
-                                                                                                                      if (previewDoc === null) {
-                                                                                                                        preiveContent = null;
-                                                                                                                      } else {
-                                                                                                                        preiveContent = previewDoc.content;
-                                                                                                                      }
+                                                                                                                                let parser = new DOMParser();
+                                                                                                                                let idoc = parser.parseFromString(
+                                                                                                                                  site.READERMODE_CONTENTS,
+                                                                                                                                  "text/html"
+                                                                                                                                );
+                                                                                                                                let previewDoc = new PreviewMode(uri, idoc).parse();
+                                                                                                                                if (previewDoc === null) {
+                                                                                                                                  preiveContent = null;
+                                                                                                                                } else {
+                                                                                                                                  preiveContent = previewDoc.content;
+                                                                                                                                }
 
-                                                                                                                      let result = await Utils.getLocalStorage("loginInfo");
+                                                                                                                                let result = await Utils.getLocalStorage("loginInfo");
 
-                                                                                                                      CONTENT_LISTENER.sendMessage({
-                                                                                                                        type: "update.convert.viewmode",
-                                                                                                                        data: [
-                                                                                                                          preiveContent,
-                                                                                                                          new Date().getTime(),
-                                                                                                                          site.URL_KEY,
-                                                                                                                          result.loginInfo.EMAIL
-                                                                                                                        ]
-                                                                                                                      }).then(() => {
-                                                                                                                        this.sites.map(item => {
-                                                                                                                          if (item.URL_KEY === site.URL_KEY) {
-                                                                                                                            item.FL_READMODE = "Y";
-                                                                                                                            item.READERMODE_CONTENTS = preiveContent;
-                                                                                                                          }
-                                                                                                                        });
-                                                                                                                      });
-                                                                                                                    } else {
-                                                                                                                      preiveContent = site.READERMODE_CONTENTS;
-                                                                                                                    }*/
+                                                                                                                                CONTENT_LISTENER.sendMessage({
+                                                                                                                                  type: "update.convert.viewmode",
+                                                                                                                                  data: [
+                                                                                                                                    preiveContent,
+                                                                                                                                    new Date().getTime(),
+                                                                                                                                    site.URL_KEY,
+                                                                                                                                    result.loginInfo.EMAIL
+                                                                                                                                  ]
+                                                                                                                                }).then(() => {
+                                                                                                                                  this.sites.map(item => {
+                                                                                                                                    if (item.URL_KEY === site.URL_KEY) {
+                                                                                                                                      item.FL_READMODE = "Y";
+                                                                                                                                      item.READERMODE_CONTENTS = preiveContent;
+                                                                                                                                    }
+                                                                                                                                  });
+                                                                                                                                });
+                                                                                                                              } else {
+                                                                                                                                preiveContent = site.READERMODE_CONTENTS;
+                                                                                                                              }*/
       preiveContent = site.READERMODE_CONTENTS;
 
       this.youtubeVideoId = site.EMBEDURL;
@@ -456,7 +458,7 @@ export default {
 <style>
 .v-card--reveal {
   /*align-items: left;
-                                                                                                                                                                                                                                                                                                        justify-content: center;*/
+                                                                                                                                                                                                                                                                                                              justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
