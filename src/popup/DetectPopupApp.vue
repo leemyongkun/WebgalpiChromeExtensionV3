@@ -5,11 +5,14 @@
         <v-list-item three-line>
           <v-list-item-content>
             <v-list-item-title class="headline mb-1"
-              >차단된 사이트</v-list-item-title
-            >
-            <v-list-item-subtitle
+              >차단된 사이트
+            </v-list-item-title>
+            <v-list-item-subtitle class="pb-4 pt-2"
               >이 사이트에서는 WEBGALPI를 사용할 수
               없습니다.</v-list-item-subtitle
+            >
+            <v-list-item-subtitle style="color: #e35a69"
+              >페이스북/트위터는 패치중입니다.</v-list-item-subtitle
             >
           </v-list-item-content>
         </v-list-item>
@@ -25,16 +28,6 @@
 </template>
 
 <script>
-//https://i.picsum.photos/id/20/400/400.jpg
-
-import SITE_MANAGER from "../common/site-manager";
-let detectSites = [
-  "chrome://newtab/",
-  "chrome-extension://",
-  "chrome://extensions/",
-  "chrome://apps/"
-];
-
 export default {
   components: {},
   data: () => ({

@@ -3,7 +3,12 @@ let SITE_MANAGER = {
     "chrome://newtab/",
     "chrome-extension://",
     "chrome://extensions/",
-    "chrome://apps/"
+    "chrome://apps/",
+    "https://chrome.google.com/webstore",
+    "://www.facebook.com/",
+    "://m.facebook.com/",
+    "://mobile.twitter.com/",
+    "://twitter.com/"
   ],
   CONVERT_SITES: [
     "*://*.blog.me/*", //0

@@ -17,7 +17,6 @@
           <v-col v-if="sites.length === 0">
             <v-card class="mx-auto">
               <v-card-text>
-                <div>Contents List</div>
                 <p class="display-1 text--primary">
                   NO CONTENTS
                 </p>
