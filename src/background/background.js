@@ -5,10 +5,14 @@ let md5 = require("md5");
 import dbcon from "../database/dbcon.js";
 import Api from "../api/api.js";
 import LANG from "../common/language";
-import ACCOUNT from "../common/account";
-import MODAL from "../common/modal";
+import COMMON from "../contents/common";
 
 let $ = require("jquery");
+let detectSites = [
+  "chrome://newtab/",
+  "chrome-extension://",
+  "chrome://extensions/"
+];
 
 //popup일경우에는 실행하지 않는다.
 let isPopup = false;
@@ -25,6 +29,33 @@ let BackgroundModule = {
         return false;
       }
 
+      //todo : 차단된 사이트는 열지 않도록 한다.
+      console.log("detectSite");
+      let isDetected = false;
+      for (var i = 0; i < detectSites.length; i++) {
+        if (currentUrl.indexOf(detectSites[i]) !== -1) {
+          isDetected = true;
+          chrome.browserAction.setPopup({
+            tabId: tabId,
+            popup: "popup/detectPopup.html"
+          });
+
+          chrome.browserAction.setBadgeText({
+            text: "X",
+            tabId: tabId
+          });
+          chrome.browserAction.setBadgeBackgroundColor({
+            color: "red",
+            tabId: tabId
+          });
+
+          return false;
+        }
+      }
+      if (isDetected) {
+        return false;
+      }
+
       let urlPath = currentUrl;
       let ext = urlPath.substr(urlPath.length - 4, urlPath.length);
       currentUrl = md5(currentUrl.split("#")[0]);
@@ -37,12 +68,6 @@ let BackgroundModule = {
 
       //현재 urlKey를 저장한다.
       chrome.storage.local.set({ [tabId]: currentUrl }, null);
-
-      //target popup을 변경한다.
-      /*chrome.browserAction.setPopup({
-                                  tabId: tabId,
-                                  popup: "popup/naver.html"
-                              })*/
 
       //EMAIL로 조건을 걸지 않고, 사용중(IS_USE=Y)의 데이타만 가져온다
       Api.getMemberInfo().then(memberInfo => {
@@ -91,9 +116,9 @@ let BackgrounEvent = {
       } else {
         //UPDATE
         /*chrome.identity.getAuthToken({ interactive: true }, token => {
-                                  console.log("token " , token);
-                                  ACCOUNT.removeGoogleTokenCache(token);
-                                })*/
+                                          console.log("token " , token);
+                                          ACCOUNT.removeGoogleTokenCache(token);
+                                        })*/
         //todo : update 일때 Action (Version 별로 관리하는것이 좋을듯)
 
         console.log(chrome.runtime.getManifest().version);
@@ -101,7 +126,7 @@ let BackgrounEvent = {
           "[" +
           chrome.runtime.getManifest().version +
           `] 업데이트 되었습니다.\n\n1. MORE 버튼의 Count가 변경되지 않는 현상 수정.\n2. Slack 공유 기능 삭제`;
-        alert(message);
+        //alert(message);
       }
     });
 
@@ -162,6 +187,15 @@ function checkLastError(message) {
   }
 }
 
+function setBadgeColor(color) {
+  chrome.browserAction.setIcon({
+    path: {
+      "19": "images/icon/" + color + "/19.png",
+      "38": "images/icon/" + color + "/38.png"
+    }
+  });
+}
+
 chrome.notifications.onClicked.addListener(function(notifId) {
   alert(notifId);
   if (notifId == "notification_1") {
@@ -195,4 +229,5 @@ function doStuff(request) {
   chrome.extension.onRequest.removeListener(doStuff);
   console.log(request);
 }
+
 chrome.extension.onRequest.addListener(doStuff);
