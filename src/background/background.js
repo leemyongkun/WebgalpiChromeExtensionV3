@@ -5,14 +5,9 @@ let md5 = require("md5");
 import dbcon from "../database/dbcon.js";
 import Api from "../api/api.js";
 import LANG from "../common/language";
-import COMMON from "../contents/common";
+import SITE_MANAGER from "../common/site-manager";
 
 let $ = require("jquery");
-let detectSites = [
-  "chrome://newtab/",
-  "chrome-extension://",
-  "chrome://extensions/"
-];
 
 //popup일경우에는 실행하지 않는다.
 let isPopup = false;
@@ -29,11 +24,10 @@ let BackgroundModule = {
         return false;
       }
 
-      //todo : 차단된 사이트는 열지 않도록 한다.
-      console.log("detectSite");
+      //차단된 사이트는 열지 않도록 한다.
       let isDetected = false;
-      for (var i = 0; i < detectSites.length; i++) {
-        if (currentUrl.indexOf(detectSites[i]) !== -1) {
+      for (var i = 0; i < SITE_MANAGER.DETECTE_SITES.length; i++) {
+        if (currentUrl.indexOf(SITE_MANAGER.DETECTE_SITES[i]) !== -1) {
           isDetected = true;
           chrome.browserAction.setPopup({
             tabId: tabId,
@@ -103,7 +97,6 @@ let BackgroundModule = {
 let BackgrounEvent = {
   onInstalled: () => {
     chrome.runtime.onInstalled.addListener(details => {
-      console.log("details ", details);
       if (details.reason === "install") {
         if (!!window.openDatabase) {
           LANG.getMessage("M0001");

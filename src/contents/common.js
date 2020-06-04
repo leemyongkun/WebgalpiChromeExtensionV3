@@ -1,3 +1,5 @@
+import SITE_MANAGER from "../common/site-manager";
+
 let COMMON = {
   convert: function(convertIndex) {
     let replaceUrl = location.href
@@ -30,13 +32,7 @@ let COMMON = {
   },
   checkConvertUrl: function(url) {
     return new Promise(res => {
-      let convertSites = [
-        "*://*.blog.me/*", //0
-        "*://post.naver.com/*", //1
-        "*://blog.naver.com/*", //2
-        "*://blog.daum.net/*" //3
-      ];
-
+      let convertSites = SITE_MANAGER.CONVERT_SITES;
       for (var i = 0; i < convertSites.length; i++) {
         if (COMMON.urlMatch(convertSites[i], url) !== null) {
           res(i);

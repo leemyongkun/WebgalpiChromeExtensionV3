@@ -23,6 +23,7 @@ const config = {
     "background/listener": "./background/listener.js",
     "background/contextMenu": "./background/contextMenu.js",
     "popup/popup": "./popup/popup.js",
+    "popup/detectPopup": "./popup/detectPopup.js",
     "dashboard/dashboard": "./dashboard/dashboard.js",
     "options/options": "./options/options.js",
     "common/common": "./common/common.js",
