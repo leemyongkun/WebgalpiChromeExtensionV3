@@ -109,9 +109,9 @@ let BackgrounEvent = {
       } else {
         //UPDATE
         /*chrome.identity.getAuthToken({ interactive: true }, token => {
-                                          console.log("token " , token);
-                                          ACCOUNT.removeGoogleTokenCache(token);
-                                        })*/
+                                                  console.log("token " , token);
+                                                  ACCOUNT.removeGoogleTokenCache(token);
+                                                })*/
         //todo : update 일때 Action (Version 별로 관리하는것이 좋을듯)
 
         console.log(chrome.runtime.getManifest().version);
@@ -119,7 +119,21 @@ let BackgrounEvent = {
           "[" +
           chrome.runtime.getManifest().version +
           `] 업데이트 되었습니다.\n\n1. MORE 버튼의 Count가 변경되지 않는 현상 수정.\n2. Slack 공유 기능 삭제`;
-        //alert(message);
+
+        var opt = {
+          type: "basic",
+          title: "WEBGALPI",
+          message: "2020.06.06. VER.1.0.5 업데이트 되었습니다.",
+          iconUrl: "../icons/pen.png"
+        };
+
+        chrome.notifications.create("", opt);
+        chrome.notifications.onClicked.addListener(function() {
+          let extensionDashboard =
+            "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
+          let open = window.open(extensionDashboard, "_blank");
+          open.focus();
+        });
       }
     });
 
@@ -188,17 +202,6 @@ function setBadgeColor(color) {
     }
   });
 }
-
-chrome.notifications.onClicked.addListener(function(notifId) {
-  alert(notifId);
-  if (notifId == "notification_1") {
-    //handle notification 1 being clicked
-  }
-  if (notifId == "notification_2") {
-    //handle notification 2 being clicked
-  }
-  //etc.
-});
 
 //설치 및 리로딩시
 BackgrounEvent.onInstalled();
