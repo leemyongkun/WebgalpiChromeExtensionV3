@@ -171,7 +171,14 @@ export default {
             tabId,
             { action: "get.site.info" },
             siteInfo => {
-              console.log("siteInfo ", siteInfo);
+              if (siteInfo === undefined) {
+                alert(
+                  "WEBGALPI가 로딩되지 않았습니다.\nPOPUP을 닫고 새로고침 후 다시 시도하십시오."
+                );
+                clearInterval(interval);
+                return false;
+              }
+
               if (siteInfo.OG_IMAGE === null || siteInfo.OG_IMAGE === "") {
                 siteInfo.OG_IMAGE = "";
               }

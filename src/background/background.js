@@ -107,23 +107,13 @@ let BackgrounEvent = {
           alert(LANG.getMessage("M0002"));
         }
       } else {
-        //UPDATE
-        /*chrome.identity.getAuthToken({ interactive: true }, token => {
-                                                  console.log("token " , token);
-                                                  ACCOUNT.removeGoogleTokenCache(token);
-                                                })*/
-        //todo : update 일때 Action (Version 별로 관리하는것이 좋을듯)
-
-        console.log(chrome.runtime.getManifest().version);
-        let message =
-          "[" +
-          chrome.runtime.getManifest().version +
-          `] 업데이트 되었습니다.\n\n1. MORE 버튼의 Count가 변경되지 않는 현상 수정.\n2. Slack 공유 기능 삭제`;
-
         var opt = {
           type: "basic",
           title: "WEBGALPI",
-          message: "2020.06.06. VER.1.0.5 업데이트 되었습니다.",
+          message:
+            "VER " +
+            chrome.runtime.getManifest().version +
+            "로 업데이트 되었습니다.\n클릭하여 업데이트 내역을 확인해보세요.",
           iconUrl: "../icons/pen.png"
         };
 

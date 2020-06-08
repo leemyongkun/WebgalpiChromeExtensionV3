@@ -48,12 +48,14 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>UPDATE WEBGALPI</v-list-item-title>
-              <v-list-item-subtitle>Ver 1.0.4@2020.06.06</v-list-item-subtitle>
+              <v-list-item-subtitle>{{
+                update.versionInfo
+              }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                <v-icon>mdi-heart</v-icon>
-                            </v-btn>-->
+                                              <v-icon>mdi-heart</v-icon>
+                                          </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -69,8 +71,8 @@
                   class="pt-0 pb-2"
                   v-for="(item, idx) in update.improvement"
                   :key="idx"
-                  >{{ idx + 1 }}. {{ item }}</v-card-text
-                >
+                  >{{ idx + 1 }}. {{ item }}
+                </v-card-text>
               </v-card>
               <v-card>
                 <v-card-title>디버깅</v-card-title>
@@ -78,8 +80,8 @@
                   class="pt-0 pb-2"
                   v-for="(item, idx) in update.debug"
                   :key="idx"
-                  >{{ idx + 1 }}. {{ item }}</v-card-text
-                >
+                  >{{ idx + 1 }}. {{ item }}
+                </v-card-text>
               </v-card>
               <v-card>
                 <v-card-title>해야할 기능</v-card-title>
@@ -87,8 +89,8 @@
                   class="pt-0 pb-2"
                   v-for="(item, idx) in update.todo"
                   :key="idx"
-                  >{{ idx + 1 }}. {{ item }}</v-card-text
-                >
+                  >{{ idx + 1 }}. {{ item }}
+                </v-card-text>
               </v-card>
             </v-list-item-content>
           </v-list-item>
@@ -116,6 +118,7 @@ export default {
     ciPath: "",
     infoMenu: false,
     update: {
+      versionInfo: "",
       improvement: [
         "차단된 사이트에서는 WEBGALPI의 사용이 제한되며, ICON에 (X)가 표시됩니다.",
         "업데이트 시, notification이 발생하여, 업데이트 내역을 확인 할 수 있습니다.",
@@ -123,8 +126,8 @@ export default {
         "SLACK 공유 기능이 제거되었습니다."
       ],
       debug: [
-        "(해야함) 처음 가입 후, 열려있는 모든 탭의 로딩 여부를 묻습니다.",
-        "(해야함) 가입 및 로그인 후, 임시로 열린 Google Tab을 닫는다."
+        "최초 가입 후, 열려있는 모든 탭의 로딩여부를 묻습니다."
+        /*"(해야함) 가입 및 로그인 후, 임시로 열린 Google Tab을 닫는다."*/
       ],
       todo: [
         "OneTab과 같은 기능을 추가한다.",
@@ -143,6 +146,8 @@ export default {
     this.$nextTick(async () => {
       this.ciPath =
         "chrome-extension://" + chrome.runtime.id + "/icons/icon_48.png";
+      this.update.versionInfo =
+        "VER " + chrome.runtime.getManifest().version + "@2020.06.09";
     });
   },
   methods: {
@@ -157,53 +162,53 @@ export default {
     },
     async processTest() {
       /*  gapi.load('auth2', function() {
-                                /!* Ready. Make a call to gapi.auth2.init or some other API *!/
-                                var gauth = gapi.auth2.init({
-                                    client_id: '360661693058-ttivuuvbrjp1n0d8se709414tmoq2u4r.apps.googleusercontent.com',
-                                    cookie_policy: 'none'
-                                });
+                                          /!* Ready. Make a call to gapi.auth2.init or some other API *!/
+                                          var gauth = gapi.auth2.init({
+                                              client_id: '360661693058-ttivuuvbrjp1n0d8se709414tmoq2u4r.apps.googleusercontent.com',
+                                              cookie_policy: 'none'
+                                          });
 
-                                gauth.then(function(){
-                                    console.log('init success');
-                                }, function(e){
-                                    console.error('init fail',e);
-                                })
-                            });*/
+                                          gauth.then(function(){
+                                              console.log('init success');
+                                          }, function(e){
+                                              console.error('init fail',e);
+                                          })
+                                      });*/
       //"1jUTMxYetjXvUwYslGFARoUP83wsEHpfB"
       //mimeType: "text/plain"
       /*      chrome.identity.getAuthToken({ interactive: true }, token => {
-                                                  var fileId = "1QRFYTIsKt1A-DUc-ZBXSGhbN879Nkr-g";
-                                                  var accessToken =token;
-                                                  var xhr = new XMLHttpRequest();
-                                                  xhr.open("GET", "https://www.googleapis.com/drive/v3/files/"+fileId+'?alt=media', true);
-                                                  xhr.setRequestHeader('Authorization','Bearer '+accessToken);
-                                                  xhr.responseType = 'text/plain';
-                                                  xhr.onload = function(){
-                                                      //base64ArrayBuffer from https://gist.github.com/jonleighton/958841
-                                                      console.log("xhr.response",xhr.response);
+                                                            var fileId = "1QRFYTIsKt1A-DUc-ZBXSGhbN879Nkr-g";
+                                                            var accessToken =token;
+                                                            var xhr = new XMLHttpRequest();
+                                                            xhr.open("GET", "https://www.googleapis.com/drive/v3/files/"+fileId+'?alt=media', true);
+                                                            xhr.setRequestHeader('Authorization','Bearer '+accessToken);
+                                                            xhr.responseType = 'text/plain';
+                                                            xhr.onload = function(){
+                                                                //base64ArrayBuffer from https://gist.github.com/jonleighton/958841
+                                                                console.log("xhr.response",xhr.response);
 
-                                                      //do something with the base64 image here
+                                                                //do something with the base64 image here
 
-                                                  }
-                                                  xhr.send();
-                                              });*/
+                                                            }
+                                                            xhr.send();
+                                                        });*/
       /*
-                                                              var request = gapi.client.drive.files.export({
-                                                              fileId:id,
-                                                              mimeType:type
-                                                          })
-                                                          request.execute(function(resp){
-                                                              console.log(resp);
-                                                          });
-                                                          */
+                                                                        var request = gapi.client.drive.files.export({
+                                                                        fileId:id,
+                                                                        mimeType:type
+                                                                    })
+                                                                    request.execute(function(resp){
+                                                                        console.log(resp);
+                                                                    });
+                                                                    */
       /*console.log("gapi.auth.getToken().access_token " , token);
-                                                                          var xhr = new XMLHttpRequest();
-                                                                          xhr.open("GET", "https://www.googleapis.com/drive/v3/files/1sB6z38h-00K-oY_q2rGuK9sckYmLx2Ap", true);
-                                                                          xhr.setRequestHeader('Authorization','Bearer '+token);
-                                                                          xhr.onload = function(){
-                                                                              console.log("xhr",xhr);
-                                                                          }
-                                                                          xhr.send('alt=media');*/
+                                                                                    var xhr = new XMLHttpRequest();
+                                                                                    xhr.open("GET", "https://www.googleapis.com/drive/v3/files/1sB6z38h-00K-oY_q2rGuK9sckYmLx2Ap", true);
+                                                                                    xhr.setRequestHeader('Authorization','Bearer '+token);
+                                                                                    xhr.onload = function(){
+                                                                                        console.log("xhr",xhr);
+                                                                                    }
+                                                                                    xhr.send('alt=media');*/
       //참고 : https://bumbu.me/gapi-in-chrome-extension  , https://qiita.com/takahiro1110/items/4ed2c4e894d2d359751e , https://developers.google.com/drive/api/v2/reference/files/list#javascript
     }
   }
