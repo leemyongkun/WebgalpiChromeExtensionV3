@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <AppBarPage :member="member" />
+    <AppBarPage ref="appBarPage" :member="member" />
     <MenuPage ref="menuPage" />
     <v-content>
       <v-container fluid class="pt-0 mt-0">
@@ -113,6 +113,17 @@ export default {
           }
         });
       });
+    },
+    openUpdateInfomation() {
+      //update라면 update 리스트를 열어준다.
+      location.search
+        .split(/[?&]/)
+        .slice(1)
+        .map(paramPair => {
+          if (paramPair === "update") {
+            this.$refs.appBarPage.showInfo();
+          }
+        });
     }
   },
   created() {
@@ -136,6 +147,8 @@ export default {
         this.initDashboard();
       });
       this.initDashboard();
+
+      this.openUpdateInfomation();
     });
   }
 };

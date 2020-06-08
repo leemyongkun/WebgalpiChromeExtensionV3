@@ -130,7 +130,9 @@ let BackgrounEvent = {
         chrome.notifications.create("", opt);
         chrome.notifications.onClicked.addListener(function() {
           let extensionDashboard =
-            "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
+            "chrome-extension://" +
+            chrome.runtime.id +
+            "/dashboard/index.html?update";
           let open = window.open(extensionDashboard, "_blank");
           open.focus();
         });
