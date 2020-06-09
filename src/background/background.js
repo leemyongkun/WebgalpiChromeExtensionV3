@@ -18,6 +18,7 @@ let BackgroundModule = {
     });
   },
   initApplication: (tabId, currentUrl) => {
+    console.log("initApplication ");
     return new Promise(function(res) {
       if (isPopup) {
         isPopup = false;
@@ -156,7 +157,8 @@ let BackgrounEvent = {
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
-      if (info.status === "complete") {
+      console.log("info.status ", info, info.status);
+      if (info.status === "loading") {
         //loading
         //팝업인지 확인.
         BackgroundModule.isPopup();
@@ -170,7 +172,6 @@ let BackgrounEvent = {
             activeDashboardTabId: tab.id
           });
         }
-
         //현재 사이트에 하이라이트 초기화
         BackgroundModule.initApplication(tabId, tab.url);
       }

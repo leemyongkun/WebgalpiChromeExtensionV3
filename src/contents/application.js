@@ -13,6 +13,8 @@ let APPLICATION = {
     if (document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length === 0)
       return false;
 
+    // console.log(" document.querySelectorAll(\"webgalpi-group\").length >> " , document.querySelectorAll(GLOBAL_CONFIG.GROUP_ELEMENT).length);
+
     if (data == null) {
       return false;
     }
