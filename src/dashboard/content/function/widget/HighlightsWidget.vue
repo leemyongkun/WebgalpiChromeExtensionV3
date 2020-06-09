@@ -3,12 +3,17 @@
     transition="slide-y-transition"
     offset-y
     :close-on-content-click="false"
+    :v-show="true"
   >
-    <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on" @click="setHighlights">
-        <v-icon>mdi-book-outline</v-icon
-        ><!--mdi-grease-pencil-->
-      </v-btn>
+    <template v-slot:activator="{ on: menu }">
+      <v-tooltip v-model="highlightTooltip" color="blue" top>
+        <template v-slot:activator="{ on: tooltip }">
+          <v-btn icon v-on="{ ...menu, ...tooltip }" @click="setHighlights">
+            <v-icon>mdi-book-outline</v-icon>
+          </v-btn>
+        </template>
+        <span>저장된 하이라이트를 표시합니다.</span>
+      </v-tooltip>
     </template>
 
     <v-card width="400px" :style="maxHeightWidget">
@@ -44,7 +49,6 @@
 <script>
 import Common from "../../../../common/common";
 import CONTENT_LISTENER from "../../../../common/content-listener";
-import { GLOBAL_CONFIG } from "../../../../contents/global/config";
 import MODAL from "../../../../common/modal";
 
 export default {
@@ -54,7 +58,8 @@ export default {
   data: () => ({
     hover: false,
     highlightItems: [],
-    maxHeightWidget: ""
+    maxHeightWidget: "",
+    highlightTooltip: false
   }),
   created() {
     this.$nextTick(function() {

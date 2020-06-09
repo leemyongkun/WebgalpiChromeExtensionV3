@@ -35,26 +35,40 @@
         class="ma-1"
       ></v-select>
 
-      <v-btn
-        small
-        icon
+      <v-tooltip
+        v-model="tooltip.saveSite"
         v-if="siteInfo.USE_CURRENT_SITE === 'N'"
-        @click="saveSite"
+        top
       >
-        <v-icon>mdi-content-save</v-icon>
-      </v-btn>
-      <v-btn
+        <template v-slot:activator="{ on }">
+          <v-btn class="pa-0" icon @click="saveSite" v-on="on">
+            <v-icon>mdi-content-save</v-icon>
+          </v-btn>
+        </template>
+        <span>사이트를 저장합니다.</span>
+      </v-tooltip>
+
+      <v-tooltip
+        v-model="tooltip.category"
         v-if="siteInfo.USE_CURRENT_SITE === 'Y'"
-        color="warning accent-4"
-        @click="updateCategory"
-        small
-        icon
+        top
       >
-        <v-icon>mdi-cached</v-icon>
-      </v-btn>
-      <v-btn small icon class="ma-1" @click="goDashboard">
-        <v-icon right>mdi-view-dashboard</v-icon>
-      </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn class="pa-0" @click="updateCategory" icon v-on="on">
+            <v-icon>mdi-folder-download-outline</v-icon>
+          </v-btn>
+        </template>
+        <span>카테고리를 변경합니다.</span>
+      </v-tooltip>
+
+      <v-tooltip v-model="tooltip.dashboard" top>
+        <template v-slot:activator="{ on }">
+          <v-btn icon class="ma-1 pa-0" @click="goDashboard" v-on="on">
+            <v-icon right>mdi-view-dashboard</v-icon>
+          </v-btn>
+        </template>
+        <span>대쉬보드로 이동합니다.</span>
+      </v-tooltip>
     </v-card-actions>
   </v-card>
 </template>
@@ -68,6 +82,11 @@ export default {
   name: "SiteInfoTab",
   components: {},
   data: () => ({
+    tooltip: {
+      dashboard: false,
+      category: false,
+      saveSite: false
+    },
     overlay: {
       status: true,
       message: ""
@@ -120,43 +139,45 @@ export default {
       CONTENT_LISTENER.sendMessage({
         type: "post.site",
         data: this.siteInfo
-      }).then(site => {
-        this.siteInfo.USE_CURRENT_SITE = "Y";
+      })
+        .then(site => {
+          this.siteInfo.USE_CURRENT_SITE = "Y";
 
-        //카테고리 저장하기
-        if (this.selectCategory !== -1) {
-          let param = new Object();
-          param.CATEGORY_ID = this.selectCategory;
-          param.URL_KEY = site[0].URL_KEY;
-          param.EMAIL = site[0].EMAIL;
-          param.IDX = site[0].IDX;
-          param.DATE_CREATE = new Date().getTime();
+          //카테고리 저장하기
+          if (this.selectCategory !== -1) {
+            let param = new Object();
+            param.CATEGORY_ID = this.selectCategory;
+            param.URL_KEY = site[0].URL_KEY;
+            param.EMAIL = site[0].EMAIL;
+            param.IDX = site[0].IDX;
+            param.DATE_CREATE = new Date().getTime();
 
+            CONTENT_LISTENER.sendMessage({
+              type: "post.category.relation",
+              data: param
+            });
+          }
+        })
+        .then(() => {
+          //처음 저장 하므로 같은 사이트를 리로딩 한다.
           CONTENT_LISTENER.sendMessage({
-            type: "post.category.relation",
-            data: param
+            type: "reloading.same.site",
+            data: null
           });
-        }
-        //처음 저장 하므로 같은 사이트를 리로딩 한다.
-        CONTENT_LISTENER.sendMessage({
-          type: "reloading.same.site",
-          data: null
+          //Dashboard를 리로딩한다.
+          CONTENT_LISTENER.sendMessage({
+            type: "reloading.dashboard",
+            data: null
+          });
         });
-        //Dashboard를 리로딩한다.
-        CONTENT_LISTENER.sendMessage({
-          type: "reloading.dashboard",
-          data: null
-        });
-      });
 
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         let tabId = tabs[0].id;
-
         chrome.tabs.sendMessage(tabId, {
           action: "update.global.config.useCurrentSite"
         });
       });
-      alert("저장완료");
+      alert("Contents를 저장하였습니다.");
     }
   },
   created() {},

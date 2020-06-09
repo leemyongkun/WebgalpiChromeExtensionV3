@@ -100,6 +100,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     case "reloading.dashboard":
+      console.log("########## ");
       chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {
         chrome.tabs.query({}, tabs => {
           tabs.map(item => {
@@ -220,14 +221,14 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     /*case "get.site": //미사용
-                                                  let getSiteParameter = new Object();
-                                                  getSiteParameter.URL_KEY = msg.data;
+                                                      let getSiteParameter = new Object();
+                                                      getSiteParameter.URL_KEY = msg.data;
 
-                                                  API.getSite(getSiteParameter).then(res => {
-                                                    sendResponse(res); //조건
-                                                  });
-                                                  return true;
-                                                  break;*/
+                                                      API.getSite(getSiteParameter).then(res => {
+                                                        sendResponse(res); //조건
+                                                      });
+                                                      return true;
+                                                      break;*/
 
     case "get.sites.count":
       API.getSites(msg.data).then(res => {

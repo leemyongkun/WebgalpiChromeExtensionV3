@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div class="text-lg-right">
-    <v-tooltip v-model="starShow" top>
+    <v-tooltip v-model="starShow" color="blue" top>
       <template v-slot:activator="{ on }">
         <v-btn icon @click="setStar" v-on="on">
           <v-icon :color="filter.star ? 'yellow' : ''" size="18px"
@@ -8,10 +8,10 @@
           </v-icon>
         </v-btn>
       </template>
-      <span>별 표시 컨테츠를 필터링 합니다.</span>
+      <span>★ 표시 컨테츠를 필터링 합니다.</span>
     </v-tooltip>
 
-    <v-tooltip v-model="detectShow" top>
+    <v-tooltip v-model="detectShow" color="blue" top>
       <template v-slot:activator="{ on }">
         <v-btn icon @click="setDetect" v-on="on">
           <v-icon size="18px" :color="filter.detect ? 'red' : ''"

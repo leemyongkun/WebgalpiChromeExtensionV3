@@ -41,7 +41,12 @@
           <v-row>
             <v-col>
               <span
-                >※ PARENT로 생성된 카테고리는, 컨텐츠를 담을 수 없습니다.</span
+                >※ <u>PARENT(<b>1-Depth</b>)</u>로 생성된 카테고리는, 컨텐츠를
+                담을 수 없습니다.</span
+              ><br />
+              <span
+                >※ 컨텐츠는 <u><b>2-Depth</b></u> 카테고리부터 담을 수 있으며,
+                Drag&Drop으로 가능합니다.</span
               ><br />
               <span v-show="categoryType === 'SYSTEM'"
                 >※ SYSTEM 카테고리는 이름만 수정 가능합니다.

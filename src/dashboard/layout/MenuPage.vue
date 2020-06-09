@@ -3,9 +3,9 @@
     <UpdateCategoryDialog ref="updateCategoryDialog"></UpdateCategoryDialog>
 
     <!--<SettingsManagerDialog
-          :dialog="settingDialog"
-          @closeDialog="switchDialogSetting"
-        ></SettingsManagerDialog>-->
+              :dialog="settingDialog"
+              @closeDialog="switchDialogSetting"
+            ></SettingsManagerDialog>-->
 
     <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>
@@ -15,15 +15,26 @@
               <v-expansion-panel>
                 <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <v-btn
-                    block
-                    small
-                    @click="editCategory(null, $event, false, 'insert')"
-                    style="margin-top: 10px;"
-                  >
-                    <v-icon left>mdi-folder-plus</v-icon>
-                    CATEGORY
-                  </v-btn>
+                  <v-tooltip v-model="categoryBtnTooltip" color="blue" right>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        v-on="on"
+                        block
+                        small
+                        @click="editCategory(null, $event, false, 'insert')"
+                        style="margin-top: 10px;"
+                      >
+                        <v-icon left>mdi-folder-plus</v-icon>
+                        CATEGORY
+                      </v-btn>
+                    </template>
+                    <span
+                      ><b
+                        >새로운 카테고리를 생성하여,<br />컨텐츠를 분류
+                        해보세요.</b
+                      ></span
+                    >
+                  </v-tooltip>
 
                   <v-list>
                     <!-- SYSTEM CATEGORY : START -->
@@ -83,6 +94,7 @@ export default {
     LostCategoryComponent
   },
   data: () => ({
+    categoryBtnTooltip: false,
     panel: [0], //accordian 의 오픈 index
     snackbarTimeout: 3000, //스낵바 유지시간
     snackbarMessage: "", //스낵바 기본 메시지
