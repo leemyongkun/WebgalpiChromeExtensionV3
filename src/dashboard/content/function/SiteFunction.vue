@@ -6,7 +6,7 @@
           <v-icon>mdi-home-outline</v-icon>
         </v-btn>
       </template>
-      <span>Contents를 새탭으로 오픈합니다.</span>
+      <span>컨텐츠를 새탭으로 오픈합니다.</span>
     </v-tooltip>
 
     <!--<v-btn @click="print" icon v-if="previewStatus === 'Y'">
@@ -19,7 +19,7 @@
           <v-icon>mdi-facebook-box</v-icon>
         </v-btn>
       </template>
-      <span>Facebook으로 Contents를 공유합니다.</span>
+      <span>Facebook으로 컨텐츠를 공유합니다.</span>
     </v-tooltip>
 
     <v-tooltip v-model="tooltip.trashbox" color="blue" top>

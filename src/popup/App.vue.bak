@@ -221,7 +221,6 @@
                         data: "data!"
                     },
                     siteInfo => {
-                        console.log("siteInfo >> ", siteInfo);
 
                         if (siteInfo.OG_IMAGE != null) {
                             this.OG.isImage = true;

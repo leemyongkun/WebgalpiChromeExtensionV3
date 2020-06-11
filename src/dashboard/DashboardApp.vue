@@ -99,7 +99,11 @@ export default {
           tabs.map(item => {
             if (
               currentTab[0].id !== item.id &&
-              currentTab[0].url === item.url
+              currentTab[0].url === item.url &&
+              item.url ===
+                "chrome-extension://" +
+                  chrome.runtime.id +
+                  "/dashboard/index.html"
             ) {
               chrome.tabs.remove(item.id);
               count++;

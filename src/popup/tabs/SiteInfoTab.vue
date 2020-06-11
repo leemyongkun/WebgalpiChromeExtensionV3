@@ -169,15 +169,16 @@ export default {
             type: "reloading.dashboard",
             data: null
           });
+        })
+        .then(() => {
+          chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+            let tabId = tabs[0].id;
+            chrome.tabs.sendMessage(tabId, {
+              action: "update.global.config.useCurrentSite"
+            });
+          });
+          alert("컨텐츠를 저장하였습니다.");
         });
-
-      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        let tabId = tabs[0].id;
-        chrome.tabs.sendMessage(tabId, {
-          action: "update.global.config.useCurrentSite"
-        });
-      });
-      alert("Contents를 저장하였습니다.");
     }
   },
   created() {},

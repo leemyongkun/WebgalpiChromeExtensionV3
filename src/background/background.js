@@ -18,7 +18,6 @@ let BackgroundModule = {
     });
   },
   initApplication: (tabId, currentUrl) => {
-    console.log("initApplication ");
     return new Promise(function(res) {
       if (isPopup) {
         isPopup = false;
@@ -157,7 +156,6 @@ let BackgrounEvent = {
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
-      console.log("info.status ", info, info.status);
       if (info.status === "complete") {
         //loading
         //팝업인지 확인.

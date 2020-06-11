@@ -119,7 +119,6 @@ export default {
       else this.updateCategory();
     },
     openDialog(categoryInfo, category, checkRoot, statusFlag, categoryType) {
-      console.log("category >> ", category);
       this.currentCategoryInfo = categoryInfo;
 
       this.categoryType = categoryType;
@@ -181,7 +180,6 @@ export default {
       this.dialog = true;
     },
     checkRootChange() {
-      console.log("this.category ", this.category);
       this.$nextTick(() => {
         if (this.checkRoot) {
           this.categoryParent = "";
@@ -283,7 +281,6 @@ export default {
       param.CHECK_ROOT = this.checkRoot;
       param.CATEGORY_TYPE = this.categoryType;
 
-      console.log("updateCategory param  ", param);
       //db 저장하기
       CONTENT_LISTENER.sendMessage({
         type: "update.category.item",

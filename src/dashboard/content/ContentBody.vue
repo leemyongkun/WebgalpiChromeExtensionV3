@@ -326,9 +326,9 @@ export default {
     },
     morePaging() {
       this.offset.start = this.offset.start + this.offset.end;
-      this.getSites(this.currentSiteParameter);
+      this.getSites(this.currentSiteParameter, "more");
     },
-    async getSites(param) {
+    async getSites(param, flag) {
       let result = await Utils.getLocalStorage("loginInfo");
       param.EMAIL = result.loginInfo.EMAIL;
 
@@ -346,7 +346,11 @@ export default {
       })
         .then(response => {
           if (response.length !== 0) {
-            this.sites = this.sites.concat(response);
+            if (flag === "more") {
+              this.sites = this.sites.concat(response);
+            } else {
+              this.sites = response;
+            }
             this.itemCount = this.sites.length;
             return this.sites;
           } else {

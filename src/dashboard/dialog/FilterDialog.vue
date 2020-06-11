@@ -1,5 +1,45 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div class="text-lg-right">
+    <!-- 검색 -->
+    <v-menu
+      v-if="false"
+      v-model="menu"
+      :close-on-content-click="false"
+      :close-on-click="false"
+      :nudge-width="200"
+      offset-x
+      left
+    >
+      <template v-slot:activator="{ on: menu }">
+        <v-tooltip v-model="searchShow" color="blue" top>
+          <template v-slot:activator="{ on: tooltip }">
+            <v-btn icon v-on="{ ...menu, ...tooltip }">
+              <v-icon size="18px">mdi-magnify</v-icon>
+            </v-btn>
+          </template>
+          <span>선택된 카테고리에서 컨텐츠의 제목/본문을 검색합니다.</span>
+        </v-tooltip>
+      </template>
+
+      <v-card>
+        <v-list class="pt-0 pb-0">
+          <v-list-item class="pr-0 pl-0">
+            <v-list-item-content class="pt-0 pb-0">
+              <v-text-field
+                clearable
+                outlined
+                placeholder="검색어 입력 후 엔터"
+                prepend-inner-icon="mdi-magnify"
+                @keyup.enter="goSearch"
+                v-model="searchKeyword"
+                autofocus
+              ></v-text-field>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-menu>
+
     <v-tooltip v-model="starShow" color="blue" top>
       <template v-slot:activator="{ on }">
         <v-btn icon @click="setStar" v-on="on">
@@ -123,12 +163,14 @@ export default {
   data: () => ({
     starShow: false,
     detectShow: false,
+    searchShow: false,
     fav: true,
     menu: false,
     message: false,
     hints: true,
     dates: ["2020-05-07", "2020-05-07"],
     calendar: false,
+    searchKeyword: null,
     filter: {
       star: false,
       detect: false
@@ -137,6 +179,15 @@ export default {
   methods: {
     more() {
       EventBus.$emit("more.paging");
+    },
+    goSearch() {
+      let param = new Object();
+
+      if (this.searchKeyword === null || this.searchKeyword === "") {
+      } else {
+        param.search = this.searchKeyword;
+      }
+      this.$parent.getSites(param);
     },
     setDetect() {
       this.filter.detect = !this.filter.detect;
@@ -158,3 +209,8 @@ export default {
   }
 };
 </script>
+<style>
+.v-input__slot {
+  margin-bottom: 0px !important;
+}
+</style>
