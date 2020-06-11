@@ -85,7 +85,7 @@ export default {
             this.$refs.menuPage.getReloadCategory();
 
             //ContentBody 초기화
-            this.$refs.contentBody.getSites(new Object());
+            this.$refs.contentBody.getSites("init");
 
             //todo : global emit 발생
           }

@@ -230,7 +230,8 @@ export default {
     }
 
     let starCondition = "",
-      detectCondition = "";
+      detectCondition = "",
+      searchCondition = [];
     if (params.filter !== null) {
       if (params.filter.star) {
         starCondition = " AND FL_FAVORITE='Y'";
@@ -238,6 +239,21 @@ export default {
 
       if (params.filter.detect) {
         detectCondition = " AND FL_READMODE='N'";
+      }
+
+      if (params.filter.search) {
+        let keywords = params.filter.search.split(" ");
+        let i = 0;
+        for (; i < keywords.length; i++) {
+          searchCondition.push(
+            " TITLE LIKE '%" +
+              keywords[i] +
+              "%' OR FULL_TEXT LIKE '%" +
+              keywords[i] +
+              "%'"
+          );
+        }
+        searchCondition = "AND ( " + searchCondition.join(" AND ") + ")";
       }
     }
 
@@ -291,6 +307,9 @@ export default {
       `
             ` +
       detectCondition +
+      `
+            ` +
+      searchCondition +
       `
         AND SITES.EMAIL = ?
         ORDER BY

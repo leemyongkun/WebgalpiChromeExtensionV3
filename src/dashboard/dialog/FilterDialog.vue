@@ -1,14 +1,21 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div class="text-lg-right">
-    <!-- 검색 -->
+    <span v-if="filter.search !== false">
+      <span style="cursor: pointer;" @click="onClearClicked">
+        <v-icon size="18px">mdi-close</v-icon>
+      </span>
+      검색키워드 : <span style="color: dodgerblue;">{{ filter.search }}</span>
+    </span>
+
+    <!-- 검색
+         :close-on-click="false"
+        -->
     <v-menu
-      v-if="false"
       v-model="menu"
       :close-on-content-click="false"
-      :close-on-click="false"
       :nudge-width="200"
-      offset-x
-      left
+      offset-y
+      bottom
     >
       <template v-slot:activator="{ on: menu }">
         <v-tooltip v-model="searchShow" color="blue" top>
@@ -173,21 +180,27 @@ export default {
     searchKeyword: null,
     filter: {
       star: false,
-      detect: false
+      detect: false,
+      search: false
     }
   }),
   methods: {
     more() {
       EventBus.$emit("more.paging");
     },
+    onClearClicked() {
+      this.searchKeyword = "";
+      this.goSearch();
+    },
     goSearch() {
-      let param = new Object();
-
+      this.searchKeyword = this.searchKeyword.trim();
       if (this.searchKeyword === null || this.searchKeyword === "") {
+        this.filter.search = false;
       } else {
-        param.search = this.searchKeyword;
+        this.filter.search = this.searchKeyword;
       }
-      this.$parent.getSites(param);
+
+      this.sendFilter();
     },
     setDetect() {
       this.filter.detect = !this.filter.detect;
