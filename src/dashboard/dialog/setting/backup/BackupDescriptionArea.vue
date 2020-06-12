@@ -17,6 +17,7 @@
               outlined
               label="간단한 Description을 입력하세요."
               v-model="backupDescription"
+              ref="backupDescriptionArea"
             ></v-textarea>
           </v-col>
         </v-row>
@@ -44,6 +45,9 @@ export default {
   methods: {
     open() {
       this.backupDescription = "";
+      setTimeout(() => {
+        this.$refs.backupDescriptionArea.focus();
+      }, 100);
       this.dialog = true;
     },
     close() {

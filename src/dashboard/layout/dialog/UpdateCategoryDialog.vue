@@ -9,17 +9,18 @@
       <v-card-text>
         <v-container>
           <v-row>
-            <v-col cols="2" style="padding-left: 0px;">
+            <v-col cols="auto" style="padding-left: 0px;">
               <v-checkbox
                 v-model="checkRoot"
-                label="PARENT"
+                label="Depth-1"
                 :disabled="categoryType === 'SYSTEM' || useCategory === false"
                 @change="checkRootChange"
                 required
               ></v-checkbox>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="auto">
               <v-autocomplete
+                label="Depth-1"
                 :items="category"
                 item-value="id"
                 item-text="name"
@@ -27,25 +28,25 @@
                 :disabled="autocompleteDisabled"
               ></v-autocomplete>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="auto">
               <v-text-field
-                label="CATEGORY NAME"
+                label="카테고리 이름"
                 :value="categoryId"
                 v-model="categoryName"
                 @keyup.enter="categoryNameKeyUpEvent"
                 required
-                autofocus
+                ref="categoryNameArea"
               ></v-text-field>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
               <span
-                >※ <u>PARENT(<b>1-Depth</b>)</u>로 생성된 카테고리는, 컨텐츠를
-                담을 수 없습니다.</span
+                >※ <u><b>Depth-1</b></u
+                >로 생성된 카테고리는, 컨텐츠를 담을 수 없습니다.</span
               ><br />
               <span
-                >※ 컨텐츠는 <u><b>2-Depth</b></u> 카테고리부터 담을 수 있으며,
+                >※ 컨텐츠는 <u><b>Depth-2</b></u> 카테고리부터 담을 수 있으며,
                 Drag&Drop으로 가능합니다.</span
               ><br />
               <span v-show="categoryType === 'SYSTEM'"
@@ -177,6 +178,11 @@ export default {
         this.autocompleteDisabled = true;
       }
 
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.$refs.categoryNameArea.focus();
+        }, 100);
+      });
       this.dialog = true;
     },
     checkRootChange() {
@@ -196,15 +202,15 @@ export default {
       if (result.value === undefined) return false;
 
       /*
-                                              root의경우 :
-                                              1. 하위 카테고리의 연결을 제거한다.
-                                              2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
-                                              3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
+                                                        root의경우 :
+                                                        1. 하위 카테고리의 연결을 제거한다.
+                                                        2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
+                                                        3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
 
-                                              child의 경우 :
-                                              1. root와의 연결을 끊는다.
-                                              2. Contents들은 NO_CATEGORY 상태로 변경한다.
-                                               */
+                                                        child의 경우 :
+                                                        1. root와의 연결을 끊는다.
+                                                        2. Contents들은 NO_CATEGORY 상태로 변경한다.
+                                                         */
 
       let param = new Object();
       if (this.currentCategoryInfo.parent === 0) {
