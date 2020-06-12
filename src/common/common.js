@@ -81,6 +81,9 @@ Number.prototype.zf = function(len) {
 };
 
 let Common = {
+  getVersion: () => {
+    return chrome.runtime.getManifest().version;
+  },
   getConvertDate: date => {
     return new Date(date).format("yyyy년 MM월 dd일 a/p hh시 mm분 ss초");
   },

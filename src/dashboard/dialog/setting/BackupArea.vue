@@ -84,6 +84,7 @@ import RestoreListArea from "./backup/RestoreListArea";
 import BackupDescriptionArea from "./backup/BackupDescriptionArea";
 import EventBus from "../../event-bus";
 import ACCOUNT from "../../../common/account";
+import Common from "../../../common/common";
 
 let CryptoJS = require("crypto-js");
 let md5 = require("md5");
@@ -245,7 +246,7 @@ export default {
       let info = new Object();
       info.email = result.loginInfo.EMAIL;
       info.created = new Date().getTime();
-      info.version = chrome.runtime.getManifest().version;
+      info.version = Common.getVersion();
       info.chrome_id = chrome.runtime.id;
 
       backupData.info = info;

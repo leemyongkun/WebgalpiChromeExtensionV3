@@ -6,6 +6,7 @@ import dbcon from "../database/dbcon.js";
 import Api from "../api/api.js";
 import LANG from "../common/language";
 import SITE_MANAGER from "../common/site-manager";
+import Common from "../common/common";
 
 let $ = require("jquery");
 
@@ -112,7 +113,7 @@ let BackgrounEvent = {
           title: "WEBGALPI",
           message:
             "VER " +
-            chrome.runtime.getManifest().version +
+            Common.getVersion() +
             "로 업데이트 되었습니다.\n클릭하여 업데이트 내역을 확인해보세요.",
           iconUrl: "../icons/pen.png"
         };
