@@ -79,14 +79,33 @@ export default {
 
       /* this.selectedBookmark.map( async bookmark => {
             //console.log("bookmark >> " , bookmark.url);
-            await CRAWLER.getHtml(bookmark.url);
+            await CRAWLER.getOriginalSiteContents(bookmark.url);
             console.log("==================================================");
         })*/
 
       var url = "http://lemonweb/MyDesk/Home/Index/160";
       url = "https://www.fnnews.com/news/202004231837158267";
       //url = "http://182.162.91.27:7614/admin-webapp/";
-      await CRAWLER.getHtml(url);
+
+      /*
+        DEFAULT_CATEGORY_IDX: 0
+        EMBEDURL: ""
+        FULL_TEXT: ""
+        HOST: "http://egloos.zum.com"
+        OG_DESCRIPTION: ""
+        OG_IMAGE: ""
+        OG_TITLE: ""
+        READERMODE_CONTENTS: ""
+        TAGS: ""
+        TITLE: "S2 & NAMU"
+        UPDATE_TITLE: "S2 & NAMU"
+        URL: "http://egloos.zum.com/littletrue/v/3987863"
+        URL_KEY: "10976b60347df5f9ab327e8f6a30be14"
+        URL_TYPE: "WEB"
+        USE_CURRENT_SITE: "N"
+        */
+
+      await CRAWLER.getOriginalSiteContents(url);
     },
     open() {
       this.dialog = true;

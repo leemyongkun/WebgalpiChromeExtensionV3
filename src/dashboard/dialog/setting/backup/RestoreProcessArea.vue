@@ -91,7 +91,7 @@
                   <br />
                   <ul>
                     <li>
-                      Connection Timeout이 10초가 넘었을 경우.
+                      Connection Timeout이 5초가 넘었을 경우.
                     </li>
                     <li>
                       더 이상 Service를 하지 않는 경우.
@@ -121,9 +121,11 @@
               </v-row>
               <v-row v-if="errorSite.length > 0">
                 <v-col cols="12">
-                  <v-btn color="error" @click="checkFail">
-                    FAIL 확인하기
-                  </v-btn>
+                  FAIL 확인은 'ALL CATEGORY' 클릭 후,
+                  <v-icon size="18px" :color="'red'"
+                    >mdi-shield-off-outline</v-icon
+                  >
+                  을 클릭하면 확인 할 수 있습니다.
                 </v-col>
               </v-row>
             </v-expansion-panel-content>
@@ -210,15 +212,14 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    checkFail() {
-      MODAL.alert("준비중입니다.");
-      console.log("fail sites ", this.errorSite);
-    },
     async runRestore(values) {
       let confirm = `복구를 시작 하시겠습니까?<br>
                         Site의 경우 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
-                        <span style="color:red">절대로 진행 도중 창을 닫거나, 새로고침을 하지 마세요!</span>`;
-      let result = await MODAL.confirm(confirm, null, null, null, "450px");
+                        <span style="color:red">
+                        모든 데이타를 삭제한 후 복구를 진행하므로,<br>
+                        절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
+                         </span>`;
+      let result = await MODAL.confirm(confirm, null, null, null, "500px");
       if (result.value === undefined) return false;
 
       this.isShowBackupInfo = false; //백업정보를 가린다.
@@ -309,7 +310,7 @@ export default {
     runRestoreSiteCrawling() {
       return new Promise(async res => {
         const promise = this.data.site.map(async site => {
-          await CRAWLER.getHtml(site.URL)
+          await CRAWLER.getOriginalSiteContents(site.URL)
             .then(async data => {
               this.progress.siteComplete += 1;
               this.progress.siteCompletePer = Math.floor(
@@ -348,7 +349,7 @@ export default {
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                                                                                       url = "https://www.fnnews.com/news/202004231837158267";*/
+                                                                                                 url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     async dataParsing(data) {
@@ -373,14 +374,14 @@ export default {
     },
     open(restoreData) {
       /*  let bytes = CryptoJS.AES.decrypt(
-                                                              JSON.parse(restoreData).data,
-                                                              "KKUNI_BEAR_GMAIL.COM_KKUNI"
-                                                          );
-                                                          let originalText = bytes.toString(CryptoJS.enc.Utf8);
+                                                                        JSON.parse(restoreData).data,
+                                                                        "KKUNI_BEAR_GMAIL.COM_KKUNI"
+                                                                    );
+                                                                    let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
-                                                          let obj = JSON.parse(originalText);
+                                                                    let obj = JSON.parse(originalText);
 
-                                                          console.log("OBJ ", obj);*/
+                                                                    console.log("OBJ ", obj);*/
 
       //로딩된 데이타를 분석하여 화면에 출력한다.
       this.dataParsing(JSON.parse(restoreData));
@@ -389,26 +390,26 @@ export default {
     },
     close() {
       /* this.data.info = [];
-                this.data.category = [];
-                this.data.categoryRelation = [];
-                this.data.site = [];
-                this.data.highlight = [];
+                          this.data.category = [];
+                          this.data.categoryRelation = [];
+                          this.data.site = [];
+                          this.data.highlight = [];
 
-                this.progress.siteComplete = 0;
-                this.progress.siteCompletePer = 0;
-                this.progress.siteFail = 0;
-                this.progress.siteFailPer = 0;
-                this.progress.highlightComplete = 0;
-                this.progress.highlightCompletePer = 0;
-                this.progress.categoryComplete = 0;
-                this.progress.categoryCompletePer = 0;
-                this.progress.categoryRelationComplete = 0;
-                this.progress.categoryRelationCompletePer = 0;
+                          this.progress.siteComplete = 0;
+                          this.progress.siteCompletePer = 0;
+                          this.progress.siteFail = 0;
+                          this.progress.siteFailPer = 0;
+                          this.progress.highlightComplete = 0;
+                          this.progress.highlightCompletePer = 0;
+                          this.progress.categoryComplete = 0;
+                          this.progress.categoryCompletePer = 0;
+                          this.progress.categoryRelationComplete = 0;
+                          this.progress.categoryRelationCompletePer = 0;
 
-                this.errorSite = [];
+                          this.errorSite = [];
 
-                this.showRestoreBtn = true;
-                this.showCloseBtn = true;*/
+                          this.showRestoreBtn = true;
+                          this.showCloseBtn = true;*/
       this.reRendering("restoreProcessArea");
       this.dialog = false;
     }

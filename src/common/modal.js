@@ -19,9 +19,10 @@ let MODAL = {
     }
 
     return Swal.fire({
+      title: null,
       width: size,
-      html: title || "처리되었습니다.",
-      type: type || "success",
+      html: title,
+      icon: type,
       confirmButtonText: confirmBtnText || "확인"
     });
   },
@@ -44,8 +45,9 @@ let MODAL = {
     }
 
     return Swal.fire({
+      title: null,
       width: size,
-      type: type,
+      icon: type,
       showCancelButton: true,
       html: title,
       confirmButtonText: confirmBtnText,
@@ -70,7 +72,7 @@ let MODAL = {
     }
     return Swal.fire({
       text: options.title,
-      type: options.type,
+      icon: options.type,
       showCancelButton: options.showCancelButton,
       confirmButtonText: options.confirmBtnText,
       cancelButtonText: options.cancelBtnText

@@ -1,28 +1,75 @@
+import CONTENTS from "../../contents/contents";
+
 const axios = require("axios");
 const cheerio = require("cheerio");
+const md5 = require("md5");
 const instance = axios.create();
-instance.defaults.timeout = 10000;
+instance.defaults.timeout = 5000;
 
 let CRAWLER = {
-  getHtml: url => {
+  getOriginalSiteContents: url => {
     return new Promise(async (res, rej) => {
       instance
         .get(url)
         .then(source => {
+          console.log("source ", source);
           let obj = new Object();
-          const $ = cheerio.load(source.data);
-          let ogTitle = $('meta[property="og:title"]').attr("content");
-          let ogDescription = $('meta[property="og:description"]').attr(
+          const data = cheerio.load(source.data);
+
+          let ogTitle = data('meta[property="og:title"]').attr("content");
+          let ogDescription = data('meta[property="og:description"]').attr(
             "content"
           );
-          let ogImage = $('meta[property="og:image"]').attr("content");
+          let ogImage = data('meta[property="og:image"]').attr("content");
 
           obj.ogTitle = ogTitle;
           obj.ogDescription = ogDescription;
           obj.ogImage = ogImage;
           obj.body = source.data;
-          obj.fullText = $.text().replace(/\n/g, " ");
+          obj.fullText = data.text().replace(/\n/g, " ");
+          obj.title = data("title").text();
+
           res(obj);
+        })
+        .catch(error => {
+          let errorObj = new Object();
+          errorObj.message = error.message;
+          errorObj.url = url;
+          rej(errorObj);
+        });
+    });
+  },
+  getImportSiteContents: url => {
+    return new Promise(async (res, rej) => {
+      instance
+        .get(url)
+        .then(async source => {
+          const data = cheerio.load(source.data);
+
+          let object = new Object();
+
+          object.DEFAULT_CATEGORY_IDX = 0;
+          object.FULL_TEXT = data.text().replace(/\n/g, " ");
+          object.OG_DESCRIPTION = data('meta[property="og:description"]').attr(
+            "content"
+          );
+          object.OG_IMAGE = data('meta[property="og:image"]').attr("content");
+          object.OG_TITLE = data('meta[property="og:title"]').attr("content");
+          object.URL = url;
+          object.USE_CURRENT_SITE = "N";
+          object.TITLE = data("title").text();
+          object.UPDATE_TITLE = data("title").text();
+          object.TAG = "";
+
+          object.URL_KEY = md5(url.split("#")[0]);
+          object.HOST = CONTENTS.getUriInfo(url).host; //  getUriInfo: url => {
+          object.EMBEDURL = "";
+          object.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
+            source.data,
+            url
+          );
+
+          res(object);
         })
         .catch(error => {
           let errorObj = new Object();

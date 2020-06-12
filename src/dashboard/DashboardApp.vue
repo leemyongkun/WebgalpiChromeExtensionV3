@@ -13,6 +13,12 @@
     <SignDialog ref="signDialog"></SignDialog>
     <SelectMemberDialog ref="selectMemberDialog"></SelectMemberDialog>
     <SnackBar ref="snackbar"></SnackBar>
+
+    <v-overlay :value="overlay.status">
+      <v-progress-circular indeterminate size="64"
+        >{{ overlay.message }}
+      </v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>
 
@@ -43,6 +49,10 @@ export default {
     member: {
       EMAIL: "",
       IMAGE_URL: null
+    },
+    overlay: {
+      status: false,
+      message: "loading.."
     }
   }),
   methods: {
@@ -150,6 +160,15 @@ export default {
       EventBus.$on("init.dashboard", () => {
         this.initDashboard();
       });
+
+      EventBus.$on("open.full.overlay.loading", message => {
+        this.overlay.status = true;
+        this.overlay.message = message;
+      });
+      EventBus.$on("close.full.overlay.loading", () => {
+        this.overlay.status = false;
+      });
+
       this.initDashboard();
 
       this.openUpdateInfomation();

@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                                                  <v-col cols="12">
-                                                    <iframe
-                                                      id="ytplayer"
-                                                      type="text/html"
-                                                      width="640"
-                                                      height="360"
-                                                      :src="youtubeVideoId + '?autoplay=0'"
-                                                      frameborder="0"
-                                                    ></iframe>
-                                                  </v-col>
-                                                </v-row>-->
+                                                        <v-col cols="12">
+                                                          <iframe
+                                                            id="ytplayer"
+                                                            type="text/html"
+                                                            width="640"
+                                                            height="360"
+                                                            :src="youtubeVideoId + '?autoplay=0'"
+                                                            frameborder="0"
+                                                          ></iframe>
+                                                        </v-col>
+                                                      </v-row>-->
       <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
         <v-col cols="auto" v-if="youtubeVideoId !== ''">
           <iframe
@@ -82,12 +82,12 @@
         </v-col>
 
         <!--  <iframe
-                                                                                          type="text/html"
-                                                                                          width="100%"
-                                                                                          height="603px"
-                                                                                          src="https://blog.naver.com/rachel0067/221780986497"
-                                                                                          frameborder="0"
-                                                                                  ></iframe>-->
+                                                                                                  type="text/html"
+                                                                                                  width="100%"
+                                                                                                  height="603px"
+                                                                                                  src="https://blog.naver.com/rachel0067/221780986497"
+                                                                                                  frameborder="0"
+                                                                                          ></iframe>-->
       </v-row>
     </v-card-text>
     <SnackBar ref="snackbar"></SnackBar>
@@ -98,6 +98,7 @@ import SiteFunction from "./function/SiteFunction";
 import Common from "../../common/common";
 import SnackBar from "../snack/SnackBar";
 import EventBus from "../event-bus";
+import CRAWLER from "../common/cheerio";
 import MODAL from "../../common/modal";
 
 //https://www.npmjs.com/package/vue-youtube-embed
@@ -130,7 +131,20 @@ export default {
   methods: {
     print() {},
     reTryScrapping() {
-      MODAL.alert("준비중입니다.");
+      EventBus.$emit("open.full.overlay.loading", "Crawling..");
+      CRAWLER.getOriginalSiteContents(this.sourceUrl)
+        .then(res => {
+          //todo : 컨텐츠 저장
+          //full_text / readmode_text (변환필요) / fl_readmode = 'Y'
+          console.log("res ", res);
+          this.currentSite.FL_READMODE = "Y";
+        })
+        .catch(err => {
+          MODAL.alert("ERROR<br>" + err.message, "error");
+        })
+        .finally(() => {
+          EventBus.$emit("close.full.overlay.loading");
+        });
     },
     copyUrl(url) {
       let t = document.createElement("textarea");
