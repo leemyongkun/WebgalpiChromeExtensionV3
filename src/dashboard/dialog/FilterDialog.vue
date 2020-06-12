@@ -8,8 +8,8 @@
     </span>
 
     <!-- 검색
-         :close-on-click="false"
-        -->
+             :close-on-click="false"
+            -->
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
@@ -20,7 +20,7 @@
       <template v-slot:activator="{ on: menu }">
         <v-tooltip v-model="searchShow" color="blue" top>
           <template v-slot:activator="{ on: tooltip }">
-            <v-btn icon v-on="{ ...menu, ...tooltip }">
+            <v-btn icon v-on="{ ...menu, ...tooltip }" @click="openMenu">
               <v-icon size="18px">mdi-magnify</v-icon>
             </v-btn>
           </template>
@@ -33,6 +33,7 @@
           <v-list-item class="pr-0 pl-0">
             <v-list-item-content class="pt-0 pb-0">
               <v-text-field
+                ref="searchKeywordArea"
                 clearable
                 outlined
                 placeholder="검색어 입력 후 엔터"
@@ -185,6 +186,11 @@ export default {
     }
   }),
   methods: {
+    openMenu() {
+      setTimeout(() => {
+        this.$refs.searchKeywordArea.focus();
+      }, 100);
+    },
     more() {
       EventBus.$emit("more.paging");
     },
