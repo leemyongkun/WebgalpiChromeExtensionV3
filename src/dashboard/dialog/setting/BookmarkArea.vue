@@ -77,14 +77,18 @@ export default {
             return false;
         }*/
 
-      /* this.selectedBookmark.map( async bookmark => {
-            //console.log("bookmark >> " , bookmark.url);
-            await CRAWLER.getOriginalSiteContents(bookmark.url);
-            console.log("==================================================");
-        })*/
+      console.log("this.selectedBookmark ", this.selectedBookmark);
+      this.selectedBookmark.map(async bookmark => {
+        //console.log("bookmark >> " , bookmark.url);
+        let result = await CRAWLER.getImportSiteContents(bookmark.url);
+        console.log(
+          "================================================== ",
+          result
+        );
+      });
 
-      var url = "http://lemonweb/MyDesk/Home/Index/160";
-      url = "https://www.fnnews.com/news/202004231837158267";
+      /* var url = "http://lemonweb/MyDesk/Home/Index/160";
+      url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
 
       /*
@@ -105,7 +109,7 @@ export default {
         USE_CURRENT_SITE: "N"
         */
 
-      await CRAWLER.getOriginalSiteContents(url);
+      //await CRAWLER.getOriginalSiteContents(url);
     },
     open() {
       this.dialog = true;

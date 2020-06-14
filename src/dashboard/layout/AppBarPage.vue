@@ -145,7 +145,8 @@ export default {
         "[대쉬보드] 검색기능이 추가되었습니다."
       ],
       debug: [
-        "[팝업] 사이트 저장 시, 중복된 창이 있으면 닫히는 현상수정."
+        "[팝업] 사이트 저장 시, 중복된 창이 있으면 닫히는 현상수정.",
+        "[대쉬보드] TextField에 AutoFocus 처리"
         /*
                                 1.0.10
 
@@ -153,10 +154,10 @@ export default {
         /*"(해야함) 가입 및 로그인 후, 임시로 열린 Google Tab을 닫는다."*/
       ],
       todo: [
+        "[진행중] BOOKMARK -> WEBGALPI로 IMPORT기능을 추가한다.",
         "OneTab과 같은 기능을 추가한다.",
         "다국어처리를 한다. (한국어/영어/일본어)",
         "제목/본문 키워드 검색기능을 추가한다.",
-        "BOOKMARK -> WEBGALPI로 IMPORT기능을 추가한다.",
         "Google 검색 시, WEBGALPI에 이미 등록한 내용을 추천한다.",
         "스크래핑 재시도 기능을 추가한다.",
         "[복구] 시, 스크래핑이 되지 않은 컨텐츠 정보를 보여준다."
@@ -184,10 +185,9 @@ export default {
     async processTest() {
       let result = await Utils.getLocalStorage("loginInfo");
 
-      let url = "http://egloos.zum.com/littletrue/v/3987863";
+      let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
       let contents = await CRAWLER.getImportSiteContents(url);
       contents.EMAIL = result.loginInfo.EMAIL;
-      console.log("contents ", contents);
 
       CONTENT_LISTENER.sendMessage({
         type: "post.site",

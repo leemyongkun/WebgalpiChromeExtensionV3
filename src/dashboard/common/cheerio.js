@@ -12,7 +12,6 @@ let CRAWLER = {
       instance
         .get(url)
         .then(source => {
-          console.log("source ", source);
           let obj = new Object();
           const data = cheerio.load(source.data);
 
@@ -44,26 +43,34 @@ let CRAWLER = {
       instance
         .get(url)
         .then(async source => {
-          const data = cheerio.load(source.data);
+          const $ = cheerio.load(source.data);
 
           let object = new Object();
+          let urlInfo = CONTENTS.getUriInfo(url);
+
+          if (location.href.indexOf("www.youtube.com/watch") !== -1) {
+            object.EMBEDURL = "";
+          } else {
+            object.EMBEDURL =
+              "https://" + urlInfo.host + "/embed/" + urlInfo.parameter.v;
+          }
 
           object.DEFAULT_CATEGORY_IDX = 0;
-          object.FULL_TEXT = data.text().replace(/\n/g, " ");
-          object.OG_DESCRIPTION = data('meta[property="og:description"]').attr(
+          object.FULL_TEXT = $.text().replace(/\n/g, " ");
+          object.OG_DESCRIPTION = $('meta[property="og:description"]').attr(
             "content"
           );
-          object.OG_IMAGE = data('meta[property="og:image"]').attr("content");
-          object.OG_TITLE = data('meta[property="og:title"]').attr("content");
+          object.OG_IMAGE = $('meta[property="og:image"]').attr("content");
+          object.OG_TITLE = $('meta[property="og:title"]').attr("content");
           object.URL = url;
           object.USE_CURRENT_SITE = "N";
-          object.TITLE = data("title").text();
-          object.UPDATE_TITLE = data("title").text();
+          object.TITLE = $("title").text();
+          object.UPDATE_TITLE = $("title").text();
           object.TAG = "";
 
           object.URL_KEY = md5(url.split("#")[0]);
-          object.HOST = CONTENTS.getUriInfo(url).host; //  getUriInfo: url => {
-          object.EMBEDURL = "";
+          object.HOST = urlInfo.host; //  getUriInfo: url => {
+
           object.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
             source.data,
             url
