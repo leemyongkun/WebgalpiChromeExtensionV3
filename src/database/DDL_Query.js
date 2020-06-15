@@ -66,7 +66,7 @@ let CREATE_TABLE_QUERY = {
             TAGS TEXT,
             OWNER_EMAIL TEXT,
             READERMODE_CONTENTS TEXT,
-             FL_BOOKMARK TEXT,
+            FL_BOOKMARK TEXT,
             FL_READMODE TEXT,
             FL_FAVORITE TEXT,
             FL_BACKUP TEXT,

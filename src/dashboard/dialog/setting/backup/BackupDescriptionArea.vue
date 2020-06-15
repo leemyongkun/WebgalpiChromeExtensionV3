@@ -24,7 +24,6 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn small color="green" text @click="run">RUN</v-btn>
         <v-btn small color="blue" text @click="close">CANCEL</v-btn>
       </v-card-actions>
     </v-card>

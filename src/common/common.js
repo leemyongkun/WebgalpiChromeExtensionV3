@@ -115,6 +115,13 @@ let Common = {
       case "highlight-color-11":
         return "#c0b6a7";
     }
+  },
+  toHashMap: (list, key) => {
+    let hashMap = new Object();
+    list.forEach(obj => {
+      hashMap[obj[key]] = obj;
+    });
+    return hashMap;
   }
 };
 
