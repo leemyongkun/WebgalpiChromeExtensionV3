@@ -39,9 +39,9 @@
               :class="subItem.class"
             >
               <!--  <v-list-item-icon style="margin-right: 2px;">
-                                <v-icon size="15px" color="green" left>mdi-folder-outline
-                                </v-icon>
-                            </v-list-item-icon>-->
+                                              <v-icon size="15px" color="green" left>mdi-folder-outline
+                                              </v-icon>
+                                          </v-list-item-icon>-->
 
               <v-list-item-content :id="subItem.id">
                 <v-list-item-title
@@ -146,3 +146,10 @@ export default {
   }
 };
 </script>
+<style>
+.v-list-item__title {
+  width: 50px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>
