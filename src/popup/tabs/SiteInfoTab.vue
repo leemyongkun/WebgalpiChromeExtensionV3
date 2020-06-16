@@ -188,14 +188,12 @@ export default {
     },
     setCategory() {
       chrome.storage.local.get(["loginInfo"], result => {
-        console.log("result ", result);
         let email = result.loginInfo.EMAIL;
         CONTENT_LISTENER.sendMessage({
           type: "get.category",
           data: [email]
         }).then(category => {
           if (category !== undefined) {
-            console.log("category ", category);
             this.category = category.filter(item => {
               return item.parent !== 0;
             });

@@ -19,79 +19,73 @@ let BackgroundModule = {
     });
   },
   initApplication: (tabId, currentUrl) => {
-    return new Promise(function(res) {
-      if (isPopup) {
-        isPopup = false;
+    if (isPopup) {
+      isPopup = false;
+      return false;
+    }
+
+    //차단된 사이트는 열지 않도록 한다.
+    let isDetected = false;
+    for (var i = 0; i < SITE_MANAGER.DETECTE_SITES.length; i++) {
+      if (currentUrl.indexOf(SITE_MANAGER.DETECTE_SITES[i]) !== -1) {
+        isDetected = true;
+        chrome.browserAction.setPopup({
+          tabId: tabId,
+          popup: "popup/detectPopup.html"
+        });
+
+        chrome.browserAction.setBadgeText({
+          text: "X",
+          tabId: tabId
+        });
+        chrome.browserAction.setBadgeBackgroundColor({
+          color: "red",
+          tabId: tabId
+        });
+
         return false;
       }
+    }
+    if (isDetected) {
+      return false;
+    }
 
-      //차단된 사이트는 열지 않도록 한다.
-      let isDetected = false;
-      for (var i = 0; i < SITE_MANAGER.DETECTE_SITES.length; i++) {
-        if (currentUrl.indexOf(SITE_MANAGER.DETECTE_SITES[i]) !== -1) {
-          isDetected = true;
-          chrome.browserAction.setPopup({
-            tabId: tabId,
-            popup: "popup/detectPopup.html"
-          });
+    let urlPath = currentUrl;
+    let ext = urlPath.substr(urlPath.length - 4, urlPath.length);
+    currentUrl = md5(currentUrl.split("#")[0]);
 
-          chrome.browserAction.setBadgeText({
-            text: "X",
-            tabId: tabId
-          });
-          chrome.browserAction.setBadgeBackgroundColor({
-            color: "red",
-            tabId: tabId
-          });
+    let initParameter = {
+      URL_KEY: currentUrl,
+      URL: urlPath,
+      EXT: ext
+    };
 
-          return false;
-        }
-      }
-      if (isDetected) {
+    //현재 urlKey를 저장한다.
+    chrome.storage.local.set({ [tabId]: currentUrl }, null);
+
+    //EMAIL로 조건을 걸지 않고, 사용중(IS_USE=Y)의 데이타만 가져온다
+    Api.getMemberInfo().then(memberInfo => {
+      if (memberInfo.EMAIL === "") {
         return false;
       }
+      //로그인 정보 저장해둔다.
+      chrome.storage.local.set({ loginInfo: memberInfo });
 
-      let urlPath = currentUrl;
-      let ext = urlPath.substr(urlPath.length - 4, urlPath.length);
-      currentUrl = md5(currentUrl.split("#")[0]);
+      initParameter.EMAIL = memberInfo.EMAIL;
 
-      let initParameter = {
-        URL_KEY: currentUrl,
-        URL: urlPath,
-        EXT: ext
-      };
+      Api.getInitInfo(initParameter).then(res => {
+        //todo : excludesUrl 등록 기능 추가 할것.
+        res.tabid = tabId;
 
-      //현재 urlKey를 저장한다.
-      chrome.storage.local.set({ [tabId]: currentUrl }, null);
+        //옵션을 저장해둔다.
+        chrome.storage.local.set({ options: res.options });
 
-      //EMAIL로 조건을 걸지 않고, 사용중(IS_USE=Y)의 데이타만 가져온다
-      Api.getMemberInfo().then(memberInfo => {
-        if (memberInfo.EMAIL === "") {
-          return false;
-        }
-        //로그인 정보 저장해둔다.
-        chrome.storage.local.set({ loginInfo: memberInfo });
-
-        initParameter.EMAIL = memberInfo.EMAIL;
-
-        Api.getInitInfo(initParameter).then(res => {
-          //todo : excludesUrl 등록 기능 추가 할것.
-          res.tabid = tabId;
-
-          //옵션을 저장해둔다.
-          chrome.storage.local.set({ options: res.options });
-
-          chrome.tabs.sendMessage(
-            tabId,
-            { action: "application.init", data: res, site: initParameter },
-            response => {
-              checkLastError("application.init");
-            }
-          );
+        chrome.tabs.sendMessage(tabId, {
+          action: "application.init",
+          data: res,
+          site: initParameter
         });
       });
-
-      res(true);
     });
   }
 };

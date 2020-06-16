@@ -2,8 +2,6 @@ import CONTENTS from "./contents";
 import EVENT from "./event";
 import APPLICATION from "./application.js";
 import { GLOBAL_CONFIG, URL, USER_INFO } from "./global/config";
-import CORE from "./core/core";
-import COMMON from "./common";
 
 let $ = require("jquery");
 
@@ -45,8 +43,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 
       APPLICATION.init(msg.data);
 
-      sendResponse(true);
-      return true;
       break;
     case "get.site.info":
       //let content = await CONTENTS.firstVisitSite(new Object());
