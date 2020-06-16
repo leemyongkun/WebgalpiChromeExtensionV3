@@ -1,10 +1,10 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <div v-for="(item, i) in category" :key="i">
+      <!--:value="false"-->
       <v-list-group
         sub-group
         no-action
-        value="true"
         @mouseover="item.mouseOver = true"
         @mouseleave="item.mouseOver = false"
       >
