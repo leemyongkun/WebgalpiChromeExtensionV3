@@ -97,6 +97,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
           });
         });
       });
+      return true;
       break;
 
     case "reloading.dashboard":
@@ -115,6 +116,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
           });
         });
       });
+      return true;
       break;
 
     case "insert.member":
@@ -194,6 +196,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
           sendResponse(site);
         });
       }
+      return true;
       break;
 
     case "full.before.capture":
@@ -220,14 +223,14 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     /*case "get.site": //미사용
-                                                          let getSiteParameter = new Object();
-                                                          getSiteParameter.URL_KEY = msg.data;
+                                                              let getSiteParameter = new Object();
+                                                              getSiteParameter.URL_KEY = msg.data;
 
-                                                          API.getSite(getSiteParameter).then(res => {
-                                                            sendResponse(res); //조건
-                                                          });
-                                                          return true;
-                                                          break;*/
+                                                              API.getSite(getSiteParameter).then(res => {
+                                                                sendResponse(res); //조건
+                                                              });
+                                                              return true;
+                                                              break;*/
 
     case "get.sites.count":
       API.getSites(msg.data).then(res => {

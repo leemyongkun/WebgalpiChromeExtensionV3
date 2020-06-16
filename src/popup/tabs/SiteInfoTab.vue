@@ -35,26 +35,30 @@
         class="ma-1"
       ></v-select>
 
-      <v-tooltip
-        v-model="tooltip.saveSite"
-        v-if="siteInfo.USE_CURRENT_SITE === 'N'"
-        top
-      >
+      <v-tooltip v-model="tooltip.saveSite" top>
         <template v-slot:activator="{ on }">
-          <v-btn class="pa-0" icon @click="saveSite" v-on="on">
+          <v-btn
+            class="pa-0"
+            icon
+            @click="saveSite"
+            v-on="on"
+            v-show="!showIcon"
+          >
             <v-icon>mdi-content-save</v-icon>
           </v-btn>
         </template>
         <span>사이트를 저장합니다.</span>
       </v-tooltip>
 
-      <v-tooltip
-        v-model="tooltip.category"
-        v-if="siteInfo.USE_CURRENT_SITE === 'Y'"
-        top
-      >
+      <v-tooltip v-model="tooltip.category" top>
         <template v-slot:activator="{ on }">
-          <v-btn class="pa-0" @click="updateCategory" icon v-on="on">
+          <v-btn
+            class="pa-0"
+            @click="updateCategory"
+            icon
+            v-on="on"
+            v-show="showIcon"
+          >
             <v-icon>mdi-folder-download-outline</v-icon>
           </v-btn>
         </template>
@@ -106,7 +110,8 @@ export default {
       SITE: null
     },
     image: null,
-    isCollapse: true
+    isCollapse: true,
+    showIcon: false
   }),
   methods: {
     goDashboard() {
@@ -135,6 +140,7 @@ export default {
     },
     saveSite() {
       this.siteInfo.DEFAULT_CATEGORY_IDX = this.selectCategory;
+      this.showIcon = true;
 
       CONTENT_LISTENER.sendMessage({
         type: "post.site",
@@ -171,17 +177,39 @@ export default {
           });
         })
         .then(() => {
+          alert("컨텐츠를 저장하였습니다.");
           chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
             let tabId = tabs[0].id;
             chrome.tabs.sendMessage(tabId, {
               action: "update.global.config.useCurrentSite"
             });
           });
-          alert("컨텐츠를 저장하였습니다.");
         });
+    },
+    setCategory() {
+      chrome.storage.local.get(["loginInfo"], result => {
+        console.log("result ", result);
+        let email = result.loginInfo.EMAIL;
+        CONTENT_LISTENER.sendMessage({
+          type: "get.category",
+          data: [email]
+        }).then(category => {
+          if (category !== undefined) {
+            console.log("category ", category);
+            this.category = category.filter(item => {
+              return item.parent !== 0;
+            });
+
+            this.category.unshift({ id: -1, name: "NO CATEGORY" });
+
+            if (this.category.length !== 0) {
+              this.selectCategory = this.category[0].id;
+            }
+          }
+        });
+      });
     }
   },
-  created() {},
   mounted() {
     this.overlay.message = "Loading..";
     this.$nextTick(() => {
@@ -218,34 +246,19 @@ export default {
                 chrome.storage.local.get(["loginInfo"], result => {
                   siteInfo.EMAIL = result.loginInfo.EMAIL;
                   clearInterval(interval);
+                  if (siteInfo.USE_CURRENT_SITE === "Y") {
+                    this.showIcon = true;
+                  }
                   this.siteInfo = siteInfo;
                   this.overlay.status = false;
                 });
+
+                this.setCategory();
               }
             }
           );
         });
       }, 300);
-
-      chrome.storage.local.get(["loginInfo"], result => {
-        let email = result.loginInfo.EMAIL;
-        CONTENT_LISTENER.sendMessage({
-          type: "get.category",
-          data: [email]
-        }).then(category => {
-          if (category !== undefined) {
-            this.category = category.filter(item => {
-              return item.parent !== 0;
-            });
-
-            this.category.unshift({ id: -1, name: "NO CATEGORY" });
-
-            if (this.category.length !== 0) {
-              this.selectCategory = this.category[0].id;
-            }
-          }
-        });
-      });
     });
   }
 };
