@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                                                        <v-col cols="12">
-                                                          <iframe
-                                                            id="ytplayer"
-                                                            type="text/html"
-                                                            width="640"
-                                                            height="360"
-                                                            :src="youtubeVideoId + '?autoplay=0'"
-                                                            frameborder="0"
-                                                          ></iframe>
-                                                        </v-col>
-                                                      </v-row>-->
+                                                              <v-col cols="12">
+                                                                <iframe
+                                                                  id="ytplayer"
+                                                                  type="text/html"
+                                                                  width="640"
+                                                                  height="360"
+                                                                  :src="youtubeVideoId + '?autoplay=0'"
+                                                                  frameborder="0"
+                                                                ></iframe>
+                                                              </v-col>
+                                                            </v-row>-->
       <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
         <v-col cols="auto" v-if="youtubeVideoId !== ''">
           <iframe
@@ -82,12 +82,12 @@
         </v-col>
 
         <!--  <iframe
-                                                                                                  type="text/html"
-                                                                                                  width="100%"
-                                                                                                  height="603px"
-                                                                                                  src="https://blog.naver.com/rachel0067/221780986497"
-                                                                                                  frameborder="0"
-                                                                                          ></iframe>-->
+                                                                                                          type="text/html"
+                                                                                                          width="100%"
+                                                                                                          height="603px"
+                                                                                                          src="https://blog.naver.com/rachel0067/221780986497"
+                                                                                                          frameborder="0"
+                                                                                                  ></iframe>-->
       </v-row>
     </v-card-text>
     <SnackBar ref="snackbar"></SnackBar>
@@ -100,6 +100,8 @@ import SnackBar from "../snack/SnackBar";
 import EventBus from "../event-bus";
 import CRAWLER from "../common/cheerio";
 import MODAL from "../../common/modal";
+import CONTENT_LISTENER from "../../common/content-listener";
+import CONTENTS from "../../contents/contents";
 
 //https://www.npmjs.com/package/vue-youtube-embed
 export default {
@@ -133,11 +135,25 @@ export default {
     reTryScrapping() {
       EventBus.$emit("open.full.overlay.loading", "Crawling..");
       CRAWLER.getOriginalSiteContents(this.sourceUrl)
-        .then(res => {
-          //todo : 컨텐츠 저장
-          //full_text / readmode_text (변환필요) / fl_readmode = 'Y'
-          console.log("res ", res);
+        .then(async res => {
+          //컨텐츠 저장
           this.currentSite.FL_READMODE = "Y";
+          this.currentSite.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
+            res.body,
+            this.currentSite.URL
+          );
+          this.currentSite.FULL_TEXT = res.fullText;
+
+          this.currentSite.OG_TITLE = res.ogTitle;
+          this.currentSite.OG_DESCRIPTION = res.ogDescription;
+          this.currentSite.OG_IMAGE = res.ogImage;
+
+          CONTENT_LISTENER.sendMessage({
+            type: "update.scrap.site",
+            data: this.currentSite
+          }).then(() => {
+            EventBus.$emit("open.snack", "업데이트가 완료되었습니다.");
+          });
         })
         .catch(err => {
           MODAL.alert("ERROR<br>" + err.message, "error");

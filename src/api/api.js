@@ -206,7 +206,17 @@ let Api = {
     let param = [currentDate, params.URL_KEY, params.EMAIL];
     return remove(Query.deleteSite(), param);
   },
-
+  updateScrapSite: params => {
+    let param = [
+      params.READERMODE_CONTENTS,
+      params.FULL_TEXT,
+      params.OG_TITLE,
+      params.OG_DESCRIPTION,
+      params.OG_IMAGE,
+      params.URL_KEY
+    ];
+    return update(Query.updateScrapSite(), param);
+  },
   postSite: async params => {
     let date = new Date().getTime();
     let param = [

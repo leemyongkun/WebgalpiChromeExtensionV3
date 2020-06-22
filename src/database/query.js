@@ -457,6 +457,16 @@ export default {
             AND EMAIL = ?
                 `;
   },
+  updateScrapSite: () => {
+    return `UPDATE TBL_SITES
+                    SET FL_READMODE = 'Y',
+                    READERMODE_CONTENTS = ?,
+                    FULL_TEXT= ?,
+                    OG_TITLE = ?,
+                    OG_DESCRIPTION = ?,
+                    OG_IMAGE = ?
+                WHERE URL_KEY = ?`;
+  },
   deleteSiteInCategory: () => {
     return `DELETE FROM TBL_REL_CATEGORY
             WHERE URL_KEY = ?
