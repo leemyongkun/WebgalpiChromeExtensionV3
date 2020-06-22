@@ -22,21 +22,23 @@
 
       <!--
 
-                    <v-badge
-                            avatar
-                            bordered
+                          <v-badge
+                                  avatar
+                                  bordered
 
-                    >
-                        <template v-slot:badge>
-                            <span>99+</span>
-                        </template>
+                          >
+                              <template v-slot:badge>
+                                  <span>99+</span>
+                              </template>
 
-                    </v-badge>
-            -->
+                          </v-badge>
+                  -->
     </template>
 
     <v-card width="400px" :style="maxHeightWidget">
-      <v-list v-if="highlightItems.length !== 0">
+      <v-list
+        v-if="highlightItems.length !== 0 && currentSite.FL_READMODE === 'Y'"
+      >
         <template v-for="(item, index) in highlightItems">
           <v-list-item :key="item.IDX" class="pr-2">
             <v-list-item-content class="mt-0 body-2">
@@ -53,11 +55,22 @@
         </template>
       </v-list>
 
-      <v-list v-if="highlightItems.length === 0">
+      <v-list
+        v-if="highlightItems.length === 0 || currentSite.FL_READMODE === 'N'"
+      >
         <v-list-item>
           <v-list-item-content class="mt-0 pt-0 ">
-            <v-list-item-title class="title text-center">
+            <v-list-item-title
+              class="title text-center"
+              v-if="currentSite.FL_READMODE === 'Y'"
+            >
               NO HIGHLIGHTS
+            </v-list-item-title>
+            <v-list-item-title
+              class="title text-center"
+              v-if="currentSite.FL_READMODE === 'N'"
+            >
+              잠겨있는 컨텐츠입니다.<br />스크래핑을 다시 시도해보세요.
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -69,11 +82,12 @@
 import Common from "../../../../common/common";
 import CONTENT_LISTENER from "../../../../common/content-listener";
 import MODAL from "../../../../common/modal";
+import EventBus from "../../../event-bus";
 
 export default {
   components: {},
   computed: {},
-  props: ["highlights"],
+  props: ["highlights", "currentSite"],
   data: () => ({
     hover: false,
     highlightItems: [],

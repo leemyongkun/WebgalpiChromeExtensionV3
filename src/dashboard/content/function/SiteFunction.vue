@@ -35,7 +35,10 @@
     <!--<ShareSlackDialog :currentSite="currentSite"></ShareSlackDialog>-->
 
     |
-    <HighlightsWidget :highlights="highlights"></HighlightsWidget>
+    <HighlightsWidget
+      :highlights="highlights"
+      :currentSite="currentSite"
+    ></HighlightsWidget>
   </div>
 </template>
 <script>
