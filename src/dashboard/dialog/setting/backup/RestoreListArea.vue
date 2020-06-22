@@ -11,20 +11,41 @@
         Backup Files
       </v-card-title>
       <v-card-text class="pl-0 pr-0">
+        <!-- <v-data-table v-model="selected" :headers="headers" :items="items">
+                     <template slot="item" slot-scope="props">
+                         <tr
+                                 style="cursor: pointer;"
+                                 @click="selectedTargetRestoreFile(props.item)"
+                         >
+                             <td>{{ props.item.description }}</td>
+                             <td class="text-xs-right">
+                                 {{ convertDate(props.item.title.split("_")[2]) }}
+                             </td>
+                             <td class="text-xs-right">
+                                 {{ convertByteToKB(props.item.fileSize) }}
+                             </td>
+                         </tr>
+                     </template>
+                 </v-data-table>-->
+
         <v-data-table v-model="selected" :headers="headers" :items="items">
-          <template slot="item" slot-scope="props">
-            <tr
-              style="cursor: pointer;"
-              @click="selectedTargetRestoreFile(props.item)"
-            >
-              <td>{{ props.item.description }}</td>
-              <td class="text-xs-right">
-                {{ convertDate(props.item.title.split("_")[2]) }}
-              </td>
-              <td class="text-xs-right">
-                {{ convertByteToKB(props.item.fileSize) }}
-              </td>
-            </tr>
+          <template v-slot:item.description="{ item }">
+            {{ item.description }}
+          </template>
+          <template v-slot:item.modifiedDate="{ item }">
+            {{ convertDate(item.title.split("_")[2]) }}
+          </template>
+
+          <template v-slot:item.fileSize="{ item }">
+            {{ convertByteToKB(item.fileSize) }}
+          </template>
+          <template v-slot:item.id="{ item }">
+            <v-btn color="green" icon @click="selectedTargetRestoreFile(item)">
+              <v-icon>mdi-backup-restore</v-icon>
+            </v-btn>
+            <v-btn color="red" icon @click="deleteRestoreFile(item)">
+              <v-icon>mdi-trash-can-outline</v-icon>
+            </v-btn>
           </template>
         </v-data-table>
       </v-card-text>
@@ -47,6 +68,7 @@
 <script>
 import RestoreProcessArea from "./RestoreProcessArea";
 import MODAL from "../../../../common/modal";
+import EventBus from "../../../event-bus";
 
 let CryptoJS = require("crypto-js");
 
@@ -67,7 +89,7 @@ export default {
         text: "Description",
         align: "center",
         value: "description",
-        width: "60%"
+        width: "40%"
       },
       {
         text: "Modified Date",
@@ -82,6 +104,13 @@ export default {
         sortable: false,
         value: "fileSize",
         width: "15%"
+      },
+      {
+        text: "Action",
+        align: "center",
+        sortable: false,
+        value: "id",
+        width: "15%"
       }
     ]
   }),
@@ -89,6 +118,7 @@ export default {
   mounted() {},
   methods: {
     open(list, password) {
+      console.log("list ", list);
       this.items = list;
       this.backupPassword = password;
       this.dialog = true;
@@ -142,26 +172,39 @@ export default {
       val = val / 1024;
       return Math.floor(val * 100) / 100;
     },
-    async selectedTargetRestoreFile(item) {
-      let confirm = `<b>${item.title}</b> 로 복구 하시겠습니까?"`;
-      let result = await MODAL.confirm(confirm);
+    async deleteRestoreFile(item) {
+      let confirm = `<b>${item.description}</b> 를 삭제 하시겠습니까?"`;
+      if (this.items.length === 1) {
+        confirm += "<br> 주의 : 마지막 백업파일입니다.";
+      }
+
+      let result = await MODAL.confirm(confirm, null, null, null, "450px");
       if (result.value === undefined) return false;
       this.restoreOverlay = true;
 
-      /*  chrome.identity.getAuthToken({ interactive: true }, token => {
-                              let xhr = new XMLHttpRequest();
-                              xhr.open("GET", "https://www.googleapis.com/drive/v3/files/"+item.id+'?alt=media', true);
-                              xhr.setRequestHeader('Authorization','Bearer '+token);
-                              xhr.responseType = item.mimeType;
-                              xhr.onload = function(){
-                                  let data = JSON.parse(xhr.response);
-                                  let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
-                                  let originalText = bytes.toString(CryptoJS.enc.Utf8);
-                                  console.log("originalText ",originalText);
-                              }
-                              xhr.send();
-                          });
-          */
+      chrome.identity.getAuthToken({ interactive: true }, token => {
+        let url = "https://www.googleapis.com/drive/v3/files/" + item.id;
+        fetch(url, {
+          method: "DELETE",
+          headers: new Headers({
+            Authorization: "Bearer " + token
+          })
+        }).then(file => {
+          let result = this.items.filter(i => {
+            return i.id !== item.id;
+          });
+          this.items = result;
+          EventBus.$emit("open.snack", "삭제 되었습니다.");
+
+          this.restoreOverlay = false;
+        });
+      });
+    },
+    async selectedTargetRestoreFile(item) {
+      let confirm = `<b>${item.description}</b> 로 복구 하시겠습니까?"`;
+      let result = await MODAL.confirm(confirm);
+      if (result.value === undefined) return false;
+      this.restoreOverlay = true;
 
       chrome.identity.getAuthToken({ interactive: true }, token => {
         let url =
