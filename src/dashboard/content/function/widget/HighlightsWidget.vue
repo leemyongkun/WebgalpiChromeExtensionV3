@@ -8,12 +8,31 @@
     <template v-slot:activator="{ on: menu }">
       <v-tooltip v-model="highlightTooltip" color="blue" top>
         <template v-slot:activator="{ on: tooltip }">
-          <v-btn icon v-on="{ ...menu, ...tooltip }" @click="setHighlights">
-            <v-icon>mdi-book-outline</v-icon>
-          </v-btn>
+          <v-badge bordered overlap color="green">
+            <template v-slot:badge>
+              <span>{{ highlights.length }}</span>
+            </template>
+            <v-btn icon v-on="{ ...menu, ...tooltip }" @click="setHighlights">
+              <v-icon>mdi-book-outline</v-icon>
+            </v-btn>
+          </v-badge>
         </template>
         <span>저장된 하이라이트를 표시합니다.</span>
       </v-tooltip>
+
+      <!--
+
+                    <v-badge
+                            avatar
+                            bordered
+
+                    >
+                        <template v-slot:badge>
+                            <span>99+</span>
+                        </template>
+
+                    </v-badge>
+            -->
     </template>
 
     <v-card width="400px" :style="maxHeightWidget">
