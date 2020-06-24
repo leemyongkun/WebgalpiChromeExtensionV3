@@ -57,15 +57,15 @@ let HIGHLIGT_CORE = {
       }
 
       // 모든 노드를 배열에 넣는다. (시작과 끝 노느 분할작업)
-      var nodes = HIGHLIGT_CORE.textNodesInRange(rangeObject);
-      var startContainer = rangeObject.startContainer;
-      var startOffset = rangeObject.startOffset;
-      var endContainer = rangeObject.endContainer;
-      var endOffset = rangeObject.endOffset;
+      let nodes = HIGHLIGT_CORE.textNodesInRange(rangeObject);
+      let startContainer = rangeObject.startContainer;
+      let startOffset = rangeObject.startOffset;
+      let endContainer = rangeObject.endContainer;
+      let endOffset = rangeObject.endOffset;
 
       // Highlight node
-      var highlights = [];
-      var count = 0;
+      let highlights = [];
+      let count = 0;
       // console.log(">>>>>>>>>>>>>>>>>>>>>>> nodes " ,nodes);
       for (let nodeIdx in nodes) {
         let ret = HIGHLIGT_CORE.highlightNode(
@@ -76,7 +76,6 @@ let HIGHLIGT_CORE = {
           count
         );
         if (!ret) {
-          // console.log("ret ",ret);
           highlights.push(ret);
         }
         count++;
@@ -86,10 +85,10 @@ let HIGHLIGT_CORE = {
       rangeObject.setEnd(endContainer, endOffset);
 
       function cleanupHighlights() {
-        var startContainer = rangeObject.startContainer;
-        var startOffset = rangeObject.startOffset;
-        var endContainer = rangeObject.endContainer;
-        var endOffset = rangeObject.endOffset;
+        let startContainer = rangeObject.startContainer;
+        let startOffset = rangeObject.startOffset;
+        let endContainer = rangeObject.endContainer;
+        let endOffset = rangeObject.endOffset;
 
         for (var highlightIdx in highlights) {
           HIGHLIGT_CORE.removeHighlight(highlights[highlightIdx]);
@@ -114,7 +113,7 @@ let HIGHLIGT_CORE = {
 
     if (rangeObject.startOffset !== rangeObject.startContainer.length) {
       if (rangeObject.startOffset !== 0) {
-        var createdNode = rangeObject.startContainer.splitText(
+        let createdNode = rangeObject.startContainer.splitText(
           rangeObject.startOffset
         );
 
@@ -130,11 +129,11 @@ let HIGHLIGT_CORE = {
     }
 
     // Create an iterator to iterate through the nodes.
-    var root =
+    let root =
       typeof rangeObject.commonAncestorContainer !== "undefined"
         ? rangeObject.commonAncestorContainer
         : document.body; // fall back to whole document for browser compatibility
-    var iter = document.createNodeIterator(root, NodeFilter.SHOW_TEXT);
+    let iter = document.createNodeIterator(root, NodeFilter.SHOW_TEXT);
 
     // Find the start node (could we somehow skip this seemingly needless search?)
     while (
@@ -175,8 +174,8 @@ let HIGHLIGT_CORE = {
   setRangeToTextNodes: rangeObject => {
     function getFirstTextNode(node) {
       if (node.nodeType === Node.TEXT_NODE) return node;
-      var document = node.ownerDocument;
-      var walker = document.createTreeWalker(
+      let document = node.ownerDocument;
+      let walker = document.createTreeWalker(
         node,
         NodeFilter.SHOW_TEXT,
         null,
@@ -185,8 +184,8 @@ let HIGHLIGT_CORE = {
       return walker.firstChild();
     }
 
-    var startNode = rangeObject.startContainer;
-    var startOffset = rangeObject.startOffset;
+    let startNode = rangeObject.startContainer;
+    let startOffset = rangeObject.startOffset;
 
     // Drill down to a text node if the range starts at the container boundary.
     if (startNode.nodeType !== Node.TEXT_NODE) {
@@ -202,8 +201,8 @@ let HIGHLIGT_CORE = {
       rangeObject.setStart(startNode, startOffset);
     }
 
-    var endNode = rangeObject.endContainer;
-    var endOffset = rangeObject.endOffset;
+    let endNode = rangeObject.endContainer;
+    let endOffset = rangeObject.endOffset;
 
     // Drill down to a text node if the range ends at the container boundary.
     if (endNode.nodeType !== Node.TEXT_NODE) {
@@ -248,13 +247,14 @@ let HIGHLIGT_CORE = {
     // 하이라이트를 생성한다.
     let highlight = document.createElement(highlightTag);
     highlight.classList.add(highlightClass.split(" ")[0]);
-    //highlight.classList.add("wf-pen"); //20191207@ykleem
 
     // memo가 있는 경우
     // highlight.classList.add('wf-memo');
     //highlight.style.cssText = getColor(highlightClass); // rgb형태로 자동 변환되어 들어간다.
     highlight.setAttribute(GLOBAL_CONFIG.HL_ID_NAME, highlightId);
-    highlight.setAttribute("style", "cursor:pointer");
+    highlight.setAttribute("style", "cursor:pointer !important;");
+
+    //background-color: rgb(255, 255, 141);
 
     // Wrap it around the text node
     node.parentNode.replaceChild(highlight, node);

@@ -5,7 +5,7 @@ let GLOBAL_CONFIG = {
   CAPTURE_ELEMENT: "webgalpi-capture-area",
   CAPTURE_BUTTON_ID: "webgalpi-capture-button",
   TARGET_ELEMENT: "body", //targetElement
-  HL_TAG_NAME: "webgalpi-tag", //custom-tagName :wafflepen-highlight
+  HL_TAG_NAME: "webgalpi-tag", //custom-tagName :wafflepen-highlight /
   HL_ID_NAME: "webgalpi-id", //idName
   IS_LOGIN: true,
   URL_TYPE: "",

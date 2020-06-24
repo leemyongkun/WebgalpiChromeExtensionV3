@@ -169,6 +169,11 @@ let BackgrounEvent = {
         BackgroundModule.initApplication(tabId, tab.url);
       }
     });
+  },
+  autoBackupScheduler: () => {
+    setInterval(() => {
+      //alert(new Date().getTime());
+    }, 10000);
   }
 };
 
@@ -195,6 +200,8 @@ BackgrounEvent.onInstalled();
 //Tab이 열릴때
 BackgrounEvent.onUpdated();
 
+BackgrounEvent.autoBackupScheduler();
+
 //Bookmark
 //BackgrounEvent.getBookmarks();
 
@@ -206,10 +213,3 @@ chrome.tabs.onActivated.addListener((activeInfo, act) => {
     }
   });
 });
-
-function doStuff(request) {
-  chrome.extension.onRequest.removeListener(doStuff);
-  console.log(request);
-}
-
-chrome.extension.onRequest.addListener(doStuff);

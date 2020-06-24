@@ -29,11 +29,11 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
     case "application.init":
       /*
-              같은 사이트에서 여러번의 호출(ajax)이 발생할 경우, 페이지 로딩이 생긴다.
-              새로 로딩된 사이트가 URL.SITE(전에 저장된 사이트)와 같으면 SPA로 판단하여 더이상 진행하지 않는다.
-              youtube , https://www.webprofessional.jp/custom-pdf-rendering/ 등을 처리한다.
-               */
-      if (URL.SITE === msg.site.URL) return false;
+                    같은 사이트에서 여러번의 호출(ajax)이 발생할 경우, 페이지 로딩이 생긴다.
+                    새로 로딩된 사이트가 URL.SITE(전에 저장된 사이트)와 같으면 SPA로 판단하여 더이상 진행하지 않는다.
+                    youtube , https://www.webprofessional.jp/custom-pdf-rendering/ 등을 처리한다.
+                     */
+      if (URL.SITE.split("#")[0] === msg.site.URL.split("#")[0]) return false;
 
       URL.SITE = msg.site.URL;
       URL.KEY = msg.site.URL_KEY;
