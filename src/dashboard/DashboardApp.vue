@@ -176,3 +176,24 @@ export default {
   }
 };
 </script>
+<style>
+.v-navigation-drawer__content,
+.custom-scroll {
+  overflow: auto;
+}
+.v-navigation-drawer__content::-webkit-scrollbar,
+.custom-scroll::-webkit-scrollbar {
+  width: 1px;
+}
+.v-navigation-drawer__content::-webkit-scrollbar-thumb,
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #202527;
+  border-radius: 10px;
+}
+.v-navigation-drawer__content::-webkit-scrollbar-track,
+.custom-scroll::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+</style>

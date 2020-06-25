@@ -9,7 +9,7 @@
     <v-card>
       <v-card-title>백업/복구</v-card-title>
       <v-divider></v-divider>
-      <v-card-text class="pl-0 pr-0">
+      <v-card-text class="pl-0 pr-0" style="overflow-x:hidden">
         <v-row>
           <v-col cols="6">
             <v-card flat>

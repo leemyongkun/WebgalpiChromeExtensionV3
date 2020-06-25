@@ -12,7 +12,7 @@
         <v-row
           :style="listAreaHeightStyle"
           style="overflow-x:hidden;"
-          class="overflow-y-auto"
+          class="overflow-y-auto custom-scroll"
         >
           <v-col v-if="sites.length === 0">
             <v-card class="mx-auto">

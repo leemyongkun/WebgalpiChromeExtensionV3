@@ -51,7 +51,10 @@
                                                                 ></iframe>
                                                               </v-col>
                                                             </v-row>-->
-      <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
+      <v-row
+        :style="reviewAreaHeightStyle"
+        class="overflow-y-auto custom-scroll"
+      >
         <v-col cols="auto" v-if="youtubeVideoId !== ''">
           <iframe
             type="text/html"
