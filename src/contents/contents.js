@@ -51,14 +51,21 @@ let CONTENTS = {
     });
   },
   getReadmodeContents: (html, url) => {
-    return new Promise(res => {
-      let parser = new DOMParser();
-      let idoc = parser.parseFromString(html, "text/html");
-      let previewDoc = new PreviewMode(CONTENTS.getUriInfo(url), idoc).parse();
-      if (previewDoc === null) {
-        res(null);
-      } else {
-        res(previewDoc.content);
+    return new Promise((res, rej) => {
+      try {
+        let parser = new DOMParser();
+        let idoc = parser.parseFromString(html, "text/html");
+        let previewDoc = new PreviewMode(
+          CONTENTS.getUriInfo(url),
+          idoc
+        ).parse();
+        if (previewDoc === null) {
+          res(null);
+        } else {
+          res(previewDoc.content);
+        }
+      } catch (e) {
+        rej(e);
       }
     });
   },
@@ -153,13 +160,26 @@ let CONTENTS = {
       //기본으로 지정된 Category로 들어간다
       param.DEFAULT_CATEGORY_IDX = 0; //loginInfo.DEFAULT_CATEGORY_IDX;
       param.URL_TYPE = "WEB";
+      /*
 
-      param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
+                  param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
+                    document.getElementsByTagName("html")[0].outerHTML,
+                    URL.SITE
+                  );
+            */
+
+      CONTENTS.getReadmodeContents(
         document.getElementsByTagName("html")[0].outerHTML,
         URL.SITE
-      );
-
-      res(param);
+      )
+        .then(ret => {
+          param.READERMODE_CONTENTS = ret;
+          res(param);
+        })
+        .catch(error => {
+          param.READERMODE_CONTENTS = null;
+          res(param);
+        });
     });
   },
   setHighlightRangeInfoData: (event, offset) => {
@@ -327,8 +347,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                                                                              $('#highlight-toolbar').hide();
-                                                                                                                                                                                            } */
+                                                                                                                                                                                                  $('#highlight-toolbar').hide();
+                                                                                                                                                                                                } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화

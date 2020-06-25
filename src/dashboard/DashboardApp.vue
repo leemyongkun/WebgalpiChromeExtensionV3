@@ -183,7 +183,7 @@ export default {
 }
 .v-navigation-drawer__content::-webkit-scrollbar,
 .custom-scroll::-webkit-scrollbar {
-  width: 1px;
+  width: 8px;
 }
 .v-navigation-drawer__content::-webkit-scrollbar-thumb,
 .custom-scroll::-webkit-scrollbar-thumb {
@@ -192,8 +192,8 @@ export default {
 }
 .v-navigation-drawer__content::-webkit-scrollbar-track,
 .custom-scroll::-webkit-scrollbar-track {
-  background-color: grey;
+  /*background-color: grey;*/
+  background: none;
   border-radius: 10px;
-  box-shadow: inset 0px 0px 5px white;
 }
 </style>
