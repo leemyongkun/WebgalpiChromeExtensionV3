@@ -39,9 +39,11 @@ let DROP_TABLE_QUERY = {
   TBL_OPTIONS: () => {
     return `DROP TABLE TBL_OPTIONS `;
   },
-
   TBL_SLACK: () => {
     return `DROP TABLE TBL_SLACK `;
+  },
+  TBL_UPDATE_HISTORY: () => {
+    return `DROP TABLE TBL_UPDATE_HISTORY `;
   }
 };
 
@@ -169,18 +171,37 @@ let CREATE_TABLE_QUERY = {
                       )`;
   },
 
-  TBL_SLACK: () => {
-    return `CREATE TABLE IF NOT EXISTS TBL_SLACK (
-                      IDX INTEGER PRIMARY KEY AUTOINCREMENT,
-                      EMAIL TEXT,
-                      CHANNEL_NAME TEXT,
-                      WEBHOOK_URL TEXT,
-                      DATE_CREATE NUMERIC
+  TBL_UPDATE_HISTORY: () => {
+    return `CREATE TABLE IF NOT EXISTS TBL_UPDATE_HISTORY (
+                      LATEST_BACKUP_DATE NUMERIC,
+                      LATEST_RESTORE_DATE NUMERIC,
+                      RESERVE_DATE_1 NUMERIC,
+                      RESERVE_DATE_2 NUMERIC,
+                      RESERVE_DATE_3 NUMERIC,
+                      RESERVE_DATE_4 NUMERIC,
+                      RESERVE_DATE_5 NUMERIC,
+                      RESERVE_DATE_6 NUMERIC
                       )`;
   }
 };
 
 let DDL = {
+  ADD_TABLE: db => {
+    return new Promise(function(res) {
+      db.transaction(function(tx) {
+        tx.executeSql(CREATE_TABLE_QUERY.TBL_UPDATE_HISTORY(), []);
+      });
+      res(true);
+    });
+  },
+  DROP_TABLE: db => {
+    return new Promise(function(res) {
+      db.transaction(function(tx) {
+        tx.executeSql(DROP_TABLE_QUERY.TBL_SLACK(), []);
+      });
+      res(true);
+    });
+  },
   DROP: db => {
     return new Promise(function(res) {
       db.transaction(function(tx) {
@@ -189,7 +210,6 @@ let DDL = {
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_REL_CATEGORY(), []);
       });
-
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_CATEGORY(), []);
       });
@@ -203,9 +223,8 @@ let DDL = {
         tx.executeSql(DROP_TABLE_QUERY.TBL_OPTIONS(), []);
       });
       db.transaction(function(tx) {
-        tx.executeSql(DROP_TABLE_QUERY.TBL_SLACK(), []);
+        tx.executeSql(DROP_TABLE_QUERY.TBL_UPDATE_HISTORY(), []);
       });
-
       res(true);
     });
   },
@@ -232,7 +251,7 @@ let DDL = {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_OPTIONS(), []);
     });
     db.transaction(function(tx) {
-      tx.executeSql(CREATE_TABLE_QUERY.TBL_SLACK(), []);
+      tx.executeSql(CREATE_TABLE_QUERY.TBL_UPDATE_HISTORY(), []);
     });
   },
   TRUNCATE: db => {

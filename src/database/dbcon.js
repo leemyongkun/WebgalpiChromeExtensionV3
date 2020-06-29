@@ -69,6 +69,12 @@ export default {
   dropTable: () => {
     DDL.DROP(db);
   },
+  addTable: () => {
+    DDL.ADD_TABLE(db);
+  },
+  removeTable: () => {
+    DDL.DROP_TABLE(db);
+  },
   truncateTable: () => {
     DDL.TRUNCATE(db);
   }

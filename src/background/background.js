@@ -112,6 +112,10 @@ let BackgrounEvent = {
           iconUrl: "../icons/pen.png"
         };
 
+        //테이블 추가
+        dbcon.addTable();
+        dbcon.removeTable();
+
         chrome.notifications.create("", opt);
         chrome.notifications.onClicked.addListener(function() {
           let extensionDashboard =
