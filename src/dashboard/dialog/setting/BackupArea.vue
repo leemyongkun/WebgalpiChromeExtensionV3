@@ -267,7 +267,7 @@ export default {
       this.sendBackupFile(JSON.stringify(backupObj), BACKUP_FOLDER_ID)
         .then(res => {
           //백업이 완료 되었습니다.
-          MODAL.alert(LANG.getMessage("M0003"));
+          MODAL.alert("백업이 완료 되었습니다.");
         })
         .catch(error => {
           //백업 도중 에러가 발생하였습니다.

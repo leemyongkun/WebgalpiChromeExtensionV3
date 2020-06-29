@@ -82,6 +82,13 @@
             @click="reTryScrapping"
             >스크래핑 다시 시도하기
           </v-btn>
+          <!--  <iframe
+                    type="text/html"
+                    width="100%"
+                    height="100%"
+                    src="https://www.notion.so/ff6862f6dee044e59c9d3d4ebc1268f2"
+                    frameborder="0"
+            ></iframe>-->
         </v-col>
 
         <!--  <iframe
