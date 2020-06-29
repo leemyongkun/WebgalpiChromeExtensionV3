@@ -281,29 +281,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       return true;
       break;
 
-    case "get.slack":
-      API.getSlack(null).then(res => {
-        sendResponse(res);
-      });
-      break;
-
-    case "update.slack":
-      API.updateSlack(msg.data).then(res => {
-        sendResponse(res);
-      });
-      break;
-
-    case "delete.slack":
-      API.deleteSlack(msg.data).then(res => {
-        sendResponse(res);
-      });
-      break;
-    case "post.slack":
-      API.postSlack(msg.data).then(res => {
-        sendResponse(res);
-      });
-      break;
-
     case "update.option.color":
       API.updateOptionColor(msg.data);
       //emit all Tab

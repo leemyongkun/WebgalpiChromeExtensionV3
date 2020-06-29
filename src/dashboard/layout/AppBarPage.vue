@@ -65,8 +65,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                    <v-icon>mdi-heart</v-icon>
-                                                                                                                </v-btn>-->
+                                                                                                                                  <v-icon>mdi-heart</v-icon>
+                                                                                                                              </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -123,6 +123,8 @@ import Common from "../../common/common";
 import CRAWLER from "../common/cheerio";
 import CONTENT_LISTENER from "../../common/content-listener";
 import Utils from "../utils/Utils";
+import GOOGLE_DRIVE from "../../common/GoogleDriveBackupAndRestore";
+import MODAL from "../../common/modal";
 
 export default {
   components: { SignArea },
@@ -134,14 +136,14 @@ export default {
       version: Common.getVersion(),
       improvement: [
         /*
-                                                       1.0.10
+                                                                   1.0.10
 
-                                                       "[공통] 차단된 사이트에서는 WEBGALPI의 사용이 제한되며, ICON에 (X)가 표시됩니다.",
-                                                        "[공통] 업데이트 시, notification이 발생하여, 업데이트 내역을 확인 할 수 있습니다.",
-                                                        "[ALL PAGE] 네이버 BLOG 에서도 하이라이팅이 가능하게 되었습니다.",
-                                                        "[대쉬보드]SLACK 공유 기능이 제거되었습니다.",
-                                                        "[대쉬보드] 각 기능마다 툴팁으로 간략한 설명이 포함됩니다.",
-                                                        "[팝업] 아이콘이 변경되었습니다."*/
+                                                                   "[공통] 차단된 사이트에서는 WEBGALPI의 사용이 제한되며, ICON에 (X)가 표시됩니다.",
+                                                                    "[공통] 업데이트 시, notification이 발생하여, 업데이트 내역을 확인 할 수 있습니다.",
+                                                                    "[ALL PAGE] 네이버 BLOG 에서도 하이라이팅이 가능하게 되었습니다.",
+                                                                    "[대쉬보드]SLACK 공유 기능이 제거되었습니다.",
+                                                                    "[대쉬보드] 각 기능마다 툴팁으로 간략한 설명이 포함됩니다.",
+                                                                    "[팝업] 아이콘이 변경되었습니다."*/
         "[대쉬보드] 검색기능이 추가되었습니다.",
         "[대쉬보드] 백업파일 삭제 기능이 추가되었습니다.",
         "[대쉬보드] 스크래핑을 다시 시도하기 기능이 추가되었습니다."
@@ -177,25 +179,39 @@ export default {
       this.$refs.signout.open();
     },
     async processTest() {
+      let BACKUP_FOLDER_ID = await GOOGLE_DRIVE.getBackupFolderId();
+      console.log("BACKUP_FOLDER_ID ", BACKUP_FOLDER_ID);
+      if (BACKUP_FOLDER_ID) {
+        GOOGLE_DRIVE.executeGoogleDriveRestore().then(async list => {
+          if (list) {
+            let confirm = `할래?`;
+            let conf = await MODAL.confirm(confirm, null, null, null, "450px");
+            if (conf.value) {
+            }
+            //list[0]
+          }
+        });
+      }
+
       /*
-                                let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
-                                let contents = await CRAWLER.getImportSiteContents(url);
-                                contents.EMAIL = result.loginInfo.EMAIL;
+                                          let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
+                                          let contents = await CRAWLER.getImportSiteContents(url);
+                                          contents.EMAIL = result.loginInfo.EMAIL;
 
-                                CONTENT_LISTENER.sendMessage({
-                                  type: "post.site",
-                                  data: contents
-                                });*/
+                                          CONTENT_LISTENER.sendMessage({
+                                            type: "post.site",
+                                            data: contents
+                                          });*/
 
-      let result = await Utils.getLocalStorage("loginInfo");
-      CONTENT_LISTENER.sendMessage({
-        type: "get.backup.data",
-        data: result.loginInfo.EMAIL
-      }).then(backupData => {
-        //let siteMap = backupData.sites.toHashMap('URL_KEY');
-        backupData.sites = Common.toHashMap(backupData.sites, "URL_KEY");
-        console.log("backupData.sites ", backupData);
-      });
+      /*let result = await Utils.getLocalStorage("loginInfo");
+                CONTENT_LISTENER.sendMessage({
+                  type: "get.backup.data",
+                  data: result.loginInfo.EMAIL
+                }).then(backupData => {
+                  //let siteMap = backupData.sites.toHashMap('URL_KEY');
+                  backupData.sites = Common.toHashMap(backupData.sites, "URL_KEY");
+                  console.log("backupData.sites ", backupData);
+                });*/
 
       //참고 : https://bumbu.me/gapi-in-chrome-extension  , https://qiita.com/takahiro1110/items/4ed2c4e894d2d359751e , https://developers.google.com/drive/api/v2/reference/files/list#javascript
     }

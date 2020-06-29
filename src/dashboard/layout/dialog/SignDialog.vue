@@ -70,6 +70,7 @@ import ACCOUNT from "../../../common/account";
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import MODAL from "../../../common/modal";
+import GOOGLE_DRIVE from "../../../common/GoogleDriveBackupAndRestore";
 
 export default {
   data: () => ({
@@ -182,32 +183,31 @@ export default {
           })
         ];
 
-        let confirm = `<b>계정등록을 완료 했습니다.</b><br><br>
+        Promise.all(initEnvironment).then(async () => {
+          this.isReloading();
+        });
+      } else {
+        alert("계정정보가 존재 하지 않습니다.");
+      }
+    },
+    async isReloading() {
+      let confirm = `<b>계정등록을 완료 했습니다.</b><br><br>
                                   WEBGALPI 즉시 반영하기 위해서는, <br>
                                   열려있는 모든 페이지를 새로고침 해야합니다.<br>
                                   진행 하시겠습니까?<br><br>
                                   <span style="color: red;">※ 한번에 새로고침을 진행합니다.</span>
                                     `;
-        let conf = await MODAL.confirm(confirm, null, null, null, "450px");
-        if (conf.value === undefined) {
-          location.reload();
-        } else {
-          Promise.all(initEnvironment).then(values => {
-            CONTENT_LISTENER.sendMessage({
-              type: "reload.all.tab",
-              data: null
-            });
-          });
-        }
+      let conf = await MODAL.confirm(confirm, null, null, null, "450px");
+      if (conf.value === undefined) {
+        location.reload();
       } else {
-        alert("계정정보가 존재 하지 않습니다.");
+        CONTENT_LISTENER.sendMessage({
+          type: "reload.all.tab",
+          data: null
+        });
       }
     },
     checkMember() {
-      /*if (!this.$refs.form.validate()) {
-                                        return false;
-                                    }*/
-
       //신규 사용자 등록을 위해, 현재 모든 Member를 가져와 비교한다.
       CONTENT_LISTENER.sendMessage({
         type: "get.all.members",

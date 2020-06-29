@@ -77,31 +77,26 @@
 <script>
 import CONTENT_LISTENER from "../../../common/content-listener";
 import Utils from "../../utils/Utils";
-import LANG from "../../../common/language";
-import MODAL from "../../../common/modal";
-
 import RestoreListArea from "./backup/RestoreListArea";
 import BackupDescriptionArea from "./backup/BackupDescriptionArea";
 import EventBus from "../../event-bus";
+import GOOGLE_DRIVE from "../../../common/GoogleDriveBackupAndRestore";
 import ACCOUNT from "../../../common/account";
-import Common from "../../../common/common";
 
-let CryptoJS = require("crypto-js");
-let md5 = require("md5");
 /*
-        let firebaseConfig = {
-          apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
-          authDomain: "chrome-webgalpi.firebaseapp.com",
-          databaseURL: "https://chrome-webgalpi.firebaseio.com",
-          projectId: "chrome-webgalpi",
-          storageBucket: "chrome-webgalpi.appspot.com",
-          messagingSenderId: "360661693058",
-          appId: "1:360661693058:web:bb726edb30cafe2cd4fa9b",
-          measurementId: "G-P4BNDS8D9S"
-        };
-        // Initialize Firebase
-        Firebase.initializeApp(firebaseConfig);
-        */
+            let firebaseConfig = {
+              apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
+              authDomain: "chrome-webgalpi.firebaseapp.com",
+              databaseURL: "https://chrome-webgalpi.firebaseio.com",
+              projectId: "chrome-webgalpi",
+              storageBucket: "chrome-webgalpi.appspot.com",
+              messagingSenderId: "360661693058",
+              appId: "1:360661693058:web:bb726edb30cafe2cd4fa9b",
+              measurementId: "G-P4BNDS8D9S"
+            };
+            // Initialize Firebase
+            Firebase.initializeApp(firebaseConfig);
+            */
 
 export default {
   components: { BackupDescriptionArea, RestoreListArea },
@@ -109,213 +104,42 @@ export default {
   data: () => ({
     tab: null,
     dialog: false,
-    backupPassword: "KKUNI_BEAR_GMAIL.COM_KKUNI",
     restoreFile: null,
-    BACKUP_FOLDER_TITLE: "WEBGALPI",
     backupOverlay: false,
-    backupData: null,
-    backupDescription: ""
+    backupData: null
   }),
   created() {
     this.$nextTick(() => {
       EventBus.$on("run.backup", description => {
-        this.backupDescription = description;
-        this.googleBackup(this.backupData);
+        this.googleBackup(this.backupData, description);
       });
     });
   },
   mounted() {},
   methods: {
-    onFilePicked() {
-      alert("pick file");
-    },
     open() {
       this.dialog = true;
     },
     close() {
       this.dialog = false;
     },
-    getBackupFolderId() {
-      return new Promise(resolve => {
-        chrome.identity.getAuthToken({ interactive: true }, token => {
-          gapi.auth.setToken({
-            access_token: token
-          });
-
-          let BACKUP_FOLDER_ID = null;
-          gapi.client.load("drive", "v2", () => {
-            let retrievePageOfFiles = request => {
-              request.execute(async resp => {
-                if (resp.code === 401) {
-                  this.invalidCredentionsProcess();
-                  return false;
-                }
-
-                resp.items.filter(item => {
-                  if (
-                    item.title === this.BACKUP_FOLDER_TITLE &&
-                    item.explicitlyTrashed === false
-                  ) {
-                    resolve(item.id);
-                    return true;
-                  }
-                });
-
-                let nextPageToken = resp.nextPageToken;
-                if (nextPageToken) {
-                  request = gapi.client.drive.files.list({
-                    pageToken: nextPageToken
-                  });
-                  retrievePageOfFiles(request);
-                } else {
-                  resolve(false);
-                }
-              });
-            };
-            let initialRequest = gapi.client.drive.files.list();
-            retrievePageOfFiles(initialRequest);
-          });
-        });
-      });
-    },
-    createBackupFolder() {
-      return new Promise(res => {
-        chrome.identity.getAuthToken({ interactive: true }, token => {
-          gapi.client
-            .request({
-              path: "/drive/v2/files/",
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token
-              },
-              body: {
-                title: this.BACKUP_FOLDER_TITLE,
-                mimeType: "application/vnd.google-apps.folder"
-              }
-            })
-            .execute(backupFolder => {
-              res(backupFolder.id);
-            });
-        });
-      });
-    },
-    sendBackupFile(fileContent, backupFolderId) {
-      return new Promise(res => {
-        chrome.identity.getAuthToken({ interactive: true }, token => {
-          //let fileContent = "sample text2"; // As a sample, upload a text file.
-
-          let file = new Blob([fileContent], { type: "text/plain" });
-          let metadata = {
-            name: "WEBGALPI_BACKUP_" + new Date().getTime(), // Filename at Google Drive
-            mimeType: "text/plain", // mimeType at Google Drive
-            parents: [backupFolderId], // Folder ID at Google Drive
-            description: this.backupDescription
-          };
-
-          //let accessToken = token; //gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
-          let form = new FormData();
-          form.append(
-            "metadata",
-            new Blob([JSON.stringify(metadata)], { type: "application/json" })
-          );
-          form.append("file", file);
-
-          fetch(
-            "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",
-            {
-              method: "POST",
-              headers: new Headers({
-                Authorization: "Bearer " + token
-              }),
-              body: form
-            }
-          ).then(retValue => {
-            res(retValue);
-          });
-        });
-      });
-    },
-
-    async googleBackup(backupData) {
-      //if (!confirm("구글 드라이브로 백업을 진행하시겠습니까?")) return false;
-
+    googleBackup(backupData, description) {
       this.backupOverlay = true;
-      let BACKUP_FOLDER_ID = await this.getBackupFolderId();
-      if (!BACKUP_FOLDER_ID) {
-        BACKUP_FOLDER_ID = await this.createBackupFolder();
-      }
-
-      let result = await Utils.getLocalStorage("loginInfo");
-
-      let info = new Object();
-      info.email = result.loginInfo.EMAIL;
-      info.created = new Date().getTime();
-      info.version = Common.getVersion();
-      info.chrome_id = chrome.runtime.id;
-
-      backupData.info = info;
-
-      let backupObj = new Object();
-
-      // Encrypt
-      backupObj.data = CryptoJS.AES.encrypt(
-        JSON.stringify(backupData),
-        this.backupPassword
-      ).toString();
-
-      this.sendBackupFile(JSON.stringify(backupObj), BACKUP_FOLDER_ID)
-        .then(res => {
-          //백업이 완료 되었습니다.
-          MODAL.alert(LANG.getMessage("M0003"));
-        })
-        .catch(error => {
-          //백업 도중 에러가 발생하였습니다.
-          MODAL.alert(LANG.getMessage("M0004"));
-        })
-        .finally(() => {
+      GOOGLE_DRIVE.executeGoogleDriveBackup(backupData, description).then(
+        () => {
           this.backupOverlay = false;
-        });
-
-      //FILE
-      /*let filename = "backup.json";
-                                                                  let ele = document.createElement("a");
-                                                                  ele.setAttribute(
-                                                                      "href",
-                                                                      "data:text/plain;charset=utf-8," +
-                                                                      encodeURIComponent(JSON.stringify(backupObj))
-                                                                  );
-                                                                  ele.setAttribute("download", filename);
-
-                                                                  ele.style.display = "none";
-                                                                  document.body.appendChild(ele);
-                                                                  ele.click();
-                                                                  document.body.removeChild(ele);*/
+        }
+      );
     },
-    async fileBackup(backupData) {
-      //FILE
-      /*let filename = "backup.json";
-                                                                  let ele = document.createElement("a");
-                                                                  ele.setAttribute(
-                                                                      "href",
-                                                                      "data:text/plain;charset=utf-8," +
-                                                                      encodeURIComponent(JSON.stringify(backupObj))
-                                                                  );
-                                                                  ele.setAttribute("download", filename);
-
-                                                                  ele.style.display = "none";
-                                                                  document.body.appendChild(ele);
-                                                                  ele.click();
-                                                                  document.body.removeChild(ele);*/
-    },
+    async fileBackup(backupData) {},
     firebaseBackup(backupData) {
       //FIREBASE
       /*Firebase.database()
-                            .ref("users/" + md5(result.loginInfo.EMAIL))
-                            .set(backupData)
-                            .then(res => {
-                              console.log("res ", res);
-                            });*/
+                                      .ref("users/" + md5(result.loginInfo.EMAIL))
+                                      .set(backupData)
+                                      .then(res => {
+                                        console.log("res ", res);
+                                      });*/
     },
     async backup(type) {
       let result = await Utils.getLocalStorage("loginInfo");
@@ -343,102 +167,35 @@ export default {
         }
       });
     },
-    invalidCredentionsProcess() {
-      this.backupOverlay = false;
-      alert(
-        "Google이 로그아웃 되어있습니다. \n새창이 열리면 로그인 후 다시 시도해주세요."
-      );
-      chrome.identity.getAuthToken({ interactive: true }, token => {
-        ACCOUNT.removeGoogleTokenCache(token).then(res => {
-          if (res) {
-            ACCOUNT.googleLogin().then(async ret => {
-              let result = await Utils.getLocalStorage("loginInfo");
-              if (result.loginInfo.EMAIL !== ret.email) {
-                let token = await Utils.getLocalStorage("googleToken");
-                alert(
-                  result.loginInfo.EMAIL +
-                    " 계정과 다른 계정으로 로그인 하셨습니다."
-                );
-                ACCOUNT.removeGoogleTokenCache(token.googleToken);
-                return false;
-              }
-            });
-          }
-        });
-      });
-    },
     googleRestore() {
       this.backupOverlay = true;
-
-      //구글 드라이브에서 리스트 가져오기
-      chrome.identity.getAuthToken({ interactive: true }, token => {
-        //todo : 현재 계정과맞는 로그인을 했는지 체크가 필요함.
-
-        gapi.auth.setToken({
-          access_token: token
-        });
-
-        //let BACKUP_FOLDER_ID = null;
-        new Promise(res => {
-          gapi.client.load("drive", "v2", () => {
-            let retrievePageOfFiles = (request, result) => {
-              request.execute(async resp => {
-                if (resp.code == 401) {
-                  this.invalidCredentionsProcess();
-                  return false;
-                }
-
-                /*
-                                    BACKUP_FOLDER_ID = resp.items.filter(item => {
-                                      if (
-                                        item.title === this.BACKUP_FOLDER_TITLE &&
-                                        item.explicitlyTrashed === false &&
-                                        item.labels.trashed === false
-                                      ) {
-                                        //console.log("item parent ", item);
-                                        return item.id;
-                                      }
-                                    });*/
-
-                result = result.concat(resp.items);
-                let nextPageToken = resp.nextPageToken;
-                if (nextPageToken) {
-                  request = gapi.client.drive.files.list({
-                    pageToken: nextPageToken
-                  });
-                  retrievePageOfFiles(request, result);
-                } else {
-                  let files = new Array();
-                  const promise = result.map(item => {
-                    if (
-                      item.title.indexOf("WEBGALPI_BACKUP_") !== -1 &&
-                      item.explicitlyTrashed === false &&
-                      item.labels.trashed === false
-                    ) {
-                      //PARENT를 찾는다. , explicitlyTrashed가 false 인것들.
-                      //console.log(item);
-                      files.push(item);
-                    }
-                  });
-                  await Promise.all(promise);
-                  res(files);
-                }
-              });
-            };
-            let initialRequest = gapi.client.drive.files.list();
-            retrievePageOfFiles(initialRequest, []);
-          });
-        }).then(list => {
-          this.backupOverlay = false;
-          if (list.length === 0) {
-            alert("복구 할 대상이 존재하지 않습니다.");
-            return false;
-          }
-          this.$refs.restoreListArea.open(list, this.backupPassword);
-        });
+      GOOGLE_DRIVE.executeGoogleDriveRestore().then(list => {
+        this.backupOverlay = false;
+        console.log("list ", list);
+        if (list) {
+          this.$refs.restoreListArea.open(list, GOOGLE_DRIVE.getPassword());
+        }
       });
     }
-    /*restore() {
+  }
+};
+
+//FILE
+/*let filename = "backup.json";
+                                                                let ele = document.createElement("a");
+                                                                ele.setAttribute(
+                                                                    "href",
+                                                                    "data:text/plain;charset=utf-8," +
+                                                                    encodeURIComponent(JSON.stringify(backupObj))
+                                                                );
+                                                                ele.setAttribute("download", filename);
+
+                                                                ele.style.display = "none";
+                                                                document.body.appendChild(ele);
+                                                                ele.click();
+                                                                document.body.removeChild(ele);*/
+
+/*restore() {
                                                         if (this.restoreFile === null) {
                                                             alert("파일을 선택하십시오.");
                                                             return false;
@@ -468,6 +225,19 @@ export default {
                                                             }
                                                         };
                                                     }*/
-  }
-};
+
+//FILE
+/*let filename = "backup.json";
+                                                                let ele = document.createElement("a");
+                                                                ele.setAttribute(
+                                                                    "href",
+                                                                    "data:text/plain;charset=utf-8," +
+                                                                    encodeURIComponent(JSON.stringify(backupObj))
+                                                                );
+                                                                ele.setAttribute("download", filename);
+
+                                                                ele.style.display = "none";
+                                                                document.body.appendChild(ele);
+                                                                ele.click();
+                                                                document.body.removeChild(ele);*/
 </script>

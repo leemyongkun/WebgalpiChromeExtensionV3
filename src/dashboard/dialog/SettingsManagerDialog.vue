@@ -26,8 +26,6 @@
             <v-expansion-panels focusable accordion>
               <!--THEME-->
               <ThemeArea></ThemeArea>
-              <!--SLACK-->
-              <SlackArea></SlackArea>
               <!--COLOR-->
               <ColorArea></ColorArea>
             </v-expansion-panels>
@@ -45,12 +43,11 @@
   <!-- 다이얼로그 -->
 </template>
 <script>
-import SlackArea from "./setting/SlackArea";
 import ThemeArea from "./setting/ThemeArea";
 import ColorArea from "./setting/ColorArea";
 
 export default {
-  components: { ColorArea, ThemeArea, SlackArea },
+  components: { ColorArea, ThemeArea },
   props: ["dialog"],
   data: () => ({
     notifications: false,

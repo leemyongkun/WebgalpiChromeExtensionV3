@@ -429,27 +429,6 @@ export default {
         AND EMAIL = ?
         AND FL_DELETE = 'N'`;
   },
-  selectSlack: () => {
-    return `
-        SELECT
-        IDX,
-            CHANNEL_NAME ,
-            WEBHOOK_URL ,
-            DATE_CREATE
-        FROM
-        TBL_SLACK
-            `;
-  },
-  updateSlack: () => {
-    return `
-        UPDATE
-        TBL_SLACK
-        SET
-        CHANNEL_NAME = ?,
-            WEBHOOK_URL = ?
-                WHERE IDX = ?
-                    `;
-  },
   deleteSite: () => {
     return `UPDATE TBL_SITES
             SET FL_DELETE = 'Y', DATE_UPDATE = ?
@@ -471,23 +450,6 @@ export default {
     return `DELETE FROM TBL_REL_CATEGORY
             WHERE URL_KEY = ?
             AND EMAIL = ?
-            `;
-  },
-  deleteSlack: () => {
-    return `DELETE FROM TBL_SLACK
-            WHERE IDX = ?
-            AND EMAIL = ?
-            `;
-  },
-  insertSlack: () => {
-    return `INSERT INTO TBL_SLACK
-            (
-                EMAIL,
-                CHANNEL_NAME,
-                WEBHOOK_URL,
-                DATE_CREATE
-            )
-            VALUES(?, ?, ?, ?)
             `;
   },
   updateOptionColor: () => {

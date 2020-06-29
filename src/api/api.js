@@ -61,8 +61,6 @@ let Api = {
   },
   getInitInfo: parameter => {
     return new Promise(res => {
-      let obj = new Object();
-
       let site = Api.getSite(parameter);
       let items = Api.getAllItems(parameter);
       let options = Api.getOptions(parameter);
@@ -243,18 +241,6 @@ let Api = {
 
     await insert(Query.insertSite(), param);
     return Api.getSite(params);
-  },
-  getSlack: params => {
-    return select(Query.selectSlack(), params);
-  },
-  updateSlack: params => {
-    return insert(Query.updateSlack(), params);
-  },
-  deleteSlack: params => {
-    return remove(Query.deleteSlack(), params);
-  },
-  postSlack: params => {
-    return insert(Query.insertSlack(), params);
   },
   updateOptionColor: params => {
     return update(Query.updateOptionColor(), params);

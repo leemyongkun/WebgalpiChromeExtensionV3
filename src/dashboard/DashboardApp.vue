@@ -34,6 +34,7 @@ import SnackBar from "./snack/SnackBar";
 import EventBus from "./event-bus";
 import store from "../store";
 import Utils from "./utils/Utils";
+import GOOGLE_DRIVE from "../common/GoogleDriveBackupAndRestore";
 
 export default {
   components: {

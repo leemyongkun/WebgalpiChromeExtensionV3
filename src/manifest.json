@@ -1,7 +1,7 @@
 {
   "name": "WEB-GALPI",
   "description": "웹사이트에 책갈피를 더하다.",
-  "version": "1.0.4",
+  "version": "0",
   "manifest_version": 2,
   "icons": {
     "48": "icons/icon_48.png",
