@@ -174,8 +174,10 @@ let CREATE_TABLE_QUERY = {
   TBL_UPDATE_HISTORY: () => {
     return `CREATE TABLE IF NOT EXISTS TBL_UPDATE_HISTORY (
                       EMAIL TEXT PRIMARY KEY,
-                      LATEST_BACKUP_DATE NUMERIC,
-                      LATEST_RESTORE_DATE NUMERIC,
+                      LATEST_GOOGLE_BACKUP_DATE NUMERIC,
+                      LATEST_GOOGLE_RESTORE_DATE NUMERIC,
+                      LATEST_FIREBASE_BACKUP_DATE NUMERIC,
+                      LATEST_FIREBASE_RESTORE_DATE NUMERIC,
                       RESERVE_DATE_1 NUMERIC,
                       RESERVE_DATE_2 NUMERIC,
                       RESERVE_DATE_3 NUMERIC,
