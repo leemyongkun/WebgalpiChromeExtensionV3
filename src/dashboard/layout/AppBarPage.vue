@@ -65,8 +65,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                                  <v-icon>mdi-heart</v-icon>
-                                                                                                                              </v-btn>-->
+                                                                                                                                                <v-icon>mdi-heart</v-icon>
+                                                                                                                                            </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -135,7 +135,8 @@ export default {
       improvement: [
         "[대쉬보드] 검색기능이 추가되었습니다.",
         "[대쉬보드] 백업파일 삭제 기능이 추가되었습니다.",
-        "[대쉬보드] 스크래핑을 다시 시도하기 기능이 추가되었습니다."
+        "[대쉬보드] 스크래핑을 다시 시도하기 기능이 추가되었습니다.",
+        "[대쉬보드] 등록날짜로 정렬기능이 추가되었습니다."
       ],
       debug: [
         "[대쉬보드] 하이라이트 버튼에 갯수 표시",
@@ -171,14 +172,14 @@ export default {
     },
     async processTest() {
       /*
-                                          let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
-                                          let contents = await CRAWLER.getImportSiteContents(url);
-                                          contents.EMAIL = result.loginInfo.EMAIL;
+                                                    let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
+                                                    let contents = await CRAWLER.getImportSiteContents(url);
+                                                    contents.EMAIL = result.loginInfo.EMAIL;
 
-                                          CONTENT_LISTENER.sendMessage({
-                                            type: "post.site",
-                                            data: contents
-                                          });*/
+                                                    CONTENT_LISTENER.sendMessage({
+                                                      type: "post.site",
+                                                      data: contents
+                                                    });*/
 
       let result = await Utils.getLocalStorage("loginInfo");
       CONTENT_LISTENER.sendMessage({
