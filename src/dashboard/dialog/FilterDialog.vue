@@ -7,9 +7,7 @@
       검색키워드 : <span style="color: dodgerblue;">{{ filter.search }}</span>
     </span>
 
-    <!-- 검색
-             :close-on-click="false"
-            -->
+    <!--검색 버튼-->
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
@@ -48,6 +46,19 @@
       </v-card>
     </v-menu>
 
+    <!--정렬 필터링 버튼-->
+    <v-tooltip v-model="sortShow" color="blue" top>
+      <template v-slot:activator="{ on }">
+        <v-btn icon @click="setSort" v-on="on">
+          <v-icon :color="filter.sort ? 'orange' : ''" size="18px"
+            >mdi-sort
+          </v-icon>
+        </v-btn>
+      </template>
+      <span>등록순서로 정렬합니다.</span>
+    </v-tooltip>
+
+    <!--별 필터링 버튼-->
     <v-tooltip v-model="starShow" color="blue" top>
       <template v-slot:activator="{ on }">
         <v-btn icon @click="setStar" v-on="on">
@@ -59,6 +70,7 @@
       <span>★ 표시 컨테츠를 필터링 합니다.</span>
     </v-tooltip>
 
+    <!--방지사이트 필터링 버튼-->
     <v-tooltip v-model="detectShow" color="blue" top>
       <template v-slot:activator="{ on }">
         <v-btn icon @click="setDetect" v-on="on">
@@ -169,6 +181,7 @@ export default {
   props: ["itemCount"],
   components: {},
   data: () => ({
+    sortShow: false,
     starShow: false,
     detectShow: false,
     searchShow: false,
@@ -182,7 +195,8 @@ export default {
     filter: {
       star: false,
       detect: false,
-      search: false
+      search: false,
+      sort: false //f : 내림차순 , t : 오름차순
     }
   }),
   methods: {
@@ -214,6 +228,10 @@ export default {
     },
     setStar() {
       this.filter.star = !this.filter.star;
+      this.sendFilter();
+    },
+    setSort() {
+      this.filter.sort = !this.filter.sort;
       this.sendFilter();
     },
     sendFilter() {

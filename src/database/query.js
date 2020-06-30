@@ -231,8 +231,14 @@ export default {
 
     let starCondition = "",
       detectCondition = "",
+      sortCondition = " DESC ",
       searchCondition = [];
     if (params.filter !== null) {
+      if (params.filter.sort) {
+        // false : 내림차순 / true : 오름차순
+        sortCondition = " ASC ";
+      }
+
       if (params.filter.star) {
         starCondition = " AND FL_FAVORITE='Y'";
       }
@@ -314,7 +320,9 @@ export default {
         AND SITES.EMAIL = ?
         ORDER BY
         SITES.DATE_CREATE
-        DESC
+        ` +
+      sortCondition +
+      `
         LIMIT ?, ? `
     );
   },

@@ -214,6 +214,7 @@ chrome.tabs.onActivated.addListener((activeInfo, act) => {
   });
 });
 
+/*
 chrome.webRequest.onHeadersReceived.addListener(
   function(info) {
     var headers = info.responseHeaders;
@@ -226,8 +227,14 @@ chrome.webRequest.onHeadersReceived.addListener(
     return { responseHeaders: headers };
   },
   {
-    urls: ["*://*/*"], // Pattern to match all http(s) pages
+    urls: ["*://!*!/!*"], // Pattern to match all http(s) pages
     types: ["sub_frame"]
   },
   ["blocking", "responseHeaders"]
 );
+
+permission
+    "webRequest",
+    "webRequestBlocking"
+
+*/
