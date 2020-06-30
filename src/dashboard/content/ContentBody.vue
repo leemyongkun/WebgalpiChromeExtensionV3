@@ -158,23 +158,6 @@
         </v-row>
       </v-col>
     </v-row>
-    <!--<v-row>
-                  <v-col cols="3" class="pb-0 pt-0">
-                    <v-row>
-                      <v-col cols="12">
-                        <v-btn
-                          small
-                          text
-                          block
-                          outlined
-                          @click="more"
-                        >
-                          MORE ( items : {{ sites.length }} )
-                        </v-btn>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                </v-row>-->
   </div>
 </template>
 <script>

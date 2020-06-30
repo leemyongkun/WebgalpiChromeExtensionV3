@@ -7,6 +7,7 @@
         no-action
         @mouseover="item.mouseOver = true"
         @mouseleave="item.mouseOver = false"
+        @click="selectParentCategory(item)"
       >
         <!-- parent menu -->
         <template v-slot:activator>
@@ -22,6 +23,7 @@
           </v-list-item-icon>
         </template>
 
+        <!-- child menu -->
         <div v-for="(subItem, index) in item.children" :key="subItem.name">
           <drop
             @drop="dropEvent"
@@ -39,9 +41,9 @@
               :class="subItem.class"
             >
               <!--  <v-list-item-icon style="margin-right: 2px;">
-                                              <v-icon size="15px" color="green" left>mdi-folder-outline
-                                              </v-icon>
-                                          </v-list-item-icon>-->
+                                                            <v-icon size="15px" color="green" left>mdi-folder-outline
+                                                            </v-icon>
+                                                        </v-list-item-icon>-->
 
               <v-list-item-content :id="subItem.id">
                 <v-list-item-title
@@ -142,6 +144,10 @@ export default {
     },
     selectCategory(category, event) {
       EventBus.$emit("select.category", category, event);
+      EventBus.$emit("select.parent.category", category.parent);
+    },
+    selectParentCategory(item) {
+      EventBus.$emit("select.parent.category", item.id);
     }
   }
 };
