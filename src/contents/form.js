@@ -72,7 +72,7 @@ let FORM = {
          display: none;
          z-index: 99999999;
          */
-    return `<div style="
+    /*  return `<div style="
                         position: fixed;
                         right: 20px;
                          top: 30px;
@@ -91,7 +91,52 @@ let FORM = {
                 id="highlight-convert-noti-area">
                 <h3>[WEBGALPI] 마우스 드래그가 되지 않으시나요?</h3>
                 <span style="cursor: pointer;" id="executeConvert">MOBILE로 변환하기</span> | <span style="cursor: pointer;" id="cancelConvert">취소</span>
-                </div>`;
+                </div>`;*/
+
+    let icon =
+      "chrome-extension://dpemoipibdjnnilodimbojpmkaooihin/icons/icon_128.png";
+    return `<div  id="highlight-convert-noti-area" 
+            style="
+            position: fixed;
+            right: 20px;
+            top: 30px;
+            z-index: 2100000000;
+            display: none; 
+            background-image: linear-gradient(to right, #5379CE, #75B5EB); 
+            background-size:cover; 
+            color: white; 
+            width: 380px; 
+            border-radius: 5px; 
+            margin-left: -160px; 
+            padding: 8px 8px 8px; 
+            box-sizing: border-box;
+            border: 1px solid #fffcfb;
+            "><div style="  
+                    text-align: left; 
+                    padding: 8px 10px;
+                "><img src="${icon}" style="width: 7%">마우스 드래그가 되지 않으시나요?<br><br></div>
+<button style="  background-color: #e5edef; 
+            display: inline-block; 
+            border-radius: 5px; 
+            border: 1px solid; 
+            padding-right: 5px;
+            padding-left: 5px; 
+            margin-right: 10px; 
+            text-align: center; 
+            float: right;"
+            id="cancelConvert"> 취소 </button>
+            <button style="  background-color: #e5edef; 
+            display: inline-block; 
+            border-radius: 5px; 
+            border: 1px solid; 
+            padding-right: 5px;
+            padding-left: 5px;
+            margin-right: 10px; 
+            text-align: center; 
+            float: right;"
+            id="executeConvert">MOBILE로 변환하기</button> 
+    </div> 
+    `;
   },
   updateColorPicker: COLORS => {
     let colorButtons = "";

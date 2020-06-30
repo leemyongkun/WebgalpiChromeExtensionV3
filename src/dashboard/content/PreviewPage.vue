@@ -40,18 +40,21 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                                                              <v-col cols="12">
-                                                                <iframe
-                                                                  id="ytplayer"
-                                                                  type="text/html"
-                                                                  width="640"
-                                                                  height="360"
-                                                                  :src="youtubeVideoId + '?autoplay=0'"
-                                                                  frameborder="0"
-                                                                ></iframe>
-                                                              </v-col>
-                                                            </v-row>-->
-      <v-row :style="reviewAreaHeightStyle" class="overflow-y-auto">
+                                                                          <v-col cols="12">
+                                                                            <iframe
+                                                                              id="ytplayer"
+                                                                              type="text/html"
+                                                                              width="640"
+                                                                              height="360"
+                                                                              :src="youtubeVideoId + '?autoplay=0'"
+                                                                              frameborder="0"
+                                                                            ></iframe>
+                                                                          </v-col>
+                                                                        </v-row>-->
+      <v-row
+        :style="reviewAreaHeightStyle"
+        class="overflow-y-auto custom-scroll"
+      >
         <v-col cols="auto" v-if="youtubeVideoId !== ''">
           <iframe
             type="text/html"
@@ -67,27 +70,24 @@
         </v-col>
 
         <v-col cols="12" v-if="previewStatus === 'N'" class="text-center">
-          <span class="display-1 font-weight-bold">NO CONTENTS</span
-          ><br /><br />
-          <span style="color: white"
-            >컨텐츠 변환을 할 수 없는 사이트입니다.</span
-          ><br /><br />
-          <v-btn
-            small
-            color="primary"
-            v-if="currentSite.FL_READMODE === 'N'"
-            @click="reTryScrapping"
-            >스크래핑 다시 시도하기
-          </v-btn>
+          <div>
+            <span class="display-1 font-weight-bold">NO CONTENTS</span
+            ><br /><br />
+            <span style="color: white"
+              >컨텐츠 변환을 할 수 없는 사이트입니다.</span
+            ><br /><br />
+            <v-btn small color="green" @click="goSourceSite"
+              >새탭으로 열기
+            </v-btn>
+            <v-btn
+              small
+              color="primary"
+              v-if="currentSite.FL_READMODE === 'N'"
+              @click="reTryScrapping"
+              >스크래핑 다시 시도하기
+            </v-btn>
+          </div>
         </v-col>
-
-        <!--  <iframe
-                                                                                                          type="text/html"
-                                                                                                          width="100%"
-                                                                                                          height="603px"
-                                                                                                          src="https://blog.naver.com/rachel0067/221780986497"
-                                                                                                          frameborder="0"
-                                                                                                  ></iframe>-->
       </v-row>
     </v-card-text>
     <SnackBar ref="snackbar"></SnackBar>
@@ -132,6 +132,10 @@ export default {
   mounted() {},
   methods: {
     print() {},
+    goSourceSite() {
+      let open = window.open(this.currentSite.URL, "_blank");
+      open.focus();
+    },
     reTryScrapping() {
       EventBus.$emit("open.full.overlay.loading", "Crawling..");
       CRAWLER.getOriginalSiteContents(this.sourceUrl)
@@ -211,5 +215,9 @@ img {
 
 #galpi-privew-area-contents {
   align: left !important;
+}
+
+#galpi-privew-area {
+  word-break: break-all;
 }
 </style>

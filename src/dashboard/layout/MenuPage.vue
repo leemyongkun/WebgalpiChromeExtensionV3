@@ -3,9 +3,9 @@
     <UpdateCategoryDialog ref="updateCategoryDialog"></UpdateCategoryDialog>
 
     <!--<SettingsManagerDialog
-              :dialog="settingDialog"
-              @closeDialog="switchDialogSetting"
-            ></SettingsManagerDialog>-->
+                  :dialog="settingDialog"
+                  @closeDialog="switchDialogSetting"
+                ></SettingsManagerDialog>-->
 
     <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>
@@ -28,12 +28,12 @@
                         CATEGORY
                       </v-btn>
                     </template>
-                    <span
-                      ><b
+                    <span>
+                      <b
                         >새로운 카테고리를 생성하여,<br />컨텐츠를 분류
-                        해보세요.</b
-                      ></span
-                    >
+                        해보세요.
+                      </b>
+                    </span>
                   </v-tooltip>
 
                   <v-list>
@@ -101,7 +101,8 @@ export default {
     snackbar: false, //스낵바 open /close 여부
     categoryDialog: false, //카테고리 다이얼로그 open / close 여부
     settingDialog: false, //Setting 다이얼로그 open / close 여부
-    drawer: true //왼쪽 메뉴 open / close 여부
+    drawer: true, //왼쪽 메뉴 open / close 여부
+    selectedParentCategoryId: 0 //선택된 Parent Category Id를 임시 저장해둔다.
   }),
   created() {
     this.$nextTick(() => {
@@ -123,6 +124,10 @@ export default {
           );
         }
       );
+
+      EventBus.$on("select.parent.category", categoryId => {
+        this.selectedParentCategoryId = categoryId;
+      });
 
       EventBus.$on("select.category", (category, event) => {
         this.selectCategory(category, event);

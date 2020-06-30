@@ -178,6 +178,11 @@ export default {
         this.autocompleteDisabled = true;
       }
 
+      //선택 된 카테고리가 있다면, 상위(parent) 카테고리 ID를 셋팅한다.
+      if (this.$parent.selectedParentCategoryId !== 0) {
+        this.categoryParent = this.$parent.selectedParentCategoryId; //전달받지 않고 상위의 값을 참조하여 가져온다.
+      }
+
       this.$nextTick(() => {
         setTimeout(() => {
           this.$refs.categoryNameArea.focus();
@@ -202,15 +207,15 @@ export default {
       if (result.value === undefined) return false;
 
       /*
-                                                        root의경우 :
-                                                        1. 하위 카테고리의 연결을 제거한다.
-                                                        2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
-                                                        3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
+                                                                  root의경우 :
+                                                                  1. 하위 카테고리의 연결을 제거한다.
+                                                                  2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
+                                                                  3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
 
-                                                        child의 경우 :
-                                                        1. root와의 연결을 끊는다.
-                                                        2. Contents들은 NO_CATEGORY 상태로 변경한다.
-                                                         */
+                                                                  child의 경우 :
+                                                                  1. root와의 연결을 끊는다.
+                                                                  2. Contents들은 NO_CATEGORY 상태로 변경한다.
+                                                                   */
 
       let param = new Object();
       if (this.currentCategoryInfo.parent === 0) {
