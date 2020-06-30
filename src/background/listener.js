@@ -223,14 +223,14 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     /*case "get.site": //미사용
-                                                                  let getSiteParameter = new Object();
-                                                                  getSiteParameter.URL_KEY = msg.data;
+                                                                      let getSiteParameter = new Object();
+                                                                      getSiteParameter.URL_KEY = msg.data;
 
-                                                                  API.getSite(getSiteParameter).then(res => {
-                                                                    sendResponse(res); //조건
-                                                                  });
-                                                                  return true;
-                                                                  break;*/
+                                                                      API.getSite(getSiteParameter).then(res => {
+                                                                        sendResponse(res); //조건
+                                                                      });
+                                                                      return true;
+                                                                      break;*/
     case "update.scrap.site":
       API.updateScrapSite(msg.data).then(res => {
         sendResponse(res);
@@ -397,6 +397,19 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     case "delete.favorite":
       API.deleteFavorite(msg.data).then(log => {
         sendResponse(log);
+      });
+      return true;
+      break;
+    case "get.update.history":
+      API.getUpdateHistory(msg.data).then(updateHistory => {
+        sendResponse(updateHistory);
+      });
+      return true;
+      break;
+
+    case "insert.update.history":
+      API.insertUpdateHistory(msg.data).then(updateHistory => {
+        sendResponse(updateHistory);
       });
       return true;
       break;

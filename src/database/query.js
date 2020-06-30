@@ -657,5 +657,15 @@ export default {
         )
         VALUES
             (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
+  },
+  selectUpdateHistory: () => {
+    return `SELECT * FROM TBL_UPDATE_HISTORY
+                WHERE EMAIL = ?
+            `;
+  },
+  insertUpdateHistory: () => {
+    return ` INSERT INTO TBL_UPDATE_HISTORY
+                (EMAIL) VALUES (?)
+                `;
   }
 };

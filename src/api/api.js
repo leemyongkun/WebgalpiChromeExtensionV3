@@ -397,6 +397,14 @@ let Api = {
     ];
     return insert(Query.restoreHighlight(), param);
   },
+  getUpdateHistory: params => {
+    let param = [params.EMAIL];
+    return select(Query.selectUpdateHistory(), param);
+  },
+
+  insertUpdateHistory: params => {
+    return select(Query.insertUpdateHistory(), params);
+  },
   restoreLog: params => {}
 };
 

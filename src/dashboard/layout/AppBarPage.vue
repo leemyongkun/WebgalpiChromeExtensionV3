@@ -65,8 +65,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                                  <v-icon>mdi-heart</v-icon>
-                                                                                                                              </v-btn>-->
+                                                                                                                                                <v-icon>mdi-heart</v-icon>
+                                                                                                                                            </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -115,19 +115,22 @@
     </v-menu>
 
     <SignArea ref="signout"></SignArea>
+    <RestoreProcessArea ref="restoreProcessArea"></RestoreProcessArea>
   </v-app-bar>
 </template>
 <script>
 import SignArea from "../dialog/setting/SignArea";
 import Common from "../../common/common";
-import CRAWLER from "../common/cheerio";
-import CONTENT_LISTENER from "../../common/content-listener";
-import Utils from "../utils/Utils";
 import GOOGLE_DRIVE from "../../common/GoogleDriveBackupAndRestore";
 import MODAL from "../../common/modal";
+import RestoreProcessArea from "../dialog/setting/backup/RestoreProcessArea";
+import CONTENT_LISTENER from "../../common/content-listener";
+import EventBus from "../event-bus";
+import Utils from "../utils/Utils";
+import { URL } from "../../contents/global/config";
 
 export default {
-  components: { SignArea },
+  components: { RestoreProcessArea, SignArea },
   data: () => ({
     ciPath: "",
     infoMenu: false,
@@ -136,14 +139,14 @@ export default {
       version: Common.getVersion(),
       improvement: [
         /*
-                                                                   1.0.10
+                                                                               1.0.10
 
-                                                                   "[공통] 차단된 사이트에서는 WEBGALPI의 사용이 제한되며, ICON에 (X)가 표시됩니다.",
-                                                                    "[공통] 업데이트 시, notification이 발생하여, 업데이트 내역을 확인 할 수 있습니다.",
-                                                                    "[ALL PAGE] 네이버 BLOG 에서도 하이라이팅이 가능하게 되었습니다.",
-                                                                    "[대쉬보드]SLACK 공유 기능이 제거되었습니다.",
-                                                                    "[대쉬보드] 각 기능마다 툴팁으로 간략한 설명이 포함됩니다.",
-                                                                    "[팝업] 아이콘이 변경되었습니다."*/
+                                                                               "[공통] 차단된 사이트에서는 WEBGALPI의 사용이 제한되며, ICON에 (X)가 표시됩니다.",
+                                                                                "[공통] 업데이트 시, notification이 발생하여, 업데이트 내역을 확인 할 수 있습니다.",
+                                                                                "[ALL PAGE] 네이버 BLOG 에서도 하이라이팅이 가능하게 되었습니다.",
+                                                                                "[대쉬보드]SLACK 공유 기능이 제거되었습니다.",
+                                                                                "[대쉬보드] 각 기능마다 툴팁으로 간략한 설명이 포함됩니다.",
+                                                                                "[팝업] 아이콘이 변경되었습니다."*/
         "[대쉬보드] 검색기능이 추가되었습니다.",
         "[대쉬보드] 백업파일 삭제 기능이 추가되었습니다.",
         "[대쉬보드] 스크래핑을 다시 시도하기 기능이 추가되었습니다."
@@ -179,39 +182,62 @@ export default {
       this.$refs.signout.open();
     },
     async processTest() {
+      /* let param = new Object();
+                let result = await Utils.getLocalStorage("loginInfo");
+                param.EMAIL = result.loginInfo.EMAIL;
+                CONTENT_LISTENER.sendMessage({
+                    type: "get.update.history",
+                    data: param
+                }).then(res => {
+                    console.log("res ", res);
+                });*/
+
       let BACKUP_FOLDER_ID = await GOOGLE_DRIVE.getBackupFolderId();
-      console.log("BACKUP_FOLDER_ID ", BACKUP_FOLDER_ID);
       if (BACKUP_FOLDER_ID) {
         GOOGLE_DRIVE.executeGoogleDriveRestore().then(async list => {
           if (list) {
-            let confirm = `할래?`;
-            let conf = await MODAL.confirm(confirm, null, null, null, "450px");
+            let confirm = `최근 백업한 데이타가 존재합니다.<br>복구하시겠습니까?<br><br>
+                                            복구 시 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
+                                            <span style="color:red">
+                                            모든 데이타를 삭제한 후 복구를 진행하므로,<br>
+                                            절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
+                                             </span>
+                                            `;
+            let conf = await MODAL.confirm(
+              confirm,
+              "info",
+              null,
+              null,
+              "500px"
+            );
             if (conf.value) {
+              GOOGLE_DRIVE.getBackupData(list[0]).then(originalText => {
+                this.$refs.restoreProcessArea.open(originalText);
+              });
             }
-            //list[0]
           }
         });
       }
 
       /*
-                                          let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
-                                          let contents = await CRAWLER.getImportSiteContents(url);
-                                          contents.EMAIL = result.loginInfo.EMAIL;
+                                                    let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
+                                                    let contents = await CRAWLER.getImportSiteContents(url);
+                                                    contents.EMAIL = result.loginInfo.EMAIL;
 
-                                          CONTENT_LISTENER.sendMessage({
-                                            type: "post.site",
-                                            data: contents
-                                          });*/
+                                                    CONTENT_LISTENER.sendMessage({
+                                                      type: "post.site",
+                                                      data: contents
+                                                    });*/
 
       /*let result = await Utils.getLocalStorage("loginInfo");
-                CONTENT_LISTENER.sendMessage({
-                  type: "get.backup.data",
-                  data: result.loginInfo.EMAIL
-                }).then(backupData => {
-                  //let siteMap = backupData.sites.toHashMap('URL_KEY');
-                  backupData.sites = Common.toHashMap(backupData.sites, "URL_KEY");
-                  console.log("backupData.sites ", backupData);
-                });*/
+                          CONTENT_LISTENER.sendMessage({
+                            type: "get.backup.data",
+                            data: result.loginInfo.EMAIL
+                          }).then(backupData => {
+                            //let siteMap = backupData.sites.toHashMap('URL_KEY');
+                            backupData.sites = Common.toHashMap(backupData.sites, "URL_KEY");
+                            console.log("backupData.sites ", backupData);
+                          });*/
 
       //참고 : https://bumbu.me/gapi-in-chrome-extension  , https://qiita.com/takahiro1110/items/4ed2c4e894d2d359751e , https://developers.google.com/drive/api/v2/reference/files/list#javascript
     }

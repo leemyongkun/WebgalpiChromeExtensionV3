@@ -180,6 +180,10 @@ export default {
           CONTENT_LISTENER.sendMessage({
             type: "insert.member",
             data: this.accountInfo
+          }),
+          CONTENT_LISTENER.sendMessage({
+            type: "insert.update.history",
+            data: [email]
           })
         ];
 
@@ -190,6 +194,28 @@ export default {
         alert("계정정보가 존재 하지 않습니다.");
       }
     },
+    /* async isRestore() {
+                 let BACKUP_FOLDER_ID = await GOOGLE_DRIVE.getBackupFolderId();
+                 if (BACKUP_FOLDER_ID) {
+                     GOOGLE_DRIVE.executeGoogleDriveRestore().then(async list => {
+                         if (list) {
+                             let confirm = `최근 백업한 데이타가 존재합니다.<br>복구하시겠습니까?<br><br>
+                                             복구 시 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
+                                             <span style="color:red">
+                                             모든 데이타를 삭제한 후 복구를 진행하므로,<br>
+                                             절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
+                                              </span>
+                                             `;
+                             let conf = await MODAL.confirm(confirm, "info", null, null, "500px");
+                             if (conf.value) {
+                                 GOOGLE_DRIVE.getBackupData(list[0]).then(originalText => {
+                                     this.$refs.restoreProcessArea.open(originalText);
+                                 })
+                             }
+                         }
+                     });
+                 }
+             },*/
     async isReloading() {
       let confirm = `<b>계정등록을 완료 했습니다.</b><br><br>
                                   WEBGALPI 즉시 반영하기 위해서는, <br>

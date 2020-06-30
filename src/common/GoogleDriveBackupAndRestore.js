@@ -15,6 +15,31 @@ let GOOGLE_DRIVE = {
   getPassword() {
     return GOOGLE_DRIVE_DATA.BACKUP_PASSWORD;
   },
+  getBackupData(item) {
+    console.log("getBackupData");
+    return new Promise(res => {
+      chrome.identity.getAuthToken({ interactive: true }, token => {
+        let url =
+          "https://www.googleapis.com/drive/v3/files/" + item.id + "?alt=media";
+        fetch(url, {
+          method: "GET",
+          headers: new Headers({
+            Authorization: "Bearer " + token
+          })
+        }).then(file => {
+          file.text().then(result => {
+            let data = JSON.parse(result);
+            let bytes = CryptoJS.AES.decrypt(
+              data.data,
+              GOOGLE_DRIVE_DATA.BACKUP_PASSWORD
+            );
+            let originalText = bytes.toString(CryptoJS.enc.Utf8);
+            res(originalText);
+          });
+        });
+      });
+    });
+  },
   executeGoogleDriveRestore() {
     return new Promise(resolve => {
       //구글 드라이브에서 리스트 가져오기
