@@ -153,3 +153,34 @@
   background-position: center !important;
   overflow: hidden !important;
 }
+
+.webgalpi-memo-area {
+  z-index: 2100000000 !important;
+  background-size: cover !important;
+  width: 250px !important;
+  border-radius: 5px !important;
+  box-sizing: border-box !important;
+  margin-left: -5px !important;
+}
+.webgalpi-memo-textarea {
+  color: #333333 !important;
+  width: 100% !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+  border: solid 2px #1e90ff !important;
+  border-radius: 5px !important;
+  font-size: 16px !important;
+  resize: none !important;
+}
+
+.webgalpi-memo-button {
+  background-color: #e5edef !important;
+  display: inline !important;
+  border-radius: 5px !important;
+  border: 1px solid black !important;
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+  margin-right: 10px !important;
+  text-align: center !important;
+  float: right !important;
+}

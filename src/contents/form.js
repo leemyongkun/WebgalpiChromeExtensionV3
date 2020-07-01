@@ -73,25 +73,25 @@ let FORM = {
          z-index: 99999999;
          */
     /*  return `<div style="
-                        position: fixed;
-                        right: 20px;
-                         top: 30px;
-                         min-width: 260px;
-                         max-width: 360px;
-                         box-sizing: border-box;
-                         font-size: 14px;
-                         z-index: 2100000000;
-                         line-height: 1.6;
-                         background: rgb(255, 255, 255);
-                         border-radius: 5px;
-                         overflow: hidden;
-                         border: 2px solid #73AD21;
-                         display: none !important;
-                         "
-                id="highlight-convert-noti-area">
-                <h3>[WEBGALPI] 마우스 드래그가 되지 않으시나요?</h3>
-                <span style="cursor: pointer;" id="executeConvert">MOBILE로 변환하기</span> | <span style="cursor: pointer;" id="cancelConvert">취소</span>
-                </div>`;*/
+                            position: fixed;
+                            right: 20px;
+                             top: 30px;
+                             min-width: 260px;
+                             max-width: 360px;
+                             box-sizing: border-box;
+                             font-size: 14px;
+                             z-index: 2100000000;
+                             line-height: 1.6;
+                             background: rgb(255, 255, 255);
+                             border-radius: 5px;
+                             overflow: hidden;
+                             border: 2px solid #73AD21;
+                             display: none !important;
+                             "
+                    id="highlight-convert-noti-area">
+                    <h3>[WEBGALPI] 마우스 드래그가 되지 않으시나요?</h3>
+                    <span style="cursor: pointer;" id="executeConvert">MOBILE로 변환하기</span> | <span style="cursor: pointer;" id="cancelConvert">취소</span>
+                    </div>`;*/
 
     let icon =
       "chrome-extension://dpemoipibdjnnilodimbojpmkaooihin/icons/icon_128.png";
@@ -157,8 +157,19 @@ let FORM = {
                      ` +
       colorButtons +
       `
-                     
                     </div>
+                    <div id="memoArea" style="display: none !important;" class="webgalpi-memo-area">
+                        <div style="
+                                text-align: left !important;
+                                padding: 4px !important;
+                            ">
+                            <textarea rows="4" cols="50"class="webgalpi-memo-textarea"></textarea>
+                            <a class="webgalpi-memo-button">확인</a>
+                        </div>
+                    </div>
+
+
+
                 </div>
                 `
     );
@@ -177,36 +188,36 @@ let FORM = {
   },
   /*
 
-           createColorPicker: COLORS => {
-                  let colorButtons = "";
-                  COLORS.split(",").forEach(color => {
-                      colorButtons +=
-                          "<a href='javascript:void(0)' class='" + color + '\' id="color-1"></a>';
-                  });
+             createColorPicker: COLORS => {
+                    let colorButtons = "";
+                    COLORS.split(",").forEach(color => {
+                        colorButtons +=
+                            "<a href='javascript:void(0)' class='" + color + '\' id="color-1"></a>';
+                    });
 
-                  return (
-                      `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
-                                 <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
-                                    <wafflepen-ul class='wafflepen-color-picker'>
-                                       ` +
-                      colorButtons +
-                      `
-                                    </wafflepen-ul>
-                                    <wafflepen class='tool-list'>
-                                        <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
-                                        <!-- wafflepen-li><wafflepen class='hlt-btn trash waf-inlineBlock' id='deleteHighlightBtn'></wafflepen></wafflepen-li -->
-                                    </wafflepen>
-                                </wafflepen>
-                                <wafflepen class='wafflepen-writebox' style='display:none; !important' id='highlight-toolbar-memo-area'>
-                                    <textarea name='' class='rspen-txtarea' placeholder='Memo' id='highlightMemoArea' ></textarea>
-                                    <wafflepen class='writebox-submit'>
-                                        <wafflepen class='write-date'><wafflepen class='wdate'> </wafflepen> </wafflepen>
-                                        <wafflepen class='save-btn' id='highlightMemoRegistBtn' >Save</wafflepen>
-                                    </wafflepen>
-                                </wafflepen>
-                            </wafflepen>`
-                  );
-              },*/
+                    return (
+                        `<wafflepen class='hlt-wafflepen-toolbox' style='display:none; !important;' id='highlight-toolbar'>
+                                   <wafflepen class='wafflepen-toolbox waf-inlineFlex'>
+                                      <wafflepen-ul class='wafflepen-color-picker'>
+                                         ` +
+                        colorButtons +
+                        `
+                                      </wafflepen-ul>
+                                      <wafflepen class='tool-list'>
+                                          <a href='javascript:void(0);' id='extensionMenu'>▶︎</a>
+                                          <!-- wafflepen-li><wafflepen class='hlt-btn trash waf-inlineBlock' id='deleteHighlightBtn'></wafflepen></wafflepen-li -->
+                                      </wafflepen>
+                                  </wafflepen>
+                                  <wafflepen class='wafflepen-writebox' style='display:none; !important' id='highlight-toolbar-memo-area'>
+                                      <textarea name='' class='rspen-txtarea' placeholder='Memo' id='highlightMemoArea' ></textarea>
+                                      <wafflepen class='writebox-submit'>
+                                          <wafflepen class='write-date'><wafflepen class='wdate'> </wafflepen> </wafflepen>
+                                          <wafflepen class='save-btn' id='highlightMemoRegistBtn' >Save</wafflepen>
+                                      </wafflepen>
+                                  </wafflepen>
+                              </wafflepen>`
+                    );
+                },*/
   hidePicker: () => {
     //$(".wafflepen-color-picker").find("a").removeClass("on");
 
