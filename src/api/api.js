@@ -405,6 +405,10 @@ let Api = {
   insertUpdateHistory: params => {
     return select(Query.insertUpdateHistory(), params);
   },
+  updateUpdateHistory: params => {
+    return update(Query.updateUpdateHistory(params), null);
+  },
+
   restoreLog: params => {}
 };
 

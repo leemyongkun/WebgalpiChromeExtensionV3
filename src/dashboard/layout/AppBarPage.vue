@@ -115,7 +115,6 @@
     </v-menu>
 
     <SignArea ref="signout"></SignArea>
-    <RestoreProcessArea ref="restoreProcessArea"></RestoreProcessArea>
   </v-app-bar>
 </template>
 <script>
@@ -123,14 +122,13 @@ import SignArea from "../dialog/setting/SignArea";
 import Common from "../../common/common";
 import GOOGLE_DRIVE from "../../common/GoogleDriveBackupAndRestore";
 import MODAL from "../../common/modal";
-import RestoreProcessArea from "../dialog/setting/backup/RestoreProcessArea";
 import CONTENT_LISTENER from "../../common/content-listener";
 import EventBus from "../event-bus";
 import Utils from "../utils/Utils";
 import { URL } from "../../contents/global/config";
 
 export default {
-  components: { RestoreProcessArea, SignArea },
+  components: { SignArea },
   data: () => ({
     ciPath: "",
     infoMenu: false,
@@ -194,8 +192,7 @@ export default {
                           }).then(res => {
                               console.log("res ", res);
                           });*/
-
-      let BACKUP_FOLDER_ID = await GOOGLE_DRIVE.getBackupFolderId();
+      /* let BACKUP_FOLDER_ID = await GOOGLE_DRIVE.getBackupFolderId();
       if (BACKUP_FOLDER_ID) {
         GOOGLE_DRIVE.executeGoogleDriveRestore().then(async list => {
           if (list) {
@@ -220,8 +217,7 @@ export default {
             }
           }
         });
-      }
-
+      }*/
       /*
                                                               let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
                                                               let contents = await CRAWLER.getImportSiteContents(url);
@@ -231,7 +227,6 @@ export default {
                                                                 type: "post.site",
                                                                 data: contents
                                                               });*/
-
       /*let result = await Utils.getLocalStorage("loginInfo");
                                     CONTENT_LISTENER.sendMessage({
                                       type: "get.backup.data",
@@ -241,7 +236,6 @@ export default {
                                       backupData.sites = Common.toHashMap(backupData.sites, "URL_KEY");
                                       console.log("backupData.sites ", backupData);
                                     });*/
-
       //참고 : https://bumbu.me/gapi-in-chrome-extension  , https://qiita.com/takahiro1110/items/4ed2c4e894d2d359751e , https://developers.google.com/drive/api/v2/reference/files/list#javascript
     }
   }

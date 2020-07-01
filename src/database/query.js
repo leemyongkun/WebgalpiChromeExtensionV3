@@ -675,5 +675,24 @@ export default {
     return ` INSERT INTO TBL_UPDATE_HISTORY
                 (EMAIL) VALUES (?)
                 `;
+  },
+  updateUpdateHistory: param => {
+    let updateField = "";
+    if (param.googleBackupDate !== undefined) {
+      updateField = " LATEST_GOOGLE_BACKUP_DATE = " + param.googleBackupDate;
+    } else if (param.googleRestoreDate !== undefined) {
+      updateField = " LATEST_GOOGLE_RESTORE_DATE = " + param.googleRestoreDate;
+    }
+
+    return (
+      ` UPDATE TBL_UPDATE_HISTORY
+                 SET ` +
+      updateField +
+      `
+                    WHERE EMAIL = '` +
+      param.email +
+      `'
+                `
+    );
   }
 };

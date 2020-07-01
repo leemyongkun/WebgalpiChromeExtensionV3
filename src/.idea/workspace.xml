@@ -2,13 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b2bb08b-04bd-4154-9718-f954bbbb3219" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/dashboard/snack/NotificationSnackBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/background/listener.js" beforeDir="false" afterPath="$PROJECT_DIR$/background/listener.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/GoogleDriveBackupAndRestore.js" beforeDir="false" afterPath="$PROJECT_DIR$/common/GoogleDriveBackupAndRestore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/DashboardApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/DashboardApp.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/dialog/setting/BackupArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/dialog/setting/BackupArea.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/dialog/setting/backup/BackupDescriptionArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/dialog/setting/backup/BackupDescriptionArea.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/dialog/setting/backup/RestoreProcessArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/dialog/setting/backup/RestoreProcessArea.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/layout/AppBarPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/layout/AppBarPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/snack/SnackBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/snack/SnackBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/query.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/query.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/vuetify/vuetify.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/vuetify/vuetify.js" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
@@ -18,11 +44,16 @@
   </component>
   <component name="ProjectId" id="1TCCx4QvWMsGKOdd3GT7gZ6kGjD" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="abbreviatePackageNames" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/background" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/dashboard/snack" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -34,24 +65,25 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/background" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/background" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/bg" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dashboard/snack" />
+      <recent name="$PROJECT_DIR$/background" />
+    </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
+  <component name="ServiceViewManager">
+    <option name="viewStates">
       <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
       </list>
     </option>
   </component>
@@ -70,6 +102,7 @@
       <workItem from="1573179732377" duration="13752000" />
       <workItem from="1573438272511" duration="10905000" />
       <workItem from="1573525046568" duration="9319000" />
+      <workItem from="1593578161912" duration="7410000" />
     </task>
     <servers />
   </component>
@@ -88,5 +121,15 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2503" y="235" width="667" height="476" key="find.popup" timestamp="1593587139812">
+      <screen x="1920" y="-26" width="1920" height="999" />
+    </state>
+    <state x="2503" y="235" width="667" height="476" key="find.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593587139812" />
+    <state x="2501" y="194" width="670" height="676" key="search.everywhere.popup" timestamp="1593586526837">
+      <screen x="1920" y="-26" width="1920" height="999" />
+    </state>
+    <state x="2501" y="194" width="670" height="676" key="search.everywhere.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593586526837" />
   </component>
 </project>

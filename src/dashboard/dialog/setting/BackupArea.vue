@@ -84,19 +84,19 @@ import GOOGLE_DRIVE from "../../../common/GoogleDriveBackupAndRestore";
 import ACCOUNT from "../../../common/account";
 
 /*
-                let firebaseConfig = {
-                  apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
-                  authDomain: "chrome-webgalpi.firebaseapp.com",
-                  databaseURL: "https://chrome-webgalpi.firebaseio.com",
-                  projectId: "chrome-webgalpi",
-                  storageBucket: "chrome-webgalpi.appspot.com",
-                  messagingSenderId: "360661693058",
-                  appId: "1:360661693058:web:bb726edb30cafe2cd4fa9b",
-                  measurementId: "G-P4BNDS8D9S"
-                };
-                // Initialize Firebase
-                Firebase.initializeApp(firebaseConfig);
-                */
+                    let firebaseConfig = {
+                      apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
+                      authDomain: "chrome-webgalpi.firebaseapp.com",
+                      databaseURL: "https://chrome-webgalpi.firebaseio.com",
+                      projectId: "chrome-webgalpi",
+                      storageBucket: "chrome-webgalpi.appspot.com",
+                      messagingSenderId: "360661693058",
+                      appId: "1:360661693058:web:bb726edb30cafe2cd4fa9b",
+                      measurementId: "G-P4BNDS8D9S"
+                    };
+                    // Initialize Firebase
+                    Firebase.initializeApp(firebaseConfig);
+                    */
 
 export default {
   components: { BackupDescriptionArea, RestoreListArea },
@@ -106,7 +106,8 @@ export default {
     dialog: false,
     restoreFile: null,
     backupOverlay: false,
-    backupData: null
+    backupData: null,
+    email: null
   }),
   created() {
     this.$nextTick(() => {
@@ -128,16 +129,24 @@ export default {
       GOOGLE_DRIVE.executeGoogleDriveBackup(backupData, description).then(
         () => {
           this.backupOverlay = false;
+
+          let params = new Object();
+          params.googleBackupDate = new Date().getTime();
+          params.email = this.email;
+          CONTENT_LISTENER.sendMessage({
+            type: "update.update.history",
+            data: params
+          });
         }
       );
     },
     async fileBackup(backupData) {},
     async backup(type) {
       let result = await Utils.getLocalStorage("loginInfo");
-
+      this.email = result.loginInfo.EMAIL;
       CONTENT_LISTENER.sendMessage({
         type: "get.backup.data",
-        data: result.loginInfo.EMAIL
+        data: this.email
       }).then(backupData => {
         if (backupData !== undefined) {
           switch (type) {
@@ -173,62 +182,62 @@ export default {
 
 //FILE
 /*let filename = "backup.json";
-                                                                    let ele = document.createElement("a");
-                                                                    ele.setAttribute(
-                                                                        "href",
-                                                                        "data:text/plain;charset=utf-8," +
-                                                                        encodeURIComponent(JSON.stringify(backupObj))
-                                                                    );
-                                                                    ele.setAttribute("download", filename);
+                                                                        let ele = document.createElement("a");
+                                                                        ele.setAttribute(
+                                                                            "href",
+                                                                            "data:text/plain;charset=utf-8," +
+                                                                            encodeURIComponent(JSON.stringify(backupObj))
+                                                                        );
+                                                                        ele.setAttribute("download", filename);
 
-                                                                    ele.style.display = "none";
-                                                                    document.body.appendChild(ele);
-                                                                    ele.click();
-                                                                    document.body.removeChild(ele);*/
+                                                                        ele.style.display = "none";
+                                                                        document.body.appendChild(ele);
+                                                                        ele.click();
+                                                                        document.body.removeChild(ele);*/
 
 /*restore() {
-                                                            if (this.restoreFile === null) {
-                                                                alert("파일을 선택하십시오.");
-                                                                return false;
-                                                            }
-                                                            if (!this.restoreFile) {
-                                                                this.data = "No File Chosen";
-                                                            }
-                                                            let reader = new FileReader();
-                                                            reader.readAsText(this.restoreFile);
-                                                            reader.onload = () => {
-                                                                // this.data = reader.result;
-                                                                try {
-                                                                    let data = JSON.parse(reader.result);
-                                                                    // Decrypt
-                                                                    let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
-                                                                    let originalText = bytes.toString(CryptoJS.enc.Utf8);
-
-                                                                    this.$refs.restoreProcessArea.open(originalText);
-                                                                    this.close();
-                                                                } catch (e) {
-                                                                    EventBus.$emit(
-                                                                        "open.snack",
-                                                                        "정상적인 백업 파일이 아닙니다.",
-                                                                        "error"
-                                                                    );
-                                                                    console.log("e", e);
+                                                                if (this.restoreFile === null) {
+                                                                    alert("파일을 선택하십시오.");
+                                                                    return false;
                                                                 }
-                                                            };
-                                                        }*/
+                                                                if (!this.restoreFile) {
+                                                                    this.data = "No File Chosen";
+                                                                }
+                                                                let reader = new FileReader();
+                                                                reader.readAsText(this.restoreFile);
+                                                                reader.onload = () => {
+                                                                    // this.data = reader.result;
+                                                                    try {
+                                                                        let data = JSON.parse(reader.result);
+                                                                        // Decrypt
+                                                                        let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
+                                                                        let originalText = bytes.toString(CryptoJS.enc.Utf8);
+
+                                                                        this.$refs.restoreProcessArea.open(originalText);
+                                                                        this.close();
+                                                                    } catch (e) {
+                                                                        EventBus.$emit(
+                                                                            "open.snack",
+                                                                            "정상적인 백업 파일이 아닙니다.",
+                                                                            "error"
+                                                                        );
+                                                                        console.log("e", e);
+                                                                    }
+                                                                };
+                                                            }*/
 
 //FILE
 /*let filename = "backup.json";
-                                                                    let ele = document.createElement("a");
-                                                                    ele.setAttribute(
-                                                                        "href",
-                                                                        "data:text/plain;charset=utf-8," +
-                                                                        encodeURIComponent(JSON.stringify(backupObj))
-                                                                    );
-                                                                    ele.setAttribute("download", filename);
+                                                                        let ele = document.createElement("a");
+                                                                        ele.setAttribute(
+                                                                            "href",
+                                                                            "data:text/plain;charset=utf-8," +
+                                                                            encodeURIComponent(JSON.stringify(backupObj))
+                                                                        );
+                                                                        ele.setAttribute("download", filename);
 
-                                                                    ele.style.display = "none";
-                                                                    document.body.appendChild(ele);
-                                                                    ele.click();
-                                                                    document.body.removeChild(ele);*/
+                                                                        ele.style.display = "none";
+                                                                        document.body.appendChild(ele);
+                                                                        ele.click();
+                                                                        document.body.removeChild(ele);*/
 </script>

@@ -227,6 +227,15 @@ export default {
         //하이라이트 저장 시작
         if (this.data.highlight.length !== 0) await this.runRestoreHighlight();
 
+        //restore date update
+        let params = new Object();
+        params.googleRestoreDate = new Date().getTime();
+        params.email = this.data.info.email;
+        CONTENT_LISTENER.sendMessage({
+          type: "update.update.history",
+          data: params
+        });
+
         MODAL.alert("복구가 완료 되었습니다.");
         EventBus.$emit("init.dashboard");
         if (this.siteFail === 0) {
@@ -332,7 +341,7 @@ export default {
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                                                                                                           url = "https://www.fnnews.com/news/202004231837158267";*/
+                                                                                                                     url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     async dataParsing(data) {
