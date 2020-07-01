@@ -235,7 +235,7 @@ let EVENT = {
     });
 
     $("#cancelConvert").click("on", function() {
-      $("#highlight-convert-noti-area").fadeOut(300);
+      $("#webgalpi-convert-notification-area").fadeOut(300);
     });
   },
   colorPickerUpdateBtnEvent: () => {
@@ -259,6 +259,7 @@ let EVENT = {
                   }
                 });
               });
+            } else if (colorClass === "highlight-memo") {
             } else {
               CONTENTS.updateHighlight(colorClass, GLOBAL_CONFIG.CURRENT_IDX);
             }

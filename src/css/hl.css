@@ -162,6 +162,7 @@
   box-sizing: border-box !important;
   margin-left: -5px !important;
 }
+
 .webgalpi-memo-textarea {
   color: #333333 !important;
   width: 100% !important;
@@ -173,14 +174,65 @@
   resize: none !important;
 }
 
-.webgalpi-memo-button {
-  background-color: #e5edef !important;
-  display: inline !important;
-  border-radius: 5px !important;
-  border: 1px solid black !important;
-  padding-right: 5px !important;
-  padding-left: 5px !important;
-  margin-right: 10px !important;
-  text-align: center !important;
+.webgalpi-memo-button,
+.webgalpi-notification-button {
+  background-color: white;
+  display: inline-block !important;
+  font-size: 11px !important;
+  color: rgb(30, 144, 255) !important;
+  cursor: pointer !important;
+  line-height: 1 !important;
+  padding: 5px 12px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: rgb(30, 144, 255) !important;
+  border-image: initial !important;
+  font-family: Meiryo, 微软雅黑, STXihei, "MS PGothic", "Helvetica Neue",
+    Helvetica, Arial, sans-serif !important;
   float: right !important;
+}
+
+#webgalpi-convert-notification-area {
+  position: fixed;
+  right: 20px;
+  top: 30px;
+  z-index: 2100000000;
+  display: none;
+  background-image: linear-gradient(to right, #5379ce, #75b5eb);
+  background-size: cover;
+  color: white;
+  width: 380px;
+  border-radius: 5px;
+  margin-left: -160px;
+  padding: 8px 8px 8px;
+  box-sizing: border-box;
+  border: 1px solid #fffcfb;
+  -ms-user-select: none !important;
+  -khtml-user-select: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+.webgalpi-convert-notification-contents {
+  text-align: left !important;
+  vertical-align: middle !important;
+  color: #cccccc !important;
+  font-size: 14px !important;
+  font-family: "MS PGothic", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  position: relative !important;
+  color: rgb(229, 237, 239) !important;
+  padding: 8px 8px !important;
+  -ms-user-select: none !important;
+  -khtml-user-select: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+.webgalpi-notification-icon {
+  z-index: 10000000 !important;
+  position: fixed !important;
+  width: 29px !important;
+  float: right !important;
+  top: 50px !important;
+  right: 40px !important;
 }
