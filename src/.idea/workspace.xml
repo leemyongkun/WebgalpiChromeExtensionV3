@@ -2,9 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b2bb08b-04bd-4154-9718-f954bbbb3219" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/icons/memo_16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/memo_32.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/common/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/contents.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/contents.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/core/hl-core.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/core/hl-core.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/event.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core.bak/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/core.bak/core.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core.bak/highlight-core.js" beforeDir="false" afterPath="$PROJECT_DIR$/core.bak/highlight-core.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/hl.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/hl.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/content/ContentBody.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/content/ContentBody.vue" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +32,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/background" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/icons" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -34,24 +44,25 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/background" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/background" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/bg" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/icons" />
+      <recent name="$PROJECT_DIR$/background" />
+    </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
+  <component name="ServiceViewManager">
+    <option name="viewStates">
       <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
       </list>
     </option>
   </component>
@@ -88,5 +99,19 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2431" y="198" key="Vcs.Push.Dialog.v2" timestamp="1593665811292">
+      <screen x="1920" y="-26" width="1920" height="999" />
+    </state>
+    <state x="2431" y="198" key="Vcs.Push.Dialog.v2/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593665811292" />
+    <state x="2497" y="220" width="1201" height="476" key="find.popup" timestamp="1593682511798">
+      <screen x="1920" y="-26" width="1920" height="999" />
+    </state>
+    <state x="2497" y="220" width="1201" height="476" key="find.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593682511798" />
+    <state x="2496" y="197" width="670" height="676" key="search.everywhere.popup" timestamp="1593681687233">
+      <screen x="1920" y="-26" width="1920" height="999" />
+    </state>
+    <state x="2496" y="197" width="670" height="676" key="search.everywhere.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593681687233" />
   </component>
 </project>

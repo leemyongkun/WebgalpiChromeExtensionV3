@@ -9,7 +9,7 @@ var colorMap = new Object();
   colorMap["highlight-color-3"] =
     "background: #ffee7c !important;display: inline !important;";
   colorMap["highlight-color-4"] =
-    "background: #8cf980 !important;display: inline !important;";
+    "background: #d9c3ff !important;display: inline !important;";
   colorMap["highlight-color-5"] =
     "background: #75dbff !important;display: inline !important;";
   colorMap["highlight-color-6"] =

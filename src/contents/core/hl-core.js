@@ -19,7 +19,7 @@ let colorMap = new Object();
   colorMap["highlight-color-7"] =
     "background: #90a4ae !important;display: inline !important;";
   colorMap["highlight-color-8"] =
-    "background: #CDDC39 !important;display: inline !important;";
+    "background: #333333 !important;display: inline !important;";
   colorMap["highlight-color-9"] =
     "background: #ffb540 !important;display: inline !important;";
   colorMap["highlight-color-10"] =

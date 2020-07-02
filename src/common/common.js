@@ -46,7 +46,7 @@ let colorMap = new Object();
   colorMap["highlight-color-1"] = "#a1887f";
   colorMap["highlight-color-2"] = "#CDDC39";
   colorMap["highlight-color-3"] = "#4CAF50";
-  colorMap["highlight-color-4"] = "#FF9800";
+  colorMap["highlight-color-4"] = "#8cf980";
   colorMap["highlight-color-5"] = "#FBC02D";
   colorMap["highlight-color-6"] = "#B2EBF2";
 })();

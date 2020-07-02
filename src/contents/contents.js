@@ -161,12 +161,11 @@ let CONTENTS = {
       param.DEFAULT_CATEGORY_IDX = 0; //loginInfo.DEFAULT_CATEGORY_IDX;
       param.URL_TYPE = "WEB";
       /*
-
-                  param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
-                    document.getElementsByTagName("html")[0].outerHTML,
-                    URL.SITE
-                  );
-            */
+                        param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
+                          document.getElementsByTagName("html")[0].outerHTML,
+                          URL.SITE
+                        );
+                  */
 
       CONTENTS.getReadmodeContents(
         document.getElementsByTagName("html")[0].outerHTML,
@@ -286,7 +285,7 @@ let CONTENTS = {
     param.URL_KEY = URL.KEY; // SITE
     param.TITLE = document.title; // SITE
     param.UPDATE_TITLE = document.title; // SITE
-    param.MEMO = $.trim($("#highlightMemoArea").val()); // Memo
+    param.MEMO = ""; //MEMO
     param.IDX = GLOBAL_CONFIG.CURRENT_IDX;
     param.COLOR = color; // HIGHLIGHT
     param.SITE_CHECK = GLOBAL_CONFIG.USE_CURRENT_SITE; // 사이트를 한번이상 저장한적있으면 Y, 처음이면 N
@@ -347,8 +346,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                                                                                  $('#highlight-toolbar').hide();
-                                                                                                                                                                                                } */
+                                                                                                                                                                                                      $('#highlight-toolbar').hide();
+                                                                                                                                                                                                    } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
@@ -377,21 +376,21 @@ let CONTENTS = {
       type: "reloading.same.site",
       data: null
     });
-
     return param;
   },
   checkCurrentArea: (event, action) => {
     if (action === "click") {
-      if ($(event.target).closest("#highlight-toolbar").length === 0) {
-        $("#highlight-toolbar").hide();
-        $("#highlight-update-toolbar").hide();
+      if (
+        $(event.target).closest("#webgalpi-highlight-update-toolbar").length ===
+        0
+      ) {
+        FORM.hidePicker();
       }
     } else if (action === "mousedown") {
       if (
         window.getSelection().isCollapsed === false &&
         $(event.target).attr(GLOBAL_CONFIG.HL_ID_NAME) === undefined
       ) {
-        // mousedownPalleteView = true;
       }
     }
 
