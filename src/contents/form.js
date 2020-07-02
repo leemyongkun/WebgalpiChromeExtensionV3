@@ -1,4 +1,5 @@
 import { GLOBAL_CONFIG, ELEMENT } from "./global/config.js";
+import { STATUS } from "./global/config";
 
 let $ = require("jquery");
 
@@ -59,7 +60,7 @@ let FORM = {
                         padding: 4px !important;
                     ">
                     <textarea rows="4" cols="50" id="webgalpi-memo-textarea" class="webgalpi-memo-textarea"></textarea>
-                    <a class="highlight-memo webgalpi-memo-button">확인</a>
+                    <a class="webgalpi-memo-button">확인</a>
                 </div>
             </div>
         </div>
@@ -83,6 +84,7 @@ let FORM = {
     $("#webgalpi-highlight-update-toolbar").hide();
     $("#webgalpi-memo-area").hide();
     $("#webgalpi-memo-textarea").val("");
+    STATUS.mouseDownFlag = false;
   },
   showPicker: e => {
     // 초기화

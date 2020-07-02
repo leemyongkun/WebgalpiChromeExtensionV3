@@ -150,26 +150,34 @@ export default {
         VALUES
             ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, 'Y', ?, ?, ?,?,'N') `;
   },
-  updateItem: () => {
+  updateHighlightMemo: param => {
     return `
         UPDATE TBL_ITEMS
-        SET MEMO = ?, COLOR = ?, DATE_UPDATE = ?
-        WHERE URL_KEY = ?
-        AND IDX = ?
-        AND EMAIL = ? `;
+        SET MEMO = '${param.MEMO}', DATE_UPDATE = ${new Date().getTime()}
+        WHERE URL_KEY = '${param.URL_KEY}'
+        AND IDX =  ${param.HIGHLIGHT_IDX}
+        AND EMAIL = '${param.EMAIL}' `;
   },
-  deleteItem: () => {
-    return `UPDATE TBL_ITEMS
-        SET FL_DELETE = 'Y' , DATE_UPDATE = ?
-        WHERE URL_KEY = ?
-        AND IDX = ? 
-        AND EMAIL = ?`;
+  updateItem: param => {
+    return `
+        UPDATE TBL_ITEMS
+        SET  COLOR = '${param.COLOR}', DATE_UPDATE = ${new Date().getTime()}
+        WHERE URL_KEY = '${param.URL_KEY}'
+        AND IDX =  ${param.HIGHLIGHT_IDX}
+        AND EMAIL = '${param.EMAIL}' `;
   },
-  deleteItems: () => {
+  deleteItem: param => {
     return `UPDATE TBL_ITEMS
-        SET FL_DELETE = 'Y', DATE_UPDATE = ?
-        WHERE URL_KEY = ? 
-        AND EMAIL = ?`;
+        SET FL_DELETE = 'Y' , DATE_UPDATE =  ${new Date().getTime()}
+        WHERE URL_KEY = '${param.URL_KEY}'
+        AND IDX =  ${param.HIGHLIGHT_IDX}
+        AND EMAIL = '${param.EMAIL}' `;
+  },
+  deleteItems: param => {
+    return `UPDATE TBL_ITEMS
+        SET FL_DELETE = 'Y', DATE_UPDATE = ${new Date().getTime()}
+        WHERE URL_KEY = '${param.URL_KEY}'
+        AND EMAIL = '${param.EMAIL}' `;
   },
   insertItem: () => {
     return `INSERT

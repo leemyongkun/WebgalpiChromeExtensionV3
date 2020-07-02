@@ -152,17 +152,11 @@ let Api = {
     return result;
   },
   updateItem: params => {
-    let param = [
-      params.MEMO,
-      params.COLOR,
-      new Date().getTime(),
-      params.URL_KEY,
-      params.IDX,
-      params.EMAIL
-    ];
-    return update(Query.updateItem(), param);
+    return update(Query.updateItem(params));
   },
-
+  updateHighlightMemo: params => {
+    return update(Query.updateHighlightMemo(params));
+  },
   postItem: params => {
     let param = [
       params.IDX,
@@ -185,17 +179,10 @@ let Api = {
     return insert(Query.insertItem(), param);
   },
   deleteItem: params => {
-    let param = [
-      new Date().getTime(),
-      params.URL_KEY,
-      params.IDX,
-      params.EMAIL
-    ];
-    return remove(Query.deleteItem(), param);
+    return remove(Query.deleteItem(params));
   },
   deleteItems: params => {
-    let param = [new Date().getTime(), params.URL_KEY, params.EMAIL];
-    return remove(Query.deleteItems(), param);
+    return remove(Query.deleteItems(params));
   },
   deleteSiteInCategory: params => {
     let param = [params.URL_KEY, params.EMAIL];

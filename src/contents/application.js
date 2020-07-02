@@ -38,7 +38,6 @@ let APPLICATION = {
         targetDeleteHighlightCustomTag[i]
       );
     }
-
     APPLICATION.createContentsForm(data.options.COLOR);
   },
   createContentsForm: color => {

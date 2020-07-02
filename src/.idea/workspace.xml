@@ -20,6 +20,36 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="207" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="207" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="207" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
@@ -28,6 +58,12 @@
   </component>
   <component name="ProjectId" id="1TCCx4QvWMsGKOdd3GT7gZ6kGjD" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="abbreviatePackageNames" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -59,7 +95,32 @@
       <list>
         <serviceView>
           <treeState>
-            <expand />
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@727c4eb8" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@1483bf86" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@72e5f8b0" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@63066800" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+            </expand>
             <select />
           </treeState>
         </serviceView>
@@ -81,6 +142,7 @@
       <workItem from="1573179732377" duration="13752000" />
       <workItem from="1573438272511" duration="10905000" />
       <workItem from="1573525046568" duration="9319000" />
+      <workItem from="1593697693564" duration="4654000" />
     </task>
     <servers />
   </component>
@@ -101,17 +163,44 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
+    <state x="1200" y="528" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593699020621">
+      <screen x="0" y="23" width="3200" height="1720" />
+    </state>
+    <state x="1200" y="528" key="#com.intellij.execution.impl.EditConfigurationsDialog/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699020621" />
+    <state width="2190" height="375" key="GridCell.Tab.0.bottom" timestamp="1593704218144">
+      <screen x="0" y="23" width="3200" height="1720" />
+    </state>
+    <state width="2190" height="375" key="GridCell.Tab.0.bottom/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593704218144" />
+    <state width="2190" height="488" key="GridCell.Tab.0.bottom/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699029419" />
+    <state width="2190" height="375" key="GridCell.Tab.0.center" timestamp="1593704218143">
+      <screen x="0" y="23" width="3200" height="1720" />
+    </state>
+    <state width="2190" height="375" key="GridCell.Tab.0.center/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593704218143" />
+    <state width="2190" height="488" key="GridCell.Tab.0.center/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699029418" />
+    <state width="2190" height="375" key="GridCell.Tab.0.left" timestamp="1593704218142">
+      <screen x="0" y="23" width="3200" height="1720" />
+    </state>
+    <state width="2190" height="375" key="GridCell.Tab.0.left/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593704218142" />
+    <state width="2190" height="488" key="GridCell.Tab.0.left/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699029418" />
+    <state width="2190" height="375" key="GridCell.Tab.0.right" timestamp="1593704218143">
+      <screen x="0" y="23" width="3200" height="1720" />
+    </state>
+    <state width="2190" height="375" key="GridCell.Tab.0.right/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593704218143" />
+    <state width="2190" height="488" key="GridCell.Tab.0.right/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699029419" />
     <state x="2431" y="198" key="Vcs.Push.Dialog.v2" timestamp="1593665811292">
       <screen x="1920" y="-26" width="1920" height="999" />
     </state>
     <state x="2431" y="198" key="Vcs.Push.Dialog.v2/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593665811292" />
-    <state x="2497" y="220" width="1201" height="476" key="find.popup" timestamp="1593682511798">
-      <screen x="1920" y="-26" width="1920" height="999" />
+    <state x="962" y="447" width="2002" height="820" key="find.popup" timestamp="1593704457146">
+      <screen x="0" y="23" width="3200" height="1720" />
     </state>
     <state x="2497" y="220" width="1201" height="476" key="find.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593682511798" />
-    <state x="2496" y="197" width="670" height="676" key="search.everywhere.popup" timestamp="1593681687233">
-      <screen x="1920" y="-26" width="1920" height="999" />
+    <state x="962" y="447" width="2002" height="820" key="find.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593704457146" />
+    <state x="962" y="447" width="2002" height="820" key="find.popup/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699387683" />
+    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup" timestamp="1593697888051">
+      <screen x="0" y="23" width="3200" height="1720" />
     </state>
     <state x="2496" y="197" width="670" height="676" key="search.everywhere.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593681687233" />
+    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593697888051" />
   </component>
 </project>
