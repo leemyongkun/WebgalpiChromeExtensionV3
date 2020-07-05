@@ -10,6 +10,9 @@ let TRUNCATION_TABLE_QUERY = {
   },
   CATEGORY_RELATION: () => {
     return `DELETE FROM TBL_REL_CATEGORY`;
+  },
+  ONETAB: () => {
+    return `DELETE FROM TBL_ONETAB`;
   }
 };
 
@@ -39,7 +42,9 @@ let DROP_TABLE_QUERY = {
   TBL_OPTIONS: () => {
     return `DROP TABLE TBL_OPTIONS `;
   },
-
+  TBL_ONETAB: () => {
+    return `DROP TABLE TBL_ONETAB `;
+  },
   TBL_SLACK: () => {
     return `DROP TABLE TBL_SLACK `;
   }
@@ -87,7 +92,6 @@ let CREATE_TABLE_QUERY = {
                    DATE_CREATE NUMERIC
                 )`;
   },
-
   TBL_CAPTURE: () => {
     return `
         CREATE TABLE IF NOT EXISTS TBL_CAPTURE (
@@ -102,7 +106,6 @@ let CREATE_TABLE_QUERY = {
           MEMO TEXT
           )`;
   },
-
   TBL_CATEGORY: () => {
     return `
         CREATE TABLE IF NOT EXISTS TBL_CATEGORY (
@@ -117,7 +120,6 @@ let CREATE_TABLE_QUERY = {
                DATE_CREATE NUMERIC
                )`;
   },
-
   TBL_ITEMS: () => {
     return `
         CREATE TABLE IF NOT EXISTS TBL_ITEMS (
@@ -168,7 +170,16 @@ let CREATE_TABLE_QUERY = {
                       THEME TEXT
                       )`;
   },
-
+  TBL_ONETAB: () => {
+    return `CREATE TABLE IF NOT EXISTS TBL_ONETAB (
+                    GROUP_ID INTEGER,
+                    URL TEXT,
+                    URL_KEY TEXT,
+                    TITLE TEXT,
+                    FL_DELETE TEXT,
+                    DATE_CREATE NUMERIC
+                )`;
+  },
   TBL_SLACK: () => {
     return `CREATE TABLE IF NOT EXISTS TBL_SLACK (
                       IDX INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -205,7 +216,9 @@ let DDL = {
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_SLACK(), []);
       });
-
+      db.transaction(function(tx) {
+        tx.executeSql(DROP_TABLE_QUERY.TBL_ONETAB(), []);
+      });
       res(true);
     });
   },
@@ -232,7 +245,7 @@ let DDL = {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_OPTIONS(), []);
     });
     db.transaction(function(tx) {
-      tx.executeSql(CREATE_TABLE_QUERY.TBL_SLACK(), []);
+      tx.executeSql(CREATE_TABLE_QUERY.TBL_ONETAB(), []);
     });
   },
   TRUNCATE: db => {
@@ -253,6 +266,10 @@ let DDL = {
     //CATEGORY_RELATION
     db.transaction(function(tx) {
       tx.executeSql(TRUNCATION_TABLE_QUERY.CATEGORY_RELATION(), []);
+    });
+    //ONETAB
+    db.transaction(function(tx) {
+      tx.executeSql(TRUNCATION_TABLE_QUERY.ONETAB(), []);
     });
   }
 };

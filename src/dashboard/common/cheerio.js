@@ -1,4 +1,6 @@
 import CONTENTS from "../../contents/contents";
+import Utils from "../utils/Utils";
+import Query from "../../database/query";
 
 const axios = require("axios");
 const cheerio = require("cheerio");
@@ -44,17 +46,19 @@ let CRAWLER = {
         .get(url)
         .then(async source => {
           const $ = cheerio.load(source.data);
+          let result = await Utils.getLocalStorage("loginInfo");
 
           let object = new Object();
           let urlInfo = CONTENTS.getUriInfo(url);
 
-          if (location.href.indexOf("www.youtube.com/watch") !== -1) {
+          if (location.href.indexOf("www.youtube.com/watch") === -1) {
             object.EMBEDURL = "";
           } else {
             object.EMBEDURL =
               "https://" + urlInfo.host + "/embed/" + urlInfo.parameter.v;
           }
 
+          object.EMAIL = result.loginInfo.EMAIL;
           object.DEFAULT_CATEGORY_IDX = 0;
           object.FULL_TEXT = $.text().replace(/\n/g, " ");
           object.OG_DESCRIPTION = $('meta[property="og:description"]').attr(

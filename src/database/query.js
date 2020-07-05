@@ -711,5 +711,44 @@ export default {
         )
         VALUES
             (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
+  },
+  insertTabInfo: param => {
+    return `
+        INSERT INTO TBL_ONETAB
+        (
+            GROUP_ID,
+            URL,
+            URL_KEY,
+            TITLE,
+            FL_DELETE,
+            DATE_CREATE
+        )
+        VALUES
+            (
+            ${param.GROUP_ID},
+            '${param.url}',
+            '${param.URL_KEY}',
+            '${param.title}',
+            'N',
+             ${param.GROUP_ID}
+            ) `;
+  },
+  selectTabInfos: param => {
+    return `
+            SELECT
+            ONETAB.*, SITES.URL_KEY
+            from TBL_ONETAB ONETAB LEFT JOIN TBL_SITES SITES
+            ON ONETAB.URL_KEY = SITES.URL_KEY
+            WHERE GROUP_ID = ${param.GROUP_ID}
+        `;
+  },
+  selectTabInfoGroup: () => {
+    return `
+            SELECT
+            GROUP_ID, COUNT(*) AS TAB_COUNT
+            FROM TBL_ONETAB
+            GROUP BY GROUP_ID
+            ORDER BY GROUP_ID DESC
+        `;
   }
 };

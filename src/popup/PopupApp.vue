@@ -30,8 +30,7 @@
               >로그인이 필요합니다.</v-list-item-title
             >
             <v-list-item-subtitle
-              >대쉬보드로 가서 계정등록 및 로그인을
-              하십시오.</v-list-item-subtitle
+              >대쉬보드에서 계정등록 및 로그인을 하십시오.</v-list-item-subtitle
             >
           </v-list-item-content>
         </v-list-item>
@@ -53,12 +52,6 @@ import SiteInfoTab from "./tabs/SiteInfoTab";
 import HighlightTab from "./tabs/HighlightTab";
 import SettingTab from "./tabs/SettingTab";
 
-let detectSites = [
-  "chrome://newtab/",
-  "chrome-extension://",
-  "chrome://extensions/"
-];
-
 export default {
   components: {
     SettingTab,
@@ -72,25 +65,7 @@ export default {
     style: "max-height: 390px; height: 463px; width: 400px;",
     mainFlag: 0 //0: 로딩중 , 1 : 로그인이 되어있을경우 , 2 : 되지 않았을경우
   }),
-  created() {
-    /* this.$nextTick(()=>{
-
-                let isDetect = false;
-                chrome.tabs.query({currentWindow: true, active: true}, function (tabs) {
-                    for (var i = 0; i < detectSites.length; i++) {
-                        if (tabs[0].url.indexOf(detectSites[i]) !== -1) {
-                            isDetect = true;
-                            return false;
-                        }
-                    }
-                });
-                if(isDetect){
-                    this.mainFlag = 2;
-                    return false;
-                }
-
-            })*/
-  },
+  created() {},
   methods: {
     goDashboard() {
       let extensionDashboard =

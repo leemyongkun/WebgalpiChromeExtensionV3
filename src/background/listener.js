@@ -233,14 +233,14 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     /*case "get.site": //미사용
-                                                                      let getSiteParameter = new Object();
-                                                                      getSiteParameter.URL_KEY = msg.data;
+                                                                          let getSiteParameter = new Object();
+                                                                          getSiteParameter.URL_KEY = msg.data;
 
-                                                                      API.getSite(getSiteParameter).then(res => {
-                                                                        sendResponse(res); //조건
-                                                                      });
-                                                                      return true;
-                                                                      break;*/
+                                                                          API.getSite(getSiteParameter).then(res => {
+                                                                            sendResponse(res); //조건
+                                                                          });
+                                                                          return true;
+                                                                          break;*/
     case "update.scrap.site":
       API.updateScrapSite(msg.data).then(res => {
         sendResponse(res);
@@ -430,6 +430,28 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     case "delete.favorite":
       API.deleteFavorite(msg.data).then(log => {
         sendResponse(log);
+      });
+      return true;
+      break;
+
+    case "insert.tabinfo":
+      API.insertTabInfo(msg.data).then(res => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+
+    case "select.tabinfo.group":
+      API.selectTabInfoGroup().then(tabGroup => {
+        console.log(">>>>>>>> ", tabGroup);
+        sendResponse(tabGroup);
+      });
+      return true;
+      break;
+
+    case "get.tabinfos":
+      API.selectTabInfos(msg.data).then(res => {
+        sendResponse(res);
       });
       return true;
       break;

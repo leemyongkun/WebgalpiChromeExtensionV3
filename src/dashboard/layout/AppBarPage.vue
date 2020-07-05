@@ -65,8 +65,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                                                <v-icon>mdi-heart</v-icon>
-                                                                                                                                            </v-btn>-->
+                                                                                                                                                              <v-icon>mdi-heart</v-icon>
+                                                                                                                                                          </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -115,6 +115,8 @@
     </v-menu>
 
     <SignArea ref="signout"></SignArea>
+
+    <OneTab ref="onetab"></OneTab>
   </v-app-bar>
 </template>
 <script>
@@ -123,9 +125,11 @@ import Common from "../../common/common";
 import CRAWLER from "../common/cheerio";
 import CONTENT_LISTENER from "../../common/content-listener";
 import Utils from "../utils/Utils";
+import ONETAB from "../../common/onetab";
+import OneTab from "../dialog/OneTab";
 
 export default {
-  components: { SignArea },
+  components: { OneTab, SignArea },
   data: () => ({
     ciPath: "",
     infoMenu: false,
@@ -171,25 +175,28 @@ export default {
       this.$refs.signout.open();
     },
     async processTest() {
+      //ONETAB Test
+      this.$refs.onetab.open();
+
       /*
-                                                    let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
-                                                    let contents = await CRAWLER.getImportSiteContents(url);
-                                                    contents.EMAIL = result.loginInfo.EMAIL;
+                                                              let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
+                                                              let contents = await CRAWLER.getImportSiteContents(url);
+                                                              contents.EMAIL = result.loginInfo.EMAIL;
 
-                                                    CONTENT_LISTENER.sendMessage({
-                                                      type: "post.site",
-                                                      data: contents
-                                                    });*/
+                                                              CONTENT_LISTENER.sendMessage({
+                                                                type: "post.site",
+                                                                data: contents
+                                                              });*/
 
-      let result = await Utils.getLocalStorage("loginInfo");
-      CONTENT_LISTENER.sendMessage({
-        type: "get.backup.data",
-        data: result.loginInfo.EMAIL
-      }).then(backupData => {
-        //let siteMap = backupData.sites.toHashMap('URL_KEY');
-        backupData.sites = Common.toHashMap(backupData.sites, "URL_KEY");
-        console.log("backupData.sites ", backupData);
-      });
+      /*let result = await Utils.getLocalStorage("loginInfo");
+                CONTENT_LISTENER.sendMessage({
+                  type: "get.backup.data",
+                  data: result.loginInfo.EMAIL
+                }).then(backupData => {
+                  //let siteMap = backupData.sites.toHashMap('URL_KEY');
+                  backupData.sites = Common.toHashMap(backupData.sites, "URL_KEY");
+                  console.log("backupData.sites ", backupData);
+                });*/
 
       //참고 : https://bumbu.me/gapi-in-chrome-extension  , https://qiita.com/takahiro1110/items/4ed2c4e894d2d359751e , https://developers.google.com/drive/api/v2/reference/files/list#javascript
     }

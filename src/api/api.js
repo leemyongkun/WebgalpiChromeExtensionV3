@@ -398,6 +398,15 @@ let Api = {
     ];
     return insert(Query.restoreHighlight(), param);
   },
+  selectTabInfoGroup: () => {
+    return select(Query.selectTabInfoGroup());
+  },
+  selectTabInfos: params => {
+    return select(Query.selectTabInfos(params));
+  },
+  insertTabInfo: params => {
+    return insert(Query.insertTabInfo(params));
+  },
   restoreLog: params => {}
 };
 
