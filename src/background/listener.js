@@ -443,7 +443,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 
     case "select.tabinfo.group":
       API.selectTabInfoGroup().then(tabGroup => {
-        console.log(">>>>>>>> ", tabGroup);
         sendResponse(tabGroup);
       });
       return true;

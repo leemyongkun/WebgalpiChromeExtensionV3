@@ -1,4 +1,5 @@
 import CONTENT_LISTENER from "./content-listener";
+
 let md5 = require("md5");
 
 let ONETAB = {
@@ -29,7 +30,7 @@ let ONETAB = {
       tab.GROUP_ID = groupId;
       tab.URL_KEY = md5(tab.url.split("#")[0]);
 
-      CONTENT_LISTENER.sendMessage({
+      return CONTENT_LISTENER.sendMessage({
         type: "insert.tabinfo",
         data: tab
       });

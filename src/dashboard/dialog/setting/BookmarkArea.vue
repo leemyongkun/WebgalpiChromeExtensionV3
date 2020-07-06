@@ -1,50 +1,46 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="900" overlay-opacity="0.9">
-      <v-card>
-        <v-card-title class="headline"
-          >Bookmark를 WEBGALPI로 Import합니다.
-        </v-card-title>
-        <v-card-text>
-          <v-row>
-            <v-col cols="7">
-              <div style="max-height: 500px" class="overflow-y-auto">
-                <v-treeview
-                  v-model="selectedBookmark"
-                  return-object
-                  hoverable
-                  selectable
-                  selected-color="red"
-                  item-text="title"
-                  :items="bookmarks"
-                ></v-treeview>
-              </div>
-            </v-col>
-            <v-divider vertical />
-            <v-col cols="4">
-              <v-btn
-                block
-                small
-                outlined
-                style="margin-top: 10px;"
-                @click="runCrawling"
-              >
-                실행
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false"
-            >취소
-          </v-btn>
-          <v-btn color="green darken-1" text @click="check">데이타 체크</v-btn>
-          <v-btn color="green darken-1" text @click="getData">GET DATA</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
+  <v-dialog v-model="dialog" persistent max-width="900" overlay-opacity="0.9">
+    <v-card>
+      <v-card-title class="headline"
+        >Bookmark를 WEBGALPI로 Import합니다.
+      </v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col cols="7">
+            <div style="max-height: 500px" class="overflow-y-auto">
+              <v-treeview
+                v-model="selectedBookmark"
+                return-object
+                hoverable
+                selectable
+                selected-color="red"
+                item-text="title"
+                :items="bookmarks"
+              ></v-treeview>
+            </div>
+          </v-col>
+          <v-divider vertical />
+          <v-col cols="4">
+            <v-btn
+              block
+              small
+              outlined
+              style="margin-top: 10px;"
+              @click="runCrawling"
+            >
+              실행
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="green darken-1" text @click="dialog = false">취소 </v-btn>
+        <v-btn color="green darken-1" text @click="check">데이타 체크</v-btn>
+        <v-btn color="green darken-1" text @click="getData">GET DATA</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import axios from "axios";

@@ -54,9 +54,9 @@
         <!-- CATEGORY : END -->
       </v-list>
 
-      <template v-slot:append>
+      <!--<template v-slot:append>
         <OptionComponent></OptionComponent>
-      </template>
+      </template>-->
     </v-navigation-drawer>
 
     <v-snackbar
@@ -82,11 +82,9 @@ import UpdateCategoryDialog from "./dialog/UpdateCategoryDialog";
 import LostCategoryComponent from "./component/LostCategoryComponent";
 import SystemCategoryComponent from "./component/SystemCategoryComponent";
 import CategoryComponent from "./component/CategoryComponent";
-import OptionComponent from "./component/OptionComponent";
 
 export default {
   components: {
-    OptionComponent,
     CategoryComponent,
     SystemCategoryComponent,
     UpdateCategoryDialog,

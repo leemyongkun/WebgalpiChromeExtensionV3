@@ -192,6 +192,14 @@ let CREATE_TABLE_QUERY = {
 };
 
 let DDL = {
+  ADD_TABLE: db => {
+    return new Promise(function(res) {
+      db.transaction(function(tx) {
+        tx.executeSql(CREATE_TABLE_QUERY.TBL_ONETAB(), []);
+      });
+      res(true);
+    });
+  },
   DROP: db => {
     return new Promise(function(res) {
       db.transaction(function(tx) {

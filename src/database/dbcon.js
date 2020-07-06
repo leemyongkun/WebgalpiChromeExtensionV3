@@ -66,6 +66,9 @@ export default {
   createTable: () => {
     DDL.CREATE(db);
   },
+  addTable: () => {
+    DDL.ADD_TABLE(db);
+  },
   dropTable: () => {
     DDL.DROP(db);
   },
