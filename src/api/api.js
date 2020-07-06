@@ -208,7 +208,6 @@ let Api = {
     params.DATE = new Date().getTime();
     let param = [params.FULL_TEXT, params.READERMODE_CONTENTS];
 
-    console.log("Query.insertSite(params) ", Query.insertSite(params));
     await insert(Query.insertSite(params), param);
     return Api.getSite(params);
   },
@@ -382,8 +381,8 @@ let Api = {
   deleteTabInfoGroup: params => {
     return remove(Query.deleteTabInfoGroup(params));
   },
-  selectTabInfoGroup: () => {
-    return select(Query.selectTabInfoGroup());
+  selectTabInfoGroup: params => {
+    return select(Query.selectTabInfoGroup(params));
   },
   selectTabInfos: params => {
     return select(Query.selectTabInfos(params));

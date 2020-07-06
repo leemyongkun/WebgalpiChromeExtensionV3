@@ -29,7 +29,6 @@ let COMMON_ACTION = {
 
             siteInfo.DEFAULT_CATEGORY_IDX = null;
 
-            console.log("###", siteInfo);
             if (siteInfo.URL !== "") {
               chrome.storage.local.get(["loginInfo"], result => {
                 siteInfo.EMAIL = result.loginInfo.EMAIL;

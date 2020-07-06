@@ -438,7 +438,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     case "select.tabinfo.group":
-      API.selectTabInfoGroup().then(tabGroup => {
+      API.selectTabInfoGroup(msg.data).then(tabGroup => {
         sendResponse(tabGroup);
       });
       return true;

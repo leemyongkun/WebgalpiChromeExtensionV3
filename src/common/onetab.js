@@ -1,5 +1,6 @@
 import CONTENT_LISTENER from "./content-listener";
 import Common from "./common";
+import Utils from "../dashboard/utils/Utils";
 
 let md5 = require("md5");
 
@@ -24,11 +25,14 @@ let ONETAB = {
       });
     });
   },
-  insertTabInfo(tabList) {
+  async insertTabInfo(tabList) {
     let groupId = new Date().getTime();
+    let result = await Utils.getLocalStorage("loginInfo");
+    console.log("result ", result);
     tabList.map(tab => {
       tab.GROUP_ID = groupId;
       tab.URL_KEY = md5(tab.url.split("#")[0]);
+      tab.EMAIL = result.loginInfo.EMAIL;
 
       return CONTENT_LISTENER.sendMessage({
         type: "insert.tabinfo",

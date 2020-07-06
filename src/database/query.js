@@ -735,6 +735,7 @@ export default {
     return `
         INSERT INTO TBL_ONETAB
         (
+            EMAIL,
             GROUP_ID,
             URL,
             URL_KEY,
@@ -744,6 +745,7 @@ export default {
         )
         VALUES
             (
+            '${param.EMAIL}',
             ${param.GROUP_ID},
             '${param.url}',
             '${param.URL_KEY}',
@@ -758,21 +760,24 @@ export default {
             ONETAB.*, SITES.URL_KEY
             from TBL_ONETAB ONETAB LEFT JOIN TBL_SITES SITES
             ON ONETAB.URL_KEY = SITES.URL_KEY
-            WHERE GROUP_ID = ${param.GROUP_ID}
+            WHERE ONETAB.GROUP_ID = ${param.GROUP_ID}
+            AND ONETAB.EMAIL = '${param.EMAIL}'
         `;
   },
-  selectTabInfoGroup: () => {
+  selectTabInfoGroup: param => {
     return `
             SELECT
             GROUP_ID, COUNT(*) AS TAB_COUNT
             FROM TBL_ONETAB
+            WHERE EMAIL = '${param.EMAIL}'
             GROUP BY GROUP_ID
             ORDER BY GROUP_ID DESC
         `;
   },
   deleteTabInfoGroup: param => {
     return `DELETE FROM TBL_ONETAB
-                WHERE GROUP_ID = ${param.GROUP_ID}
+            WHERE GROUP_ID = ${param.GROUP_ID}
+            AND EMAIL = '${param.EMAIL}'
                 `;
   }
 };

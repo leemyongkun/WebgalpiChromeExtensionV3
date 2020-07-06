@@ -117,8 +117,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                                                                                          <v-icon>mdi-heart</v-icon>
-                                                                                                                                                                                      </v-btn>-->
+                                                                                                                                                                                                        <v-icon>mdi-heart</v-icon>
+                                                                                                                                                                                                    </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -175,6 +175,7 @@ import EventBus from "../event-bus";
 import BookmarkArea from "../dialog/setting/BookmarkArea";
 import OneTab from "../dialog/OneTab";
 import Common from "../../common/common";
+import Utils from "../utils/Utils";
 
 export default {
   components: { OneTab, BookmarkArea, ThemeArea, ColorArea, BackupArea },
@@ -224,8 +225,11 @@ export default {
       );
       //this.$refs.bookmark.open();
     },
-    openOneTab() {
-      this.$refs.onetab.open();
+    async openOneTab() {
+      let result = await Utils.getLocalStorage("loginInfo");
+      if (result.loginInfo !== undefined) {
+        this.$refs.onetab.open();
+      }
     },
     openUpdateInfo() {
       this.infoMenu = true;

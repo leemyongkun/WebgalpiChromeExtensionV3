@@ -73,7 +73,6 @@ export default {
             return false;
         }*/
 
-      console.log("this.selectedBookmark ", this.selectedBookmark);
       this.selectedBookmark.map(async bookmark => {
         //console.log("bookmark >> " , bookmark.url);
         let result = await CRAWLER.getImportSiteContents(bookmark.url);

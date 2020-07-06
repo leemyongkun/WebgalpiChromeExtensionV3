@@ -172,10 +172,12 @@ let CREATE_TABLE_QUERY = {
   },
   TBL_ONETAB: () => {
     return `CREATE TABLE IF NOT EXISTS TBL_ONETAB (
+                    EMAIL TEXT,
                     GROUP_ID INTEGER,
                     URL TEXT,
                     URL_KEY TEXT,
                     TITLE TEXT,
+                    DESCRIPTION TEXT,
                     FL_DELETE TEXT,
                     DATE_CREATE NUMERIC
                 )`;

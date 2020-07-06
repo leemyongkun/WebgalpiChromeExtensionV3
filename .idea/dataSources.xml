@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="222" uuid="3287c3ec-a234-435d-a832-fef1b2067adc">
+    <data-source source="LOCAL" name="224" uuid="3287c3ec-a234-435d-a832-fef1b2067adc">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$USER_HOME$/Library/Application Support/Google/Chrome/Default/databases/chrome-extension_dpemoipibdjnnilodimbojpmkaooihin_0/222</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$USER_HOME$/Library/Application Support/Google/Chrome/Default/databases/chrome-extension_dpemoipibdjnnilodimbojpmkaooihin_0/224</jdbc-url>
     </data-source>
   </component>
 </project>

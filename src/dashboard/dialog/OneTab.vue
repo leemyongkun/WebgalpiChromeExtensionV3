@@ -53,17 +53,17 @@
                   </template>
 
                   <template v-slot:item.URL_KEY="{ item }">
-                    <v-btn
-                      color="green"
-                      icon
-                      @click="importSite(item)"
-                      v-show="isCrawlingInvalidSite(item)"
-                    >
-                      <v-icon>mdi-cloud-download-outline</v-icon>
-                    </v-btn>
+                    <!--  <v-btn
+                                                color="green"
+                                                icon
+                                                @click="importSite(item)"
+                                                v-show="isCrawlingInvalidSite(item)"
+                                        >
+                                            <v-icon>mdi-cloud-download-outline</v-icon>
+                                        </v-btn>-->
                     <!-- <v-btn color="red" icon @click="removeSite(item)">
-                                             <v-icon>mdi-trash-can-outline</v-icon>
-                                         </v-btn>-->
+                                                                 <v-icon>mdi-trash-can-outline</v-icon>
+                                                             </v-btn>-->
                     <v-btn icon @click="goSourceSite(item)">
                       <v-icon>mdi-home-outline</v-icon>
                     </v-btn>
@@ -90,6 +90,7 @@ import CRAWLER from "../common/cheerio";
 import EventBus from "../event-bus";
 import MODAL from "../../common/modal";
 import SITE_MANAGER from "../../common/site-manager";
+import Utils from "../utils/Utils";
 
 export default {
   props: [],
@@ -147,8 +148,10 @@ export default {
         "450px"
       );
       if (ret.value) {
+        let result = await Utils.getLocalStorage("loginInfo");
         let param = new Object();
         param.GROUP_ID = this.selectGroup;
+        param.EMAIL = result.loginInfo.EMAIL;
 
         CONTENT_LISTENER.sendMessage({
           type: "delete.tabinfo.group",
@@ -181,9 +184,13 @@ export default {
       }
     },
     async getTabInfoGroupWithTabDetailInfo() {
+      let result = await Utils.getLocalStorage("loginInfo");
+      let param = new Object();
+      param.EMAIL = result.loginInfo.EMAIL;
+
       return CONTENT_LISTENER.sendMessage({
         type: "select.tabinfo.group",
-        data: null
+        data: param
       }).then(tabGroup => {
         this.groupList = tabGroup;
         if (this.groupList.length !== 0) {
@@ -218,7 +225,9 @@ export default {
       chrome.tabs.create({ url: item.URL });
     },
     removeSite(item) {},
-    getTabInfo(groupInfo) {
+    async getTabInfo(groupInfo) {
+      let result = await Utils.getLocalStorage("loginInfo");
+      groupInfo.EMAIL = result.loginInfo.EMAIL;
       CONTENT_LISTENER.sendMessage({
         type: "get.tabinfos",
         data: groupInfo
