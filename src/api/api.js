@@ -205,30 +205,11 @@ let Api = {
     return update(Query.updateScrapSite(), param);
   },
   postSite: async params => {
-    let date = new Date().getTime();
-    let param = [
-      params.URL_KEY,
-      params.EMAIL, //email
-      params.EMAIL, //owner_email
-      params.TITLE,
-      params.UPDATE_TITLE,
-      params.URL,
-      params.OG_TITLE,
-      params.OG_DESCRIPTION,
-      params.OG_IMAGE,
-      params.EMBEDURL,
-      "N", //params.FL_BOOKMARK,
-      params.HOST,
-      params.FULL_TEXT,
-      params.URL_TYPE,
-      params.READERMODE_CONTENTS,
-      date,
-      date,
-      params.TAG,
-      "N" //FL_BACKUP
-    ];
+    params.DATE = new Date().getTime();
+    let param = [params.FULL_TEXT, params.READERMODE_CONTENTS];
 
-    await insert(Query.insertSite(), param);
+    console.log("Query.insertSite(params) ", Query.insertSite(params));
+    await insert(Query.insertSite(params), param);
     return Api.getSite(params);
   },
   getSlack: params => {
@@ -397,6 +378,9 @@ let Api = {
       date //params.DATE_UPDATE
     ];
     return insert(Query.restoreHighlight(), param);
+  },
+  deleteTabInfoGroup: params => {
+    return remove(Query.deleteTabInfoGroup(params));
   },
   selectTabInfoGroup: () => {
     return select(Query.selectTabInfoGroup());

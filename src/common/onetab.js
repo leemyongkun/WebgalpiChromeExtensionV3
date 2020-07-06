@@ -1,12 +1,12 @@
 import CONTENT_LISTENER from "./content-listener";
+import Common from "./common";
 
 let md5 = require("md5");
 
 let ONETAB = {
   closeAllTab() {
     let tabList = [];
-    let current =
-      "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
+    let current = Common.getDashboardUrl();
 
     return new Promise(res => {
       chrome.windows.getAll({ populate: true }, windows => {

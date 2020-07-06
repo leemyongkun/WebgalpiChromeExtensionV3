@@ -3,8 +3,8 @@
     <v-card id="scroll-target" max-width="490" v-if="mainFlag === 1">
       <v-tabs vertical>
         <!--<v-tab>
-                                    <v-icon>mdi-settings</v-icon>
-                                </v-tab>-->
+                                            <v-icon>mdi-settings</v-icon>
+                                        </v-tab>-->
         <v-tab>
           <v-icon>mdi-web</v-icon>
         </v-tab>
@@ -12,8 +12,8 @@
           <v-icon>mdi-grease-pencil</v-icon>
         </v-tab>
         <!-- <v-tab-item class="mx-auto overflow-y-auto" :style="style">
-                                    <SettingTab></SettingTab>
-                                </v-tab-item>-->
+                                            <SettingTab></SettingTab>
+                                        </v-tab-item>-->
         <v-tab-item class="mx-auto overflow-y-auto" :style="style">
           <SiteInfoTab></SiteInfoTab>
         </v-tab-item>
@@ -27,11 +27,11 @@
         <v-list-item three-line>
           <v-list-item-content>
             <v-list-item-title class="headline mb-1"
-              >로그인이 필요합니다.</v-list-item-title
-            >
+              >로그인이 필요합니다.
+            </v-list-item-title>
             <v-list-item-subtitle
-              >대쉬보드에서 계정등록 및 로그인을 하십시오.</v-list-item-subtitle
-            >
+              >대쉬보드에서 계정등록 및 로그인을 하십시오.
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
@@ -51,6 +51,7 @@
 import SiteInfoTab from "./tabs/SiteInfoTab";
 import HighlightTab from "./tabs/HighlightTab";
 import SettingTab from "./tabs/SettingTab";
+import Common from "../common/common";
 
 export default {
   components: {
@@ -68,10 +69,7 @@ export default {
   created() {},
   methods: {
     goDashboard() {
-      let extensionDashboard =
-        "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
-      let open = window.open(extensionDashboard, "_blank");
-      open.focus();
+      Common.goDashboard();
     }
   },
   mounted() {

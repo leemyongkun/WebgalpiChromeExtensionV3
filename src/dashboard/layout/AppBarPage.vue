@@ -37,7 +37,8 @@
       </v-list>
     </v-menu>
 
-    <OptionPage></OptionPage>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <OptionPage ref="optionPage"></OptionPage>
 
     <SignArea ref="signout"></SignArea>
   </v-app-bar>
@@ -58,38 +59,43 @@ export default {
   props: ["member"],
   created() {
     this.$nextTick(async () => {
-      this.ciPath =
-        "chrome-extension://" + chrome.runtime.id + "/icons/icon_48.png";
+      this.ciPath = Common.getAppDefaultUrl() + "/icons/icon_48.png";
     });
   },
   methods: {
+    resetUrl() {
+      history.pushState(null, null, Common.getDashboardUrl());
+    },
     showInfo() {
-      let extensionDashboard =
-        "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
-      history.pushState(null, null, extensionDashboard);
+      this.resetUrl();
+      this.$refs.optionPage.openUpdateInfo();
+    },
+    showOnetab() {
+      this.resetUrl();
+      this.$refs.optionPage.openOneTab();
     },
     signOut() {
       this.$refs.signout.open();
     },
     async processTest() {
       /*
-                                                                        let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
-                                                                        let contents = await CRAWLER.getImportSiteContents(url);
-                                                                        contents.EMAIL = result.loginInfo.EMAIL;
+                                                                                  let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
+                                                                                  let contents = await CRAWLER.getImportSiteContents(url);
+                                                                                  contents.EMAIL = result.loginInfo.EMAIL;
 
-                                                                        CONTENT_LISTENER.sendMessage({
-                                                                          type: "post.site",
-                                                                          data: contents
-                                                                        });*/
+                                                                                  CONTENT_LISTENER.sendMessage({
+                                                                                    type: "post.site",
+                                                                                    data: contents
+                                                                                  });*/
       /*let result = await Utils.getLocalStorage("loginInfo");
-                          CONTENT_LISTENER.sendMessage({
-                            type: "get.backup.data",
-                            data: result.loginInfo.EMAIL
-                          }).then(backupData => {
-                            //let siteMap = backupData.sites.toHashMap('URL_KEY');
-                            backupData.sites = Common.toHashMap(backupData.sites, "URL_KEY");
-                            console.log("backupData.sites ", backupData);
-                          });*/
+                                    CONTENT_LISTENER.sendMessage({
+                                      type: "get.backup.data",
+                                      data: result.loginInfo.EMAIL
+                                    }).then(backupData => {
+                                      //let siteMap = backupData.sites.toHashMap('URL_KEY');
+                                      backupData.sites = Common.toHashMap(backupData.sites, "URL_KEY");
+                                      console.log("backupData.sites ", backupData);
+                                    });*/
       //참고 : https://bumbu.me/gapi-in-chrome-extension  , https://qiita.com/takahiro1110/items/4ed2c4e894d2d359751e , https://developers.google.com/drive/api/v2/reference/files/list#javascript
     }
   }

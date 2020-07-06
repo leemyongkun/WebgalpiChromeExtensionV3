@@ -148,7 +148,26 @@ export default {
             FL_FAVORITE
         )
         VALUES
-            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, 'Y', ?, ?, ?,?,'N') `;
+            ( '${param.URL_KEY}', 
+            '${param.EMAIL}', 
+            '${param.EMAIL}', 
+            '${param.TITLE}', 
+            '${param.UPDATE_TITLE}',
+            '${param.URL}', 
+            '${param.OG_TITLE}', 
+            '${param.OG_DESCRIPTION}', 
+            '${param.OG_IMAGE}', 
+            '${param.EMBEDURL}', 
+            'N', 
+            '${param.HOST}', 
+            ?,  
+             'N', 
+             '${param.URL_TYPE}', 
+            ?, 
+             'Y', 
+             ${param.DATE}, 
+             ${param.DATE}, 
+             '${param.TAGS}','N','N') `;
   },
   updateHighlightMemo: param => {
     return `
@@ -750,5 +769,10 @@ export default {
             GROUP BY GROUP_ID
             ORDER BY GROUP_ID DESC
         `;
+  },
+  deleteTabInfoGroup: param => {
+    return `DELETE FROM TBL_ONETAB
+                WHERE GROUP_ID = ${param.GROUP_ID}
+                `;
   }
 };

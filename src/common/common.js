@@ -50,20 +50,6 @@ let colorMap = new Object();
   colorMap["highlight-color-5"] = "#FBC02D";
   colorMap["highlight-color-6"] = "#B2EBF2";
 })();
-/*(function() {
-    colorMap["hltcolor-1"] =
-        "background: #ff90c3 !important;display: inline !important;";
-    colorMap["hltcolor-2"] =
-        "background: #ffcd86 !important;display: inline !important;";
-    colorMap["hltcolor-3"] =
-        "background: #ffee7c !important;display: inline !important;";
-    colorMap["hltcolor-4"] =
-        "background: #8cf980 !important;display: inline !important;";
-    colorMap["hltcolor-5"] =
-        "background: #75dbff !important;display: inline !important;";
-    colorMap["hltcolor-6"] =
-        "background: #e7b2ff !important;display: inline !important;";
-})();*/
 
 String.prototype.string = function(len) {
   var s = "",
@@ -81,6 +67,15 @@ Number.prototype.zf = function(len) {
 };
 
 let Common = {
+  goDashboard: () => {
+    chrome.tabs.create({ url: Common.getDashboardUrl() });
+  },
+  getAppDefaultUrl: () => {
+    return "chrome-extension://" + chrome.runtime.id;
+  },
+  getDashboardUrl: () => {
+    return "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
+  },
   getVersion: () => {
     return chrome.runtime.getManifest().version;
   },

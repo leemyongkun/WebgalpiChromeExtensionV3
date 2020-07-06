@@ -99,8 +99,8 @@
               size="22px"
               v-on="{ ...menu, ...tooltip }"
               style="cursor: pointer"
-              >mdi-information-outline</v-icon
-            >
+              >mdi-information-outline
+            </v-icon>
           </template>
           <span>UPDATE를 확인합니다.</span>
         </v-tooltip>
@@ -117,8 +117,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                                                                            <v-icon>mdi-heart</v-icon>
-                                                                                                                                                                        </v-btn>-->
+                                                                                                                                                                                          <v-icon>mdi-heart</v-icon>
+                                                                                                                                                                                      </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -226,6 +226,9 @@ export default {
     },
     openOneTab() {
       this.$refs.onetab.open();
+    },
+    openUpdateInfo() {
+      this.infoMenu = true;
     }
   }
 };

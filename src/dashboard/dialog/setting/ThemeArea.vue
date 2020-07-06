@@ -50,7 +50,11 @@ export default {
   }),
   created() {},
   mounted() {
-    if (this.$vuetify.theme.dark) this.theme = "dark";
+    this.$nextTick(() => {
+      chrome.storage.local.get(["options"], result => {
+        this.theme = result.options.THEME;
+      });
+    });
   },
   methods: {
     open() {
@@ -59,29 +63,32 @@ export default {
     close() {
       this.dialog = false;
     },
-    changeTheme() {
-      this.$nextTick(async () => {
-        let result = await Utils.getLocalStorage("loginInfo");
-        //Highlight 내용 가져오기
-        CONTENT_LISTENER.sendMessage({
-          type: "update.option.theme",
-          data: [this.theme, result.loginInfo.EMAIL]
-        })
-          .then(response => {
-            //option을 수정한다.
-            chrome.storage.local.get(["options"], result => {
-              result.THEME = this.theme;
-              chrome.storage.local.set({ options: result });
-            });
-          })
-          .then(() => {
-            this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-            EventBus.$emit(
-              "open.snack",
-              this.theme + "로 테마가 변경되었습니다."
-            );
+    async changeTheme() {
+      let result = await Utils.getLocalStorage("loginInfo");
+
+      CONTENT_LISTENER.sendMessage({
+        type: "update.option.theme",
+        data: [this.theme, result.loginInfo.EMAIL]
+      })
+        .then(response => {
+          //option을 수정한다.
+          chrome.storage.local.get(["options"], result => {
+            result.THEME = this.theme;
+            chrome.storage.local.set({ options: result });
           });
-      });
+        })
+        .then(() => {
+          if (this.theme === "light") {
+            this.$vuetify.theme.dark = false;
+          } else {
+            this.$vuetify.theme.dark = true;
+          }
+
+          EventBus.$emit(
+            "open.snack",
+            this.theme + "로 테마가 변경되었습니다."
+          );
+        });
     }
   }
 };

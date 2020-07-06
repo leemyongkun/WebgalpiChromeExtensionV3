@@ -81,6 +81,7 @@
 //https://i.picsum.photos/id/20/400/400.jpg
 
 import CONTENT_LISTENER from "../../common/content-listener";
+import Common from "../../common/common";
 
 export default {
   name: "SiteInfoTab",
@@ -115,10 +116,7 @@ export default {
   }),
   methods: {
     goDashboard() {
-      let extensionDashboard =
-        "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
-      let open = window.open(extensionDashboard, "_blank");
-      open.focus();
+      Common.goDashboard();
     },
     updateCategory() {
       if (this.selectCategory === -1) {
@@ -219,7 +217,6 @@ export default {
             tabId,
             { action: "get.site.info" },
             siteInfo => {
-              console.log("siteInfo ", siteInfo);
               if (siteInfo === undefined) {
                 clearInterval(interval);
                 alert(

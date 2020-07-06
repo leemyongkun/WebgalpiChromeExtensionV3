@@ -1,6 +1,7 @@
 import API from "../api/api.js";
 import dbcon from "../database/dbcon";
 import Utils from "../dashboard/utils/Utils";
+import Common from "../common/common";
 
 let emitOptionsAllTabs = (actionCommand, data) => {
   chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
@@ -105,12 +106,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         chrome.tabs.query({}, tabs => {
           tabs.map(item => {
             //하이라이팅 / 사이트 저장시
-            if (
-              item.url ===
-              "chrome-extension://" +
-                chrome.runtime.id +
-                "/dashboard/index.html"
-            ) {
+            if (item.url === Common.getDashboardUrl()) {
               chrome.tabs.reload(item.id);
             }
           });
@@ -233,14 +229,14 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     /*case "get.site": //미사용
-                                                                          let getSiteParameter = new Object();
-                                                                          getSiteParameter.URL_KEY = msg.data;
+                                                                              let getSiteParameter = new Object();
+                                                                              getSiteParameter.URL_KEY = msg.data;
 
-                                                                          API.getSite(getSiteParameter).then(res => {
-                                                                            sendResponse(res); //조건
-                                                                          });
-                                                                          return true;
-                                                                          break;*/
+                                                                              API.getSite(getSiteParameter).then(res => {
+                                                                                sendResponse(res); //조건
+                                                                              });
+                                                                              return true;
+                                                                              break;*/
     case "update.scrap.site":
       API.updateScrapSite(msg.data).then(res => {
         sendResponse(res);
@@ -444,6 +440,13 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     case "select.tabinfo.group":
       API.selectTabInfoGroup().then(tabGroup => {
         sendResponse(tabGroup);
+      });
+      return true;
+      break;
+
+    case "delete.tabinfo.group":
+      API.deleteTabInfoGroup(msg.data).then(() => {
+        sendResponse(true);
       });
       return true;
       break;

@@ -32,8 +32,6 @@ import SignDialog from "./layout/dialog/SignDialog";
 import SelectMemberDialog from "./layout/dialog/SelectMemberDialog";
 import SnackBar from "./snack/SnackBar";
 import EventBus from "./event-bus";
-import store from "../store";
-import Utils from "./utils/Utils";
 
 export default {
   components: {
@@ -110,10 +108,7 @@ export default {
             if (
               currentTab[0].id !== item.id &&
               currentTab[0].url === item.url &&
-              item.url ===
-                "chrome-extension://" +
-                  chrome.runtime.id +
-                  "/dashboard/index.html"
+              item.url === Common.getDashboardUrl()
             ) {
               chrome.tabs.remove(item.id);
               count++;
@@ -136,6 +131,8 @@ export default {
         .map(paramPair => {
           if (paramPair === "update") {
             this.$refs.appBarPage.showInfo();
+          } else if (paramPair === "tabgroup") {
+            this.$refs.appBarPage.showOnetab();
           }
         });
     }
@@ -181,15 +178,18 @@ export default {
 .custom-scroll {
   overflow: auto;
 }
+
 .v-navigation-drawer__content::-webkit-scrollbar,
 .custom-scroll::-webkit-scrollbar {
   width: 8px;
 }
+
 .v-navigation-drawer__content::-webkit-scrollbar-thumb,
 .custom-scroll::-webkit-scrollbar-thumb {
   background-color: #202527;
   border-radius: 10px;
 }
+
 .v-navigation-drawer__content::-webkit-scrollbar-track,
 .custom-scroll::-webkit-scrollbar-track {
   /*background-color: grey;*/

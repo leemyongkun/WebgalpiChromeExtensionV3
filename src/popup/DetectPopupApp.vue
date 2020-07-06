@@ -8,12 +8,11 @@
               >차단된 사이트
             </v-list-item-title>
             <v-list-item-subtitle class="pb-4 pt-2"
-              >이 사이트에서는 WEBGALPI를 사용할 수
-              없습니다.</v-list-item-subtitle
-            >
+              >이 사이트에서는 WEBGALPI를 사용할 수 없습니다.
+            </v-list-item-subtitle>
             <v-list-item-subtitle style="color: #e35a69"
-              >페이스북/트위터는 패치중입니다.</v-list-item-subtitle
-            >
+              >페이스북/트위터는 패치중입니다.
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
@@ -28,6 +27,8 @@
 </template>
 
 <script>
+import Common from "../common/common";
+
 export default {
   components: {},
   data: () => ({
@@ -36,10 +37,7 @@ export default {
   created() {},
   methods: {
     goDashboard() {
-      let extensionDashboard =
-        "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
-      let open = window.open(extensionDashboard, "_blank");
-      open.focus();
+      Common.goDashboard();
     }
   },
   mounted() {

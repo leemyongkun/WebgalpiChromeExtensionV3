@@ -1,5 +1,6 @@
 import { GLOBAL_CONFIG, ELEMENT } from "./global/config.js";
 import { STATUS } from "./global/config";
+import Common from "../common/common";
 
 let $ = require("jquery");
 
@@ -22,7 +23,7 @@ let FORM = {
                 </div>`;
   },
   createConvertArea: () => {
-    let icon = "chrome-extension://" + chrome.runtime.id + "/icons/icon_48.png";
+    let icon = Common.getAppDefaultUrl() + "/icons/icon_48.png";
     return `<div  id="webgalpi-convert-notification-area">
                     <div class="webgalpi-convert-notification-contents"> 
                      하이라이팅이 안되시나요?<br>
@@ -42,9 +43,9 @@ let FORM = {
 
     colorButtons +=
       "<a class='webgalpi-highlight-delete webgalpi-trashbox'></a>"; //
-    colorButtons += "<a class='webgalpi-highlight-memo webgalpi-memo'></a>";
+    //colorButtons += "<a class='webgalpi-highlight-memo webgalpi-memo'></a>";
 
-    let widthRate = (COLORS.split(",").length + 2) * 16;
+    let widthRate = (COLORS.split(",").length + 1) * 16;
     let pickerWidth = "width: " + widthRate + "% !important;";
 
     return (

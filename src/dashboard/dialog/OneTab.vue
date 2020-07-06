@@ -7,35 +7,14 @@
     overlay-opacity="1.0"
   >
     <v-row>
-      <!-- <v-col cols="4">
-                 <v-card class="mx-auto">
-                     <v-card-title>
-                         모아보기 이력
-                     </v-card-title>
-                     <v-card-text>
-                         <v-data-table
-                                 v-model="group"
-                                 :headers="groupHeaders"
-                                 :items="groupList"
-                                 :items-per-page="1000"
-                                 :hide-default-footer="true"
-                                 @click:row="detailGroup"
-                         >
-                             <template v-slot:item.GROUP_ID="{ item }">
-                                 {{ getConvertDate(item.GROUP_ID) }}
-                             </template>
-                         </v-data-table>
-                     </v-card-text>
-                 </v-card>
-             </v-col>-->
       <v-col cols="12">
         <v-card class="mx-auto">
           <v-card-title>
             모아보기
           </v-card-title>
           <v-card-text>
-            <v-row>
-              <v-col>
+            <v-row align="center">
+              <v-col cols="auto">
                 <v-select
                   :items="groupList"
                   item-value="GROUP_ID"
@@ -44,10 +23,18 @@
                   label="TAB GROUP"
                   dense
                   outlined
-                  class="ma-1"
                   @change="detailGroup"
-                  style="width: 80%"
                 ></v-select>
+              </v-col>
+              <v-col cols="auto">
+                <v-btn
+                  color="red"
+                  icon
+                  @click="deleteGroup"
+                  :disabled="deleteBtnDisabled"
+                >
+                  <v-icon>mdi-trash-can-outline</v-icon>
+                </v-btn>
               </v-col>
             </v-row>
             <v-row>
@@ -74,9 +61,9 @@
                     >
                       <v-icon>mdi-cloud-download-outline</v-icon>
                     </v-btn>
-                    <v-btn color="red" icon @click="removeSite(item)">
-                      <v-icon>mdi-trash-can-outline</v-icon>
-                    </v-btn>
+                    <!-- <v-btn color="red" icon @click="removeSite(item)">
+                                             <v-icon>mdi-trash-can-outline</v-icon>
+                                         </v-btn>-->
                     <v-btn icon @click="goSourceSite(item)">
                       <v-icon>mdi-home-outline</v-icon>
                     </v-btn>
@@ -107,12 +94,12 @@ import SITE_MANAGER from "../../common/site-manager";
 export default {
   props: [],
   data: () => ({
+    deleteBtnDisabled: true,
     dialog: false,
     tabList: [],
     groupList: [],
     selectGroup: 0,
     selected: [],
-    group: [],
     groupHeaders: [
       {
         text: "저장일자",
@@ -151,6 +138,29 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    async deleteGroup() {
+      let ret = await MODAL.confirm(
+        `선택 한 TAB GROUP을 삭제하시겠습니까?<br>(모든 TAB 정보가 삭제됩니다.)`,
+        "info",
+        null,
+        null,
+        "450px"
+      );
+      if (ret.value) {
+        let param = new Object();
+        param.GROUP_ID = this.selectGroup;
+
+        CONTENT_LISTENER.sendMessage({
+          type: "delete.tabinfo.group",
+          data: param
+        }).then(res => {
+          if (res) {
+            this.tabList = [];
+            this.getTabInfoGroupWithTabDetailInfo();
+          }
+        });
+      }
+    },
     detailGroup(groupId) {
       let param = new Object();
       param.GROUP_ID = groupId;
@@ -180,6 +190,7 @@ export default {
           this.convertGroupList();
           this.selectGroup = this.groupList[0].GROUP_ID;
           this.getTabInfo(this.groupList[0]);
+          this.deleteBtnDisabled = false;
         }
       });
     },
