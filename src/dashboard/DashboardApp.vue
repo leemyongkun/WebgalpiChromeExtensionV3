@@ -32,6 +32,7 @@ import SignDialog from "./layout/dialog/SignDialog";
 import SelectMemberDialog from "./layout/dialog/SelectMemberDialog";
 import SnackBar from "./snack/SnackBar";
 import EventBus from "./event-bus";
+import Common from "../common/common";
 
 export default {
   components: {
