@@ -1,12 +1,12 @@
 import CONTENTS from "../../contents/contents";
 import Utils from "../utils/Utils";
-import Query from "../../database/query";
 
 const axios = require("axios");
 const cheerio = require("cheerio");
 const md5 = require("md5");
 const instance = axios.create();
 instance.defaults.timeout = 5000;
+instance.defaults.responseType = "document";
 
 let CRAWLER = {
   getOriginalSiteContents: url => {
@@ -16,7 +16,6 @@ let CRAWLER = {
         .then(source => {
           let obj = new Object();
           const data = cheerio.load(source.data);
-
           let ogTitle = data('meta[property="og:title"]').attr("content");
           let ogDescription = data('meta[property="og:description"]').attr(
             "content"

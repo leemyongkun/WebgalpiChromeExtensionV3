@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                                                                          <v-col cols="12">
-                                                                            <iframe
-                                                                              id="ytplayer"
-                                                                              type="text/html"
-                                                                              width="640"
-                                                                              height="360"
-                                                                              :src="youtubeVideoId + '?autoplay=0'"
-                                                                              frameborder="0"
-                                                                            ></iframe>
-                                                                          </v-col>
-                                                                        </v-row>-->
+                                                                                <v-col cols="12">
+                                                                                  <iframe
+                                                                                    id="ytplayer"
+                                                                                    type="text/html"
+                                                                                    width="640"
+                                                                                    height="360"
+                                                                                    :src="youtubeVideoId + '?autoplay=0'"
+                                                                                    frameborder="0"
+                                                                                  ></iframe>
+                                                                                </v-col>
+                                                                              </v-row>-->
       <v-row
         :style="reviewAreaHeightStyle"
         class="overflow-y-auto custom-scroll"
@@ -147,7 +147,6 @@ export default {
             this.currentSite.URL
           );
           this.currentSite.FULL_TEXT = res.fullText;
-
           this.currentSite.OG_TITLE = res.ogTitle;
           this.currentSite.OG_DESCRIPTION = res.ogDescription;
           this.currentSite.OG_IMAGE = res.ogImage;

@@ -19,23 +19,20 @@
         </template>
         <span>저장된 하이라이트를 표시합니다.</span>
       </v-tooltip>
-
-      <!--
-
-                          <v-badge
-                                  avatar
-                                  bordered
-
-                          >
-                              <template v-slot:badge>
-                                  <span>99+</span>
-                              </template>
-
-                          </v-badge>
-                  -->
     </template>
 
     <v-card width="400px" :style="maxHeightWidget">
+      <v-card-subtitle>
+        <v-row>
+          <v-col cols="auto" class="pb-0 pt-0">
+            HIGHLIGHT LIST
+          </v-col>
+          <v-col cols="auto" class="pb-0 pt-0 right">
+            <v-btn small text color="red">모두삭제</v-btn>
+          </v-col>
+        </v-row>
+      </v-card-subtitle>
+      <v-divider></v-divider>
       <v-list
         v-if="highlightItems.length !== 0 && currentSite.FL_READMODE === 'Y'"
       >
@@ -46,9 +43,7 @@
             </v-list-item-content>
 
             <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">
-              <v-btn icon color="black" @click="deleteHighlight(item)">
-                <v-icon>mdi-delete-forever</v-icon>
-              </v-btn>
+              <v-icon @click="deleteHighlight(item)">mdi-delete-forever</v-icon>
             </v-list-item-action>
           </v-list-item>
           <v-divider :key="index"></v-divider>
