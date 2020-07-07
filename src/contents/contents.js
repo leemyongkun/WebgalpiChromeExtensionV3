@@ -8,6 +8,7 @@ import { GLOBAL_CONFIG, URL, STATUS, USER_INFO } from "./global/config.js";
 import CORE from "./core/core.js";
 import EVENT from "./event";
 import CONTENT_LISTENER from "../common/content-listener";
+import Common from "../common/common";
 
 let CURRENT_URL = null;
 let CONTENTS = {
@@ -161,11 +162,11 @@ let CONTENTS = {
       param.DEFAULT_CATEGORY_IDX = 0; //loginInfo.DEFAULT_CATEGORY_IDX;
       param.URL_TYPE = "WEB";
       /*
-                              param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
-                                document.getElementsByTagName("html")[0].outerHTML,
-                                URL.SITE
-                              );
-                        */
+                                    param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
+                                      document.getElementsByTagName("html")[0].outerHTML,
+                                      URL.SITE
+                                    );
+                              */
 
       CONTENTS.getReadmodeContents(
         document.getElementsByTagName("html")[0].outerHTML,
@@ -236,9 +237,13 @@ let CONTENTS = {
     CONTENT_LISTENER.sendMessage({
       type: "delete.highlight",
       data: param
-    }).then(() => {
-      FORM.hidePicker();
-    });
+    })
+      .then(() => {
+        FORM.hidePicker();
+      })
+      .then(() => {
+        Common.reloadingSameSite();
+      });
   },
   updateHighlightMemo: async highlightIdx => {
     let result = await Utils.getLocalStorage("loginInfo");
@@ -370,8 +375,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                                                                                          $('#highlight-toolbar').hide();
-                                                                                                                                                                                                        } */
+                                                                                                                                                                                                              $('#highlight-toolbar').hide();
+                                                                                                                                                                                                            } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
@@ -383,10 +388,7 @@ let CONTENTS = {
       GLOBAL_CONFIG.SITE_INFO = param;
 
       //2개이상은 같은 사이트를 리로딩 (비동기)
-      CONTENT_LISTENER.sendMessage({
-        type: "reloading.dashboard",
-        data: null
-      });
+      Common.reloadingDashboard();
     }
 
     // 저장
@@ -396,10 +398,7 @@ let CONTENTS = {
     });
 
     //2개이상은 같은 사이트를 리로딩 (비동기)
-    CONTENT_LISTENER.sendMessage({
-      type: "reloading.same.site",
-      data: null
-    });
+    Common.reloadingSameSite();
     return param;
   },
   checkCurrentArea: (event, action) => {

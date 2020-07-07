@@ -22,16 +22,18 @@
     </template>
 
     <v-card width="400px" :style="maxHeightWidget">
-      <v-card-subtitle>
+      <v-card-subtitle v-show="highlightItems.length !== 0">
         <v-row>
           <v-col cols="auto" class="pb-0 pt-0">
             HIGHLIGHT LIST
           </v-col>
-          <v-col cols="auto" class="pb-0 pt-0 right">
-            <v-btn small text color="red">모두삭제</v-btn>
+          <v-spacer />
+          <v-col @click="deleteAllHighlight" cols="auto" class="pb-0 pt-0">
+            <v-btn small text color="red">전부 삭제</v-btn>
           </v-col>
         </v-row>
       </v-card-subtitle>
+
       <v-divider></v-divider>
       <v-list
         v-if="highlightItems.length !== 0 && currentSite.FL_READMODE === 'Y'"
@@ -96,11 +98,23 @@ export default {
     });
   },
   methods: {
-    async deleteHighlight(item) {
-      let confirm = "하이라이트를 삭제하시겠습니까?";
-      let result = await MODAL.confirm(confirm);
+    async deleteAllHighlight() {
+      let confirm = "모든 하이라이트를 삭제하시겠습니까?";
+      let result = await MODAL.confirm(confirm, "info", null, null, "450px");
       if (result.value === undefined) return false;
 
+      CONTENT_LISTENER.sendMessage({
+        type: "delete.all.highlight",
+        data: this.currentSite /*EMAIL과 URL_KEY 활용*/
+      }).then(() => {
+        this.highlightItems = [];
+      });
+    },
+    async deleteHighlight(item) {
+      let confirm = "하이라이트를 삭제하시겠습니까?";
+      let result = await MODAL.confirm(confirm, "info", null, null, "450px");
+      if (result.value === undefined) return false;
+      item.HIGHLIGHT_IDX = item.IDX;
       CONTENT_LISTENER.sendMessage({
         type: "delete.highlight",
         data: item

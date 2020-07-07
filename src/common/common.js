@@ -1,3 +1,5 @@
+import CONTENT_LISTENER from "./content-listener";
+
 Date.prototype.format = function(f) {
   if (!this.valueOf()) return " ";
 
@@ -67,6 +69,19 @@ Number.prototype.zf = function(len) {
 };
 
 let Common = {
+  reloadingDashboard: () => {
+    CONTENT_LISTENER.sendMessage({
+      type: "reloading.dashboard",
+      data: null
+    });
+  },
+  reloadingSameSite: () => {
+    //같은 사이트가 열려있다면 리로딩 한다.
+    CONTENT_LISTENER.sendMessage({
+      type: "reloading.same.site",
+      data: null
+    });
+  },
   closeDuplicateDashboard: () => {
     chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {
       let count = 0;

@@ -1,15 +1,32 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-list v-if="highlights.length !== 0">
+      <v-list-item-title>
+        <v-row>
+          <v-col cols="auto" class="pb-0 pt-0">
+            HIGHLIGHT LIST
+          </v-col>
+          <v-spacer />
+          <v-col
+            @click="deleteAllHighlight(highlights[0])"
+            cols="auto"
+            class="pb-0 pt-0"
+          >
+            <v-btn v-show="highlights.length !== 0" small text color="red"
+              >전부 삭제</v-btn
+            >
+          </v-col>
+        </v-row>
+      </v-list-item-title>
       <template v-for="(item, index) in highlights">
         <v-list-item :key="item.IDX" class="pr-2" @click="goPosition(item.IDX)">
-          <v-list-item-content class="mt-0">
+          <v-list-item-content class="mt-0 pr-2">
             {{ item.PRINT_TEXT }}
           </v-list-item-content>
           <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">
-            <v-btn icon color="black" @click="deleteHighlight(item, $event)">
-              <v-icon>mdi-delete-forever</v-icon>
-            </v-btn>
+            <v-icon @click="deleteHighlight(item, $event)"
+              >mdi-delete-forever</v-icon
+            >
           </v-list-item-action>
         </v-list-item>
         <v-divider :key="index"></v-divider>
@@ -50,13 +67,41 @@ export default {
     getColor: colorClass => {
       return Common.getColor(colorClass);
     },
+    unwrapHighlight(item) {
+      //본문의 highlight를 삭제한다.
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          action: "unwrap.highlight",
+          data: item
+        });
+      });
+    },
+    async deleteAllHighlight(highlight) {
+      let confirm = "모든 하이라이트를 삭제하시겠습니까?";
+      let result = await MODAL.confirm(confirm, "info", null, null, "350px");
+      if (result.value === undefined) return false;
+
+      CONTENT_LISTENER.sendMessage({
+        type: "delete.all.highlight",
+        data: highlight /*EMAIL과 URL_KEY 활용*/
+      })
+        .then(() => {
+          this.highlights.map(highlight => {
+            this.unwrapHighlight(highlight);
+          });
+        })
+        .then(() => {
+          this.highlights = [];
+        });
+    },
     async deleteHighlight(item, event) {
       event.preventDefault();
       event.stopPropagation();
+      item.HIGHLIGHT_IDX = item.IDX;
 
       // if (!confirm("하이라이트를 삭제하시겠습니까?")) return false;
       let confirm = "하이라이트를 삭제하시겠습니까?";
-      let result = await MODAL.confirm(confirm);
+      let result = await MODAL.confirm(confirm, "info", null, null, "350px");
       if (result.value === undefined) return false;
 
       CONTENT_LISTENER.sendMessage({
@@ -69,19 +114,9 @@ export default {
           }
         });
 
-        //본문의 highlight를 삭제한다.
-        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-          chrome.tabs.sendMessage(tabs[0].id, {
-            action: "unwrap.highlight",
-            data: item
-          });
-        });
+        this.unwrapHighlight(item);
 
-        //같은 사이트가 열려있다면 리로딩 한다.
-        CONTENT_LISTENER.sendMessage({
-          type: "reloading.same.site",
-          data: null
-        });
+        Common.reloadingSameSite();
       });
     },
     goPosition(IDX) {
