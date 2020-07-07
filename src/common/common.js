@@ -67,6 +67,29 @@ Number.prototype.zf = function(len) {
 };
 
 let Common = {
+  closeDuplicateDashboard: () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {
+      let count = 0;
+      chrome.tabs.query({}, tabs => {
+        tabs.map(item => {
+          if (
+            currentTab[0].id !== item.id &&
+            currentTab[0].url === item.url &&
+            item.url === Common.getDashboardUrl()
+          ) {
+            chrome.tabs.remove(item.id);
+            count++;
+          }
+        });
+        if (count !== 0) {
+          this.$refs.snackbar.open(
+            "기존에 열려있는 Dashboard Tab은 닫았습니다.",
+            "warning"
+          );
+        }
+      });
+    });
+  },
   goDashboard: () => {
     chrome.tabs.create({ url: Common.getDashboardUrl() });
   },
