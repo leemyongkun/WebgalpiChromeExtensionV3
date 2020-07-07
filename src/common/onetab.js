@@ -28,7 +28,6 @@ let ONETAB = {
   async insertTabInfo(tabList) {
     let groupId = new Date().getTime();
     let result = await Utils.getLocalStorage("loginInfo");
-    console.log("result ", result);
     tabList.map(tab => {
       tab.GROUP_ID = groupId;
       tab.URL_KEY = md5(tab.url.split("#")[0]);

@@ -185,10 +185,8 @@ export default {
     update: {
       version: Common.getVersion(),
       improvement: [
-        "[대쉬보드] 검색기능이 추가되었습니다.",
-        "[대쉬보드] 백업파일 삭제 기능이 추가되었습니다.",
-        "[대쉬보드] 스크래핑을 다시 시도하기 기능이 추가되었습니다.",
-        "[대쉬보드] 등록날짜로 정렬기능이 추가되었습니다."
+        "[대쉬보드] TAB 모아봅기 기능 추가",
+        "[대쉬보드] 옵션설정 메뉴, 상단으로 위치 수정"
       ],
       debug: [
         "[대쉬보드] 하이라이트 버튼에 갯수 표시",
@@ -198,7 +196,6 @@ export default {
       todo: [
         "[진행중] BOOKMARK -> WEBGALPI로 IMPORT",
         "[진행중] Auto Backup/Restore ",
-        "OneTab 기능 추가. (사이트를 하나의 Tab으로 모아보기)",
         "다국어처리 (한국어/영어/일본어)",
         "Google 검색 시, WEBGALPI에 이미 등록한 내용을 검색.",
         "개발자에게 메일전송."

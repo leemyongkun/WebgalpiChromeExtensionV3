@@ -62,6 +62,7 @@ export default {
       this.ciPath = Common.getAppDefaultUrl() + "/icons/icon_48.png";
     });
   },
+  mounted() {},
   methods: {
     resetUrl() {
       history.pushState(null, null, Common.getDashboardUrl());

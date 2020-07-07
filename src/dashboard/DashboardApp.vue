@@ -5,7 +5,6 @@
     <v-content>
       <v-container fluid class="pt-0 mt-0">
         <ContentBody ref="contentBody"></ContentBody>
-
         <!--<SiteListWidePage></SiteListWidePage>-->
       </v-container>
     </v-content>
@@ -100,29 +99,6 @@ export default {
           }
         }
       });
-
-      //새탭을 열면서, 기존에 있는 탭은 제거한다.
-      chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {
-        let count = 0;
-        chrome.tabs.query({}, tabs => {
-          tabs.map(item => {
-            if (
-              currentTab[0].id !== item.id &&
-              currentTab[0].url === item.url &&
-              item.url === Common.getDashboardUrl()
-            ) {
-              chrome.tabs.remove(item.id);
-              count++;
-            }
-          });
-          if (count !== 0) {
-            this.$refs.snackbar.open(
-              "기존에 열려있는 Dashboard Tab은 닫았습니다.",
-              "warning"
-            );
-          }
-        });
-      });
     },
     openUpdateInfomation() {
       //update라면 update 리스트를 열어준다.
@@ -136,8 +112,12 @@ export default {
             this.$refs.appBarPage.showOnetab();
           }
         });
+
+      //새탭을 열면서, 기존에 있는 탭은 제거한다.
+      Common.closeDuplicateDashboard();
     }
   },
+  mounted() {},
   created() {
     this.$nextTick(() => {
       chrome.storage.local.get(["options"], result => {
