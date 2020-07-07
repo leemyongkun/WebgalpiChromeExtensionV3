@@ -115,6 +115,12 @@ export default {
 
       //새탭을 열면서, 기존에 있는 탭은 제거한다.
       Common.closeDuplicateDashboard();
+      /*if (count !== 0) {
+                    this.$refs.snackbar.open(
+                        "기존에 열려있는 Dashboard Tab은 닫았습니다.",
+                        "warning"
+                    );
+                }*/
     }
   },
   mounted() {},

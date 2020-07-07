@@ -7,14 +7,15 @@
             HIGHLIGHT LIST
           </v-col>
           <v-spacer />
-          <v-col
-            @click="deleteAllHighlight(highlights[0])"
-            cols="auto"
-            class="pb-0 pt-0"
-          >
-            <v-btn v-show="highlights.length !== 0" small text color="red"
-              >전부 삭제</v-btn
-            >
+          <v-col cols="auto" class="pb-0 pt-0">
+            <v-btn
+              @click="deleteAllHighlight(highlights[0])"
+              v-show="highlights.length !== 0"
+              small
+              text
+              color="red"
+              >일괄 삭제
+            </v-btn>
           </v-col>
         </v-row>
       </v-list-item-title>
@@ -25,8 +26,8 @@
           </v-list-item-content>
           <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">
             <v-icon @click="deleteHighlight(item, $event)"
-              >mdi-delete-forever</v-icon
-            >
+              >mdi-delete-forever
+            </v-icon>
           </v-list-item-action>
         </v-list-item>
         <v-divider :key="index"></v-divider>
@@ -92,6 +93,7 @@ export default {
         })
         .then(() => {
           this.highlights = [];
+          Common.reloadingSameSite();
         });
     },
     async deleteHighlight(item, event) {

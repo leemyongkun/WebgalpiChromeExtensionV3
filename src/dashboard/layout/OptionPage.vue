@@ -117,8 +117,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                                                                                                        <v-icon>mdi-heart</v-icon>
-                                                                                                                                                                                                    </v-btn>-->
+                                                                                                                                                                                                                      <v-icon>mdi-heart</v-icon>
+                                                                                                                                                                                                                  </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -185,13 +185,13 @@ export default {
     update: {
       version: Common.getVersion(),
       improvement: [
-        "[대쉬보드] TAB 모아봅기 기능 추가",
-        "[대쉬보드] 옵션설정 메뉴, 상단으로 위치 수정"
+        "[대쉬보드] TAB 모아보기 기능 추가",
+        "[대쉬보드] 옵션설정 메뉴, 상단으로 위치 수정",
+        "[공통] 하이라이트 일괄삭제 기능 추가"
       ],
       debug: [
-        "[대쉬보드] 하이라이트 버튼에 갯수 표시",
-        "[대쉬보드] Windows OS, ScrollBar Design 변경. (POPUP 진행예정)",
-        "[공통] 하이라이팅이 사라지는 현상 수정"
+        "컨텐츠 드래그 시, 상위카테고리가 자동으로 열리도록 수정",
+        "'TAB 모아보기' 실행 시, 대쉬보드가 2개이상 유지되는 현상 제거"
       ],
       todo: [
         "[진행중] BOOKMARK -> WEBGALPI로 IMPORT",

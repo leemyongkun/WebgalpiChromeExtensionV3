@@ -96,12 +96,6 @@ let Common = {
             count++;
           }
         });
-        if (count !== 0) {
-          this.$refs.snackbar.open(
-            "기존에 열려있는 Dashboard Tab은 닫았습니다.",
-            "warning"
-          );
-        }
       });
     });
   },

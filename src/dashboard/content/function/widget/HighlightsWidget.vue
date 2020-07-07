@@ -29,7 +29,7 @@
           </v-col>
           <v-spacer />
           <v-col @click="deleteAllHighlight" cols="auto" class="pb-0 pt-0">
-            <v-btn small text color="red">전부 삭제</v-btn>
+            <v-btn small text color="red">일괄 삭제</v-btn>
           </v-col>
         </v-row>
       </v-card-subtitle>
