@@ -13,6 +13,7 @@
         >{{ overlay.message }}
       </v-progress-circular>
     </v-overlay>
+
     <v-img :src="siteInfo.OG_IMAGE" height="194"></v-img>
 
     <v-card-text
@@ -185,6 +186,11 @@ export default {
           type: "get.category",
           data: [email]
         }).then(category => {
+          // 오름차순
+          category.sort(function(a, b) {
+            return a.id > b.id ? -1 : a.id < b.id ? 1 : 0;
+          });
+
           if (category !== undefined) {
             this.category = category.filter(item => {
               return item.parent !== 0;

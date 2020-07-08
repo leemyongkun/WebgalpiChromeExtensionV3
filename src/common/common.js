@@ -1,5 +1,6 @@
 import CONTENT_LISTENER from "./content-listener";
 
+let $ = require("jquery");
 Date.prototype.format = function(f) {
   if (!this.valueOf()) return " ";
 
@@ -69,6 +70,15 @@ Number.prototype.zf = function(len) {
 };
 
 let Common = {
+  unwrapTags: (document, tag) => {
+    let element = document.getElementsByTagName(tag);
+    let elementList = Array.prototype.slice.call(element);
+    elementList.forEach(value => {
+      $(value)
+        .contents()
+        .unwrap();
+    });
+  },
   reloadingDashboard: () => {
     CONTENT_LISTENER.sendMessage({
       type: "reloading.dashboard",
