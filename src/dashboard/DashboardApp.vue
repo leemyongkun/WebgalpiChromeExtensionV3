@@ -122,6 +122,9 @@ export default {
             this.$refs.appBarPage.showOnetab();
           }
         });
+
+      //새탭을 열면서, 기존에 있는 탭은 제거한다.
+      Common.closeDuplicateDashboard();
     },
     async runRestore() {
       let message = `복구 시 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
@@ -164,9 +167,6 @@ export default {
           }
         }
       });
-
-      //새탭을 열면서, 기존에 있는 탭은 제거한다.
-      Common.closeDuplicateDashboard();
     }
   },
   mounted() {},
