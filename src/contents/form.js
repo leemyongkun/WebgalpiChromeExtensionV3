@@ -76,7 +76,7 @@ let FORM = {
             width: auto !important;
             height: 20px !important;
             z-index: 2147483647 !important;">
-          <a class="default-color" style=""></a>
+          <a href="javascript:void(0)" class="default-color" style=""></a>
         </div>
       `;
   },
