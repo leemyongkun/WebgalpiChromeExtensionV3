@@ -127,7 +127,7 @@ export default {
       Common.closeDuplicateDashboard();
     },
     async runRestore() {
-      let message = `복구 시 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
+      let message = `복구 시 스크래핑을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
                                <span style="color:red">
                                모든 데이타를 삭제한 후 복구를 진행하므로,<br>
                                절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
