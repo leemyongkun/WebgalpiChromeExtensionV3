@@ -1,18 +1,28 @@
 let TRUNCATION_TABLE_QUERY = {
-  SITES: () => {
-    return `DELETE FROM TBL_SITES`;
+  SITES: param => {
+    return `DELETE FROM TBL_SITES
+            WHERE EMAIL = '${param.EMAIL}'
+            `;
   },
-  HIGHLIGHTS: () => {
-    return `DELETE FROM TBL_ITEMS`;
+  HIGHLIGHTS: param => {
+    return `DELETE FROM TBL_ITEMS
+            WHERE EMAIL = '${param.EMAIL}'
+            `;
   },
-  CATEGORY: () => {
-    return `DELETE FROM TBL_CATEGORY WHERE TYPE ='CUSTOM'`;
+  CATEGORY: param => {
+    return `DELETE FROM TBL_CATEGORY 
+            WHERE EMAIL = '${param.EMAIL}'
+            AND TYPE ='CUSTOM'`;
   },
-  CATEGORY_RELATION: () => {
-    return `DELETE FROM TBL_REL_CATEGORY`;
+  CATEGORY_RELATION: param => {
+    return `DELETE FROM TBL_REL_CATEGORY 
+            WHERE EMAIL = '${param.EMAIL}'
+            `;
   },
-  ONETAB: () => {
-    return `DELETE FROM TBL_ONETAB`;
+  ONETAB: param => {
+    return `DELETE FROM TBL_ONETAB
+            WHERE EMAIL = '${param.EMAIL}'
+            `;
   }
 };
 
@@ -258,29 +268,29 @@ let DDL = {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_ONETAB(), []);
     });
   },
-  TRUNCATE: db => {
+  TRUNCATE: (db, param) => {
     //SITE
     db.transaction(function(tx) {
-      tx.executeSql(TRUNCATION_TABLE_QUERY.SITES(), []);
+      tx.executeSql(TRUNCATION_TABLE_QUERY.SITES(param), []);
     });
 
     //HIGHLIGHT
     db.transaction(function(tx) {
-      tx.executeSql(TRUNCATION_TABLE_QUERY.HIGHLIGHTS(), []);
+      tx.executeSql(TRUNCATION_TABLE_QUERY.HIGHLIGHTS(param), []);
     });
 
     //CATEGORY
     db.transaction(function(tx) {
-      tx.executeSql(TRUNCATION_TABLE_QUERY.CATEGORY(), []);
+      tx.executeSql(TRUNCATION_TABLE_QUERY.CATEGORY(param), []);
     });
     //CATEGORY_RELATION
     db.transaction(function(tx) {
-      tx.executeSql(TRUNCATION_TABLE_QUERY.CATEGORY_RELATION(), []);
+      tx.executeSql(TRUNCATION_TABLE_QUERY.CATEGORY_RELATION(param), []);
     });
-    //ONETAB
+    /*  //ONETAB
     db.transaction(function(tx) {
-      tx.executeSql(TRUNCATION_TABLE_QUERY.ONETAB(), []);
-    });
+      tx.executeSql(TRUNCATION_TABLE_QUERY.ONETAB(param), []);
+    });*/
   }
 };
 

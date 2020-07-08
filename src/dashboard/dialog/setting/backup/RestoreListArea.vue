@@ -118,7 +118,6 @@ export default {
   mounted() {},
   methods: {
     open(list, password) {
-      console.log("list ", list);
       this.items = list;
       this.backupPassword = password;
       this.dialog = true;
