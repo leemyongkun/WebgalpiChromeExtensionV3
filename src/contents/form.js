@@ -43,9 +43,9 @@ let FORM = {
 
     colorButtons +=
       "<a class='webgalpi-highlight-delete webgalpi-trashbox'></a>"; //
-    //colorButtons += "<a class='webgalpi-highlight-memo webgalpi-memo'></a>";
+    colorButtons += "<a class='webgalpi-highlight-memo webgalpi-memo'></a>";
 
-    let widthRate = (COLORS.split(",").length + 1) * 16;
+    let widthRate = (COLORS.split(",").length + 2) * 16;
     let pickerWidth = "width: " + widthRate + "% !important;";
 
     return (

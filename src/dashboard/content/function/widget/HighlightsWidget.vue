@@ -42,12 +42,13 @@
           <v-list-item :key="item.IDX" class="pr-2">
             <v-list-item-content class="mt-0 body-2">
               <span
-                ><v-icon size="15px">mdi-format-color-highlight</v-icon>
-                {{ item.PRINT_TEXT }}</span
+                ><v-icon size="15px">mdi-format-color-highlight</v-icon
+                >{{ item.PRINT_TEXT }}</span
               ><br />
-              <span class="pt-2" style="color: darkgray"
-                ><v-icon size="15px">mdi-message-reply-text</v-icon> memo
-              </span>
+              <span class="pt-2" style="color: darkgray" v-if="item.MEMO !== ''"
+                ><v-icon size="15px">mdi-message-reply-text</v-icon>
+                {{ item.MEMO }}</span
+              >
             </v-list-item-content>
 
             <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">
