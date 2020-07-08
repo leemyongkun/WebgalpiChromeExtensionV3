@@ -150,17 +150,11 @@ let Api = {
     return result;
   },
   updateItem: params => {
-    let param = [
-      params.MEMO,
-      params.COLOR,
-      new Date().getTime(),
-      params.URL_KEY,
-      params.IDX,
-      params.EMAIL
-    ];
-    return update(Query.updateItem(), param);
+    return update(Query.updateItem(params));
   },
-
+  updateHighlightMemo: params => {
+    return update(Query.updateHighlightMemo(params));
+  },
   postItem: params => {
     let param = [
       params.IDX,
@@ -183,17 +177,10 @@ let Api = {
     return insert(Query.insertItem(), param);
   },
   deleteItem: params => {
-    let param = [
-      new Date().getTime(),
-      params.URL_KEY,
-      params.IDX,
-      params.EMAIL
-    ];
-    return remove(Query.deleteItem(), param);
+    return remove(Query.deleteItem(params));
   },
   deleteItems: params => {
-    let param = [new Date().getTime(), params.URL_KEY, params.EMAIL];
-    return remove(Query.deleteItems(), param);
+    return remove(Query.deleteItems(params));
   },
   deleteSiteInCategory: params => {
     let param = [params.URL_KEY, params.EMAIL];
@@ -216,30 +203,10 @@ let Api = {
     return update(Query.updateScrapSite(), param);
   },
   postSite: async params => {
-    let date = new Date().getTime();
-    let param = [
-      params.URL_KEY,
-      params.EMAIL, //email
-      params.EMAIL, //owner_email
-      params.TITLE,
-      params.UPDATE_TITLE,
-      params.URL,
-      params.OG_TITLE,
-      params.OG_DESCRIPTION,
-      params.OG_IMAGE,
-      params.EMBEDURL,
-      "N", //params.FL_BOOKMARK,
-      params.HOST,
-      params.FULL_TEXT,
-      params.URL_TYPE,
-      params.READERMODE_CONTENTS,
-      date,
-      date,
-      params.TAG,
-      "N" //FL_BACKUP
-    ];
+    params.DATE = new Date().getTime();
+    let param = [params.FULL_TEXT, params.READERMODE_CONTENTS];
 
-    await insert(Query.insertSite(), param);
+    await insert(Query.insertSite(params), param);
     return Api.getSite(params);
   },
   updateOptionColor: params => {
@@ -408,7 +375,18 @@ let Api = {
   updateUpdateHistory: params => {
     return update(Query.updateUpdateHistory(params), null);
   },
-
+  deleteTabInfoGroup: params => {
+    return remove(Query.deleteTabInfoGroup(params));
+  },
+  selectTabInfoGroup: params => {
+    return select(Query.selectTabInfoGroup(params));
+  },
+  selectTabInfos: params => {
+    return select(Query.selectTabInfos(params));
+  },
+  insertTabInfo: params => {
+    return insert(Query.insertTabInfo(params));
+  },
   restoreLog: params => {}
 };
 

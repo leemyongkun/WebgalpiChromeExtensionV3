@@ -1,4 +1,5 @@
 import { DDL } from "./DDL_Query";
+import Utils from "../dashboard/utils/Utils";
 
 let db = openDatabase("HL", "1.0", "DATABASE", 200000);
 
@@ -75,7 +76,8 @@ export default {
   removeTable: () => {
     DDL.DROP_TABLE(db);
   },
-  truncateTable: () => {
-    DDL.TRUNCATE(db);
+  truncateTable: async () => {
+    let result = await Utils.getLocalStorage("loginInfo");
+    DDL.TRUNCATE(db, result.loginInfo);
   }
 };

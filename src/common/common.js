@@ -1,3 +1,5 @@
+import CONTENT_LISTENER from "./content-listener";
+
 Date.prototype.format = function(f) {
   if (!this.valueOf()) return " ";
 
@@ -46,24 +48,10 @@ let colorMap = new Object();
   colorMap["highlight-color-1"] = "#a1887f";
   colorMap["highlight-color-2"] = "#CDDC39";
   colorMap["highlight-color-3"] = "#4CAF50";
-  colorMap["highlight-color-4"] = "#FF9800";
+  colorMap["highlight-color-4"] = "#8cf980";
   colorMap["highlight-color-5"] = "#FBC02D";
   colorMap["highlight-color-6"] = "#B2EBF2";
 })();
-/*(function() {
-    colorMap["hltcolor-1"] =
-        "background: #ff90c3 !important;display: inline !important;";
-    colorMap["hltcolor-2"] =
-        "background: #ffcd86 !important;display: inline !important;";
-    colorMap["hltcolor-3"] =
-        "background: #ffee7c !important;display: inline !important;";
-    colorMap["hltcolor-4"] =
-        "background: #8cf980 !important;display: inline !important;";
-    colorMap["hltcolor-5"] =
-        "background: #75dbff !important;display: inline !important;";
-    colorMap["hltcolor-6"] =
-        "background: #e7b2ff !important;display: inline !important;";
-})();*/
 
 String.prototype.string = function(len) {
   var s = "",
@@ -81,6 +69,45 @@ Number.prototype.zf = function(len) {
 };
 
 let Common = {
+  reloadingDashboard: () => {
+    CONTENT_LISTENER.sendMessage({
+      type: "reloading.dashboard",
+      data: null
+    });
+  },
+  reloadingSameSite: () => {
+    //같은 사이트가 열려있다면 리로딩 한다.
+    CONTENT_LISTENER.sendMessage({
+      type: "reloading.same.site",
+      data: null
+    });
+  },
+  closeDuplicateDashboard: () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {
+      let count = 0;
+      chrome.tabs.query({}, tabs => {
+        tabs.map(item => {
+          if (
+            currentTab[0].id !== item.id &&
+            currentTab[0].url === item.url &&
+            item.url === Common.getDashboardUrl()
+          ) {
+            chrome.tabs.remove(item.id);
+            count++;
+          }
+        });
+      });
+    });
+  },
+  goDashboard: () => {
+    chrome.tabs.create({ url: Common.getDashboardUrl() });
+  },
+  getAppDefaultUrl: () => {
+    return "chrome-extension://" + chrome.runtime.id;
+  },
+  getDashboardUrl: () => {
+    return "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
+  },
   getVersion: () => {
     return chrome.runtime.getManifest().version;
   },

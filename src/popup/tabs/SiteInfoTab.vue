@@ -81,6 +81,7 @@
 //https://i.picsum.photos/id/20/400/400.jpg
 
 import CONTENT_LISTENER from "../../common/content-listener";
+import Common from "../../common/common";
 
 export default {
   name: "SiteInfoTab",
@@ -115,10 +116,7 @@ export default {
   }),
   methods: {
     goDashboard() {
-      let extensionDashboard =
-        "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
-      let open = window.open(extensionDashboard, "_blank");
-      open.focus();
+      Common.goDashboard();
     },
     updateCategory() {
       if (this.selectCategory === -1) {
@@ -166,15 +164,9 @@ export default {
         })
         .then(() => {
           //처음 저장 하므로 같은 사이트를 리로딩 한다.
-          CONTENT_LISTENER.sendMessage({
-            type: "reloading.same.site",
-            data: null
-          });
+          Common.reloadingSameSite();
           //Dashboard를 리로딩한다.
-          CONTENT_LISTENER.sendMessage({
-            type: "reloading.dashboard",
-            data: null
-          });
+          Common.reloadingDashboard();
         })
         .then(() => {
           alert("컨텐츠를 저장하였습니다.");
@@ -219,7 +211,6 @@ export default {
             tabId,
             { action: "get.site.info" },
             siteInfo => {
-              console.log("siteInfo ", siteInfo);
               if (siteInfo === undefined) {
                 clearInterval(interval);
                 alert(

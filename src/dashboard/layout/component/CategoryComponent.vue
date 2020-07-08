@@ -4,10 +4,11 @@
       <!--:value="false"-->
       <v-list-group
         sub-group
-        no-action
         @mouseover="item.mouseOver = true"
         @mouseleave="item.mouseOver = false"
         @click="selectParentCategory(item)"
+        @dragover="dragOverInParentCategory(item)"
+        :value="dragOverValue === item.id ? true : false"
       >
         <!-- parent menu -->
         <template v-slot:activator>
@@ -41,9 +42,9 @@
               :class="subItem.class"
             >
               <!--  <v-list-item-icon style="margin-right: 2px;">
-                                                            <v-icon size="15px" color="green" left>mdi-folder-outline
-                                                            </v-icon>
-                                                        </v-list-item-icon>-->
+                                                                          <v-icon size="15px" color="green" left>mdi-folder-outline
+                                                                          </v-icon>
+                                                                      </v-list-item-icon>-->
 
               <v-list-item-content :id="subItem.id">
                 <v-list-item-title
@@ -63,6 +64,15 @@
         </div>
       </v-list-group>
     </div>
+    <v-card v-show="noChild" style="background-color: #e35a69; opacity: 0.8">
+      <v-card-subtitle style="color: white"
+        ><b
+          >상위 카테고리에는 컨텐츠를 담을 수 없습니다. 하위 카테고리를 만들어
+          시도 해보세요.<br /><br />
+          ※ 10초 후, 자동으로 사라집니다.</b
+        >
+      </v-card-subtitle>
+    </v-card>
   </div>
 </template>
 
@@ -74,11 +84,27 @@ import EventBus from "../../event-bus";
 export default {
   components: {},
   data: () => ({
+    timeoutRet: null,
+    noChild: false,
+    dragOverValue: -1, //아이템 Drag 했을 시, 상위 카테고리가 열리도록 하기 위한 변수.
     category: [],
     overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;" //드래드 시 오버 대상에 마우스 over 했을때 스타일
   }),
   created() {},
   methods: {
+    dragOverInParentCategory(item) {
+      this.dragOverValue = item.id;
+      if (item.children === undefined) {
+        this.noChild = true;
+        clearTimeout(this.timeoutRet);
+        this.timeoutRet = setTimeout(() => {
+          this.noChild = false;
+          clearTimeout(this.timeoutRet);
+        }, 10000);
+      } else {
+        this.noChild = false;
+      }
+    },
     async getCategory() {
       let result = await Utils.getLocalStorage("loginInfo");
       CONTENT_LISTENER.sendMessage({

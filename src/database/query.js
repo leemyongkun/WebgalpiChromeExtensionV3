@@ -148,28 +148,55 @@ export default {
             FL_FAVORITE
         )
         VALUES
-            ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, 'Y', ?, ?, ?,?,'N') `;
+            ( '${param.URL_KEY}', 
+            '${param.EMAIL}', 
+            '${param.EMAIL}', 
+            '${param.TITLE}', 
+            '${param.UPDATE_TITLE}',
+            '${param.URL}', 
+            '${param.OG_TITLE}', 
+            '${param.OG_DESCRIPTION}', 
+            '${param.OG_IMAGE}', 
+            '${param.EMBEDURL}', 
+            'N', 
+            '${param.HOST}', 
+            ?,  
+             'N', 
+             '${param.URL_TYPE}', 
+            ?, 
+             'Y', 
+             ${param.DATE}, 
+             ${param.DATE}, 
+             '${param.TAGS}','N','N') `;
   },
-  updateItem: () => {
+  updateHighlightMemo: param => {
     return `
         UPDATE TBL_ITEMS
-        SET MEMO = ?, COLOR = ?, DATE_UPDATE = ?
-        WHERE URL_KEY = ?
-        AND IDX = ?
-        AND EMAIL = ? `;
+        SET MEMO = '${param.MEMO}', DATE_UPDATE = ${new Date().getTime()}
+        WHERE URL_KEY = '${param.URL_KEY}'
+        AND IDX =  ${param.HIGHLIGHT_IDX}
+        AND EMAIL = '${param.EMAIL}' `;
   },
-  deleteItem: () => {
-    return `UPDATE TBL_ITEMS
-        SET FL_DELETE = 'Y' , DATE_UPDATE = ?
-        WHERE URL_KEY = ?
-        AND IDX = ? 
-        AND EMAIL = ?`;
+  updateItem: param => {
+    return `
+        UPDATE TBL_ITEMS
+        SET  COLOR = '${param.COLOR}', DATE_UPDATE = ${new Date().getTime()}
+        WHERE URL_KEY = '${param.URL_KEY}'
+        AND IDX =  ${param.HIGHLIGHT_IDX}
+        AND EMAIL = '${param.EMAIL}' `;
   },
-  deleteItems: () => {
+  deleteItem: param => {
     return `UPDATE TBL_ITEMS
-        SET FL_DELETE = 'Y', DATE_UPDATE = ?
-        WHERE URL_KEY = ? 
-        AND EMAIL = ?`;
+        SET FL_DELETE = 'Y' , DATE_UPDATE =  ${new Date().getTime()}
+        WHERE URL_KEY = '${param.URL_KEY}'
+        AND IDX =  ${param.HIGHLIGHT_IDX}
+        AND EMAIL = '${param.EMAIL}' `;
+  },
+  deleteItems: param => {
+    return `UPDATE TBL_ITEMS
+        SET FL_DELETE = 'Y', DATE_UPDATE = ${new Date().getTime()}
+        WHERE URL_KEY = '${param.URL_KEY}'
+        AND EMAIL = '${param.EMAIL}' `;
   },
   insertItem: () => {
     return `INSERT
@@ -688,11 +715,57 @@ export default {
       ` UPDATE TBL_UPDATE_HISTORY
                  SET ` +
       updateField +
-      `
-                    WHERE EMAIL = '` +
-      param.email +
-      `'
-                `
+      ` 
+                 WHERE EMAIL = '${param.email}'`
     );
+  },
+  insertTabInfo: param => {
+    return `
+        INSERT INTO TBL_ONETAB
+        (
+            EMAIL,
+            GROUP_ID,
+            URL,
+            URL_KEY,
+            TITLE,
+            FL_DELETE,
+            DATE_CREATE
+        )
+        VALUES
+            (
+            '${param.EMAIL}',
+            ${param.GROUP_ID},
+            '${param.url}',
+            '${param.URL_KEY}',
+            '${param.title}',
+            'N',
+             ${param.GROUP_ID}
+            ) `;
+  },
+  selectTabInfos: param => {
+    return `
+            SELECT
+            ONETAB.*, SITES.URL_KEY
+            from TBL_ONETAB ONETAB LEFT JOIN TBL_SITES SITES
+            ON ONETAB.URL_KEY = SITES.URL_KEY
+            WHERE ONETAB.GROUP_ID = ${param.GROUP_ID}
+            AND ONETAB.EMAIL = '${param.EMAIL}'
+        `;
+  },
+  selectTabInfoGroup: param => {
+    return `
+            SELECT
+            GROUP_ID, COUNT(*) AS TAB_COUNT
+            FROM TBL_ONETAB
+            WHERE EMAIL = '${param.EMAIL}'
+            GROUP BY GROUP_ID
+            ORDER BY GROUP_ID DESC
+        `;
+  },
+  deleteTabInfoGroup: param => {
+    return `DELETE FROM TBL_ONETAB
+            WHERE GROUP_ID = ${param.GROUP_ID}
+            AND EMAIL = '${param.EMAIL}'
+                `;
   }
 };

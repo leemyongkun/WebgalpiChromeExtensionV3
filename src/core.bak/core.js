@@ -125,16 +125,13 @@ var HighlightCore = {
     return true;
   },
   mouseOverAction: function(e) {
-    //클릭한 영역이 textarea 영역이면 팔렛트를 고정한다.
-    if (HighlightData.mouseClickId == "highlightMemoArea") return false;
-
     /* 현재 하이라이팅의 ID를 넣는다.*/
     HighlightData.currentIdx = parseInt($(e.target).attr(HighlightData.idName));
 
     //같은 highlight Id의 영역에 마우스를 올렸을 경우, 다른 ID에 올리기 전까지 유지된다.(혹은 다른곳을 클릭하기 전까지 유지된다.)
     if (HighlightData.mouseOverId != HighlightData.currentIdx) {
-      $("#highlight-toolbar").hide();
-      $("#highlight-update-toolbar").hide();
+      $("#webgalpi-highlight-toolbar").hide();
+      $("#webgalpi-highlight-update-toolbar").hide();
     } else {
       return false;
     }
@@ -158,7 +155,7 @@ var HighlightCore = {
         }); */
 
     //마우스를 따라간다.
-    $("#highlight-toolbar").css({
+    $("#webgalpi-highlight-toolbar").css({
       top: e.pageY + 10,
       left: e.pageX,
       position: "absolute"
@@ -175,7 +172,7 @@ var HighlightCore = {
         $("#highlight-toolbar-memo-area").hide();
       }
 
-      $("#highlight-toolbar").fadeIn();
+      $("#webgalpi-highlight-toolbar").fadeIn();
     }, 100);
 
     HighlightData.currentFlag = "click";
@@ -183,7 +180,7 @@ var HighlightCore = {
   mouseDragAction: function(e) {
     HlLayerAction.dragInit();
 
-    $("#highlight-toolbar").hide();
+    $("#webgalpi-highlight-toolbar").hide();
 
     s = window.getSelection();
     //Drag 영역이 없으면 false 리턴한다.
@@ -192,7 +189,7 @@ var HighlightCore = {
     oRect = oRange.getBoundingClientRect();
     /* console.log("oRange ",oRange);
         console.log("oRect ",oRect); */
-    $("#highlight-toolbar").css({
+    $("#webgalpi-highlight-toolbar").css({
       top: e.pageY + 10,
       left: e.pageX,
       position: "absolute",
@@ -201,7 +198,7 @@ var HighlightCore = {
 
     setTimeout(function() {
       $("#highlight-toolbar-memo-area").hide();
-      $("#highlight-toolbar").show();
+      $("#webgalpi-highlight-toolbar").show();
     }, 100);
 
     //console.log(oRange, oRect);
@@ -212,9 +209,9 @@ var HighlightCore = {
     //console.log("e.pageX , e.pageY ", e.pageX, e.pageY);
     HlLayerAction.dragInit();
 
-    $("#highlight-toolbar").hide();
+    $("#webgalpi-highlight-toolbar").hide();
 
-    $("#highlight-toolbar").css({
+    $("#webgalpi-highlight-toolbar").css({
       top: 0,
       left: 0,
       position: "absolute"
@@ -222,7 +219,7 @@ var HighlightCore = {
 
     setTimeout(function() {
       $("#highlight-toolbar-memo-area").hide();
-      $("#highlight-toolbar").show();
+      $("#webgalpi-highlight-toolbar").show();
     }, 100);
 
     //console.log(oRange, oRect);

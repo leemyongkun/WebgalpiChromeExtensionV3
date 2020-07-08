@@ -8,6 +8,7 @@ import { GLOBAL_CONFIG, URL, STATUS, USER_INFO } from "./global/config.js";
 import CORE from "./core/core.js";
 import EVENT from "./event";
 import CONTENT_LISTENER from "../common/content-listener";
+import Common from "../common/common";
 
 let CURRENT_URL = null;
 let CONTENTS = {
@@ -161,12 +162,11 @@ let CONTENTS = {
       param.DEFAULT_CATEGORY_IDX = 0; //loginInfo.DEFAULT_CATEGORY_IDX;
       param.URL_TYPE = "WEB";
       /*
-
-                  param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
-                    document.getElementsByTagName("html")[0].outerHTML,
-                    URL.SITE
-                  );
-            */
+                                    param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
+                                      document.getElementsByTagName("html")[0].outerHTML,
+                                      URL.SITE
+                                    );
+                              */
 
       CONTENTS.getReadmodeContents(
         document.getElementsByTagName("html")[0].outerHTML,
@@ -218,15 +218,15 @@ let CONTENTS = {
         });
     }
   },
-  deleteHighlight: async idx => {
+  deleteHighlight: async highlightIdx => {
     if (!confirm("하이라이트를 삭제하시겠습니까?")) return false;
     let result = await Utils.getLocalStorage("loginInfo");
     let param = new Object();
-    param.IDX = idx;
+    param.HIGHLIGHT_IDX = highlightIdx;
     param.URL_KEY = URL.KEY;
     param.EMAIL = result.loginInfo.EMAIL;
 
-    $("[" + GLOBAL_CONFIG.HL_ID_NAME + "=" + param.IDX + "]").each(
+    $("[" + GLOBAL_CONFIG.HL_ID_NAME + "=" + param.HIGHLIGHT_IDX + "]").each(
       (idx, item) => {
         $(item)
           .contents()
@@ -237,17 +237,43 @@ let CONTENTS = {
     CONTENT_LISTENER.sendMessage({
       type: "delete.highlight",
       data: param
+    })
+      .then(() => {
+        FORM.hidePicker();
+      })
+      .then(() => {
+        Common.reloadingSameSite();
+      });
+  },
+  updateHighlightMemo: async highlightIdx => {
+    let result = await Utils.getLocalStorage("loginInfo");
+    let param = new Object();
+    param.HIGHLIGHT_IDX = highlightIdx;
+    param.URL_KEY = URL.KEY;
+    param.EMAIL = result.loginInfo.EMAIL;
+    param.MEMO = document.getElementById("webgalpi-memo-textarea").value;
+
+    CONTENT_LISTENER.sendMessage({
+      type: "update.highlight.memo",
+      data: param
+    }).then(res => {
+      alert("메모가 저장되었습니다.");
+      GLOBAL_CONFIG.HIGHLIGHT_LIST.map(item => {
+        if (item.IDX === param.HIGHLIGHT_IDX) {
+          item.MEMO = param.MEMO;
+        }
+      });
+      FORM.hidePicker();
     });
   },
-  updateHighlight: async (color, idx) => {
+  updateHighlight: async (color, highlightIdx) => {
     if (color === "") {
-      alert("delete!!");
       return false;
     }
 
     let param = new Object();
     param.COLOR = color;
-    param.IDX = idx;
+    param.HIGHLIGHT_IDX = highlightIdx;
     param.URL_KEY = URL.KEY;
     param.MEMO = "";
     let result = await Utils.getLocalStorage("loginInfo");
@@ -256,8 +282,8 @@ let CONTENTS = {
     //FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
 
     //update일경우, 지정한 컬러로 색상을 바꾼다.
-    $("[" + GLOBAL_CONFIG.HL_ID_NAME + "='" + param.IDX + "']").each(
-      (idx, item) => {
+    $("[" + GLOBAL_CONFIG.HL_ID_NAME + "='" + param.HIGHLIGHT_IDX + "']").each(
+      (highlightIdx, item) => {
         $(item).removeClass();
         $(item).addClass(param.COLOR);
       }
@@ -267,6 +293,8 @@ let CONTENTS = {
     CONTENT_LISTENER.sendMessage({
       type: "update.highlight",
       data: param
+    }).then(() => {
+      FORM.hidePicker();
     });
   },
   createHighlight: async (color, element) => {
@@ -286,7 +314,7 @@ let CONTENTS = {
     param.URL_KEY = URL.KEY; // SITE
     param.TITLE = document.title; // SITE
     param.UPDATE_TITLE = document.title; // SITE
-    param.MEMO = $.trim($("#highlightMemoArea").val()); // Memo
+    param.MEMO = ""; //MEMO
     param.IDX = GLOBAL_CONFIG.CURRENT_IDX;
     param.COLOR = color; // HIGHLIGHT
     param.SITE_CHECK = GLOBAL_CONFIG.USE_CURRENT_SITE; // 사이트를 한번이상 저장한적있으면 Y, 처음이면 N
@@ -347,8 +375,8 @@ let CONTENTS = {
 
     // 드래그 후 바로 '메모'입력 버튼을 눌렀을 경우에는 사라지지 않도록 한다.
     /* if (memoFlag === undefined) {
-                                                                                                                                                                                                  $('#highlight-toolbar').hide();
-                                                                                                                                                                                                } */
+                                                                                                                                                                                                              $('#highlight-toolbar').hide();
+                                                                                                                                                                                                            } */
 
     CORE.executeHighlight(param); //화면에 하이라이팅 하기
     FORM.clearColorPicker(param.COLOR); //color picker 버튼 초기화
@@ -360,10 +388,7 @@ let CONTENTS = {
       GLOBAL_CONFIG.SITE_INFO = param;
 
       //2개이상은 같은 사이트를 리로딩 (비동기)
-      CONTENT_LISTENER.sendMessage({
-        type: "reloading.dashboard",
-        data: null
-      });
+      Common.reloadingDashboard();
     }
 
     // 저장
@@ -373,25 +398,22 @@ let CONTENTS = {
     });
 
     //2개이상은 같은 사이트를 리로딩 (비동기)
-    CONTENT_LISTENER.sendMessage({
-      type: "reloading.same.site",
-      data: null
-    });
-
+    Common.reloadingSameSite();
     return param;
   },
   checkCurrentArea: (event, action) => {
     if (action === "click") {
-      if ($(event.target).closest("#highlight-toolbar").length === 0) {
-        $("#highlight-toolbar").hide();
-        $("#highlight-update-toolbar").hide();
+      if (
+        $(event.target).closest("#webgalpi-highlight-update-toolbar").length ===
+        0
+      ) {
+        FORM.hidePicker();
       }
     } else if (action === "mousedown") {
       if (
         window.getSelection().isCollapsed === false &&
         $(event.target).attr(GLOBAL_CONFIG.HL_ID_NAME) === undefined
       ) {
-        // mousedownPalleteView = true;
       }
     }
 

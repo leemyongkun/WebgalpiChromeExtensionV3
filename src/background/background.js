@@ -116,17 +116,14 @@ let BackgrounEvent = {
 
         //테이블 추가
         dbcon.addTable();
+
         dbcon.removeTable();
 
         //업데이트 Alert 출력
+
         chrome.notifications.create("", opt);
         chrome.notifications.onClicked.addListener(function() {
-          let extensionDashboard =
-            "chrome-extension://" +
-            chrome.runtime.id +
-            "/dashboard/index.html?update";
-          let open = window.open(extensionDashboard, "_blank");
-          open.focus();
+          chrome.tabs.create({ url: Common.getDashboardUrl() + "?update" });
         });
       }
     });
@@ -164,10 +161,7 @@ let BackgrounEvent = {
         BackgroundModule.isPopup();
 
         //대쉬보드의 TABID를 저장해둔다. (재진입시 STATUS를 변경하여 리로딩 하기 위함)
-        if (
-          tab.url ===
-          "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html"
-        ) {
+        if (tab.url === Common.getDashboardUrl()) {
           chrome.storage.local.set({
             activeDashboardTabId: tab.id
           });
@@ -221,6 +215,7 @@ chrome.tabs.onActivated.addListener((activeInfo, act) => {
   });
 });
 
+export default BackgroundModule;
 /*
 chrome.webRequest.onHeadersReceived.addListener(
   function(info) {

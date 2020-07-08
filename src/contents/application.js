@@ -38,7 +38,6 @@ let APPLICATION = {
         targetDeleteHighlightCustomTag[i]
       );
     }
-
     APPLICATION.createContentsForm(data.options.COLOR);
   },
   createContentsForm: color => {
@@ -71,7 +70,7 @@ let APPLICATION = {
         let convertResult = await COMMON.checkConvertUrl(URL.SITE);
         if (convertResult) {
           //todo 변환 창을 보이도록 한다.
-          $("#highlight-convert-noti-area").show();
+          $("#webgalpi-convert-notification-area").show();
         }
         EVENT.convertBtnEvent(convertResult);
       });

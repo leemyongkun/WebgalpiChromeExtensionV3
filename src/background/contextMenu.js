@@ -1,46 +1,64 @@
+import COMMON_ACTION from "../common/commonAction";
+import API from "../api/api";
+import Common from "../common/common";
+
 function contextAction(info, tab) {
-  if (info.menuItemId == "webGalpi") {
-    let extensionDashboard =
-      "chrome-extension://" + chrome.runtime.id + "/dashboard/index.html";
+  if (info.menuItemId === "dashboard") {
+    let extensionDashboard = Common.getDashboardUrl();
     if (tab.url === extensionDashboard) {
-      location.reload();
       return false;
     }
-    let open = window.open(extensionDashboard, "_blank");
-    open.focus();
+    chrome.tabs.create({ url: extensionDashboard });
   }
 
-  if (info.menuItemId == "saveSite") {
-    if (tab.url.indexOf("chrome-extension://") !== -1) {
-      alert("Dashboard에서는 저장할 수 없습니다.");
-      return false;
-    }
-    alert("준비중");
+  if (info.menuItemId === "tabgroup") {
+    chrome.tabs.create({ url: Common.getDashboardUrl() + "?tabgroup" });
+  }
+
+  if (info.menuItemId === "saveSite") {
+    COMMON_ACTION.getSiteInfo(tab.id).then(siteInfo => {
+      if (siteInfo.USE_CURRENT_SITE === "N") {
+        API.postSite(siteInfo).then(site => {
+          alert("사이트가 저장되었습니다.");
+        });
+      } else {
+        alert("이미 저장 된 사이트입니다.");
+      }
+    });
   }
 }
 
 chrome.contextMenus.onClicked.addListener(contextAction);
 
+//ROOT
 chrome.contextMenus.create({
   id: "webGalpi",
-  title: "WEB-GALPI",
+  title: "WEBGALPI",
   checked: false,
   contexts: ["all"]
 });
 
-/*  chrome.contextMenus.create({
-      id: "dashboard",
-      title: "DASHBOARD",
-      parentId: "webGalpi",
-      contexts: ["all"]
-    });
+//CHILD
+chrome.contextMenus.create({
+  id: "dashboard",
+  title: "대쉬보드 이동하기",
+  parentId: "webGalpi",
+  contexts: ["all"]
+});
 
-    chrome.contextMenus.create({
-      id: "saveSite",
-      title: "SAVE SITE",
-      parentId: "webGalpi",
-      contexts: ["all"]
-    });*/
+chrome.contextMenus.create({
+  id: "tabgroup",
+  title: "열려있는 Tab 모으기",
+  parentId: "webGalpi",
+  contexts: ["all"]
+});
+
+/*chrome.contextMenus.create({
+    id: "saveSite",
+    title: "이 사이트 저장하기",
+    parentId: "webGalpi",
+    contexts: ["all"]
+});*/
 
 /*
 let extensionDashboard =

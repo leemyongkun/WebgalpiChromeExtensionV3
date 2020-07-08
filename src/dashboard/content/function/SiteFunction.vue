@@ -10,8 +10,8 @@
     </v-tooltip>
 
     <!--<v-btn @click="print" icon v-if="previewStatus === 'Y'">
-              <v-icon>mdi-printer</v-icon>
-            </v-btn>-->
+                  <v-icon>mdi-printer</v-icon>
+                </v-btn>-->
 
     <v-tooltip v-model="tooltip.facebook" color="blue" top>
       <template v-slot:activator="{ on }">
@@ -45,6 +45,7 @@ let facebookUrl = "http://www.facebook.com/share.php?u=";
 import HighlightsWidget from "./widget/HighlightsWidget";
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
+import Common from "../../../common/common";
 
 export default {
   components: { HighlightsWidget },
@@ -77,7 +78,7 @@ export default {
     },
     goSourceSite() {
       /*event.preventDefault();
-                                              event.stopPropagation();*/
+                                                        event.stopPropagation();*/
       let open = window.open(this.sourceUrl, "_blank");
       open.focus();
     },
@@ -106,10 +107,7 @@ export default {
         data: this.currentSite
       }).then(() => {
         //처음 저장 하므로 같은 사이트를 리로딩 한다.
-        CONTENT_LISTENER.sendMessage({
-          type: "reloading.same.site",
-          data: this.currentSite
-        });
+        Common.reloadingSameSite();
         EventBus.$emit("reload.category");
         EventBus.$emit("hideSite", this.currentSite.URL_KEY);
       });

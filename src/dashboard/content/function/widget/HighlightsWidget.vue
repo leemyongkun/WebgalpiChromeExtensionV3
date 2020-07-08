@@ -19,36 +19,41 @@
         </template>
         <span>저장된 하이라이트를 표시합니다.</span>
       </v-tooltip>
-
-      <!--
-
-                          <v-badge
-                                  avatar
-                                  bordered
-
-                          >
-                              <template v-slot:badge>
-                                  <span>99+</span>
-                              </template>
-
-                          </v-badge>
-                  -->
     </template>
 
-    <v-card width="400px" :style="maxHeightWidget">
+    <v-card width="600px" :style="maxHeightWidget">
+      <v-card-subtitle v-show="highlightItems.length !== 0">
+        <v-row>
+          <v-col cols="auto" class="pb-0 pt-0">
+            HIGHLIGHT LIST
+          </v-col>
+          <v-spacer />
+          <v-col @click="deleteAllHighlight" cols="auto" class="pb-0 pt-0">
+            <v-btn small text color="red">일괄 삭제</v-btn>
+          </v-col>
+        </v-row>
+      </v-card-subtitle>
+
+      <v-divider></v-divider>
       <v-list
         v-if="highlightItems.length !== 0 && currentSite.FL_READMODE === 'Y'"
       >
         <template v-for="(item, index) in highlightItems">
           <v-list-item :key="item.IDX" class="pr-2">
             <v-list-item-content class="mt-0 body-2">
-              {{ item.PRINT_TEXT }}
+              <span
+                ><v-icon size="15px" :color="convertColor(item.COLOR)"
+                  >mdi-format-color-highlight</v-icon
+                >&nbsp;&nbsp;{{ item.PRINT_TEXT }}</span
+              ><br />
+              <span class="pt-2" style="color: darkgray" v-if="item.MEMO !== ''"
+                ><v-icon size="15px">mdi-message-reply-text</v-icon>
+                &nbsp;&nbsp;{{ item.MEMO }}</span
+              >
             </v-list-item-content>
 
             <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">
-              <v-btn icon color="black" @click="deleteHighlight(item)">
-                <v-icon>mdi-delete-forever</v-icon>
-              </v-btn>
+              <v-icon @click="deleteHighlight(item)">mdi-delete-forever</v-icon>
             </v-list-item-action>
           </v-list-item>
           <v-divider :key="index"></v-divider>
@@ -101,11 +106,23 @@ export default {
     });
   },
   methods: {
-    async deleteHighlight(item) {
-      let confirm = "하이라이트를 삭제하시겠습니까?";
-      let result = await MODAL.confirm(confirm);
+    async deleteAllHighlight() {
+      let confirm = "모든 하이라이트를 삭제하시겠습니까?";
+      let result = await MODAL.confirm(confirm, "info", null, null, "450px");
       if (result.value === undefined) return false;
 
+      CONTENT_LISTENER.sendMessage({
+        type: "delete.all.highlight",
+        data: this.currentSite /*EMAIL과 URL_KEY 활용*/
+      }).then(() => {
+        this.highlightItems = [];
+      });
+    },
+    async deleteHighlight(item) {
+      let confirm = "하이라이트를 삭제하시겠습니까?";
+      let result = await MODAL.confirm(confirm, "info", null, null, "450px");
+      if (result.value === undefined) return false;
+      item.HIGHLIGHT_IDX = item.IDX;
       CONTENT_LISTENER.sendMessage({
         type: "delete.highlight",
         data: item
