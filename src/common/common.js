@@ -120,27 +120,27 @@ let Common = {
   getConvertColor: color => {
     switch (color) {
       case "highlight-color-1":
-        return "#e35a69";
+        return "#F2D3D9"; //"#e35a69";
       case "highlight-color-2":
-        return "#f7b900";
+        return "#D8CCDA"; //#f7b900
       case "highlight-color-3":
-        return "#2da64e";
+        return "#C7D0ED"; //#2da64e
       case "highlight-color-4":
-        return "#d9c3ff";
+        return "#CCDFE6"; //d9c3ff
       case "highlight-color-5":
-        return "#97c2dd";
+        return "#C7E7E6"; //97c2dd
       case "highlight-color-6":
-        return "#ef9a9a";
+        return "#D7EBDF"; //ef9a9a
       case "highlight-color-7":
-        return "#90a4ae";
+        return "#D3ECC5"; //90a4ae
       case "highlight-color-8":
-        return "#CDDC39";
+        return "#FDECA7"; //CDDC39
       case "highlight-color-9":
-        return "#ffb540";
+        return "#F2D9BA"; //ffb540
       case "highlight-color-10":
-        return "#B2EBF2";
+        return "#F8DFD8"; //B2EBF2
       case "highlight-color-11":
-        return "#c0b6a7";
+        return "#EFEDE1"; //c0b6a7
     }
   },
   toHashMap: (list, key) => {

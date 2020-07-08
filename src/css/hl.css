@@ -38,84 +38,70 @@
   border-radius: 4.2px !important;
 }
 
-.liner-color-yellow {
-  background-color: rgb(255, 228, 124) !important;
-}
-
 .highlight-color-1 {
-  background: #e35a69 !important;
+  background: #f2d3d9 !important;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-2 {
-  background: #f7b900 !important;
+  background: #d8ccda !important;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-3 {
-  background: #2da64e !important;
+  background: #c7d0ed !important;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-4 {
-  background: #d9c3ff !important;
+  background: #ccdfe6 !important;
   display: inline !important;
   cursor: pointer;
-  color: #333333;
 }
 
 .highlight-color-5 {
-  background: #97c2dd !important;
+  background: #c7e7e6 !important;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-6 {
-  background: #ef9a9a !important;
+  background: #d7ebdf !important;
   display: inline !important;
   cursor: pointer;
 }
 
 .highlight-color-7 {
-  background: #90a4ae !important;
+  background: #d3ecc5 !important;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-8 {
-  background: #cddc39 !important;
+  background: #fdeca7 !important;
   display: inline !important;
   cursor: pointer;
-  color: #333333 !important;
 }
 
 .highlight-color-9 {
-  background: #ffb540 !important;
+  background: #f2d9ba !important;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-10 {
-  background: #b2ebf2 !important;
+  background: #f8dfd8 !important;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-11 {
-  background: #c0b6a7 !important;
+  background: #efede1 !important;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .default-color {

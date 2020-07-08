@@ -2,20 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b2bb08b-04bd-4154-9718-f954bbbb3219" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dashboard/snack/NotificationSnackBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/background/listener.js" beforeDir="false" afterPath="$PROJECT_DIR$/background/listener.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/GoogleDriveBackupAndRestore.js" beforeDir="false" afterPath="$PROJECT_DIR$/common/GoogleDriveBackupAndRestore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/DashboardApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/DashboardApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/dialog/setting/BackupArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/dialog/setting/BackupArea.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/dialog/setting/backup/BackupDescriptionArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/dialog/setting/backup/BackupDescriptionArea.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/dialog/setting/backup/RestoreProcessArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/dialog/setting/backup/RestoreProcessArea.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/layout/AppBarPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/layout/AppBarPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/snack/SnackBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/snack/SnackBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/query.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/query.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/vuetify/vuetify.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/vuetify/vuetify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/common/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/core/hl-core.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/core/hl-core.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/hl.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/hl.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/content/ContentBody.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/content/ContentBody.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/dialog/setting/ColorArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/dialog/setting/ColorArea.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,13 +115,13 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="2503" y="235" width="667" height="476" key="find.popup" timestamp="1593587139812">
+    <state x="2503" y="235" width="667" height="476" key="find.popup" timestamp="1594189169631">
       <screen x="1920" y="-26" width="1920" height="999" />
     </state>
-    <state x="2503" y="235" width="667" height="476" key="find.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593587139812" />
-    <state x="2501" y="194" width="670" height="676" key="search.everywhere.popup" timestamp="1593586526837">
+    <state x="2503" y="235" width="667" height="476" key="find.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1594189169631" />
+    <state x="2501" y="194" width="670" height="676" key="search.everywhere.popup" timestamp="1594189717553">
       <screen x="1920" y="-26" width="1920" height="999" />
     </state>
-    <state x="2501" y="194" width="670" height="676" key="search.everywhere.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593586526837" />
+    <state x="2501" y="194" width="670" height="676" key="search.everywhere.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1594189717553" />
   </component>
 </project>
