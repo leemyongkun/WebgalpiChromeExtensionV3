@@ -21,7 +21,7 @@
       </v-tooltip>
     </template>
 
-    <v-card width="400px" :style="maxHeightWidget">
+    <v-card width="600px" :style="maxHeightWidget">
       <v-card-subtitle v-show="highlightItems.length !== 0">
         <v-row>
           <v-col cols="auto" class="pb-0 pt-0">
@@ -41,7 +41,13 @@
         <template v-for="(item, index) in highlightItems">
           <v-list-item :key="item.IDX" class="pr-2">
             <v-list-item-content class="mt-0 body-2">
-              {{ item.PRINT_TEXT }}
+              <span
+                ><v-icon size="15px">mdi-format-color-highlight</v-icon>
+                {{ item.PRINT_TEXT }}</span
+              ><br />
+              <span class="pt-2" style="color: darkgray"
+                ><v-icon size="15px">mdi-message-reply-text</v-icon> memo
+              </span>
             </v-list-item-content>
 
             <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">

@@ -6,7 +6,6 @@ const cheerio = require("cheerio");
 const md5 = require("md5");
 const instance = axios.create();
 instance.defaults.timeout = 5000;
-instance.defaults.responseType = "document";
 
 let CRAWLER = {
   getOriginalSiteContents: url => {
