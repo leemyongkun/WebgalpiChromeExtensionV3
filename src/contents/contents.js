@@ -162,11 +162,11 @@ let CONTENTS = {
       param.DEFAULT_CATEGORY_IDX = 0; //loginInfo.DEFAULT_CATEGORY_IDX;
       param.URL_TYPE = "WEB";
       /*
-                                          param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
-                                            document.getElementsByTagName("html")[0].outerHTML,
-                                            URL.SITE
-                                          );
-                                    */
+                                                param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
+                                                  document.getElementsByTagName("html")[0].outerHTML,
+                                                  URL.SITE
+                                                );
+                                          */
 
       CONTENTS.getReadmodeContents(
         document.getElementsByTagName("html")[0].outerHTML,
@@ -391,6 +391,15 @@ let CONTENTS = {
     CONTENT_LISTENER.sendMessage({
       type: "create.highlight",
       data: param
+    });
+
+    //저장된 하이라이트 다시 가져오기
+    param.KEY = param.URL_KEY;
+    CONTENT_LISTENER.sendMessage({
+      type: "get.highlights",
+      data: param
+    }).then(highlights => {
+      GLOBAL_CONFIG.HIGHLIGHT_LIST = highlights;
     });
 
     //2개이상은 같은 사이트를 리로딩 (비동기)

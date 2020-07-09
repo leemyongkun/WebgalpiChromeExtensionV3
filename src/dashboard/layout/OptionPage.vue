@@ -185,14 +185,10 @@ export default {
     update: {
       version: Common.getVersion(),
       improvement: [
-        "[대쉬보드] TAB 모아보기 기능 추가",
-        "[대쉬보드] 옵션설정 메뉴, 상단으로 위치 수정",
-        "[공통] 하이라이트 일괄삭제 기능 추가"
+        "[공통] 하이라이트 일괄삭제 기능 추가",
+        "[대쉬보드] 카테고리 등록 아이콘 변경 및 카테고리 검색 기능 추가"
       ],
-      debug: [
-        "컨텐츠 드래그 시, 상위카테고리가 자동으로 열리도록 수정",
-        "'TAB 모아보기' 실행 시, 대쉬보드가 2개이상 유지되는 현상 제거"
-      ],
+      debug: ["...하도 많아서 다 못적음. 암튼 많았음."],
       todo: [
         "[진행중] BOOKMARK -> WEBGALPI로 IMPORT",
         "[진행중] Auto Backup/Restore ",

@@ -233,14 +233,14 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     /*case "get.site": //미사용
-                                                                                      let getSiteParameter = new Object();
-                                                                                      getSiteParameter.URL_KEY = msg.data;
+                                                                                          let getSiteParameter = new Object();
+                                                                                          getSiteParameter.URL_KEY = msg.data;
 
-                                                                                      API.getSite(getSiteParameter).then(res => {
-                                                                                        sendResponse(res); //조건
-                                                                                      });
-                                                                                      return true;
-                                                                                      break;*/
+                                                                                          API.getSite(getSiteParameter).then(res => {
+                                                                                            sendResponse(res); //조건
+                                                                                          });
+                                                                                          return true;
+                                                                                          break;*/
     case "update.scrap.site":
       API.updateScrapSite(msg.data).then(res => {
         sendResponse(res);
@@ -255,8 +255,18 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     case "get.sites":
-      API.getSites(msg.data).then(res => {
-        sendResponse(res); //조건
+      API.getSites(msg.data).then(sites => {
+        sites.map(site => {
+          site.TITLE = Common.restoreSpecialWord(site.TITLE);
+          site.UPDATE_TITLE = Common.restoreSpecialWord(site.UPDATE_TITLE);
+          site.OG_TITLE = Common.restoreSpecialWord(site.OG_TITLE);
+          site.OG_DESCRIPTION = Common.restoreSpecialWord(site.OG_DESCRIPTION);
+          site.FULL_TEXT = Common.restoreSpecialWord(site.FULL_TEXT);
+          site.READERMODE_CONTENTS = Common.restoreSpecialWord(
+            site.READERMODE_CONTENTS
+          );
+        });
+        sendResponse(sites); //조건
       });
       return true;
       break;

@@ -76,12 +76,12 @@
                           v-on="on"
                           @click="sortCategory"
                           color="grey"
-                          disabled
                           >mdi-folder-download-outline
                         </v-icon>
                       </template>
                       <span>
-                        <b>카테고리를 원하는 순서로 변경할 수 있습니다.</b>
+                        개발중입니다
+                        <!--<b>카테고리를 원하는 순서로 변경할 수 있습니다.</b>-->
                       </span>
                     </v-tooltip>
 
@@ -218,7 +218,7 @@ export default {
       this.$refs.categoryComponent.search(this.keyword);
     },
     sortCategory() {
-      EventBus.$emit("open.snack", "준비중입니다.");
+      /*EventBus.$emit("open.snack", "준비중입니다.");*/
     },
     getReloadCategory() {
       //카테고리를 가져온다.

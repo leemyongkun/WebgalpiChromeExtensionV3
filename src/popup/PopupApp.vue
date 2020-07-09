@@ -11,9 +11,7 @@
         <v-tab>
           <v-icon>mdi-grease-pencil</v-icon>
         </v-tab>
-        <v-tab>
-          <v-icon>mdi-settings</v-icon>
-        </v-tab>
+
         <!-- <v-tab-item class="mx-auto overflow-y-auto" :style="style">
                                                             <SettingTab></SettingTab>
                                                         </v-tab-item>-->

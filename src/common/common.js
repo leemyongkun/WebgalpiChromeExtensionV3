@@ -64,6 +64,10 @@ let Common = {
     if (text === null || text === undefined) return text;
     return text.replace(/\'/g, "&#039;").replace(/\"/g, "&quot;");
   },
+  restoreSpecialWord(text) {
+    if (text === null || text === undefined) return text;
+    return text.replace(/&#039;/g, "'").replace(/&quot;/g, '"');
+  },
   unwrapTags: (document, tag) => {
     let element = document.getElementsByTagName(tag);
     let elementList = Array.prototype.slice.call(element);

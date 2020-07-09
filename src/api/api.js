@@ -130,6 +130,7 @@ let Api = {
         params.endOffset
       ];
     }
+
     return select(query, parameter);
   },
 
