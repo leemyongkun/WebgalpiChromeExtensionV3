@@ -1,11 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
-    <v-text-field
-      v-model="keyword"
-      @keyup="search"
-      dense
-      placeholder="SEARCH"
-    ></v-text-field>
     <div v-for="(item, i) in category" :key="i">
       <!--:value="false"-->
       <v-list-group
@@ -15,9 +9,12 @@
         @mouseleave="item.mouseOver = false"
         @click="selectParentCategory(item)"
         @dragover="dragOverInParentCategory(item)"
-        :value="dragOverValue === item.id ? true : false"
+        @dragleave="dragLeave"
+        :value="dragOverValue.includes(item.id)"
       >
+        <!--                    :value="dragOverValue === item.id ? true : false" -->
         <!-- parent menu -->
+
         <template v-slot:activator>
           <v-list-item-content>
             <v-list-item-title v-text="item.name"></v-list-item-title>
@@ -49,9 +46,9 @@
               :class="subItem.class"
             >
               <!--  <v-list-item-icon style="margin-right: 2px;">
-                                                                                                      <v-icon size="15px" color="green" left>mdi-folder-outline
-                                                                                                      </v-icon>
-                                                                                                  </v-list-item-icon>-->
+                                                                                                                    <v-icon size="15px" color="green" left>mdi-folder-outline
+                                                                                                                    </v-icon>
+                                                                                                                </v-list-item-icon>-->
 
               <v-list-item-content :id="subItem.id">
                 <v-list-item-title
@@ -91,24 +88,28 @@ import EventBus from "../../event-bus";
 export default {
   components: {},
   data: () => ({
-    keyword: "",
     timeoutRet: null,
     noChild: false, //드래그 했을때, 자식 카테고리가 없을 경우 메시지를 열기위한 변수
-    dragOverValue: [], //아이템 Drag 했을 시, 상위 카테고리가 열리도록 하기 위한 변수.
+    dragOverValue: [], //아이템 Drag 했을 시, 상위 카테고리가 열리도록 하기 위한 변수이며, 또한, 검색했을 시, 모든 메뉴를 펼친다.
     category: [],
     originalCategory: [],
+    dragOverTimeout: null, //dragOver 했을 때, 바로 열리게 되면 정신 없으므로, 약간의 텀을 주기 위해 timeout을 넣는다. 만약 mouseLeave 했을 시, 해당 값은 clear 처리 한다.
     overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;" //드래드 시 오버 대상에 마우스 over 했을때 스타일
   }),
   created() {},
   methods: {
-    search() {
-      console.log("this.originalCategory ", this.originalCategory);
+    search(keyword) {
+      if (keyword === null || keyword.trim() === "") {
+        this.dragOverValue = [];
+        this.category.map(item => {
+          item.isShow = "y";
+        });
+        return false;
+      }
 
       let parent = new Array();
       this.originalCategory.filter(item => {
-        if (
-          item.name.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1
-        ) {
+        if (item.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
           //상위카테고리만 가져온다
           if (item.parent === 0) {
             parent.push(item.id);
@@ -117,30 +118,36 @@ export default {
           }
         }
       });
-      console.log("parent", parent);
 
       this.category.map(item => {
         if (!parent.includes(item.id)) {
           item.isShow = "n";
         } else {
           item.isShow = "y";
+          this.dragOverValue.push(item.id);
         }
       });
-
-      console.log("this.category", this.category);
+    },
+    dragLeave() {
+      clearTimeout(this.dragOverTimeout);
     },
     dragOverInParentCategory(item) {
-      this.dragOverValue = item.id;
-      if (item.children === undefined) {
-        this.noChild = true; //메시지를 열것인가 체크
-        clearTimeout(this.timeoutRet);
-        this.timeoutRet = setTimeout(() => {
-          this.noChild = false;
+      this.dragOverTimeout = setTimeout(() => {
+        if (this.dragOverValue.includes(item.id)) return false;
+        this.dragOverValue = [];
+        this.dragOverValue.push(item.id);
+
+        if (item.children === undefined) {
+          this.noChild = true; //메시지를 열것인가 체크
           clearTimeout(this.timeoutRet);
-        }, 10000); //메시지를 10초간 유지하며, 마우스가 올라가있는동안은 없어지지 않도록 한다.
-      } else {
-        this.noChild = false;
-      }
+          this.timeoutRet = setTimeout(() => {
+            this.noChild = false;
+            clearTimeout(this.timeoutRet);
+          }, 10000); //메시지를 10초간 유지하며, 마우스가 올라가있는동안은 없어지지 않도록 한다.
+        } else {
+          this.noChild = false;
+        }
+      }, 400);
     },
     async getCategory() {
       let result = await Utils.getLocalStorage("loginInfo");

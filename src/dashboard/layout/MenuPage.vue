@@ -3,9 +3,9 @@
     <UpdateCategoryDialog ref="updateCategoryDialog"></UpdateCategoryDialog>
 
     <!--<SettingsManagerDialog
-                      :dialog="settingDialog"
-                      @closeDialog="switchDialogSetting"
-                    ></SettingsManagerDialog>-->
+                          :dialog="settingDialog"
+                          @closeDialog="switchDialogSetting"
+                        ></SettingsManagerDialog>-->
 
     <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>
@@ -16,8 +16,9 @@
                 <!-- <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>-->
 
                 <v-row>
-                  <v-col cols="auto"> </v-col>
+                  <v-col cols="auto"></v-col>
                   <v-col cols="auto">
+                    <!-- ######## 카테고리 추가 ########-->
                     <v-tooltip
                       v-model="categoryBtnTooltip.plus"
                       color="blue"
@@ -40,6 +41,7 @@
                       </span>
                     </v-tooltip>
 
+                    <!-- ######## 카테고리 검색 ########-->
                     <v-tooltip
                       v-model="categoryBtnTooltip.search"
                       color="blue"
@@ -49,9 +51,8 @@
                         <v-icon
                           left
                           v-on="on"
-                          @click="searchCategory"
+                          @click="isShowSearchFieldToggle"
                           color="info"
-                          disabled
                           >mdi-folder-search-outline
                         </v-icon>
                       </template>
@@ -63,6 +64,7 @@
                       </span>
                     </v-tooltip>
 
+                    <!-- ######## 카테고리 정렬 ########-->
                     <v-tooltip
                       v-model="categoryBtnTooltip.sort"
                       color="blue"
@@ -73,15 +75,27 @@
                           left
                           v-on="on"
                           @click="sortCategory"
-                          color="warning"
+                          color="grey"
                           disabled
                           >mdi-folder-download-outline
                         </v-icon>
                       </template>
                       <span>
-                        <b>카테고리를 원하는 순서로 변경할 수 있습니다. </b>
+                        <b>카테고리를 원하는 순서로 변경할 수 있습니다.</b>
                       </span>
                     </v-tooltip>
+
+                    <!-- 카테고리 검색 영역 -->
+                    <v-text-field
+                      ref="categorySearchField"
+                      v-show="isShowSearchField"
+                      v-model="keyword"
+                      @keyup="searchCategory"
+                      @click:clear="searchClear"
+                      dense
+                      clearable
+                      placeholder="카테고리 검색"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
                 <v-divider />
@@ -105,8 +119,8 @@
       </v-list>
 
       <!--<template v-slot:append>
-              <OptionComponent></OptionComponent>
-            </template>-->
+                    <OptionComponent></OptionComponent>
+                  </template>-->
     </v-navigation-drawer>
 
     <v-snackbar
@@ -147,6 +161,7 @@ export default {
       search: false,
       sort: false
     },
+    isShowSearchField: false,
     panel: [0], //accordian 의 오픈 index
     snackbarTimeout: 3000, //스낵바 유지시간
     snackbarMessage: "", //스낵바 기본 메시지
@@ -154,7 +169,8 @@ export default {
     categoryDialog: false, //카테고리 다이얼로그 open / close 여부
     settingDialog: false, //Setting 다이얼로그 open / close 여부
     drawer: true, //왼쪽 메뉴 open / close 여부
-    selectedParentCategoryId: 0 //선택된 Parent Category Id를 임시 저장해둔다.
+    selectedParentCategoryId: 0, //선택된 Parent Category Id를 임시 저장해둔다.
+    keyword: "" //검색키워드
   }),
   created() {
     this.$nextTick(() => {
@@ -187,8 +203,19 @@ export default {
     });
   },
   methods: {
+    isShowSearchFieldToggle() {
+      this.isShowSearchField = !this.isShowSearchField;
+      setTimeout(() => {
+        this.$refs.categorySearchField.focus();
+        this.searchClear();
+      }, 100);
+    },
     searchCategory() {
-      EventBus.$emit("open.snack", "준비중입니다.");
+      this.$refs.categoryComponent.search(this.keyword);
+    },
+    searchClear() {
+      this.keyword = "";
+      this.$refs.categoryComponent.search(this.keyword);
     },
     sortCategory() {
       EventBus.$emit("open.snack", "준비중입니다.");
