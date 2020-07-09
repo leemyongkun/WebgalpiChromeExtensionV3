@@ -1,19 +1,22 @@
 <template>
   <v-app>
     <v-card id="scroll-target" max-width="490" v-if="mainFlag === 1">
-      <v-tabs vertical>
+      <v-tabs vertical v-model="tab">
         <!--<v-tab>
-                                            <v-icon>mdi-settings</v-icon>
-                                        </v-tab>-->
+                                                    <v-icon>mdi-settings</v-icon>
+                                                </v-tab>-->
         <v-tab>
           <v-icon>mdi-web</v-icon>
         </v-tab>
         <v-tab>
           <v-icon>mdi-grease-pencil</v-icon>
         </v-tab>
+        <v-tab>
+          <v-icon>mdi-settings</v-icon>
+        </v-tab>
         <!-- <v-tab-item class="mx-auto overflow-y-auto" :style="style">
-                                            <SettingTab></SettingTab>
-                                        </v-tab-item>-->
+                                                    <SettingTab></SettingTab>
+                                                </v-tab-item>-->
         <v-tab-item class="mx-auto overflow-y-auto" :style="style">
           <SiteInfoTab></SiteInfoTab>
         </v-tab-item>

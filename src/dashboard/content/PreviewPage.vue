@@ -102,6 +102,7 @@ import CRAWLER from "../common/cheerio";
 import MODAL from "../../common/modal";
 import CONTENT_LISTENER from "../../common/content-listener";
 import CONTENTS from "../../contents/contents";
+let $ = require("jquery");
 
 //https://www.npmjs.com/package/vue-youtube-embed
 export default {
@@ -130,9 +131,9 @@ export default {
   },
   watch: {
     previewContent() {
-      console.log("######## previewContent");
       setTimeout(() => {
         Common.unwrapTags(document, "code");
+        //todo : 본문 A 태그에 기능삽입
       }, 500);
     }
   },

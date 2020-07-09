@@ -70,6 +70,9 @@ Number.prototype.zf = function(len) {
 };
 
 let Common = {
+  replaceSpecialWord(text) {
+    return text.replace(/\'/g, "&#039;").replace(/\"/g, "&quot;");
+  },
   unwrapTags: (document, tag) => {
     let element = document.getElementsByTagName(tag);
     let elementList = Array.prototype.slice.call(element);

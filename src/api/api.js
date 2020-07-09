@@ -2,6 +2,7 @@ import Query from "../database/query.js";
 
 import store from "../store";
 import Utils from "../dashboard/utils/Utils";
+import Common from "../common/common";
 
 var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 let Api = {
@@ -206,6 +207,14 @@ let Api = {
   },
   postSite: async params => {
     params.DATE = new Date().getTime();
+    params.TITLE = Common.replaceSpecialWord(params.TITLE);
+    params.UPDATE_TITLE = Common.replaceSpecialWord(params.UPDATE_TITLE);
+    params.OG_TITLE = Common.replaceSpecialWord(params.OG_TITLE);
+    params.OG_DESCRIPTION = Common.replaceSpecialWord(params.OG_DESCRIPTION);
+    params.FULL_TEXT = Common.replaceSpecialWord(params.FULL_TEXT);
+    params.READERMODE_CONTENTS = Common.replaceSpecialWord(
+      params.READERMODE_CONTENTS
+    );
     let param = [params.FULL_TEXT, params.READERMODE_CONTENTS];
 
     await insert(Query.insertSite(params), param);
