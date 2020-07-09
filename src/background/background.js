@@ -160,6 +160,7 @@ let BackgrounEvent = {
             activeDashboardTabId: tab.id
           });
         }
+
         //현재 사이트에 하이라이트 초기화
         BackgroundModule.initApplication(tabId, tab.url);
       }

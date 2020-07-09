@@ -13,7 +13,9 @@ let APPLICATION = {
     if (document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length === 0)
       return false;
 
-    // console.log(" document.querySelectorAll(\"webgalpi-group\").length >> " , document.querySelectorAll(GLOBAL_CONFIG.GROUP_ELEMENT).length);
+    //이미 생성되어있으면 취소한다.
+    if (document.querySelectorAll(GLOBAL_CONFIG.GROUP_ELEMENT).length !== 0)
+      return false;
 
     if (data == null) {
       return false;
