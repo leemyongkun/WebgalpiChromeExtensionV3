@@ -403,6 +403,7 @@ export default {
             depth,
             type,
             flag,
+            true AS isShow,
             mouseOver,
             dropOver,
             class,

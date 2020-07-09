@@ -1,5 +1,11 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
+    <v-text-field
+      v-model="keyword"
+      @keyup="search"
+      dense
+      placeholder="SEARCH"
+    ></v-text-field>
     <div v-for="(item, i) in category" :key="i">
       <!--:value="false"-->
       <v-list-group
@@ -42,9 +48,9 @@
               :class="subItem.class"
             >
               <!--  <v-list-item-icon style="margin-right: 2px;">
-                                                                          <v-icon size="15px" color="green" left>mdi-folder-outline
-                                                                          </v-icon>
-                                                                      </v-list-item-icon>-->
+                                                                                        <v-icon size="15px" color="green" left>mdi-folder-outline
+                                                                                        </v-icon>
+                                                                                    </v-list-item-icon>-->
 
               <v-list-item-content :id="subItem.id">
                 <v-list-item-title
@@ -84,14 +90,26 @@ import EventBus from "../../event-bus";
 export default {
   components: {},
   data: () => ({
+    keyword: "",
     timeoutRet: null,
     noChild: false,
     dragOverValue: -1, //아이템 Drag 했을 시, 상위 카테고리가 열리도록 하기 위한 변수.
     category: [],
+    originalCategory: [],
     overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;" //드래드 시 오버 대상에 마우스 over 했을때 스타일
   }),
   created() {},
   methods: {
+    search() {
+      console.log("this.originalCategory ", this.category);
+      /*let test = [];
+                this.test = this.originalCategory.filter(item => {
+                    if (item.name.indexOf(this.keyword) !== -1) {
+                        return item;
+                    }
+                })
+*/
+    },
     dragOverInParentCategory(item) {
       this.dragOverValue = item.id;
       if (item.children === undefined) {
@@ -113,6 +131,7 @@ export default {
       }).then(category => {
         this.category = [];
         if (category.length !== 0) {
+          Object.assign(this.originalCategory, category);
           this.category = Utils.generateTree(category, 0);
         }
       });

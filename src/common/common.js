@@ -44,16 +44,6 @@ Date.prototype.format = function(f) {
   });
 };
 
-let colorMap = new Object();
-(function() {
-  colorMap["highlight-color-1"] = "#a1887f";
-  colorMap["highlight-color-2"] = "#CDDC39";
-  colorMap["highlight-color-3"] = "#4CAF50";
-  colorMap["highlight-color-4"] = "#8cf980";
-  colorMap["highlight-color-5"] = "#FBC02D";
-  colorMap["highlight-color-6"] = "#B2EBF2";
-})();
-
 String.prototype.string = function(len) {
   var s = "",
     i = 0;
@@ -123,9 +113,6 @@ let Common = {
   },
   getConvertDate: date => {
     return new Date(date).format("yyyy년 MM월 dd일 a/p hh시 mm분 ss초");
-  },
-  getColor: color => {
-    return colorMap[color];
   },
   getConvertColor: color => {
     switch (color) {
