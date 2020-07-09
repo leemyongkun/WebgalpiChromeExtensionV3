@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                                                                                      <v-col cols="12">
-                                                                                        <iframe
-                                                                                          id="ytplayer"
-                                                                                          type="text/html"
-                                                                                          width="640"
-                                                                                          height="360"
-                                                                                          :src="youtubeVideoId + '?autoplay=0'"
-                                                                                          frameborder="0"
-                                                                                        ></iframe>
-                                                                                      </v-col>
-                                                                                    </v-row>-->
+                                                                                            <v-col cols="12">
+                                                                                              <iframe
+                                                                                                id="ytplayer"
+                                                                                                type="text/html"
+                                                                                                width="640"
+                                                                                                height="360"
+                                                                                                :src="youtubeVideoId + '?autoplay=0'"
+                                                                                                frameborder="0"
+                                                                                              ></iframe>
+                                                                                            </v-col>
+                                                                                          </v-row>-->
       <v-row
         :style="reviewAreaHeightStyle"
         class="overflow-y-auto custom-scroll"
@@ -128,12 +128,16 @@ export default {
       return Common.getConvertDate(this.currentSite.DATE_CREATE);
     }
   },
-  created() {},
-  mounted() {
-    this.$nextTick(() => {
-      Common.unwrapTags(document, "code");
-    });
+  watch: {
+    previewContent() {
+      console.log("######## previewContent");
+      setTimeout(() => {
+        Common.unwrapTags(document, "code");
+      }, 500);
+    }
   },
+  created() {},
+  mounted() {},
   methods: {
     print() {},
     goSourceSite() {
@@ -224,12 +228,12 @@ img {
   word-break: break-all;
 }
 
-code {
-  background-color: transparent !important;
-  box-shadow: none !important;
-}
-code::after,
-code::before {
-  content: "" !important;
-}
+/*code {
+      background-color: transparent !important;
+      box-shadow: none !important;
+    }
+    code::after,
+    code::before {
+      content: "" !important;
+    }*/
 </style>
