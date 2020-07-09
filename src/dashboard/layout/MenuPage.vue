@@ -3,9 +3,9 @@
     <UpdateCategoryDialog ref="updateCategoryDialog"></UpdateCategoryDialog>
 
     <!--<SettingsManagerDialog
-                  :dialog="settingDialog"
-                  @closeDialog="switchDialogSetting"
-                ></SettingsManagerDialog>-->
+                          :dialog="settingDialog"
+                          @closeDialog="switchDialogSetting"
+                        ></SettingsManagerDialog>-->
 
     <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>
@@ -13,29 +13,93 @@
           <v-col style="padding-bottom:0px; padding-top:0px;">
             <v-expansion-panels focusable multiple v-model="panel">
               <v-expansion-panel>
-                <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-tooltip v-model="categoryBtnTooltip" color="blue" right>
-                    <template v-slot:activator="{ on }">
-                      <v-btn
-                        v-on="on"
-                        block
-                        small
-                        @click="editCategory(null, $event, false, 'insert')"
-                        style="margin-top: 10px;"
-                      >
-                        <v-icon left>mdi-folder-plus</v-icon>
-                        CATEGORY
-                      </v-btn>
-                    </template>
-                    <span>
-                      <b
-                        >새로운 카테고리를 생성하여,<br />컨텐츠를 분류
-                        해보세요.
-                      </b>
-                    </span>
-                  </v-tooltip>
+                <!-- <v-expansion-panel-header>CATEGORY</v-expansion-panel-header>-->
 
+                <v-row>
+                  <v-col cols="auto"></v-col>
+                  <v-col cols="auto">
+                    <!-- ######## 카테고리 추가 ########-->
+                    <v-tooltip
+                      v-model="categoryBtnTooltip.plus"
+                      color="blue"
+                      top
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-icon
+                          left
+                          v-on="on"
+                          @click="editCategory(null, $event, false, 'insert')"
+                          color="success"
+                          >mdi-folder-plus-outline
+                        </v-icon>
+                      </template>
+                      <span>
+                        <b
+                          >새로운 카테고리를 생성하여,<br />컨텐츠를
+                          분류해보세요.
+                        </b>
+                      </span>
+                    </v-tooltip>
+
+                    <!-- ######## 카테고리 검색 ########-->
+                    <v-tooltip
+                      v-model="categoryBtnTooltip.search"
+                      color="blue"
+                      top
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-icon
+                          left
+                          v-on="on"
+                          @click="isShowSearchFieldToggle"
+                          color="info"
+                          >mdi-folder-search-outline
+                        </v-icon>
+                      </template>
+                      <span>
+                        <b
+                          >카테고리가 많으신가요?<br />검색을 통해 빠르게
+                          찾아보세요.
+                        </b>
+                      </span>
+                    </v-tooltip>
+
+                    <!-- ######## 카테고리 정렬 ########-->
+                    <v-tooltip
+                      v-model="categoryBtnTooltip.sort"
+                      color="blue"
+                      top
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-icon
+                          left
+                          v-on="on"
+                          @click="sortCategory"
+                          color="grey"
+                          disabled
+                          >mdi-folder-download-outline
+                        </v-icon>
+                      </template>
+                      <span>
+                        <b>카테고리를 원하는 순서로 변경할 수 있습니다.</b>
+                      </span>
+                    </v-tooltip>
+
+                    <!-- 카테고리 검색 영역 -->
+                    <v-text-field
+                      ref="categorySearchField"
+                      v-show="isShowSearchField"
+                      v-model="keyword"
+                      @keyup="searchCategory"
+                      @click:clear="searchClear"
+                      dense
+                      clearable
+                      placeholder="카테고리 검색"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-divider />
+                <v-expansion-panel-content>
                   <v-list>
                     <!-- SYSTEM CATEGORY : START -->
                     <SystemCategoryComponent ref="systemCategoryComponent" />
@@ -55,8 +119,8 @@
       </v-list>
 
       <!--<template v-slot:append>
-        <OptionComponent></OptionComponent>
-      </template>-->
+                    <OptionComponent></OptionComponent>
+                  </template>-->
     </v-navigation-drawer>
 
     <v-snackbar
@@ -92,7 +156,12 @@ export default {
     LostCategoryComponent
   },
   data: () => ({
-    categoryBtnTooltip: false,
+    categoryBtnTooltip: {
+      plus: false,
+      search: false,
+      sort: false
+    },
+    isShowSearchField: false,
     panel: [0], //accordian 의 오픈 index
     snackbarTimeout: 3000, //스낵바 유지시간
     snackbarMessage: "", //스낵바 기본 메시지
@@ -100,7 +169,8 @@ export default {
     categoryDialog: false, //카테고리 다이얼로그 open / close 여부
     settingDialog: false, //Setting 다이얼로그 open / close 여부
     drawer: true, //왼쪽 메뉴 open / close 여부
-    selectedParentCategoryId: 0 //선택된 Parent Category Id를 임시 저장해둔다.
+    selectedParentCategoryId: 0, //선택된 Parent Category Id를 임시 저장해둔다.
+    keyword: "" //검색키워드
   }),
   created() {
     this.$nextTick(() => {
@@ -133,6 +203,23 @@ export default {
     });
   },
   methods: {
+    isShowSearchFieldToggle() {
+      this.isShowSearchField = !this.isShowSearchField;
+      setTimeout(() => {
+        this.$refs.categorySearchField.focus();
+        this.searchClear();
+      }, 100);
+    },
+    searchCategory() {
+      this.$refs.categoryComponent.search(this.keyword);
+    },
+    searchClear() {
+      this.keyword = "";
+      this.$refs.categoryComponent.search(this.keyword);
+    },
+    sortCategory() {
+      EventBus.$emit("open.snack", "준비중입니다.");
+    },
     getReloadCategory() {
       //카테고리를 가져온다.
       this.$refs.systemCategoryComponent.getSystemCategory();
