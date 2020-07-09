@@ -71,6 +71,7 @@ Number.prototype.zf = function(len) {
 
 let Common = {
   replaceSpecialWord(text) {
+    if (text === null || text === undefined) return text;
     return text.replace(/\'/g, "&#039;").replace(/\"/g, "&quot;");
   },
   unwrapTags: (document, tag) => {

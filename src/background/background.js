@@ -149,6 +149,7 @@ let BackgrounEvent = {
   },
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
+      //console.log("complte에서 loading으로 변경함.. 나중에 수정해야할 수도.. ",info.status);
       if (info.status === "complete") {
         //loading
         //팝업인지 확인.

@@ -3,8 +3,8 @@
     <v-card id="scroll-target" max-width="490" v-if="mainFlag === 1">
       <v-tabs vertical v-model="tab">
         <!--<v-tab>
-                                                    <v-icon>mdi-settings</v-icon>
-                                                </v-tab>-->
+                                                            <v-icon>mdi-settings</v-icon>
+                                                        </v-tab>-->
         <v-tab>
           <v-icon>mdi-web</v-icon>
         </v-tab>
@@ -15,8 +15,8 @@
           <v-icon>mdi-settings</v-icon>
         </v-tab>
         <!-- <v-tab-item class="mx-auto overflow-y-auto" :style="style">
-                                                    <SettingTab></SettingTab>
-                                                </v-tab-item>-->
+                                                            <SettingTab></SettingTab>
+                                                        </v-tab-item>-->
         <v-tab-item class="mx-auto overflow-y-auto" :style="style">
           <SiteInfoTab></SiteInfoTab>
         </v-tab-item>
@@ -69,7 +69,15 @@ export default {
     style: "max-height: 390px; height: 463px; width: 400px;",
     mainFlag: 0 //0: 로딩중 , 1 : 로그인이 되어있을경우 , 2 : 되지 않았을경우
   }),
-  created() {},
+  created() {
+    //지속적으로 로딩되고 있는 상태를 스톱한다.
+    this.$nextTick(() => {
+      chrome.tabs.executeScript(null, {
+        code: "window.stop();",
+        runAt: "document_start"
+      });
+    });
+  },
   methods: {
     goDashboard() {
       Common.goDashboard();
