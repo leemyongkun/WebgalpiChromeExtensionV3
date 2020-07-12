@@ -54,9 +54,52 @@
               </span>
             </v-col>
           </v-row>
+
+          <v-row>
+            <v-col cols="6">
+              <v-list nav dense>
+                <v-subheader>DEPTH-1 (PARENT)</v-subheader>
+                <v-list-item-group color="primary">
+                  <v-list-item
+                    v-for="(rootCategory, i) in category"
+                    :key="i"
+                    @click="selectRootCategory(rootCategory)"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-text="rootCategory.name"
+                      ></v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </v-col>
+            <v-col cols="6">
+              <v-list nav dense>
+                <v-subheader>DEPTH-2 (CHILDREN)</v-subheader>
+                <v-list-item-group color="primary">
+                  <span style="color:red;" v-if="childrenCategory.length === 0"
+                    >상위 카테고리를 선택하지 않았거나, 하위 카테고리가 존재하지
+                    않습니다.</span
+                  >
+                  <v-list-item
+                    v-for="(children, i) in childrenCategory"
+                    :key="i"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-text="children.name"
+                      ></v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </v-col>
+          </v-row>
         </v-container>
         <small></small>
       </v-card-text>
+
       <v-card-actions>
         <v-btn
           color="red darken-1"
@@ -107,6 +150,7 @@ export default {
     categoryName: "",
     categoryId: "",
     category: [],
+    childrenCategory: [],
     categoryStatus: "",
     categoryType: "CUSTOM",
     useCategory: true //category가 없을때 ROOT로 지정하지않았을 경우, 에러발생이므로 이를 강제로 막아준다.
@@ -114,6 +158,15 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    selectRootCategory(rootCategory) {
+      console.log("rootCategory ", rootCategory);
+      this.categoryParent = rootCategory.id;
+      if (rootCategory.children === undefined) {
+        this.childrenCategory = [];
+      } else {
+        this.childrenCategory = rootCategory.children;
+      }
+    },
     categoryNameKeyUpEvent(event) {
       //string length byte : https://stove99.tistory.com/83
       if (this.categoryStatus === "insert") this.insertCategory();
@@ -188,6 +241,7 @@ export default {
           this.$refs.categoryNameArea.focus();
         }, 100);
       });
+
       this.dialog = true;
     },
     checkRootChange() {
@@ -207,15 +261,15 @@ export default {
       if (result.value === undefined) return false;
 
       /*
-                                                                  root의경우 :
-                                                                  1. 하위 카테고리의 연결을 제거한다.
-                                                                  2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
-                                                                  3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
+                                                                            root의경우 :
+                                                                            1. 하위 카테고리의 연결을 제거한다.
+                                                                            2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
+                                                                            3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
 
-                                                                  child의 경우 :
-                                                                  1. root와의 연결을 끊는다.
-                                                                  2. Contents들은 NO_CATEGORY 상태로 변경한다.
-                                                                   */
+                                                                            child의 경우 :
+                                                                            1. root와의 연결을 끊는다.
+                                                                            2. Contents들은 NO_CATEGORY 상태로 변경한다.
+                                                                             */
 
       let param = new Object();
       if (this.currentCategoryInfo.parent === 0) {
