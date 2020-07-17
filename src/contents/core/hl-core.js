@@ -2,36 +2,6 @@ import { GLOBAL_CONFIG } from "../global/config.js";
 
 let $ = require("jquery");
 
-let colorMap = new Object();
-(function() {
-  colorMap["highlight-color-1"] =
-    "background: #e35a69 !important;display: inline !important;";
-  colorMap["highlight-color-2"] =
-    "background: #f7b900 !important;display: inline !important;";
-  colorMap["highlight-color-3"] =
-    "background: #2da64e !important;display: inline !important;";
-  colorMap["highlight-color-4"] =
-    "background: #d9c3ff !important;display: inline !important;";
-  colorMap["highlight-color-5"] =
-    "background: #97c2dd !important;display: inline !important;";
-  colorMap["highlight-color-6"] =
-    "background: #ef9a9a !important;display: inline !important;";
-  colorMap["highlight-color-7"] =
-    "background: #90a4ae !important;display: inline !important;";
-  colorMap["highlight-color-8"] =
-    "background: #333333 !important;display: inline !important;";
-  colorMap["highlight-color-9"] =
-    "background: #ffb540 !important;display: inline !important;";
-  colorMap["highlight-color-10"] =
-    "background: #B2EBF2 !important;display: inline !important;";
-  colorMap["highlight-color-11"] =
-    "background: #c0b6a7 !important;display: inline !important;";
-})();
-
-function getColor(colorClass) {
-  return colorMap[colorClass];
-}
-
 let hlText = "";
 let HIGHLIGT_CORE = {
   execute: (
@@ -246,7 +216,7 @@ let HIGHLIGT_CORE = {
 
     // 하이라이트를 생성한다.
     let highlight = document.createElement(highlightTag);
-    highlight.classList.add(highlightClass.split(" ")[0]);
+    highlight.classList.add(highlightClass.split(" ")[0]); //컬러
 
     // memo가 있는 경우
     // highlight.classList.add('wf-memo');

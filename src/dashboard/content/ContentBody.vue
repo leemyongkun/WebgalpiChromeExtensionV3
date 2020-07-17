@@ -410,9 +410,27 @@ export default {
     }
   }
 };
+/*
+
+    #EFEDE1
+    #F8DFD8
+    #F2D9BA
+    #FDECA7
+    #D3ECC5
+    #D7EBDF
+    #C7E7E6
+    #CCDFE6
+    #C7D0ED
+    #D8CCDA
+    #F2D3D9
+
+
+     */
 </script>
 
 <style>
+@import "../../css/hl.css";
+
 .v-card--reveal {
   /*align-items: left;
                                                                                                                                                                                                                                                                                                                                             justify-content: center;*/
@@ -426,73 +444,5 @@ export default {
 
 .border {
   border: 2px dashed orange;
-}
-
-.highlight-color-1 {
-  background: #e35a69 !important;
-  display: inline !important;
-  cursor: pointer;
-}
-
-.highlight-color-2 {
-  background: #f7b900 !important;
-  display: inline !important;
-  cursor: pointer;
-}
-
-.highlight-color-3 {
-  background: #2da64e !important;
-  display: inline !important;
-  cursor: pointer;
-}
-
-.highlight-color-4 {
-  background: #d9c3ff !important;
-  color: #333333 !important;
-  display: inline !important;
-  cursor: pointer;
-}
-
-.highlight-color-5 {
-  background: #97c2dd !important;
-  display: inline !important;
-  cursor: pointer;
-}
-
-.highlight-color-6 {
-  background: #ef9a9a !important;
-  display: inline !important;
-  cursor: pointer;
-}
-
-.highlight-color-7 {
-  background: #90a4ae !important;
-  display: inline !important;
-  cursor: pointer;
-}
-
-.highlight-color-8 {
-  background: #cddc39 !important;
-  color: #333333 !important;
-  display: inline !important;
-  cursor: pointer;
-}
-
-.highlight-color-9 {
-  background: #ffb540 !important;
-  display: inline !important;
-  cursor: pointer;
-}
-
-.highlight-color-10 {
-  background: #b2ebf2 !important;
-  display: inline !important;
-  cursor: pointer;
-}
-
-.highlight-color-11 {
-  background: #c0b6a7 !important;
-  display: inline !important;
-  cursor: pointer;
 }
 </style>
