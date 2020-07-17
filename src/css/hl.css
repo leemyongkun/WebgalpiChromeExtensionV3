@@ -119,7 +119,8 @@
 }
 
 .default-color {
-  background-color: transparent;
+  /*background-color: transparent;*/
+  background-color: white;
   display: inline-block !important;
   cursor: pointer !important;
   width: 20px !important;
@@ -127,7 +128,6 @@
   position: absolute !important;
   left: 0px !important;
   top: 0px !important;
-  opacity: 1 !important;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
   background-size: cover !important;
   border-width: initial !important;
