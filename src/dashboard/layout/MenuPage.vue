@@ -42,7 +42,7 @@
                     </v-tooltip>
 
                     <!-- ######## 카테고리 검색 ########-->
-                    <v-tooltip
+                    <!-- <v-tooltip
                       v-model="categoryBtnTooltip.search"
                       color="blue"
                       top
@@ -62,7 +62,7 @@
                           찾아보세요.
                         </b>
                       </span>
-                    </v-tooltip>
+                    </v-tooltip>-->
 
                     <!-- ######## 카테고리 정렬 ########-->
                     <v-tooltip
@@ -95,6 +95,8 @@
                       dense
                       clearable
                       placeholder="카테고리 검색"
+                      prepend-inner-icon="mdi-magnify"
+                      style="width: 90%"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -161,7 +163,7 @@ export default {
       search: false,
       sort: false
     },
-    isShowSearchField: false,
+    isShowSearchField: true,
     panel: [0], //accordian 의 오픈 index
     snackbarTimeout: 3000, //스낵바 유지시간
     snackbarMessage: "", //스낵바 기본 메시지
@@ -203,13 +205,13 @@ export default {
     });
   },
   methods: {
-    isShowSearchFieldToggle() {
+    /*isShowSearchFieldToggle() {
       this.isShowSearchField = !this.isShowSearchField;
       setTimeout(() => {
         this.$refs.categorySearchField.focus();
         this.searchClear();
       }, 100);
-    },
+    },*/
     searchCategory() {
       this.$refs.categoryComponent.search(this.keyword);
     },

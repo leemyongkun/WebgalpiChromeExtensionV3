@@ -59,18 +59,45 @@
             <v-col cols="6">
               <v-list nav dense>
                 <v-subheader>DEPTH-1 (PARENT)</v-subheader>
+
                 <v-list-item-group color="primary">
-                  <v-list-item
-                    v-for="(rootCategory, i) in category"
-                    :key="i"
-                    @click="selectRootCategory(rootCategory)"
+                  <draggable
+                    v-model="category"
+                    :options="{
+                      group: { name: 'parentCategory', pull: true },
+                      animation: 250
+                    }"
+                    class="sortable-list"
+                    @end="endDragParent"
                   >
-                    <v-list-item-content>
-                      <v-list-item-title
-                        v-text="rootCategory.name"
-                      ></v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
+                    <v-list-item
+                      v-for="(rootCategory, i) in category"
+                      :key="i"
+                      @click="selectRootCategory(rootCategory)"
+                    >
+                      <drop @drop="categoryDropEvent">
+                        <drag>
+                          <div slot="image" class="drag-image">
+                            <v-chip
+                              class="ma-2"
+                              color="blue"
+                              text-color="white"
+                            >
+                              {{ rootCategory.name }}
+                              <v-icon right>mdi-star</v-icon>
+                            </v-chip>
+                          </div>
+
+                          <v-list-item-content>
+                            <v-list-item-title
+                              class="updateCategoryName"
+                              v-text="rootCategory.name"
+                            ></v-list-item-title>
+                          </v-list-item-content>
+                        </drag>
+                      </drop>
+                    </v-list-item>
+                  </draggable>
                 </v-list-item-group>
               </v-list>
             </v-col>
@@ -82,16 +109,37 @@
                     >상위 카테고리를 선택하지 않았거나, 하위 카테고리가 존재하지
                     않습니다.</span
                   >
-                  <v-list-item
-                    v-for="(children, i) in childrenCategory"
-                    :key="i"
+                  <draggable
+                    v-model="childrenCategory"
+                    :options="{
+                      group: { name: 'childrenCategory', pull: true },
+                      animation: 250
+                    }"
+                    class="sortable-list"
+                    @end="endDragChildren"
                   >
-                    <v-list-item-content>
-                      <v-list-item-title
-                        v-text="children.name"
-                      ></v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
+                    <v-list-item
+                      v-for="(children, i) in childrenCategory"
+                      :key="i"
+                    >
+                      <drag :transfer-data="children">
+                        <!-- DRAG 시 보이는 영역-->
+                        <div slot="image" class="drag-image">
+                          <v-chip class="ma-2" color="blue" text-color="white">
+                            {{ children.name }}
+                            <v-icon right>mdi-star</v-icon>
+                          </v-chip>
+                        </div>
+
+                        <v-list-item-content>
+                          <v-list-item-title
+                            class="updateCategoryName"
+                            v-text="children.name"
+                          ></v-list-item-title>
+                        </v-list-item-content>
+                      </drag>
+                    </v-list-item>
+                  </draggable>
                 </v-list-item-group>
               </v-list>
             </v-col>
@@ -136,9 +184,10 @@ import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import Utils from "../../utils/Utils";
 import MODAL from "../../../common/modal";
+import draggable from "vuedraggable";
 
 export default {
-  components: {},
+  components: { draggable },
   props: [],
   data: () => ({
     autofocus: true,
@@ -158,6 +207,23 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    categoryDropEvent(data, event) {
+      if (data !== undefined) {
+        console.log("data ", data);
+      }
+    },
+    endDragParent(evt) {
+      console.log("endDragParent ", evt);
+      /*this.category.map(c => {
+                    console.log("c.name ", c.id, c.name);
+                })*/
+    },
+    endDragChildren(evt) {
+      console.log("endDragChildren ", evt);
+      /*this.childrenCategory.map(c => {
+                    console.log("c.name ", c.id, c.name);
+                })*/
+    },
     selectRootCategory(rootCategory) {
       console.log("rootCategory ", rootCategory);
       this.categoryParent = rootCategory.id;
@@ -261,15 +327,15 @@ export default {
       if (result.value === undefined) return false;
 
       /*
-                                                                            root의경우 :
-                                                                            1. 하위 카테고리의 연결을 제거한다.
-                                                                            2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
-                                                                            3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
+                                                                                      root의경우 :
+                                                                                      1. 하위 카테고리의 연결을 제거한다.
+                                                                                      2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
+                                                                                      3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
 
-                                                                            child의 경우 :
-                                                                            1. root와의 연결을 끊는다.
-                                                                            2. Contents들은 NO_CATEGORY 상태로 변경한다.
-                                                                             */
+                                                                                      child의 경우 :
+                                                                                      1. root와의 연결을 끊는다.
+                                                                                      2. Contents들은 NO_CATEGORY 상태로 변경한다.
+                                                                                       */
 
       let param = new Object();
       if (this.currentCategoryInfo.parent === 0) {
@@ -370,3 +436,33 @@ export default {
   }
 };
 </script>
+<style>
+.sortable-list {
+  background-color: $ border-color;
+  padding: 0.1px 0;
+  display: block;
+}
+
+.sortable {
+  line-height: $ item-height;
+  margin: 1px;
+  padding: 0 1em;
+  background-color: white;
+  cursor: move;
+  list-style: none;
+}
+
+.sortable-ghost {
+  opacity: 0.2;
+}
+
+.parent {
+  padding-bottom: 1em;
+}
+
+.updateCategoryName {
+  width: 220px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>

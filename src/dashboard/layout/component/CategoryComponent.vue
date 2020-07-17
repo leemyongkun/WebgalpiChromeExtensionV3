@@ -17,7 +17,10 @@
 
         <template v-slot:activator>
           <v-list-item-content>
-            <v-list-item-title v-text="item.name"></v-list-item-title>
+            <v-list-item-title
+              class="categoryName"
+              v-text="item.name"
+            ></v-list-item-title>
           </v-list-item-content>
 
           <v-list-item-icon
@@ -52,6 +55,7 @@
 
               <v-list-item-content :id="subItem.id">
                 <v-list-item-title
+                  class="categoryName"
                   v-html="getItemTitle(subItem.name, subItem.cnt)"
                   :id="subItem.id"
                 ></v-list-item-title>
@@ -224,7 +228,7 @@ export default {
 };
 </script>
 <style>
-.v-list-item__title {
+.categoryName {
   width: 50px;
   text-overflow: ellipsis;
   white-space: nowrap;
