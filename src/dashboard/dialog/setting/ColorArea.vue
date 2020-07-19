@@ -121,11 +121,12 @@ export default {
         return false;
       }
       let result = await Utils.getLocalStorage("loginInfo");
+
       CONTENT_LISTENER.sendMessage({
         type: "update.option.color",
         data: [this.pickColor.join(","), result.loginInfo.EMAIL] //[todo] 2번째 파라메터는 Email 로 한다.
       }).then(response => {
-        EventBus.$emit("open.snack", "COLOR가 저장되었습니다.");
+        EventBus.$emit("open.snack", "COLOR가 저장되었습니다.", "success");
         this.close();
       });
     },

@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                                                                                            <v-col cols="12">
-                                                                                              <iframe
-                                                                                                id="ytplayer"
-                                                                                                type="text/html"
-                                                                                                width="640"
-                                                                                                height="360"
-                                                                                                :src="youtubeVideoId + '?autoplay=0'"
-                                                                                                frameborder="0"
-                                                                                              ></iframe>
-                                                                                            </v-col>
-                                                                                          </v-row>-->
+                                                                                                  <v-col cols="12">
+                                                                                                    <iframe
+                                                                                                      id="ytplayer"
+                                                                                                      type="text/html"
+                                                                                                      width="640"
+                                                                                                      height="360"
+                                                                                                      :src="youtubeVideoId + '?autoplay=0'"
+                                                                                                      frameborder="0"
+                                                                                                    ></iframe>
+                                                                                                  </v-col>
+                                                                                                </v-row>-->
       <v-row
         :style="reviewAreaHeightStyle"
         class="overflow-y-auto custom-scroll"
@@ -102,6 +102,7 @@ import CRAWLER from "../common/cheerio";
 import MODAL from "../../common/modal";
 import CONTENT_LISTENER from "../../common/content-listener";
 import CONTENTS from "../../contents/contents";
+
 let $ = require("jquery");
 
 //https://www.npmjs.com/package/vue-youtube-embed
@@ -133,8 +134,10 @@ export default {
     previewContent() {
       setTimeout(() => {
         Common.unwrapTags(document, "code");
+        //하이라이팅 된 태그에 font color 넣기
+        Common.styleWebgalpiTabFont();
         //todo : 본문 A 태그에 기능삽입
-      }, 500);
+      }, 200);
     }
   },
   created() {},
@@ -230,11 +233,11 @@ img {
 }
 
 /*code {
-      background-color: transparent !important;
-      box-shadow: none !important;
-    }
-    code::after,
-    code::before {
-      content: "" !important;
-    }*/
+          background-color: transparent !important;
+          box-shadow: none !important;
+        }
+        code::after,
+        code::before {
+          content: "" !important;
+        }*/
 </style>

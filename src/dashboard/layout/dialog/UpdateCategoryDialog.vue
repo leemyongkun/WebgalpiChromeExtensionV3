@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px" overlay-opacity="0.9">
+  <v-dialog v-model="dialog" persistent max-width="650px" overlay-opacity="0.9">
     <v-card>
       <v-card-title>
         <span class="headline"
@@ -58,7 +58,57 @@
           <v-row>
             <v-col cols="6">
               <v-list nav dense>
-                <v-subheader>DEPTH-1 (PARENT)</v-subheader>
+                <v-subheader
+                  >상위 카테고리 (PARENT)
+                  <v-spacer />
+
+                  <v-menu
+                    v-model="addMenu.parent"
+                    :close-on-content-click="false"
+                    :nudge-width="200"
+                    offset-x
+                    left
+                    bottom
+                  >
+                    <template v-slot:activator="{ on: menu }">
+                      <v-tooltip
+                        v-model="categoryBtnDesc.parent"
+                        color="blue"
+                        top
+                      >
+                        <template v-slot:activator="{ on: tooltip }">
+                          <v-btn
+                            color="success"
+                            icon
+                            v-on="{ ...menu, ...tooltip }"
+                            @click="openFieldMenu"
+                          >
+                            <v-icon size="18px">mdi-folder-plus-outline</v-icon>
+                          </v-btn>
+                        </template>
+                        <span> 상위 카테고리명을 추가 및 수정합니다.</span>
+                      </v-tooltip>
+                    </template>
+
+                    <v-card>
+                      <v-list class="pt-0 pb-0">
+                        <v-list-item class="pr-0 pl-0">
+                          <v-list-item-content class="pt-0 pb-0">
+                            <v-text-field
+                              ref="parentFieldMenu"
+                              clearable
+                              outlined
+                              placeholder="카테고리명을 입력 후 엔터"
+                              prepend-inner-icon="mdi-folder-plus-outline"
+                              v-model="categoryField.parent"
+                              autofocus
+                            ></v-text-field>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-list>
+                    </v-card>
+                  </v-menu>
+                </v-subheader>
 
                 <v-list-item-group color="primary">
                   <draggable
@@ -71,9 +121,12 @@
                     @end="endDragParent"
                   >
                     <v-list-item
+                      :style="rootCategory.dropOver ? overColor : ''"
                       v-for="(rootCategory, i) in category"
                       :key="i"
                       @click="selectRootCategory(rootCategory)"
+                      @dragover="rootCategory.dropOver = true"
+                      @dragleave="rootCategory.dropOver = false"
                     >
                       <drop @drop="categoryDropEvent">
                         <drag>
@@ -84,7 +137,6 @@
                               text-color="white"
                             >
                               {{ rootCategory.name }}
-                              <v-icon right>mdi-star</v-icon>
                             </v-chip>
                           </div>
 
@@ -103,7 +155,58 @@
             </v-col>
             <v-col cols="6">
               <v-list nav dense>
-                <v-subheader>DEPTH-2 (CHILDREN)</v-subheader>
+                <v-subheader
+                  >하위 카테고리 (CHILDREN)
+                  <v-spacer />
+                  <v-spacer />
+
+                  <v-menu
+                    v-model="addMenu.child"
+                    :close-on-content-click="false"
+                    :nudge-width="200"
+                    offset-x
+                    left
+                    bottom
+                  >
+                    <template v-slot:activator="{ on: menu }">
+                      <v-tooltip
+                        v-model="categoryBtnDesc.child"
+                        color="blue"
+                        top
+                      >
+                        <template v-slot:activator="{ on: tooltip }">
+                          <v-btn
+                            color="success"
+                            icon
+                            v-on="{ ...menu, ...tooltip }"
+                            @click="openFieldMenu"
+                          >
+                            <v-icon size="18px">mdi-folder-plus-outline</v-icon>
+                          </v-btn>
+                        </template>
+                        <span> 하위 카테고리명을 추가 및 수정합니다.</span>
+                      </v-tooltip>
+                    </template>
+
+                    <v-card>
+                      <v-list class="pt-0 pb-0">
+                        <v-list-item class="pr-0 pl-0">
+                          <v-list-item-content class="pt-0 pb-0">
+                            <v-text-field
+                              ref="childFieldMenu"
+                              clearable
+                              outlined
+                              placeholder="카테고리명을 입력 후 엔터"
+                              prepend-inner-icon="mdi-folder-plus-outline"
+                              v-model="categoryField.child"
+                              autofocus
+                            ></v-text-field>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-list>
+                    </v-card>
+                  </v-menu>
+                </v-subheader>
                 <v-list-item-group color="primary">
                   <span style="color:red;" v-if="childrenCategory.length === 0"
                     >상위 카테고리를 선택하지 않았거나, 하위 카테고리가 존재하지
@@ -127,7 +230,7 @@
                         <div slot="image" class="drag-image">
                           <v-chip class="ma-2" color="blue" text-color="white">
                             {{ children.name }}
-                            <v-icon right>mdi-star</v-icon>
+                            <!--<v-icon right>mdi-star</v-icon>-->
                           </v-chip>
                         </div>
 
@@ -190,6 +293,19 @@ export default {
   components: { draggable },
   props: [],
   data: () => ({
+    showParentCategoryField: false,
+    addMenu: {
+      parent: false,
+      child: false
+    },
+    categoryBtnDesc: {
+      parent: false,
+      child: false
+    },
+    categoryField: {
+      parent: null,
+      child: null
+    },
     autofocus: true,
     currentCategoryInfo: new Object(),
     checkRoot: false,
@@ -202,27 +318,39 @@ export default {
     childrenCategory: [],
     categoryStatus: "",
     categoryType: "CUSTOM",
-    useCategory: true //category가 없을때 ROOT로 지정하지않았을 경우, 에러발생이므로 이를 강제로 막아준다.
+    useCategory: true, //category가 없을때 ROOT로 지정하지않았을 경우, 에러발생이므로 이를 강제로 막아준다.
+    overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;" //드래드 시 오버 대상에 마우스 over 했을때 스타일
   }),
   created() {},
   mounted() {},
   methods: {
+    openFieldMenu() {
+      setTimeout(() => {
+        this.$refs.parentFieldMenu.focus();
+        this.$refs.childFieldMenu.focus();
+      }, 100);
+    },
     categoryDropEvent(data, event) {
+      this.category.map(root => {
+        root.dropOver = false;
+      });
+
       if (data !== undefined) {
         console.log("data ", data);
+        return false;
       }
     },
     endDragParent(evt) {
       console.log("endDragParent ", evt);
       /*this.category.map(c => {
-                    console.log("c.name ", c.id, c.name);
-                })*/
+                              console.log("c.name ", c.id, c.name);
+                          })*/
     },
     endDragChildren(evt) {
       console.log("endDragChildren ", evt);
       /*this.childrenCategory.map(c => {
-                    console.log("c.name ", c.id, c.name);
-                })*/
+                              console.log("c.name ", c.id, c.name);
+                          })*/
     },
     selectRootCategory(rootCategory) {
       console.log("rootCategory ", rootCategory);
@@ -327,15 +455,15 @@ export default {
       if (result.value === undefined) return false;
 
       /*
-                                                                                      root의경우 :
-                                                                                      1. 하위 카테고리의 연결을 제거한다.
-                                                                                      2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
-                                                                                      3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
+                                                                                                root의경우 :
+                                                                                                1. 하위 카테고리의 연결을 제거한다.
+                                                                                                2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
+                                                                                                3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
 
-                                                                                      child의 경우 :
-                                                                                      1. root와의 연결을 끊는다.
-                                                                                      2. Contents들은 NO_CATEGORY 상태로 변경한다.
-                                                                                       */
+                                                                                                child의 경우 :
+                                                                                                1. root와의 연결을 끊는다.
+                                                                                                2. Contents들은 NO_CATEGORY 상태로 변경한다.
+                                                                                                 */
 
       let param = new Object();
       if (this.currentCategoryInfo.parent === 0) {

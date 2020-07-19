@@ -68,6 +68,11 @@ let Common = {
     if (text === null || text === undefined) return text;
     return text.replace(/&#039;/g, "'").replace(/&quot;/g, '"');
   },
+  styleWebgalpiTabFont: () => {
+    document.querySelectorAll("webgalpi-tag").forEach(element => {
+      element.style.color = "#42423C";
+    });
+  },
   unwrapTags: (document, tag) => {
     let element = document.getElementsByTagName(tag);
     let elementList = Array.prototype.slice.call(element);
