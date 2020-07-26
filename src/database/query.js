@@ -578,7 +578,7 @@ export default {
             WHERE IDX = ?
                 `;
   },
-  insertCategoryItem: () => {
+  insertCategoryItem: param => {
     return `INSERT
         INTO
         TBL_CATEGORY(
@@ -589,7 +589,15 @@ export default {
             SORT,
             DATE_CREATE,
             TYPE)
-        VALUES(?, ?, ?, ?, ?, ?, 'CUSTOM')
+        VALUES(
+            '${param.EMAIL}', 
+            '${param.CATEGORY_NAME}',
+            ${param.CATEGORY_PARENT}, 
+            ${param.DEPTH}, 
+            ${param.SORT}, 
+            ${param.DATE}, 
+            'CUSTOM'
+            )
             `;
   },
   updateConvertViewmode: () => {

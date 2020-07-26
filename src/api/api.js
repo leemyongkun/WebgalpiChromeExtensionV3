@@ -269,7 +269,7 @@ let Api = {
     return update(Query.updateLostCategoryItem(), param);
   },
   insertCategoryItem: param => {
-    return insert(Query.insertCategoryItem(), param);
+    return insert(Query.insertCategoryItem(param));
   },
   updateCategoryItem: param => {
     if (param.CHECK_ROOT) {

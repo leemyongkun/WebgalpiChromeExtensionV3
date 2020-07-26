@@ -9,54 +9,6 @@
       <v-card-text>
         <v-container>
           <v-row>
-            <v-col cols="auto" style="padding-left: 0px;">
-              <v-checkbox
-                v-model="checkRoot"
-                label="Depth-1"
-                :disabled="categoryType === 'SYSTEM' || useCategory === false"
-                @change="checkRootChange"
-                required
-              ></v-checkbox>
-            </v-col>
-            <v-col cols="auto">
-              <v-autocomplete
-                label="Depth-1"
-                :items="category"
-                item-value="id"
-                item-text="name"
-                v-model="categoryParent"
-                :disabled="autocompleteDisabled"
-              ></v-autocomplete>
-            </v-col>
-            <v-col cols="auto">
-              <v-text-field
-                label="카테고리 이름"
-                :value="categoryId"
-                v-model="categoryName"
-                @keyup.enter="categoryNameKeyUpEvent"
-                required
-                ref="categoryNameArea"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-
-          <v-row>
-            <v-col>
-              <span
-                >※ <u><b>Depth-1</b></u
-                >로 생성된 카테고리는, 컨텐츠를 담을 수 없습니다.</span
-              ><br />
-              <span
-                >※ 컨텐츠는 <u><b>Depth-2</b></u> 카테고리부터 담을 수 있으며,
-                Drag&Drop으로 가능합니다.</span
-              ><br />
-              <span v-show="categoryType === 'SYSTEM'"
-                >※ SYSTEM 카테고리는 이름만 수정 가능합니다.
-              </span>
-            </v-col>
-          </v-row>
-
-          <v-row>
             <v-col cols="6">
               <v-list nav dense>
                 <v-subheader
@@ -82,7 +34,7 @@
                             color="success"
                             icon
                             v-on="{ ...menu, ...tooltip }"
-                            @click="openFieldMenu"
+                            @click="openFieldMenu('parent')"
                           >
                             <v-icon size="18px">mdi-folder-plus-outline</v-icon>
                           </v-btn>
@@ -101,7 +53,8 @@
                               outlined
                               placeholder="카테고리명을 입력 후 엔터"
                               prepend-inner-icon="mdi-folder-plus-outline"
-                              v-model="categoryField.parent"
+                              v-model="categoryName.parent"
+                              @keyup.enter="insertCategory('parent')"
                               autofocus
                             ></v-text-field>
                           </v-list-item-content>
@@ -115,7 +68,7 @@
                 <v-list-item-group color="primary">
                   <!-- 정렬을 위한 Drag-->
                   <draggable
-                    v-model="category"
+                    v-model="categoryData.parent"
                     :options="{
                       group: { name: 'parentCategory', pull: true },
                       animation: 250
@@ -125,11 +78,13 @@
                   >
                     <v-list-item
                       :style="rootCategoryDropOverStyle(rootCategory)"
-                      v-for="(rootCategory, i) in category"
+                      v-for="(rootCategory, i) in categoryData.parent"
                       :key="i"
                       @click="selectRootCategory(rootCategory)"
                       @dragover="rootCategory.dropOver = true"
                       @dragleave="rootCategory.dropOver = false"
+                      @mouseover="rootCategory.mouseOver = true"
+                      @mouseleave="rootCategory.mouseOver = false"
                     >
                       <!-- 자식카테고리에서 부모카테고리로 Drag&Drop할때 이벤트-->
                       <drop @drop="categoryDropEvent">
@@ -147,17 +102,54 @@
 
                           <v-list-item-content :id="rootCategory.id">
                             <v-list-item-title
+                              v-if="rootCategory.isShow === 'y'"
                               class="updateCategoryName"
                               v-text="rootCategory.name"
                             ></v-list-item-title>
+
+                            <v-text-field
+                              v-if="rootCategory.isShow === 'n'"
+                              class="pt-0 mt-0"
+                              style="width: 220px"
+                              append-icon="mdi-close-circle"
+                              v-model="rootCategory.name"
+                              append-outer-icon="mdi-check"
+                              @click:append="cancelCategoryName(rootCategory)"
+                              @click:append-outer="
+                                updateCategoryName(rootCategory)
+                              "
+                              @keyup.enter="updateCategoryName(rootCategory)"
+                              :value="rootCategory.name"
+                            ></v-text-field>
                           </v-list-item-content>
                         </drag>
                       </drop>
+                      <v-list-item-icon
+                        v-show="rootCategory.mouseOver"
+                        v-if="rootCategory.isShow === 'y'"
+                      >
+                        <v-icon
+                          dense
+                          size="18px"
+                          right
+                          color="success"
+                          @click="
+                            editCategoryName($event, rootCategory, 'parent')
+                          "
+                        >
+                          mdi-pencil
+                        </v-icon>
+                        <v-icon dense size="18px" right color="error"
+                          >mdi-trash-can-outline
+                        </v-icon>
+                      </v-list-item-icon>
                     </v-list-item>
                   </draggable>
                 </v-list-item-group>
               </v-list>
             </v-col>
+
+            <!----------------------########## 하위 카테고리 영역 ############# ------------------------------->
             <v-col cols="6">
               <v-list nav dense>
                 <v-subheader
@@ -184,7 +176,7 @@
                             color="success"
                             icon
                             v-on="{ ...menu, ...tooltip }"
-                            @click="openFieldMenu"
+                            @click="openFieldMenu('children')"
                           >
                             <v-icon size="18px">mdi-folder-plus-outline</v-icon>
                           </v-btn>
@@ -203,7 +195,8 @@
                               outlined
                               placeholder="카테고리명을 입력 후 엔터"
                               prepend-inner-icon="mdi-folder-plus-outline"
-                              v-model="categoryField.child"
+                              v-model="categoryName.children"
+                              @keyup.enter="insertCategory('children')"
                               autofocus
                             ></v-text-field>
                           </v-list-item-content>
@@ -213,12 +206,14 @@
                   </v-menu>
                 </v-subheader>
                 <v-list-item-group color="primary">
-                  <span style="color:red;" v-if="childrenCategory.length === 0"
+                  <span
+                    style="color:red;"
+                    v-if="categoryData.children.length === 0"
                     >상위 카테고리를 선택하지 않았거나, 하위 카테고리가 존재하지
                     않습니다.</span
                   >
                   <draggable
-                    v-model="childrenCategory"
+                    v-model="categoryData.children"
                     :options="{
                       group: { name: 'childrenCategory', pull: true },
                       animation: 250
@@ -227,8 +222,10 @@
                     @end="endDragChildren"
                   >
                     <v-list-item
-                      v-for="(children, i) in childrenCategory"
+                      v-for="(children, i) in categoryData.children"
                       :key="i"
+                      @mouseover="children.mouseOver = true"
+                      @mouseleave="children.mouseOver = false"
                     >
                       <drag :transfer-data="children">
                         <!-- DRAG 시 보이는 영역-->
@@ -241,11 +238,45 @@
 
                         <v-list-item-content>
                           <v-list-item-title
+                            v-if="children.isShow === 'y'"
                             class="updateCategoryName"
                             v-text="children.name"
                           ></v-list-item-title>
+
+                          <v-text-field
+                            v-if="children.isShow === 'n'"
+                            class="pt-0 mt-0"
+                            style="width: 220px"
+                            append-icon="mdi-close-circle"
+                            v-model="children.name"
+                            append-outer-icon="mdi-check"
+                            @click:append="cancelCategoryName(children)"
+                            @click:append-outer="updateCategoryName(children)"
+                            @keyup.enter="updateCategoryName(children)"
+                            :value="children.name"
+                          ></v-text-field>
                         </v-list-item-content>
                       </drag>
+
+                      <v-list-item-icon
+                        v-show="children.mouseOver"
+                        v-if="children.isShow === 'y'"
+                      >
+                        <v-icon
+                          dense
+                          size="18px"
+                          right
+                          color="success"
+                          @click="
+                            editCategoryName($event, children, 'children')
+                          "
+                        >
+                          mdi-pencil
+                        </v-icon>
+                        <v-icon dense size="18px" right color="error"
+                          >mdi-trash-can-outline
+                        </v-icon>
+                      </v-list-item-icon>
                     </v-list-item>
                   </draggable>
                 </v-list-item-group>
@@ -257,32 +288,8 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn
-          color="red darken-1"
-          text
-          @click="deleteCategory"
-          v-if="categoryStatus === 'update' && categoryType !== 'SYSTEM'"
-          >DELETE
-        </v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">CANCEL</v-btn>
-        <v-btn
-          color="green darken-1"
-          text
-          @click="updateCategory"
-          v-if="categoryStatus === 'update'"
-        >
-          <span>UPDATE</span>
-        </v-btn>
-
-        <v-btn
-          color="green darken-1"
-          text
-          @click="insertCategory"
-          v-if="categoryStatus === 'insert'"
-        >
-          <span>CREATE</span>
-        </v-btn>
+        <v-btn color="success" text @click="close">DONE</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -307,29 +314,83 @@ export default {
       parent: false,
       child: false
     },
-    categoryField: {
-      parent: null,
-      child: null
+
+    categoryData: {
+      parent: [],
+      children: []
     },
+    categoryName: {
+      parent: "",
+      children: ""
+    },
+    copyCategory: new Object(),
     autofocus: true,
     currentCategoryInfo: new Object(),
     checkRoot: false,
     autocompleteDisabled: false,
     dialog: false,
-    categoryParent: "",
-    categoryName: "",
-    categoryId: "",
-    category: [],
-    childrenCategory: [],
-    categoryStatus: "",
+    selectedCategoryParent: null,
+    categoryStatus: "", //insert / update/ delete 버튼 체크
     mouseOverRootCategoryId: 0,
-    categoryType: "CUSTOM",
-    useCategory: true, //category가 없을때 ROOT로 지정하지않았을 경우, 에러발생이므로 이를 강제로 막아준다.
     overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;" //드래드 시 오버 대상에 마우스 over 했을때 스타일
   }),
-  created() {},
+  created() {
+    this.$nextTick(() => {
+      this.initCategory();
+    });
+  },
   mounted() {},
   methods: {
+    cancelCategoryName(category) {
+      this.categoryData.parent.map(item => {
+        item.isShow = "y";
+      });
+      this.categoryData.children.map(item => {
+        item.isShow = "y";
+      });
+
+      if (category !== undefined) {
+        category.name = this.copyCategory.name;
+        this.copyCategory = new Object();
+      }
+    },
+    updateCategoryName(category) {
+      let object = new Object();
+      object.CATEGORY_NAME = category.name;
+      object.CATEGORY_PARENT = category.parent;
+      object.CATEGORY_ID = category.id;
+      if (category.parent === 0) {
+        object.CHECK_ROOT = true;
+      } else {
+        object.CHECK_ROOT = false;
+      }
+
+      object.CATEGORY_TYPE = "CUSTOM";
+      this.updateCategory(object);
+    },
+    editCategoryName(event, item, flag) {
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      this.cancelCategoryName();
+
+      item.isShow = "n";
+      Object.assign(this.copyCategory, item);
+
+      console.log("event ", event);
+      console.log("item ", item);
+      console.log("flag ", flag);
+    },
+    async initCategory() {
+      let result = await Utils.getLocalStorage("loginInfo");
+      CONTENT_LISTENER.sendMessage({
+        type: "get.category",
+        data: [result.loginInfo.EMAIL]
+      }).then(category => {
+        this.categoryData.parent = Utils.generateTree(category, 0);
+        this.categoryData.children = [];
+      });
+    },
     rootCategoryDropOverStyle(rootCategory) {
       if (rootCategory.dropOver) {
         this.mouseOverRootCategoryId = rootCategory.id;
@@ -339,14 +400,21 @@ export default {
       }
       //return rootCategory.dropOver ? this.overColor : ''
     },
-    openFieldMenu() {
+    openFieldMenu(flag) {
       setTimeout(() => {
-        this.$refs.parentFieldMenu.focus();
-        this.$refs.childFieldMenu.focus();
+        if (flag === "parent") {
+          this.$refs.parentFieldMenu.focus();
+        } else {
+          this.$refs.childFieldMenu.focus();
+        }
       }, 100);
     },
+
+    /**
+     * Children -> Parent로 DragDrop 했을 때. 업데이트를 진행한다.
+     */
     categoryDropEvent(data, event) {
-      this.category.map(root => {
+      this.categoryData.parent.map(root => {
         root.dropOver = false;
       });
 
@@ -374,117 +442,26 @@ export default {
                                         console.log("c.name ", c.id, c.name);
                                     })*/
     },
+    /**
+     * Parent Category 클릭 시, childrenCateogry를 출력
+     */
     selectRootCategory(rootCategory) {
-      this.categoryParent = rootCategory.id;
+      this.selectedCategoryParent = rootCategory.id;
       if (rootCategory.children === undefined) {
-        this.childrenCategory = [];
+        this.categoryData.children = [];
       } else {
-        this.childrenCategory = rootCategory.children;
+        this.categoryData.children = rootCategory.children;
       }
     },
-    categoryNameKeyUpEvent(event) {
-      //string length byte : https://stove99.tistory.com/83
-      if (this.categoryStatus === "insert") this.insertCategory();
-      else this.updateCategory();
-    },
-    openDialog(categoryInfo, category, checkRoot, statusFlag, categoryType) {
-      this.currentCategoryInfo = categoryInfo;
-
-      this.categoryType = categoryType;
-      if (category === null || category.length === 0) {
-        this.useCategory = false; //Parent(ROOT)가 없으면 ROOT체크를 해제하지 못하도록 한다.
-      }
-
-      this.categoryStatus = statusFlag;
-
-      //수정일때 수행
-      if (statusFlag === "update") {
-        //현재 root 인지 child인지 구분.
-        this.checkRoot = checkRoot;
-
-        if (this.checkRoot) {
-          this.autocompleteDisabled = true;
-        }
-        //root를 수정 시, 자기자신으로 변경할 수 없도록 category에서 제외시킨다.
-        let targetRootId;
-        if (categoryInfo.parent === 0) {
-          targetRootId = categoryInfo.id;
-          this.category = category.filter(item => {
-            return item.id !== targetRootId;
-          });
-        } else {
-          this.category = category;
-        }
-
-        this.categoryName = categoryInfo.name;
-        if (categoryInfo.parent === -1) {
-          //미아가 된 카테고리일경우, category의 첫번째를 지정한다.
-          if (category.length !== 0) {
-            this.categoryParent = category[0].id;
-          }
-        } else {
-          this.categoryParent = categoryInfo.parent;
-        }
-
-        this.categoryId = categoryInfo.id;
-      } else {
-        //신규생성일때.
-        this.category = category;
-        if (this.category.length !== 0) {
-          this.categoryParent = this.category[0].id;
-        }
-      }
-
-      //Category가 없을때, ROOT를 강제로 체크한다.
-      if (this.category.length === 0) {
-        this.checkRoot = true;
-        this.autocompleteDisabled = true;
-      }
-
-      //위의 조건들은 categoryType이 CUSTOM일경우이며, SYSTEM일경우, autocomplete와 ROOT 체크박스는 비활성한다.
-      if (this.categoryType === "SYSTEM") {
-        this.autocompleteDisabled = true;
-      }
-
-      //선택 된 카테고리가 있다면, 상위(parent) 카테고리 ID를 셋팅한다.
-      if (this.$parent.selectedParentCategoryId !== 0) {
-        this.categoryParent = this.$parent.selectedParentCategoryId; //전달받지 않고 상위의 값을 참조하여 가져온다.
-      }
-
-      this.$nextTick(() => {
-        setTimeout(() => {
-          this.$refs.categoryNameArea.focus();
-        }, 100);
-      });
-
+    categoryNameKeyUpEvent(event) {},
+    openDialog() {
       this.dialog = true;
     },
-    checkRootChange() {
-      this.$nextTick(() => {
-        if (this.checkRoot) {
-          this.categoryParent = "";
-          this.autocompleteDisabled = true;
-        } else {
-          this.categoryParent = this.category[0].id;
-          this.autocompleteDisabled = false;
-        }
-      });
-    },
+
     async deleteCategory() {
       let confirm = "카테고리를 삭제 하시겠습니까?";
       let result = await MODAL.confirm(confirm);
       if (result.value === undefined) return false;
-
-      /*
-                                                                                                          root의경우 :
-                                                                                                          1. 하위 카테고리의 연결을 제거한다.
-                                                                                                          2. 끊긴 하위 카테고리들은 '미아'카테고리로 분류된다.
-                                                                                                          3. 하위 카테고리와 연결 되어있는 Contents는 '미아' 카테고리로 유지된다.
-
-                                                                                                          child의 경우 :
-                                                                                                          1. root와의 연결을 끊는다.
-                                                                                                          2. Contents들은 NO_CATEGORY 상태로 변경한다.
-                                                                                                           */
 
       let param = new Object();
       if (this.currentCategoryInfo.parent === 0) {
@@ -504,47 +481,45 @@ export default {
         this.close();
       });
     },
-    async insertCategory() {
-      //Category 등록
-      //1. index 최대값을 가져온다.
-      //2. PARENT / CHILD를 구분하여 parameter 를 구성한다.
-      //3. 저장한다. (reload category)
+    async insertCategory(flag) {
+      let result = await Utils.getLocalStorage("loginInfo");
 
-      this.categoryName = this.categoryName.trim();
-      if (this.categoryName === "") {
+      let categoryName = this.categoryName.parent.trim();
+      let categoryParent = 0;
+      let depth = 1;
+
+      if (flag === "children") {
+        if (this.selectedCategoryParent === null) {
+          alert("상위 카테고리를 지정하셔야 합니다.(클릭)");
+          return false;
+        }
+        categoryName = this.categoryName.children.trim();
+        categoryParent = this.selectedCategoryParent;
+        depth = 2;
+      }
+
+      if (categoryName === "") {
         alert("카테고리명을 입력하세요.");
         return false;
       }
 
-      let categoryParent = this.categoryParent;
-      let depth = 1;
+      let obj = new Object();
+      obj.EMAIL = result.loginInfo.EMAIL;
+      obj.CATEGORY_NAME = categoryName;
+      obj.CATEGORY_PARENT = categoryParent;
+      obj.DEPTH = depth;
+      obj.SORT = 0;
+      obj.DATE = new Date().getTime();
 
-      if (this.checkRoot) {
-        depth = 0;
-        categoryParent = 0; //rootid
-      }
-
-      if (depth !== 0 && categoryParent === "") {
-        alert("ROOT를 지정하지않고, 카테고리를 설정할 수 없습니다.");
-        return false;
-      }
-
-      let result = await Utils.getLocalStorage("loginInfo");
-      let param = [
-        result.loginInfo.EMAIL, //email
-        this.categoryName, //NAME
-        categoryParent, //parent
-        depth, //depth
-        0, //sort
-        new Date().getTime() //create date
-      ];
       //db 저장하기
       CONTENT_LISTENER.sendMessage({
         type: "insert.category.item",
-        data: param
+        data: obj
       }).then(() => {
         EventBus.$emit("reload.category");
-        this.close();
+        this.initCategory();
+        this.categoryName.parent = "";
+        this.categoryName.children = "";
       });
     },
     updateParentCategory() {
@@ -558,18 +533,10 @@ export default {
         data: param
       }).then(() => {
         EventBus.$emit("reload.category");
+        this.initCategory();
       });
     },
     close() {
-      this.autocompleteDisabled = false;
-      this.checkRoot = false;
-      this.dialog = false;
-      this.categoryParent = "";
-      this.categoryName = "";
-      this.categoryId = "";
-      this.category = [];
-      this.categoryStatus = "";
-      this.useCategory = true;
       this.dialog = false;
     }
   }
@@ -600,7 +567,7 @@ export default {
 }
 
 .updateCategoryName {
-  width: 220px;
+  width: 180px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
