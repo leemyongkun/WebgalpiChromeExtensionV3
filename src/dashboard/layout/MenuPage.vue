@@ -3,11 +3,12 @@
     <UpdateCategoryDialog ref="updateCategoryDialog"></UpdateCategoryDialog>
     <NewUpdateCategoryDialog
       ref="newUpdateCategoryDialog"
+      :key="updateCategoryDialogKey"
     ></NewUpdateCategoryDialog>
     <!--<SettingsManagerDialog
-                              :dialog="settingDialog"
-                              @closeDialog="switchDialogSetting"
-                            ></SettingsManagerDialog>-->
+                                  :dialog="settingDialog"
+                                  @closeDialog="switchDialogSetting"
+                                ></SettingsManagerDialog>-->
 
     <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>
@@ -45,26 +46,26 @@
 
                     <!-- ######## 카테고리 검색 ########-->
                     <!-- <v-tooltip
-                                          v-model="categoryBtnTooltip.search"
-                                          color="blue"
-                                          top
-                                        >
-                                          <template v-slot:activator="{ on }">
-                                            <v-icon
-                                              left
-                                              v-on="on"
-                                              @click="isShowSearchFieldToggle"
-                                              color="info"
-                                              >mdi-folder-search-outline
-                                            </v-icon>
-                                          </template>
-                                          <span>
-                                            <b
-                                              >카테고리가 많으신가요?<br />검색을 통해 빠르게
-                                              찾아보세요.
-                                            </b>
-                                          </span>
-                                        </v-tooltip>-->
+                                                              v-model="categoryBtnTooltip.search"
+                                                              color="blue"
+                                                              top
+                                                            >
+                                                              <template v-slot:activator="{ on }">
+                                                                <v-icon
+                                                                  left
+                                                                  v-on="on"
+                                                                  @click="isShowSearchFieldToggle"
+                                                                  color="info"
+                                                                  >mdi-folder-search-outline
+                                                                </v-icon>
+                                                              </template>
+                                                              <span>
+                                                                <b
+                                                                  >카테고리가 많으신가요?<br />검색을 통해 빠르게
+                                                                  찾아보세요.
+                                                                </b>
+                                                              </span>
+                                                            </v-tooltip>-->
 
                     <!-- ######## 카테고리 정렬 ########-->
                     <v-tooltip
@@ -123,8 +124,8 @@
       </v-list>
 
       <!--<template v-slot:append>
-                          <OptionComponent></OptionComponent>
-                        </template>-->
+                                <OptionComponent></OptionComponent>
+                              </template>-->
     </v-navigation-drawer>
 
     <v-snackbar
@@ -176,7 +177,8 @@ export default {
     settingDialog: false, //Setting 다이얼로그 open / close 여부
     drawer: true, //왼쪽 메뉴 open / close 여부
     selectedParentCategoryId: 0, //선택된 Parent Category Id를 임시 저장해둔다.
-    keyword: "" //검색키워드
+    keyword: "", //검색키워드
+    updateCategoryDialogKey: 0
   }),
   created() {
     this.$nextTick(() => {
@@ -210,12 +212,15 @@ export default {
   },
   methods: {
     /*isShowSearchFieldToggle() {
-              this.isShowSearchField = !this.isShowSearchField;
-              setTimeout(() => {
-                this.$refs.categorySearchField.focus();
-                this.searchClear();
-              }, 100);
-            },*/
+                      this.isShowSearchField = !this.isShowSearchField;
+                      setTimeout(() => {
+                        this.$refs.categorySearchField.focus();
+                        this.searchClear();
+                      }, 100);
+                    },*/
+    dialogCloseEvent() {
+      this.updateCategoryDialogKey += 1;
+    },
     searchCategory() {
       this.$refs.categoryComponent.search(this.keyword);
     },
@@ -238,12 +243,12 @@ export default {
       this.$refs.newUpdateCategoryDialog.openDialog();
 
       /*this.$refs.updateCategoryDialog.openDialog(
-                  item,
-                  this.$refs.categoryComponent.category, // 어차피 대상은 이 category 뿐이므로..
-                  checkRoot,
-                  statusFlag, //update , insert
-                  "CUSTOM"
-                );*/
+                            item,
+                            this.$refs.categoryComponent.category, // 어차피 대상은 이 category 뿐이므로..
+                            checkRoot,
+                            statusFlag, //update , insert
+                            "CUSTOM"
+                          );*/
     },
     selectCategory(category, event) {
       this.clearCheckCategory();

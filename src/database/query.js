@@ -591,11 +591,11 @@ export default {
             TYPE)
         VALUES(
             '${param.EMAIL}', 
-            '${param.CATEGORY_NAME}',
-            ${param.CATEGORY_PARENT}, 
-            ${param.DEPTH}, 
-            ${param.SORT}, 
-            ${param.DATE}, 
+            '${param.name}',
+            ${param.parent}, 
+            ${param.depth}, 
+            ${param.sort}, 
+            ${param.date}, 
             'CUSTOM'
             )
             `;
