@@ -6,9 +6,9 @@
       :key="updateCategoryDialogKey"
     ></NewUpdateCategoryDialog>
     <!--<SettingsManagerDialog
-                                  :dialog="settingDialog"
-                                  @closeDialog="switchDialogSetting"
-                                ></SettingsManagerDialog>-->
+                                      :dialog="settingDialog"
+                                      @closeDialog="switchDialogSetting"
+                                    ></SettingsManagerDialog>-->
 
     <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>
@@ -39,52 +39,8 @@
                       <span>
                         <b
                           >새로운 카테고리를 생성하여,<br />컨텐츠를
-                          분류해보세요.
-                        </b>
-                      </span>
-                    </v-tooltip>
-
-                    <!-- ######## 카테고리 검색 ########-->
-                    <!-- <v-tooltip
-                                                              v-model="categoryBtnTooltip.search"
-                                                              color="blue"
-                                                              top
-                                                            >
-                                                              <template v-slot:activator="{ on }">
-                                                                <v-icon
-                                                                  left
-                                                                  v-on="on"
-                                                                  @click="isShowSearchFieldToggle"
-                                                                  color="info"
-                                                                  >mdi-folder-search-outline
-                                                                </v-icon>
-                                                              </template>
-                                                              <span>
-                                                                <b
-                                                                  >카테고리가 많으신가요?<br />검색을 통해 빠르게
-                                                                  찾아보세요.
-                                                                </b>
-                                                              </span>
-                                                            </v-tooltip>-->
-
-                    <!-- ######## 카테고리 정렬 ########-->
-                    <v-tooltip
-                      v-model="categoryBtnTooltip.sort"
-                      color="blue"
-                      top
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-icon
-                          left
-                          v-on="on"
-                          @click="sortCategory"
-                          color="grey"
-                          >mdi-folder-download-outline
-                        </v-icon>
-                      </template>
-                      <span>
-                        개발중입니다
-                        <!--<b>카테고리를 원하는 순서로 변경할 수 있습니다.</b>-->
+                          분류해보세요.</b
+                        >
                       </span>
                     </v-tooltip>
 
@@ -124,8 +80,8 @@
       </v-list>
 
       <!--<template v-slot:append>
-                                <OptionComponent></OptionComponent>
-                              </template>-->
+                                      <OptionComponent></OptionComponent>
+                                    </template>-->
     </v-navigation-drawer>
 
     <v-snackbar
@@ -186,20 +142,20 @@ export default {
         this.getReloadCategory();
       });
 
-      EventBus.$on(
-        "edit.category",
-        (item, checkRoot, statusFlag, categoryFlag) => {
-          this.$refs.updateCategoryDialog.openDialog(
-            item,
-            categoryFlag === "SYSTEM"
-              ? this.$refs.systemCategoryComponent.systemCategory
-              : this.$refs.categoryComponent.category,
-            checkRoot,
-            statusFlag, //update , insert
-            categoryFlag //system / custom/ lost
-          );
-        }
-      );
+      /*EventBus.$on(
+                    "edit.category",
+                    (item, checkRoot, statusFlag, categoryFlag) => {
+                        this.$refs.updateCategoryDialog.openDialog(
+                            item,
+                            categoryFlag === "SYSTEM"
+                                ? this.$refs.systemCategoryComponent.systemCategory
+                                : this.$refs.categoryComponent.category,
+                            checkRoot,
+                            statusFlag, //update , insert
+                            categoryFlag //system / custom/ lost
+                        );
+                    }
+                );*/
 
       EventBus.$on("select.parent.category", categoryId => {
         this.selectedParentCategoryId = categoryId;
@@ -212,13 +168,14 @@ export default {
   },
   methods: {
     /*isShowSearchFieldToggle() {
-                      this.isShowSearchField = !this.isShowSearchField;
-                      setTimeout(() => {
-                        this.$refs.categorySearchField.focus();
-                        this.searchClear();
-                      }, 100);
-                    },*/
+                              this.isShowSearchField = !this.isShowSearchField;
+                              setTimeout(() => {
+                                this.$refs.categorySearchField.focus();
+                                this.searchClear();
+                              }, 100);
+                            },*/
     dialogCloseEvent() {
+      this.getReloadCategory();
       this.updateCategoryDialogKey += 1;
     },
     searchCategory() {
@@ -243,12 +200,12 @@ export default {
       this.$refs.newUpdateCategoryDialog.openDialog();
 
       /*this.$refs.updateCategoryDialog.openDialog(
-                            item,
-                            this.$refs.categoryComponent.category, // 어차피 대상은 이 category 뿐이므로..
-                            checkRoot,
-                            statusFlag, //update , insert
-                            "CUSTOM"
-                          );*/
+                                      item,
+                                      this.$refs.categoryComponent.category, // 어차피 대상은 이 category 뿐이므로..
+                                      checkRoot,
+                                      statusFlag, //update , insert
+                                      "CUSTOM"
+                                    );*/
     },
     selectCategory(category, event) {
       this.clearCheckCategory();

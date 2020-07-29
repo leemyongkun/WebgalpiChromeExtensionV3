@@ -397,7 +397,7 @@ export default {
 
     return (
       `SELECT
-        id,
+             id,
             name,
             parent,
             depth,
@@ -416,6 +416,7 @@ export default {
                 DEPTH as depth,
                 TYPE as type,
                 FLAG as flag,
+                SORT as sort,
                 false as mouseOver,
                 false as dropOver,
                 '' as class,
@@ -435,10 +436,9 @@ export default {
       `
       
             )
-
-        GROUP
-        BY
-        id, name, parent, depth, mouseOver, dropOver`
+             GROUP  BY id, name, parent, depth, mouseOver, dropOver
+             ORDER BY SORT 
+             `
     );
   },
   getAllItems: () => {
@@ -571,6 +571,13 @@ export default {
             SET  PARENT = -1
             WHERE PARENT = ?
             `;
+  },
+  updatecategorySort: param => {
+    return `UPDATE  TBL_CATEGORY
+                SET  SORT = ${param.index} 
+                WHERE IDX =  ${param.categoryIdx}
+                AND PARENT = ${param.categoryParentIdx}
+                `;
   },
   updateCategoryItem: () => {
     return `UPDATE  TBL_CATEGORY

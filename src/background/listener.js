@@ -233,14 +233,14 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
 
     /*case "get.site": //미사용
-                                                                                              let getSiteParameter = new Object();
-                                                                                              getSiteParameter.URL_KEY = msg.data;
+                                                                                                  let getSiteParameter = new Object();
+                                                                                                  getSiteParameter.URL_KEY = msg.data;
 
-                                                                                              API.getSite(getSiteParameter).then(res => {
-                                                                                                sendResponse(res); //조건
-                                                                                              });
-                                                                                              return true;
-                                                                                              break;*/
+                                                                                                  API.getSite(getSiteParameter).then(res => {
+                                                                                                    sendResponse(res); //조건
+                                                                                                  });
+                                                                                                  return true;
+                                                                                                  break;*/
     case "update.scrap.site":
       API.updateScrapSite(msg.data).then(res => {
         sendResponse(res);
@@ -339,6 +339,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       API.updateOptionTheme(msg.data).then(res => {
         sendResponse(res);
       });
+      break;
+    case "update.category.sort":
+      API.updateCategorySort(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
       break;
     case "post.category.relation": //dashboard
       API.deleteCategoryRelation(msg.data).then(() => {

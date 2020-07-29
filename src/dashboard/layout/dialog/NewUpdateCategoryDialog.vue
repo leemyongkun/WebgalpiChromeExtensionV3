@@ -35,7 +35,7 @@
                           v-on="{ ...menu, ...tooltip }"
                           @click="openFieldMenu('parent')"
                         >
-                          <v-icon size="18px">mdi-folder-plus-outline</v-icon>
+                          <v-icon size="22px">mdi-folder-plus-outline</v-icon>
                         </v-btn>
                       </template>
                       <span> 상위 카테고리명을 추가 및 수정합니다.</span>
@@ -68,7 +68,7 @@
                 <draggable
                   v-model="categoryData.parent"
                   :options="{
-                    group: { name: 'parentCategory', pull: true },
+                    group: { name: 'parentCategory' },
                     animation: 250
                   }"
                   class="sortable-list"
@@ -173,7 +173,7 @@
                           v-on="{ ...menu, ...tooltip }"
                           @click="openFieldMenu('children')"
                         >
-                          <v-icon size="18px">mdi-folder-plus-outline</v-icon>
+                          <v-icon size="22px">mdi-folder-plus-outline</v-icon>
                         </v-btn>
                       </template>
                       <span> 하위 카테고리명을 추가 및 수정합니다.</span>
@@ -209,7 +209,7 @@
                 <draggable
                   v-model="categoryData.children"
                   :options="{
-                    group: { name: 'childrenCategory', pull: true },
+                    group: { name: 'childrenCategory' },
                     animation: 250
                   }"
                   class="sortable-list"
@@ -349,6 +349,9 @@ export default {
               this.selectRootCategory(ret[0]);
             }
           }
+        })
+        .then(() => {
+          this.editableFlag = false;
         });
     },
     /** 카테고리명 수정 취소 */
@@ -385,17 +388,13 @@ export default {
     },
     /** 카테고리명 수정 텍스트 필드 */
     editCategoryName(event, item, flag) {
-      /*event.stopPropagation();
-                event.stopImmediatePropagation();*/
+      event.stopPropagation();
+      event.stopImmediatePropagation();
 
       this.editableFlag = true;
 
       item.isShow = "n";
       Object.assign(this.copyCategory, item);
-
-      console.log("event ", event);
-      console.log("item ", item);
-      console.log("flag ", flag);
     },
 
     rootCategoryDropOverStyle(rootCategory) {
@@ -420,6 +419,15 @@ export default {
      * Children -> Parent로 DragDrop 했을 때. 업데이트를 진행한다.
      */
     categoryDropEvent(data, event) {
+      if (this.editableFlag) {
+        EventBus.$emit(
+          "open.snack",
+          "편집 중에는, 하위 카테고리를 이동 할 수 없습니다.",
+          "error"
+        );
+        return false;
+      }
+
       this.categoryData.parent.map(root => {
         root.dropOver = false;
       });
@@ -436,22 +444,26 @@ export default {
         this.updateCategory(object);
       }
     },
-    endDragParent(evt) {
-      console.log("endDragParent ", evt);
-      /*this.category.map(c => {
-                                                  console.log("c.name ", c.id, c.name);
-                                              })*/
+    endDragParent() {
+      this.sort("parent");
     },
-    endDragChildren(evt) {
-      /*console.log("endDragChildren ", evt);*/
-      /*this.childrenCategory.map(c => {
-                                                  console.log("c.name ", c.id, c.name);
-                                              })*/
+    endDragChildren() {
+      setTimeout(() => {
+        this.sort("children");
+      }, 400);
     },
     /**
      * Parent Category 클릭 시, childrenCateogry를 출력
      */
     selectRootCategory(rootCategory) {
+      if (this.editableFlag) {
+        EventBus.$emit(
+          "open.snack",
+          "편집 중에는 선택할 수 없습니다.",
+          "error"
+        );
+        return false;
+      }
       this.selectedCategoryParent = rootCategory;
       if (rootCategory.children === undefined) {
         this.categoryData.children = [];
@@ -569,19 +581,33 @@ export default {
     close() {
       this.$parent.dialogCloseEvent();
       this.dialog = false;
-    } /*removeCurrentCategory(item, flag) {
-                if (flag === 'parent') {
-                    let res = this.categoryData.parent.filter(cate => {
-                        return cate.id !== item.id
-                    });
-                    this.categoryData.parent = res;
-                } else {
-                    let res = this.categoryData.children.filter(cate => {
-                        return cate.id !== item.id
-                    });
-                    this.categoryData.children = res;
-                }
-            },*/
+    },
+    sort(flag) {
+      if (flag === "parent") {
+        this.categoryData.parent.map((item, idx) => {
+          let param = new Object();
+          param.categoryIdx = item.id;
+          param.categoryParentIdx = 0;
+          param.index = idx;
+          CONTENT_LISTENER.sendMessage({
+            type: "update.category.sort",
+            data: param
+          });
+        });
+      } else {
+        this.categoryData.children.map((item, idx) => {
+          let param = new Object();
+          param.categoryIdx = item.id;
+          param.categoryParentIdx = this.selectedCategoryParent.id;
+          param.index = idx;
+
+          CONTENT_LISTENER.sendMessage({
+            type: "update.category.sort",
+            data: param
+          });
+        });
+      }
+    }
   }
 };
 </script>

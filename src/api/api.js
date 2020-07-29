@@ -254,6 +254,9 @@ let Api = {
       result.loginInfo.EMAIL
     ]); //parent IDX를 보낸다
   },
+  updateCategorySort: param => {
+    return update(Query.updatecategorySort(param), null);
+  },
   postCategoryRelation: param => {
     let params = [
       param.CATEGORY_ID,
