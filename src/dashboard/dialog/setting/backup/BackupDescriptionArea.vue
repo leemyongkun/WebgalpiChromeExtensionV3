@@ -24,7 +24,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn small color="green" text @click="run">RUN</v-btn>
+        <v-btn small color="green" text @click="run">BACKUP</v-btn>
         <v-btn small color="blue" text @click="close">CANCEL</v-btn>
       </v-card-actions>
     </v-card>
@@ -44,7 +44,8 @@ export default {
   mounted() {},
   methods: {
     open() {
-      this.backupDescription = "";
+      this.backupDescription =
+        new Date().format("(E) yyyy년 MM월 dd일 a/p hh시 mm분 ss초") + "\n";
       setTimeout(() => {
         this.$refs.backupDescriptionArea.focus();
       }, 100);

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import "vuetify/dist/vuetify.min.css";
 import Vuetify, {
+  VAlert,
   VProgressLinear,
   VDataTable,
   VStepperContent,
@@ -168,6 +169,7 @@ Vue.component("VStepper", VStepper);
 Vue.component("VStepperStep", VStepperStep);
 Vue.component("VDataTable", VDataTable);
 Vue.component("VProgressLinear", VProgressLinear);
+Vue.component("VAlert", VAlert);
 
 //mcfibeekphjjdkofnojkofeligacaemn
 const opts = {

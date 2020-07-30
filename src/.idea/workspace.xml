@@ -2,18 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b2bb08b-04bd-4154-9718-f954bbbb3219" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/icons/memo_16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/icons/memo_32.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/common/common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contents/contents.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/contents.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/contents/core/hl-core.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/core/hl-core.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contents/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/event.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contents/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/contents/form.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core.bak/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/core.bak/core.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core.bak/highlight-core.js" beforeDir="false" afterPath="$PROJECT_DIR$/core.bak/highlight-core.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/hl.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/hl.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dashboard/content/ContentBody.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/content/ContentBody.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/dialog/setting/ColorArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/dialog/setting/ColorArea.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,30 +25,7 @@
     <option name="HIDDEN_KINDS">
       <set />
     </option>
-    <expand>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="215" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="215" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="215" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="215" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
-        <item name="TBL_ONETAB: table" type="3d80ac25:SqliteImplModel$Table" />
-      </path>
-    </expand>
+    <expand />
     <select />
   </component>
   <component name="DefaultGradleProjectSettings">
@@ -68,14 +39,13 @@
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/icons" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/dashboard/snack" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -93,7 +63,7 @@
       <recent name="$PROJECT_DIR$/bg" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/icons" />
+      <recent name="$PROJECT_DIR$/dashboard/snack" />
       <recent name="$PROJECT_DIR$/background" />
     </key>
   </component>
@@ -102,32 +72,7 @@
       <list>
         <serviceView>
           <treeState>
-            <expand>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="root:207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              </path>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="root:207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="com.intellij.database.console.session.MessageBusSession@727c4eb8" type="9fbbdea:ServiceModel$ServiceNode" />
-              </path>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="root:207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="com.intellij.database.console.session.MessageBusSession@1483bf86" type="9fbbdea:ServiceModel$ServiceNode" />
-              </path>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="root:207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="com.intellij.database.console.session.MessageBusSession@72e5f8b0" type="9fbbdea:ServiceModel$ServiceNode" />
-              </path>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="root:207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="com.intellij.database.console.session.MessageBusSession@63066800" type="9fbbdea:ServiceModel$ServiceNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </treeState>
         </serviceView>
@@ -149,10 +94,7 @@
       <workItem from="1573179732377" duration="13752000" />
       <workItem from="1573438272511" duration="10905000" />
       <workItem from="1573525046568" duration="9319000" />
-      <workItem from="1593697693564" duration="4798000" />
-      <workItem from="1593793769419" duration="401000" />
-      <workItem from="1593868158219" duration="2775000" />
-      <workItem from="1593930409062" duration="1116000" />
+      <workItem from="1593578161912" duration="7410000" />
     </task>
     <servers />
   </component>
@@ -173,58 +115,13 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="1200" y="528" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593931847964">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state x="1200" y="528" key="#com.intellij.execution.impl.EditConfigurationsDialog/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593931847964" />
-    <state x="1200" y="528" key="#com.intellij.execution.impl.EditConfigurationsDialog/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699020621" />
-    <state width="2190" height="375" key="GridCell.Tab.0.bottom" timestamp="1593704218144">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state width="2190" height="375" key="GridCell.Tab.0.bottom/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593704218144" />
-    <state width="2190" height="488" key="GridCell.Tab.0.bottom/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699029419" />
-    <state width="2190" height="375" key="GridCell.Tab.0.center" timestamp="1593704218143">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state width="2190" height="375" key="GridCell.Tab.0.center/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593704218143" />
-    <state width="2190" height="488" key="GridCell.Tab.0.center/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699029418" />
-    <state width="2190" height="375" key="GridCell.Tab.0.left" timestamp="1593704218142">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state width="2190" height="375" key="GridCell.Tab.0.left/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593704218142" />
-    <state width="2190" height="488" key="GridCell.Tab.0.left/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699029418" />
-    <state width="2190" height="375" key="GridCell.Tab.0.right" timestamp="1593704218143">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state width="2190" height="375" key="GridCell.Tab.0.right/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593704218143" />
-    <state width="2190" height="488" key="GridCell.Tab.0.right/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699029419" />
-    <state x="2431" y="198" key="Vcs.Push.Dialog.v2" timestamp="1593665811292">
+    <state x="2503" y="235" width="667" height="476" key="find.popup" timestamp="1594189169631">
       <screen x="1920" y="-26" width="1920" height="999" />
     </state>
-    <state x="2431" y="198" key="Vcs.Push.Dialog.v2/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593665811292" />
-    <state x="1277" y="695" key="com.intellij.ide.util.TipDialog" timestamp="1593930975528">
-      <screen x="0" y="23" width="3200" height="1720" />
+    <state x="2503" y="235" width="667" height="476" key="find.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1594189169631" />
+    <state x="2501" y="194" width="670" height="676" key="search.everywhere.popup" timestamp="1594189717553">
+      <screen x="1920" y="-26" width="1920" height="999" />
     </state>
-    <state x="1277" y="695" key="com.intellij.ide.util.TipDialog/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593930975528" />
-    <state x="1269" y="519" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1593931626266">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state x="1269" y="519" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593931626266" />
-    <state x="1383" y="787" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593868338829">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state x="1383" y="787" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593868338829" />
-    <state x="962" y="447" width="2002" height="820" key="find.popup" timestamp="1593880662196">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state x="2497" y="220" width="1201" height="476" key="find.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593682511798" />
-    <state x="962" y="447" width="2002" height="820" key="find.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593880662196" />
-    <state x="962" y="447" width="2002" height="820" key="find.popup/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699387683" />
-    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup" timestamp="1593931909924">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state x="2496" y="197" width="670" height="676" key="search.everywhere.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593681687233" />
-    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593931909924" />
-    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593697888051" />
+    <state x="2501" y="194" width="670" height="676" key="search.everywhere.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1594189717553" />
   </component>
 </project>

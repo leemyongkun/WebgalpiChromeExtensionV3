@@ -465,27 +465,6 @@ export default {
         AND EMAIL = ?
         AND FL_DELETE = 'N'`;
   },
-  selectSlack: () => {
-    return `
-        SELECT
-        IDX,
-            CHANNEL_NAME ,
-            WEBHOOK_URL ,
-            DATE_CREATE
-        FROM
-        TBL_SLACK
-            `;
-  },
-  updateSlack: () => {
-    return `
-        UPDATE
-        TBL_SLACK
-        SET
-        CHANNEL_NAME = ?,
-            WEBHOOK_URL = ?
-                WHERE IDX = ?
-                    `;
-  },
   deleteSite: () => {
     return `UPDATE TBL_SITES
             SET FL_DELETE = 'Y', DATE_UPDATE = ?
@@ -507,23 +486,6 @@ export default {
     return `DELETE FROM TBL_REL_CATEGORY
             WHERE URL_KEY = ?
             AND EMAIL = ?
-            `;
-  },
-  deleteSlack: () => {
-    return `DELETE FROM TBL_SLACK
-            WHERE IDX = ?
-            AND EMAIL = ?
-            `;
-  },
-  insertSlack: () => {
-    return `INSERT INTO TBL_SLACK
-            (
-                EMAIL,
-                CHANNEL_NAME,
-                WEBHOOK_URL,
-                DATE_CREATE
-            )
-            VALUES(?, ?, ?, ?)
             `;
   },
   updateOptionColor: () => {
@@ -746,6 +708,32 @@ export default {
         )
         VALUES
             (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
+  },
+  selectUpdateHistory: () => {
+    return `SELECT * FROM TBL_UPDATE_HISTORY
+                WHERE EMAIL = ?
+            `;
+  },
+  insertUpdateHistory: () => {
+    return ` INSERT INTO TBL_UPDATE_HISTORY
+                (EMAIL) VALUES (?)
+                `;
+  },
+  updateUpdateHistory: param => {
+    let updateField = "";
+    if (param.googleBackupDate !== undefined) {
+      updateField = " LATEST_GOOGLE_BACKUP_DATE = " + param.googleBackupDate;
+    } else if (param.googleRestoreDate !== undefined) {
+      updateField = " LATEST_GOOGLE_RESTORE_DATE = " + param.googleRestoreDate;
+    }
+
+    return (
+      ` UPDATE TBL_UPDATE_HISTORY
+                 SET ` +
+      updateField +
+      ` 
+                 WHERE EMAIL = '${param.email}'`
+    );
   },
   insertTabInfo: param => {
     return `

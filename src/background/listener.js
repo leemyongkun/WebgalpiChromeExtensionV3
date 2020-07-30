@@ -1,6 +1,4 @@
 import API from "../api/api.js";
-import dbcon from "../database/dbcon";
-import Utils from "../dashboard/utils/Utils";
 import Common from "../common/common";
 
 let emitOptionsAllTabs = (actionCommand, data) => {
@@ -292,29 +290,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       return true;
       break;
 
-    case "get.slack":
-      API.getSlack(null).then(res => {
-        sendResponse(res);
-      });
-      break;
-
-    case "update.slack":
-      API.updateSlack(msg.data).then(res => {
-        sendResponse(res);
-      });
-      break;
-
-    case "delete.slack":
-      API.deleteSlack(msg.data).then(res => {
-        sendResponse(res);
-      });
-      break;
-    case "post.slack":
-      API.postSlack(msg.data).then(res => {
-        sendResponse(res);
-      });
-      break;
-
     case "update.option.color":
       API.updateOptionColor(msg.data);
       //emit all Tab
@@ -441,7 +416,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
+    case "get.update.history":
+      API.getUpdateHistory(msg.data).then(updateHistory => {
+        sendResponse(updateHistory);
+      });
+      return true;
+      break;
     case "insert.tabinfo":
       API.insertTabInfo(msg.data).then(res => {
         sendResponse(true);
@@ -449,6 +429,18 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       return true;
       break;
 
+    case "insert.update.history":
+      API.insertUpdateHistory(msg.data).then(updateHistory => {
+        sendResponse(updateHistory);
+      });
+      return true;
+      break;
+    case "update.update.history":
+      API.updateUpdateHistory(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
     case "select.tabinfo.group":
       API.selectTabInfoGroup(msg.data).then(tabGroup => {
         sendResponse(tabGroup);

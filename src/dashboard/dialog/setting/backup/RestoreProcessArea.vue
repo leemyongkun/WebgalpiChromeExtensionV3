@@ -123,8 +123,8 @@
                 <v-col cols="12">
                   FAIL 확인은 'ALL CATEGORY' 클릭 후,
                   <v-icon size="18px" :color="'red'"
-                    >mdi-shield-off-outline</v-icon
-                  >
+                    >mdi-shield-off-outline
+                  </v-icon>
                   을 클릭하면 확인 할 수 있습니다.
                 </v-col>
               </v-row>
@@ -154,14 +154,6 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          small
-          text
-          color="success"
-          v-if="showRestoreBtn"
-          @click="runRestore"
-          >RESTORE
-        </v-btn>
         <v-btn small text color="primary" v-if="showCloseBtn" @click="close"
           >DONE
         </v-btn>
@@ -181,11 +173,11 @@ import MODAL from "../../../../common/modal";
 
 let CryptoJS = require("crypto-js");
 export default {
-  props: ["reRendering"],
+  props: [],
   data: () => ({
     dialog: false,
     isShowBackupInfo: true,
-    showRestoreBtn: true,
+
     showCloseBtn: true,
     panel: [0, 1, 2, 3, 4],
     data: {
@@ -212,18 +204,9 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    async runRestore(values) {
-      let confirm = `복구를 시작 하시겠습니까?<br>
-                        Site의 경우 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
-                        <span style="color:red">
-                        모든 데이타를 삭제한 후 복구를 진행하므로,<br>
-                        절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
-                         </span>`;
-      let result = await MODAL.confirm(confirm, null, null, null, "500px");
-      if (result.value === undefined) return false;
-
+    async runRestore() {
       this.isShowBackupInfo = false; //백업정보를 가린다.
-      this.showRestoreBtn = false;
+
       this.showCloseBtn = false;
       EventBus.$emit("start.restore");
 
@@ -243,6 +226,15 @@ export default {
 
         //하이라이트 저장 시작
         if (this.data.highlight.length !== 0) await this.runRestoreHighlight();
+
+        //restore date update
+        let params = new Object();
+        params.googleRestoreDate = new Date().getTime();
+        params.email = this.data.info.email;
+        CONTENT_LISTENER.sendMessage({
+          type: "update.update.history",
+          data: params
+        });
 
         MODAL.alert("복구가 완료 되었습니다.");
         EventBus.$emit("init.dashboard");
@@ -349,7 +341,7 @@ export default {
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                                                                                                 url = "https://www.fnnews.com/news/202004231837158267";*/
+                                                                                                                     url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     async dataParsing(data) {
@@ -373,44 +365,14 @@ export default {
       this.data.info = data.info;
     },
     open(restoreData) {
-      /*  let bytes = CryptoJS.AES.decrypt(
-                                                                        JSON.parse(restoreData).data,
-                                                                        "KKUNI_BEAR_GMAIL.COM_KKUNI"
-                                                                    );
-                                                                    let originalText = bytes.toString(CryptoJS.enc.Utf8);
-
-                                                                    let obj = JSON.parse(originalText);
-
-                                                                    console.log("OBJ ", obj);*/
-
       //로딩된 데이타를 분석하여 화면에 출력한다.
       this.dataParsing(JSON.parse(restoreData));
-
       this.dialog = true;
+      setTimeout(() => {
+        this.runRestore();
+      }, 300);
     },
     close() {
-      /* this.data.info = [];
-                          this.data.category = [];
-                          this.data.categoryRelation = [];
-                          this.data.site = [];
-                          this.data.highlight = [];
-
-                          this.progress.siteComplete = 0;
-                          this.progress.siteCompletePer = 0;
-                          this.progress.siteFail = 0;
-                          this.progress.siteFailPer = 0;
-                          this.progress.highlightComplete = 0;
-                          this.progress.highlightCompletePer = 0;
-                          this.progress.categoryComplete = 0;
-                          this.progress.categoryCompletePer = 0;
-                          this.progress.categoryRelationComplete = 0;
-                          this.progress.categoryRelationCompletePer = 0;
-
-                          this.errorSite = [];
-
-                          this.showRestoreBtn = true;
-                          this.showCloseBtn = true;*/
-      this.reRendering("restoreProcessArea");
       this.dialog = false;
     }
   }

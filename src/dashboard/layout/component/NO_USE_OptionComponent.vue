@@ -21,7 +21,6 @@
     </v-card>
     <ThemeArea ref="theme"></ThemeArea>
     <ColorArea ref="color"></ColorArea>
-    <SlackArea ref="slack"></SlackArea>
     <BookmarkArea ref="bookmark"></BookmarkArea>
     <BackupArea ref="backup"></BackupArea>
   </v-menu>
@@ -29,7 +28,6 @@
 <script>
 import ThemeArea from "../../dialog/setting/ThemeArea";
 import ColorArea from "../../dialog/setting/ColorArea";
-import SlackArea from "../../dialog/setting/SlackArea";
 import BookmarkArea from "../../dialog/setting/BookmarkArea";
 import EventBus from "../../event-bus";
 import SignArea from "../../dialog/setting/SignArea";
@@ -40,7 +38,6 @@ export default {
     BackupArea,
     SignArea,
     BookmarkArea,
-    SlackArea,
     ColorArea,
     ThemeArea
   },
@@ -58,11 +55,6 @@ export default {
         title: "THEME",
         subTitle: "화면의 테마를 변경."
       },
-      /*{
-        code: "slack",
-        title: "SLACK",
-        subTitle: "자신의 컨텐츠를 슬랙 채널에 공유."
-      },*/
       /*   {
                   code: "option",
                   title: "OPTION",
@@ -91,9 +83,7 @@ export default {
         case "color":
           this.$refs.color.open();
           break;
-        case "slack":
-          this.$refs.slack.open();
-          break;
+
         case "bookmark":
           EventBus.$emit(
             "open.snack",

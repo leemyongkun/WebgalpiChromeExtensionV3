@@ -56,7 +56,6 @@
     </v-card>
 
     <RestoreProcessArea
-      :reRendering="reRendering"
       :key="Key.restoreProcessArea"
       ref="restoreProcessArea"
     ></RestoreProcessArea>
@@ -69,6 +68,7 @@
 import RestoreProcessArea from "./RestoreProcessArea";
 import MODAL from "../../../../common/modal";
 import EventBus from "../../../event-bus";
+import GOOGLE_DRIVE from "../../../../common/GoogleDriveBackupAndRestore";
 
 let CryptoJS = require("crypto-js");
 
@@ -200,29 +200,21 @@ export default {
       });
     },
     async selectedTargetRestoreFile(item) {
-      let confirm = `<b>${item.description}</b> 로 복구 하시겠습니까?"`;
-      let result = await MODAL.confirm(confirm);
+      let confirm = `<b>${item.description}</b> 로 복구 하시겠습니까?<br><br>
+                        복구 시 스크래핑을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
+                        <span style="color:red">
+                        모든 데이타를 삭제한 후 복구를 진행하므로,<br>
+                        절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
+                         </span>
+                    `;
+      let result = await MODAL.confirm(confirm, "info", null, null, "500px");
       if (result.value === undefined) return false;
       this.restoreOverlay = true;
 
-      chrome.identity.getAuthToken({ interactive: true }, token => {
-        let url =
-          "https://www.googleapis.com/drive/v3/files/" + item.id + "?alt=media";
-        fetch(url, {
-          method: "GET",
-          headers: new Headers({
-            Authorization: "Bearer " + token
-          })
-        }).then(file => {
-          file.text().then(result => {
-            let data = JSON.parse(result);
-            let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
-            let originalText = bytes.toString(CryptoJS.enc.Utf8);
-            this.$refs.restoreProcessArea.open(originalText);
-            this.restoreOverlay = false;
-            this.close();
-          });
-        });
+      GOOGLE_DRIVE.getBackupData(item).then(originalText => {
+        this.$refs.restoreProcessArea.open(originalText);
+        this.restoreOverlay = false;
+        this.close();
       });
     },
     reRendering(type) {

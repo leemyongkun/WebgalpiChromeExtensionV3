@@ -410,30 +410,12 @@ export default {
     }
   }
 };
-/*
-
-        #EFEDE1
-        #F8DFD8
-        #F2D9BA
-        #FDECA7
-        #D3ECC5
-        #D7EBDF
-        #C7E7E6
-        #CCDFE6
-        #C7D0ED
-        #D8CCDA
-        #F2D3D9
-
-
-         */
 </script>
 
 <style>
 @import "../../css/hl.css";
 
 .v-card--reveal {
-  /*align-items: left;
-                                                                                                                                                                                                                                                                                                                                                  justify-content: center;*/
   padding-left: 3px;
   justify-content: center;
   bottom: 0;
@@ -444,5 +426,6 @@ export default {
 
 .border {
   border: 1px dashed orange;
+  border: 2px dashed orange;
 }
 </style>

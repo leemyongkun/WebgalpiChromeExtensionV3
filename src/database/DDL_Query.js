@@ -57,6 +57,9 @@ let DROP_TABLE_QUERY = {
   },
   TBL_SLACK: () => {
     return `DROP TABLE TBL_SLACK `;
+  },
+  TBL_UPDATE_HISTORY: () => {
+    return `DROP TABLE TBL_UPDATE_HISTORY `;
   }
 };
 
@@ -180,6 +183,21 @@ let CREATE_TABLE_QUERY = {
                       THEME TEXT
                       )`;
   },
+
+  TBL_UPDATE_HISTORY: () => {
+    return `CREATE TABLE IF NOT EXISTS TBL_UPDATE_HISTORY (
+                      EMAIL TEXT PRIMARY KEY,
+                      LATEST_GOOGLE_BACKUP_DATE NUMERIC,
+                      LATEST_GOOGLE_RESTORE_DATE NUMERIC,
+                      LATEST_FIREBASE_BACKUP_DATE NUMERIC,
+                      LATEST_FIREBASE_RESTORE_DATE NUMERIC,
+                      RESERVE_DATE_1 NUMERIC,
+                      RESERVE_DATE_2 NUMERIC,
+                      RESERVE_DATE_3 NUMERIC,
+                      RESERVE_DATE_4 NUMERIC,
+                      RESERVE_DATE_5 NUMERIC,
+                      RESERVE_DATE_6 NUMERIC)`;
+  },
   TBL_ONETAB: () => {
     return `CREATE TABLE IF NOT EXISTS TBL_ONETAB (
                     EMAIL TEXT,
@@ -207,7 +225,18 @@ let DDL = {
   ADD_TABLE: db => {
     return new Promise(function(res) {
       db.transaction(function(tx) {
+        tx.executeSql(CREATE_TABLE_QUERY.TBL_UPDATE_HISTORY(), []);
+      });
+      db.transaction(function(tx) {
         tx.executeSql(CREATE_TABLE_QUERY.TBL_ONETAB(), []);
+      });
+      res(true);
+    });
+  },
+  DROP_TABLE: db => {
+    return new Promise(function(res) {
+      db.transaction(function(tx) {
+        tx.executeSql(DROP_TABLE_QUERY.TBL_SLACK(), []);
       });
       res(true);
     });
@@ -220,7 +249,6 @@ let DDL = {
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_REL_CATEGORY(), []);
       });
-
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_CATEGORY(), []);
       });
@@ -234,7 +262,7 @@ let DDL = {
         tx.executeSql(DROP_TABLE_QUERY.TBL_OPTIONS(), []);
       });
       db.transaction(function(tx) {
-        tx.executeSql(DROP_TABLE_QUERY.TBL_SLACK(), []);
+        tx.executeSql(DROP_TABLE_QUERY.TBL_UPDATE_HISTORY(), []);
       });
       db.transaction(function(tx) {
         tx.executeSql(DROP_TABLE_QUERY.TBL_ONETAB(), []);
@@ -265,6 +293,9 @@ let DDL = {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_OPTIONS(), []);
     });
     db.transaction(function(tx) {
+      tx.executeSql(CREATE_TABLE_QUERY.TBL_UPDATE_HISTORY(), []);
+    });
+    db.transaction(function(tx) {
       tx.executeSql(CREATE_TABLE_QUERY.TBL_ONETAB(), []);
     });
   },
@@ -288,9 +319,9 @@ let DDL = {
       tx.executeSql(TRUNCATION_TABLE_QUERY.CATEGORY_RELATION(param), []);
     });
     /*  //ONETAB
-    db.transaction(function(tx) {
-      tx.executeSql(TRUNCATION_TABLE_QUERY.ONETAB(param), []);
-    });*/
+        db.transaction(function(tx) {
+          tx.executeSql(TRUNCATION_TABLE_QUERY.ONETAB(param), []);
+        });*/
   }
 };
 
