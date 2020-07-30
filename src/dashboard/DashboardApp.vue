@@ -168,13 +168,13 @@ export default {
 
 .v-navigation-drawer__content::-webkit-scrollbar,
 .custom-scroll::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 
 .v-navigation-drawer__content::-webkit-scrollbar-thumb,
 .custom-scroll::-webkit-scrollbar-thumb {
-  background-color: #202527;
-  border-radius: 10px;
+  background-color: #656466;
+  border-radius: 5px;
 }
 
 .v-navigation-drawer__content::-webkit-scrollbar-track,

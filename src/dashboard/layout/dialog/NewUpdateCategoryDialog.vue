@@ -523,7 +523,12 @@ export default {
 
       if (flag === "children") {
         if (this.selectedCategoryParent === null) {
-          alert("상위 카테고리를 지정하셔야 합니다.(클릭)");
+          MODAL.alert(
+            "상위 카테고리를 지정(클릭)하셔야 합니다.",
+            "error",
+            null,
+            "400px"
+          );
           return false;
         }
         categoryName = this.categoryName.children.trim();
