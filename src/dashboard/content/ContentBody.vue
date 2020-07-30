@@ -443,6 +443,6 @@ export default {
 }
 
 .border {
-  border: 2px dashed orange;
+  border: 1px dashed orange;
 }
 </style>

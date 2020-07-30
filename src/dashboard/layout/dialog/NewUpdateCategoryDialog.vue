@@ -64,6 +64,10 @@
 
               <!-- 부모카테고리 영역 -->
               <v-list-item-group color="primary">
+                <span v-if="categoryData.parent.length === 0"
+                  >상위 카테고리가 없습니다.</span
+                >
+
                 <!-- 정렬을 위한 Drag-->
                 <draggable
                   v-model="categoryData.parent"
@@ -75,6 +79,7 @@
                   @end="endDragParent"
                 >
                   <v-list-item
+                    :class="rootCategory.class"
                     :style="rootCategoryDropOverStyle(rootCategory)"
                     v-for="(rootCategory, i) in categoryData.parent"
                     :key="rootCategory.id"
@@ -200,9 +205,7 @@
                 </v-menu>
               </v-subheader>
               <v-list-item-group color="primary">
-                <span
-                  style="color:red;"
-                  v-if="categoryData.children.length === 0"
+                <span v-if="categoryData.children.length === 0"
                   >상위 카테고리를 선택하지 않았거나, 하위 카테고리가 존재하지
                   않습니다.</span
                 >
@@ -470,6 +473,11 @@ export default {
       } else {
         this.categoryData.children = rootCategory.children;
       }
+
+      this.categoryData.parent.map(root => {
+        root.class = "";
+      });
+      rootCategory.class = "active-category";
     },
     categoryNameKeyUpEvent(event) {},
     openDialog() {
@@ -644,5 +652,9 @@ export default {
   width: 180px;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.active-category {
+  border: 2px dashed orange;
 }
 </style>
