@@ -5,18 +5,6 @@
   z-index: 2147483647 !important;
 }
 
-.webgalpi-toolbar .webgalpi-color-picker {
-  display: none;
-  width: 100% !important;
-  height: 30px !important;
-  box-sizing: border-box !important;
-  backdrop-filter: blur(10.5px) !important;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 5px 0px !important;
-  background-color: rgba(255, 255, 255, 0.9) !important;
-  padding: 6px 0px !important;
-  border-radius: 4.2px !important;
-}
-
 .webgalpi-color-picker .webgalpi-color-form {
   display: inline !important;
   float: left !important;
@@ -33,93 +21,91 @@
   box-sizing: border-box !important;
   backdrop-filter: blur(10.5px) !important;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 5px 0px !important;
-  background-color: rgba(255, 255, 255, 0.9) !important;
+  background-color: rgba(255, 255, 255, 1) !important;
   padding: 6px 0px !important;
   border-radius: 4.2px !important;
 }
 
-.liner-color-yellow {
-  background-color: rgb(255, 228, 124) !important;
-}
-
 .highlight-color-1 {
-  background: #e35a69 !important;
+  background: #f2d3d9 !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-2 {
-  background: #f7b900 !important;
+  background: #d8ccda !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-3 {
-  background: #2da64e !important;
+  background: #c7d0ed !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-4 {
-  background: #d9c3ff !important;
+  background: #ccdfe6 !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
-  color: #333333;
 }
 
 .highlight-color-5 {
-  background: #97c2dd !important;
+  background: #c7e7e6 !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-6 {
-  background: #ef9a9a !important;
+  background: #d7ebdf !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
 }
 
 .highlight-color-7 {
-  background: #90a4ae !important;
+  background: #d3ecc5 !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-8 {
-  background: #cddc39 !important;
+  background: #fdeca7 !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
-  color: #333333 !important;
 }
 
 .highlight-color-9 {
-  background: #ffb540 !important;
+  background: #f2d9ba !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-10 {
-  background: #b2ebf2 !important;
+  background: #f8dfd8 !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .highlight-color-11 {
-  background: #c0b6a7 !important;
+  background: #efede1 !important;
+  color: #42423c;
   display: inline !important;
   cursor: pointer;
-  color: #ffefe4;
 }
 
 .default-color {
-  background-color: transparent;
+  /*background-color: transparent;*/
+  background-color: white;
   display: inline-block !important;
   cursor: pointer !important;
   width: 20px !important;
@@ -127,7 +113,6 @@
   position: absolute !important;
   left: 0px !important;
   top: 0px !important;
-  opacity: 1 !important;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px !important;
   background-size: cover !important;
   border-width: initial !important;

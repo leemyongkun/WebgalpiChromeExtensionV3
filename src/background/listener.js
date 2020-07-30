@@ -232,15 +232,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       return true;
       break;
 
-    /*case "get.site": //미사용
-                                                                                          let getSiteParameter = new Object();
-                                                                                          getSiteParameter.URL_KEY = msg.data;
-
-                                                                                          API.getSite(getSiteParameter).then(res => {
-                                                                                            sendResponse(res); //조건
-                                                                                          });
-                                                                                          return true;
-                                                                                          break;*/
     case "update.scrap.site":
       API.updateScrapSite(msg.data).then(res => {
         sendResponse(res);
@@ -340,6 +331,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         sendResponse(res);
       });
       break;
+    case "update.category.sort":
+      API.updateCategorySort(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
     case "post.category.relation": //dashboard
       API.deleteCategoryRelation(msg.data).then(() => {
         API.postCategoryRelation(msg.data).then(res => {
@@ -375,6 +372,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     case "update.category.item": //dashboard
       let categoryParam = msg.data;
 
+      console.log("categoryParam ", categoryParam);
       if (categoryParam.CATEGORY_TYPE !== "SYSTEM") {
         if (categoryParam.CHECK_ROOT) {
           //checkRoot가 true 일경우

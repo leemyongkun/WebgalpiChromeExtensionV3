@@ -1,11 +1,14 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
-    <UpdateCategoryDialog ref="updateCategoryDialog"></UpdateCategoryDialog>
-
+    <!--<UpdateCategoryDialog ref="updateCategoryDialog"></UpdateCategoryDialog>-->
+    <NewUpdateCategoryDialog
+      ref="newUpdateCategoryDialog"
+      :key="updateCategoryDialogKey"
+    ></NewUpdateCategoryDialog>
     <!--<SettingsManagerDialog
-                          :dialog="settingDialog"
-                          @closeDialog="switchDialogSetting"
-                        ></SettingsManagerDialog>-->
+                                          :dialog="settingDialog"
+                                          @closeDialog="switchDialogSetting"
+                                        ></SettingsManagerDialog>-->
 
     <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>
@@ -25,63 +28,23 @@
                       top
                     >
                       <template v-slot:activator="{ on }">
-                        <v-icon
-                          left
+                        <v-btn
+                          block
+                          color="info"
+                          class="pt-0 pb-1 mb-3"
+                          style="height: 24px"
                           v-on="on"
-                          @click="editCategory(null, $event, false, 'insert')"
-                          color="success"
-                          >mdi-folder-plus-outline
-                        </v-icon>
+                          @click="editCategory($event)"
+                        >
+                          <v-icon size="18px">mdi-folder-edit-outline </v-icon
+                          >&nbsp;Edit
+                        </v-btn>
                       </template>
                       <span>
                         <b
                           >새로운 카테고리를 생성하여,<br />컨텐츠를
                           분류해보세요.
                         </b>
-                      </span>
-                    </v-tooltip>
-
-                    <!-- ######## 카테고리 검색 ########-->
-                    <v-tooltip
-                      v-model="categoryBtnTooltip.search"
-                      color="blue"
-                      top
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-icon
-                          left
-                          v-on="on"
-                          @click="isShowSearchFieldToggle"
-                          color="info"
-                          >mdi-folder-search-outline
-                        </v-icon>
-                      </template>
-                      <span>
-                        <b
-                          >카테고리가 많으신가요?<br />검색을 통해 빠르게
-                          찾아보세요.
-                        </b>
-                      </span>
-                    </v-tooltip>
-
-                    <!-- ######## 카테고리 정렬 ########-->
-                    <v-tooltip
-                      v-model="categoryBtnTooltip.sort"
-                      color="blue"
-                      top
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-icon
-                          left
-                          v-on="on"
-                          @click="sortCategory"
-                          color="grey"
-                          >mdi-folder-download-outline
-                        </v-icon>
-                      </template>
-                      <span>
-                        개발중입니다
-                        <!--<b>카테고리를 원하는 순서로 변경할 수 있습니다.</b>-->
                       </span>
                     </v-tooltip>
 
@@ -95,6 +58,8 @@
                       dense
                       clearable
                       placeholder="카테고리 검색"
+                      prepend-inner-icon="mdi-magnify"
+                      style="width: 90%"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -119,8 +84,8 @@
       </v-list>
 
       <!--<template v-slot:append>
-                    <OptionComponent></OptionComponent>
-                  </template>-->
+                                            <OptionComponent></OptionComponent>
+                                          </template>-->
     </v-navigation-drawer>
 
     <v-snackbar
@@ -141,17 +106,17 @@
 import CONTENT_LISTENER from "../../common/content-listener";
 import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
 import EventBus from "../event-bus";
-import UpdateCategoryDialog from "./dialog/UpdateCategoryDialog";
 
 import LostCategoryComponent from "./component/LostCategoryComponent";
 import SystemCategoryComponent from "./component/SystemCategoryComponent";
 import CategoryComponent from "./component/CategoryComponent";
+import NewUpdateCategoryDialog from "./dialog/NewUpdateCategoryDialog";
 
 export default {
   components: {
+    NewUpdateCategoryDialog,
     CategoryComponent,
     SystemCategoryComponent,
-    UpdateCategoryDialog,
     SettingsManagerDialog,
     LostCategoryComponent
   },
@@ -161,7 +126,7 @@ export default {
       search: false,
       sort: false
     },
-    isShowSearchField: false,
+    isShowSearchField: true,
     panel: [0], //accordian 의 오픈 index
     snackbarTimeout: 3000, //스낵바 유지시간
     snackbarMessage: "", //스낵바 기본 메시지
@@ -170,7 +135,8 @@ export default {
     settingDialog: false, //Setting 다이얼로그 open / close 여부
     drawer: true, //왼쪽 메뉴 open / close 여부
     selectedParentCategoryId: 0, //선택된 Parent Category Id를 임시 저장해둔다.
-    keyword: "" //검색키워드
+    keyword: "", //검색키워드
+    updateCategoryDialogKey: 0
   }),
   created() {
     this.$nextTick(() => {
@@ -178,20 +144,20 @@ export default {
         this.getReloadCategory();
       });
 
-      EventBus.$on(
-        "edit.category",
-        (item, checkRoot, statusFlag, categoryFlag) => {
-          this.$refs.updateCategoryDialog.openDialog(
-            item,
-            categoryFlag === "SYSTEM"
-              ? this.$refs.systemCategoryComponent.systemCategory
-              : this.$refs.categoryComponent.category,
-            checkRoot,
-            statusFlag, //update , insert
-            categoryFlag //system / custom/ lost
-          );
-        }
-      );
+      /*EventBus.$on(
+                              "edit.category",
+                              (item, checkRoot, statusFlag, categoryFlag) => {
+                                  this.$refs.updateCategoryDialog.openDialog(
+                                      item,
+                                      categoryFlag === "SYSTEM"
+                                          ? this.$refs.systemCategoryComponent.systemCategory
+                                          : this.$refs.categoryComponent.category,
+                                      checkRoot,
+                                      statusFlag, //update , insert
+                                      categoryFlag //system / custom/ lost
+                                  );
+                              }
+                          );*/
 
       EventBus.$on("select.parent.category", categoryId => {
         this.selectedParentCategoryId = categoryId;
@@ -203,12 +169,16 @@ export default {
     });
   },
   methods: {
-    isShowSearchFieldToggle() {
-      this.isShowSearchField = !this.isShowSearchField;
-      setTimeout(() => {
-        this.$refs.categorySearchField.focus();
-        this.searchClear();
-      }, 100);
+    /*isShowSearchFieldToggle() {
+                                      this.isShowSearchField = !this.isShowSearchField;
+                                      setTimeout(() => {
+                                        this.$refs.categorySearchField.focus();
+                                        this.searchClear();
+                                      }, 100);
+                                    },*/
+    dialogCloseEvent() {
+      this.getReloadCategory();
+      this.updateCategoryDialogKey += 1;
     },
     searchCategory() {
       this.$refs.categoryComponent.search(this.keyword);
@@ -226,16 +196,18 @@ export default {
       this.$refs.lostCategoryComponent.getLostCategory();
       this.$refs.categoryComponent.getCategory();
     },
-    editCategory(item, event, checkRoot, statusFlag) {
+    editCategory(event) {
       event.preventDefault();
       event.stopPropagation();
-      this.$refs.updateCategoryDialog.openDialog(
-        item,
-        this.$refs.categoryComponent.category, // 어차피 대상은 이 category 뿐이므로..
-        checkRoot,
-        statusFlag, //update , insert
-        "CUSTOM"
-      );
+      this.$refs.newUpdateCategoryDialog.openDialog();
+
+      /*this.$refs.updateCategoryDialog.openDialog(
+                                                item,
+                                                this.$refs.categoryComponent.category, // 어차피 대상은 이 category 뿐이므로..
+                                                checkRoot,
+                                                statusFlag, //update , insert
+                                                "CUSTOM"
+                                              );*/
     },
     selectCategory(category, event) {
       this.clearCheckCategory();

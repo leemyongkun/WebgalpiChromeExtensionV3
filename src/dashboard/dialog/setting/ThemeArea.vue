@@ -86,7 +86,8 @@ export default {
 
           EventBus.$emit(
             "open.snack",
-            this.theme + "로 테마가 변경되었습니다."
+            this.theme + "로 테마가 변경되었습니다.",
+            "success"
           );
         });
     }

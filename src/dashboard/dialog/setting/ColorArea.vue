@@ -58,61 +58,48 @@ export default {
     colorValue: [
       {
         className: "highlight-color-1",
-        style: "background: #e35a69; border-radius: 5px;"
+        style: "background: #F2D3D9; border-radius: 5px;"
       },
       {
         className: "highlight-color-2",
-        style: "background: #f7b900; border-radius: 5px;"
+        style: "background: #D8CCDA; border-radius: 5px;"
       },
       {
         className: "highlight-color-3",
-        style: "background: #2da64e; border-radius: 5px;"
+        style: "background: #C7D0ED; border-radius: 5px;"
       },
       {
         className: "highlight-color-4",
-        style: "background: #d9c3ff; border-radius: 5px;"
+        style: "background: #CCDFE6; border-radius: 5px;"
       },
       {
         className: "highlight-color-5",
-        style: "background: #97c2dd; border-radius: 5px;"
+        style: "background: #C7E7E6; border-radius: 5px;"
       },
       {
         className: "highlight-color-6",
-        style: "background: #ef9a9a; border-radius: 5px;"
+        style: "background: #D7EBDF; border-radius: 5px;"
       },
       {
         className: "highlight-color-7",
-        style: "background: #90a4ae; border-radius: 5px;"
+        style: "background: #D3ECC5; border-radius: 5px;"
       },
       {
         className: "highlight-color-8",
-        style: "background: #CDDC39; border-radius: 5px;"
+        style: "background: #FDECA7; border-radius: 5px;"
       },
       {
         className: "highlight-color-9",
-        style: "background: #ffb540; border-radius: 5px;"
+        style: "background: #F2D9BA; border-radius: 5px;"
       },
       {
         className: "highlight-color-10",
-        style: "background: #B2EBF2; border-radius: 5px;"
+        style: "background: #F8DFD8; border-radius: 5px;"
       },
       {
         className: "highlight-color-11",
-        style: "background: #c0b6a7; border-radius: 5px;"
+        style: "background: #EFEDE1; border-radius: 5px;"
       }
-    ],
-    colorList: [
-      "#e35a69",
-      "#f7b900",
-      "#2da64e",
-      "#d9c3ff",
-      "#97c2dd",
-      "#ef9a9a",
-      "#90a4ae",
-      "#CDDC39",
-      "#ffb540",
-      "#B2EBF2",
-      "#c0b6a7"
     ]
   }),
   created() {},
@@ -134,11 +121,12 @@ export default {
         return false;
       }
       let result = await Utils.getLocalStorage("loginInfo");
+
       CONTENT_LISTENER.sendMessage({
         type: "update.option.color",
         data: [this.pickColor.join(","), result.loginInfo.EMAIL] //[todo] 2번째 파라메터는 Email 로 한다.
       }).then(response => {
-        EventBus.$emit("open.snack", "COLOR가 저장되었습니다.");
+        EventBus.$emit("open.snack", "COLOR가 저장되었습니다.", "success");
         this.close();
       });
     },

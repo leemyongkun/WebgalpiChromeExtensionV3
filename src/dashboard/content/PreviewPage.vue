@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                                                                                            <v-col cols="12">
-                                                                                              <iframe
-                                                                                                id="ytplayer"
-                                                                                                type="text/html"
-                                                                                                width="640"
-                                                                                                height="360"
-                                                                                                :src="youtubeVideoId + '?autoplay=0'"
-                                                                                                frameborder="0"
-                                                                                              ></iframe>
-                                                                                            </v-col>
-                                                                                          </v-row>-->
+                                                                                                  <v-col cols="12">
+                                                                                                    <iframe
+                                                                                                      id="ytplayer"
+                                                                                                      type="text/html"
+                                                                                                      width="640"
+                                                                                                      height="360"
+                                                                                                      :src="youtubeVideoId + '?autoplay=0'"
+                                                                                                      frameborder="0"
+                                                                                                    ></iframe>
+                                                                                                  </v-col>
+                                                                                                </v-row>-->
       <v-row
         :style="reviewAreaHeightStyle"
         class="overflow-y-auto custom-scroll"
@@ -76,6 +76,12 @@
             <span style="color: white"
               >컨텐츠 변환을 할 수 없는 사이트입니다.</span
             ><br /><br />
+
+            <span style="color: orange"
+              >사이트에 로그인 되어있지 않거나, 로딩 속도가 느릴 경우,
+              스크래핑에 실패할 수도 있습니다. </span
+            ><br />
+            <br />
             <v-btn small color="green" @click="goSourceSite"
               >새탭으로 열기
             </v-btn>
@@ -102,6 +108,7 @@ import CRAWLER from "../common/cheerio";
 import MODAL from "../../common/modal";
 import CONTENT_LISTENER from "../../common/content-listener";
 import CONTENTS from "../../contents/contents";
+
 let $ = require("jquery");
 
 //https://www.npmjs.com/package/vue-youtube-embed
@@ -133,8 +140,10 @@ export default {
     previewContent() {
       setTimeout(() => {
         Common.unwrapTags(document, "code");
+        //하이라이팅 된 태그에 font color 넣기
+        Common.styleWebgalpiTabFont();
         //todo : 본문 A 태그에 기능삽입
-      }, 500);
+      }, 200);
     }
   },
   created() {},
@@ -230,11 +239,11 @@ img {
 }
 
 /*code {
-      background-color: transparent !important;
-      box-shadow: none !important;
-    }
-    code::after,
-    code::before {
-      content: "" !important;
-    }*/
+          background-color: transparent !important;
+          box-shadow: none !important;
+        }
+        code::after,
+        code::before {
+          content: "" !important;
+        }*/
 </style>

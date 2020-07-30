@@ -254,6 +254,9 @@ let Api = {
       result.loginInfo.EMAIL
     ]); //parent IDX를 보낸다
   },
+  updateCategorySort: param => {
+    return update(Query.updatecategorySort(param), null);
+  },
   postCategoryRelation: param => {
     let params = [
       param.CATEGORY_ID,
@@ -269,7 +272,7 @@ let Api = {
     return update(Query.updateLostCategoryItem(), param);
   },
   insertCategoryItem: param => {
-    return insert(Query.insertCategoryItem(), param);
+    return insert(Query.insertCategoryItem(param));
   },
   updateCategoryItem: param => {
     if (param.CHECK_ROOT) {

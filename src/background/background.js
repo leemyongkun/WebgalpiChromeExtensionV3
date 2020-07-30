@@ -62,7 +62,7 @@ let BackgroundModule = {
 
     //현재 urlKey를 저장한다.
     chrome.storage.local.set({ [tabId]: currentUrl }, null);
-
+    4;
     //EMAIL로 조건을 걸지 않고, 사용중(IS_USE=Y)의 데이타만 가져온다
     Api.getMemberInfo().then(memberInfo => {
       if (memberInfo.EMAIL === "") {
@@ -150,21 +150,21 @@ let BackgrounEvent = {
   onUpdated: () => {
     chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
       //console.log("complte에서 loading으로 변경함.. 나중에 수정해야할 수도.. ",info.status);
-      if (info.status === "complete") {
-        //loading
-        //팝업인지 확인.
-        BackgroundModule.isPopup();
+      //if (info.status === "complete") {
+      //loading
+      //팝업인지 확인.
+      BackgroundModule.isPopup();
 
-        //대쉬보드의 TABID를 저장해둔다. (재진입시 STATUS를 변경하여 리로딩 하기 위함)
-        if (tab.url === Common.getDashboardUrl()) {
-          chrome.storage.local.set({
-            activeDashboardTabId: tab.id
-          });
-        }
-
-        //현재 사이트에 하이라이트 초기화
-        BackgroundModule.initApplication(tabId, tab.url);
+      //대쉬보드의 TABID를 저장해둔다. (재진입시 STATUS를 변경하여 리로딩 하기 위함)
+      if (tab.url === Common.getDashboardUrl()) {
+        chrome.storage.local.set({
+          activeDashboardTabId: tab.id
+        });
       }
+
+      //현재 사이트에 하이라이트 초기화
+      BackgroundModule.initApplication(tabId, tab.url);
+      //}
     });
   },
   autoBackupScheduler: () => {

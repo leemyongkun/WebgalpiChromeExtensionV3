@@ -15,12 +15,12 @@
             <v-list-item-title v-text="item.name"></v-list-item-title>
           </v-list-item-content>
 
-          <v-list-item-icon
+          <!--<v-list-item-icon
             @click="editCategory(item, $event, true, 'update')"
             v-show="item.mouseOver"
           >
             <v-icon dense size="18px" right>mdi-settings</v-icon>
-          </v-list-item-icon>
+          </v-list-item-icon>-->
         </template>
 
         <div v-for="(subItem, index) in item.children" :key="subItem.name">
@@ -47,12 +47,12 @@
               ></v-list-item-title>
             </v-list-item-content>
 
-            <v-list-item-icon
+            <!-- <v-list-item-icon
               @click="editCategory(subItem, $event, false, 'update')"
               v-show="subItem.mouseOver"
             >
               <v-icon dense size="18px" right>mdi-settings</v-icon>
-            </v-list-item-icon>
+            </v-list-item-icon>-->
           </v-list-item>
         </div>
       </v-list-group>
@@ -109,12 +109,12 @@ export default {
           });
         });
     },
-    editCategory(item, event, checkRoot, statusFlag) {
+    /*editCategory(item, event, checkRoot, statusFlag) {
       event.preventDefault();
       event.stopPropagation();
 
       EventBus.$emit("edit.category", item, checkRoot, statusFlag, "SYSTEM");
-    },
+    },*/
     selectCategory(category, event) {
       EventBus.$emit("select.category", category, event);
     },

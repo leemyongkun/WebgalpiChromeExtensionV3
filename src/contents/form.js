@@ -36,6 +36,7 @@ let FORM = {
     `;
   },
   updateColorPicker: COLORS => {
+    console.log("COLORS ", COLORS);
     let colorButtons = "";
     COLORS.split(",").forEach(color => {
       colorButtons += " <a class='" + color + " webgalpi-color-form'></a>";

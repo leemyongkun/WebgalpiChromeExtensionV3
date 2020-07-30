@@ -17,15 +17,18 @@
 
         <template v-slot:activator>
           <v-list-item-content>
-            <v-list-item-title v-text="item.name"></v-list-item-title>
+            <v-list-item-title
+              class="categoryName"
+              v-text="item.name"
+            ></v-list-item-title>
           </v-list-item-content>
 
-          <v-list-item-icon
+          <!--   <v-list-item-icon
             @click="editCategory(item, $event, true, 'update')"
             v-show="item.mouseOver"
           >
             <v-icon dense size="18px" right>mdi-settings</v-icon>
-          </v-list-item-icon>
+          </v-list-item-icon>-->
         </template>
 
         <!-- child menu -->
@@ -52,17 +55,18 @@
 
               <v-list-item-content :id="subItem.id">
                 <v-list-item-title
+                  class="categoryName"
                   v-html="getItemTitle(subItem.name, subItem.cnt)"
                   :id="subItem.id"
                 ></v-list-item-title>
               </v-list-item-content>
 
-              <v-list-item-icon
+              <!-- <v-list-item-icon
                 @click="editCategory(subItem, $event, false, 'update')"
                 v-show="subItem.mouseOver"
               >
                 <v-icon dense size="18px" right>mdi-settings</v-icon>
-              </v-list-item-icon>
+              </v-list-item-icon>-->
             </v-list-item>
           </drop>
         </div>
@@ -207,12 +211,12 @@ export default {
         title + ` <span class='red--text text--lighten-2'> ` + count + `</span>`
       );
     },
-    editCategory(item, event, checkRoot, statusFlag) {
+    /*editCategory(item, event, checkRoot, statusFlag) {
       event.preventDefault();
       event.stopPropagation();
 
       EventBus.$emit("edit.category", item, checkRoot, statusFlag, "CUSTOM");
-    },
+    },*/
     selectCategory(category, event) {
       EventBus.$emit("select.category", category, event);
       EventBus.$emit("select.parent.category", category.parent);
@@ -224,7 +228,7 @@ export default {
 };
 </script>
 <style>
-.v-list-item__title {
+.categoryName {
   width: 50px;
   text-overflow: ellipsis;
   white-space: nowrap;
