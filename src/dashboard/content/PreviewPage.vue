@@ -76,6 +76,12 @@
             <span style="color: white"
               >컨텐츠 변환을 할 수 없는 사이트입니다.</span
             ><br /><br />
+
+            <span style="color: orange"
+              >사이트에 로그인 되어있지 않거나, 로딩 속도가 느릴 경우,
+              스크래핑에 실패할 수도 있습니다. </span
+            ><br />
+            <br />
             <v-btn small color="green" @click="goSourceSite"
               >새탭으로 열기
             </v-btn>
