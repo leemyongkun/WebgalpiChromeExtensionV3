@@ -159,6 +159,7 @@
       <workItem from="1595431144723" duration="3750000" />
       <workItem from="1595695372305" duration="9605000" />
       <workItem from="1595855336434" duration="9716000" />
+      <workItem from="1596111985585" duration="4373000" />
     </task>
     <servers />
   </component>
@@ -221,19 +222,19 @@
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
     <state x="1383" y="787" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593868338829" />
-    <state x="962" y="447" width="2002" height="820" key="find.popup" timestamp="1595866602503">
+    <state x="962" y="447" width="2002" height="820" key="find.popup" timestamp="1596116139987">
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
     <state x="2497" y="220" width="1201" height="476" key="find.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593682511798" />
     <state x="962" y="461" width="2002" height="848" key="find.popup/3200.23.3360.1810/0.23.3200.1777@0.23.3200.1777" timestamp="1594994212507" />
-    <state x="962" y="447" width="2002" height="820" key="find.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1595866602503" />
+    <state x="962" y="447" width="2002" height="820" key="find.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1596116139987" />
     <state x="962" y="447" width="2002" height="820" key="find.popup/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699387683" />
-    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup" timestamp="1595864657074">
+    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup" timestamp="1596115663652">
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
     <state x="2496" y="197" width="670" height="676" key="search.everywhere.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593681687233" />
     <state x="960" y="420" width="1117" height="1203" key="search.everywhere.popup/3200.23.3360.1810/0.23.3200.1777@0.23.3200.1777" timestamp="1594994063072" />
-    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1595864657074" />
+    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1596115663652" />
     <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593697888051" />
   </component>
 </project>

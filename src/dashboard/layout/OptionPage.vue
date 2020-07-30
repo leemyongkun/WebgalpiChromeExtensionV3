@@ -117,8 +117,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                                                                                                                      <v-icon>mdi-heart</v-icon>
-                                                                                                                                                                                                                  </v-btn>-->
+                                                                                                                                                                                                                                    <v-icon>mdi-heart</v-icon>
+                                                                                                                                                                                                                                </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -185,10 +185,10 @@ export default {
     update: {
       version: Common.getVersion(),
       improvement: [
-        "[공통] 하이라이트 일괄삭제 기능 추가",
-        "[대쉬보드] 카테고리 등록 아이콘 변경 및 카테고리 검색 기능 추가"
+        "[대쉬보드] 카테고리 기능이 대폭 개선되었습니다.",
+        "하이라이트 Color Set을 파스텔 톤으로 변경하였습니다."
       ],
-      debug: ["...하도 많아서 다 못적음. 암튼 많았음."],
+      debug: [],
       todo: [
         "[진행중] BOOKMARK -> WEBGALPI로 IMPORT",
         "[진행중] Auto Backup/Restore ",

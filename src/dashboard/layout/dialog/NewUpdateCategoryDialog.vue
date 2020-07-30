@@ -8,10 +8,24 @@
       </v-card-title>
       <v-card-text>
         <v-row>
+          <v-col cols="12">
+            <ol>
+              <li>
+                카테고리를 상하로 Drag&Drop으로 자유롭게 순서를 정렬할 수
+                있습니다.
+              </li>
+              <li>
+                하위 카테고리에서 상위 카테고리로 Drag&Drop 하여 Tree 구조를
+                자유롭게 구성할 수 있습니다.
+              </li>
+            </ol>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols="6">
             <v-list nav dense>
               <v-subheader
-                >상위 카테고리 (PARENT)
+                >상위 카테고리
                 <v-spacer />
 
                 <v-menu
@@ -88,6 +102,7 @@
                     @dragleave="rootCategory.dropOver = false"
                     @mouseover="rootCategory.mouseOver = true"
                     @mouseleave="rootCategory.mouseOver = false"
+                    ref="rootCategoryList"
                   >
                     <!-- 자식카테고리에서 부모카테고리로 Drag&Drop할때 이벤트-->
                     <drop @drop="categoryDropEvent">
@@ -157,7 +172,7 @@
           <v-col cols="6">
             <v-list nav dense>
               <v-subheader
-                >하위 카테고리 (CHILDREN)
+                >하위 카테고리
                 <v-spacer />
                 <v-spacer />
 
@@ -326,11 +341,7 @@ export default {
     mouseOverRootCategoryId: 0,
     overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;" //드래드 시 오버 대상에 마우스 over 했을때 스타일
   }),
-  created() {
-    this.$nextTick(() => {
-      this.initCategory();
-    });
-  },
+  created() {},
   mounted() {},
   methods: {
     async initCategory() {
@@ -355,7 +366,8 @@ export default {
         })
         .then(() => {
           this.editableFlag = false;
-        });
+        })
+        .then(() => {});
     },
     /** 카테고리명 수정 취소 */
     cancelCategoryName(category) {
@@ -481,6 +493,7 @@ export default {
     },
     categoryNameKeyUpEvent(event) {},
     openDialog() {
+      this.initCategory();
       this.dialog = true;
     },
     async deleteCategory(event, item, flag) {
@@ -545,7 +558,7 @@ export default {
       }
 
       if (categoryName === "") {
-        alert("카테고리명을 입력하세요.");
+        EventBus.$emit("open.snack", "카테고리명을 입력하세요.", "error");
         return false;
       }
 
@@ -571,6 +584,8 @@ export default {
         .then(() => {
           EventBus.$emit("reload.category");
           this.initCategory();
+          this.addMenu.parent = false;
+          this.addMenu.child = false;
           this.categoryName.parent = "";
           this.categoryName.children = "";
         })

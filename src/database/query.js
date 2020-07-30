@@ -639,8 +639,8 @@ export default {
                                      FLAG,
                                      DATE_CREATE
                             ) VALUES  (? , 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM','root', null),
-                                      (? , 'ALL CATEGORY', ?, 1, 1, 'SYSTEM','all', null),
-                                      (? , 'NO CATEGORY', ?, 1, 2, 'SYSTEM','nocategory', null)
+                                      (? , 'ALL ITEMS', ?, 1, 1, 'SYSTEM','all', null),
+                                      (? , 'NO CATEGORY ITEMS', ?, 1, 2, 'SYSTEM','nocategory', null)
                  `;
   },
   getCategoryMaxId: () => {
