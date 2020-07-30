@@ -245,9 +245,6 @@ export default {
   },
 
   methods: {
-    test() {
-      alert("!");
-    },
     learnSite() {
       window.open("https://www.google.com/intl/ko/chrome/");
     },
