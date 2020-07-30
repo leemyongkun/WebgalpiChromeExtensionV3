@@ -72,10 +72,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/icons" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/dashboard/layout/dialog" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -87,14 +88,15 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dashboard/layout/dialog" />
+      <recent name="$PROJECT_DIR$/icons" />
+      <recent name="$PROJECT_DIR$/background" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/background" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/bg" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/icons" />
-      <recent name="$PROJECT_DIR$/background" />
     </key>
   </component>
   <component name="ServiceViewManager">
@@ -153,6 +155,10 @@
       <workItem from="1593793769419" duration="401000" />
       <workItem from="1593868158219" duration="2775000" />
       <workItem from="1593930409062" duration="1116000" />
+      <workItem from="1594991848100" duration="6544000" />
+      <workItem from="1595431144723" duration="3750000" />
+      <workItem from="1595695372305" duration="9605000" />
+      <workItem from="1595855336434" duration="9716000" />
     </task>
     <servers />
   </component>
@@ -202,10 +208,11 @@
       <screen x="1920" y="-26" width="1920" height="999" />
     </state>
     <state x="2431" y="198" key="Vcs.Push.Dialog.v2/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593665811292" />
-    <state x="1277" y="695" key="com.intellij.ide.util.TipDialog" timestamp="1593930975528">
+    <state x="1277" y="695" key="com.intellij.ide.util.TipDialog" timestamp="1596111987762">
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
-    <state x="1277" y="695" key="com.intellij.ide.util.TipDialog/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593930975528" />
+    <state x="1277" y="717" key="com.intellij.ide.util.TipDialog/3200.23.3360.1810/0.23.3200.1777@0.23.3200.1777" timestamp="1594991848660" />
+    <state x="1277" y="695" key="com.intellij.ide.util.TipDialog/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1596111987762" />
     <state x="1269" y="519" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1593931626266">
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
@@ -214,17 +221,19 @@
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
     <state x="1383" y="787" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593868338829" />
-    <state x="962" y="447" width="2002" height="820" key="find.popup" timestamp="1593880662196">
+    <state x="962" y="447" width="2002" height="820" key="find.popup" timestamp="1595866602503">
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
     <state x="2497" y="220" width="1201" height="476" key="find.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593682511798" />
-    <state x="962" y="447" width="2002" height="820" key="find.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593880662196" />
+    <state x="962" y="461" width="2002" height="848" key="find.popup/3200.23.3360.1810/0.23.3200.1777@0.23.3200.1777" timestamp="1594994212507" />
+    <state x="962" y="447" width="2002" height="820" key="find.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1595866602503" />
     <state x="962" y="447" width="2002" height="820" key="find.popup/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593699387683" />
-    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup" timestamp="1593931909924">
+    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup" timestamp="1595864657074">
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
     <state x="2496" y="197" width="670" height="676" key="search.everywhere.popup/1920.-26.1920.999/3840.-26.1920.1057/0.23.1920.1177@1920.-26.1920.999" timestamp="1593681687233" />
-    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1593931909924" />
+    <state x="960" y="420" width="1117" height="1203" key="search.everywhere.popup/3200.23.3360.1810/0.23.3200.1777@0.23.3200.1777" timestamp="1594994063072" />
+    <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1595864657074" />
     <state x="960" y="407" width="1117" height="1164" key="search.everywhere.popup/3200.23.3840.2137/0.23.3200.1720@0.23.3200.1720" timestamp="1593697888051" />
   </component>
 </project>
