@@ -61,13 +61,14 @@
                       <v-list-item class="pr-0 pl-0">
                         <v-list-item-content class="pt-0 pb-0">
                           <v-text-field
+                            autofocus
                             ref="parentFieldMenu"
                             clearable
                             outlined
-                            placeholder="카테고리명을 입력 후 엔터"
+                            placeholder="카테고리명 입력 후 엔터"
                             prepend-inner-icon="mdi-folder-plus-outline"
                             v-model="categoryName.parent"
-                            @keyup.enter="insertCategory('parent')"
+                            @keypress.enter="insertCategory('parent')"
                           ></v-text-field>
                         </v-list-item-content>
                       </v-list-item>
@@ -122,6 +123,7 @@
                           ></v-list-item-title>
 
                           <v-text-field
+                            autofocus
                             v-if="rootCategory.isShow === 'n'"
                             class="pt-0 mt-0"
                             style="width: 250px"
@@ -132,7 +134,7 @@
                             @click:append-outer="
                               updateCategoryName(rootCategory)
                             "
-                            @keyup.enter="updateCategoryName(rootCategory)"
+                            @keypress.enter="updateCategoryName(rootCategory)"
                             :value="rootCategory.name"
                           ></v-text-field>
                         </v-list-item-content>
@@ -205,13 +207,14 @@
                       <v-list-item class="pr-0 pl-0">
                         <v-list-item-content class="pt-0 pb-0">
                           <v-text-field
+                            autofocus
                             ref="childFieldMenu"
                             clearable
                             outlined
-                            placeholder="카테고리명을 입력 후 엔터"
+                            placeholder="카테고리명 입력 후 엔터"
                             prepend-inner-icon="mdi-folder-plus-outline"
                             v-model="categoryName.children"
-                            @keyup.enter="insertCategory('children')"
+                            @keypress.enter="insertCategory('children')"
                           ></v-text-field>
                         </v-list-item-content>
                       </v-list-item>
@@ -256,6 +259,7 @@
                         ></v-list-item-title>
 
                         <v-text-field
+                          autofocus
                           v-if="children.isShow === 'n'"
                           class="pt-0 mt-0"
                           style="width: 250px"
@@ -264,7 +268,7 @@
                           append-outer-icon="mdi-check"
                           @click:append="cancelCategoryName(children)"
                           @click:append-outer="updateCategoryName(children)"
-                          @keyup.enter="updateCategoryName(children)"
+                          @keypress.enter="updateCategoryName(children)"
                           :value="children.name"
                         ></v-text-field>
                       </v-list-item-content>
@@ -354,6 +358,9 @@ export default {
           this.categoryData.parent = Utils.generateTree(category, 0);
         })
         .then(() => {
+          this.editableFlag = false;
+        })
+        .then(() => {
           if (this.selectedCategoryParent !== null) {
             let ret = this.categoryData.parent.filter(p => {
               return p.id === this.selectedCategoryParent.id;
@@ -363,11 +370,7 @@ export default {
               this.selectRootCategory(ret[0]);
             }
           }
-        })
-        .then(() => {
-          this.editableFlag = false;
-        })
-        .then(() => {});
+        });
     },
     /** 카테고리명 수정 취소 */
     cancelCategoryName(category) {
@@ -398,8 +401,8 @@ export default {
         object.CHECK_ROOT = false;
       }
       object.CATEGORY_TYPE = "CUSTOM";
-      this.updateCategory(object);
       this.cancelCategoryName();
+      this.updateCategory(object);
     },
     /** 카테고리명 수정 텍스트 필드 */
     editCategoryName(event, item, flag) {
@@ -472,14 +475,11 @@ export default {
      */
     selectRootCategory(rootCategory) {
       if (this.editableFlag) {
-        EventBus.$emit(
-          "open.snack",
-          "편집 중에는 선택할 수 없습니다.",
-          "error"
-        );
         return false;
       }
+
       this.selectedCategoryParent = rootCategory;
+
       if (rootCategory.children === undefined) {
         this.categoryData.children = [];
       } else {
@@ -537,7 +537,6 @@ export default {
     },
     async insertCategory(flag) {
       let result = await Utils.getLocalStorage("loginInfo");
-
       let categoryName = this.categoryName.parent.trim();
       let categoryParent = 0;
       let depth = 1;
