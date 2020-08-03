@@ -211,7 +211,7 @@ export default {
 
       setTimeout(() => {
         //복구여부 프로세스
-        this.autoRestoreProcess();
+        //this.autoRestoreProcess();
       }, 2000);
     });
   }
