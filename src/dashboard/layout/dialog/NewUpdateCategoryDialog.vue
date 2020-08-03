@@ -8,10 +8,24 @@
       </v-card-title>
       <v-card-text>
         <v-row>
+          <v-col cols="12">
+            <ol>
+              <li>
+                카테고리를 상하로 Drag&Drop으로 자유롭게 순서를 정렬할 수
+                있습니다.
+              </li>
+              <li>
+                하위 카테고리에서 상위 카테고리로 Drag&Drop 하여 Tree 구조를
+                자유롭게 구성할 수 있습니다.
+              </li>
+            </ol>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols="6">
             <v-list nav dense>
               <v-subheader
-                >상위 카테고리 (PARENT)
+                >상위 카테고리
                 <v-spacer />
 
                 <v-menu
@@ -47,13 +61,14 @@
                       <v-list-item class="pr-0 pl-0">
                         <v-list-item-content class="pt-0 pb-0">
                           <v-text-field
+                            autofocus
                             ref="parentFieldMenu"
                             clearable
                             outlined
-                            placeholder="카테고리명을 입력 후 엔터"
+                            placeholder="카테고리명 입력 후 엔터"
                             prepend-inner-icon="mdi-folder-plus-outline"
                             v-model="categoryName.parent"
-                            @keyup.enter="insertCategory('parent')"
+                            @keypress.enter="insertCategory('parent')"
                           ></v-text-field>
                         </v-list-item-content>
                       </v-list-item>
@@ -88,6 +103,7 @@
                     @dragleave="rootCategory.dropOver = false"
                     @mouseover="rootCategory.mouseOver = true"
                     @mouseleave="rootCategory.mouseOver = false"
+                    ref="rootCategoryList"
                   >
                     <!-- 자식카테고리에서 부모카테고리로 Drag&Drop할때 이벤트-->
                     <drop @drop="categoryDropEvent">
@@ -107,6 +123,7 @@
                           ></v-list-item-title>
 
                           <v-text-field
+                            autofocus
                             v-if="rootCategory.isShow === 'n'"
                             class="pt-0 mt-0"
                             style="width: 250px"
@@ -117,7 +134,7 @@
                             @click:append-outer="
                               updateCategoryName(rootCategory)
                             "
-                            @keyup.enter="updateCategoryName(rootCategory)"
+                            @keypress.enter="updateCategoryName(rootCategory)"
                             :value="rootCategory.name"
                           ></v-text-field>
                         </v-list-item-content>
@@ -157,7 +174,7 @@
           <v-col cols="6">
             <v-list nav dense>
               <v-subheader
-                >하위 카테고리 (CHILDREN)
+                >하위 카테고리
                 <v-spacer />
                 <v-spacer />
 
@@ -190,13 +207,14 @@
                       <v-list-item class="pr-0 pl-0">
                         <v-list-item-content class="pt-0 pb-0">
                           <v-text-field
+                            autofocus
                             ref="childFieldMenu"
                             clearable
                             outlined
-                            placeholder="카테고리명을 입력 후 엔터"
+                            placeholder="카테고리명 입력 후 엔터"
                             prepend-inner-icon="mdi-folder-plus-outline"
                             v-model="categoryName.children"
-                            @keyup.enter="insertCategory('children')"
+                            @keypress.enter="insertCategory('children')"
                           ></v-text-field>
                         </v-list-item-content>
                       </v-list-item>
@@ -241,6 +259,7 @@
                         ></v-list-item-title>
 
                         <v-text-field
+                          autofocus
                           v-if="children.isShow === 'n'"
                           class="pt-0 mt-0"
                           style="width: 250px"
@@ -249,7 +268,7 @@
                           append-outer-icon="mdi-check"
                           @click:append="cancelCategoryName(children)"
                           @click:append-outer="updateCategoryName(children)"
-                          @keyup.enter="updateCategoryName(children)"
+                          @keypress.enter="updateCategoryName(children)"
                           :value="children.name"
                         ></v-text-field>
                       </v-list-item-content>
@@ -326,11 +345,7 @@ export default {
     mouseOverRootCategoryId: 0,
     overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;" //드래드 시 오버 대상에 마우스 over 했을때 스타일
   }),
-  created() {
-    this.$nextTick(() => {
-      this.initCategory();
-    });
-  },
+  created() {},
   mounted() {},
   methods: {
     async initCategory() {
@@ -343,6 +358,9 @@ export default {
           this.categoryData.parent = Utils.generateTree(category, 0);
         })
         .then(() => {
+          this.editableFlag = false;
+        })
+        .then(() => {
           if (this.selectedCategoryParent !== null) {
             let ret = this.categoryData.parent.filter(p => {
               return p.id === this.selectedCategoryParent.id;
@@ -352,9 +370,6 @@ export default {
               this.selectRootCategory(ret[0]);
             }
           }
-        })
-        .then(() => {
-          this.editableFlag = false;
         });
     },
     /** 카테고리명 수정 취소 */
@@ -386,8 +401,8 @@ export default {
         object.CHECK_ROOT = false;
       }
       object.CATEGORY_TYPE = "CUSTOM";
-      this.updateCategory(object);
       this.cancelCategoryName();
+      this.updateCategory(object);
     },
     /** 카테고리명 수정 텍스트 필드 */
     editCategoryName(event, item, flag) {
@@ -460,14 +475,11 @@ export default {
      */
     selectRootCategory(rootCategory) {
       if (this.editableFlag) {
-        EventBus.$emit(
-          "open.snack",
-          "편집 중에는 선택할 수 없습니다.",
-          "error"
-        );
         return false;
       }
+
       this.selectedCategoryParent = rootCategory;
+
       if (rootCategory.children === undefined) {
         this.categoryData.children = [];
       } else {
@@ -481,6 +493,7 @@ export default {
     },
     categoryNameKeyUpEvent(event) {},
     openDialog() {
+      this.initCategory();
       this.dialog = true;
     },
     async deleteCategory(event, item, flag) {
@@ -524,7 +537,6 @@ export default {
     },
     async insertCategory(flag) {
       let result = await Utils.getLocalStorage("loginInfo");
-
       let categoryName = this.categoryName.parent.trim();
       let categoryParent = 0;
       let depth = 1;
@@ -545,7 +557,7 @@ export default {
       }
 
       if (categoryName === "") {
-        alert("카테고리명을 입력하세요.");
+        EventBus.$emit("open.snack", "카테고리명을 입력하세요.", "error");
         return false;
       }
 
@@ -571,6 +583,8 @@ export default {
         .then(() => {
           EventBus.$emit("reload.category");
           this.initCategory();
+          this.addMenu.parent = false;
+          this.addMenu.child = false;
           this.categoryName.parent = "";
           this.categoryName.children = "";
         })

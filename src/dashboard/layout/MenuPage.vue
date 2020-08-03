@@ -32,7 +32,7 @@
                           block
                           color="info"
                           class="pt-0 pb-1 mb-3"
-                          style="height: 24px"
+                          style="height: 30px"
                           v-on="on"
                           @click="editCategory($event)"
                         >
