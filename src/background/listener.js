@@ -398,6 +398,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
+    case "restore.onetab":
+      API.restoreOnetab(msg.data).then(onetab => {
+        sendResponse(onetab);
+      });
+      return true;
+      break;
     case "restore.log":
       API.restoreLog(msg.data).then(log => {
         sendResponse(log);

@@ -155,7 +155,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn small text color="primary" v-if="showCloseBtn" @click="close"
-          >DONE
+          >닫기
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -185,7 +185,8 @@ export default {
       category: [],
       categoryRelation: [],
       site: [],
-      highlight: []
+      highlight: [],
+      onetabs: []
     },
     progress: {
       siteComplete: 0,
@@ -208,7 +209,7 @@ export default {
       this.isShowBackupInfo = false; //백업정보를 가린다.
 
       this.showCloseBtn = false;
-      EventBus.$emit("start.restore");
+      //EventBus.$emit("start.restore");
 
       //TBL_SITE / TBL_HIGHLIGHTS / TBL_CATEGORY(REL) 모두 삭제.
       dbcon.truncateTable();
@@ -226,6 +227,9 @@ export default {
 
         //하이라이트 저장 시작
         if (this.data.highlight.length !== 0) await this.runRestoreHighlight();
+
+        //OneTab 저장 시작
+        if (this.data.onetabs.length !== 0) await this.runRestoreOneTabs();
 
         //restore date update
         let params = new Object();
@@ -256,6 +260,22 @@ export default {
           await CONTENT_LISTENER.sendMessage({
             type: "restore.highlight",
             data: highlight
+          });
+        });
+        await Promise.all(promise);
+        res(true);
+      });
+    },
+    runRestoreOneTabs() {
+      return new Promise(async res => {
+        const promise = this.data.onetabs.map(async onetab => {
+          /*this.progress.highlightComplete += 1;
+                        this.progress.highlightCompletePer = Math.floor(
+                            (this.progress.highlightComplete / this.data.highlight.length) * 100
+                        );*/
+          await CONTENT_LISTENER.sendMessage({
+            type: "restore.onetab",
+            data: onetab
           });
         });
         await Promise.all(promise);
@@ -341,7 +361,7 @@ export default {
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                                                                                                                     url = "https://www.fnnews.com/news/202004231837158267";*/
+                                                                                                                               url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     async dataParsing(data) {
@@ -363,6 +383,7 @@ export default {
       this.data.site = data.sites;
       this.data.highlight = data.highlights;
       this.data.info = data.info;
+      this.data.onetabs = data.onetabs;
     },
     open(restoreData) {
       //로딩된 데이타를 분석하여 화면에 출력한다.

@@ -16,7 +16,6 @@ let GOOGLE_DRIVE = {
     return GOOGLE_DRIVE_DATA.BACKUP_PASSWORD;
   },
   getBackupData(item) {
-    console.log("getBackupData");
     return new Promise(res => {
       chrome.identity.getAuthToken({ interactive: true }, token => {
         let url =

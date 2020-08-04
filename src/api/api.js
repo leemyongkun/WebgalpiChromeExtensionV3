@@ -16,7 +16,8 @@ let Api = {
         Api.getBackupHighlights(param),
         Api.getOptions(obj),
         Api.getBackupCategorys(param),
-        Api.getBackupCategorysRelation(param)
+        Api.getBackupCategorysRelation(param),
+        Api.getBackupOneTabsHistory(param)
       ]).then(values => {
         let data = new Object();
         data.sites = values[0];
@@ -24,7 +25,7 @@ let Api = {
         data.options = values[2];
         data.categorys = values[3];
         data.categoryRelation = values[4];
-
+        data.onetabs = values[5];
         res(data);
       });
     });
@@ -40,6 +41,10 @@ let Api = {
   },
   getBackupCategorys: param => {
     return select(Query.getBackupCategorys(), param);
+  },
+  getBackupOneTabsHistory: param => {
+    //모아보기
+    return select(Query.getBackupOneTabsHistory(), param);
   },
 
   getMemberInfo: () => {
@@ -376,6 +381,9 @@ let Api = {
       date //params.DATE_UPDATE
     ];
     return insert(Query.restoreHighlight(), param);
+  },
+  restoreOnetab: params => {
+    return insert(Query.restoreOnetab(params), null);
   },
   getUpdateHistory: params => {
     let param = [params.EMAIL];

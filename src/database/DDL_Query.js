@@ -318,10 +318,10 @@ let DDL = {
     db.transaction(function(tx) {
       tx.executeSql(TRUNCATION_TABLE_QUERY.CATEGORY_RELATION(param), []);
     });
-    /*  //ONETAB
-        db.transaction(function(tx) {
-          tx.executeSql(TRUNCATION_TABLE_QUERY.ONETAB(param), []);
-        });*/
+    //ONETAB
+    db.transaction(function(tx) {
+      tx.executeSql(TRUNCATION_TABLE_QUERY.ONETAB(param), []);
+    });
   }
 };
 

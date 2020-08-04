@@ -52,6 +52,13 @@ export default {
             WHERE EMAIL = ?
         `;
   },
+  getBackupOneTabsHistory: () => {
+    return `
+            SELECT *
+            FROM TBL_ONETAB
+            WHERE EMAIL = ?
+        `;
+  },
   getAllCategoryCount: () => {
     return `SELECT COUNT(*) AS COUNT
         FROM TBL_SITES
@@ -708,6 +715,32 @@ export default {
         )
         VALUES
             (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
+  },
+  restoreOnetab: param => {
+    param.DESCRIPTION = param.DESCRIPTION === null ? "" : param.DESCRIPTION;
+    return `
+        INSERT INTO TBL_ONETAB
+        (
+           EMAIL,
+           GROUP_ID,
+           URL,
+           URL_KEY,
+           TITLE,
+           DESCRIPTION,
+           FL_DELETE,
+           DATE_CREATE
+        )
+        VALUES
+            (
+                '${param.EMAIL}',
+                ${param.GROUP_ID},
+                '${param.URL}',
+                '${param.URL_KEY}',
+                '${param.TITLE}',
+                '${param.DESCRIPTION}',
+                '${param.FL_DELETE}',
+                ${param.DATE_CREATE}
+             ) `;
   },
   selectUpdateHistory: () => {
     return `SELECT * FROM TBL_UPDATE_HISTORY
