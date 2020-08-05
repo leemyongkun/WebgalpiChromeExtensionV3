@@ -88,7 +88,7 @@ let GOOGLE_DRIVE = {
           });
         }).then(list => {
           if (list.length === 0) {
-            alert("복구 할 대상이 존재하지 않습니다.");
+            MODAL.alert(LANG.ALERT_MESSAGE("A0007"), "error");
             resolve(false);
           }
           resolve(list);
@@ -130,11 +130,11 @@ let GOOGLE_DRIVE = {
         .then(() => {
           res(true);
           //백업이 완료 되었습니다.
-          MODAL.alert("백업이 완료 되었습니다.");
+          MODAL.alert(LANG.ALERT_MESSAGE("A0004"));
         })
         .catch(error => {
           //백업 도중 에러가 발생하였습니다.
-          MODAL.alert(LANG.getMessage("M0004"));
+          MODAL.alert(LANG.ALERT_MESSAGE("A0008"));
         });
     });
   },

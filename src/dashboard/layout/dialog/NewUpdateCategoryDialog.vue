@@ -11,12 +11,10 @@
           <v-col cols="12">
             <ol>
               <li>
-                카테고리를 상하로 Drag&Drop으로 자유롭게 순서를 정렬할 수
-                있습니다.
+                {{ LANG.DESCRIPTION_MESSAGE("D0003") }}
               </li>
               <li>
-                하위 카테고리에서 상위 카테고리로 Drag&Drop 하여 Tree 구조를
-                자유롭게 구성할 수 있습니다.
+                {{ LANG.DESCRIPTION_MESSAGE("D0004") }}
               </li>
             </ol>
           </v-col>
@@ -26,9 +24,8 @@
             <div style="max-height: 500px" class="overflow-y-auto">
               <v-list nav dense>
                 <v-subheader
-                  >상위 카테고리
+                  >{{ LANG.DESCRIPTION_MESSAGE("D0005") }}
                   <v-spacer />
-
                   <v-menu
                     v-model="addMenu.parent"
                     :close-on-content-click="false"
@@ -53,7 +50,7 @@
                             <v-icon size="22px">mdi-folder-plus-outline</v-icon>
                           </v-btn>
                         </template>
-                        <span> 상위 카테고리명을 추가 및 수정합니다.</span>
+                        <span>{{ LANG.DESCRIPTION_MESSAGE("D0006") }}</span>
                       </v-tooltip>
                     </template>
 
@@ -80,9 +77,9 @@
 
                 <!-- 부모카테고리 영역 -->
                 <v-list-item-group color="primary">
-                  <span v-if="categoryData.parent.length === 0"
-                    >상위 카테고리가 없습니다.</span
-                  >
+                  <span v-if="categoryData.parent.length === 0">
+                    {{ LANG.DESCRIPTION_MESSAGE("D0007") }}
+                  </span>
 
                   <!-- 정렬을 위한 Drag-->
                   <draggable
@@ -182,9 +179,8 @@
           <v-col cols="6">
             <div style="max-height: 500px" class="overflow-y-auto">
               <v-list nav dense>
-                <v-subheader
-                  >하위 카테고리
-                  <v-spacer />
+                <v-subheader>
+                  {{ LANG.DESCRIPTION_MESSAGE("D0008") }}
                   <v-spacer />
 
                   <v-menu
@@ -211,7 +207,7 @@
                             <v-icon size="22px">mdi-folder-plus-outline</v-icon>
                           </v-btn>
                         </template>
-                        <span> 하위 카테고리명을 추가 및 수정합니다.</span>
+                        <span>{{ LANG.DESCRIPTION_MESSAGE("D0009") }}</span>
                       </v-tooltip>
                     </template>
 
@@ -236,10 +232,9 @@
                   </v-menu>
                 </v-subheader>
                 <v-list-item-group color="primary">
-                  <span v-if="categoryData.children.length === 0"
-                    >상위 카테고리를 선택하지 않았거나, 하위 카테고리가 존재하지
-                    않습니다.</span
-                  >
+                  <span v-if="categoryData.children.length === 0">{{
+                    LANG.DESCRIPTION_MESSAGE("D0010")
+                  }}</span>
                   <draggable
                     v-model="categoryData.children"
                     :options="{
@@ -321,7 +316,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="success" text @click="close">DONE</v-btn>
+        <v-btn color="success" text @click="close">{{
+          LANG.BUTTON_MESSAGE("B0003")
+        }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -332,6 +329,7 @@ import EventBus from "../../event-bus";
 import Utils from "../../utils/Utils";
 import MODAL from "../../../common/modal";
 import draggable from "vuedraggable";
+import LANG from "../../../common/language";
 
 export default {
   components: { draggable },
@@ -359,7 +357,8 @@ export default {
     dialog: false,
     selectedCategoryParent: null,
     mouseOverRootCategoryId: 0,
-    overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;" //드래드 시 오버 대상에 마우스 over 했을때 스타일
+    overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;", //드래드 시 오버 대상에 마우스 over 했을때 스타일
+    LANG: LANG
   }),
   created() {},
   mounted() {},
@@ -454,11 +453,7 @@ export default {
      */
     categoryDropEvent(data, event) {
       if (this.editableFlag) {
-        EventBus.$emit(
-          "open.snack",
-          "편집 중에는, 하위 카테고리를 이동 할 수 없습니다.",
-          "error"
-        );
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0001"), "error");
         return false;
       }
 
@@ -517,16 +512,11 @@ export default {
       event.stopImmediatePropagation();
 
       if (item.children !== undefined) {
-        MODAL.alert(
-          "하위 카테고리를 포함하고 있어, 삭제할 수 없습니다.",
-          "error",
-          null,
-          "420px"
-        );
+        MODAL.alert(LANG.ALERT_MESSAGE("A0001"), "error", null, "420px");
         return false;
       }
 
-      let confirm = "[" + item.name + "] 카테고리를 삭제 하시겠습니까?";
+      let confirm = "[" + item.name + "] " + LANG.CONFIRM_MESSAGE("C0001");
       let result = await MODAL.confirm(confirm, "info", null, null, "420px");
       if (result.value === undefined) return false;
 
@@ -559,12 +549,7 @@ export default {
 
       if (flag === "children") {
         if (this.selectedCategoryParent === null) {
-          MODAL.alert(
-            "상위 카테고리를 지정(클릭)하셔야 합니다.",
-            "error",
-            null,
-            "400px"
-          );
+          MODAL.alert(LANG.ALERT_MESSAGE("A0002"), "error", null, "400px");
           return false;
         }
         categoryName = this.categoryName.children.trim();
@@ -573,7 +558,7 @@ export default {
       }
 
       if (categoryName === "") {
-        EventBus.$emit("open.snack", "카테고리명을 입력하세요.", "error");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0002"), "error");
         return false;
       }
 

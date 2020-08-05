@@ -71,6 +71,7 @@ import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import MODAL from "../../../common/modal";
 import GOOGLE_DRIVE from "../../../common/GoogleDriveBackupAndRestore";
+import LANG from "../../../common/language";
 
 export default {
   data: () => ({
@@ -252,7 +253,7 @@ export default {
 
           //이미 존재하면 에러.
           if (result.length !== 0) {
-            EventBus.$emit("open.snack", "이미 존재하는 계정입니다.", "red");
+            EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0017"), "red");
           } else {
             this.registMember();
           }

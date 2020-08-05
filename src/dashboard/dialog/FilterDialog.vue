@@ -22,7 +22,7 @@
               <v-icon size="18px">mdi-magnify</v-icon>
             </v-btn>
           </template>
-          <span>선택된 카테고리에서 컨텐츠의 제목/본문을 검색합니다.</span>
+          <span>{{ LANG.DESCRIPTION_MESSAGE("D0011") }}</span>
         </v-tooltip>
       </template>
 
@@ -34,7 +34,7 @@
                 ref="searchKeywordArea"
                 clearable
                 outlined
-                placeholder="검색어 입력 후 엔터"
+                :placeholder="LANG.DESCRIPTION_MESSAGE('D0012')"
                 prepend-inner-icon="mdi-magnify"
                 @keyup.enter="goSearch"
                 v-model="searchKeyword"
@@ -55,7 +55,7 @@
           </v-icon>
         </v-btn>
       </template>
-      <span>등록순서로 정렬합니다.</span>
+      <span>{{ LANG.DESCRIPTION_MESSAGE("D0013") }}</span>
     </v-tooltip>
 
     <!--별 필터링 버튼-->
@@ -67,7 +67,7 @@
           </v-icon>
         </v-btn>
       </template>
-      <span>★ 표시 컨테츠를 필터링 합니다.</span>
+      <span>{{ LANG.DESCRIPTION_MESSAGE("D0014") }}</span>
     </v-tooltip>
 
     <!--방지사이트 필터링 버튼-->
@@ -79,7 +79,7 @@
           </v-icon>
         </v-btn>
       </template>
-      <span>스크래핑에 실패한 컨텐츠를 필터링 합니다.</span>
+      <span>{{ LANG.DESCRIPTION_MESSAGE("D0015") }}</span>
     </v-tooltip>
 
     <v-menu
@@ -170,12 +170,13 @@
     </v-menu>
 
     <v-btn small text block outlined @click="more">
-      MORE ( items : {{ itemCount }})
+      {{ LANG.BUTTON_MESSAGE("B0004") }} ( items : {{ itemCount }})
     </v-btn>
   </div>
 </template>
 <script>
 import EventBus from "../event-bus";
+import LANG from "../../common/language";
 
 export default {
   props: ["itemCount"],
@@ -197,7 +198,8 @@ export default {
       detect: false,
       search: false,
       sort: false //f : 내림차순 , t : 오름차순
-    }
+    },
+    LANG: LANG
   }),
   methods: {
     openMenu() {

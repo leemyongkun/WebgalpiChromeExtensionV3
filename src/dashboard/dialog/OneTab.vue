@@ -69,16 +69,16 @@
 
                   <template v-slot:item.URL_KEY="{ item }">
                     <!--  <v-btn
-                                                                    color="green"
-                                                                    icon
-                                                                    @click="importSite(item)"
-                                                                    v-show="isCrawlingInvalidSite(item)"
-                                                            >
-                                                                <v-icon>mdi-cloud-download-outline</v-icon>
-                                                            </v-btn>-->
+                                                                                        color="green"
+                                                                                        icon
+                                                                                        @click="importSite(item)"
+                                                                                        v-show="isCrawlingInvalidSite(item)"
+                                                                                >
+                                                                                    <v-icon>mdi-cloud-download-outline</v-icon>
+                                                                                </v-btn>-->
                     <!-- <v-btn color="red" icon @click="removeSite(item)">
-                                                                                     <v-icon>mdi-trash-can-outline</v-icon>
-                                                                                 </v-btn>-->
+                                                                                                         <v-icon>mdi-trash-can-outline</v-icon>
+                                                                                                     </v-btn>-->
                     <v-btn icon @click="goSourceSite(item)">
                       <v-icon>mdi-home-outline</v-icon>
                     </v-btn>
@@ -106,6 +106,7 @@ import EventBus from "../event-bus";
 import MODAL from "../../common/modal";
 import SITE_MANAGER from "../../common/site-manager";
 import Utils from "../utils/Utils";
+import LANG from "../../common/language";
 
 export default {
   props: [],
@@ -254,47 +255,6 @@ export default {
       }).then(detail => {
         this.tabList = detail;
       });
-    },
-    isCrawlingInvalidSite(item) {
-      for (var i = 0; i < SITE_MANAGER.DETECTE_SITES.length; i++) {
-        if (item.URL.indexOf(SITE_MANAGER.DETECTE_SITES[i]) !== -1) {
-          return false;
-        }
-      }
-
-      if (item.URL_KEY !== null) {
-        return false;
-      }
-      return true;
-    },
-    async importSite(item) {
-      CRAWLER.getImportSiteContents(item.url)
-        .then(result => {
-          if (
-            result.OG_DESCRIPTION === undefined &&
-            result.OG_IMAGE === undefined &&
-            result.OG_TITLE === undefined
-          ) {
-            alert("크롤링 할 수 없는 사이트입니다. 직접 가서 하실래요?");
-            return false;
-          }
-
-          if (result.TITLE === undefined) {
-            alert(
-              "정상적으로 크롤링 할 수 없는 사이트입니다. 직접가서 할래요?"
-            );
-            return false;
-          }
-          CONTENT_LISTENER.sendMessage({
-            type: "post.site",
-            data: result
-          }).then(() => {
-            EventBus.$emit("open.snack", "IMPORT 되었습니다.", "primary");
-          });
-        })
-        .catch(err => {
-          alert("크롤링에 실패 했습니다. 방문하여 저장하세요.");
-        });
     }
   }
 };

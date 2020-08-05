@@ -73,6 +73,7 @@
 import SignDialog from "./SignDialog";
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
+import LANG from "../../../common/language";
 
 export default {
   components: {
@@ -130,7 +131,7 @@ export default {
           });
         } else {
           this.passwordError = true;
-          EventBus.$emit("open.snack", "패스워드가 맞지 않습니다.", "red");
+          EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0016"), "red");
         }
       });
     }

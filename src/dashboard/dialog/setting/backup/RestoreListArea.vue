@@ -66,6 +66,7 @@ import RestoreProcessArea from "./RestoreProcessArea";
 import MODAL from "../../../../common/modal";
 import EventBus from "../../../event-bus";
 import GOOGLE_DRIVE from "../../../../common/GoogleDriveBackupAndRestore";
+import LANG from "../../../../common/language";
 
 export default {
   components: { RestoreProcessArea },
@@ -189,12 +190,7 @@ export default {
     async allDeleteRestoreFile() {
       return new Promise(async res => {
         if (this.items.length === this.selected.length) {
-          MODAL.alert(
-            `모든 백업파일을 삭제할 수는 없습니다. <br>1개 이상의 백업파일은 남겨두세요.`,
-            "error",
-            null,
-            "450px"
-          );
+          MODAL.alert(LANG.ALERT_MESSAGE("A0003"), "error", null, "450px");
           return false;
         }
 
@@ -209,7 +205,7 @@ export default {
           this.actionDelete(item.id);
         });
         await Promise.all(promise);
-        EventBus.$emit("open.snack", "삭제 되었습니다.");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0013"));
         this.restoreOverlay = false;
         res(true);
       });
@@ -224,7 +220,7 @@ export default {
 
       this.restoreOverlay = true;
       this.actionDelete(item.id).then(() => {
-        EventBus.$emit("open.snack", "삭제 되었습니다.");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0013"));
         this.restoreOverlay = false;
       });
     },

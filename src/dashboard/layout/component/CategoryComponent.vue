@@ -24,11 +24,11 @@
           </v-list-item-content>
 
           <!--   <v-list-item-icon
-            @click="editCategory(item, $event, true, 'update')"
-            v-show="item.mouseOver"
-          >
-            <v-icon dense size="18px" right>mdi-settings</v-icon>
-          </v-list-item-icon>-->
+                      @click="editCategory(item, $event, true, 'update')"
+                      v-show="item.mouseOver"
+                    >
+                      <v-icon dense size="18px" right>mdi-settings</v-icon>
+                    </v-list-item-icon>-->
         </template>
 
         <!-- child menu -->
@@ -49,9 +49,9 @@
               :class="subItem.class"
             >
               <!--  <v-list-item-icon style="margin-right: 2px;">
-                                                                                                                    <v-icon size="15px" color="green" left>mdi-folder-outline
-                                                                                                                    </v-icon>
-                                                                                                                </v-list-item-icon>-->
+                                                                                                                                  <v-icon size="15px" color="green" left>mdi-folder-outline
+                                                                                                                                  </v-icon>
+                                                                                                                              </v-list-item-icon>-->
 
               <v-list-item-content :id="subItem.id">
                 <v-list-item-title
@@ -62,11 +62,11 @@
               </v-list-item-content>
 
               <!-- <v-list-item-icon
-                @click="editCategory(subItem, $event, false, 'update')"
-                v-show="subItem.mouseOver"
-              >
-                <v-icon dense size="18px" right>mdi-settings</v-icon>
-              </v-list-item-icon>-->
+                              @click="editCategory(subItem, $event, false, 'update')"
+                              v-show="subItem.mouseOver"
+                            >
+                              <v-icon dense size="18px" right>mdi-settings</v-icon>
+                            </v-list-item-icon>-->
             </v-list-item>
           </drop>
         </div>
@@ -88,6 +88,7 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import Utils from "../../utils/Utils";
 import EventBus from "../../event-bus";
+import LANG from "../../../common/language";
 
 export default {
   components: {},
@@ -168,11 +169,7 @@ export default {
     },
     dropEvent(data, event) {
       if (event.target.id === "") {
-        EventBus.$emit(
-          "open.snack",
-          "카테고리 저장에 실패하였습니다. 다시 시도바랍니다.",
-          "error"
-        );
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0015"), "error");
         return false;
       }
 
@@ -203,7 +200,7 @@ export default {
       }).then(() => {
         EventBus.$emit("reload.category");
         EventBus.$emit("hideSite", data.URL_KEY);
-        EventBus.$emit("open.snack", "카테고리에 저장되었습니다.", "primary");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0014"), "primary");
       });
     },
     getItemTitle(title, count) {
@@ -212,11 +209,11 @@ export default {
       );
     },
     /*editCategory(item, event, checkRoot, statusFlag) {
-      event.preventDefault();
-      event.stopPropagation();
+              event.preventDefault();
+              event.stopPropagation();
 
-      EventBus.$emit("edit.category", item, checkRoot, statusFlag, "CUSTOM");
-    },*/
+              EventBus.$emit("edit.category", item, checkRoot, statusFlag, "CUSTOM");
+            },*/
     selectCategory(category, event) {
       EventBus.$emit("select.category", category, event);
       EventBus.$emit("select.parent.category", category.parent);

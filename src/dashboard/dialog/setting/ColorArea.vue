@@ -42,6 +42,7 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import Utils from "../../utils/Utils";
+import LANG from "../../../common/language";
 
 export default {
   props: [],
@@ -126,19 +127,19 @@ export default {
         type: "update.option.color",
         data: [this.pickColor.join(","), result.loginInfo.EMAIL] //[todo] 2번째 파라메터는 Email 로 한다.
       }).then(response => {
-        EventBus.$emit("open.snack", "COLOR가 저장되었습니다.", "success");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0010"), "success");
         this.close();
       });
     },
     selectedColor() {
       if (this.pickColor.length === 7) {
-        EventBus.$emit("open.snack", "Color지정은 6개까지입니다.", "red");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0011"), "red");
         this.pickColor = this.pickColor.slice(0, 6);
         return false;
       }
 
       if (this.pickColor.length === 0) {
-        EventBus.$emit("open.snack", "Color를 1개 이상 지정해야합니다.", "red");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0012"), "red");
         return false;
       }
     }

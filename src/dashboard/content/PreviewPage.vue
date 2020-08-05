@@ -114,7 +114,7 @@ import CRAWLER from "../common/cheerio";
 import MODAL from "../../common/modal";
 import CONTENT_LISTENER from "../../common/content-listener";
 import CONTENTS from "../../contents/contents";
-
+import LANG from "../../common/language";
 let $ = require("jquery");
 
 //https://www.npmjs.com/package/vue-youtube-embed
@@ -136,7 +136,8 @@ export default {
     youtube: {
       videoId: "",
       startTime: ""
-    }
+    },
+    LANG: LANG
   }),
   computed: {
     convertDate() {
@@ -180,7 +181,7 @@ export default {
             type: "update.scrap.site",
             data: this.currentSite
           }).then(() => {
-            EventBus.$emit("open.snack", "업데이트가 완료되었습니다.");
+            EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0007"));
           });
         })
         .catch(err => {
@@ -198,7 +199,7 @@ export default {
       document.execCommand("copy");
       document.body.removeChild(t);
 
-      EventBus.$emit("open.snack", "URL이 복사되었습니다.");
+      EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0008"));
     },
     getLocation(url) {
       let l = document.createElement("a");

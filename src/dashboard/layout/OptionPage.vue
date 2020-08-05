@@ -19,19 +19,19 @@
 
     <!-- BOOKMARK -->
     <!--<v-tooltip bottom color="blue">
-            <template v-slot:activator="{ on }">
-                <v-icon
-                        class="pr-2"
-                        v-on="on"
-                        size="20px"
-                        style="cursor: pointer"
-                        @click="openBookmarkArea"
-                >
-                    mdi-bookmark-plus-outline
-                </v-icon>
-            </template>
-            <span>IMPORT BOOKMARK</span>
-        </v-tooltip>-->
+                <template v-slot:activator="{ on }">
+                    <v-icon
+                            class="pr-2"
+                            v-on="on"
+                            size="20px"
+                            style="cursor: pointer"
+                            @click="openBookmarkArea"
+                    >
+                        mdi-bookmark-plus-outline
+                    </v-icon>
+                </template>
+                <span>IMPORT BOOKMARK</span>
+            </v-tooltip>-->
     <BookmarkArea ref="bookmark"></BookmarkArea>
 
     <!-- THEME -->
@@ -117,8 +117,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                                                                                                                                                  <v-icon>mdi-heart</v-icon>
-                                                                                                                                                                                                                                              </v-btn>-->
+                                                                                                                                                                                                                                                                <v-icon>mdi-heart</v-icon>
+                                                                                                                                                                                                                                                            </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -176,6 +176,7 @@ import BookmarkArea from "../dialog/setting/BookmarkArea";
 import OneTab from "../dialog/OneTab";
 import Common from "../../common/common";
 import Utils from "../utils/Utils";
+import LANG from "../../common/language";
 
 export default {
   components: { OneTab, BookmarkArea, ThemeArea, ColorArea, BackupArea },
@@ -211,11 +212,7 @@ export default {
       this.$refs.theme.open();
     },
     openBookmarkArea() {
-      EventBus.$emit(
-        "open.snack",
-        "'IMPORT BOOKMARK' 기능은 준비중입니다.",
-        "green"
-      );
+      EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0019"), "green");
       //this.$refs.bookmark.open();
     },
     async openOneTab() {

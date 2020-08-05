@@ -170,6 +170,7 @@ import EventBus from "../../../event-bus";
 import Utils from "../../../utils/Utils";
 import ACCOUNT from "../../../../common/account";
 import MODAL from "../../../../common/modal";
+import LANG from "../../../../common/language";
 
 let CryptoJS = require("crypto-js");
 export default {
@@ -240,7 +241,7 @@ export default {
           data: params
         });
 
-        MODAL.alert("복구가 완료 되었습니다.");
+        MODAL.alert(LANG.ALERT_MESSAGE("A0005"));
         EventBus.$emit("init.dashboard");
         if (this.siteFail === 0) {
           this.close();
@@ -369,7 +370,7 @@ export default {
     async dataParsing(data) {
       let result = await Utils.getLocalStorage("loginInfo");
       if (result.loginInfo.EMAIL !== data.info.email) {
-        MODAL.alert("백업 대상과 로그인 계정이 다릅니다.");
+        MODAL.alert(LANG.ALERT_MESSAGE("A0006"));
         let token = await Utils.getLocalStorage("googleToken");
         ACCOUNT.removeGoogleTokenCache(token.googleToken).then(res => {
           if (res) {
