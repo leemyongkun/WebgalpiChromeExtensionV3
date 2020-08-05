@@ -40,17 +40,17 @@
       </v-row>
 
       <!-- <v-row v-if="youtubeVideoId !== ''">
-                                                                                                  <v-col cols="12">
-                                                                                                    <iframe
-                                                                                                      id="ytplayer"
-                                                                                                      type="text/html"
-                                                                                                      width="640"
-                                                                                                      height="360"
-                                                                                                      :src="youtubeVideoId + '?autoplay=0'"
-                                                                                                      frameborder="0"
-                                                                                                    ></iframe>
-                                                                                                  </v-col>
-                                                                                                </v-row>-->
+                                                                                                        <v-col cols="12">
+                                                                                                          <iframe
+                                                                                                            id="ytplayer"
+                                                                                                            type="text/html"
+                                                                                                            width="640"
+                                                                                                            height="360"
+                                                                                                            :src="youtubeVideoId + '?autoplay=0'"
+                                                                                                            frameborder="0"
+                                                                                                          ></iframe>
+                                                                                                        </v-col>
+                                                                                                      </v-row>-->
       <v-row
         :style="reviewAreaHeightStyle"
         class="overflow-y-auto custom-scroll"
@@ -77,10 +77,16 @@
               >컨텐츠 변환을 할 수 없는 사이트입니다.</span
             ><br /><br />
 
-            <span style="color: orange"
-              >사이트에 로그인 되어있지 않거나, 로딩 속도가 느릴 경우,
-              스크래핑에 실패할 수도 있습니다. </span
+            <span v-if="currentSite.FL_READMODE === 'N'" style="color: orange"
+              >스크래핑에 실패 했을 경우, 해당 사이트에 직접 방문하여 Lock을
+              해제 할 수 있습니다.</span
             ><br />
+            <span v-if="currentSite.FL_READMODE === 'N'"
+              >※ 방법 : '새탭으로 열기' > 브라우져 상단 WEBGALPI 아이콘 클릭 >
+              <v-icon>mdi-folder-lock-open</v-icon> 클릭</span
+            >
+
+            <br />
             <br />
             <v-btn small color="green" @click="goSourceSite"
               >새탭으로 열기
@@ -126,6 +132,7 @@ export default {
   ],
   data: () => ({
     window: 0,
+    penIcon: Common.getAppDefaultUrl() + "/icons/icon_48.png",
     youtube: {
       videoId: "",
       startTime: ""
@@ -239,11 +246,11 @@ img {
 }
 
 /*code {
-          background-color: transparent !important;
-          box-shadow: none !important;
-        }
-        code::after,
-        code::before {
-          content: "" !important;
-        }*/
+              background-color: transparent !important;
+              box-shadow: none !important;
+            }
+            code::after,
+            code::before {
+              content: "" !important;
+            }*/
 </style>

@@ -16,7 +16,8 @@ let Api = {
         Api.getBackupHighlights(param),
         Api.getOptions(obj),
         Api.getBackupCategorys(param),
-        Api.getBackupCategorysRelation(param)
+        Api.getBackupCategorysRelation(param),
+        Api.getBackupOneTabsHistory(param)
       ]).then(values => {
         let data = new Object();
         data.sites = values[0];
@@ -24,7 +25,7 @@ let Api = {
         data.options = values[2];
         data.categorys = values[3];
         data.categoryRelation = values[4];
-
+        data.onetabs = values[5];
         res(data);
       });
     });
@@ -40,6 +41,10 @@ let Api = {
   },
   getBackupCategorys: param => {
     return select(Query.getBackupCategorys(), param);
+  },
+  getBackupOneTabsHistory: param => {
+    //모아보기
+    return select(Query.getBackupOneTabsHistory(), param);
   },
 
   getMemberInfo: () => {
@@ -62,8 +67,6 @@ let Api = {
   },
   getInitInfo: parameter => {
     return new Promise(res => {
-      let obj = new Object();
-
       let site = Api.getSite(parameter);
       let items = Api.getAllItems(parameter);
       let options = Api.getOptions(parameter);
@@ -77,13 +80,16 @@ let Api = {
           let options = values[2];
 
           let allItems = new Object();
+
           if (site.length != 0) {
             allItems.SITE = site;
             allItems.HIGHLIGHT_LIST = items;
             allItems.SITE_CHECK = "Y";
+            allItems.SITE_OPEN = site[0].FL_READMODE;
           } else {
             allItems.HIGHLIGHT_LIST = null;
             allItems.SITE_CHECK = "N";
+            allItems.SITE_OPEN = "Y";
           }
 
           obj.allItems = allItems;
@@ -106,8 +112,7 @@ let Api = {
     return select(Query.getOptions(), param);
   },
   getSite: params => {
-    let param = [params.URL_KEY, params.EMAIL];
-    return select(Query.getSite(), param);
+    return select(Query.getSite(params), null);
   },
   getSites: params => {
     let query = Query.getSites(params);
@@ -220,18 +225,6 @@ let Api = {
 
     await insert(Query.insertSite(params), param);
     return Api.getSite(params);
-  },
-  getSlack: params => {
-    return select(Query.selectSlack(), params);
-  },
-  updateSlack: params => {
-    return insert(Query.updateSlack(), params);
-  },
-  deleteSlack: params => {
-    return remove(Query.deleteSlack(), params);
-  },
-  postSlack: params => {
-    return insert(Query.insertSlack(), params);
   },
   updateOptionColor: params => {
     return update(Query.updateOptionColor(), params);
@@ -391,6 +384,20 @@ let Api = {
     ];
     return insert(Query.restoreHighlight(), param);
   },
+  restoreOnetab: params => {
+    return insert(Query.restoreOnetab(params), null);
+  },
+  getUpdateHistory: params => {
+    let param = [params.EMAIL];
+    return select(Query.selectUpdateHistory(), param);
+  },
+
+  insertUpdateHistory: params => {
+    return select(Query.insertUpdateHistory(), params);
+  },
+  updateUpdateHistory: params => {
+    return update(Query.updateUpdateHistory(params), null);
+  },
   deleteTabInfoGroup: params => {
     return remove(Query.deleteTabInfoGroup(params));
   },
@@ -402,6 +409,9 @@ let Api = {
   },
   insertTabInfo: params => {
     return insert(Query.insertTabInfo(params));
+  },
+  unlockSite: params => {
+    return update(Query.unlockSite(params));
   },
   restoreLog: params => {}
 };

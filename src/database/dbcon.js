@@ -1,6 +1,5 @@
 import { DDL } from "./DDL_Query";
 import Utils from "../dashboard/utils/Utils";
-import CONTENT_LISTENER from "../common/content-listener";
 
 let db = openDatabase("HL", "1.0", "DATABASE", 200000);
 
@@ -68,11 +67,14 @@ export default {
   createTable: () => {
     DDL.CREATE(db);
   },
+  dropTable: () => {
+    DDL.DROP(db);
+  },
   addTable: () => {
     DDL.ADD_TABLE(db);
   },
-  dropTable: () => {
-    DDL.DROP(db);
+  removeTable: () => {
+    DDL.DROP_TABLE(db);
   },
   truncateTable: async () => {
     let result = await Utils.getLocalStorage("loginInfo");

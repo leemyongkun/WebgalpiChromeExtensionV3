@@ -12,7 +12,9 @@
     <SignDialog ref="signDialog"></SignDialog>
     <SelectMemberDialog ref="selectMemberDialog"></SelectMemberDialog>
     <SnackBar ref="snackbar"></SnackBar>
+    <NotificationSnackBar ref="notification"></NotificationSnackBar>
 
+    <RestoreProcessArea ref="restoreProcessArea"></RestoreProcessArea>
     <v-overlay :value="overlay.status">
       <v-progress-circular indeterminate size="64"
         >{{ overlay.message }}
@@ -31,10 +33,17 @@ import SignDialog from "./layout/dialog/SignDialog";
 import SelectMemberDialog from "./layout/dialog/SelectMemberDialog";
 import SnackBar from "./snack/SnackBar";
 import EventBus from "./event-bus";
+import Utils from "./utils/Utils";
+import GOOGLE_DRIVE from "../common/GoogleDriveBackupAndRestore";
+import NotificationSnackBar from "./snack/NotificationSnackBar";
+import MODAL from "../common/modal";
+import RestoreProcessArea from "./dialog/setting/backup/RestoreProcessArea";
 import Common from "../common/common";
 
 export default {
   components: {
+    RestoreProcessArea,
+    NotificationSnackBar,
     SnackBar,
     SelectMemberDialog,
     SignDialog,
@@ -51,7 +60,8 @@ export default {
     overlay: {
       status: false,
       message: "loading.."
-    }
+    },
+    restoreTargetData: null
   }),
   methods: {
     async initDashboard() {
@@ -70,6 +80,7 @@ export default {
         data: null
       }).then(members => {
         if (members === undefined || members.length === 0) {
+          console.log("###");
           this.$refs.signDialog.open();
         } else {
           //member중 isUse가 'Y' 인것들.
@@ -115,12 +126,48 @@ export default {
 
       //새탭을 열면서, 기존에 있는 탭은 제거한다.
       Common.closeDuplicateDashboard();
-      /*if (count !== 0) {
-                    this.$refs.snackbar.open(
-                        "기존에 열려있는 Dashboard Tab은 닫았습니다.",
-                        "warning"
-                    );
-                }*/
+    },
+    async runRestore() {
+      let message = `복구 시 스크래핑을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
+                               <span style="color:red">
+                               모든 데이타를 삭제한 후 복구를 진행하므로,<br>
+                               절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
+                                </span>
+                               `;
+      let conf = await MODAL.alert(message, "info", null, "500px");
+      if (conf.value) {
+        GOOGLE_DRIVE.getBackupData(this.restoreTargetData).then(
+          originalText => {
+            this.$refs.restoreProcessArea.open(originalText);
+          }
+        );
+      }
+    },
+    async autoRestoreProcess() {
+      let result = await Utils.getLocalStorage("loginInfo");
+      let BACKUP_FOLDER_ID = await GOOGLE_DRIVE.getBackupFolderId();
+
+      if (result.loginInfo === undefined) return false;
+      let param = new Object();
+      param.EMAIL = result.loginInfo.EMAIL;
+      CONTENT_LISTENER.sendMessage({
+        type: "get.update.history",
+        data: param
+      }).then(res => {
+        let UPDATE_HISTORY = res[0];
+        console.log("UPDATE_HISTORY ", UPDATE_HISTORY);
+        if (UPDATE_HISTORY.LATEST_GOOGLE_RESTORE_DATE === null) {
+          //복구 noti 표시
+          if (BACKUP_FOLDER_ID) {
+            GOOGLE_DRIVE.executeGoogleDriveRestore().then(async list => {
+              if (list) {
+                this.restoreTargetData = list[0];
+                this.$refs.notification.open();
+              }
+            });
+          }
+        }
+      });
     }
   },
   mounted() {},
@@ -134,6 +181,10 @@ export default {
         } else {
           this.$vuetify.theme.dark = false;
         }
+      });
+
+      EventBus.$on("run.restore", (message, color) => {
+        this.runRestore();
       });
 
       //Snack열기
@@ -153,9 +204,16 @@ export default {
         this.overlay.status = false;
       });
 
+      //대쉬보드 초기화
       this.initDashboard();
 
+      //업데이트 내역을 보여준다.
       this.openUpdateInfomation();
+
+      setTimeout(() => {
+        //복구여부 프로세스
+        //this.autoRestoreProcess();
+      }, 2000);
     });
   }
 };

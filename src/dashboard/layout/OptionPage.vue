@@ -18,20 +18,20 @@
     <OneTab ref="onetab"></OneTab>
 
     <!-- BOOKMARK -->
-    <v-tooltip bottom color="blue">
-      <template v-slot:activator="{ on }">
-        <v-icon
-          class="pr-2"
-          v-on="on"
-          size="20px"
-          style="cursor: pointer"
-          @click="openBookmarkArea"
-        >
-          mdi-bookmark-plus-outline
-        </v-icon>
-      </template>
-      <span>IMPORT BOOKMARK</span>
-    </v-tooltip>
+    <!--<v-tooltip bottom color="blue">
+            <template v-slot:activator="{ on }">
+                <v-icon
+                        class="pr-2"
+                        v-on="on"
+                        size="20px"
+                        style="cursor: pointer"
+                        @click="openBookmarkArea"
+                >
+                    mdi-bookmark-plus-outline
+                </v-icon>
+            </template>
+            <span>IMPORT BOOKMARK</span>
+        </v-tooltip>-->
     <BookmarkArea ref="bookmark"></BookmarkArea>
 
     <!-- THEME -->
@@ -117,8 +117,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                                                                                                                                    <v-icon>mdi-heart</v-icon>
-                                                                                                                                                                                                                                </v-btn>-->
+                                                                                                                                                                                                                                                  <v-icon>mdi-heart</v-icon>
+                                                                                                                                                                                                                                              </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -222,6 +222,12 @@ export default {
       let result = await Utils.getLocalStorage("loginInfo");
       if (result.loginInfo !== undefined) {
         this.$refs.onetab.open();
+      }
+    },
+    async openOneTabFromContextMenu() {
+      let result = await Utils.getLocalStorage("loginInfo");
+      if (result.loginInfo !== undefined) {
+        this.$refs.onetab.openOneTabFromContextMenu();
       }
     },
     openUpdateInfo() {

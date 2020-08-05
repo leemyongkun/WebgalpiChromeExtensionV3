@@ -52,6 +52,13 @@ export default {
             WHERE EMAIL = ?
         `;
   },
+  getBackupOneTabsHistory: () => {
+    return `
+            SELECT *
+            FROM TBL_ONETAB
+            WHERE EMAIL = ?
+        `;
+  },
   getAllCategoryCount: () => {
     return `SELECT COUNT(*) AS COUNT
         FROM TBL_SITES
@@ -353,7 +360,7 @@ export default {
         LIMIT ?, ? `
     );
   },
-  getSite: () => {
+  getSite: param => {
     return `
         SELECT
         IDX,
@@ -373,11 +380,12 @@ export default {
             MEMO,
             FL_BACKUP,
             FL_FAVORITE,
+            FL_READMODE,
             CATEGORY.CATEGORY_IDX
         FROM TBL_SITES SITE LEFT JOIN TBL_REL_CATEGORY CATEGORY
         ON SITE.URL_KEY = CATEGORY.URL_KEY
-        WHERE SITE.URL_KEY = ?
-        AND SITE.EMAIL = ?
+        WHERE SITE.URL_KEY = '${param.URL_KEY}'
+        AND SITE.EMAIL = '${param.EMAIL}'
         AND SITE.FL_DELETE = 'N'
         LIMIT 1`;
   },
@@ -465,27 +473,6 @@ export default {
         AND EMAIL = ?
         AND FL_DELETE = 'N'`;
   },
-  selectSlack: () => {
-    return `
-        SELECT
-        IDX,
-            CHANNEL_NAME ,
-            WEBHOOK_URL ,
-            DATE_CREATE
-        FROM
-        TBL_SLACK
-            `;
-  },
-  updateSlack: () => {
-    return `
-        UPDATE
-        TBL_SLACK
-        SET
-        CHANNEL_NAME = ?,
-            WEBHOOK_URL = ?
-                WHERE IDX = ?
-                    `;
-  },
   deleteSite: () => {
     return `UPDATE TBL_SITES
             SET FL_DELETE = 'Y', DATE_UPDATE = ?
@@ -507,23 +494,6 @@ export default {
     return `DELETE FROM TBL_REL_CATEGORY
             WHERE URL_KEY = ?
             AND EMAIL = ?
-            `;
-  },
-  deleteSlack: () => {
-    return `DELETE FROM TBL_SLACK
-            WHERE IDX = ?
-            AND EMAIL = ?
-            `;
-  },
-  insertSlack: () => {
-    return `INSERT INTO TBL_SLACK
-            (
-                EMAIL,
-                CHANNEL_NAME,
-                WEBHOOK_URL,
-                DATE_CREATE
-            )
-            VALUES(?, ?, ?, ?)
             `;
   },
   updateOptionColor: () => {
@@ -747,6 +717,58 @@ export default {
         VALUES
             (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
   },
+  restoreOnetab: param => {
+    param.DESCRIPTION = param.DESCRIPTION === null ? "" : param.DESCRIPTION;
+    return `
+        INSERT INTO TBL_ONETAB
+        (
+           EMAIL,
+           GROUP_ID,
+           URL,
+           URL_KEY,
+           TITLE,
+           DESCRIPTION,
+           FL_DELETE,
+           DATE_CREATE
+        )
+        VALUES
+            (
+                '${param.EMAIL}',
+                ${param.GROUP_ID},
+                '${param.URL}',
+                '${param.URL_KEY}',
+                '${param.TITLE}',
+                '${param.DESCRIPTION}',
+                '${param.FL_DELETE}',
+                ${param.DATE_CREATE}
+             ) `;
+  },
+  selectUpdateHistory: () => {
+    return `SELECT * FROM TBL_UPDATE_HISTORY
+                WHERE EMAIL = ?
+            `;
+  },
+  insertUpdateHistory: () => {
+    return ` INSERT INTO TBL_UPDATE_HISTORY
+                (EMAIL) VALUES (?)
+                `;
+  },
+  updateUpdateHistory: param => {
+    let updateField = "";
+    if (param.googleBackupDate !== undefined) {
+      updateField = " LATEST_GOOGLE_BACKUP_DATE = " + param.googleBackupDate;
+    } else if (param.googleRestoreDate !== undefined) {
+      updateField = " LATEST_GOOGLE_RESTORE_DATE = " + param.googleRestoreDate;
+    }
+
+    return (
+      ` UPDATE TBL_UPDATE_HISTORY
+                 SET ` +
+      updateField +
+      ` 
+                 WHERE EMAIL = '${param.email}'`
+    );
+  },
   insertTabInfo: param => {
     return `
         INSERT INTO TBL_ONETAB
@@ -795,5 +817,14 @@ export default {
             WHERE GROUP_ID = ${param.GROUP_ID}
             AND EMAIL = '${param.EMAIL}'
                 `;
+  },
+  unlockSite: param => {
+    return `UPDATE TBL_SITES
+                SET FULL_TEXT = '${param.FULL_TEXT}', 
+                    READERMODE_CONTENTS = '${param.READERMODE_CONTENTS}',
+                    FL_READMODE = 'Y'
+                WHERE URL_KEY = '${param.URL_KEY}'
+                AND EMAIL = '${param.EMAIL}'
+            `;
   }
 };

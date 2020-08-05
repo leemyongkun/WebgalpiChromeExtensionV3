@@ -27,14 +27,29 @@
                 ></v-select>
               </v-col>
               <v-col cols="auto">
-                <v-btn
-                  color="red"
-                  icon
-                  @click="deleteGroup"
-                  :disabled="deleteBtnDisabled"
-                >
-                  <v-icon>mdi-trash-can-outline</v-icon>
-                </v-btn>
+                <v-tooltip v-model="tooltip.delete" color="blue" top>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      color="red"
+                      icon
+                      @click="deleteGroup"
+                      :disabled="deleteBtnDisabled"
+                      v-on="on"
+                    >
+                      <v-icon>mdi-trash-can-outline</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>TAB GROUP을 삭제합니다.</span>
+                </v-tooltip>
+
+                <v-tooltip v-model="tooltip.filter" color="blue" top>
+                  <template v-slot:activator="{ on }">
+                    <v-btn color="success" icon @click="runOneTab" v-on="on">
+                      <v-icon>mdi-filter</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>열려있는 모든 탭을 모아서 관리합니다.</span>
+                </v-tooltip>
               </v-col>
             </v-row>
             <v-row>
@@ -54,16 +69,16 @@
 
                   <template v-slot:item.URL_KEY="{ item }">
                     <!--  <v-btn
-                                                color="green"
-                                                icon
-                                                @click="importSite(item)"
-                                                v-show="isCrawlingInvalidSite(item)"
-                                        >
-                                            <v-icon>mdi-cloud-download-outline</v-icon>
-                                        </v-btn>-->
+                                                                    color="green"
+                                                                    icon
+                                                                    @click="importSite(item)"
+                                                                    v-show="isCrawlingInvalidSite(item)"
+                                                            >
+                                                                <v-icon>mdi-cloud-download-outline</v-icon>
+                                                            </v-btn>-->
                     <!-- <v-btn color="red" icon @click="removeSite(item)">
-                                                                 <v-icon>mdi-trash-can-outline</v-icon>
-                                                             </v-btn>-->
+                                                                                     <v-icon>mdi-trash-can-outline</v-icon>
+                                                                                 </v-btn>-->
                     <v-btn icon @click="goSourceSite(item)">
                       <v-icon>mdi-home-outline</v-icon>
                     </v-btn>
@@ -132,8 +147,8 @@ export default {
       }
     ],
     tooltip: {
-      source: false,
-      import: false
+      delete: false,
+      filter: false
     }
   }),
   created() {},
@@ -212,11 +227,16 @@ export default {
           "건 )";
       });
     },
-    async open() {
+
+    async openOneTabFromContextMenu() {
       this.dialog = true;
       this.getTabInfoGroupWithTabDetailInfo().then(() => {
         this.runOneTab();
       });
+    },
+    async open() {
+      this.dialog = true;
+      this.getTabInfoGroupWithTabDetailInfo();
     },
     close() {
       this.dialog = false;

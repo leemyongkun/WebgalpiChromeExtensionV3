@@ -95,6 +95,7 @@ let BackgrounEvent = {
       if (details.reason === "install") {
         if (!!window.openDatabase) {
           LANG.getMessage("M0001");
+
           chrome.storage.local.remove(["loginInfo"]);
           dbcon.dropTable();
           dbcon.createTable();
@@ -114,6 +115,10 @@ let BackgrounEvent = {
 
         //테이블 추가
         dbcon.addTable();
+
+        dbcon.removeTable();
+
+        //업데이트 Alert 출력
 
         chrome.notifications.create("", opt);
         chrome.notifications.onClicked.addListener(function() {

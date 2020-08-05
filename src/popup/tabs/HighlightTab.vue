@@ -14,7 +14,7 @@
               small
               text
               color="red"
-              >일괄 삭제
+              >모두삭제
             </v-btn>
           </v-col>
         </v-row>

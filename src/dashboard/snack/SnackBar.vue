@@ -3,7 +3,7 @@
     v-model="snackbar"
     :timeout="snackbarTimeout"
     :color="snackbarColor"
-    top
+    :top="snackbarPosition.top"
   >
     {{ snackbarMessage }}
     <v-btn dark text @click="snackbar = false">
@@ -19,7 +19,11 @@ export default {
     snackbarTimeout: 3000, //스낵바 유지시간
     snackbarMessage: "", //스낵바 기본 메시지
     snackbar: false, //스낵바 open /close 여부
-    snackbarColor: "info"
+    snackbarColor: "info",
+    snackbarPosition: {
+      top: true,
+      bottom: true
+    }
   }),
   methods: {
     open(message, color) {

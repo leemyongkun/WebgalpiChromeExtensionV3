@@ -1,6 +1,4 @@
 import API from "../api/api.js";
-import dbcon from "../database/dbcon";
-import Utils from "../dashboard/utils/Utils";
 import Common from "../common/common";
 
 let emitOptionsAllTabs = (actionCommand, data) => {
@@ -238,6 +236,13 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       break;
 
+    case "get.site.info":
+      API.getSite(msg.data).then(res => {
+        sendResponse(res); //조건
+      });
+      return true;
+      break;
+
     case "get.sites.count":
       API.getSites(msg.data).then(res => {
         sendResponse(res); //조건
@@ -290,29 +295,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         sendResponse(res);
       });
       return true;
-      break;
-
-    case "get.slack":
-      API.getSlack(null).then(res => {
-        sendResponse(res);
-      });
-      break;
-
-    case "update.slack":
-      API.updateSlack(msg.data).then(res => {
-        sendResponse(res);
-      });
-      break;
-
-    case "delete.slack":
-      API.deleteSlack(msg.data).then(res => {
-        sendResponse(res);
-      });
-      break;
-    case "post.slack":
-      API.postSlack(msg.data).then(res => {
-        sendResponse(res);
-      });
       break;
 
     case "update.option.color":
@@ -423,6 +405,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
+    case "restore.onetab":
+      API.restoreOnetab(msg.data).then(onetab => {
+        sendResponse(onetab);
+      });
+      return true;
+      break;
     case "restore.log":
       API.restoreLog(msg.data).then(log => {
         sendResponse(log);
@@ -441,7 +429,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
+    case "get.update.history":
+      API.getUpdateHistory(msg.data).then(updateHistory => {
+        sendResponse(updateHistory);
+      });
+      return true;
+      break;
     case "insert.tabinfo":
       API.insertTabInfo(msg.data).then(res => {
         sendResponse(true);
@@ -449,6 +442,18 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       return true;
       break;
 
+    case "insert.update.history":
+      API.insertUpdateHistory(msg.data).then(updateHistory => {
+        sendResponse(updateHistory);
+      });
+      return true;
+      break;
+    case "update.update.history":
+      API.updateUpdateHistory(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
     case "select.tabinfo.group":
       API.selectTabInfoGroup(msg.data).then(tabGroup => {
         sendResponse(tabGroup);
@@ -465,6 +470,13 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 
     case "get.tabinfos":
       API.selectTabInfos(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+
+    case "unlock.site":
+      API.unlockSite(msg.data).then(res => {
         sendResponse(res);
       });
       return true;

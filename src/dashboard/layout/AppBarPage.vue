@@ -73,36 +73,12 @@ export default {
     },
     showOnetab() {
       this.resetUrl();
-      this.$refs.optionPage.openOneTab();
+      this.$refs.optionPage.openOneTabFromContextMenu();
     },
     signOut() {
       this.$refs.signout.open();
     },
-    async processTest() {
-      /*  chrome.system.memory.getInfo(ret => {
-                              console.log("ret.capacity ", ret.capacity / 1024 / 1024);
-                              console.log("ret.availableCapacity ", ret.availableCapacity / 1024 / 1024);
-                          })*/
-      /*
-                                                                                                      let url = "https://www.youtube.com/watch?v=w4gsttb9tMg";
-                                                                                                      let contents = await CRAWLER.getImportSiteContents(url);
-                                                                                                      contents.EMAIL = result.loginInfo.EMAIL;
-
-                                                                                                      CONTENT_LISTENER.sendMessage({
-                                                                                                        type: "post.site",
-                                                                                                        data: contents
-                                                                                                      });*/
-      /*let result = await Utils.getLocalStorage("loginInfo");
-                                                        CONTENT_LISTENER.sendMessage({
-                                                          type: "get.backup.data",
-                                                          data: result.loginInfo.EMAIL
-                                                        }).then(backupData => {
-                                                          //let siteMap = backupData.sites.toHashMap('URL_KEY');
-                                                          backupData.sites = Common.toHashMap(backupData.sites, "URL_KEY");
-                                                          console.log("backupData.sites ", backupData);
-                                                        });*/
-      //참고 : https://bumbu.me/gapi-in-chrome-extension  , https://qiita.com/takahiro1110/items/4ed2c4e894d2d359751e , https://developers.google.com/drive/api/v2/reference/files/list#javascript
-    }
+    async processTest() {}
   }
 };
 </script>

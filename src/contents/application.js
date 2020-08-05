@@ -28,6 +28,9 @@ let APPLICATION = {
     //현재 저장되어있는지 확인.
     GLOBAL_CONFIG.USE_CURRENT_SITE = data.allItems.SITE_CHECK;
 
+    //사이트가 Lock이 걸려있는지 확인한다.
+    GLOBAL_CONFIG.SITE_OPEN = data.allItems.SITE_OPEN;
+
     //하이라이트 Item을 저장한다.
     GLOBAL_CONFIG.HIGHLIGHT_LIST = data.allItems.HIGHLIGHT_LIST;
 

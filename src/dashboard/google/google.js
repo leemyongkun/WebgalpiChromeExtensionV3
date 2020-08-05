@@ -71,14 +71,3 @@ function makeRequest() {
     }
   });
 }
-
-let GOOGLE_DRIVE = {
-  load: () => {
-    gapi.load("auth:client", handleClientLoad);
-    /* $.getScript('https://apis.google.com/js/api.js', function() {
-            gapi.load('auth:client', handleClientLoad);
-        });*/
-  }
-};
-export default GOOGLE_DRIVE;
-// $('#authorize-button').on('click', handleAuthClick);

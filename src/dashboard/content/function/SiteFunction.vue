@@ -31,9 +31,6 @@
       <span>컨텐츠를 삭제합니다.</span>
     </v-tooltip>
 
-    <!-- 기능 삭제대상 -->
-    <!--<ShareSlackDialog :currentSite="currentSite"></ShareSlackDialog>-->
-
     |
     <HighlightsWidget
       :highlights="highlights"
@@ -80,8 +77,6 @@ export default {
       );
     },
     goSourceSite() {
-      /*event.preventDefault();
-                                                        event.stopPropagation();*/
       let open = window.open(this.sourceUrl, "_blank");
       open.focus();
     },

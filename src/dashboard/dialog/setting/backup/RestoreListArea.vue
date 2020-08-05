@@ -11,24 +11,12 @@
         Backup Files
       </v-card-title>
       <v-card-text class="pl-0 pr-0">
-        <!-- <v-data-table v-model="selected" :headers="headers" :items="items">
-                     <template slot="item" slot-scope="props">
-                         <tr
-                                 style="cursor: pointer;"
-                                 @click="selectedTargetRestoreFile(props.item)"
-                         >
-                             <td>{{ props.item.description }}</td>
-                             <td class="text-xs-right">
-                                 {{ convertDate(props.item.title.split("_")[2]) }}
-                             </td>
-                             <td class="text-xs-right">
-                                 {{ convertByteToKB(props.item.fileSize) }}
-                             </td>
-                         </tr>
-                     </template>
-                 </v-data-table>-->
-
-        <v-data-table v-model="selected" :headers="headers" :items="items">
+        <v-data-table
+          v-model="selected"
+          :headers="headers"
+          :items="items"
+          show-select
+        >
           <template v-slot:item.description="{ item }">
             {{ item.description }}
           </template>
@@ -51,12 +39,20 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
+        <v-btn
+          small
+          color="red"
+          text
+          @click="allDeleteRestoreFile"
+          :disabled="selected.length === 0 ? true : false"
+        >
+          DELETE
+        </v-btn>
         <v-btn small color="blue" text @click="close">CLOSE</v-btn>
       </v-card-actions>
     </v-card>
 
     <RestoreProcessArea
-      :reRendering="reRendering"
       :key="Key.restoreProcessArea"
       ref="restoreProcessArea"
     ></RestoreProcessArea>
@@ -69,8 +65,7 @@
 import RestoreProcessArea from "./RestoreProcessArea";
 import MODAL from "../../../../common/modal";
 import EventBus from "../../../event-bus";
-
-let CryptoJS = require("crypto-js");
+import GOOGLE_DRIVE from "../../../../common/GoogleDriveBackupAndRestore";
 
 export default {
   components: { RestoreProcessArea },
@@ -171,58 +166,84 @@ export default {
       val = val / 1024;
       return Math.floor(val * 100) / 100;
     },
-    async deleteRestoreFile(item) {
-      let confirm = `<b>${item.description}</b> 를 삭제 하시겠습니까?"`;
-      if (this.items.length === 1) {
-        confirm += "<br> 주의 : 마지막 백업파일입니다.";
-      }
 
-      let result = await MODAL.confirm(confirm, null, null, null, "450px");
-      if (result.value === undefined) return false;
-      this.restoreOverlay = true;
-
-      chrome.identity.getAuthToken({ interactive: true }, token => {
-        let url = "https://www.googleapis.com/drive/v3/files/" + item.id;
-        fetch(url, {
-          method: "DELETE",
-          headers: new Headers({
-            Authorization: "Bearer " + token
-          })
-        }).then(file => {
-          let result = this.items.filter(i => {
-            return i.id !== item.id;
+    actionDelete(itemId) {
+      return new Promise(res => {
+        chrome.identity.getAuthToken({ interactive: true }, token => {
+          let url = "https://www.googleapis.com/drive/v3/files/" + itemId;
+          fetch(url, {
+            method: "DELETE",
+            headers: new Headers({
+              Authorization: "Bearer " + token
+            })
+          }).then(file => {
+            let result = this.items.filter(i => {
+              return i.id !== itemId;
+            });
+            this.items = result;
+            res(true);
           });
-          this.items = result;
-          EventBus.$emit("open.snack", "삭제 되었습니다.");
-
-          this.restoreOverlay = false;
         });
       });
     },
+    async allDeleteRestoreFile() {
+      return new Promise(async res => {
+        if (this.items.length === this.selected.length) {
+          MODAL.alert(
+            `모든 백업파일을 삭제할 수는 없습니다. <br>1개 이상의 백업파일은 남겨두세요.`,
+            "error",
+            null,
+            "450px"
+          );
+          return false;
+        }
+
+        let confirm = `${this.selected.length}건의 백업파일을 삭제 하시겠습니까?`;
+
+        let result = await MODAL.confirm(confirm, null, null, null, "450px");
+        if (result.value === undefined) return false;
+
+        this.restoreOverlay = true;
+
+        const promise = this.selected.map(item => {
+          this.actionDelete(item.id);
+        });
+        await Promise.all(promise);
+        EventBus.$emit("open.snack", "삭제 되었습니다.");
+        this.restoreOverlay = false;
+        res(true);
+      });
+    },
+    async deleteRestoreFile(item) {
+      let confirm = `<b>${item.description}</b> 를 삭제 하시겠습니까?`;
+      if (this.items.length === 1) {
+        confirm += "<br> 주의 : 마지막 백업파일입니다.";
+      }
+      let result = await MODAL.confirm(confirm, null, null, null, "450px");
+      if (result.value === undefined) return false;
+
+      this.restoreOverlay = true;
+      this.actionDelete(item.id).then(() => {
+        EventBus.$emit("open.snack", "삭제 되었습니다.");
+        this.restoreOverlay = false;
+      });
+    },
     async selectedTargetRestoreFile(item) {
-      let confirm = `<b>${item.description}</b> 로 복구 하시겠습니까?"`;
-      let result = await MODAL.confirm(confirm);
+      let confirm = `<b>${item.description}</b> 로 복구 하시겠습니까?<br><br>
+                        복구 시 스크래핑을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
+                        <span style="color:red">
+                        모든 데이타를 삭제한 후 복구를 진행하므로,<br>
+                        절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
+                         </span>
+                    `;
+      let result = await MODAL.confirm(confirm, "info", null, null, "500px");
       if (result.value === undefined) return false;
       this.restoreOverlay = true;
 
-      chrome.identity.getAuthToken({ interactive: true }, token => {
-        let url =
-          "https://www.googleapis.com/drive/v3/files/" + item.id + "?alt=media";
-        fetch(url, {
-          method: "GET",
-          headers: new Headers({
-            Authorization: "Bearer " + token
-          })
-        }).then(file => {
-          file.text().then(result => {
-            let data = JSON.parse(result);
-            let bytes = CryptoJS.AES.decrypt(data.data, this.backupPassword);
-            let originalText = bytes.toString(CryptoJS.enc.Utf8);
-            this.$refs.restoreProcessArea.open(originalText);
-            this.restoreOverlay = false;
-            this.close();
-          });
-        });
+      GOOGLE_DRIVE.getBackupData(item).then(originalText => {
+        this.$refs.restoreProcessArea.open(originalText);
+        this.restoreOverlay = false;
+        this.close();
       });
     },
     reRendering(type) {

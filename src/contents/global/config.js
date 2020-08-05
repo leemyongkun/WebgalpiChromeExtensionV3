@@ -26,6 +26,7 @@ let GLOBAL_CONFIG = {
   HIGHLIGHT_LIST: new Array(),
   HIGHLIGHT_FALI_LIST: new Array(),
   USE_CURRENT_SITE: "N", //useSite
+  SITE_OPEN: "Y", //사이트가 Lock 걸려있는지 확인.
   SITE_INFO: null,
   MOUSE_POSISION_EVENT: null,
   CURRENT_COLOR: null //currentColor
