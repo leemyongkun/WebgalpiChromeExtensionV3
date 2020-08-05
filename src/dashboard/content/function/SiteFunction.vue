@@ -77,8 +77,6 @@ export default {
       );
     },
     goSourceSite() {
-      /*event.preventDefault();
-                                                        event.stopPropagation();*/
       let open = window.open(this.sourceUrl, "_blank");
       open.focus();
     },

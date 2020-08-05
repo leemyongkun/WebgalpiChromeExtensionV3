@@ -77,7 +77,6 @@ let BackgroundModule = {
         //todo : excludesUrl 등록 기능 추가 할것.
         res.tabid = tabId;
 
-        console.log("res.options ", res.options);
         //옵션을 저장해둔다.
         chrome.storage.local.set({ options: res.options });
 

@@ -73,7 +73,7 @@ export default {
     },
     showOnetab() {
       this.resetUrl();
-      this.$refs.optionPage.openOneTab();
+      this.$refs.optionPage.openOneTabFromContextMenu();
     },
     signOut() {
       this.$refs.signout.open();

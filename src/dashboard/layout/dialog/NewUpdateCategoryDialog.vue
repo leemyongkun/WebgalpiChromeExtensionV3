@@ -22,284 +22,300 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="6">
-            <v-list nav dense>
-              <v-subheader
-                >상위 카테고리
-                <v-spacer />
+          <v-col cols="6" style="border-right: 3px dashed;">
+            <div style="max-height: 500px" class="overflow-y-auto">
+              <v-list nav dense>
+                <v-subheader
+                  >상위 카테고리
+                  <v-spacer />
 
-                <v-menu
-                  v-model="addMenu.parent"
-                  :close-on-content-click="false"
-                  :nudge-width="200"
-                  offset-x
-                  left
-                  bottom
-                >
-                  <template v-slot:activator="{ on: menu }">
-                    <v-tooltip
-                      v-model="categoryBtnDesc.parent"
-                      color="blue"
-                      top
-                    >
-                      <template v-slot:activator="{ on: tooltip }">
-                        <v-btn
-                          color="success"
-                          icon
-                          v-on="{ ...menu, ...tooltip }"
-                          @click="openFieldMenu('parent')"
-                        >
-                          <v-icon size="22px">mdi-folder-plus-outline</v-icon>
-                        </v-btn>
-                      </template>
-                      <span> 상위 카테고리명을 추가 및 수정합니다.</span>
-                    </v-tooltip>
-                  </template>
-
-                  <v-card>
-                    <v-list class="pt-0 pb-0">
-                      <v-list-item class="pr-0 pl-0">
-                        <v-list-item-content class="pt-0 pb-0">
-                          <v-text-field
-                            autofocus
-                            ref="parentFieldMenu"
-                            clearable
-                            outlined
-                            placeholder="카테고리명 입력 후 엔터"
-                            prepend-inner-icon="mdi-folder-plus-outline"
-                            v-model="categoryName.parent"
-                            @keypress.enter="insertCategory('parent')"
-                          ></v-text-field>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list>
-                  </v-card>
-                </v-menu>
-              </v-subheader>
-
-              <!-- 부모카테고리 영역 -->
-              <v-list-item-group color="primary">
-                <span v-if="categoryData.parent.length === 0"
-                  >상위 카테고리가 없습니다.</span
-                >
-
-                <!-- 정렬을 위한 Drag-->
-                <draggable
-                  v-model="categoryData.parent"
-                  :options="{
-                    group: { name: 'parentCategory' },
-                    animation: 250
-                  }"
-                  class="sortable-list"
-                  @end="endDragParent"
-                >
-                  <v-list-item
-                    :class="rootCategory.class"
-                    :style="rootCategoryDropOverStyle(rootCategory)"
-                    v-for="(rootCategory, i) in categoryData.parent"
-                    :key="rootCategory.id"
-                    @click="selectRootCategory(rootCategory)"
-                    @dragover="rootCategory.dropOver = true"
-                    @dragleave="rootCategory.dropOver = false"
-                    @mouseover="rootCategory.mouseOver = true"
-                    @mouseleave="rootCategory.mouseOver = false"
-                    ref="rootCategoryList"
+                  <v-menu
+                    v-model="addMenu.parent"
+                    :close-on-content-click="false"
+                    :nudge-width="200"
+                    offset-x
+                    left
+                    bottom
                   >
-                    <!-- 자식카테고리에서 부모카테고리로 Drag&Drop할때 이벤트-->
-                    <drop @drop="categoryDropEvent">
-                      <!-- 부모 카테고리 드래그 할때 DIV Style-->
-                      <drag>
-                        <div slot="image" class="drag-image">
-                          <v-chip class="ma-2" color="blue" text-color="white">
-                            {{ rootCategory.name }}
-                          </v-chip>
-                        </div>
-
-                        <v-list-item-content :id="rootCategory.id">
-                          <v-list-item-title
-                            v-if="rootCategory.isShow === 'y'"
-                            class="updateCategoryName"
-                            v-text="rootCategory.name"
-                          ></v-list-item-title>
-
-                          <v-text-field
-                            autofocus
-                            v-if="rootCategory.isShow === 'n'"
-                            class="pt-0 mt-0"
-                            style="width: 250px"
-                            append-icon="mdi-close-circle"
-                            v-model="rootCategory.name"
-                            append-outer-icon="mdi-check"
-                            @click:append="cancelCategoryName(rootCategory)"
-                            @click:append-outer="
-                              updateCategoryName(rootCategory)
-                            "
-                            @keypress.enter="updateCategoryName(rootCategory)"
-                            :value="rootCategory.name"
-                          ></v-text-field>
-                        </v-list-item-content>
-                      </drag>
-                    </drop>
-                    <v-list-item-icon
-                      v-show="rootCategory.mouseOver && !editableFlag"
-                      v-if="rootCategory.isShow === 'y'"
-                    >
-                      <v-icon
-                        dense
-                        size="18px"
-                        right
-                        color="success"
-                        @click="
-                          editCategoryName($event, rootCategory, 'parent')
-                        "
+                    <template v-slot:activator="{ on: menu }">
+                      <v-tooltip
+                        v-model="categoryBtnDesc.parent"
+                        color="blue"
+                        top
                       >
-                        mdi-pencil
-                      </v-icon>
-                      <v-icon
-                        dense
-                        size="18px"
-                        right
-                        color="error"
-                        @click="deleteCategory($event, rootCategory, 'parent')"
-                        >mdi-trash-can-outline
-                      </v-icon>
-                    </v-list-item-icon>
-                  </v-list-item>
-                </draggable>
-              </v-list-item-group>
-            </v-list>
+                        <template v-slot:activator="{ on: tooltip }">
+                          <v-btn
+                            color="success"
+                            icon
+                            v-on="{ ...menu, ...tooltip }"
+                            @click="openFieldMenu('parent')"
+                          >
+                            <v-icon size="22px">mdi-folder-plus-outline</v-icon>
+                          </v-btn>
+                        </template>
+                        <span> 상위 카테고리명을 추가 및 수정합니다.</span>
+                      </v-tooltip>
+                    </template>
+
+                    <v-card>
+                      <v-list class="pt-0 pb-0">
+                        <v-list-item class="pr-0 pl-0">
+                          <v-list-item-content class="pt-0 pb-0">
+                            <v-text-field
+                              autofocus
+                              ref="parentFieldMenu"
+                              clearable
+                              outlined
+                              placeholder="카테고리명 입력 후 엔터"
+                              prepend-inner-icon="mdi-folder-plus-outline"
+                              v-model="categoryName.parent"
+                              @keypress.enter="insertCategory('parent')"
+                            ></v-text-field>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-list>
+                    </v-card>
+                  </v-menu>
+                </v-subheader>
+
+                <!-- 부모카테고리 영역 -->
+                <v-list-item-group color="primary">
+                  <span v-if="categoryData.parent.length === 0"
+                    >상위 카테고리가 없습니다.</span
+                  >
+
+                  <!-- 정렬을 위한 Drag-->
+                  <draggable
+                    v-model="categoryData.parent"
+                    :options="{
+                      group: { name: 'parentCategory' },
+                      animation: 250
+                    }"
+                    class="sortable-list"
+                    @end="endDragParent"
+                  >
+                    <v-list-item
+                      :class="rootCategory.class"
+                      :style="rootCategoryDropOverStyle(rootCategory)"
+                      v-for="(rootCategory, i) in categoryData.parent"
+                      :key="rootCategory.id"
+                      @click="selectRootCategory(rootCategory)"
+                      @dragover="rootCategory.dropOver = true"
+                      @dragleave="rootCategory.dropOver = false"
+                      @mouseover="rootCategory.mouseOver = true"
+                      @mouseleave="rootCategory.mouseOver = false"
+                      ref="rootCategoryList"
+                    >
+                      <!-- 자식카테고리에서 부모카테고리로 Drag&Drop할때 이벤트-->
+                      <drop @drop="categoryDropEvent">
+                        <!-- 부모 카테고리 드래그 할때 DIV Style-->
+                        <drag>
+                          <div slot="image" class="drag-image">
+                            <v-chip
+                              class="ma-2"
+                              color="blue"
+                              text-color="white"
+                            >
+                              {{ rootCategory.name }}
+                            </v-chip>
+                          </div>
+
+                          <v-list-item-content :id="rootCategory.id">
+                            <v-list-item-title
+                              v-if="rootCategory.isShow === 'y'"
+                              class="updateCategoryName"
+                              v-text="rootCategory.name"
+                            ></v-list-item-title>
+
+                            <v-text-field
+                              autofocus
+                              v-if="rootCategory.isShow === 'n'"
+                              class="pt-0 mt-0"
+                              style="width: 250px"
+                              append-icon="mdi-close-circle"
+                              v-model="rootCategory.name"
+                              append-outer-icon="mdi-check"
+                              @click:append="cancelCategoryName(rootCategory)"
+                              @click:append-outer="
+                                updateCategoryName(rootCategory)
+                              "
+                              @keypress.enter="updateCategoryName(rootCategory)"
+                              :value="rootCategory.name"
+                            ></v-text-field>
+                          </v-list-item-content>
+                        </drag>
+                      </drop>
+                      <v-list-item-icon
+                        v-show="rootCategory.mouseOver && !editableFlag"
+                        v-if="rootCategory.isShow === 'y'"
+                      >
+                        <v-icon
+                          dense
+                          size="18px"
+                          right
+                          color="success"
+                          @click="
+                            editCategoryName($event, rootCategory, 'parent')
+                          "
+                        >
+                          mdi-pencil
+                        </v-icon>
+                        <v-icon
+                          dense
+                          size="18px"
+                          right
+                          color="error"
+                          @click="
+                            deleteCategory($event, rootCategory, 'parent')
+                          "
+                          >mdi-trash-can-outline
+                        </v-icon>
+                      </v-list-item-icon>
+                    </v-list-item>
+                  </draggable>
+                </v-list-item-group>
+              </v-list>
+            </div>
           </v-col>
 
           <!----------------------########## 하위 카테고리 영역 ############# ------------------------------->
           <v-col cols="6">
-            <v-list nav dense>
-              <v-subheader
-                >하위 카테고리
-                <v-spacer />
-                <v-spacer />
+            <div style="max-height: 500px" class="overflow-y-auto">
+              <v-list nav dense>
+                <v-subheader
+                  >하위 카테고리
+                  <v-spacer />
+                  <v-spacer />
 
-                <v-menu
-                  v-model="addMenu.child"
-                  :close-on-content-click="false"
-                  :nudge-width="200"
-                  offset-x
-                  left
-                  bottom
-                >
-                  <template v-slot:activator="{ on: menu }">
-                    <v-tooltip v-model="categoryBtnDesc.child" color="blue" top>
-                      <template v-slot:activator="{ on: tooltip }">
-                        <v-btn
-                          color="success"
-                          icon
-                          v-on="{ ...menu, ...tooltip }"
-                          @click="openFieldMenu('children')"
-                        >
-                          <v-icon size="22px">mdi-folder-plus-outline</v-icon>
-                        </v-btn>
-                      </template>
-                      <span> 하위 카테고리명을 추가 및 수정합니다.</span>
-                    </v-tooltip>
-                  </template>
+                  <v-menu
+                    v-model="addMenu.child"
+                    :close-on-content-click="false"
+                    :nudge-width="200"
+                    offset-x
+                    left
+                    bottom
+                  >
+                    <template v-slot:activator="{ on: menu }">
+                      <v-tooltip
+                        v-model="categoryBtnDesc.child"
+                        color="blue"
+                        top
+                      >
+                        <template v-slot:activator="{ on: tooltip }">
+                          <v-btn
+                            color="success"
+                            icon
+                            v-on="{ ...menu, ...tooltip }"
+                            @click="openFieldMenu('children')"
+                          >
+                            <v-icon size="22px">mdi-folder-plus-outline</v-icon>
+                          </v-btn>
+                        </template>
+                        <span> 하위 카테고리명을 추가 및 수정합니다.</span>
+                      </v-tooltip>
+                    </template>
 
-                  <v-card>
-                    <v-list class="pt-0 pb-0">
-                      <v-list-item class="pr-0 pl-0">
-                        <v-list-item-content class="pt-0 pb-0">
+                    <v-card>
+                      <v-list class="pt-0 pb-0">
+                        <v-list-item class="pr-0 pl-0">
+                          <v-list-item-content class="pt-0 pb-0">
+                            <v-text-field
+                              autofocus
+                              ref="childFieldMenu"
+                              clearable
+                              outlined
+                              placeholder="카테고리명 입력 후 엔터"
+                              prepend-inner-icon="mdi-folder-plus-outline"
+                              v-model="categoryName.children"
+                              @keypress.enter="insertCategory('children')"
+                            ></v-text-field>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-list>
+                    </v-card>
+                  </v-menu>
+                </v-subheader>
+                <v-list-item-group color="primary">
+                  <span v-if="categoryData.children.length === 0"
+                    >상위 카테고리를 선택하지 않았거나, 하위 카테고리가 존재하지
+                    않습니다.</span
+                  >
+                  <draggable
+                    v-model="categoryData.children"
+                    :options="{
+                      group: { name: 'childrenCategory' },
+                      animation: 250
+                    }"
+                    class="sortable-list"
+                    @end="endDragChildren"
+                  >
+                    <v-list-item
+                      v-for="(children, i) in categoryData.children"
+                      :key="children.id"
+                      @mouseover="children.mouseOver = true"
+                      @mouseleave="children.mouseOver = false"
+                    >
+                      <drag :transfer-data="children">
+                        <!-- DRAG 시 보이는 영역-->
+                        <div slot="image" class="drag-image">
+                          <v-chip class="ma-2" color="blue" text-color="white">
+                            {{ children.name }}
+                            <!--<v-icon right>mdi-star</v-icon>-->
+                          </v-chip>
+                        </div>
+
+                        <v-list-item-content>
+                          <v-list-item-title
+                            v-if="children.isShow === 'y'"
+                            class="updateCategoryName"
+                            v-text="children.name"
+                          ></v-list-item-title>
+
                           <v-text-field
                             autofocus
-                            ref="childFieldMenu"
-                            clearable
-                            outlined
-                            placeholder="카테고리명 입력 후 엔터"
-                            prepend-inner-icon="mdi-folder-plus-outline"
-                            v-model="categoryName.children"
-                            @keypress.enter="insertCategory('children')"
+                            v-if="children.isShow === 'n'"
+                            class="pt-0 mt-0"
+                            style="width: 250px"
+                            append-icon="mdi-close-circle"
+                            v-model="children.name"
+                            append-outer-icon="mdi-check"
+                            @click:append="cancelCategoryName(children)"
+                            @click:append-outer="updateCategoryName(children)"
+                            @keypress.enter="updateCategoryName(children)"
+                            :value="children.name"
                           ></v-text-field>
                         </v-list-item-content>
-                      </v-list-item>
-                    </v-list>
-                  </v-card>
-                </v-menu>
-              </v-subheader>
-              <v-list-item-group color="primary">
-                <span v-if="categoryData.children.length === 0"
-                  >상위 카테고리를 선택하지 않았거나, 하위 카테고리가 존재하지
-                  않습니다.</span
-                >
-                <draggable
-                  v-model="categoryData.children"
-                  :options="{
-                    group: { name: 'childrenCategory' },
-                    animation: 250
-                  }"
-                  class="sortable-list"
-                  @end="endDragChildren"
-                >
-                  <v-list-item
-                    v-for="(children, i) in categoryData.children"
-                    :key="children.id"
-                    @mouseover="children.mouseOver = true"
-                    @mouseleave="children.mouseOver = false"
-                  >
-                    <drag :transfer-data="children">
-                      <!-- DRAG 시 보이는 영역-->
-                      <div slot="image" class="drag-image">
-                        <v-chip class="ma-2" color="blue" text-color="white">
-                          {{ children.name }}
-                          <!--<v-icon right>mdi-star</v-icon>-->
-                        </v-chip>
-                      </div>
+                      </drag>
 
-                      <v-list-item-content>
-                        <v-list-item-title
-                          v-if="children.isShow === 'y'"
-                          class="updateCategoryName"
-                          v-text="children.name"
-                        ></v-list-item-title>
-
-                        <v-text-field
-                          autofocus
-                          v-if="children.isShow === 'n'"
-                          class="pt-0 mt-0"
-                          style="width: 250px"
-                          append-icon="mdi-close-circle"
-                          v-model="children.name"
-                          append-outer-icon="mdi-check"
-                          @click:append="cancelCategoryName(children)"
-                          @click:append-outer="updateCategoryName(children)"
-                          @keypress.enter="updateCategoryName(children)"
-                          :value="children.name"
-                        ></v-text-field>
-                      </v-list-item-content>
-                    </drag>
-
-                    <v-list-item-icon
-                      v-show="children.mouseOver && !editableFlag"
-                      v-if="children.isShow === 'y'"
-                    >
-                      <v-icon
-                        dense
-                        size="18px"
-                        right
-                        color="success"
-                        @click="editCategoryName($event, children, 'children')"
+                      <v-list-item-icon
+                        v-show="children.mouseOver && !editableFlag"
+                        v-if="children.isShow === 'y'"
                       >
-                        mdi-pencil
-                      </v-icon>
-                      <v-icon
-                        dense
-                        size="18px"
-                        right
-                        color="error"
-                        @click="deleteCategory($event, children, 'children')"
-                        >mdi-trash-can-outline
-                      </v-icon>
-                    </v-list-item-icon>
-                  </v-list-item>
-                </draggable>
-              </v-list-item-group>
-            </v-list>
+                        <v-icon
+                          dense
+                          size="18px"
+                          right
+                          color="success"
+                          @click="
+                            editCategoryName($event, children, 'children')
+                          "
+                        >
+                          mdi-pencil
+                        </v-icon>
+                        <v-icon
+                          dense
+                          size="18px"
+                          right
+                          color="error"
+                          @click="deleteCategory($event, children, 'children')"
+                          >mdi-trash-can-outline
+                        </v-icon>
+                      </v-list-item-icon>
+                    </v-list-item>
+                  </draggable>
+                </v-list-item-group>
+              </v-list>
+            </div>
           </v-col>
         </v-row>
       </v-card-text>

@@ -360,7 +360,7 @@ export default {
         LIMIT ?, ? `
     );
   },
-  getSite: () => {
+  getSite: param => {
     return `
         SELECT
         IDX,
@@ -380,11 +380,12 @@ export default {
             MEMO,
             FL_BACKUP,
             FL_FAVORITE,
+            FL_READMODE,
             CATEGORY.CATEGORY_IDX
         FROM TBL_SITES SITE LEFT JOIN TBL_REL_CATEGORY CATEGORY
         ON SITE.URL_KEY = CATEGORY.URL_KEY
-        WHERE SITE.URL_KEY = ?
-        AND SITE.EMAIL = ?
+        WHERE SITE.URL_KEY = '${param.URL_KEY}'
+        AND SITE.EMAIL = '${param.EMAIL}'
         AND SITE.FL_DELETE = 'N'
         LIMIT 1`;
   },
@@ -816,5 +817,14 @@ export default {
             WHERE GROUP_ID = ${param.GROUP_ID}
             AND EMAIL = '${param.EMAIL}'
                 `;
+  },
+  unlockSite: param => {
+    return `UPDATE TBL_SITES
+                SET FULL_TEXT = '${param.FULL_TEXT}', 
+                    READERMODE_CONTENTS = '${param.READERMODE_CONTENTS}',
+                    FL_READMODE = 'Y'
+                WHERE URL_KEY = '${param.URL_KEY}'
+                AND EMAIL = '${param.EMAIL}'
+            `;
   }
 };

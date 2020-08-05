@@ -8,7 +8,7 @@
     <template v-slot:activator="{ on: menu }">
       <v-tooltip v-model="highlightTooltip" color="blue" top>
         <template v-slot:activator="{ on: tooltip }">
-          <v-badge bordered overlap color="green">
+          <v-badge bordered overlap color="red">
             <template v-slot:badge>
               <span>{{ highlights.length }}</span>
             </template>
@@ -29,7 +29,7 @@
           </v-col>
           <v-spacer />
           <v-col @click="deleteAllHighlight" cols="auto" class="pb-0 pt-0">
-            <v-btn small text color="red">일괄 삭제</v-btn>
+            <v-btn small text color="red">모두삭제</v-btn>
           </v-col>
         </v-row>
       </v-card-subtitle>

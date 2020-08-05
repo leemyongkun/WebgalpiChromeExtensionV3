@@ -236,6 +236,13 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       break;
 
+    case "get.site.info":
+      API.getSite(msg.data).then(res => {
+        sendResponse(res); //조건
+      });
+      return true;
+      break;
+
     case "get.sites.count":
       API.getSites(msg.data).then(res => {
         sendResponse(res); //조건
@@ -463,6 +470,13 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 
     case "get.tabinfos":
       API.selectTabInfos(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+
+    case "unlock.site":
+      API.unlockSite(msg.data).then(res => {
         sendResponse(res);
       });
       return true;

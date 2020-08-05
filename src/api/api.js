@@ -80,13 +80,16 @@ let Api = {
           let options = values[2];
 
           let allItems = new Object();
+
           if (site.length != 0) {
             allItems.SITE = site;
             allItems.HIGHLIGHT_LIST = items;
             allItems.SITE_CHECK = "Y";
+            allItems.SITE_OPEN = site[0].FL_READMODE;
           } else {
             allItems.HIGHLIGHT_LIST = null;
             allItems.SITE_CHECK = "N";
+            allItems.SITE_OPEN = "Y";
           }
 
           obj.allItems = allItems;
@@ -109,8 +112,7 @@ let Api = {
     return select(Query.getOptions(), param);
   },
   getSite: params => {
-    let param = [params.URL_KEY, params.EMAIL];
-    return select(Query.getSite(), param);
+    return select(Query.getSite(params), null);
   },
   getSites: params => {
     let query = Query.getSites(params);
@@ -407,6 +409,9 @@ let Api = {
   },
   insertTabInfo: params => {
     return insert(Query.insertTabInfo(params));
+  },
+  unlockSite: params => {
+    return update(Query.unlockSite(params));
   },
   restoreLog: params => {}
 };

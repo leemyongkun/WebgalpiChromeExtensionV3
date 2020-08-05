@@ -161,12 +161,6 @@ let CONTENTS = {
       //기본으로 지정된 Category로 들어간다
       param.DEFAULT_CATEGORY_IDX = 0; //loginInfo.DEFAULT_CATEGORY_IDX;
       param.URL_TYPE = "WEB";
-      /*
-                                                param.READERMODE_CONTENTS = await CONTENTS.getReadmodeContents(
-                                                  document.getElementsByTagName("html")[0].outerHTML,
-                                                  URL.SITE
-                                                );
-                                          */
 
       CONTENTS.getReadmodeContents(
         document.getElementsByTagName("html")[0].outerHTML,

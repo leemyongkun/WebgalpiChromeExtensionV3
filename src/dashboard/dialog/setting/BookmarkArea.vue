@@ -1,12 +1,12 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-dialog v-model="dialog" persistent max-width="900" overlay-opacity="0.9">
+  <v-dialog v-model="dialog" persistent max-width="55%" overlay-opacity="0.9">
     <v-card>
       <v-card-title class="headline"
-        >Bookmark를 WEBGALPI로 Import합니다.
+        >IMPORT BOOKMARK {{ isCrawling }}
       </v-card-title>
       <v-card-text>
         <v-row>
-          <v-col cols="7">
+          <v-col cols="7" style="border-right: 3px dashed;">
             <div style="max-height: 500px" class="overflow-y-auto">
               <v-treeview
                 v-model="selectedBookmark"
@@ -16,28 +16,71 @@
                 selected-color="red"
                 item-text="title"
                 :items="bookmarks"
-              ></v-treeview>
+              >
+                <template v-slot:append="{ item }">
+                  <v-icon
+                    v-if="item.children === undefined"
+                    @click="goSourceSite(item)"
+                  >
+                    mdi-home-outline
+                  </v-icon>
+                </template>
+              </v-treeview>
             </div>
           </v-col>
-          <v-divider vertical />
-          <v-col cols="4">
-            <v-btn
-              block
-              small
-              outlined
-              style="margin-top: 10px;"
-              @click="runCrawling"
-            >
-              실행
-            </v-btn>
+          <v-col cols="5">
+            <div style="color: #ff585f">
+              ※ 스크래핑 실패한 건에 대해서는 저장하지 않습니다.
+            </div>
+            <div class="pt-4">
+              <v-select
+                :items="category"
+                item-value="id"
+                item-text="name"
+                v-model="selectCategory"
+                label="CATEGORY"
+                dense
+                outlined
+                class="ma-1"
+              ></v-select>
+            </div>
+            <div>
+              <v-btn
+                block
+                small
+                color="success"
+                @click="runCrawling"
+                :disabled="
+                  selectedBookmark.length === 0 || selectedBookmark.length > 10
+                    ? true
+                    : false
+                "
+              >
+                실행
+              </v-btn>
+            </div>
+            <div style="max-height: 500px" class="overflow-y-auto">
+              <v-list dense class="pt-0 pb-0">
+                <v-list-item
+                  class="pr-0 pl-0"
+                  v-for="(bookmark, index) in selectedBookmark"
+                  :key="index"
+                >
+                  <v-list-item-content class="pt-0 pb-0">
+                    <div>
+                      <span>{{ getBookmarkStatus(bookmark.id) }}</span>
+                      {{ index + 1 }}. {{ bookmark.title }}
+                    </div>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </div>
           </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="green darken-1" text @click="dialog = false">취소 </v-btn>
-        <v-btn color="green darken-1" text @click="check">데이타 체크</v-btn>
-        <v-btn color="green darken-1" text @click="getData">GET DATA</v-btn>
+        <v-btn color="green darken-1" text @click="dialog = false">취소</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -45,7 +88,10 @@
 <script>
 import axios from "axios";
 import CRAWLER from "../../common/cheerio";
+import { GLOBAL_CONFIG, URL } from "../../../contents/global/config";
+import CONTENT_LISTENER from "../../../common/content-listener";
 
+let md5 = require("md5");
 export default {
   components: {},
   props: [],
@@ -56,53 +102,108 @@ export default {
     crawling: {
       complete: [],
       fail: []
-    }
+    },
+    category: [],
+    selectCategory: null,
+    runHistory: new Map(),
+    isCrawling: false
   }),
-  created() {},
+  created() {
+    this.$nextTick(() => {
+      this.setCategory();
+    });
+  },
   mounted() {},
+  watch: {
+    selectedBookmark() {
+      /*   if (this.selectedBookmark.length > 10) {
+                       alert("10개이상 안됨");
+                       return false;
+                   }*/
+
+      this.selectedBookmark.forEach(item => {
+        if (item.url !== undefined) {
+          item.url_key = md5(item.url.split("#")[0]);
+          item.result = 0; //0:대기 , 1:성공 , 2:실패
+
+          /*chrome.storage.local.get(["loginInfo"], result => {
+                            let email = result.loginInfo.EMAIL;
+
+                            let param = new Object();
+                            param.EMAIL = email;
+                            param.URL_KEY = item.url_key;
+                            CONTENT_LISTENER.sendMessage({
+                                type: "get.site.info",
+                                data: param
+                            }).then(site => {
+                                console.log("site ", item, site)
+                                if (site.length === 0) {
+                                    item.isAlready = false; //이미 있는지 확인
+                                } else {
+                                    item.isAlready = true;
+                                }
+                            });
+                        });*/
+        }
+      });
+    }
+  },
   methods: {
+    goSourceSite(item) {
+      chrome.tabs.create({ url: item.url });
+    },
+    getBookmarkStatus(bookmarkId) {
+      if (this.runHistory.size === 0) return 0;
+      return this.runHistory.get(Number(bookmarkId));
+    },
     async runCrawling() {
-      //console.log("selectedBookmark ", this.selectedBookmark);
-      /*   if(this.selectedBookmark.length === 0){
-            alert("선택 된 BOOKMARK가 없습니다.");
-            return false;
-        }*/
-
-      /*if(this.selectedBookmark.length > 10){
-            alert("한번에 10개 까지 가능합니다.");
-            return false;
-        }*/
-
-      this.selectedBookmark.map(async bookmark => {
-        //console.log("bookmark >> " , bookmark.url);
-        let result = await CRAWLER.getImportSiteContents(bookmark.url);
-        console.log(
-          "================================================== ",
-          result
-        );
+      this.isCrawling = true;
+      const promise = this.selectedBookmark.map(bookmark => {
+        CRAWLER.getImportSiteContents(bookmark.url)
+          .then(result => {
+            this.runHistory.set(Number(bookmark.id), 1);
+          })
+          .catch(error => {
+            this.runHistory.set(Number(bookmark.id), 2);
+          });
       });
 
+      await Promise.all(promise);
+
+      /*console.log("selectedBookmark ", this.selectedBookmark);
+                const promise= this.selectedBookmark.map(async bookmark => {
+                    //console.log("bookmark >> " , bookmark.url);
+                    let result = await CRAWLER.getImportSiteContents(bookmark.url);
+                    console.log(
+                        "================================================== ",
+                        result
+                    );
+                    bookmark.result = 1;
+                });
+
+                await Promise.all(promise);*/
+
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-      url = "https://www.fnnews.com/news/202004231837158267";*/
+                url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
 
       /*
-        DEFAULT_CATEGORY_IDX: 0
-        EMBEDURL: ""
-        FULL_TEXT: ""
-        HOST: "http://egloos.zum.com"
-        OG_DESCRIPTION: ""
-        OG_IMAGE: ""
-        OG_TITLE: ""
-        READERMODE_CONTENTS: ""
-        TAGS: ""
-        TITLE: "S2 & NAMU"
-        UPDATE_TITLE: "S2 & NAMU"
-        URL: "http://egloos.zum.com/littletrue/v/3987863"
-        URL_KEY: "10976b60347df5f9ab327e8f6a30be14"
-        URL_TYPE: "WEB"
-        USE_CURRENT_SITE: "N"
-        */
+                  DEFAULT_CATEGORY_IDX: 0
+                  EMBEDURL: ""
+                  FULL_TEXT: ""
+                  HOST: "http://egloos.zum.com"
+                  OG_DESCRIPTION: ""
+                  OG_IMAGE: ""
+                  OG_TITLE: ""
+                  READERMODE_CONTENTS: ""
+                  TAGS: ""
+                  TITLE: "S2 & NAMU"
+                  UPDATE_TITLE: "S2 & NAMU"
+                  URL: "http://egloos.zum.com/littletrue/v/3987863"
+                  URL_KEY: "10976b60347df5f9ab327e8f6a30be14"
+                  URL_TYPE: "WEB"
+                  USE_CURRENT_SITE: "N"
+                  */
 
       //await CRAWLER.getOriginalSiteContents(url);
     },
@@ -113,30 +214,36 @@ export default {
     close() {
       this.dialog = false;
     },
-    getData() {
-      this.selectedBookmark.map(bookmark => {
-        axios
-          .get(bookmark.url)
-          .then(result => {
-            result.bookmarkInfo = bookmark;
-            this.crawling.complete.push(result);
-          })
-          .catch(error => {
-            error.bookmarkInfo = bookmark;
-            this.crawling.fail.push(error);
-          });
-      });
 
-      this.check();
-    },
-    check() {
-      /* console.log("selectedBookmark ", this.selectedBookmark);
-      console.log("crawling.complete ", this.crawling.complete);
-      console.log("crawling.fail ", this.crawling.fail);*/
-    },
     getBookmarks() {
       chrome.bookmarks.getTree(itemTree => {
         this.bookmarks = itemTree[0].children;
+      });
+    },
+    setCategory() {
+      chrome.storage.local.get(["loginInfo"], result => {
+        let email = result.loginInfo.EMAIL;
+        CONTENT_LISTENER.sendMessage({
+          type: "get.category",
+          data: [email]
+        }).then(category => {
+          // 오름차순
+          category.sort(function(a, b) {
+            return a.id > b.id ? -1 : a.id < b.id ? 1 : 0;
+          });
+
+          if (category !== undefined) {
+            this.category = category.filter(item => {
+              return item.parent !== 0;
+            });
+
+            this.category.unshift({ id: -1, name: "NO CATEGORY" });
+
+            if (this.category.length !== 0) {
+              this.selectCategory = this.category[0].id;
+            }
+          }
+        });
       });
     }
   }

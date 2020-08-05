@@ -270,9 +270,9 @@ export default {
       return new Promise(async res => {
         const promise = this.data.onetabs.map(async onetab => {
           /*this.progress.highlightComplete += 1;
-                        this.progress.highlightCompletePer = Math.floor(
-                            (this.progress.highlightComplete / this.data.highlight.length) * 100
-                        );*/
+                                      this.progress.highlightCompletePer = Math.floor(
+                                          (this.progress.highlightComplete / this.data.highlight.length) * 100
+                                      );*/
           await CONTENT_LISTENER.sendMessage({
             type: "restore.onetab",
             data: onetab
@@ -334,7 +334,9 @@ export default {
                 data.body,
                 site.URL
               );
+              site.FL_READMODE = "Y";
 
+              console.log("site ", site);
               await CONTENT_LISTENER.sendMessage({
                 type: "restore.site",
                 data: site
@@ -361,7 +363,7 @@ export default {
       });
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                                                                                                                               url = "https://www.fnnews.com/news/202004231837158267";*/
+                                                                                                                                         url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
     },
     async dataParsing(data) {
