@@ -21,12 +21,12 @@
                   NO CONTENTS
                 </p>
                 <div class="text--primary">
-                  사이트에 방문하여 원하는 컬러로 하이라이팅을 해보세요.<br />
+                  {{ LANG.DESCRIPTION_MESSAGE("D0021") }}<br />
                 </div>
               </v-card-text>
               <v-card-actions>
                 <v-btn text outlined color="green accent-4" @click="learnSite">
-                  연습하기
+                  {{ LANG.BUTTON_MESSAGE("B0006") }}
                 </v-btn>
               </v-card-actions>
             </v-card>

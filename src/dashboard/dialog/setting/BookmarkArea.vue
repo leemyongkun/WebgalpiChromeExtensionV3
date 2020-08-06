@@ -30,7 +30,7 @@
           </v-col>
           <v-col cols="5">
             <div style="color: #ff585f">
-              ※ 스크래핑 실패한 건에 대해서는 저장하지 않습니다.
+              {{ LANG.DESCRIPTION_MESSAGE("D0048") }}
             </div>
             <div class="pt-4">
               <v-select
@@ -80,18 +80,20 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="green darken-1" text @click="dialog = false">취소</v-btn>
+        <v-btn color="green darken-1" text @click="dialog = false">
+          {{ LANG.BUTTON_MESSAGE("B0010") }}</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 <script>
-import axios from "axios";
 import CRAWLER from "../../common/cheerio";
-import { GLOBAL_CONFIG, URL } from "../../../contents/global/config";
 import CONTENT_LISTENER from "../../../common/content-listener";
+import LANG from "../../../common/language";
 
 let md5 = require("md5");
+
 export default {
   components: {},
   props: [],
@@ -106,7 +108,8 @@ export default {
     category: [],
     selectCategory: null,
     runHistory: new Map(),
-    isCrawling: false
+    isCrawling: false,
+    LANG: LANG
   }),
   created() {
     this.$nextTick(() => {
@@ -117,9 +120,9 @@ export default {
   watch: {
     selectedBookmark() {
       /*   if (this.selectedBookmark.length > 10) {
-                       alert("10개이상 안됨");
-                       return false;
-                   }*/
+                                 alert("10개이상 안됨");
+                                 return false;
+                             }*/
 
       this.selectedBookmark.forEach(item => {
         if (item.url !== undefined) {
@@ -127,23 +130,23 @@ export default {
           item.result = 0; //0:대기 , 1:성공 , 2:실패
 
           /*chrome.storage.local.get(["loginInfo"], result => {
-                            let email = result.loginInfo.EMAIL;
+                                          let email = result.loginInfo.EMAIL;
 
-                            let param = new Object();
-                            param.EMAIL = email;
-                            param.URL_KEY = item.url_key;
-                            CONTENT_LISTENER.sendMessage({
-                                type: "get.site.info",
-                                data: param
-                            }).then(site => {
-                                console.log("site ", item, site)
-                                if (site.length === 0) {
-                                    item.isAlready = false; //이미 있는지 확인
-                                } else {
-                                    item.isAlready = true;
-                                }
-                            });
-                        });*/
+                                          let param = new Object();
+                                          param.EMAIL = email;
+                                          param.URL_KEY = item.url_key;
+                                          CONTENT_LISTENER.sendMessage({
+                                              type: "get.site.info",
+                                              data: param
+                                          }).then(site => {
+                                              console.log("site ", item, site)
+                                              if (site.length === 0) {
+                                                  item.isAlready = false; //이미 있는지 확인
+                                              } else {
+                                                  item.isAlready = true;
+                                              }
+                                          });
+                                      });*/
         }
       });
     }
@@ -171,39 +174,39 @@ export default {
       await Promise.all(promise);
 
       /*console.log("selectedBookmark ", this.selectedBookmark);
-                const promise= this.selectedBookmark.map(async bookmark => {
-                    //console.log("bookmark >> " , bookmark.url);
-                    let result = await CRAWLER.getImportSiteContents(bookmark.url);
-                    console.log(
-                        "================================================== ",
-                        result
-                    );
-                    bookmark.result = 1;
-                });
+                          const promise= this.selectedBookmark.map(async bookmark => {
+                              //console.log("bookmark >> " , bookmark.url);
+                              let result = await CRAWLER.getImportSiteContents(bookmark.url);
+                              console.log(
+                                  "================================================== ",
+                                  result
+                              );
+                              bookmark.result = 1;
+                          });
 
-                await Promise.all(promise);*/
+                          await Promise.all(promise);*/
 
       /* var url = "http://lemonweb/MyDesk/Home/Index/160";
-                url = "https://www.fnnews.com/news/202004231837158267";*/
+                          url = "https://www.fnnews.com/news/202004231837158267";*/
       //url = "http://182.162.91.27:7614/admin-webapp/";
 
       /*
-                  DEFAULT_CATEGORY_IDX: 0
-                  EMBEDURL: ""
-                  FULL_TEXT: ""
-                  HOST: "http://egloos.zum.com"
-                  OG_DESCRIPTION: ""
-                  OG_IMAGE: ""
-                  OG_TITLE: ""
-                  READERMODE_CONTENTS: ""
-                  TAGS: ""
-                  TITLE: "S2 & NAMU"
-                  UPDATE_TITLE: "S2 & NAMU"
-                  URL: "http://egloos.zum.com/littletrue/v/3987863"
-                  URL_KEY: "10976b60347df5f9ab327e8f6a30be14"
-                  URL_TYPE: "WEB"
-                  USE_CURRENT_SITE: "N"
-                  */
+                            DEFAULT_CATEGORY_IDX: 0
+                            EMBEDURL: ""
+                            FULL_TEXT: ""
+                            HOST: "http://egloos.zum.com"
+                            OG_DESCRIPTION: ""
+                            OG_IMAGE: ""
+                            OG_TITLE: ""
+                            READERMODE_CONTENTS: ""
+                            TAGS: ""
+                            TITLE: "S2 & NAMU"
+                            UPDATE_TITLE: "S2 & NAMU"
+                            URL: "http://egloos.zum.com/littletrue/v/3987863"
+                            URL_KEY: "10976b60347df5f9ab327e8f6a30be14"
+                            URL_TYPE: "WEB"
+                            USE_CURRENT_SITE: "N"
+                            */
 
       //await CRAWLER.getOriginalSiteContents(url);
     },

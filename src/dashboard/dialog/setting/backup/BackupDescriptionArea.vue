@@ -8,14 +8,14 @@
   >
     <v-card>
       <v-card-title>
-        구글 드라이브로 백업을 진행하시겠습니까?
+        {{ LANG.DESCRIPTION_MESSAGE("D0025") }}
       </v-card-title>
       <v-card-text>
         <v-row>
           <v-col cols="12">
             <v-textarea
               outlined
-              label="간단한 Description을 입력하세요."
+              :label="LANG.DESCRIPTION_MESSAGE('D0026')"
               v-model="backupDescription"
               ref="backupDescriptionArea"
             ></v-textarea>
@@ -24,28 +24,35 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn small color="green" text @click="run">BACKUP</v-btn>
-        <v-btn small color="blue" text @click="close">CANCEL</v-btn>
+        <v-btn small color="green" text @click="run">{{
+          LANG.BUTTON_MESSAGE("B0009")
+        }}</v-btn>
+        <v-btn small color="blue" text @click="close">{{
+          LANG.BUTTON_MESSAGE("B0010")
+        }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 <script>
 import EventBus from "../../../event-bus";
+import LANG from "../../../../common/language";
 
 export default {
   components: {},
   props: [],
   data: () => ({
     dialog: false,
-    backupDescription: ""
+    backupDescription: "",
+    LANG: LANG
   }),
   created() {},
   mounted() {},
   methods: {
     open() {
-      this.backupDescription =
-        new Date().format("(E) yyyy년 MM월 dd일 a/p hh시 mm분 ss초") + "\n";
+      this.backupDescription = new Date().format(
+        LANG.DESCRIPTION_MESSAGE("D0027")
+      );
       setTimeout(() => {
         this.$refs.backupDescriptionArea.focus();
       }, 100);

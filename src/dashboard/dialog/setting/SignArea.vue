@@ -7,20 +7,24 @@
     overlay-opacity="0.9"
   >
     <v-card>
-      <v-card-title>로그아웃</v-card-title>
+      <v-card-title>{{ LANG.DESCRIPTION_MESSAGE("D0051") }}</v-card-title>
       <v-divider></v-divider>
       <v-card-text>
         <v-row>
           <v-col cols="12">
-            로그아웃 하시겠습니까?
+            {{ LANG.DESCRIPTION_MESSAGE("D0052") }}
           </v-col>
         </v-row>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn small color="blue" text @click="close">닫기</v-btn>
-        <v-btn small color="blue" text @click="logout">로그아웃</v-btn>
+        <v-btn small color="blue" text @click="close">{{
+          LANG.BUTTON_MESSAGE("B0012")
+        }}</v-btn>
+        <v-btn small color="blue" text @click="logout">{{
+          LANG.BUTTON_MESSAGE("B0002")
+        }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -29,11 +33,13 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import ACCOUNT from "../../../common/account";
+import LANG from "../../../common/language";
 
 export default {
   props: [],
   data: () => ({
-    dialog: false
+    dialog: false,
+    LANG: LANG
   }),
   created() {},
   mounted() {},

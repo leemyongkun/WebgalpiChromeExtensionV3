@@ -1,4 +1,5 @@
 let $ = require("jquery");
+import LANG from "./language";
 let CONTENT_LISTENER = {
   checkLastError: message => {
     let lastError = chrome.runtime.lastError;
@@ -12,13 +13,10 @@ let CONTENT_LISTENER = {
       try {
         chrome.runtime.sendMessage(parameter, function(response) {
           CONTENT_LISTENER.checkLastError("checkLastError : " + parameter.type);
-
           res(response);
         });
       } catch (e) {
-        alert(
-          "WEB-GALPI가 설치 및 업데이트 되었습니다.\n해당 페이지를 Reload 합니다."
-        );
+        alert(LANG.ALERT_MESSAGE("A0025"));
         location.reload();
       }
     });

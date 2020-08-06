@@ -7,31 +7,34 @@
     overlay-opacity="0.9"
   >
     <v-card>
-      <v-card-title>백업/복구</v-card-title>
+      <v-card-title>{{ LANG.DESCRIPTION_MESSAGE("D0040") }}</v-card-title>
       <v-divider></v-divider>
       <v-card-text class="pl-0 pr-0" style="overflow-x:hidden">
         <v-row>
           <v-col cols="6">
             <v-card flat>
-              <v-card-title>백업</v-card-title>
+              <v-card-title>{{
+                LANG.DESCRIPTION_MESSAGE("D0041")
+              }}</v-card-title>
               <v-card-text>
                 <ul>
-                  <li>구글 드라이브에 파일형태로 백업됩니다.</li>
-                  <li>모든 데이타는 암호화 처리됩니다.</li>
-                  <li>임의로 파일명/폴더명/파일내용을 변경하지 마십시오.</li>
+                  <li>{{ LANG.DESCRIPTION_MESSAGE("D0042") }}</li>
+                  <li>{{ LANG.DESCRIPTION_MESSAGE("D0043") }}</li>
+                  <li>{{ LANG.DESCRIPTION_MESSAGE("D0044") }}</li>
                 </ul>
               </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="6">
             <v-card flat>
-              <v-card-title>복구</v-card-title>
+              <v-card-title>{{
+                LANG.DESCRIPTION_MESSAGE("D0028")
+              }}</v-card-title>
               <v-card-text>
                 <ul>
-                  <li>복구 시, 기존 데이타는 모두 삭제 됩니다.</li>
+                  <li>{{ LANG.DESCRIPTION_MESSAGE("D0045") }}</li>
                   <li>
-                    현재 계정과 일치하지 않을 경우, 복구되지 않으니
-                    주의바랍니다.
+                    {{ LANG.DESCRIPTION_MESSAGE("D0046") }}
                   </li>
                 </ul>
               </v-card-text>
@@ -43,7 +46,7 @@
             <v-card flat>
               <v-card-text>
                 <v-btn small color="primary" @click="backup('google')"
-                  >백업
+                  >{{ LANG.DESCRIPTION_MESSAGE("D0041") }}
                 </v-btn>
               </v-card-text>
             </v-card>
@@ -52,7 +55,8 @@
             <v-card flat>
               <v-card-text>
                 <v-btn small color="warning" @click="googleRestore()"
-                  >복구 / 삭제
+                  >{{ LANG.DESCRIPTION_MESSAGE("D0028") }} /
+                  {{ LANG.DESCRIPTION_MESSAGE("D0047") }}
                 </v-btn>
               </v-card-text>
             </v-card>
@@ -62,7 +66,9 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn small color="blue" text @click="close">CLOSE</v-btn>
+        <v-btn small color="blue" text @click="close">{{
+          LANG.BUTTON_MESSAGE("B0012")
+        }}</v-btn>
       </v-card-actions>
     </v-card>
 
@@ -81,8 +87,7 @@ import RestoreListArea from "./backup/RestoreListArea";
 import BackupDescriptionArea from "./backup/BackupDescriptionArea";
 import EventBus from "../../event-bus";
 import GOOGLE_DRIVE from "../../../common/GoogleDriveBackupAndRestore";
-import ACCOUNT from "../../../common/account";
-
+import LANG from "../../../common/language";
 /*
                         let firebaseConfig = {
                           apiKey: "AIzaSyABpHVfr6b4twYbVxyDbYutJEPGLSAHibo",
@@ -107,7 +112,8 @@ export default {
     restoreFile: null,
     backupOverlay: false,
     backupData: null,
-    email: null
+    email: null,
+    LANG: LANG
   }),
   created() {
     this.$nextTick(() => {

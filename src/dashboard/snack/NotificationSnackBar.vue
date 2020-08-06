@@ -11,13 +11,12 @@
     >
       <v-row align="center">
         <v-col>
-          <span class="subtitle-2"
-            >최근 백업한 데이타가 있습니다.<br />복구를 진행하시겠습니까?</span
-          >
+          <span class="subtitle-2" v-html="LANG.DESCRIPTION_MESSAGE('D0073')">
+          </span>
         </v-col>
         <v-col class="shrink">
           <v-btn x-small @click="runRestore" text color="error accent-4">
-            RESTORE
+            {{ LANG.BUTTON_MESSAGE("B0020") }}
           </v-btn>
           <v-btn
             @click="showNotification = false"
@@ -25,7 +24,7 @@
             text
             color="accent-4"
           >
-            CLOSE
+            {{ LANG.BUTTON_MESSAGE("B0012") }}
           </v-btn>
         </v-col>
       </v-row>
@@ -34,12 +33,14 @@
 </template>
 <script>
 import EventBus from "../event-bus";
+import LANG from "../../common/language";
 
 export default {
   components: {},
 
   data: () => ({
-    showNotification: false
+    showNotification: false,
+    LANG: LANG
   }),
   methods: {
     open() {

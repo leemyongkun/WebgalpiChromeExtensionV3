@@ -17,7 +17,7 @@
             </v-btn>
           </v-badge>
         </template>
-        <span>저장된 하이라이트를 표시합니다.</span>
+        <span>{{ LANG.DESCRIPTION_MESSAGE("D0016") }}</span>
       </v-tooltip>
     </template>
 
@@ -29,7 +29,9 @@
           </v-col>
           <v-spacer />
           <v-col @click="deleteAllHighlight" cols="auto" class="pb-0 pt-0">
-            <v-btn small text color="red">모두삭제</v-btn>
+            <v-btn small text color="red">{{
+              LANG.BUTTON_MESSAGE("B0005")
+            }}</v-btn>
           </v-col>
         </v-row>
       </v-card-subtitle>
@@ -75,7 +77,7 @@
               class="title text-center"
               v-if="currentSite.FL_READMODE === 'N'"
             >
-              잠겨있는 컨텐츠입니다.<br />스크래핑을 다시 시도해보세요.
+              {{ LANG.DESCRIPTION_MESSAGE("D0017") }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -88,6 +90,7 @@ import Common from "../../../../common/common";
 import CONTENT_LISTENER from "../../../../common/content-listener";
 import MODAL from "../../../../common/modal";
 import EventBus from "../../../event-bus";
+import LANG from "../../../../common/language";
 
 export default {
   components: {},
@@ -97,7 +100,8 @@ export default {
     hover: false,
     highlightItems: [],
     maxHeightWidget: "",
-    highlightTooltip: false
+    highlightTooltip: false,
+    LANG: LANG
   }),
   created() {
     this.$nextTick(function() {
@@ -107,7 +111,7 @@ export default {
   },
   methods: {
     async deleteAllHighlight() {
-      let confirm = "모든 하이라이트를 삭제하시겠습니까?";
+      let confirm = LANG.CONFIRM_MESSAGE("C0002");
       let result = await MODAL.confirm(confirm, "info", null, null, "450px");
       if (result.value === undefined) return false;
 
@@ -119,7 +123,7 @@ export default {
       });
     },
     async deleteHighlight(item) {
-      let confirm = "하이라이트를 삭제하시겠습니까?";
+      let confirm = LANG.CONFIRM_MESSAGE("C0003");
       let result = await MODAL.confirm(confirm, "info", null, null, "450px");
       if (result.value === undefined) return false;
       item.HIGHLIGHT_IDX = item.IDX;

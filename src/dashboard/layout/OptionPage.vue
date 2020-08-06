@@ -13,25 +13,25 @@
           mdi-filter
         </v-icon>
       </template>
-      <span>모든 창을 닫고 이력 관리</span>
+      <span>{{ LANG.DESCRIPTION_MESSAGE("D0066") }}</span>
     </v-tooltip>
     <OneTab ref="onetab"></OneTab>
 
     <!-- BOOKMARK -->
     <!--<v-tooltip bottom color="blue">
-                <template v-slot:activator="{ on }">
-                    <v-icon
-                            class="pr-2"
-                            v-on="on"
-                            size="20px"
-                            style="cursor: pointer"
-                            @click="openBookmarkArea"
-                    >
-                        mdi-bookmark-plus-outline
-                    </v-icon>
-                </template>
-                <span>IMPORT BOOKMARK</span>
-            </v-tooltip>-->
+                    <template v-slot:activator="{ on }">
+                        <v-icon
+                                class="pr-2"
+                                v-on="on"
+                                size="20px"
+                                style="cursor: pointer"
+                                @click="openBookmarkArea"
+                        >
+                            mdi-bookmark-plus-outline
+                        </v-icon>
+                    </template>
+                    <span>IMPORT BOOKMARK</span>
+                </v-tooltip>-->
     <BookmarkArea ref="bookmark"></BookmarkArea>
 
     <!-- THEME -->
@@ -47,7 +47,7 @@
           mdi-theme-light-dark
         </v-icon>
       </template>
-      <span>대쉬보드의 테마설정</span>
+      <span>{{ LANG.DESCRIPTION_MESSAGE("D0067") }}</span>
     </v-tooltip>
     <ThemeArea ref="theme"></ThemeArea>
 
@@ -64,7 +64,7 @@
           mdi-google-drive
         </v-icon>
       </template>
-      <span>컨텐츠를 구글 드라이브에 백업/복구</span>
+      <span>{{ LANG.DESCRIPTION_MESSAGE("D0068") }}</span>
     </v-tooltip>
     <BackupArea ref="backup"></BackupArea>
 
@@ -80,7 +80,7 @@
           >mdi-palette-outline
         </v-icon>
       </template>
-      <span>원하는 색상의 하이라이트 컬러를 지정</span>
+      <span>{{ LANG.DESCRIPTION_MESSAGE("D0069") }}</span>
     </v-tooltip>
     <ColorArea ref="color"></ColorArea>
 
@@ -102,7 +102,7 @@
               >mdi-information-outline
             </v-icon>
           </template>
-          <span>UPDATE를 확인합니다.</span>
+          <span>{{ LANG.DESCRIPTION_MESSAGE("D0070") }}</span>
         </v-tooltip>
       </template>
 
@@ -117,8 +117,8 @@
             </v-list-item-content>
             <v-list-item-action>
               <!--<v-btn :class="''" icon>
-                                                                                                                                                                                                                                                                <v-icon>mdi-heart</v-icon>
-                                                                                                                                                                                                                                                            </v-btn>-->
+                                                                                                                                                                                                                                                                              <v-icon>mdi-heart</v-icon>
+                                                                                                                                                                                                                                                                          </v-btn>-->
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -129,7 +129,9 @@
           <v-list-item>
             <v-list-item-content>
               <v-card>
-                <v-card-title>개선 및 기능추가</v-card-title>
+                <v-card-title>{{
+                  LANG.DESCRIPTION_MESSAGE("D0071")
+                }}</v-card-title>
                 <v-card-text
                   class="pt-0 pb-2"
                   v-for="(item, idx) in update.improvement"
@@ -138,7 +140,9 @@
                 </v-card-text>
               </v-card>
               <v-card>
-                <v-card-title>디버깅</v-card-title>
+                <v-card-title>{{
+                  LANG.DESCRIPTION_MESSAGE("D0072")
+                }}</v-card-title>
                 <v-card-text
                   class="pt-0 pb-2"
                   v-for="(item, idx) in update.debug"
@@ -161,7 +165,9 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="infoMenu = false">닫기</v-btn>
+          <v-btn text @click="infoMenu = false">{{
+            LANG.BUTTON_MESSAGE("B0012")
+          }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -197,7 +203,8 @@ export default {
         "Google 검색 시, WEBGALPI에 이미 등록한 내용을 검색.",
         "개발자에게 메일전송."
       ]
-    }
+    },
+    LANG: LANG
   }),
   props: [],
   created() {},

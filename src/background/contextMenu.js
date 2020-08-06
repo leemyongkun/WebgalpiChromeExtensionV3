@@ -1,7 +1,7 @@
 import COMMON_ACTION from "../common/commonAction";
 import API from "../api/api";
 import Common from "../common/common";
-
+import LANG from "../common/language";
 function contextAction(info, tab) {
   if (info.menuItemId === "dashboard") {
     let extensionDashboard = Common.getDashboardUrl();
@@ -19,10 +19,10 @@ function contextAction(info, tab) {
     COMMON_ACTION.getSiteInfo(tab.id).then(siteInfo => {
       if (siteInfo.USE_CURRENT_SITE === "N") {
         API.postSite(siteInfo).then(site => {
-          alert("사이트가 저장되었습니다.");
+          LANG.ALERT_MESSAGE("A0014");
         });
       } else {
-        alert("이미 저장 된 사이트입니다.");
+        alert(LANG.ALERT_MESSAGE("A0020"));
       }
     });
   }

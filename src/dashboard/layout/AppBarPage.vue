@@ -50,6 +50,7 @@ import BackupArea from "../dialog/setting/BackupArea";
 import OptionPage from "./OptionPage";
 import Common from "../../common/common";
 import LANG from "../../common/language";
+import MODAL from "../../common/modal";
 
 export default {
   components: { OptionPage, BackupArea, OneTab, SignArea },

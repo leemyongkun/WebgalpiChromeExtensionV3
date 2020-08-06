@@ -4,7 +4,8 @@
       <span style="cursor: pointer;" @click="onClearClicked">
         <v-icon size="18px">mdi-close</v-icon>
       </span>
-      검색키워드 : <span style="color: dodgerblue;">{{ filter.search }}</span>
+      {{ LANG.DESCRIPTION_MESSAGE("D0053") }} :
+      <span style="color: dodgerblue;">{{ filter.search }}</span>
     </span>
 
     <!--검색 버튼-->
@@ -99,8 +100,12 @@
       </template>
       <v-date-picker v-model="dates" range no-title scrollable>
         <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="calendar = false">Cancel</v-btn>
-        <v-btn text color="primary" @click="pickDate()">OK</v-btn>
+        <v-btn text color="primary" @click="calendar = false">{{
+          LANG.BUTTON_MESSAGE("B0012")
+        }}</v-btn>
+        <v-btn text color="primary" @click="pickDate()">{{
+          LANG.BUTTON_MESSAGE("B0015")
+        }}</v-btn>
       </v-date-picker>
     </v-menu>
 

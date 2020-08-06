@@ -94,22 +94,20 @@ let BackgrounEvent = {
     chrome.runtime.onInstalled.addListener(details => {
       if (details.reason === "install") {
         if (!!window.openDatabase) {
-          LANG.getMessage("M0001");
+          //LANG.getMessage("A0022");
 
           chrome.storage.local.remove(["loginInfo"]);
           dbcon.dropTable();
           dbcon.createTable();
         } else {
-          alert(LANG.getMessage("M0002"));
+          alert(LANG.ALERT_MESSAGE("A0023"));
         }
       } else {
         var opt = {
           type: "basic",
           title: "WEBGALPI",
           message:
-            "VER " +
-            Common.getVersion() +
-            "로 업데이트 되었습니다.\n클릭하여 업데이트 내역을 확인해보세요.",
+            "VER " + Common.getVersion() + LANG.DESCRIPTION_MESSAGE("D0083"),
           iconUrl: "../icons/pen.png"
         };
 

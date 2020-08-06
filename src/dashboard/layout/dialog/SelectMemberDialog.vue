@@ -27,7 +27,7 @@
               <v-row>
                 <v-col cols="12">
                   <v-btn block small outlined @click="registMember"
-                    >사용자 등록
+                    >{{ LANG.BUTTON_MESSAGE("B0016") }}
                   </v-btn>
                 </v-col>
               </v-row>
@@ -38,11 +38,11 @@
       <v-col :cols="cols" v-if="viewPasswordArea" class="pr-0 pt-0 pb-0">
         <v-list subheader>
           <v-subheader
-            >로그인
+            >{{ LANG.DESCRIPTION_MESSAGE("D0061") }}
             <v-spacer />
-            <span @click="cancelPassword" style="cursor:pointer"
-              >닫기</span
-            ></v-subheader
+            <span @click="cancelPassword" style="cursor:pointer">{{
+              LANG.BUTTON_MESSAGE("B0012")
+            }}</span></v-subheader
           >
           <v-list-item>
             <v-list-item-content class="pb-0">
@@ -59,7 +59,9 @@
           </v-list-item>
           <v-list-item-action align="center">
             <v-spacer></v-spacer>
-            <v-btn small text @click="login">로그인</v-btn>
+            <v-btn small text @click="login">{{
+              LANG.BUTTON_MESSAGE("B0017")
+            }}</v-btn>
           </v-list-item-action>
         </v-list>
       </v-col>
@@ -90,7 +92,8 @@ export default {
     passwordError: false,
     viewPasswordArea: false,
     width: 300,
-    cols: 12
+    cols: 12,
+    LANG: LANG
   }),
   methods: {
     open(members) {

@@ -42,7 +42,7 @@
             <v-icon>mdi-content-save</v-icon>
           </v-btn>
         </template>
-        <span>사이트를 저장합니다.</span>
+        <span>{{ LANG.DESCRIPTION_MESSAGE("D0075") }}</span>
       </v-tooltip>
 
       <v-tooltip v-model="tooltip.category" top v-if="siteStatus === 1">
@@ -51,7 +51,7 @@
             <v-icon>mdi-folder-download-outline</v-icon>
           </v-btn>
         </template>
-        <span>카테고리를 변경합니다.</span>
+        <span>{{ LANG.DESCRIPTION_MESSAGE("D0076") }}</span>
       </v-tooltip>
 
       <v-tooltip v-model="tooltip.unlockSite" top v-if="siteStatus === 2">
@@ -60,7 +60,7 @@
             <v-icon>mdi-folder-lock-open</v-icon>
           </v-btn>
         </template>
-        <span>현재 사이트에 LOCK을 해제할 수 있습니다.</span>
+        <span>{{ LANG.DESCRIPTION_MESSAGE("D0077") }}</span>
       </v-tooltip>
 
       <v-tooltip v-model="tooltip.dashboard" top>
@@ -69,7 +69,7 @@
             <v-icon right>mdi-view-dashboard</v-icon>
           </v-btn>
         </template>
-        <span>대쉬보드로 이동합니다.</span>
+        <span>{{ LANG.DESCRIPTION_MESSAGE("D0078") }}</span>
       </v-tooltip>
     </v-card-actions>
   </v-card>
@@ -81,6 +81,7 @@
 import CONTENT_LISTENER from "../../common/content-listener";
 import Common from "../../common/common";
 import MODAL from "../../common/modal";
+import LANG from "../../common/language";
 
 export default {
   name: "SiteInfoTab",
@@ -112,7 +113,8 @@ export default {
     },
     image: null,
     isCollapse: true,
-    siteStatus: 0 // 0: 미등록 / 1:등록 / 2:잠김
+    siteStatus: 0, // 0: 미등록 / 1:등록 / 2:잠김
+    LANG: LANG
   }),
   methods: {
     goDashboard() {
@@ -120,9 +122,8 @@ export default {
     },
     updateCategory() {
       if (this.selectCategory === -1) {
-        alert(
-          "카테고리 정보를 업데이트 할 수 없습니다.\nDashboard에서 수행하십시오."
-        );
+        alert(LANG.ALERT_MESSAGE("A0015"));
+
         return false;
       }
       let object = new Object();
@@ -133,11 +134,11 @@ export default {
         type: "post.category.relation",
         data: object
       }).then(() => {
-        alert("카테고리 정보가 업데이트 되었습니다.");
+        alert(LANG.ALERT_MESSAGE("A0016"));
       });
     },
     async unlockSite() {
-      let confirm = "UNLOCK을 진행하시겠습니까?";
+      let confirm = LANG.CONFIRM_MESSAGE("C0010");
       let result = await MODAL.confirm(confirm, "info", null, null, "400px");
       if (result.value === undefined) return false;
 
@@ -164,7 +165,7 @@ export default {
                   data: siteInfo
                 })
                   .then(() => {
-                    alert("LOCK이 해제되었습니다.");
+                    alert(LANG.ALERT_MESSAGE("A0017"));
                     this.siteStatus = 1; //등록으로 변경
                   })
                   .then(() => {
@@ -209,7 +210,7 @@ export default {
           Common.reloadingDashboard();
         })
         .then(() => {
-          alert("컨텐츠를 저장하였습니다.");
+          alert(LANG.ALERT_MESSAGE("A0014"));
           chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
             let tabId = tabs[0].id;
             chrome.tabs.sendMessage(tabId, {
@@ -258,9 +259,7 @@ export default {
             siteInfo => {
               if (siteInfo === undefined) {
                 clearInterval(interval);
-                alert(
-                  "WEBGALPI가 로딩되지 않았습니다.\nPOPUP을 닫고 새로고침 후 다시 시도하십시오."
-                );
+                alert(LANG.ALERT_MESSAGE("A0018"));
                 return false;
               }
 

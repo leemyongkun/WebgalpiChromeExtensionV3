@@ -7,13 +7,13 @@
     overlay-opacity="0.9"
   >
     <v-card>
-      <v-card-title>복구</v-card-title>
+      <v-card-title>{{ LANG.DESCRIPTION_MESSAGE("D0028") }}</v-card-title>
       <v-card-text>
         <v-expansion-panels v-model="panel" multiple>
           <!--백업 정보-->
           <v-expansion-panel readonly v-show="isShowBackupInfo">
             <v-expansion-panel-header disable-icon-rotate>
-              백업 정보
+              {{ LANG.DESCRIPTION_MESSAGE("D0029") }}
               <template v-slot:actions>
                 <!-- teal / primary -->
                 <v-icon color="green">mdi-check</v-icon>
@@ -33,7 +33,9 @@
           <!--카테고리 정보-->
           <v-expansion-panel readonly>
             <v-expansion-panel-header disable-icon-rotate>
-              카테고리 정보 ({{ data.category.length }} 건)
+              {{ LANG.DESCRIPTION_MESSAGE("D0030") }} ({{
+                data.category.length
+              }})
               <template v-slot:actions>
                 <!-- teal / primary -->
                 <v-icon color="green">mdi-check</v-icon>
@@ -52,8 +54,10 @@
 
           <!--카테고리에 사이트 정보-->
           <v-expansion-panel readonly>
-            <v-expansion-panel-header disable-icon-rotate>
-              카테고리 사이트 포함 정보 ({{ data.categoryRelation.length }} 건)
+            <v-expansion-panel-header disable-icon-rotate
+              >{{ LANG.DESCRIPTION_MESSAGE("D0031") }} ({{
+                data.categoryRelation.length
+              }})
               <template v-slot:actions>
                 <!-- teal / primary -->
                 <v-icon color="green">mdi-check</v-icon>
@@ -73,7 +77,7 @@
           <!--사이트 정보-->
           <v-expansion-panel readonly>
             <v-expansion-panel-header disable-icon-rotate>
-              사이트 정보 ({{ data.site.length }} 건)
+              {{ LANG.DESCRIPTION_MESSAGE("D0033") }} ({{ data.site.length }} )
               <template v-slot:actions>
                 <!-- teal / primary -->
                 <v-icon color="green">mdi-check</v-icon>
@@ -81,23 +85,18 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content v-if="data.site.length > 0">
               <v-row>
-                <v-col cols="12">
-                  ※ Progress는 크롤링에 대한 완료여부이며, 기본 데이타는 모두
-                  복구 됩니다.<br />
-                  ※ private service의 데이타를 외부로의 유출을 방지하기
-                  위함입니다.<br />
-                  ※ FAIL이 발생 하는 경우는 아래와 같으며, Contents View
-                  영역에서 크롤링을 다시 시도할 수 있습니다.
+                <v-col cols="12"
+                  >{{ LANG.DESCRIPTION_MESSAGE("D0032") }}
                   <br />
                   <ul>
                     <li>
-                      Connection Timeout이 5초가 넘었을 경우.
+                      {{ LANG.DESCRIPTION_MESSAGE("D0034") }}
                     </li>
                     <li>
-                      더 이상 Service를 하지 않는 경우.
+                      {{ LANG.DESCRIPTION_MESSAGE("D0035") }}
                     </li>
                     <li>
-                      사내망(Private Service)의 경우. (외부에서 차단된 사이트)
+                      {{ LANG.DESCRIPTION_MESSAGE("D0036") }}
                     </li>
                   </ul>
                 </v-col>
@@ -121,11 +120,11 @@
               </v-row>
               <v-row v-if="errorSite.length > 0">
                 <v-col cols="12">
-                  FAIL 확인은 'ALL CATEGORY' 클릭 후,
+                  {{ LANG.DESCRIPTION_MESSAGE("D0037") }}
                   <v-icon size="18px" :color="'red'"
-                    >mdi-shield-off-outline
-                  </v-icon>
-                  을 클릭하면 확인 할 수 있습니다.
+                    >mdi-shield-off-outline</v-icon
+                  >
+                  {{ LANG.DESCRIPTION_MESSAGE("D0038") }}
                 </v-col>
               </v-row>
             </v-expansion-panel-content>
@@ -134,7 +133,10 @@
           <!--하이라이팅 정보 -->
           <v-expansion-panel readonly>
             <v-expansion-panel-header disable-icon-rotate>
-              하이라이팅 정보 ({{ data.highlight.length }} 건)
+              {{ LANG.DESCRIPTION_MESSAGE("D0039") }} ({{
+                data.highlight.length
+              }}
+              )
               <template v-slot:actions>
                 <!-- teal / primary -->
                 <v-icon color="green">mdi-check</v-icon>
@@ -155,7 +157,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn small text color="primary" v-if="showCloseBtn" @click="close"
-          >닫기
+          >{{ LANG.BUTTON_MESSAGE("B0012") }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -201,7 +203,8 @@ export default {
       categoryRelationComplete: 0,
       categoryRelationCompletePer: 0
     },
-    errorSite: []
+    errorSite: [],
+    LANG: LANG
   }),
   created() {},
   mounted() {},
@@ -337,7 +340,6 @@ export default {
               );
               site.FL_READMODE = "Y";
 
-              console.log("site ", site);
               await CONTENT_LISTENER.sendMessage({
                 type: "restore.site",
                 data: site

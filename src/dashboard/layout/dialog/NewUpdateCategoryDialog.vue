@@ -63,7 +63,7 @@
                               ref="parentFieldMenu"
                               clearable
                               outlined
-                              placeholder="카테고리명 입력 후 엔터"
+                              :placeholder="LANG.DESCRIPTION_MESSAGE('D0060')"
                               prepend-inner-icon="mdi-folder-plus-outline"
                               v-model="categoryName.parent"
                               @keypress.enter="insertCategory('parent')"
@@ -220,7 +220,7 @@
                               ref="childFieldMenu"
                               clearable
                               outlined
-                              placeholder="카테고리명 입력 후 엔터"
+                              :placeholder="LANG.DESCRIPTION_MESSAGE('D0060')"
                               prepend-inner-icon="mdi-folder-plus-outline"
                               v-model="categoryName.children"
                               @keypress.enter="insertCategory('children')"
@@ -316,9 +316,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="success" text @click="close">{{
-          LANG.BUTTON_MESSAGE("B0003")
-        }}</v-btn>
+        <v-btn color="success" text @click="close"
+          >{{ LANG.BUTTON_MESSAGE("B0003") }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

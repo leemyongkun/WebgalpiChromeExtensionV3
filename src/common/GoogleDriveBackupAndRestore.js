@@ -239,9 +239,8 @@ let GOOGLE_DRIVE = {
     });
   },
   invalidCredentionsProcess() {
-    alert(
-      "Google이 로그아웃 되어있습니다. \n새창이 열리면 로그인 후 다시 시도해주세요."
-    );
+    MODAL.alert(LANG.ALERT_MESSAGE("A0012"), "error", null, "450px");
+
     chrome.identity.getAuthToken({ interactive: true }, token => {
       ACCOUNT.removeGoogleTokenCache(token).then(res => {
         if (res) {
@@ -249,9 +248,11 @@ let GOOGLE_DRIVE = {
             let result = await Utils.getLocalStorage("loginInfo");
             if (result.loginInfo.EMAIL !== ret.email) {
               let token = await Utils.getLocalStorage("googleToken");
-              alert(
-                result.loginInfo.EMAIL +
-                  " 계정과 다른 계정으로 로그인 하셨습니다."
+              MODAL.alert(
+                result.loginInfo.EMAIL + LANG.ALERT_MESSAGE("A0013"),
+                "error",
+                null,
+                "450px"
               );
               ACCOUNT.removeGoogleTokenCache(token.googleToken);
               return false;
