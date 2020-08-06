@@ -85,8 +85,8 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content v-if="data.site.length > 0">
               <v-row>
-                <v-col cols="12"
-                  >{{ LANG.DESCRIPTION_MESSAGE("D0032") }}
+                <v-col cols="12">
+                  <span v-html="LANG.DESCRIPTION_MESSAGE('D0032')"></span>
                   <br />
                   <ul>
                     <li>

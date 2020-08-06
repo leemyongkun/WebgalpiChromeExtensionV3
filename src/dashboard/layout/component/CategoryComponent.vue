@@ -61,8 +61,10 @@
       </v-list-group>
     </div>
     <v-card v-show="noChild" style="background-color: #e35a69; opacity: 0.8">
-      <v-card-subtitle style="color: white"
-        >{{ LANG.DESCRIPTION_MESSAGE("D0059") }}
+      <v-card-subtitle
+        style="color: white"
+        v-html="LANG.DESCRIPTION_MESSAGE('D0059')"
+      >
       </v-card-subtitle>
     </v-card>
   </div>

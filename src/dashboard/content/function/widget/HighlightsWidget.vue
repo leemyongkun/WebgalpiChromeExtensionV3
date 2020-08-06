@@ -76,8 +76,8 @@
             <v-list-item-title
               class="title text-center"
               v-if="currentSite.FL_READMODE === 'N'"
+              v-html="LANG.DESCRIPTION_MESSAGE('D0017')"
             >
-              {{ LANG.DESCRIPTION_MESSAGE("D0017") }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
