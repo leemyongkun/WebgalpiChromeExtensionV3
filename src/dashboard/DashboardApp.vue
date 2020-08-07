@@ -80,7 +80,6 @@ export default {
         data: null
       }).then(members => {
         if (members === undefined || members.length === 0) {
-          console.log("###");
           this.$refs.signDialog.open();
         } else {
           //member중 isUse가 'Y' 인것들.
@@ -150,7 +149,6 @@ export default {
         data: param
       }).then(res => {
         let UPDATE_HISTORY = res[0];
-        console.log("UPDATE_HISTORY ", UPDATE_HISTORY);
         if (UPDATE_HISTORY.LATEST_GOOGLE_RESTORE_DATE === null) {
           //복구 noti 표시
           if (BACKUP_FOLDER_ID) {

@@ -363,7 +363,6 @@ export default {
       }
     },
     endDragParent(evt) {
-      console.log("endDragParent ", evt);
       /*this.category.map(c => {
                                         console.log("c.name ", c.id, c.name);
                                     })*/

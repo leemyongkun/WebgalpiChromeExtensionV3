@@ -604,7 +604,7 @@ let MESSAGE = {
   }
 };
 let LANG = {
-  lang: "jp",
+  lang: "kr",
   BUTTON_MESSAGE: code => {
     return MESSAGE[LANG.lang].BUTTON[code];
   },

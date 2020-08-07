@@ -110,7 +110,7 @@ export default {
         data: this.currentSite
       }).then(() => {
         //처음 저장 하므로 같은 사이트를 리로딩 한다.
-        Common.reloadingSameSite();
+        Common.reloadingSameSite(this.currentSite);
         EventBus.$emit("reload.category");
         EventBus.$emit("hideSite", this.currentSite.URL_KEY);
       });
