@@ -69,9 +69,19 @@
             <span v-if="currentSite.FL_READMODE === 'N'" style="color: orange">
               {{ LANG.DESCRIPTION_MESSAGE("D0023") }}<br />
             </span>
-            <span v-if="currentSite.FL_READMODE === 'N'">
-              {{ LANG.DESCRIPTION_MESSAGE("D0024")
-              }}<v-icon>mdi-folder-lock-open</v-icon>
+            <span
+              v-if="currentSite.FL_READMODE === 'N'"
+              style="padding-top: 10px"
+            >
+              {{ LANG.DESCRIPTION_MESSAGE("D0024") }}
+              <img
+                :src="penIcon"
+                style="width: 20px; position: relative; top: 4px"
+              />
+              >
+              <v-icon style="position: relative; bottom: 2px;"
+                >mdi-folder-lock-open</v-icon
+              >
             </span>
 
             <br />
