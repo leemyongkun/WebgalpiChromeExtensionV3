@@ -6,9 +6,9 @@
       :key="updateCategoryDialogKey"
     ></NewUpdateCategoryDialog>
     <!--<SettingsManagerDialog
-                                          :dialog="settingDialog"
-                                          @closeDialog="switchDialogSetting"
-                                        ></SettingsManagerDialog>-->
+                                              :dialog="settingDialog"
+                                              @closeDialog="switchDialogSetting"
+                                            ></SettingsManagerDialog>-->
 
     <v-navigation-drawer permanent v-model="drawer" app clipped>
       <v-list dense>
@@ -36,16 +36,11 @@
                           v-on="on"
                           @click="editCategory($event)"
                         >
-                          <v-icon size="18px">mdi-folder-edit-outline </v-icon
-                          >&nbsp;Edit
+                          <v-icon size="18px">mdi-folder-edit-outline</v-icon
+                          >&nbsp; {{ LANG.BUTTON_MESSAGE("B0001") }}
                         </v-btn>
                       </template>
-                      <span>
-                        <b
-                          >새로운 카테고리를 생성하여,<br />컨텐츠를
-                          분류해보세요.
-                        </b>
-                      </span>
+                      <span v-html="LANG.DESCRIPTION_MESSAGE('D0002')" />
                     </v-tooltip>
 
                     <!-- 카테고리 검색 영역 -->
@@ -57,7 +52,7 @@
                       @click:clear="searchClear"
                       dense
                       clearable
-                      placeholder="카테고리 검색"
+                      :placeholder="LANG.DESCRIPTION_MESSAGE('D0001')"
                       prepend-inner-icon="mdi-magnify"
                       style="width: 90%"
                     ></v-text-field>
@@ -84,8 +79,8 @@
       </v-list>
 
       <!--<template v-slot:append>
-                                            <OptionComponent></OptionComponent>
-                                          </template>-->
+                                                  <OptionComponent></OptionComponent>
+                                                </template>-->
     </v-navigation-drawer>
 
     <v-snackbar
@@ -104,20 +99,19 @@
 <script>
 //https://cameronhimself.github.io/vue-drag-drop/
 import CONTENT_LISTENER from "../../common/content-listener";
-import SettingsManagerDialog from "../dialog/SettingsManagerDialog";
 import EventBus from "../event-bus";
 
 import LostCategoryComponent from "./component/LostCategoryComponent";
 import SystemCategoryComponent from "./component/SystemCategoryComponent";
 import CategoryComponent from "./component/CategoryComponent";
 import NewUpdateCategoryDialog from "./dialog/NewUpdateCategoryDialog";
+import LANG from "../../common/language";
 
 export default {
   components: {
     NewUpdateCategoryDialog,
     CategoryComponent,
     SystemCategoryComponent,
-    SettingsManagerDialog,
     LostCategoryComponent
   },
   data: () => ({
@@ -136,28 +130,14 @@ export default {
     drawer: true, //왼쪽 메뉴 open / close 여부
     selectedParentCategoryId: 0, //선택된 Parent Category Id를 임시 저장해둔다.
     keyword: "", //검색키워드
-    updateCategoryDialogKey: 0
+    updateCategoryDialogKey: 0,
+    LANG: LANG
   }),
   created() {
     this.$nextTick(() => {
       EventBus.$on("reload.category", () => {
         this.getReloadCategory();
       });
-
-      /*EventBus.$on(
-                              "edit.category",
-                              (item, checkRoot, statusFlag, categoryFlag) => {
-                                  this.$refs.updateCategoryDialog.openDialog(
-                                      item,
-                                      categoryFlag === "SYSTEM"
-                                          ? this.$refs.systemCategoryComponent.systemCategory
-                                          : this.$refs.categoryComponent.category,
-                                      checkRoot,
-                                      statusFlag, //update , insert
-                                      categoryFlag //system / custom/ lost
-                                  );
-                              }
-                          );*/
 
       EventBus.$on("select.parent.category", categoryId => {
         this.selectedParentCategoryId = categoryId;
@@ -169,13 +149,6 @@ export default {
     });
   },
   methods: {
-    /*isShowSearchFieldToggle() {
-                                      this.isShowSearchField = !this.isShowSearchField;
-                                      setTimeout(() => {
-                                        this.$refs.categorySearchField.focus();
-                                        this.searchClear();
-                                      }, 100);
-                                    },*/
     dialogCloseEvent() {
       this.getReloadCategory();
       this.updateCategoryDialogKey += 1;
@@ -202,12 +175,12 @@ export default {
       this.$refs.newUpdateCategoryDialog.openDialog();
 
       /*this.$refs.updateCategoryDialog.openDialog(
-                                                item,
-                                                this.$refs.categoryComponent.category, // 어차피 대상은 이 category 뿐이므로..
-                                                checkRoot,
-                                                statusFlag, //update , insert
-                                                "CUSTOM"
-                                              );*/
+                                                          item,
+                                                          this.$refs.categoryComponent.category, // 어차피 대상은 이 category 뿐이므로..
+                                                          checkRoot,
+                                                          statusFlag, //update , insert
+                                                          "CUSTOM"
+                                                        );*/
     },
     selectCategory(category, event) {
       this.clearCheckCategory();

@@ -1,14 +1,12 @@
 import Utils from "../dashboard/utils/Utils";
-
-let md5 = require("md5");
-let $ = require("jquery");
-
 import FORM from "./form.js";
-import { GLOBAL_CONFIG, URL, STATUS, USER_INFO } from "./global/config.js";
+import { GLOBAL_CONFIG, STATUS, URL, USER_INFO } from "./global/config.js";
 import CORE from "./core/core.js";
-import EVENT from "./event";
 import CONTENT_LISTENER from "../common/content-listener";
 import Common from "../common/common";
+import LANG from "../common/language";
+let md5 = require("md5");
+let $ = require("jquery");
 
 let CURRENT_URL = null;
 let CONTENTS = {
@@ -213,7 +211,7 @@ let CONTENTS = {
     }
   },
   deleteHighlight: async highlightIdx => {
-    if (!confirm("하이라이트를 삭제하시겠습니까?")) return false;
+    if (!confirm(LANG.CONFIRM_MESSAGE("C0003"))) return false;
     let result = await Utils.getLocalStorage("loginInfo");
     let param = new Object();
     param.HIGHLIGHT_IDX = highlightIdx;
@@ -251,7 +249,7 @@ let CONTENTS = {
       type: "update.highlight.memo",
       data: param
     }).then(res => {
-      alert("메모가 저장되었습니다.");
+      alert(LANG.ALERT_MESSAGE("A0021"));
       GLOBAL_CONFIG.HIGHLIGHT_LIST.map(item => {
         if (item.IDX === param.HIGHLIGHT_IDX) {
           item.MEMO = param.MEMO;

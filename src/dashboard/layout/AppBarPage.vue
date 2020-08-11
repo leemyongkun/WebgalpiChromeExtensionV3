@@ -32,7 +32,7 @@
       </template>
       <v-list class="pt-0 pb-0">
         <v-list-item class="pt-0 pb-0" @click="signOut">
-          로그아웃
+          {{ LANG.BUTTON_MESSAGE("B0002") }}
         </v-list-item>
       </v-list>
     </v-menu>
@@ -49,12 +49,15 @@ import OneTab from "../dialog/OneTab";
 import BackupArea from "../dialog/setting/BackupArea";
 import OptionPage from "./OptionPage";
 import Common from "../../common/common";
+import LANG from "../../common/language";
+import MODAL from "../../common/modal";
 
 export default {
   components: { OptionPage, BackupArea, OneTab, SignArea },
   data: () => ({
     ciPath: "",
-    version: Common.getVersion()
+    version: Common.getVersion(),
+    LANG: LANG
   }),
   props: ["member"],
   created() {

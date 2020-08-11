@@ -1,3 +1,5 @@
+import LANG from "./language";
+
 let COMMON_ACTION = {
   getSiteInfo: tabId => {
     return new Promise(res => {
@@ -8,9 +10,7 @@ let COMMON_ACTION = {
           siteInfo => {
             if (siteInfo === undefined) {
               clearInterval(interval);
-              alert(
-                "WEBGALPI가 로딩되지 않았습니다.\nPOPUP을 닫고 새로고침 후 다시 시도하십시오."
-              );
+              alert(LANG.ALERT_MESSAGE("A0018"));
               return false;
             }
 

@@ -7,11 +7,13 @@
   >
     {{ snackbarMessage }}
     <v-btn dark text @click="snackbar = false">
-      Close
+      {{ LANG.BUTTON_MESSAGE("B0012") }}
     </v-btn>
   </v-snackbar>
 </template>
 <script>
+import LANG from "../../common/language";
+
 export default {
   components: {},
 
@@ -23,7 +25,8 @@ export default {
     snackbarPosition: {
       top: true,
       bottom: true
-    }
+    },
+    LANG: LANG
   }),
   methods: {
     open(message, color) {

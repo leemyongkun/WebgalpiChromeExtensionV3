@@ -24,7 +24,7 @@
             color="green"
             @click="copyUrl(currentSite.URL)"
           >
-            URL COPY
+            COPY URL
           </v-btn>
           <v-spacer></v-spacer>
           <template v-slot:actions>
@@ -39,18 +39,6 @@
         </v-banner>
       </v-row>
 
-      <!-- <v-row v-if="youtubeVideoId !== ''">
-                                                                                                        <v-col cols="12">
-                                                                                                          <iframe
-                                                                                                            id="ytplayer"
-                                                                                                            type="text/html"
-                                                                                                            width="640"
-                                                                                                            height="360"
-                                                                                                            :src="youtubeVideoId + '?autoplay=0'"
-                                                                                                            frameborder="0"
-                                                                                                          ></iframe>
-                                                                                                        </v-col>
-                                                                                                      </v-row>-->
       <v-row
         :style="reviewAreaHeightStyle"
         class="overflow-y-auto custom-scroll"
@@ -73,30 +61,40 @@
           <div>
             <span class="display-1 font-weight-bold">NO CONTENTS</span
             ><br /><br />
-            <span style="color: white"
-              >컨텐츠 변환을 할 수 없는 사이트입니다.</span
+            <span style="color: white">{{
+              LANG.DESCRIPTION_MESSAGE("D0022")
+            }}</span
             ><br /><br />
 
-            <span v-if="currentSite.FL_READMODE === 'N'" style="color: orange"
-              >스크래핑에 실패 했을 경우, 해당 사이트에 직접 방문하여 Lock을
-              해제 할 수 있습니다.</span
-            ><br />
-            <span v-if="currentSite.FL_READMODE === 'N'"
-              >※ 방법 : '새탭으로 열기' > 브라우져 상단 WEBGALPI 아이콘 클릭 >
-              <v-icon>mdi-folder-lock-open</v-icon> 클릭</span
+            <span v-if="currentSite.FL_READMODE === 'N'" style="color: orange">
+              {{ LANG.DESCRIPTION_MESSAGE("D0023") }}<br />
+            </span>
+            <span
+              v-if="currentSite.FL_READMODE === 'N'"
+              style="padding-top: 10px"
             >
+              {{ LANG.DESCRIPTION_MESSAGE("D0024") }}
+              <img
+                :src="penIcon"
+                style="width: 20px; position: relative; top: 4px"
+              />
+              >
+              <v-icon style="position: relative; bottom: 2px;"
+                >mdi-folder-lock-open</v-icon
+              >
+            </span>
 
             <br />
             <br />
             <v-btn small color="green" @click="goSourceSite"
-              >새탭으로 열기
+              >{{ LANG.BUTTON_MESSAGE("B0007") }}
             </v-btn>
             <v-btn
               small
               color="primary"
               v-if="currentSite.FL_READMODE === 'N'"
               @click="reTryScrapping"
-              >스크래핑 다시 시도하기
+              >{{ LANG.BUTTON_MESSAGE("B0008") }}
             </v-btn>
           </div>
         </v-col>
@@ -114,6 +112,7 @@ import CRAWLER from "../common/cheerio";
 import MODAL from "../../common/modal";
 import CONTENT_LISTENER from "../../common/content-listener";
 import CONTENTS from "../../contents/contents";
+import LANG from "../../common/language";
 
 let $ = require("jquery");
 
@@ -136,7 +135,8 @@ export default {
     youtube: {
       videoId: "",
       startTime: ""
-    }
+    },
+    LANG: LANG
   }),
   computed: {
     convertDate() {
@@ -180,7 +180,7 @@ export default {
             type: "update.scrap.site",
             data: this.currentSite
           }).then(() => {
-            EventBus.$emit("open.snack", "업데이트가 완료되었습니다.");
+            EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0007"));
           });
         })
         .catch(err => {
@@ -198,7 +198,7 @@ export default {
       document.execCommand("copy");
       document.body.removeChild(t);
 
-      EventBus.$emit("open.snack", "URL이 복사되었습니다.");
+      EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0008"));
     },
     getLocation(url) {
       let l = document.createElement("a");
@@ -246,11 +246,11 @@ img {
 }
 
 /*code {
-              background-color: transparent !important;
-              box-shadow: none !important;
-            }
-            code::after,
-            code::before {
-              content: "" !important;
-            }*/
+                  background-color: transparent !important;
+                  box-shadow: none !important;
+                }
+                code::after,
+                code::before {
+                  content: "" !important;
+                }*/
 </style>

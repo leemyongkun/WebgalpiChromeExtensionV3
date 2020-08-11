@@ -1,6 +1,7 @@
 import { GLOBAL_CONFIG, ELEMENT } from "./global/config.js";
 import { STATUS } from "./global/config";
 import Common from "../common/common";
+import LANG from "../common/language";
 
 let $ = require("jquery");
 
@@ -24,16 +25,23 @@ let FORM = {
   },
   createConvertArea: () => {
     let icon = Common.getAppDefaultUrl() + "/icons/icon_48.png";
-    return `<div  id="webgalpi-convert-notification-area">
+    return (
+      `<div  id="webgalpi-convert-notification-area">
                     <div class="webgalpi-convert-notification-contents"> 
-                     하이라이팅이 안되시나요?<br>
-                     NAVER / Daum Blog의 구조는 조금 특별합니다.<br>
-                     페이지를 모바일 버전으로 변환하여 사용해보세요.</div>
-                    <button class="webgalpi-notification-button" id="cancelConvert">취소</button>
-                    <button class="webgalpi-notification-button"  style="margin-right: 3px !important;" id="executeConvert">변환</button> 
+                     ` +
+      LANG.DESCRIPTION_MESSAGE("D0074") +
+      `
+                     </div>
+                    <button class="webgalpi-notification-button" id="cancelConvert">` +
+      LANG.BUTTON_MESSAGE("B0010") +
+      `</button>
+                    <button class="webgalpi-notification-button"  style="margin-right: 3px !important;" id="executeConvert">` +
+      LANG.BUTTON_MESSAGE("B0021") +
+      `</button> 
                     <img src="${icon}" class="webgalpi-notification-icon">
                 </div> 
-    `;
+    `
+    );
   },
   updateColorPicker: COLORS => {
     let colorButtons = "";

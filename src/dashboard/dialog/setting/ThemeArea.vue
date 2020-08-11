@@ -7,7 +7,7 @@
     overlay-opacity="0.9"
   >
     <v-card>
-      <v-card-title>THEME 설정</v-card-title>
+      <v-card-title>{{ LANG.DESCRIPTION_MESSAGE("D0050") }}</v-card-title>
       <v-divider></v-divider>
       <v-card-text class="pb-0">
         <v-radio-group v-model="theme">
@@ -32,7 +32,9 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn small color="blue" text @click="close">CLOSE</v-btn>
+        <v-btn small color="blue" text @click="close">{{
+          LANG.BUTTON_MESSAGE("B0012")
+        }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -41,12 +43,14 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import Utils from "../../utils/Utils";
+import LANG from "../../../common/language";
 
 export default {
   props: [],
   data: () => ({
     theme: "light",
-    dialog: false
+    dialog: false,
+    LANG: LANG
   }),
   created() {},
   mounted() {
@@ -86,7 +90,7 @@ export default {
 
           EventBus.$emit(
             "open.snack",
-            this.theme + "로 테마가 변경되었습니다.",
+            this.theme + LANG.SNACK_MESSAGE("S0018"),
             "success"
           );
         });

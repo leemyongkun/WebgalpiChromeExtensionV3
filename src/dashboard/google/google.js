@@ -6,7 +6,6 @@ let $ = require("jquery");
 import gapi from "gapi-client";
 
 function handleClientLoad() {
-  alert("wait");
   gapi.client.setApiKey(API_KEY);
   window.setTimeout(checkAuth, 1);
 }

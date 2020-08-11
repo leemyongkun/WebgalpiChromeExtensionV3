@@ -403,9 +403,7 @@ function PromptUserXpath(defaultpath) {
           ElementRemove(element);
         }
       }
-    } catch (err) {
-      alert("wtf: " + err);
-    }
+    } catch (err) {}
   }
 }
 

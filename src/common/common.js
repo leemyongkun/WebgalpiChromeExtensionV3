@@ -88,11 +88,15 @@ let Common = {
       data: null
     });
   },
-  reloadingSameSite: () => {
+  reloadingSameSite: site => {
+    let param = null;
+    if (site !== undefined) {
+      param = site;
+    }
     //같은 사이트가 열려있다면 리로딩 한다.
     CONTENT_LISTENER.sendMessage({
       type: "reloading.same.site",
-      data: null
+      data: param
     });
   },
   closeDuplicateDashboard: () => {

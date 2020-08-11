@@ -354,7 +354,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     case "update.category.item": //dashboard
       let categoryParam = msg.data;
 
-      console.log("categoryParam ", categoryParam);
       if (categoryParam.CATEGORY_TYPE !== "SYSTEM") {
         if (categoryParam.CHECK_ROOT) {
           //checkRoot가 true 일경우

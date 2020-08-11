@@ -5,7 +5,6 @@
     <v-content>
       <v-container fluid class="pt-0 mt-0">
         <ContentBody ref="contentBody"></ContentBody>
-        <!--<SiteListWidePage></SiteListWidePage>-->
       </v-container>
     </v-content>
 
@@ -25,7 +24,7 @@
 
 <script>
 import MenuPage from "./layout/MenuPage";
-import SiteListWidePage from "./content/SiteListWidePage";
+
 import ContentBody from "./content/ContentBody";
 import AppBarPage from "./layout/AppBarPage";
 import CONTENT_LISTENER from "../common/content-listener";
@@ -39,6 +38,7 @@ import NotificationSnackBar from "./snack/NotificationSnackBar";
 import MODAL from "../common/modal";
 import RestoreProcessArea from "./dialog/setting/backup/RestoreProcessArea";
 import Common from "../common/common";
+import LANG from "../common/language";
 
 export default {
   components: {
@@ -49,7 +49,6 @@ export default {
     SignDialog,
     AppBarPage,
     ContentBody,
-    SiteListWidePage,
     MenuPage
   },
   data: () => ({
@@ -61,7 +60,8 @@ export default {
       status: false,
       message: "loading.."
     },
-    restoreTargetData: null
+    restoreTargetData: null,
+    LANG: LANG
   }),
   methods: {
     async initDashboard() {
@@ -80,7 +80,6 @@ export default {
         data: null
       }).then(members => {
         if (members === undefined || members.length === 0) {
-          console.log("###");
           this.$refs.signDialog.open();
         } else {
           //member중 isUse가 'Y' 인것들.
@@ -128,13 +127,8 @@ export default {
       Common.closeDuplicateDashboard();
     },
     async runRestore() {
-      let message = `복구 시 스크래핑을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
-                               <span style="color:red">
-                               모든 데이타를 삭제한 후 복구를 진행하므로,<br>
-                               절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
-                                </span>
-                               `;
-      let conf = await MODAL.alert(message, "info", null, "500px");
+      let confirm = LANG.DESCRIPTION_MESSAGE("C0008");
+      let conf = await MODAL.alert(confirm, "info", null, "500px");
       if (conf.value) {
         GOOGLE_DRIVE.getBackupData(this.restoreTargetData).then(
           originalText => {
@@ -155,7 +149,6 @@ export default {
         data: param
       }).then(res => {
         let UPDATE_HISTORY = res[0];
-        console.log("UPDATE_HISTORY ", UPDATE_HISTORY);
         if (UPDATE_HISTORY.LATEST_GOOGLE_RESTORE_DATE === null) {
           //복구 noti 표시
           if (BACKUP_FOLDER_ID) {

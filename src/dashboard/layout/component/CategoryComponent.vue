@@ -22,13 +22,6 @@
               v-text="item.name"
             ></v-list-item-title>
           </v-list-item-content>
-
-          <!--   <v-list-item-icon
-            @click="editCategory(item, $event, true, 'update')"
-            v-show="item.mouseOver"
-          >
-            <v-icon dense size="18px" right>mdi-settings</v-icon>
-          </v-list-item-icon>-->
         </template>
 
         <!-- child menu -->
@@ -48,11 +41,6 @@
               :id="subItem.id"
               :class="subItem.class"
             >
-              <!--  <v-list-item-icon style="margin-right: 2px;">
-                                                                                                                    <v-icon size="15px" color="green" left>mdi-folder-outline
-                                                                                                                    </v-icon>
-                                                                                                                </v-list-item-icon>-->
-
               <v-list-item-content :id="subItem.id">
                 <v-list-item-title
                   class="categoryName"
@@ -62,23 +50,21 @@
               </v-list-item-content>
 
               <!-- <v-list-item-icon
-                @click="editCategory(subItem, $event, false, 'update')"
-                v-show="subItem.mouseOver"
-              >
-                <v-icon dense size="18px" right>mdi-settings</v-icon>
-              </v-list-item-icon>-->
+                                            @click="editCategory(subItem, $event, false, 'update')"
+                                            v-show="subItem.mouseOver"
+                                          >
+                                            <v-icon dense size="18px" right>mdi-settings</v-icon>
+                                          </v-list-item-icon>-->
             </v-list-item>
           </drop>
         </div>
       </v-list-group>
     </div>
     <v-card v-show="noChild" style="background-color: #e35a69; opacity: 0.8">
-      <v-card-subtitle style="color: white"
-        ><b
-          >상위 카테고리에는 컨텐츠를 담을 수 없습니다. 하위 카테고리를 만들어
-          시도 해보세요.<br /><br />
-          ※ 10초 후, 자동으로 사라집니다.</b
-        >
+      <v-card-subtitle
+        style="color: white"
+        v-html="LANG.DESCRIPTION_MESSAGE('D0059')"
+      >
       </v-card-subtitle>
     </v-card>
   </div>
@@ -88,6 +74,7 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import Utils from "../../utils/Utils";
 import EventBus from "../../event-bus";
+import LANG from "../../../common/language";
 
 export default {
   components: {},
@@ -98,7 +85,8 @@ export default {
     category: [],
     originalCategory: [],
     dragOverTimeout: null, //dragOver 했을 때, 바로 열리게 되면 정신 없으므로, 약간의 텀을 주기 위해 timeout을 넣는다. 만약 mouseLeave 했을 시, 해당 값은 clear 처리 한다.
-    overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;" //드래드 시 오버 대상에 마우스 over 했을때 스타일
+    overColor: "background-color: rgba(255, 0, 0, 0.3); border-radius: 10px;", //드래드 시 오버 대상에 마우스 over 했을때 스타일
+    LANG: LANG
   }),
   created() {},
   methods: {
@@ -168,11 +156,7 @@ export default {
     },
     dropEvent(data, event) {
       if (event.target.id === "") {
-        EventBus.$emit(
-          "open.snack",
-          "카테고리 저장에 실패하였습니다. 다시 시도바랍니다.",
-          "error"
-        );
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0015"), "error");
         return false;
       }
 
@@ -203,7 +187,7 @@ export default {
       }).then(() => {
         EventBus.$emit("reload.category");
         EventBus.$emit("hideSite", data.URL_KEY);
-        EventBus.$emit("open.snack", "카테고리에 저장되었습니다.", "primary");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0014"), "primary");
       });
     },
     getItemTitle(title, count) {
@@ -212,11 +196,11 @@ export default {
       );
     },
     /*editCategory(item, event, checkRoot, statusFlag) {
-      event.preventDefault();
-      event.stopPropagation();
+                      event.preventDefault();
+                      event.stopPropagation();
 
-      EventBus.$emit("edit.category", item, checkRoot, statusFlag, "CUSTOM");
-    },*/
+                      EventBus.$emit("edit.category", item, checkRoot, statusFlag, "CUSTOM");
+                    },*/
     selectCategory(category, event) {
       EventBus.$emit("select.category", category, event);
       EventBus.$emit("select.parent.category", category.parent);

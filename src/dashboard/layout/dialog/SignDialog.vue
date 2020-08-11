@@ -7,20 +7,21 @@
   >
     <v-card>
       <v-card-title class="headline" v-if="signInProcess === 1"
-        >Google 계정 등록을 하셨나요?
+        >{{ LANG.DESCRIPTION_MESSAGE("D0062") }}
       </v-card-title>
-      <v-card-text v-if="signInProcess === 1">
-        WEBGALPI를 사용하기 위해, Google 계정으로 로그인을 하셔야 합니다.<br />
-        데이타 백업으로 GOOGLE DRIVE를 사용합니다.
-      </v-card-text>
+      <v-card-text
+        v-if="signInProcess === 1"
+        v-html="LANG.DESCRIPTION_MESSAGE('D0063')"
+      />
 
       <v-card-title class="headline" v-if="signInProcess === 2"
-        >Google 계정 인증이 정상완료 되었습니다.
+        >{{ LANG.DESCRIPTION_MESSAGE("D0065") }}
       </v-card-title>
       <v-card-text v-if="signInProcess === 2">
-        [ <b>{{ googleEmail }}</b> ]님 WEBGALPI에 오신것을 환영합니다.<br />
-        WEBGALPI에서 사용할 PASSWORD를 입력해주세요.<br />
-        <span style="color: red;">계정변경 및 백업/복구</span>에 사용합니다.<br /><br />
+        [ <b>{{ googleEmail }}</b> ]<span
+          v-html="LANG.DESCRIPTION_MESSAGE('D0064')"
+        >
+        </span>
         <v-text-field
           type="password"
           label="PASSWORD"
@@ -41,21 +42,21 @@
           text
           :disabled="isDisabled"
           @click="googleSignin"
-          >구글 로그인
+          >{{ LANG.BUTTON_MESSAGE("B0018") }}
         </v-btn>
         <v-btn
           color="green darken-1"
           v-if="signInProcess === 2"
           text
           @click="anotherMember"
-          >다른계정으로 변경하기
+          >{{ LANG.BUTTON_MESSAGE("B0019") }}
         </v-btn>
         <v-btn
           color="green darken-1"
           v-if="signInProcess === 2"
           text
           @click="checkMember"
-          >등록
+          >{{ LANG.BUTTON_MESSAGE("B0013") }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -70,7 +71,7 @@ import ACCOUNT from "../../../common/account";
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import MODAL from "../../../common/modal";
-import GOOGLE_DRIVE from "../../../common/GoogleDriveBackupAndRestore";
+import LANG from "../../../common/language";
 
 export default {
   data: () => ({
@@ -83,7 +84,8 @@ export default {
     rules: {
       required: value => !!value || "Required."
     },
-    backupOverlay: false
+    backupOverlay: false,
+    LANG: LANG
   }),
   methods: {
     googleSignin() {
@@ -92,7 +94,7 @@ export default {
         ACCOUNT.googleLogin()
           .then(accountInfo => {
             if (accountInfo === null) {
-              alert("구글 계정 로그인 에러");
+              MODAL.alert(LANG.ALERT_MESSAGE("A0010"), "error");
               return false;
             }
             this.accountInfo = accountInfo;
@@ -191,38 +193,33 @@ export default {
           this.isReloading();
         });
       } else {
-        alert("계정정보가 존재 하지 않습니다.");
+        MODAL.alert(LANG.ALERT_MESSAGE("A0011"), "error");
       }
     },
     /* async isRestore() {
-                 let BACKUP_FOLDER_ID = await GOOGLE_DRIVE.getBackupFolderId();
-                 if (BACKUP_FOLDER_ID) {
-                     GOOGLE_DRIVE.executeGoogleDriveRestore().then(async list => {
-                         if (list) {
-                             let confirm = `최근 백업한 데이타가 존재합니다.<br>복구하시겠습니까?<br><br>
-                                             복구 시 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
-                                             <span style="color:red">
-                                             모든 데이타를 삭제한 후 복구를 진행하므로,<br>
-                                             절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
-                                              </span>
-                                             `;
-                             let conf = await MODAL.confirm(confirm, "info", null, null, "500px");
-                             if (conf.value) {
-                                 GOOGLE_DRIVE.getBackupData(list[0]).then(originalText => {
-                                     this.$refs.restoreProcessArea.open(originalText);
-                                 })
-                             }
+                         let BACKUP_FOLDER_ID = await GOOGLE_DRIVE.getBackupFolderId();
+                         if (BACKUP_FOLDER_ID) {
+                             GOOGLE_DRIVE.executeGoogleDriveRestore().then(async list => {
+                                 if (list) {
+                                     let confirm = `최근 백업한 데이타가 존재합니다.<br>복구하시겠습니까?<br><br>
+                                                     복구 시 크롤링을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
+                                                     <span style="color:red">
+                                                     모든 데이타를 삭제한 후 복구를 진행하므로,<br>
+                                                     절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
+                                                      </span>
+                                                     `;
+                                     let conf = await MODAL.confirm(confirm, "info", null, null, "500px");
+                                     if (conf.value) {
+                                         GOOGLE_DRIVE.getBackupData(list[0]).then(originalText => {
+                                             this.$refs.restoreProcessArea.open(originalText);
+                                         })
+                                     }
+                                 }
+                             });
                          }
-                     });
-                 }
-             },*/
+                     },*/
     async isReloading() {
-      let confirm = `<b>계정등록을 완료 했습니다.</b><br><br>
-                                  WEBGALPI 즉시 반영하기 위해서는, <br>
-                                  열려있는 모든 페이지를 새로고침 해야합니다.<br>
-                                  진행 하시겠습니까?<br><br>
-                                  <span style="color: red;">※ 한번에 새로고침을 진행합니다.</span>
-                                    `;
+      let confirm = LANG.CONFIRM_MESSAGE("C0009");
       let conf = await MODAL.confirm(confirm, null, null, null, "450px");
       if (conf.value === undefined) {
         location.reload();
@@ -252,7 +249,7 @@ export default {
 
           //이미 존재하면 에러.
           if (result.length !== 0) {
-            EventBus.$emit("open.snack", "이미 존재하는 계정입니다.", "red");
+            EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0017"), "red");
           } else {
             this.registMember();
           }

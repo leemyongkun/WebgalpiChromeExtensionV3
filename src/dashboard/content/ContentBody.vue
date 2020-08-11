@@ -21,12 +21,12 @@
                   NO CONTENTS
                 </p>
                 <div class="text--primary">
-                  사이트에 방문하여 원하는 컬러로 하이라이팅을 해보세요.<br />
+                  {{ LANG.DESCRIPTION_MESSAGE("D0021") }}<br />
                 </div>
               </v-card-text>
               <v-card-actions>
                 <v-btn text outlined color="green accent-4" @click="learnSite">
-                  연습하기
+                  {{ LANG.BUTTON_MESSAGE("B0006") }}
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -164,13 +164,13 @@
 //https://www.npmjs.com/package/vue-drag-drop
 //https://cameronhimself.github.io/vue-drag-drop/
 import PreviewPage from "./PreviewPage";
-// import HighlightsPage from "./HighlightsPage";
 import CONTENT_LISTENER from "../../common/content-listener";
 import EventBus from "../event-bus";
 import Utils from "../utils/Utils";
 import { GLOBAL_CONFIG } from "../../contents/global/config";
 import CORE from "../../contents/core/core";
 import FilterDialog from "../dialog/FilterDialog";
+import LANG from "../../common/language";
 
 let OFFSET_START = 0;
 let OFFSET_END = 10;
@@ -200,7 +200,8 @@ export default {
       detect: false,
       search: false
     },
-    itemCount: 0
+    itemCount: 0,
+    LANG: LANG
   }),
   created() {
     this.$nextTick(() => {
@@ -263,10 +264,10 @@ export default {
       }).then(() => {
         if (item.FL_FAVORITE === "Y") {
           item.FL_FAVORITE = "N";
-          EventBus.$emit("open.snack", "STAR를 해제하였습니다.", "warning");
+          EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0003"), "warning");
         } else {
           item.FL_FAVORITE = "Y";
-          EventBus.$emit("open.snack", "STAR로 지정하였습니다.", "primary");
+          EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0004"), "primary");
         }
       });
     },
@@ -339,9 +340,9 @@ export default {
             return this.sites;
           } else {
             if (this.sites.length === 0) {
-              EventBus.$emit("open.snack", "ITEM(s)이 없습니다.");
+              EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0005"));
             } else {
-              EventBus.$emit("open.snack", "마지막 ITEM 입니다.");
+              EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0005"));
             }
             return response;
           }

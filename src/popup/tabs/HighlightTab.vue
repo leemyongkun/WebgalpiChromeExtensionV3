@@ -14,7 +14,7 @@
               small
               text
               color="red"
-              >모두삭제
+              >{{ LANG.BUTTON_MESSAGE("B0005") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -56,14 +56,15 @@
 //https://i.picsum.photos/id/20/400/400.jpg
 import CONTENT_LISTENER from "../../common/content-listener";
 import Common from "../../common/common";
-import Utils from "../../dashboard/utils/Utils";
 import MODAL from "../../common/modal";
+import LANG from "../../common/language";
 
 export default {
   name: "HighlightTab",
   data() {
     return {
-      highlights: []
+      highlights: [],
+      LANG: LANG
     };
   },
   methods: {

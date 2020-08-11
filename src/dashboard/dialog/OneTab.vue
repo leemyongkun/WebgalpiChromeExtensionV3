@@ -10,7 +10,7 @@
       <v-col cols="12">
         <v-card class="mx-auto">
           <v-card-title>
-            모아보기
+            {{ LANG.DESCRIPTION_MESSAGE("D0054") }}
           </v-card-title>
           <v-card-text>
             <v-row align="center">
@@ -39,7 +39,7 @@
                       <v-icon>mdi-trash-can-outline</v-icon>
                     </v-btn>
                   </template>
-                  <span>TAB GROUP을 삭제합니다.</span>
+                  <span>{{ LANG.DESCRIPTION_MESSAGE("D0055") }}</span>
                 </v-tooltip>
 
                 <v-tooltip v-model="tooltip.filter" color="blue" top>
@@ -48,7 +48,7 @@
                       <v-icon>mdi-filter</v-icon>
                     </v-btn>
                   </template>
-                  <span>열려있는 모든 탭을 모아서 관리합니다.</span>
+                  <span>{{ LANG.DESCRIPTION_MESSAGE("D0056") }}</span>
                 </v-tooltip>
               </v-col>
             </v-row>
@@ -69,16 +69,16 @@
 
                   <template v-slot:item.URL_KEY="{ item }">
                     <!--  <v-btn
-                                                                    color="green"
-                                                                    icon
-                                                                    @click="importSite(item)"
-                                                                    v-show="isCrawlingInvalidSite(item)"
-                                                            >
-                                                                <v-icon>mdi-cloud-download-outline</v-icon>
-                                                            </v-btn>-->
+                                                                                                            color="green"
+                                                                                                            icon
+                                                                                                            @click="importSite(item)"
+                                                                                                            v-show="isCrawlingInvalidSite(item)"
+                                                                                                    >
+                                                                                                        <v-icon>mdi-cloud-download-outline</v-icon>
+                                                                                                    </v-btn>-->
                     <!-- <v-btn color="red" icon @click="removeSite(item)">
-                                                                                     <v-icon>mdi-trash-can-outline</v-icon>
-                                                                                 </v-btn>-->
+                                                                                                                             <v-icon>mdi-trash-can-outline</v-icon>
+                                                                                                                         </v-btn>-->
                     <v-btn icon @click="goSourceSite(item)">
                       <v-icon>mdi-home-outline</v-icon>
                     </v-btn>
@@ -90,7 +90,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text @click="close">
-              닫기
+              {{ LANG.BUTTON_MESSAGE("B0012") }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -101,11 +101,9 @@
 <script>
 import ONETAB from "../../common/onetab";
 import CONTENT_LISTENER from "../../common/content-listener";
-import CRAWLER from "../common/cheerio";
-import EventBus from "../event-bus";
 import MODAL from "../../common/modal";
-import SITE_MANAGER from "../../common/site-manager";
 import Utils from "../utils/Utils";
+import LANG from "../../common/language";
 
 export default {
   props: [],
@@ -149,14 +147,15 @@ export default {
     tooltip: {
       delete: false,
       filter: false
-    }
+    },
+    LANG: LANG
   }),
   created() {},
   mounted() {},
   methods: {
     async deleteGroup() {
       let ret = await MODAL.confirm(
-        `선택 한 TAB GROUP을 삭제하시겠습니까?<br>(모든 TAB 정보가 삭제됩니다.)`,
+        LANG.DESCRIPTION_MESSAGE("D0057"),
         "info",
         null,
         null,
@@ -186,7 +185,7 @@ export default {
     },
     async runOneTab() {
       let ret = await MODAL.confirm(
-        "현재 탭을 제외한 모든 윈도우와 탭이 닫힙니다.<br>",
+        LANG.DESCRIPTION_MESSAGE("D0058"),
         "info",
         null,
         null,
@@ -219,12 +218,10 @@ export default {
     convertGroupList() {
       this.groupList.map(item => {
         item.GROUP_NAME =
-          new Date(item.GROUP_ID).format(
-            "(E) yyyy년 MM월 dd일 a/p hh시 mm분 ss초"
-          ) +
+          new Date(item.GROUP_ID).format(LANG.DESCRIPTION_MESSAGE("D0027")) +
           " ( " +
           item.TAB_COUNT +
-          "건 )";
+          " )";
       });
     },
 
@@ -254,47 +251,6 @@ export default {
       }).then(detail => {
         this.tabList = detail;
       });
-    },
-    isCrawlingInvalidSite(item) {
-      for (var i = 0; i < SITE_MANAGER.DETECTE_SITES.length; i++) {
-        if (item.URL.indexOf(SITE_MANAGER.DETECTE_SITES[i]) !== -1) {
-          return false;
-        }
-      }
-
-      if (item.URL_KEY !== null) {
-        return false;
-      }
-      return true;
-    },
-    async importSite(item) {
-      CRAWLER.getImportSiteContents(item.url)
-        .then(result => {
-          if (
-            result.OG_DESCRIPTION === undefined &&
-            result.OG_IMAGE === undefined &&
-            result.OG_TITLE === undefined
-          ) {
-            alert("크롤링 할 수 없는 사이트입니다. 직접 가서 하실래요?");
-            return false;
-          }
-
-          if (result.TITLE === undefined) {
-            alert(
-              "정상적으로 크롤링 할 수 없는 사이트입니다. 직접가서 할래요?"
-            );
-            return false;
-          }
-          CONTENT_LISTENER.sendMessage({
-            type: "post.site",
-            data: result
-          }).then(() => {
-            EventBus.$emit("open.snack", "IMPORT 되었습니다.", "primary");
-          });
-        })
-        .catch(err => {
-          alert("크롤링에 실패 했습니다. 방문하여 저장하세요.");
-        });
     }
   }
 };

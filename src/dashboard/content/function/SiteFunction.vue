@@ -6,12 +6,12 @@
           <v-icon>mdi-home-outline</v-icon>
         </v-btn>
       </template>
-      <span>컨텐츠를 새탭으로 오픈합니다.</span>
+      <span>{{ LANG.DESCRIPTION_MESSAGE("D0018") }}</span>
     </v-tooltip>
 
     <!--<v-btn @click="print" icon v-if="previewStatus === 'Y'">
-                  <v-icon>mdi-printer</v-icon>
-                </v-btn>-->
+                      <v-icon>mdi-printer</v-icon>
+                    </v-btn>-->
 
     <v-tooltip v-model="tooltip.facebook" color="blue" top>
       <template v-slot:activator="{ on }">
@@ -19,7 +19,7 @@
           <v-icon>mdi-facebook-box</v-icon>
         </v-btn>
       </template>
-      <span>Facebook으로 컨텐츠를 공유합니다.</span>
+      <span>{{ LANG.DESCRIPTION_MESSAGE("D0019") }}</span>
     </v-tooltip>
 
     <v-tooltip v-model="tooltip.trashbox" color="blue" top>
@@ -28,7 +28,7 @@
           <v-icon>mdi-trash-can-outline</v-icon>
         </v-btn>
       </template>
-      <span>컨텐츠를 삭제합니다.</span>
+      <span>{{ LANG.DESCRIPTION_MESSAGE("D0020") }}</span>
     </v-tooltip>
 
     |
@@ -40,13 +40,13 @@
 </template>
 <script>
 import MODAL from "../../../common/modal";
-
-let facebookUrl = "http://www.facebook.com/share.php?u=";
 import HighlightsWidget from "./widget/HighlightsWidget";
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import Common from "../../../common/common";
+import LANG from "../../../common/language";
 
+let facebookUrl = "http://www.facebook.com/share.php?u=";
 export default {
   components: { HighlightsWidget },
   props: [
@@ -62,7 +62,8 @@ export default {
       source: false,
       facebook: false,
       trashbox: false
-    }
+    },
+    LANG: LANG
   }),
   created() {},
   mounted() {},
@@ -81,10 +82,14 @@ export default {
       open.focus();
     },
     async deleteSite() {
-      let confirm =
-        "<b>컨텐츠를 삭제하시겠습니까?</b><br><br><u>하이라이트도 함께 삭제됩니다.</u><br />(복구되지 않음)";
-
-      let result = await MODAL.confirm(confirm, null, "삭제", null, "400px");
+      let confirm = LANG.CONFIRM_MESSAGE("C0004");
+      let result = await MODAL.confirm(
+        confirm,
+        null,
+        LANG.BUTTON_MESSAGE("B0011"),
+        null,
+        "400px"
+      );
       if (result.value === undefined) return false;
 
       //모든 하이라이트 삭제
@@ -105,7 +110,7 @@ export default {
         data: this.currentSite
       }).then(() => {
         //처음 저장 하므로 같은 사이트를 리로딩 한다.
-        Common.reloadingSameSite();
+        Common.reloadingSameSite(this.currentSite);
         EventBus.$emit("reload.category");
         EventBus.$emit("hideSite", this.currentSite.URL_KEY);
       });

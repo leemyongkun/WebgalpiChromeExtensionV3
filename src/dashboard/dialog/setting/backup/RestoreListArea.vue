@@ -46,9 +46,11 @@
           @click="allDeleteRestoreFile"
           :disabled="selected.length === 0 ? true : false"
         >
-          DELETE
+          {{ LANG.BUTTON_MESSAGE("B0011") }}
         </v-btn>
-        <v-btn small color="blue" text @click="close">CLOSE</v-btn>
+        <v-btn small color="blue" text @click="close">{{
+          LANG.BUTTON_MESSAGE("B0010")
+        }}</v-btn>
       </v-card-actions>
     </v-card>
 
@@ -66,6 +68,7 @@ import RestoreProcessArea from "./RestoreProcessArea";
 import MODAL from "../../../../common/modal";
 import EventBus from "../../../event-bus";
 import GOOGLE_DRIVE from "../../../../common/GoogleDriveBackupAndRestore";
+import LANG from "../../../../common/language";
 
 export default {
   components: { RestoreProcessArea },
@@ -107,7 +110,8 @@ export default {
         value: "id",
         width: "15%"
       }
-    ]
+    ],
+    LANG: LANG
   }),
   created() {},
   mounted() {},
@@ -189,16 +193,11 @@ export default {
     async allDeleteRestoreFile() {
       return new Promise(async res => {
         if (this.items.length === this.selected.length) {
-          MODAL.alert(
-            `모든 백업파일을 삭제할 수는 없습니다. <br>1개 이상의 백업파일은 남겨두세요.`,
-            "error",
-            null,
-            "450px"
-          );
+          MODAL.alert(LANG.ALERT_MESSAGE("A0003"), "error", null, "450px");
           return false;
         }
 
-        let confirm = `${this.selected.length}건의 백업파일을 삭제 하시겠습니까?`;
+        let confirm = `${this.selected.length}` + LANG.CONFIRM_MESSAGE("C0005");
 
         let result = await MODAL.confirm(confirm, null, null, null, "450px");
         if (result.value === undefined) return false;
@@ -209,33 +208,29 @@ export default {
           this.actionDelete(item.id);
         });
         await Promise.all(promise);
-        EventBus.$emit("open.snack", "삭제 되었습니다.");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0013"));
         this.restoreOverlay = false;
         res(true);
       });
     },
     async deleteRestoreFile(item) {
-      let confirm = `<b>${item.description}</b> 를 삭제 하시겠습니까?`;
+      let confirm =
+        `<b>${item.description}</b>` + LANG.CONFIRM_MESSAGE("C0006");
       if (this.items.length === 1) {
-        confirm += "<br> 주의 : 마지막 백업파일입니다.";
+        confirm += "<br>" + LANG.CONFIRM_MESSAGE("C0007");
       }
       let result = await MODAL.confirm(confirm, null, null, null, "450px");
       if (result.value === undefined) return false;
 
       this.restoreOverlay = true;
       this.actionDelete(item.id).then(() => {
-        EventBus.$emit("open.snack", "삭제 되었습니다.");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0013"));
         this.restoreOverlay = false;
       });
     },
     async selectedTargetRestoreFile(item) {
-      let confirm = `<b>${item.description}</b> 로 복구 하시겠습니까?<br><br>
-                        복구 시 스크래핑을 진행하며, 다소 시간이 걸릴수도 있습니다.<br><br>
-                        <span style="color:red">
-                        모든 데이타를 삭제한 후 복구를 진행하므로,<br>
-                        절대 진행 도중 창을 닫거나, 새로고침을 하지 마세요!<br>
-                         </span>
-                    `;
+      let confirm =
+        `<b>${item.description}</b>` + LANG.CONFIRM_MESSAGE("C0008");
       let result = await MODAL.confirm(confirm, "info", null, null, "500px");
       if (result.value === undefined) return false;
       this.restoreOverlay = true;

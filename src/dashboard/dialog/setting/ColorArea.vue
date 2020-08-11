@@ -8,7 +8,7 @@
   >
     <v-card>
       <v-card-title>COLOR</v-card-title>
-      <v-card-subtitle> 최대 6개의 컬러를 지정할 수 있습니다.</v-card-subtitle>
+      <v-card-subtitle>{{ LANG.DESCRIPTION_MESSAGE("D0049") }}</v-card-subtitle>
       <v-divider></v-divider>
       <v-card-text>
         <v-row>
@@ -31,8 +31,12 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn small text color="warning" @click="close">CLOSE</v-btn>
-        <v-btn small text color="primary" @click="saveColor">SAVE</v-btn>
+        <v-btn small text color="warning" @click="close">{{
+          LANG.BUTTON_MESSAGE("B0012")
+        }}</v-btn>
+        <v-btn small text color="primary" @click="saveColor"
+          >S{{ LANG.BUTTON_MESSAGE("B0013") }}AVE</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -42,10 +46,13 @@
 import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import Utils from "../../utils/Utils";
+import LANG from "../../../common/language";
+import MODAL from "../../../common/modal";
 
 export default {
   props: [],
   data: () => ({
+    LANG: LANG,
     dialog: false,
     pickColor: [
       "highlight-color-1",
@@ -117,7 +124,7 @@ export default {
     },
     async saveColor() {
       if (this.pickColor.length === 0) {
-        alert("1개 이상 선택");
+        MODAL.alert(LANG.ALERT_MESSAGE("A0009"), "info");
         return false;
       }
       let result = await Utils.getLocalStorage("loginInfo");
@@ -126,19 +133,19 @@ export default {
         type: "update.option.color",
         data: [this.pickColor.join(","), result.loginInfo.EMAIL] //[todo] 2번째 파라메터는 Email 로 한다.
       }).then(response => {
-        EventBus.$emit("open.snack", "COLOR가 저장되었습니다.", "success");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0010"), "success");
         this.close();
       });
     },
     selectedColor() {
       if (this.pickColor.length === 7) {
-        EventBus.$emit("open.snack", "Color지정은 6개까지입니다.", "red");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0011"), "red");
         this.pickColor = this.pickColor.slice(0, 6);
         return false;
       }
 
       if (this.pickColor.length === 0) {
-        EventBus.$emit("open.snack", "Color를 1개 이상 지정해야합니다.", "red");
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0012"), "red");
         return false;
       }
     }
