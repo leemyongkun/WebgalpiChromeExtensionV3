@@ -1,6 +1,7 @@
 {
-  "name": "WEB-GALPI",
-  "description": "웹사이트에 책갈피를 더하다.",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "default_locale": "en",
   "version": "0",
   "manifest_version": 2,
   "icons": {

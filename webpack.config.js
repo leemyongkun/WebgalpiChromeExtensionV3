@@ -129,6 +129,11 @@ const config = {
         transform: transformHtml
       },
       {
+        from: "_locales/**/*",
+        to: "./",
+        transform: transformHtml
+      },
+      {
         from: "manifest.json",
         to: "manifest.json",
         transform: content => {

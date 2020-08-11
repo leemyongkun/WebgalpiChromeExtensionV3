@@ -167,7 +167,6 @@ import PreviewPage from "./PreviewPage";
 // import HighlightsPage from "./HighlightsPage";
 import CONTENT_LISTENER from "../../common/content-listener";
 import EventBus from "../event-bus";
-import store from "../../store";
 import Utils from "../utils/Utils";
 import { GLOBAL_CONFIG } from "../../contents/global/config";
 import CORE from "../../contents/core/core";
@@ -271,7 +270,7 @@ export default {
         }
       });
     },
-    getWindowHeight(event) {
+    getWindowHeight() {
       //"max-height: " + (document.documentElement.clientHeight - 84) + "px;";
 
       this.reviewAreaHeightStyle =
