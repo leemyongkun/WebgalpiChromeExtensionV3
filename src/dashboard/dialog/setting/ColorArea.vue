@@ -34,9 +34,9 @@
         <v-btn small text color="warning" @click="close">{{
           LANG.BUTTON_MESSAGE("B0012")
         }}</v-btn>
-        <v-btn small text color="primary" @click="saveColor"
-          >S{{ LANG.BUTTON_MESSAGE("B0013") }}AVE</v-btn
-        >
+        <v-btn small text color="primary" @click="saveColor">{{
+          LANG.BUTTON_MESSAGE("B0013")
+        }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -41,14 +41,14 @@ chrome.contextMenus.create({
 //CHILD
 chrome.contextMenus.create({
   id: "dashboard",
-  title: "대쉬보드 이동하기",
+  title: "Open Dashboard",
   parentId: "webGalpi",
   contexts: ["all"]
 });
 
 chrome.contextMenus.create({
   id: "tabgroup",
-  title: "열려있는 Tab 모으기",
+  title: "Collect open tabs",
   parentId: "webGalpi",
   contexts: ["all"]
 });
