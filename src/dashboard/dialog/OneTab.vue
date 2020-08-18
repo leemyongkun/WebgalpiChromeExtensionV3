@@ -5,8 +5,9 @@
     scrollable
     max-width="40%"
     overlay-opacity="1.0"
+    content-class="overflow-x-hidden"
   >
-    <v-row style="overflow-x: hidden">
+    <v-row>
       <v-col cols="12">
         <v-card class="mx-auto">
           <v-card-title>
@@ -255,3 +256,8 @@ export default {
   }
 };
 </script>
+<style>
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+</style>
