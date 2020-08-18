@@ -6,7 +6,7 @@
     max-width="40%"
     overlay-opacity="1.0"
   >
-    <v-row>
+    <v-row style="overflow-x: hidden">
       <v-col cols="12">
         <v-card class="mx-auto">
           <v-card-title>
