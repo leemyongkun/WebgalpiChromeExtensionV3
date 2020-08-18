@@ -20,7 +20,7 @@
     />
     <v-spacer />
 
-    <v-menu
+    <!-- <v-menu
       transition="slide-y-transition"
       offset-y
       :close-on-content-click="false"
@@ -35,7 +35,7 @@
           {{ LANG.BUTTON_MESSAGE("B0002") }}
         </v-list-item>
       </v-list>
-    </v-menu>
+    </v-menu>-->
 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <OptionPage ref="optionPage"></OptionPage>

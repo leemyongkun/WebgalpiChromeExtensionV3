@@ -8,7 +8,7 @@
   >
     <v-card>
       <v-card-title>{{ LANG.DESCRIPTION_MESSAGE("D0028") }}</v-card-title>
-      <v-card-text>
+      <v-card-text class="overflow-y-auto custom-scroll">
         <v-expansion-panels v-model="panel" multiple>
           <!--백업 정보-->
           <v-expansion-panel readonly v-show="isShowBackupInfo">

@@ -1,10 +1,8 @@
 {
   "appName": {
-    "message": "웹갈피",
-    "description": "웹사이트에 책갈피를 더하다.(App Name)"
+    "message": "웹갈피 (WEBGALPI) - Highlighter & Clipper"
   },
   "appDesc": {
-    "message": "웹사이트에 책갈피를 더하다.(App Description)",
-    "description": "웹갈피는?\n# 개요\n- 웹 서핑을 통해 모든 사이트를 한번의 클릭으로 Keep / Scraping / Highlighting 을 할 수 있습니다.\n\n# 기능 \n- Highlighting에 다양한 Color지정이 가능합니다. \n- Kepp 된 사이트 정보는 WEB-GALPI 전용 Dashboard에서 확인 및 관리 할 수 있습니다. \n- Google Drive를 통해 백업/복구를 진행 할 수 있습니다.\n- 유익한 정보를 Facebook 으로 공유를 할 수 있습니다. \n\n\n# 개발중인 기능\n- Bookmark의 컨텐츠를 WEBGALPI로 IMPORT / EXPORT 할 수있도록 합니다.\n- 다국어를 지원합니다.\n\n홈페이지는 따로 존재 하지 않으며, 연락은 아래로 부탁드립니다.\n\n개발자 E-mail : kkuni.bear@gmail.com\n"
+    "message": "웹사이트에 책갈피를 더하다."
   }
 }

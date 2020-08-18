@@ -1,23 +1,5 @@
-let LANG = {
-  lang: "kr",
-  BUTTON_MESSAGE: code => {
-    return MESSAGE[LANG.lang].BUTTON[code];
-  },
-  ALERT_MESSAGE: code => {
-    return MESSAGE[LANG.lang].ALERT[code];
-  },
-  CONFIRM_MESSAGE: code => {
-    return MESSAGE[LANG.lang].CONFIRM[code];
-  },
-  DESCRIPTION_MESSAGE: code => {
-    return MESSAGE[LANG.lang].DESCRIPTION[code];
-  },
-  SNACK_MESSAGE: code => {
-    return MESSAGE[LANG.lang].SNACK[code];
-  }
-};
 let MESSAGE = {
-  kr: {
+  KR: {
     BUTTON: {
       B0001: "EDIT", //카테고리 편집 버튼명
       B0002: "로그아웃",
@@ -194,7 +176,7 @@ let MESSAGE = {
       D0081: "페이스북/트위터는 패치중입니다.",
       D0082: "처리되었습니다.",
       D0083: "로 업데이트 되었습니다.\n클릭하여 업데이트 내역을 확인해보세요.",
-      D0084: ""
+      D0084: "언어를 선택합니다."
     },
     SNACK: {
       S0001: "편집 중에는, 하위 카테고리를 이동 할 수 없습니다.",
@@ -215,10 +197,11 @@ let MESSAGE = {
       S0016: "정확한 패스워드가 아닙니다. 다시 시도해주세요.",
       S0017: "이미 존재하는 계정입니다.",
       S0018: "로 테마가 변경되었습니다.",
-      S0019: "'IMPORT BOOKMARK' 기능은 준비중입니다."
+      S0019: "'IMPORT BOOKMARK' 기능은 준비중입니다.",
+      S0020: "언어를 변경하였습니다."
     }
   },
-  en: {
+  EN: {
     BUTTON: {
       B0001: "EDIT", //카테고리 편집 버튼명
       B0002: "Sign Out",
@@ -397,7 +380,7 @@ let MESSAGE = {
       D0081: "WEBGALPI for Facebook/Twitter is under development.",
       D0082: "Completed.",
       D0083: " patch is now available!\n Click to see what's new.",
-      D0084: ""
+      D0084: "Change Language."
     },
     SNACK: {
       S0001: "You cannot move subcategories while editing.",
@@ -418,10 +401,11 @@ let MESSAGE = {
       S0016: "Incorrect password. Please try again.",
       S0017: "The account already exists.",
       S0018: " is set as your new theme.",
-      S0019: "'IMPORT BOOKMARK' function is currently not available."
+      S0019: "'IMPORT BOOKMARK' function is currently not available.",
+      S0020: "Changed the language."
     }
   },
-  jp: {
+  JP: {
     BUTTON: {
       B0001: "EDIT", //카테고리 편집 버튼명
       B0002: "ログアウト",
@@ -599,7 +583,7 @@ let MESSAGE = {
       D0082: "処理しました。",
       D0083:
         "に（で）アップデートしました。\nクリックし、アップデートヒストリを確認してください。",
-      D0084: ""
+      D0084: "言語変更。"
     },
     SNACK: {
       S0001: "編集中には、下位カテゴリを移動することができません。",
@@ -620,9 +604,31 @@ let MESSAGE = {
       S0016: "パスワードが間違っています。もう一度試してください。",
       S0017: "すでに存在しているアカウントです。",
       S0018: "にテーマを変更しました。",
-      S0019: "'IMPORT BOOKMARK'機能は準備中です。"
+      S0019: "'IMPORT BOOKMARK'機能は準備中です。",
+      S0020: "言語を変更しました。"
     }
   }
 };
 
+let LANG = {
+  lang: "EN",
+  setLanguage: lang => {
+    LANG.lang = lang;
+  },
+  BUTTON_MESSAGE: code => {
+    return MESSAGE[LANG.lang].BUTTON[code];
+  },
+  ALERT_MESSAGE: code => {
+    return MESSAGE[LANG.lang].ALERT[code];
+  },
+  CONFIRM_MESSAGE: code => {
+    return MESSAGE[LANG.lang].CONFIRM[code];
+  },
+  DESCRIPTION_MESSAGE: code => {
+    return MESSAGE[LANG.lang].DESCRIPTION[code];
+  },
+  SNACK_MESSAGE: code => {
+    return MESSAGE[LANG.lang].SNACK[code];
+  }
+};
 export default LANG;

@@ -232,6 +232,9 @@ let Api = {
   updateOptionTheme: params => {
     return update(Query.updateOptionTheme(), params);
   },
+  updateOptionLanguage: params => {
+    return update(Query.updateOptionLanguage(params));
+  },
   deleteCategory: async categoryId => {
     let result = await Utils.getLocalStorage("loginInfo");
     return remove(Query.deleteCategory(), [categoryId, result.loginInfo.EMAIL]); //URLKEY , EMAIL

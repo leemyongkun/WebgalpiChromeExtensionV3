@@ -498,14 +498,20 @@ export default {
   },
   updateOptionColor: () => {
     return `UPDATE TBL_OPTIONS
-            SET COLOR = ?
-            WHERE EMAIL = ?
+                SET COLOR = ?
+                WHERE EMAIL = ?
             `;
   },
   updateOptionTheme: () => {
     return `UPDATE TBL_OPTIONS
-            SET THEME = ?
-            WHERE EMAIL = ?
+                SET THEME = ?
+                WHERE EMAIL = ?
+            `;
+  },
+  updateOptionLanguage: param => {
+    return `UPDATE TBL_OPTIONS
+                SET LANGUAGE = '${param.LANGUAGE}'
+                WHERE EMAIL = '${param.EMAIL}'
             `;
   },
   insertCategoryRelation: () => {
@@ -586,7 +592,7 @@ export default {
   },
   initDataOption: () => {
     return `INSERT INTO TBL_OPTIONS  VALUES(?,'highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
-                        ,'KR'
+                        ,'EN'
                         ,'Y'--MESSAGE_ALTER
                         ,'Y' --highlight
                         ,'N' --rootsite

@@ -21,7 +21,10 @@
         </v-row>
         <v-row>
           <v-col cols="6" style="border-right: 3px dashed;">
-            <div style="max-height: 500px" class="overflow-y-auto">
+            <div
+              style="max-height: 500px"
+              class="overflow-y-auto custom-scroll"
+            >
               <v-list nav dense>
                 <v-subheader
                   >{{ LANG.DESCRIPTION_MESSAGE("D0005") }}
@@ -177,7 +180,10 @@
 
           <!----------------------########## 하위 카테고리 영역 ############# ------------------------------->
           <v-col cols="6">
-            <div style="max-height: 500px" class="overflow-y-auto">
+            <div
+              style="max-height: 500px"
+              class="overflow-y-auto custom-scroll"
+            >
               <v-list nav dense>
                 <v-subheader>
                   {{ LANG.DESCRIPTION_MESSAGE("D0008") }}

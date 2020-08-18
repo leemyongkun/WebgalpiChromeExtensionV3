@@ -13,7 +13,7 @@
             {{ LANG.DESCRIPTION_MESSAGE("D0054") }}
           </v-card-title>
           <v-card-text>
-            <v-row align="center">
+            <v-row align="center" class="overflow-y-auto custom-scroll">
               <v-col cols="auto">
                 <v-select
                   :items="groupList"

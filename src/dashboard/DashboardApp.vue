@@ -79,6 +79,8 @@ export default {
         type: "get.all.members",
         data: null
       }).then(members => {
+        this.$vuetify.theme.dark = true;
+
         if (members === undefined || members.length === 0) {
           this.$refs.signDialog.open();
         } else {
@@ -98,14 +100,37 @@ export default {
 
             //전역에 저장한다.
             this.member = result[0];
-
             //MenuPage 초기화
             this.$refs.menuPage.getReloadCategory();
-
             //ContentBody 초기화
             this.$refs.contentBody.getSites("init");
 
             //todo : global emit 발생
+
+            // OPTION 처리
+            setTimeout(async () => {
+              let result = await Utils.getLocalStorage("loginInfo");
+              let param = new Object();
+              param.EMAIL = result.loginInfo.EMAIL;
+
+              CONTENT_LISTENER.sendMessage({
+                type: "get.option",
+                data: param
+              }).then(ret => {
+                if (ret.length === 0) {
+                  return false;
+                }
+                let options = ret[0];
+
+                if (options === undefined || options.THEME === "dark") {
+                  this.$vuetify.theme.dark = true;
+                } else {
+                  this.$vuetify.theme.dark = false;
+                }
+
+                LANG.setLanguage(options.LANGUAGE);
+              });
+            }, 0);
           }
         }
       });
@@ -165,17 +190,7 @@ export default {
   },
   mounted() {},
   created() {
-    this.$nextTick(() => {
-      chrome.storage.local.get(["options"], result => {
-        let options = result.options;
-
-        if (options === undefined || options.THEME === "dark") {
-          this.$vuetify.theme.dark = true;
-        } else {
-          this.$vuetify.theme.dark = false;
-        }
-      });
-
+    this.$nextTick(async () => {
       EventBus.$on("run.restore", (message, color) => {
         this.runRestore();
       });

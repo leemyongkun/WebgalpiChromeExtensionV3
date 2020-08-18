@@ -1,5 +1,28 @@
 <template>
   <div>
+    <v-menu transition="slide-y-transition" offset-y>
+      <template v-slot:activator="{ on: menu }">
+        <v-tooltip v-model="languageTooltip" color="blue" bottom>
+          <template v-slot:activator="{ on: tooltip }">
+            <v-icon
+              class="pr-2"
+              v-on="{ ...menu, ...tooltip }"
+              size="20px"
+              style="cursor: pointer"
+              >mdi-web
+            </v-icon>
+          </template>
+          <span>{{ LANG.DESCRIPTION_MESSAGE("D0084") }}</span>
+        </v-tooltip>
+      </template>
+
+      <v-list class="pt-0 pb-0">
+        <v-btn text block @click="changeLanguage('KR')">한국어</v-btn>
+        <v-btn text block @click="changeLanguage('EN')">English</v-btn>
+        <v-btn text block @click="changeLanguage('JP')">日本語</v-btn>
+      </v-list>
+    </v-menu>
+
     <!-- ONETAB -->
     <v-tooltip bottom color="blue">
       <template v-slot:activator="{ on }">
@@ -129,9 +152,9 @@
           <v-list-item>
             <v-list-item-content>
               <v-card>
-                <v-card-title>{{
-                  LANG.DESCRIPTION_MESSAGE("D0071")
-                }}</v-card-title>
+                <v-card-title
+                  >{{ LANG.DESCRIPTION_MESSAGE("D0071") }}
+                </v-card-title>
                 <v-card-text
                   class="pt-0 pb-2"
                   v-for="(item, idx) in update.improvement"
@@ -140,9 +163,9 @@
                 </v-card-text>
               </v-card>
               <v-card>
-                <v-card-title>{{
-                  LANG.DESCRIPTION_MESSAGE("D0072")
-                }}</v-card-title>
+                <v-card-title
+                  >{{ LANG.DESCRIPTION_MESSAGE("D0072") }}
+                </v-card-title>
                 <v-card-text
                   class="pt-0 pb-2"
                   v-for="(item, idx) in update.debug"
@@ -165,9 +188,9 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="infoMenu = false">{{
-            LANG.BUTTON_MESSAGE("B0012")
-          }}</v-btn>
+          <v-btn text @click="infoMenu = false"
+            >{{ LANG.BUTTON_MESSAGE("B0012") }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -183,25 +206,21 @@ import OneTab from "../dialog/OneTab";
 import Common from "../../common/common";
 import Utils from "../utils/Utils";
 import LANG from "../../common/language";
+import CONTENT_LISTENER from "../../common/content-listener";
 
 export default {
   components: { OneTab, BookmarkArea, ThemeArea, ColorArea, BackupArea },
   data: () => ({
+    languageTooltip: false,
     infoTooltip: false,
     infoMenu: false,
     update: {
       version: Common.getVersion(),
-      improvement: [
-        "[대쉬보드] 카테고리 기능이 대폭 개선되었습니다.",
-        "하이라이트 Color Set을 파스텔 톤으로 변경하였습니다."
-      ],
+      improvement: ["Multi Language (한국어/English/日本語)"],
       debug: [],
       todo: [
-        "[진행중] BOOKMARK -> WEBGALPI로 IMPORT",
-        "[진행중] Auto Backup/Restore ",
-        "다국어처리 (한국어/영어/일본어)",
-        "Google 검색 시, WEBGALPI에 이미 등록한 내용을 검색.",
-        "개발자에게 메일전송."
+        "[PROGRESS] IMPORT BOOKMARK -> WEBGALPI",
+        "[PROGRESS] Auto Backup/Restore "
       ]
     },
     LANG: LANG
@@ -209,6 +228,21 @@ export default {
   props: [],
   created() {},
   methods: {
+    async changeLanguage(lang) {
+      LANG.setLanguage(lang);
+      //todo : 언어 update
+      let result = await Utils.getLocalStorage("loginInfo");
+      let param = new Object();
+      param.EMAIL = result.loginInfo.EMAIL;
+      param.LANGUAGE = lang;
+
+      CONTENT_LISTENER.sendMessage({
+        type: "update.option.language",
+        data: param
+      }).then(() => {
+        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0020"), "green");
+      });
+    },
     openBackupArea() {
       this.$refs.backup.open();
     },

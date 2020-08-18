@@ -10,7 +10,7 @@ export default {
         `INSERT INTO TBL_OPTIONS  VALUES(\'` +
         accountInfo.email +
         `\','highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5,highlight-color-6' --COLOR
-                        ,'KR'
+                        ,'EN'
                         ,'Y'--MESSAGE_ALTER
                         ,'Y' --highlight
                         ,'N' --rootsite

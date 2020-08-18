@@ -53,6 +53,9 @@ import SiteInfoTab from "./tabs/SiteInfoTab";
 import HighlightTab from "./tabs/HighlightTab";
 import SettingTab from "./tabs/SettingTab";
 import Common from "../common/common";
+import Utils from "../dashboard/utils/Utils";
+import CONTENT_LISTENER from "../common/content-listener";
+import LANG from "../common/language";
 
 export default {
   components: {
@@ -69,10 +72,32 @@ export default {
   }),
   created() {
     //지속적으로 로딩되고 있는 상태를 스톱한다.
-    this.$nextTick(() => {
+    this.$nextTick(async () => {
       chrome.tabs.executeScript(null, {
         code: "window.stop();",
         runAt: "document_start"
+      });
+
+      let result = await Utils.getLocalStorage("loginInfo");
+      let param = new Object();
+      param.EMAIL = result.loginInfo.EMAIL;
+
+      CONTENT_LISTENER.sendMessage({
+        type: "get.option",
+        data: param
+      }).then(ret => {
+        if (ret.length === 0) {
+          return false;
+        }
+        let options = ret[0];
+
+        if (options === undefined || options.THEME === "dark") {
+          this.$vuetify.theme.dark = true;
+        } else {
+          this.$vuetify.theme.dark = false;
+        }
+
+        LANG.setLanguage(options.LANGUAGE);
       });
     });
   },

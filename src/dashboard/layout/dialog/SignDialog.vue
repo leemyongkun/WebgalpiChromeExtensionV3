@@ -231,6 +231,9 @@ export default {
       }
     },
     checkMember() {
+      if (this.password === "") {
+        return false;
+      }
       //신규 사용자 등록을 위해, 현재 모든 Member를 가져와 비교한다.
       CONTENT_LISTENER.sendMessage({
         type: "get.all.members",

@@ -308,10 +308,25 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
+
+    case "get.option":
+      API.getOptions(msg.data).then(option => {
+        sendResponse(option);
+      });
+      return true;
+      break;
     case "update.option.theme":
       API.updateOptionTheme(msg.data).then(res => {
         sendResponse(res);
       });
+      return true;
+      break;
+
+    case "update.option.language":
+      API.updateOptionLanguage(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
       break;
     case "update.category.sort":
       API.updateCategorySort(msg.data).then(() => {
