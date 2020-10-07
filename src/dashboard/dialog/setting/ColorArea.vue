@@ -129,9 +129,13 @@ export default {
       }
       let result = await Utils.getLocalStorage("loginInfo");
 
+      let param = new Object();
+      param.COLOR = this.pickColor.join(",");
+      param.EMAIL = result.loginInfo.EMAIL;
+
       CONTENT_LISTENER.sendMessage({
         type: "update.option.color",
-        data: [this.pickColor.join(","), result.loginInfo.EMAIL] //[todo] 2번째 파라메터는 Email 로 한다.
+        data: param
       }).then(response => {
         EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0010"), "success");
         this.close();

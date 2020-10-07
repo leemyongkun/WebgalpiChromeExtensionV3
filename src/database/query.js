@@ -511,16 +511,16 @@ export default {
             AND EMAIL = '${param.EMAIL}'
             `;
   },
-  updateOptionColor: () => {
+  updateOptionColor: param => {
     return `UPDATE TBL_OPTIONS
-                SET COLOR = ?
-                WHERE EMAIL = ?
+                SET COLOR = '${param.COLOR}'
+                WHERE EMAIL = '${param.EMAIL}'
             `;
   },
-  updateOptionTheme: () => {
+  updateOptionTheme: param => {
     return `UPDATE TBL_OPTIONS
-                SET THEME = ?
-                WHERE EMAIL = ?
+                SET THEME = '${param.THEME}'
+                WHERE EMAIL = '${param.EMAIL}'
             `;
   },
   updateOptionLanguage: param => {
@@ -529,7 +529,7 @@ export default {
                 WHERE EMAIL = '${param.EMAIL}'
             `;
   },
-  insertCategoryRelation: () => {
+  insertCategoryRelation: param => {
     return `INSERT INTO TBL_REL_CATEGORY
             (
                 CATEGORY_IDX,
@@ -538,29 +538,34 @@ export default {
                 SITE_IDX,
                 DATE_CREATE
             )
-            VALUES(?, ?, ?, ?, ?)`;
+            VALUES(${param.CATEGORY_ID}, 
+            '${param.URL_KEY}', 
+            '${param.EMAIL}', 
+            ${param.IDX}, 
+            ${param.DATE_CREATE})`;
   },
-  deleteCategoryRelation: () => {
+  deleteCategoryRelation: param => {
     return `DELETE FROM TBL_REL_CATEGORY
-            WHERE URL_KEY = ?
-            AND EMAIL = ?
+            WHERE URL_KEY = '${param.URL_KEY}'
+            AND EMAIL = '${param.EMAIL}'
             `;
   },
-  deleteCategoryRelationParent: () => {
+  deleteCategoryRelationParent: param => {
     return `DELETE FROM TBL_REL_CATEGORY
-            WHERE CATEGORY_IDX = ?
-            AND EMAIL = ?
+            WHERE CATEGORY_IDX = ${param.CATEGORY_ID}
+            AND EMAIL = '${param.EMAIL}'
             `;
   },
-  deleteCategory: () => {
+  deleteCategory: param => {
     return `DELETE FROM TBL_CATEGORY
-                WHERE IDX = ?
-                AND EMAIL = ?`;
+                WHERE IDX =  ${param.CATEGORY_ID}
+                AND EMAIL = ' ${param.EMAIL}'`;
   },
-  updateLostCategoryItem: () => {
+  updateLostCategoryItem: param => {
     return `UPDATE  TBL_CATEGORY
             SET  PARENT = -1
-            WHERE PARENT = ?
+            WHERE PARENT = ${param.CATEGORY_ID}
+            AND EMAIL = '${param.EMAIL}'
             `;
   },
   updatecategorySort: param => {
@@ -570,16 +575,14 @@ export default {
                 AND PARENT = ${param.categoryParentIdx}
                 `;
   },
-  updateCategoryItem: () => {
+  updateCategoryItem: param => {
     return `UPDATE  TBL_CATEGORY
-            SET  NAME = ? , PARENT = ?
-            WHERE IDX = ?
+            SET  NAME = '${param.CATEGORY_NAME}' , PARENT = ${param.CATEGORY_PARENT}
+            WHERE IDX = ${param.CATEGORY_ID}
                 `;
   },
   insertCategoryItem: param => {
-    return `INSERT
-        INTO
-        TBL_CATEGORY(
+    return `INSERT INTO TBL_CATEGORY(
             EMAIL,
             NAME,
             PARENT,
@@ -598,6 +601,7 @@ export default {
             )
             `;
   },
+  //todo : 미사용(삭제검토)
   updateConvertViewmode: () => {
     return `UPDATE TBL_SITES
             SET READERMODE_CONTENTS = ?, DATE_UPDATE = ?, FL_READMODE = 'Y'
@@ -605,8 +609,8 @@ export default {
             AND EMAIL = ?
             `;
   },
-  initDataOption: () => {
-    return `INSERT INTO TBL_OPTIONS  VALUES(?,'highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
+  initDataOption: param => {
+    return `INSERT INTO TBL_OPTIONS  VALUES('${param.EMAIL}','highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
                         ,'EN'
                         ,'Y'--MESSAGE_ALTER
                         ,'Y' --highlight
@@ -619,7 +623,7 @@ export default {
                         ,'dark' --THEME (dark / light);
                     )`;
   },
-  initDataCategory: () => {
+  initDataCategory: param => {
     return `INSERT INTO TBL_CATEGORY(
                                      EMAIL,
                                      NAME,
@@ -629,26 +633,26 @@ export default {
                                      TYPE,
                                      FLAG,
                                      DATE_CREATE
-                            ) VALUES  (? , 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM','root', null),
-                                      (? , 'ALL ITEMS', ?, 1, 1, 'SYSTEM','all', null),
-                                      (? , 'NO CATEGORY ITEMS', ?, 1, 2, 'SYSTEM','nocategory', null)
+                            ) VALUES  ('${param.EMAIL}' , 'DEFAULT CATEGORY', 0, 0, 0, 'SYSTEM','root', null),
+                                      ('${param.EMAIL}' , 'ALL ITEMS', '${param.categoryNewId}', 1, 1, 'SYSTEM','all', null),
+                                      ('${param.EMAIL}' , 'NO CATEGORY ITEMS', '${param.categoryNewId}', 1, 2, 'SYSTEM','nocategory', null)
                  `;
   },
   getCategoryMaxId: () => {
     return `select MAX(IDX) AS MAXID from TBL_CATEGORY`;
   },
-  updateFavorite: () => {
+  updateFavorite: param => {
     return `UPDATE TBL_SITES
                 SET FL_FAVORITE = 'Y'
-                WHERE EMAIL = ?
-                AND IDX = ?
+                WHERE EMAIL = '${param.EMAIL}'
+                AND IDX = ${param.IDX}
         `;
   },
-  deleteFavorite: () => {
+  deleteFavorite: param => {
     return `UPDATE TBL_SITES
                 SET FL_FAVORITE = 'N'
-                WHERE EMAIL = ?
-                AND IDX = ?
+                WHERE EMAIL = '${param.EMAIL}'
+                AND IDX = ${param.IDX}
         `;
   },
   restoreSite: param => {
@@ -764,14 +768,14 @@ export default {
                 ${param.DATE_CREATE}
              ) `;
   },
-  selectUpdateHistory: () => {
+  selectUpdateHistory: param => {
     return `SELECT * FROM TBL_UPDATE_HISTORY
-                WHERE EMAIL = ?
+                WHERE EMAIL = '${param.EMAIL}'
             `;
   },
-  insertUpdateHistory: () => {
+  insertUpdateHistory: param => {
     return ` INSERT INTO TBL_UPDATE_HISTORY
-                (EMAIL) VALUES (?)
+                (EMAIL) VALUES ('${param.EMAIL}')
                 `;
   },
   updateUpdateHistory: param => {

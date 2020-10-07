@@ -257,7 +257,10 @@ export default {
       }
 
       let result = await Utils.getLocalStorage("loginInfo");
-      let param = [result.loginInfo.EMAIL, item.IDX];
+      let param = new Object();
+      param.IDX = item.IDX;
+      param.EMAIL = result.loginInfo.EMAIL;
+
       CONTENT_LISTENER.sendMessage({
         type: type,
         data: param

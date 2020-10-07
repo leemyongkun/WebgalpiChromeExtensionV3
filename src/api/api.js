@@ -144,14 +144,11 @@ let Api = {
   getLostCategory: params => {
     return select(Query.getCategory(params, "lost"), null);
   },
-  getCategory: email => {
-    let param = new Object();
-    param.EMAIL = email;
-    return select(Query.getCategory(param, "all"), null);
+  getCategory: params => {
+    return select(Query.getCategory(params, "all"), null);
   },
   getAllItems: param => {
-    let result = select(Query.getAllItems(param), null);
-    return result;
+    return select(Query.getAllItems(param), null);
   },
   updateItem: params => {
     return update(Query.updateItem(params));
@@ -194,48 +191,36 @@ let Api = {
     return Api.getSite(params);
   },
   updateOptionColor: params => {
-    return update(Query.updateOptionColor(), params);
+    return update(Query.updateOptionColor(params), null);
   },
   updateOptionTheme: params => {
-    return update(Query.updateOptionTheme(), params);
+    return update(Query.updateOptionTheme(params), null);
   },
   updateOptionLanguage: params => {
     return update(Query.updateOptionLanguage(params));
   },
-  deleteCategory: async categoryId => {
-    let result = await Utils.getLocalStorage("loginInfo");
-    return remove(Query.deleteCategory(), [categoryId, result.loginInfo.EMAIL]); //URLKEY , EMAIL
+  deleteCategory: param => {
+    return remove(Query.deleteCategory(param), null); //URLKEY , EMAIL
   },
   deleteCategoryRelation: param => {
-    return remove(Query.deleteCategoryRelation(), [param.URL_KEY, param.EMAIL]); //URLKEY , EMAIL
+    return remove(Query.deleteCategoryRelation(param), null); //URLKEY , EMAIL
   },
-  deleteCategoryRelationParent: async categoryId => {
-    let result = await Utils.getLocalStorage("loginInfo");
+  deleteCategoryRelationParent: param => {
     //Relation 에 있는 parent <-> site 의 정보를 삭제한다.
-    remove(Query.deleteCategoryRelationParent(), [
-      categoryId,
-      result.loginInfo.EMAIL
-    ]); //parent IDX를 보낸다
+    remove(Query.deleteCategoryRelationParent(param), null); //parent IDX를 보낸다
   },
   updateCategorySort: param => {
     return update(Query.updatecategorySort(param), null);
   },
   postCategoryRelation: param => {
-    let params = [
-      param.CATEGORY_ID,
-      param.URL_KEY, //"URL_KEY":
-      param.EMAIL, //"EMAIL":
-      param.IDX, //"SITE_IDX":
-      param.DATE_CREATE
-    ];
-    return insert(Query.insertCategoryRelation(), params);
+    return insert(Query.insertCategoryRelation(param), null);
   },
   updateLostCategoryItem: param => {
     //parentId에 categoryId가 포함된 column 을 모두 -1로 변경 (미아로 만든다)
-    return update(Query.updateLostCategoryItem(), param);
+    return update(Query.updateLostCategoryItem(param), null);
   },
   insertCategoryItem: param => {
-    return insert(Query.insertCategoryItem(param));
+    return insert(Query.insertCategoryItem(param), null);
   },
   updateCategoryItem: param => {
     if (param.CHECK_ROOT) {
@@ -245,7 +230,7 @@ let Api = {
     delete param.CHECK_ROOT;
     delete param.CATEGORY_TYPE;
 
-    return update(Query.updateCategoryItem(), Object.values(param));
+    return update(Query.updateCategoryItem(param), null);
   },
   postMember: param => {
     return insert(Query.insertMember(param), null);
@@ -259,24 +244,26 @@ let Api = {
   getAllMembers: () => {
     return select(Query.selectAllMembers(), null);
   },
+  //todo : 미사용(삭제검토)
   updateConvertViewmode: param => {
     return update(Query.updateConvertViewmode(), param);
   },
   initDataOption: param => {
-    return insert(Query.initDataOption(), param);
+    return insert(Query.initDataOption(param), null);
   },
   initDataCategory: param => {
-    return insert(Query.initDataCategory(), param);
+    return insert(Query.initDataCategory(param), null);
   },
   getCategoryMaxId: () => {
     return select(Query.getCategoryMaxId(), []);
   },
   updateFavorite: param => {
-    return update(Query.updateFavorite(), param);
+    return update(Query.updateFavorite(param), null);
   },
   deleteFavorite: param => {
-    return update(Query.deleteFavorite(), param);
+    return update(Query.deleteFavorite(param), null);
   },
+  //todo : SERVER로 이관되면 사용하지 않을듯..
   restoreSite: params => {
     let param = [
       params.IDX,
@@ -307,6 +294,7 @@ let Api = {
 
     return insert(Query.restoreSite(), param);
   },
+  //todo : SERVER로 이관되면 사용하지 않을듯..
   restoreCategory: params => {
     let param = [
       params.IDX,
@@ -321,6 +309,7 @@ let Api = {
     ];
     return insert(Query.restoreCategory(), param);
   },
+  //todo : SERVER로 이관되면 사용하지 않을듯..
   restoreCategoryRelation: params => {
     let param = [
       params.CATEGORY_IDX,
@@ -331,6 +320,7 @@ let Api = {
     ];
     return insert(Query.restoreCategoryRelation(), param);
   },
+  //todo : SERVER로 이관되면 사용하지 않을듯..
   restoreHighlight: params => {
     let date = new Date().getTime();
     let param = [
@@ -354,16 +344,15 @@ let Api = {
     ];
     return insert(Query.restoreHighlight(), param);
   },
+  //todo : SERVER로 이관되면 사용하지 않을듯..
   restoreOnetab: params => {
     return insert(Query.restoreOnetab(params), null);
   },
-  getUpdateHistory: params => {
-    let param = [params.EMAIL];
-    return select(Query.selectUpdateHistory(), param);
+  getUpdateHistory: param => {
+    return select(Query.selectUpdateHistory(param), null);
   },
-
   insertUpdateHistory: params => {
-    return select(Query.insertUpdateHistory(), params);
+    return select(Query.insertUpdateHistory(params), null);
   },
   updateUpdateHistory: params => {
     return update(Query.updateUpdateHistory(params), null);

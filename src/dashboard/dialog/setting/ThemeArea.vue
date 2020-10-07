@@ -32,9 +32,9 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn small color="blue" text @click="close">{{
-          LANG.BUTTON_MESSAGE("B0012")
-        }}</v-btn>
+        <v-btn small color="blue" text @click="close"
+          >{{ LANG.BUTTON_MESSAGE("B0012") }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -69,10 +69,13 @@ export default {
     },
     async changeTheme() {
       let result = await Utils.getLocalStorage("loginInfo");
+      let param = new Object();
+      param.THEME = this.theme;
+      param.EMAIL = result.loginInfo.EMAIL;
 
       CONTENT_LISTENER.sendMessage({
         type: "update.option.theme",
-        data: [this.theme, result.loginInfo.EMAIL]
+        data: param
       })
         .then(response => {
           //option을 수정한다.

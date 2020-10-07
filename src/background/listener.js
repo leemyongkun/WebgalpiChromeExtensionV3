@@ -296,9 +296,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     case "update.option.color":
       API.updateOptionColor(msg.data);
       //emit all Tab
-      let parameter = new Object();
-      parameter.EMAIL = msg.data[1]; //email
-      API.getOptions(parameter).then(option => {
+      API.getOptions(msg.data).then(option => {
         emitOptionsAllTabs("emit.action", option);
         sendResponse(true);
       });
@@ -350,14 +348,13 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 
       if (deleteCategoryParam.CHECK_ROOT) {
         //삭제 시, 하위 Directory 는 미아로 변경
-        let lostTargetCateggory = [deleteCategoryParam.CATEGORY_ID];
-        API.updateLostCategoryItem(lostTargetCateggory);
+        API.updateLostCategoryItem(deleteCategoryParam);
       } else {
         //category와 연관되어있는 contents relation을 삭제한다.
-        API.deleteCategoryRelationParent(deleteCategoryParam.CATEGORY_ID);
+        API.deleteCategoryRelationParent(deleteCategoryParam);
       }
       //삭제한다.
-      API.deleteCategory(deleteCategoryParam.CATEGORY_ID).then(() => {
+      API.deleteCategory(deleteCategoryParam).then(() => {
         sendResponse(true);
       });
       return true;
@@ -368,14 +365,13 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       if (categoryParam.CATEGORY_TYPE !== "SYSTEM") {
         if (categoryParam.CHECK_ROOT) {
           //checkRoot가 true 일경우
-          API.deleteCategoryRelationParent(categoryParam.CATEGORY_ID);
+          API.deleteCategoryRelationParent(categoryParam);
         }
 
         if (categoryParam.CATEGORY_PARENT === 0 && categoryParam.CHECK_ROOT) {
         } else {
           //카테고리 변경 시, parent에 포함된 category를 미아로 변경
-          let lostTargetCateggory = [categoryParam.CATEGORY_ID];
-          API.updateLostCategoryItem(lostTargetCateggory);
+          API.updateLostCategoryItem(categoryParam);
         }
       }
 
@@ -385,6 +381,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 
       return true;
       break;
+    //todo : 미사용(삭제검토)
     case "update.convert.viewmode":
       API.updateConvertViewmode(msg.data).then(res => {
         sendResponse(res);

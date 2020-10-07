@@ -170,14 +170,17 @@ export default {
         }
 
         let email = this.accountInfo.email;
+        let param = new Object();
+        param.EMAIL = this.accountInfo.email;
+        param.categoryNewId = categoryNewId;
         let initEnvironment = [
           CONTENT_LISTENER.sendMessage({
             type: "init.data.option",
-            data: [email]
+            data: param
           }),
           CONTENT_LISTENER.sendMessage({
             type: "init.data.category",
-            data: [email, email, categoryNewId, email, categoryNewId]
+            data: param
           }),
           CONTENT_LISTENER.sendMessage({
             type: "insert.member",
@@ -185,7 +188,7 @@ export default {
           }),
           CONTENT_LISTENER.sendMessage({
             type: "insert.update.history",
-            data: [email]
+            data: param
           })
         ];
 

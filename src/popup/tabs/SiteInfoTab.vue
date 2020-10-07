@@ -123,7 +123,6 @@ export default {
     updateCategory() {
       if (this.selectCategory === -1) {
         alert(LANG.ALERT_MESSAGE("A0015"));
-
         return false;
       }
       let object = new Object();
@@ -228,6 +227,7 @@ export default {
           type: "get.category",
           data: param
         }).then(category => {
+          console.log("category ", category);
           if (category !== undefined) {
             // 오름차순
             category.sort(function(a, b) {

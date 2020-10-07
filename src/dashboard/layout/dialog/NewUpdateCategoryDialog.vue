@@ -413,11 +413,14 @@ export default {
       this.editableFlag = false;
     },
     /** 카테고리명 수정 액션 */
-    updateCategoryName(category) {
+    async updateCategoryName(category) {
+      let result = await Utils.getLocalStorage("loginInfo");
       let object = new Object();
       object.CATEGORY_NAME = category.name;
       object.CATEGORY_PARENT = category.parent;
       object.CATEGORY_ID = category.id;
+      object.EMAIL = result.loginInfo.EMAIL;
+
       if (category.parent === 0) {
         object.CHECK_ROOT = true;
       } else {
@@ -518,15 +521,15 @@ export default {
     async deleteCategory(event, item, flag) {
       event.stopPropagation();
       event.stopImmediatePropagation();
-
+      let result = await Utils.getLocalStorage("loginInfo");
       if (item.children !== undefined) {
         MODAL.alert(LANG.ALERT_MESSAGE("A0001"), "error", null, "420px");
         return false;
       }
 
       let confirm = "[" + item.name + "] " + LANG.CONFIRM_MESSAGE("C0001");
-      let result = await MODAL.confirm(confirm, "info", null, null, "420px");
-      if (result.value === undefined) return false;
+      let modal = await MODAL.confirm(confirm, "info", null, null, "420px");
+      if (modal.value === undefined) return false;
 
       let param = new Object();
       if (flag === "parent") {
@@ -536,7 +539,7 @@ export default {
       }
 
       param.CATEGORY_ID = item.id;
-
+      param.EMAIL = result.loginInfo.EMAIL;
       //category 삭제
       CONTENT_LISTENER.sendMessage({
         type: "delete.category.item",
