@@ -48,10 +48,12 @@ export default {
   methods: {
     async getLostCategory() {
       let result = await Utils.getLocalStorage("loginInfo");
+      let param = new Object();
+      param.EMAIL = result.loginInfo.EMAIL;
       //미아 카테고리(Parent가 없는 자식 Category)
       CONTENT_LISTENER.sendMessage({
         type: "get.lost.category",
-        data: [result.loginInfo.EMAIL]
+        data: param
       }).then(lostCategory => {
         this.lostCategory = lostCategory;
       });

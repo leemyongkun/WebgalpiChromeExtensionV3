@@ -371,9 +371,11 @@ export default {
   methods: {
     async initCategory() {
       let result = await Utils.getLocalStorage("loginInfo");
+      let param = new Object();
+      param.EMAIL = result.loginInfo.EMAIL;
       CONTENT_LISTENER.sendMessage({
         type: "get.category",
-        data: [result.loginInfo.EMAIL]
+        data: param
       })
         .then(category => {
           this.categoryData.parent = Utils.generateTree(category, 0);

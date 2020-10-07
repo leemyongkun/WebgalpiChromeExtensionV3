@@ -81,8 +81,8 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="green darken-1" text @click="dialog = false">
-          {{ LANG.BUTTON_MESSAGE("B0010") }}</v-btn
-        >
+          {{ LANG.BUTTON_MESSAGE("B0010") }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -225,17 +225,19 @@ export default {
     },
     setCategory() {
       chrome.storage.local.get(["loginInfo"], result => {
-        let email = result.loginInfo.EMAIL;
+        let param = new Object();
+        param.EMAIL = result.loginInfo.EMAIL;
+
         CONTENT_LISTENER.sendMessage({
           type: "get.category",
-          data: [email]
+          data: param
         }).then(category => {
           // 오름차순
-          category.sort(function(a, b) {
-            return a.id > b.id ? -1 : a.id < b.id ? 1 : 0;
-          });
-
           if (category !== undefined) {
+            category.sort(function(a, b) {
+              return a.id > b.id ? -1 : a.id < b.id ? 1 : 0;
+            });
+
             this.category = category.filter(item => {
               return item.parent !== 0;
             });

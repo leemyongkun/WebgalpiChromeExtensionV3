@@ -1,5 +1,5 @@
 export default {
-  getBackupSites: date => {
+  getBackupSites: param => {
     return `
             SELECT 
                 IDX,
@@ -25,60 +25,60 @@ export default {
                 DATE_CREATE,
                 DATE_UPDATE 
             FROM TBL_SITES
-            WHERE EMAIL = ?
+            WHERE EMAIL = '${param.EMAIL}'
             AND FL_DELETE = 'N'
             `;
   },
-  getBackupHighlights: date => {
+  getBackupHighlights: param => {
     return `
             SELECT *
             FROM TBL_ITEMS
-            WHERE EMAIL = ?
+            WHERE EMAIL = '${param.EMAIL}'
             AND FL_DELETE='N'
         `;
   },
-  getBackupCategorys: () => {
+  getBackupCategorys: param => {
     return `
             SELECT *
             FROM TBL_CATEGORY
             WHERE TYPE='CUSTOM'
-            AND EMAIL = ?
+            AND EMAIL = '${param.EMAIL}'
         `;
   },
-  getBackupCategorysRelation: () => {
+  getBackupCategorysRelation: param => {
     return `
             SELECT *
             FROM TBL_REL_CATEGORY
-            WHERE EMAIL = ?
+            WHERE EMAIL = '${param.EMAIL}'
         `;
   },
-  getBackupOneTabsHistory: () => {
+  getBackupOneTabsHistory: param => {
     return `
             SELECT *
             FROM TBL_ONETAB
-            WHERE EMAIL = ?
+            WHERE EMAIL = '${param.EMAIL}'
         `;
   },
-  getAllCategoryCount: () => {
+  getAllCategoryCount: param => {
     return `SELECT COUNT(*) AS COUNT
         FROM TBL_SITES
         WHERE FL_DELETE = 'N'
-        AND EMAIL = ?
+        AND EMAIL = '${param.EMAIL}'
         `;
   },
-  getNoCategoryCount: () => {
+  getNoCategoryCount: param => {
     return `SELECT
             COUNT(*) AS COUNT
         FROM TBL_SITES
         WHERE URL_KEY NOT IN (SELECT URL_KEY from TBL_REL_CATEGORY)
         AND FL_DELETE = 'N'
-        AND EMAIL = ?
+        AND EMAIL = '${param.EMAIL}'
         `;
   },
-  updateMemberUse: () => {
+  updateMemberUse: param => {
     return `UPDATE TBL_MEMBER
-        SET IS_USE = ?
-        WHERE EMAIL = ?`;
+        SET IS_USE = '${param.isUse}'
+        WHERE EMAIL = '${param.EMAIL}'`;
   },
   selectMembers: () => {
     return `
@@ -104,7 +104,7 @@ export default {
         TBL_MEMBER
             `;
   },
-  insertMember: () => {
+  insertMember: param => {
     return `
         INSERT
         INTO
@@ -118,12 +118,12 @@ export default {
             DATE_CREATE
         )
         VALUES(
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?
+                '${param.email}',
+                '${param.name}',
+                '${param.password}',
+                '${param.picture}',
+                '${param.isUse}',
+                ${param.date}
         )`;
   },
 
@@ -205,11 +205,9 @@ export default {
         WHERE URL_KEY = '${param.URL_KEY}'
         AND EMAIL = '${param.EMAIL}' `;
   },
-  insertItem: () => {
-    return `INSERT
-        INTO
-        TBL_ITEMS
-        (IDX,
+  insertItem: param => {
+    return `INSERT INTO TBL_ITEMS
+            (IDX,
             URL_KEY,
             EMAIL,
             TEXT,
@@ -227,10 +225,26 @@ export default {
             DATE_CREATE,
             DATE_UPDATE
         )
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, ?, ?, ?, ?)`;
+        VALUES( ${param.IDX} , 
+                '${param.URL_KEY}', 
+                '${param.EMAIL}', 
+                '${param.TEXT}', 
+                '${param.PREV}', 
+                '${param.NEXT}', 
+                '${param.PRINT_TEXT}', 
+                ${param.POSITION},
+                '${param.COLOR}', 
+                '${param.MEMO}', 
+                'N', 
+                '${param.GB_FILETYPE}', 
+                '${param.IMAGE}', 
+                '${param.FL_READMODE}', 
+                ${param.PAGE_NUMBER}, 
+                ${param.DATE_CREATE}, 
+                ${param.DATE_CREATE})`;
   },
 
-  getOptions: () => {
+  getOptions: param => {
     return `
         SELECT
             EMAIL
@@ -245,7 +259,7 @@ export default {
             , DATE_CREATE
             , SYNC_BOOKMARK
         FROM TBL_OPTIONS
-        WHERE EMAIL = ?`;
+        WHERE EMAIL = '${param.EMAIL}'`;
   },
   getSites: params => {
     let joinCondition = "WHERE 1=1"; //" WHERE CATEGORY.URL_KEY IS NULL";
@@ -390,7 +404,7 @@ export default {
         LIMIT 1`;
   },
 
-  getCategory: flag => {
+  getCategory: (param, flag) => {
     let lostCondition = "";
     let systemCondition = " AND TYPE='CUSTOM'";
     if (flag === "all") {
@@ -435,7 +449,7 @@ export default {
                     END AS CNT
             FROM TBL_CATEGORY A LEFT JOIN TBL_REL_CATEGORY B
             ON A.IDX = B.CATEGORY_IDX
-            WHERE A.EMAIL = ?
+            WHERE A.EMAIL = '${param.EMAIL}'
             ` +
       lostCondition +
       `
@@ -449,7 +463,7 @@ export default {
              `
     );
   },
-  getAllItems: () => {
+  getAllItems: param => {
     return `
         SELECT
             EMAIL,
@@ -469,31 +483,32 @@ export default {
             PAGE_NUMBER,
             FL_READMODE AS FL_READERMODE
         FROM TBL_ITEMS
-        WHERE URL_KEY = ?
-        AND EMAIL = ?
+        WHERE URL_KEY = '${param.URL_KEY}'
+        AND EMAIL = '${param.EMAIL}'
         AND FL_DELETE = 'N'`;
   },
-  deleteSite: () => {
+  deleteSite: param => {
     return `UPDATE TBL_SITES
-            SET FL_DELETE = 'Y', DATE_UPDATE = ?
-            WHERE URL_KEY = ?
-            AND EMAIL = ?
+            SET FL_DELETE = 'Y', DATE_UPDATE = ${param.updateDate}
+            WHERE URL_KEY =  '${param.URL_KEY}'
+            AND EMAIL = '${param.EMAIL}'
                 `;
   },
-  updateScrapSite: () => {
+  updateScrapSite: param => {
     return `UPDATE TBL_SITES
                     SET FL_READMODE = 'Y',
-                    READERMODE_CONTENTS = ?,
-                    FULL_TEXT= ?,
-                    OG_TITLE = ?,
-                    OG_DESCRIPTION = ?,
-                    OG_IMAGE = ?
-                WHERE URL_KEY = ?`;
+                    READERMODE_CONTENTS =  '${param.READERMODE_CONTENTS}',
+                    FULL_TEXT= '${param.FULL_TEXT}',
+                    OG_TITLE = '${param.OG_TITLE}',
+                    OG_DESCRIPTION = '${param.OG_DESCRIPTION}',
+                    OG_IMAGE = '${param.OG_IMAGE}'
+                WHERE URL_KEY = '${param.URL_KEY}'
+                AND EMAIL = '${param.EMAIL}'`;
   },
-  deleteSiteInCategory: () => {
+  deleteSiteInCategory: param => {
     return `DELETE FROM TBL_REL_CATEGORY
-            WHERE URL_KEY = ?
-            AND EMAIL = ?
+            WHERE URL_KEY = '${param.URL_KEY}'
+            AND EMAIL = '${param.EMAIL}'
             `;
   },
   updateOptionColor: () => {

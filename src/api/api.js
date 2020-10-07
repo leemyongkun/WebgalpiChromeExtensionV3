@@ -8,16 +8,16 @@ var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 let Api = {
   getBackupData: email => {
     return new Promise(async res => {
-      let param = [email];
+      //let param = [email];
       let obj = new Object();
       obj.EMAIL = email;
       Promise.all([
-        Api.getBackupSites(param),
-        Api.getBackupHighlights(param),
+        Api.getBackupSites(obj),
+        Api.getBackupHighlights(obj),
         Api.getOptions(obj),
-        Api.getBackupCategorys(param),
-        Api.getBackupCategorysRelation(param),
-        Api.getBackupOneTabsHistory(param)
+        Api.getBackupCategorys(obj),
+        Api.getBackupCategorysRelation(obj),
+        Api.getBackupOneTabsHistory(obj)
       ]).then(values => {
         let data = new Object();
         data.sites = values[0];
@@ -31,20 +31,20 @@ let Api = {
     });
   },
   getBackupSites: param => {
-    return select(Query.getBackupSites(), param);
+    return select(Query.getBackupSites(param), null);
   },
   getBackupHighlights: param => {
-    return select(Query.getBackupHighlights(), param);
+    return select(Query.getBackupHighlights(param), null);
   },
   getBackupCategorysRelation: param => {
-    return select(Query.getBackupCategorysRelation(), param);
+    return select(Query.getBackupCategorysRelation(param), null);
   },
   getBackupCategorys: param => {
-    return select(Query.getBackupCategorys(), param);
+    return select(Query.getBackupCategorys(param), null);
   },
   getBackupOneTabsHistory: param => {
     //모아보기
-    return select(Query.getBackupOneTabsHistory(), param);
+    return select(Query.getBackupOneTabsHistory(param), null);
   },
 
   getMemberInfo: () => {
@@ -102,14 +102,13 @@ let Api = {
     });
   },
   getAllCategoryCount: params => {
-    return select(Query.getAllCategoryCount(), params);
+    return select(Query.getAllCategoryCount(params), null);
   },
   getNoCategoryCount: params => {
-    return select(Query.getNoCategoryCount(), params);
+    return select(Query.getNoCategoryCount(params), null);
   },
-  getOptions: parameter => {
-    let param = [parameter.EMAIL];
-    return select(Query.getOptions(), param);
+  getOptions: param => {
+    return select(Query.getOptions(param), null);
   },
   getSite: params => {
     return select(Query.getSite(params), null);
@@ -140,22 +139,18 @@ let Api = {
   },
 
   getSystemCategory: params => {
-    let query = Query.getCategory("system");
-    return select(query, params);
+    return select(Query.getCategory(params, "system"), null);
   },
   getLostCategory: params => {
-    let query = Query.getCategory("lost");
-    return select(query, params);
+    return select(Query.getCategory(params, "lost"), null);
   },
-  getCategory: params => {
-    let query = Query.getCategory("all");
-    return select(query, params);
+  getCategory: email => {
+    let param = new Object();
+    param.EMAIL = email;
+    return select(Query.getCategory(param, "all"), null);
   },
-  getAllItems: parameter => {
-    let result = select(Query.getAllItems(), [
-      parameter.URL_KEY,
-      parameter.EMAIL
-    ]);
+  getAllItems: param => {
+    let result = select(Query.getAllItems(param), null);
     return result;
   },
   updateItem: params => {
@@ -165,25 +160,7 @@ let Api = {
     return update(Query.updateHighlightMemo(params));
   },
   postItem: params => {
-    let param = [
-      params.IDX,
-      params.URL_KEY,
-      params.EMAIL,
-      params.TEXT,
-      params.PREV,
-      params.NEXT,
-      params.PRINT_TEXT,
-      params.POSITION,
-      params.COLOR,
-      params.MEMO,
-      params.GB_FILETYPE,
-      params.IMAGE,
-      params.FL_READMODE,
-      params.PAGE_NUMBER,
-      params.DATE_CREATE,
-      params.DATE_CREATE //초기 저장시에는 같은 날짜가 date_update에 들어간다.
-    ];
-    return insert(Query.insertItem(), param);
+    return insert(Query.insertItem(params), null);
   },
   deleteItem: params => {
     return remove(Query.deleteItem(params));
@@ -192,24 +169,14 @@ let Api = {
     return remove(Query.deleteItems(params));
   },
   deleteSiteInCategory: params => {
-    let param = [params.URL_KEY, params.EMAIL];
-    return remove(Query.deleteSiteInCategory(), param);
+    return remove(Query.deleteSiteInCategory(params), null);
   },
   deleteSite: params => {
-    let currentDate = new Date().getTime();
-    let param = [currentDate, params.URL_KEY, params.EMAIL];
-    return remove(Query.deleteSite(), param);
+    params.updateDate = new Date().getTime();
+    return remove(Query.deleteSite(params), null);
   },
-  updateScrapSite: params => {
-    let param = [
-      params.READERMODE_CONTENTS,
-      params.FULL_TEXT,
-      params.OG_TITLE,
-      params.OG_DESCRIPTION,
-      params.OG_IMAGE,
-      params.URL_KEY
-    ];
-    return update(Query.updateScrapSite(), param);
+  updateScrapSite: param => {
+    return update(Query.updateScrapSite(param), null);
   },
   postSite: async params => {
     params.DATE = new Date().getTime();
@@ -281,10 +248,10 @@ let Api = {
     return update(Query.updateCategoryItem(), Object.values(param));
   },
   postMember: param => {
-    return insert(Query.insertMember(), param);
+    return insert(Query.insertMember(param), null);
   },
   updateMemberUse: param => {
-    return update(Query.updateMemberUse(), param);
+    return update(Query.updateMemberUse(param), null);
   },
   getMembers: () => {
     return select(Query.selectMembers(), null);

@@ -116,15 +116,11 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 
     case "insert.member":
       let data = msg.data;
-      let memberParameter = [
-        data.email,
-        "", //name
-        data.password, //password
-        data.picture, //image
-        "Y",
-        new Date().getTime()
-      ];
-      API.postMember(memberParameter).then(() => {
+      data.name = "";
+      data.isUse = "Y";
+      data.date = new Date().getTime();
+
+      API.postMember(data).then(() => {
         sendResponse(true);
       });
       break;

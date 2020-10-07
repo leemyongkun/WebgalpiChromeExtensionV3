@@ -77,9 +77,11 @@ export default {
     //시스템 카테고리
     async getSystemCategory() {
       let result = await Utils.getLocalStorage("loginInfo");
+      let param = new Object();
+      param.EMAIL = result.loginInfo.EMAIL;
       CONTENT_LISTENER.sendMessage({
         type: "get.system.category",
-        data: [result.loginInfo.EMAIL]
+        data: param
       })
         .then(systemCategory => {
           if (systemCategory.length === 0) return false;
@@ -90,11 +92,11 @@ export default {
           let systemCategoryCount = [
             CONTENT_LISTENER.sendMessage({
               type: "get.system.all.category.count",
-              data: [result.loginInfo.EMAIL]
+              data: param
             }),
             CONTENT_LISTENER.sendMessage({
               type: "get.system.no.category.count",
-              data: [result.loginInfo.EMAIL]
+              data: param
             })
           ];
 

@@ -221,17 +221,19 @@ export default {
     },
     setCategory() {
       chrome.storage.local.get(["loginInfo"], result => {
-        let email = result.loginInfo.EMAIL;
+        let param = new Object();
+        param.EMAIL = result.loginInfo.EMAIL;
+
         CONTENT_LISTENER.sendMessage({
           type: "get.category",
-          data: [email]
+          data: param
         }).then(category => {
-          // 오름차순
-          category.sort(function(a, b) {
-            return a.id > b.id ? -1 : a.id < b.id ? 1 : 0;
-          });
-
           if (category !== undefined) {
+            // 오름차순
+            category.sort(function(a, b) {
+              return a.id > b.id ? -1 : a.id < b.id ? 1 : 0;
+            });
+
             this.category = category.filter(item => {
               return item.parent !== 0;
             });

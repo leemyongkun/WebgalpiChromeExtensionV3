@@ -143,9 +143,12 @@ export default {
     },
     async getCategory() {
       let result = await Utils.getLocalStorage("loginInfo");
+      let param = new Object();
+      param.EMAIL = result.loginInfo.EMAIL;
+
       CONTENT_LISTENER.sendMessage({
         type: "get.category",
-        data: [result.loginInfo.EMAIL]
+        data: param
       }).then(category => {
         this.category = [];
         if (category.length !== 0) {
@@ -169,14 +172,14 @@ export default {
       });
 
       /**
-                 *
-                 ## 이미 포함 ##
-                 param.CATEGORY_ID,
-                 param.URL_KEY, //"URL_KEY":
-                 param.EMAIL, //"EMAIL":
-                 param.IDX, //"SITE_IDX":
+       *
+       ## 이미 포함 ##
+       param.CATEGORY_ID,
+       param.URL_KEY, //"URL_KEY":
+       param.EMAIL, //"EMAIL":
+       param.IDX, //"SITE_IDX":
 
-                 */
+       */
 
       data.CATEGORY_ID = event.target.id;
       data.DATE_CREATE = new Date().getTime();

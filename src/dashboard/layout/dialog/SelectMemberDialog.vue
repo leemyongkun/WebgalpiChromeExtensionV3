@@ -59,9 +59,9 @@
           </v-list-item>
           <v-list-item-action align="center">
             <v-spacer></v-spacer>
-            <v-btn small text @click="login">{{
-              LANG.BUTTON_MESSAGE("B0017")
-            }}</v-btn>
+            <v-btn small text @click="login"
+              >{{ LANG.BUTTON_MESSAGE("B0017") }}
+            </v-btn>
           </v-list-item-action>
         </v-list>
       </v-col>
@@ -124,7 +124,9 @@ export default {
         });
 
         if (member[0].PASSWORD === this.password) {
-          let param = ["Y", member[0].EMAIL];
+          let param = new Object();
+          param.isUse = "Y";
+          param.EMAIL = member[0].EMAIL;
           CONTENT_LISTENER.sendMessage({
             type: "update.member.use",
             data: param

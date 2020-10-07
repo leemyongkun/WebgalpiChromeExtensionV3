@@ -52,7 +52,10 @@ export default {
     },
     logout() {
       chrome.storage.local.get(["loginInfo"], result => {
-        let param = ["N", result.loginInfo.EMAIL];
+        let param = new Object();
+        param.isUse = "N";
+        param.EMAIL = result.loginInfo.EMAIL;
+
         CONTENT_LISTENER.sendMessage({
           type: "update.member.use",
           data: param
