@@ -99,7 +99,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       sendResponse(true);
       return true;
       break;
-
     case "reloading.dashboard":
       chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {
         chrome.tabs.query({}, tabs => {
@@ -113,7 +112,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "insert.member":
       let data = msg.data;
       data.name = "";
@@ -130,7 +128,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "update.member.use":
       API.updateMemberUse(msg.data).then(members => {
         sendResponse(members);
@@ -152,35 +149,30 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "update.highlight":
       API.updateItem(msg.data).then(() => {
         sendResponse(true);
       });
       return true;
       break;
-
     case "delete.highlight":
       API.deleteItem(msg.data).then(res => {
         sendResponse(true);
       });
       return true;
       break;
-
     case "delete.all.highlight":
       API.deleteItems(msg.data).then(res => {
         sendResponse(res);
       });
       return true;
       break;
-
     case "delete.site.in.category":
       API.deleteSiteInCategory(msg.data).then(res => {
         sendResponse(res);
       });
       return true;
       break;
-
     case "delete.site":
       API.deleteSite(msg.data).then(res => {
         sendResponse(res);
@@ -195,7 +187,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       }
       return true;
       break;
-
     case "full.before.capture":
       chrome.tabs.captureVisibleTab(
         sender.tab.windowId,
@@ -212,7 +203,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "get.highlights":
       let param = new Object();
       if (msg.data === undefined) {
@@ -225,27 +215,23 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "update.scrap.site":
       API.updateScrapSite(msg.data).then(res => {
         sendResponse(res);
       });
       break;
-
     case "get.site.info":
       API.getSite(msg.data).then(res => {
         sendResponse(res); //조건
       });
       return true;
       break;
-
     case "get.sites.count":
       API.getSites(msg.data).then(res => {
         sendResponse(res); //조건
       });
       return true;
       break;
-
     case "get.sites":
       API.getSites(msg.data).then(sites => {
         sites.map(site => {
@@ -292,7 +278,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "update.option.color":
       API.updateOptionColor(msg.data);
       //emit all Tab
@@ -302,7 +287,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "get.option":
       API.getOptions(msg.data).then(option => {
         sendResponse(option);
@@ -315,7 +299,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "update.option.language":
       API.updateOptionLanguage(msg.data).then(res => {
         sendResponse(res);
@@ -342,7 +325,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "delete.category.item": //dashboard
       let deleteCategoryParam = msg.data;
 
@@ -448,7 +430,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "insert.update.history":
       API.insertUpdateHistory(msg.data).then(updateHistory => {
         sendResponse(updateHistory);
@@ -467,21 +448,18 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       });
       return true;
       break;
-
     case "delete.tabinfo.group":
       API.deleteTabInfoGroup(msg.data).then(() => {
         sendResponse(true);
       });
       return true;
       break;
-
     case "get.tabinfos":
       API.selectTabInfos(msg.data).then(res => {
         sendResponse(res);
       });
       return true;
       break;
-
     case "unlock.site":
       API.unlockSite(msg.data).then(res => {
         sendResponse(res);

@@ -185,9 +185,9 @@ let Api = {
     params.READERMODE_CONTENTS = Common.replaceSpecialWord(
       params.READERMODE_CONTENTS
     );
-    let param = [params.FULL_TEXT, params.READERMODE_CONTENTS];
+    //let param = [params.FULL_TEXT, params.READERMODE_CONTENTS];
 
-    await insert(Query.insertSite(params), param);
+    await insert(Query.insertSite(params), null);
     return Api.getSite(params);
   },
   updateOptionColor: params => {

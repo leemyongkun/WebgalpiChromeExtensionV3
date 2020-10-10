@@ -2,16 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="11010a1f-e853-4d0d-a90f-69919093d58a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/api/server/connection.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/server/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/server/service/HighlightApi.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/server/service/SiteApi.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/background/listener.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/background/listener.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/content/ContentBody.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/content/ContentBody.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/dialog/setting/ColorArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/dialog/setting/ColorArea.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/dialog/setting/ThemeArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/dialog/setting/ThemeArea.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/layout/dialog/NewUpdateCategoryDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/layout/dialog/NewUpdateCategoryDialog.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/layout/dialog/SignDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/layout/dialog/SignDialog.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/DashboardApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/DashboardApp.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/database/query.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/query.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/popup/tabs/SiteInfoTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/popup/tabs/SiteInfoTab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +32,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/_locales" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/api/server/service" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -42,6 +44,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/api/server/service" />
+      <recent name="$PROJECT_DIR$/src/api/server" />
       <recent name="$PROJECT_DIR$/src/_locales" />
     </key>
   </component>
@@ -59,7 +63,8 @@
       <workItem from="1597564320876" duration="984000" />
       <workItem from="1597760302904" duration="1995000" />
       <workItem from="1602073778490" duration="21000" />
-      <workItem from="1602075234265" duration="7572000" />
+      <workItem from="1602075234265" duration="7630000" />
+      <workItem from="1602318842695" duration="4757000" />
     </task>
     <servers />
   </component>
@@ -78,16 +83,16 @@
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
     <state x="653" y="693" key="Vcs.Push.Dialog.v2/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1597377974742" />
-    <state x="1003" y="593" width="1472" height="920" key="find.popup" timestamp="1602083928423">
+    <state x="1003" y="45" width="1472" height="1468" key="find.popup" timestamp="1602328635498">
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
     <state x="1301" y="638" width="1472" height="490" key="find.popup/0.23.3200.1720@0.23.3200.1720" timestamp="1602075452764" />
-    <state x="1003" y="593" width="1472" height="920" key="find.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1602083928423" />
+    <state x="1003" y="45" width="1472" height="1468" key="find.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1602328635498" />
     <state x="4566" y="691" width="628" height="532" key="find.popup/3200.23.3360.1867/0.23.3200.1720@3200.23.3360.1867" timestamp="1597378528526" />
-    <state x="1265" y="424" width="670" height="676" key="search.everywhere.popup" timestamp="1601790187360">
+    <state x="1265" y="424" width="670" height="676" key="search.everywhere.popup" timestamp="1602328706279">
       <screen x="0" y="23" width="3200" height="1720" />
     </state>
-    <state x="1265" y="424" width="670" height="676" key="search.everywhere.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1601790187360" />
+    <state x="1265" y="424" width="670" height="676" key="search.everywhere.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1602328706279" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -95,7 +100,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/dashboard/layout/component/LostCategoryComponent.vue</url>
           <line>28</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
