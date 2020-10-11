@@ -265,7 +265,7 @@ export default {
     let joinCondition = "WHERE 1=1"; //" WHERE CATEGORY.URL_KEY IS NULL";
     if (params !== null && params.flag === null) {
       //일반 카테고리
-      joinCondition = " WHERE REL_CATEGORY.CATEGORY_IDX = ?";
+      joinCondition = ` WHERE REL_CATEGORY.CATEGORY_IDX = ${params.id} `;
     }
     if (params !== null && params.flag === "nocategory") {
       //NO 카테고리
@@ -349,7 +349,7 @@ export default {
         TBL_SITES SITES
         LEFT JOIN TBL_REL_CATEGORY REL_CATEGORY
         ON SITES.URL_KEY = REL_CATEGORY.URL_KEY
-          AND REL_CATEGORY.EMAIL = ?
+          AND REL_CATEGORY.EMAIL = '${params.EMAIL}'
         LEFT JOIN TBL_CATEGORY CATEGORY
         ON REL_CATEGORY.CATEGORY_IDX = CATEGORY.IDX
             ` +
@@ -365,13 +365,13 @@ export default {
             ` +
       searchCondition +
       `
-        AND SITES.EMAIL = ?
+        AND SITES.EMAIL = '${params.EMAIL}'
         ORDER BY
         SITES.DATE_CREATE
         ` +
       sortCondition +
       `
-        LIMIT ?, ? `
+        LIMIT ${params.startOffset}, ${params.endOffset} `
     );
   },
   getSite: param => {

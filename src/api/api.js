@@ -3,6 +3,7 @@ import Query from "../database/query.js";
 import store from "../store";
 import Utils from "../dashboard/utils/Utils";
 import Common from "../common/common";
+import { siteApi } from "./server";
 
 var db = openDatabase("HL", "1.0", "DATABASE", 200000);
 let Api = {
@@ -114,28 +115,7 @@ let Api = {
     return select(Query.getSite(params), null);
   },
   getSites: params => {
-    let query = Query.getSites(params);
-    let parameter = params;
-
-    if (params !== null && params.flag === null) {
-      //일반 카테고리
-      parameter = [
-        params.EMAIL,
-        params.id,
-        params.EMAIL,
-        params.startOffset,
-        params.endOffset
-      ];
-    } else {
-      parameter = [
-        params.EMAIL,
-        params.EMAIL,
-        params.startOffset,
-        params.endOffset
-      ];
-    }
-
-    return select(query, parameter);
+    return select(Query.getSites(params), null);
   },
 
   getSystemCategory: params => {
@@ -186,7 +166,9 @@ let Api = {
       params.READERMODE_CONTENTS
     );
     //let param = [params.FULL_TEXT, params.READERMODE_CONTENTS];
-
+    siteApi.insertSite(params).then(ret => {
+      console.log("insertSite API ", ret);
+    });
     await insert(Query.insertSite(params), null);
     return Api.getSite(params);
   },

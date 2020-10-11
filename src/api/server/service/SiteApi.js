@@ -6,4 +6,9 @@ export class SiteApi {
   get connection() {
     return this._connection;
   }
+
+  insertSite(siteInfo) {
+    const url = "/site/info";
+    return this.connection.post(url, siteInfo);
+  }
 }
