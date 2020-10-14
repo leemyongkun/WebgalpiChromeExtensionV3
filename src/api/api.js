@@ -166,9 +166,9 @@ let Api = {
       params.READERMODE_CONTENTS
     );
     //let param = [params.FULL_TEXT, params.READERMODE_CONTENTS];
-    siteApi.insertSite(params).then(ret => {
+    /*siteApi.insertSite(params).then(ret => {
       console.log("insertSite API ", ret);
-    });
+    });*/
     await insert(Query.insertSite(params), null);
     return Api.getSite(params);
   },
