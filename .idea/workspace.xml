@@ -1,101 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ChangeListManager">
-    <list default="true" id="11010a1f-e853-4d0d-a90f-69919093d58a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/server/service/SiteApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/server/service/SiteApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/query.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/query.js" afterDir="false" />
-    </list>
-    <option name="SHOW_DIALOG" value="false" />
-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
-    <option name="LAST_RESOLUTION" value="IGNORE" />
+  <component name="GradleLocalSettings">
+    <option name="projectSyncType">
+      <map>
+        <entry key="$USER_HOME$/Desktop/Workspace/ADMIN_V1/codmin-server-v2" value="PREVIEW" />
+        <entry key="$USER_HOME$/Desktop/Workspace/ADMIN_V1/codmin_v1_convert/codmin-server-v1-convert" value="PREVIEW" />
+        <entry key="$USER_HOME$/Desktop/Workspace/ADMIN_V1/ex-server-v2-template/server-v2-convert-skeleton" value="PREVIEW" />
+      </map>
+    </option>
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectId" id="1fxZMR2LAGkpnANMjCyvDyGHIej" />
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/api/server/service" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/api/server/service" />
-      <recent name="$PROJECT_DIR$/src/api/server" />
-      <recent name="$PROJECT_DIR$/src/_locales" />
-    </key>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="11010a1f-e853-4d0d-a90f-69919093d58a" name="Default Changelist" comment="" />
-      <created>1597161656597</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1597161656597</updated>
-      <workItem from="1597161658041" duration="275000" />
-      <workItem from="1597241105111" duration="4591000" />
-      <workItem from="1597367072417" duration="10883000" />
-      <workItem from="1597564320876" duration="984000" />
-      <workItem from="1597760302904" duration="1995000" />
-      <workItem from="1602073778490" duration="21000" />
-      <workItem from="1602075234265" duration="7630000" />
-      <workItem from="1602318842695" duration="10983000" />
-      <workItem from="1602380239707" duration="672000" />
-    </task>
-    <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="UnknownFeatures">
-    <option featureType="com.intellij.fileTypeFactory" implementationName="*.js" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="1101" y="522" key="SettingsEditor" timestamp="1602073759960">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state x="1101" y="522" key="SettingsEditor/0.23.3200.1720@0.23.3200.1720" timestamp="1602073759960" />
-    <state x="653" y="693" key="Vcs.Push.Dialog.v2" timestamp="1597377974742">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state x="653" y="693" key="Vcs.Push.Dialog.v2/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1597377974742" />
-    <state x="1003" y="45" width="1472" height="1468" key="find.popup" timestamp="1602348284972">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state x="1301" y="638" width="1472" height="490" key="find.popup/0.23.3200.1720@0.23.3200.1720" timestamp="1602075452764" />
-    <state x="1003" y="45" width="1472" height="1468" key="find.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1602348284972" />
-    <state x="4566" y="691" width="628" height="532" key="find.popup/3200.23.3360.1867/0.23.3200.1720@3200.23.3360.1867" timestamp="1597378528526" />
-    <state x="1265" y="424" width="670" height="676" key="search.everywhere.popup" timestamp="1602341514705">
-      <screen x="0" y="23" width="3200" height="1720" />
-    </state>
-    <state x="1265" y="424" width="670" height="676" key="search.everywhere.popup/3200.23.3360.1867/0.23.3200.1720@0.23.3200.1720" timestamp="1602341514705" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/dashboard/layout/component/LostCategoryComponent.vue</url>
-          <line>28</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

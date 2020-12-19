@@ -10,7 +10,7 @@
 
     <SignDialog ref="signDialog"></SignDialog>
     <SelectMemberDialog ref="selectMemberDialog"></SelectMemberDialog>
-    <SnackBar ref="snackbar"></SnackBar>
+    <snack-bar ref="snackbar"></snack-bar>
     <NotificationSnackBar ref="notification"></NotificationSnackBar>
 
     <RestoreProcessArea ref="restoreProcessArea"></RestoreProcessArea>
@@ -163,6 +163,7 @@ export default {
       }
     },
     async autoRestoreProcess() {
+      //todo : 미사용
       let result = await Utils.getLocalStorage("loginInfo");
       let BACKUP_FOLDER_ID = await GOOGLE_DRIVE.getBackupFolderId();
 

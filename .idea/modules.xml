@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/vue_highlight.iml" filepath="$PROJECT_DIR$/.idea/vue_highlight.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/WebgalpiChromeExtension.iml" filepath="$PROJECT_DIR$/.idea/WebgalpiChromeExtension.iml" />
     </modules>
   </component>
 </project>
