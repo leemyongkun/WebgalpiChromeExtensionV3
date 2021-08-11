@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f44e9e9d-3ebb-4cf0-834b-e13409058aa2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/_locales/en/messages.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/_locales/en/messages.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/_locales/ja/messages.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/_locales/ja/messages.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/_locales/ko/messages.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/_locales/ko/messages.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/background/background.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/background/background.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,25 +26,51 @@
       </map>
     </option>
   </component>
+  <component name="ProjectId" id="1waQC0zqEAJJBWMVdrpE4FhDQLC" />
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f44e9e9d-3ebb-4cf0-834b-e13409058aa2" name="Default Changelist" comment="" />
+      <created>1628694088402</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1628694088402</updated>
+      <workItem from="1628694090403" duration="27000" />
+    </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="766" y="635" width="597" height="490" key="find.popup" timestamp="1628692486893">
+    <state x="100" y="125" width="1930" height="1511" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1628692977352">
       <screen x="0" y="25" width="3200" height="1712" />
     </state>
-    <state x="766" y="635" width="597" height="490" key="find.popup/0.25.3200.1712@0.25.3200.1712" timestamp="1628692486893" />
+    <state x="100" y="125" width="1930" height="1511" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.25.3200.1712@0.25.3200.1712" timestamp="1628692977352" />
+    <state x="766" y="635" width="597" height="490" key="find.popup" timestamp="1628693906694">
+      <screen x="0" y="25" width="3200" height="1712" />
+    </state>
+    <state x="766" y="635" width="597" height="490" key="find.popup/0.25.3200.1712@0.25.3200.1712" timestamp="1628693906694" />
+    <state x="730" y="528" width="670" height="676" key="search.everywhere.popup" timestamp="1628694098321">
+      <screen x="0" y="25" width="3200" height="1712" />
+    </state>
+    <state x="730" y="528" width="670" height="676" key="search.everywhere.popup/0.25.3200.1712@0.25.3200.1712" timestamp="1628694098321" />
   </component>
 </project>

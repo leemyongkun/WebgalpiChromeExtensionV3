@@ -83,11 +83,13 @@ let Api = {
           let allItems = new Object();
 
           if (site.length != 0) {
+            obj.isRegist = true; //사이트가 등록되었는지 확인 (background.js)
             allItems.SITE = site;
             allItems.HIGHLIGHT_LIST = items;
             allItems.SITE_CHECK = "Y";
             allItems.SITE_OPEN = site[0].FL_READMODE;
           } else {
+            obj.isRegist = false;
             allItems.HIGHLIGHT_LIST = null;
             allItems.SITE_CHECK = "N";
             allItems.SITE_OPEN = "Y";
