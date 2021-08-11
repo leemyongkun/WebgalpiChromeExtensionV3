@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f44e9e9d-3ebb-4cf0-834b-e13409058aa2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/background/background.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/background/background.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="GradleLocalSettings">
     <option name="projectSyncType">
       <map>
-        <entry key="$USER_HOME$/Desktop/Workspace/ADMIN_V1/codmin-server-v2" value="PREVIEW" />
-        <entry key="$USER_HOME$/Desktop/Workspace/ADMIN_V1/codmin_v1_convert/codmin-server-v1-convert" value="PREVIEW" />
-        <entry key="$USER_HOME$/Desktop/Workspace/ADMIN_V1/ex-server-v2-template/server-v2-convert-skeleton" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../Workspace/ADMIN_V1/codmin-server-v2" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../Workspace/ADMIN_V1/codmin_v1_convert/codmin-server-v1-convert" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../Workspace/ADMIN_V1/ex-server-v2-template/server-v2-convert-skeleton" value="PREVIEW" />
       </map>
     </option>
   </component>
@@ -17,5 +30,17 @@
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="766" y="635" width="597" height="490" key="find.popup" timestamp="1628692486893">
+      <screen x="0" y="25" width="3200" height="1712" />
+    </state>
+    <state x="766" y="635" width="597" height="490" key="find.popup/0.25.3200.1712@0.25.3200.1712" timestamp="1628692486893" />
   </component>
 </project>
