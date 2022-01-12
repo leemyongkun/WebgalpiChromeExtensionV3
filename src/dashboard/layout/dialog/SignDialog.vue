@@ -6,8 +6,18 @@
     max-width="500"
   >
     <v-card>
-      <v-card-title class="headline" v-if="signInProcess === 1"
-        >{{ LANG.DESCRIPTION_MESSAGE("D0062") }}
+      <v-card-title class="headline" v-if="signInProcess === 0">
+        {{ LANG.DESCRIPTION_MESSAGE("D0000") }}
+      </v-card-title>
+      <v-card-text v-if="signInProcess === 0">
+        <br />
+        <v-btn @click="setLanguage('US')" color="secondary">English</v-btn>
+        <v-btn @click="setLanguage('KR')" color="secondary">한국어</v-btn>
+        <v-btn @click="setLanguage('JP')" color="secondary">日本語</v-btn>
+      </v-card-text>
+
+      <v-card-title class="headline" v-if="signInProcess === 1">
+        {{ LANG.DESCRIPTION_MESSAGE("D0062") }}
       </v-card-title>
       <v-card-text
         v-if="signInProcess === 1"
@@ -22,20 +32,29 @@
           v-html="LANG.DESCRIPTION_MESSAGE('D0064')"
         >
         </span>
-        <v-text-field
-          type="password"
-          label="PASSWORD"
-          v-model="password"
-          outlined
-          dense
-          autofocus
-          clearable
-          @keyup.enter="passwordKeyUpEvent"
-          :rules="[rules.required]"
-        ></v-text-field>
+        <!--   <v-text-field
+            type="password"
+            label="PASSWORD"
+            v-model="password"
+            outlined
+            dense
+            autofocus
+            clearable
+            @keyup.enter="passwordKeyUpEvent"
+            :rules="[rules.required]"
+        ></v-text-field>-->
       </v-card-text>
+
       <v-card-actions>
         <v-spacer></v-spacer>
+        <v-btn
+          color="green darken-1"
+          v-if="signInProcess === 0"
+          text
+          :disabled="isDisabled"
+          @click="signInProcess = 1"
+          >{{ LANG.BUTTON_MESSAGE("B0015") }}
+        </v-btn>
         <v-btn
           color="green darken-1"
           v-if="signInProcess === 1"
@@ -78,9 +97,9 @@ export default {
     accountInfo: null,
     loginDialog: false,
     isDisabled: false,
-    signInProcess: 1, //1 : 로그인 중 , 2: password 받아야함. 3. 완료
+    signInProcess: 0, //0: 언어선택 , 1 : 로그인 중 , 2: password 받아야함. 3. 완료
     googleEmail: "",
-    password: "",
+    password: "0000",
     rules: {
       required: value => !!value || "Required."
     },
@@ -88,6 +107,9 @@ export default {
     LANG: LANG
   }),
   methods: {
+    setLanguage(lang) {
+      LANG.setLanguage(lang);
+    },
     googleSignin() {
       this.backupOverlay = true;
       let accountGoogleLogin = () => {
@@ -172,6 +194,7 @@ export default {
         let email = this.accountInfo.email;
         let param = new Object();
         param.EMAIL = this.accountInfo.email;
+        param.LANG = this.LANG.lang;
         param.categoryNewId = categoryNewId;
         let initEnvironment = [
           CONTENT_LISTENER.sendMessage({

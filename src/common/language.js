@@ -80,6 +80,7 @@ let MESSAGE = {
       C0012: ""
     },
     DESCRIPTION: {
+      D0000: "언어를 선택하세요.",
       D0001: "카테고리 검색", //카테고리 검색 영역의 placeholder
       D0002: `<b>새로운 카테고리를 생성하여,<br/>컨텐츠를 분류해보세요.</b>`,
       D0003:
@@ -154,8 +155,8 @@ let MESSAGE = {
       D0063:
         "WEBGALPI를 사용하기 위해, Google 계정으로 로그인을 하셔야 합니다.<br/>데이타 백업으로 GOOGLE DRIVE를 사용합니다.",
       D0064: `님 WEBGALPI에 오신것을 환영합니다.<br/>
-                    WEBGALPI에서 사용할 PASSWORD를 입력해주세요.<br/>
-                    <span style="color: red;">계정변경 및 백업/복구</span>에 사용합니다.<br/><br/>`,
+                    <!--WEBGALPI에서 사용할 PASSWORD를 입력해주세요.<br/>
+                    <span style="color: red;">계정변경 및 백업/복구</span>에 사용합니다.<br/><br/>-->`,
       D0065: "Google 계정 인증이 정상완료 되었습니다.",
       D0066: "현재 열려있는 모든 TAB을 모아서 관리해보세요.",
       D0067: "대쉬보드의 테마설정을 LIGHT/DARK로 변경합니다.",
@@ -283,6 +284,7 @@ let MESSAGE = {
       C0012: ""
     },
     DESCRIPTION: {
+      D0000: "Choose your language.",
       D0001: "Search categories", //카테고리 검색 영역의 placeholder
       D0002: `<b>Create new category,<br/> sort your highlights by interests.</b>`,
       D0003: "Drag & Drop to change order of your categories.",
@@ -358,7 +360,7 @@ let MESSAGE = {
       D0063:
         "You must sign in with Google account in order to use WEBGALPI.<br/> WEBGALPI data backup will use your Google Drive storage.",
       D0064: `, thanks for using WEBGALPI!<br/>
-                    Enter a password for WEBGALPI.<br/>
+                    <!--Enter a password for WEBGALPI.<br/>-->
                     Password will be used for <span style="color: red;"> switching account, data backup and restore </span>.<br/><br/>`,
       D0065: "Your Google account has been verified.",
       D0066: "Group and manage all open TAB.",
@@ -486,6 +488,7 @@ let MESSAGE = {
       C0012: ""
     },
     DESCRIPTION: {
+      D0000: "言語を選択してください",
       D0001: "カテゴリ検索", //카테고리 검색 영역의 placeholder
       D0002: `<b>新たなカテゴリを生成し、<br/>コンテンツを分けてみてください。</b>`,
       D0003: "カテゴリを上下にDrag&Dropで自由に順序の変更ができます。",
@@ -559,8 +562,8 @@ let MESSAGE = {
       D0063:
         "WEBGALPIを使うためには、Googleアカウントでログインをしなければいけません。<br/>データーバックアップの為にGOOGLE DRIVEを使用します。",
       D0064: `様WEBGALPIへようこそ〜<br/>
-                    WEBGALPIで使うPASSWORDを入力してください。<br/>
-                    <span style="color: red;">アカウント変更やバックアップ／リカバリー</span>に使用します。<br/><br/>`,
+                    <!--WEBGALPIで使うPASSWORDを入力してください。<br/>
+                    <span style="color: red;">アカウント変更やバックアップ／リカバリー</span>に使用します。<br/><br/>-->`,
       D0065: "Googleアカウントの認証が完了しました。",
       D0066: "現在開いているすべてのTABを集めて管理しましょう。",
       D0067: "대쉬보드의 테마설정을 LIGHT/DARK로 변경합니다.",

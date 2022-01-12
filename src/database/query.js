@@ -611,7 +611,7 @@ export default {
   },
   initDataOption: param => {
     return `INSERT INTO TBL_OPTIONS  VALUES('${param.EMAIL}','highlight-color-1,highlight-color-2,highlight-color-3,highlight-color-4,highlight-color-5' --COLOR
-                        ,'EN'
+                        ,'${param.LANG}'
                         ,'Y'--MESSAGE_ALTER
                         ,'Y' --highlight
                         ,'N' --rootsite
