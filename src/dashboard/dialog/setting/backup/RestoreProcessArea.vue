@@ -122,8 +122,8 @@
                 <v-col cols="12">
                   {{ LANG.DESCRIPTION_MESSAGE("D0037") }}
                   <v-icon size="18px" :color="'red'"
-                    >mdi-shield-off-outline</v-icon
-                  >
+                    >mdi-shield-off-outline
+                  </v-icon>
                   {{ LANG.DESCRIPTION_MESSAGE("D0038") }}
                 </v-col>
               </v-row>
@@ -156,8 +156,11 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn small text color="primary" v-if="showCloseBtn" @click="close"
-          >{{ LANG.BUTTON_MESSAGE("B0012") }}
+        <span v-if="!showCloseBtn">{{
+          LANG.DESCRIPTION_MESSAGE("D0085")
+        }}</span>
+        <v-btn small text color="primary" v-if="showCloseBtn" @click="close">
+          {{ LANG.BUTTON_MESSAGE("B0012") }}
         </v-btn>
       </v-card-actions>
     </v-card>

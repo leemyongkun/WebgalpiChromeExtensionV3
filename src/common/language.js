@@ -177,7 +177,9 @@ let MESSAGE = {
       D0081: "페이스북/트위터는 패치중입니다.",
       D0082: "처리되었습니다.",
       D0083: "로 업데이트 되었습니다.\n클릭하여 업데이트 내역을 확인해보세요.",
-      D0084: "언어를 선택합니다."
+      D0084: "언어를 선택합니다.",
+      D0085:
+        "복구가 진행중이니, '닫기' 버튼이 표시되기 전까지 새로고침을 하지 마십시오."
     },
     SNACK: {
       S0001: "편집 중에는, 하위 카테고리를 이동 할 수 없습니다.",
@@ -382,7 +384,9 @@ let MESSAGE = {
       D0081: "WEBGALPI for Facebook/Twitter is under development.",
       D0082: "Completed.",
       D0083: " patch is now available!\n Click to see what's new.",
-      D0084: "Change Language."
+      D0084: "Change Language.",
+      D0085:
+        "Restoration is in progress, please do not refresh until the 'Close' button is displayed."
     },
     SNACK: {
       S0001: "You cannot move subcategories while editing.",
@@ -586,7 +590,9 @@ let MESSAGE = {
       D0082: "処理しました。",
       D0083:
         "に（で）アップデートしました。\nクリックし、アップデートヒストリを確認してください。",
-      D0084: "言語変更。"
+      D0084: "言語変更。",
+      D0085:
+        "リカバリーが進行中であるため、「閉じる」ボタンが表示されるまでリフレッシュしないでください。"
     },
     SNACK: {
       S0001: "編集中には、下位カテゴリを移動することができません。",

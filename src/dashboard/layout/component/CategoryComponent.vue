@@ -93,6 +93,9 @@ export default {
         this.dragOverValue = [];
         this.category.map(item => {
           item.isShow = "y";
+          item.children.forEach(sub => {
+            sub.isShow = "y";
+          });
         });
         return false;
       }
