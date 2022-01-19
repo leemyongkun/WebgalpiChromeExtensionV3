@@ -529,6 +529,7 @@ export default {
 
       let confirm = "[" + item.name + "] " + LANG.CONFIRM_MESSAGE("C0001");
       let modal = await MODAL.confirm(confirm, "info", null, null, "420px");
+
       if (modal.value === undefined) return false;
 
       let param = new Object();
@@ -540,6 +541,7 @@ export default {
 
       param.CATEGORY_ID = item.id;
       param.EMAIL = result.loginInfo.EMAIL;
+
       //category 삭제
       CONTENT_LISTENER.sendMessage({
         type: "delete.category.item",

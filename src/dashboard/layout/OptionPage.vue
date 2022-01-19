@@ -217,7 +217,11 @@ export default {
     update: {
       version: Common.getVersion(),
       improvement: ["Multi Language (한국어/English/日本語)"],
-      debug: [],
+      debug: [
+        "카테고리가 삭제되지 않는 현상 수정",
+        "카테고리 검색 후, Drag&Drop 시 복귀되는 현상 수정",
+        "카테고리 검색시 SubCategory까지 확대 "
+      ],
       todo: [
         "[PROGRESS] IMPORT BOOKMARK -> WEBGALPI",
         "[PROGRESS] Auto Backup/Restore "

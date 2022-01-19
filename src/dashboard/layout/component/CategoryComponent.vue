@@ -12,9 +12,6 @@
         @dragleave="dragLeave"
         :value="dragOverValue.includes(item.id)"
       >
-        <!--                    :value="dragOverValue === item.id ? true : false" -->
-        <!-- parent menu -->
-
         <template v-slot:activator>
           <v-list-item-content>
             <v-list-item-title
@@ -33,6 +30,7 @@
           >
             <!-- child menu -->
             <v-list-item
+              v-show="subItem.isShow === 'y'"
               style="padding-right: 3px;padding-left: 30px;"
               :style="subItem.dropOver ? overColor : ''"
               @click="selectCategory(subItem, $event)"
@@ -108,15 +106,19 @@ export default {
           } else {
             parent.push(item.parent);
           }
+          item.isShow = "y"; //SubItem 필터링
+        } else {
+          item.isShow = "n"; //SubItem 필터링
         }
       });
 
+      //parent를 보이게 한다.
       this.category.map(item => {
-        if (!parent.includes(item.id)) {
-          item.isShow = "n";
-        } else {
+        if (parent.includes(item.id)) {
           item.isShow = "y";
           this.dragOverValue.push(item.id);
+        } else {
+          item.isShow = "n";
         }
       });
     },
@@ -178,7 +180,6 @@ export default {
        param.URL_KEY, //"URL_KEY":
        param.EMAIL, //"EMAIL":
        param.IDX, //"SITE_IDX":
-
        */
 
       data.CATEGORY_ID = event.target.id;
@@ -187,11 +188,23 @@ export default {
       CONTENT_LISTENER.sendMessage({
         type: "post.category.relation",
         data: data
-      }).then(() => {
-        EventBus.$emit("reload.category");
-        EventBus.$emit("hideSite", data.URL_KEY);
-        EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0014"), "primary");
-      });
+      })
+        .then(() => {
+          //reload를 하게 되면 검색된 category가 원상복귀 되므로 해당 카테고리의 cnt만 올리도록 수정한다.
+          //EventBus.$emit("reload.category")
+          EventBus.$emit("hideSite", data.URL_KEY);
+          EventBus.$emit("open.snack", LANG.SNACK_MESSAGE("S0014"), "primary");
+        })
+        .then(() => {
+          //해당 카테고리의 cnt만 +1을 한다.
+          this.category.filter(item => {
+            item.children.filter(sub => {
+              if (sub.id === Number(data.CATEGORY_ID)) {
+                sub.cnt += 1;
+              }
+            });
+          });
+        });
     },
     getItemTitle(title, count) {
       return (

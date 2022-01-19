@@ -559,11 +559,11 @@ export default {
   deleteCategory: param => {
     return `DELETE FROM TBL_CATEGORY
                 WHERE IDX =  ${param.CATEGORY_ID}
-                AND EMAIL = ' ${param.EMAIL}'`;
+                AND EMAIL = '${param.EMAIL}'`;
   },
   updateLostCategoryItem: param => {
-    return `UPDATE  TBL_CATEGORY
-            SET  PARENT = -1
+    return `UPDATE TBL_CATEGORY
+            SET PARENT = -1
             WHERE PARENT = ${param.CATEGORY_ID}
             AND EMAIL = '${param.EMAIL}'
             `;
