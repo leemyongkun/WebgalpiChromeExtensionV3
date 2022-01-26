@@ -5,6 +5,7 @@ import CORE from "./core/core.js";
 import CONTENT_LISTENER from "../common/content-listener";
 import Common from "../common/common";
 import LANG from "../common/language";
+
 let md5 = require("md5");
 let $ = require("jquery");
 
@@ -396,6 +397,7 @@ let CONTENTS = {
 
     //2개이상은 같은 사이트를 리로딩 (비동기)
     Common.reloadingSameSite();
+    Common.reloadingDashboard();
     return param;
   },
   checkCurrentArea: (event, action) => {

@@ -144,6 +144,9 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       if (msg.data.SITE_CHECK === "N") {
         API.postSite(msg.data);
       }
+
+      API.updateSiteUpdateDate(msg.data);
+
       API.postItem(msg.data).then(() => {
         sendResponse(true);
       });

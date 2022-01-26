@@ -126,7 +126,14 @@ export default {
                 ${param.date}
         )`;
   },
-
+  updateSiteUpdateDate: param => {
+    console.log("updateSiteUpdateDate", param);
+    return `
+            UPDATE TBL_SITES
+            SET DATE_UPDATE = ${param.DATE_UPDATE}
+            WHERE URL_KEY ='${param.URL_KEY}'
+        `;
+  },
   insertSite: param => {
     return `
         INSERT INTO TBL_SITES
@@ -316,7 +323,7 @@ export default {
     return (
       `
         SELECT
-        SITES.IDX,
+            SITES.IDX,
             SITES.URL_KEY,
             SITES.EMAIL,
             SITES.OWNER_EMAIL,
@@ -367,7 +374,7 @@ export default {
       `
         AND SITES.EMAIL = '${params.EMAIL}'
         ORDER BY
-        SITES.DATE_CREATE
+        SITES.DATE_UPDATE
         ` +
       sortCondition +
       `

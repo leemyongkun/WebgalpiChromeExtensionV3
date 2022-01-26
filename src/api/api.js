@@ -129,8 +129,17 @@ let Api = {
   getCategory: params => {
     return select(Query.getCategory(params, "all"), null);
   },
-  getAllItems: param => {
-    return select(Query.getAllItems(param), null);
+  getAllItems: async param => {
+    let list = await select(Query.getAllItems(param), null);
+    return list.map(item => {
+      return {
+        ...item,
+        TEXT: Common.restoreSpecialWord(item.TEXT),
+        PREV: Common.restoreSpecialWord(item.PREV),
+        NEXT: Common.restoreSpecialWord(item.NEXT),
+        PRINT_TEXT: Common.restoreSpecialWord(item.PRINT_TEXT)
+      };
+    });
   },
   updateItem: params => {
     return update(Query.updateItem(params));
@@ -139,7 +148,14 @@ let Api = {
     return update(Query.updateHighlightMemo(params));
   },
   postItem: params => {
-    return insert(Query.insertItem(params), null);
+    const param = {
+      ...params,
+      TEXT: Common.replaceSpecialWord(params.TEXT),
+      PREV: Common.replaceSpecialWord(params.PREV),
+      NEXT: Common.replaceSpecialWord(params.NEXT),
+      PRINT_TEXT: Common.replaceSpecialWord(params.PRINT_TEXT)
+    };
+    return insert(Query.insertItem(param), null);
   },
   deleteItem: params => {
     return remove(Query.deleteItem(params));
@@ -157,6 +173,14 @@ let Api = {
   updateScrapSite: param => {
     return update(Query.updateScrapSite(param), null);
   },
+  updateSiteUpdateDate: params => {
+    return update(
+      Query.updateSiteUpdateDate({
+        ...params,
+        DATE_UPDATE: new Date().getTime()
+      })
+    );
+  },
   postSite: async params => {
     params.DATE = new Date().getTime();
     params.TITLE = Common.replaceSpecialWord(params.TITLE);
@@ -167,13 +191,11 @@ let Api = {
     params.READERMODE_CONTENTS = Common.replaceSpecialWord(
       params.READERMODE_CONTENTS
     );
-    //let param = [params.FULL_TEXT, params.READERMODE_CONTENTS];
-    /*siteApi.insertSite(params).then(ret => {
-      console.log("insertSite API ", ret);
-    });*/
+
     await insert(Query.insertSite(params), null);
     return Api.getSite(params);
   },
+
   updateOptionColor: params => {
     return update(Query.updateOptionColor(params), null);
   },
