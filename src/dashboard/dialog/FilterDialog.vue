@@ -12,7 +12,7 @@
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
-      :nudge-width="200"
+      :nudge-width="300"
       offset-y
       bottom
     >
@@ -100,12 +100,12 @@
       </template>
       <v-date-picker v-model="dates" range no-title scrollable>
         <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="calendar = false">{{
-          LANG.BUTTON_MESSAGE("B0012")
-        }}</v-btn>
-        <v-btn text color="primary" @click="pickDate()">{{
-          LANG.BUTTON_MESSAGE("B0015")
-        }}</v-btn>
+        <v-btn text color="primary" @click="calendar = false"
+          >{{ LANG.BUTTON_MESSAGE("B0012") }}
+        </v-btn>
+        <v-btn text color="primary" @click="pickDate()"
+          >{{ LANG.BUTTON_MESSAGE("B0015") }}
+        </v-btn>
       </v-date-picker>
     </v-menu>
 
@@ -220,7 +220,10 @@ export default {
       this.goSearch();
     },
     goSearch() {
-      this.searchKeyword = this.searchKeyword.trim();
+      if (this.searchKeyword != null) {
+        this.searchKeyword = this.searchKeyword.trim();
+      }
+
       if (this.searchKeyword === null || this.searchKeyword === "") {
         this.filter.search = false;
       } else {

@@ -340,6 +340,7 @@ export default {
               this.sites = response;
             }
             this.itemCount = this.sites.length;
+
             return this.sites;
           } else {
             if (this.sites.length === 0) {
@@ -371,7 +372,7 @@ export default {
       site.CLASS = "border";
       this.sourceUrl = site.URL;
       //미리보기 생성
-      this.generatePreviewDoc(site);
+      await this.generatePreviewDoc(site);
 
       //하이라이트 가져오기
       let param = new Object();
@@ -393,18 +394,29 @@ export default {
         });
     },
     async generatePreviewDoc(site) {
-      let preiveContent = "";
-      preiveContent = site.READERMODE_CONTENTS;
+      this.previewContent = site.READERMODE_CONTENTS;
+      this.previewTitle = site.TITLE;
 
       this.youtubeVideoId = site.EMBEDURL;
       //변환할 수없는 사이트 일경우
-      if (preiveContent === null) {
+      if (this.previewContent === null) {
         this.previewContent = "PREVIEW 정보가 없습니다.";
-        this.previewTitle = site.TITLE;
         this.previewStatus = "N";
       } else {
-        this.previewContent = preiveContent;
-        this.previewTitle = site.TITLE;
+        if (this.filter.search) {
+          let keywords = this.filter.search.split(" ");
+          keywords.forEach(keyword => {
+            this.previewContent = this.previewContent.replaceAll(
+              new RegExp(keyword, "gi"),
+              `<font color="red">${keyword}</font>`
+            );
+            this.previewTitle = this.previewTitle.replaceAll(
+              new RegExp(keyword, "gi"),
+              `<font color="red">${keyword}</font>`
+            );
+          });
+        }
+
         this.previewStatus = "Y";
       }
     }

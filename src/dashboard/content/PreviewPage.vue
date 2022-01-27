@@ -2,8 +2,7 @@
   <v-card flat class="pl-3">
     <v-card-text>
       <v-row class="mb-4" align="center">
-        <strong class="title headline text-truncate">
-          {{ previewTitle }}
+        <strong class="title headline text-truncate" v-html="previewTitle">
         </strong>
         <v-banner
           two-line
@@ -147,10 +146,12 @@ export default {
     previewContent() {
       setTimeout(() => {
         Common.unwrapTags(document, "code");
+
         //하이라이팅 된 태그에 font color 넣기
         Common.styleWebgalpiTabFont();
+
         //todo : 본문 A 태그에 기능삽입
-      }, 200);
+      }, 100);
     }
   },
   created() {},

@@ -4,8 +4,10 @@
     <list default="true" id="f44e9e9d-3ebb-4cf0-834b-e13409058aa2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/language.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/language.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/dialog/setting/backup/RestoreProcessArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/dialog/setting/backup/RestoreProcessArea.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/layout/component/CategoryComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/layout/component/CategoryComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/content/ContentBody.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/content/ContentBody.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/content/PreviewPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/content/PreviewPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/dialog/FilterDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/dialog/FilterDialog.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/query.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/query.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,11 +65,11 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="630" y="711" width="569" height="490" key="find.popup" timestamp="1642599411000">
-      <screen x="0" y="25" width="3200" height="1712" />
+    <state x="3862" y="772" width="597" height="490" key="find.popup" timestamp="1643291266875">
+      <screen x="3200" y="25" width="3360" height="1865" />
     </state>
     <state x="630" y="711" width="569" height="490" key="find.popup/3200.25.3360.1865/0.25.3200.1712@0.25.3200.1712" timestamp="1642599411000" />
-    <state x="3862" y="772" width="597" height="490" key="find.popup/3200.25.3360.1865/0.25.3200.1712@3200.25.3360.1865" timestamp="1641993813652" />
+    <state x="3862" y="772" width="597" height="490" key="find.popup/3200.25.3360.1865/0.25.3200.1712@3200.25.3360.1865" timestamp="1643291266875" />
     <state x="1557" y="500" width="670" height="676" key="search.everywhere.popup" timestamp="1641995981292">
       <screen x="0" y="25" width="3200" height="1712" />
     </state>

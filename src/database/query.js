@@ -288,6 +288,7 @@ export default {
       detectCondition = "",
       sortCondition = " DESC ",
       searchCondition = [];
+
     if (params.filter !== null) {
       if (params.filter.sort) {
         // false : 내림차순 / true : 오름차순
@@ -305,16 +306,19 @@ export default {
       if (params.filter.search) {
         let keywords = params.filter.search.split(" ");
         let i = 0;
+        let body = [],
+          title = [];
         for (; i < keywords.length; i++) {
-          searchCondition.push(
-            " TITLE LIKE '%" +
-              keywords[i] +
-              "%' OR FULL_TEXT LIKE '%" +
-              keywords[i] +
-              "%'"
-          );
+          body.push(` READERMODE_CONTENTS LIKE '%${keywords[i]}%'`);
+          title.push(` TITLE LIKE '%${keywords[i]}%'`);
         }
-        searchCondition = "AND ( " + searchCondition.join(" AND ") + ")";
+
+        searchCondition =
+          "AND ( (" +
+          body.join(" AND ") +
+          ") OR ( " +
+          title.join(" AND ") +
+          " ) )";
       }
     }
 
@@ -350,8 +354,7 @@ export default {
                 IS NULL
                 THEN 'NO_CATEGORY'
                 ELSE CATEGORY.NAME
-             END AS CATEGORY_NAME,
-            '' as CLASS
+             END AS CATEGORY_NAME
         FROM
         TBL_SITES SITES
         LEFT JOIN TBL_REL_CATEGORY REL_CATEGORY
