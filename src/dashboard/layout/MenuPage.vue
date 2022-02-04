@@ -10,9 +10,17 @@
                                               @closeDialog="switchDialogSetting"
                                             ></SettingsManagerDialog>-->
 
-    <v-navigation-drawer permanent v-model="drawer" app clipped>
-      <v-list dense>
-        <v-row align="center">
+    <!--<v-navigation-drawer permanent v-model="drawer" app clipped>-->
+    <v-navigation-drawer
+      permanent
+      ref="drawer"
+      app
+      clipped
+      :width="navigation.width"
+      v-model="navigation.shown"
+    >
+      <v-list dense style="padding-right: 5px;">
+        <v-row align="center" style="padding-right: 5px;" class="pr-10">
           <v-col style="padding-bottom:0px; padding-top:0px;">
             <v-expansion-panels focusable multiple v-model="panel">
               <v-expansion-panel>
@@ -29,6 +37,7 @@
                     >
                       <template v-slot:activator="{ on }">
                         <v-btn
+                          elevation="0"
                           block
                           color="info"
                           class="pt-0 pb-1 mb-3"
@@ -36,7 +45,7 @@
                           v-on="on"
                           @click="editCategory($event)"
                         >
-                          <v-icon size="18px">mdi-folder-edit-outline</v-icon
+                          <v-icon size="18px">mdi-folder-edit-outline </v-icon
                           >&nbsp; {{ LANG.BUTTON_MESSAGE("B0001") }}
                         </v-btn>
                       </template>
@@ -45,6 +54,7 @@
 
                     <!-- 카테고리 검색 영역 -->
                     <v-text-field
+                      :full-width="true"
                       ref="categorySearchField"
                       v-show="isShowSearchField"
                       v-model="keyword"
@@ -115,6 +125,11 @@ export default {
     LostCategoryComponent
   },
   data: () => ({
+    navigation: {
+      shown: false,
+      width: 330,
+      borderSize: 6
+    },
     categoryBtnTooltip: {
       plus: false,
       search: false,
@@ -127,7 +142,6 @@ export default {
     snackbar: false, //스낵바 open /close 여부
     categoryDialog: false, //카테고리 다이얼로그 open / close 여부
     settingDialog: false, //Setting 다이얼로그 open / close 여부
-    drawer: true, //왼쪽 메뉴 open / close 여부
     selectedParentCategoryId: 0, //선택된 Parent Category Id를 임시 저장해둔다.
     keyword: "", //검색키워드
     updateCategoryDialogKey: 0,
@@ -148,7 +162,64 @@ export default {
       });
     });
   },
+  mounted() {
+    /** drawer width resize event */
+    this.setBorderWidth();
+    this.setEvents();
+  },
   methods: {
+    /** drawer width resize event */
+    setBorderWidth() {
+      let i = this.$refs.drawer.$el.querySelector(
+        ".v-navigation-drawer__border"
+      );
+      i.style.width = this.navigation.borderSize + "px";
+      i.style.cursor = "ew-resize";
+    },
+    setEvents() {
+      const minSize = this.navigation.borderSize;
+      const el = this.$refs.drawer.$el;
+      const drawerBorder = el.querySelector(".v-navigation-drawer__border");
+      const vm = this;
+      const direction = el.classList.contains("v-navigation-drawer--right")
+        ? "right"
+        : "left";
+
+      function resize(e) {
+        document.body.style.cursor = "ew-resize";
+        let f =
+          direction === "right"
+            ? document.body.scrollWidth - e.clientX
+            : e.clientX;
+
+        if (f < 330 || f > 500) return;
+
+        el.style.width = f + "px";
+      }
+
+      drawerBorder.addEventListener(
+        "mousedown",
+        e => {
+          if (e.offsetX < minSize) {
+            el.style.transition = "initial";
+            document.addEventListener("mousemove", resize, false);
+          }
+        },
+        false
+      );
+
+      document.addEventListener(
+        "mouseup",
+        () => {
+          el.style.transition = "";
+          this.navigation.width = el.style.width;
+          document.body.style.cursor = "";
+          document.removeEventListener("mousemove", resize, false);
+        },
+        false
+      );
+    },
+    /** drawer width resize event */
     dialogCloseEvent() {
       this.getReloadCategory();
       this.updateCategoryDialogKey += 1;
@@ -241,5 +312,9 @@ export default {
 
 .v-list-item__action {
   margin-right: 10px !important;
+}
+
+.v-expansion-panel::before {
+  box-shadow: none !important;
 }
 </style>
