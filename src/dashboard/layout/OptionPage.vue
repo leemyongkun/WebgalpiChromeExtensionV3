@@ -216,12 +216,8 @@ export default {
     infoMenu: false,
     update: {
       version: Common.getVersion(),
-      improvement: ["Multi Language (한국어/English/日本語)"],
-      debug: [
-        "카테고리가 삭제되지 않는 현상 수정",
-        "카테고리 검색 후, Drag&Drop 시 복귀되는 현상 수정",
-        "카테고리 검색시 SubCategory까지 확대 "
-      ],
+      improvement: ["메뉴바 사이즈 조절기능 추가"],
+      debug: ["검색이 정상적으로 되지 않는 현상 수정 (본문/제목 검색 추가)"],
       todo: [
         "[PROGRESS] IMPORT BOOKMARK -> WEBGALPI",
         "[PROGRESS] Auto Backup/Restore "

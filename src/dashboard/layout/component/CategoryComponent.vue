@@ -201,11 +201,13 @@ export default {
         .then(() => {
           //해당 카테고리의 cnt만 +1을 한다.
           this.category.filter(item => {
-            item.children.filter(sub => {
-              if (sub.id === Number(data.CATEGORY_ID)) {
-                sub.cnt += 1;
-              }
-            });
+            if (item.children) {
+              item.children.filter(sub => {
+                if (sub.id === Number(data.CATEGORY_ID)) {
+                  sub.cnt += 1;
+                }
+              });
+            }
           });
         });
     },

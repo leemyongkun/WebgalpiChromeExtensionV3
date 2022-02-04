@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="650px" overlay-opacity="0.9">
+  <v-dialog v-model="dialog" persistent max-width="950px" overlay-opacity="0.9">
     <v-card>
       <v-card-title>
         <span class="headline"
@@ -107,9 +107,9 @@
                       ref="rootCategoryList"
                     >
                       <!-- 자식카테고리에서 부모카테고리로 Drag&Drop할때 이벤트-->
-                      <drop @drop="categoryDropEvent">
+                      <drop @drop="categoryDropEvent" style="width: 100%;">
                         <!-- 부모 카테고리 드래그 할때 DIV Style-->
-                        <drag>
+                        <drag style="width: 100%;">
                           <div slot="image" class="drag-image">
                             <v-chip
                               class="ma-2"
@@ -256,7 +256,7 @@
                       @mouseover="children.mouseOver = true"
                       @mouseleave="children.mouseOver = false"
                     >
-                      <drag :transfer-data="children">
+                      <drag :transfer-data="children" style="width: 100%">
                         <!-- DRAG 시 보이는 영역-->
                         <div slot="image" class="drag-image">
                           <v-chip class="ma-2" color="blue" text-color="white">
