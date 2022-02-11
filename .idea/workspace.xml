@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f44e9e9d-3ebb-4cf0-834b-e13409058aa2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/content/PreviewPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/content/PreviewPage.vue" afterDir="false" />
-    </list>
+    <list default="true" id="f44e9e9d-3ebb-4cf0-834b-e13409058aa2" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,7 +79,7 @@
       <workItem from="1643882248290" duration="681000" />
       <workItem from="1643939368163" duration="14891000" />
       <workItem from="1643966661240" duration="4040000" />
-      <workItem from="1644546150477" duration="5183000" />
+      <workItem from="1644546150477" duration="5404000" />
     </task>
     <servers />
   </component>
