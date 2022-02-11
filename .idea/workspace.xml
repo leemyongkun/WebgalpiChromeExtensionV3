@@ -4,8 +4,6 @@
     <list default="true" id="f44e9e9d-3ebb-4cf0-834b-e13409058aa2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dashboard/content/PreviewPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/content/PreviewPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/content/function/SiteFunction.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/content/function/SiteFunction.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/dialog/setting/backup/RestoreProcessArea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/dialog/setting/backup/RestoreProcessArea.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +82,7 @@
       <workItem from="1643882248290" duration="681000" />
       <workItem from="1643939368163" duration="14891000" />
       <workItem from="1643966661240" duration="4040000" />
-      <workItem from="1644546150477" duration="4753000" />
+      <workItem from="1644546150477" duration="5183000" />
     </task>
     <servers />
   </component>
@@ -104,10 +102,11 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1034" y="458" width="1234" height="889" key="find.popup" timestamp="1644551268126">
-      <screen x="0" y="25" width="3200" height="1712" />
+    <state x="4286" y="497" width="1296" height="969" key="find.popup" timestamp="1644552222871">
+      <screen x="3200" y="25" width="3360" height="1865" />
     </state>
     <state x="1034" y="458" width="1234" height="889" key="find.popup/3200.25.3360.1865/0.25.3200.1712@0.25.3200.1712" timestamp="1644551268126" />
+    <state x="4286" y="497" width="1296" height="969" key="find.popup/3200.25.3360.1865/0.25.3200.1712@3200.25.3360.1865" timestamp="1644552222871" />
     <state x="2619" y="-35" width="987" height="735" key="find.popup/4352.-1222.1440.2537/1792.-400.2560.1417/2037.1040.1920.1057/0.23.1792.1050@1792.-400.2560.1417" timestamp="1643967346222" />
     <state x="4240" y="709" width="880" height="891" key="search.everywhere.popup" timestamp="1644551322966">
       <screen x="3200" y="25" width="3360" height="1865" />

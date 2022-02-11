@@ -53,7 +53,11 @@
         </v-col>
 
         <!-- 컨텐츠 영역 -->
-        <v-col cols="auto" v-if="previewStatus === 'Y'" style="width: 100%">
+        <v-col
+          cols="auto"
+          v-if="previewStatus === 'Y'"
+          style="width: 100%;overflow-x: hidden"
+        >
           <v-row class="ma-0 pa-0">
             <!-- 본문 영역-->
             <v-col cols="8">
