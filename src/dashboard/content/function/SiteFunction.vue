@@ -31,11 +31,11 @@
       <span>{{ LANG.DESCRIPTION_MESSAGE("D0020") }}</span>
     </v-tooltip>
 
-    |
+    <!--|
     <HighlightsWidget
       :highlights="highlights"
       :currentSite="currentSite"
-    ></HighlightsWidget>
+    ></HighlightsWidget>-->
   </div>
 </template>
 <script>
@@ -48,7 +48,7 @@ import LANG from "../../../common/language";
 
 let facebookUrl = "http://www.facebook.com/share.php?u=";
 export default {
-  components: { HighlightsWidget },
+  components: {},
   props: [
     "previewStatus",
     "sourceUrl",

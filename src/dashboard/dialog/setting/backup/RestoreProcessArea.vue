@@ -258,7 +258,7 @@ export default {
     },
     runRestoreHighlight() {
       return new Promise(async res => {
-        const promise = this.data.highlight.map(async highlight => {
+        for (let i = 0; i < this.data.highlight.length; i++) {
           this.progress.highlightComplete += 1;
           this.progress.highlightCompletePer = Math.floor(
             (this.progress.highlightComplete / this.data.highlight.length) * 100
@@ -266,10 +266,10 @@ export default {
 
           await CONTENT_LISTENER.sendMessage({
             type: "restore.highlight",
-            data: highlight
+            data: this.data.highlight[i]
           });
-        });
-        await Promise.all(promise);
+        }
+
         res(true);
       });
     },
@@ -291,7 +291,7 @@ export default {
     },
     runRestoreCategoryRelation() {
       return new Promise(async res => {
-        const promise = this.data.categoryRelation.map(async relation => {
+        for (let i = 0; i < this.data.categoryRelation.length; i++) {
           this.progress.categoryRelationComplete += 1;
           this.progress.categoryRelationCompletePer = Math.floor(
             (this.progress.categoryRelationComplete /
@@ -301,16 +301,16 @@ export default {
 
           await CONTENT_LISTENER.sendMessage({
             type: "restore.category.relation",
-            data: relation
+            data: this.data.categoryRelation[i]
           });
-        });
-        await Promise.all(promise);
+        }
+
         res(true);
       });
     },
     runRestoreCategory() {
       return new Promise(async res => {
-        const promise = this.data.category.map(async category => {
+        for (let i = 0; i < this.data.category.length; i++) {
           this.progress.categoryComplete += 1;
           this.progress.categoryCompletePer = Math.floor(
             (this.progress.categoryComplete / this.data.category.length) * 100
@@ -318,17 +318,18 @@ export default {
 
           await CONTENT_LISTENER.sendMessage({
             type: "restore.category",
-            data: category
+            data: this.data.category[i]
           });
-        });
-
-        await Promise.all(promise);
+        }
         res(true);
       });
     },
     runRestoreSiteCrawling() {
       return new Promise(async res => {
-        const promise = this.data.site.map(async site => {
+        //const promise = this.data.site.map(async site => {
+        for (let i = 0; i < this.data.site.length; i++) {
+          let site = this.data.site[i];
+
           await CRAWLER.getOriginalSiteContents(site.URL)
             .then(async data => {
               this.progress.siteComplete += 1;
@@ -363,8 +364,8 @@ export default {
                 data: site
               });
             });
-        });
-        await Promise.all(promise);
+        }
+
         res(true);
       });
 

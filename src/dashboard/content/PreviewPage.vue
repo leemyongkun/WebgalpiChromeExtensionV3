@@ -10,7 +10,7 @@
         >
           <span class="grey--text">
             <v-icon size="16px">mdi-timetable</v-icon>&nbsp;&nbsp;{{
-              convertDate
+              convertDate(currentSite.DATE_CREATE)
             }}<br />
             <img :src="`chrome://favicon/` + currentSite.URL" />&nbsp;&nbsp;{{
               getLocation(currentSite.URL)
@@ -40,7 +40,7 @@
 
       <v-row
         :style="reviewAreaHeightStyle"
-        class="overflow-y-auto custom-scroll"
+        class="overflow-y-auto overflow-x-auto custom-scroll"
       >
         <v-col cols="auto" v-if="youtubeVideoId !== ''">
           <iframe
@@ -52,10 +52,54 @@
           ></iframe>
         </v-col>
 
-        <v-col cols="auto" v-if="previewStatus === 'Y'">
-          <div id="startArea" v-html="previewContent"></div>
+        <!-- 컨텐츠 영역 -->
+        <v-col cols="auto" v-if="previewStatus === 'Y'" style="width: 100%">
+          <v-row class="ma-0 pa-0">
+            <!-- 본문 영역-->
+            <v-col cols="8">
+              <div id="startArea" v-html="previewContent"></div>
+            </v-col>
+            <!-- 하이라이트 영역 -->
+            <v-col cols="4" class="pa-0" v-if="highlights.length != 0">
+              <div class="font-weight-bold ml-8 mb-2" style="width: 100%">
+                <v-chip>HIGHLIGHTS</v-chip>
+              </div>
+              <v-timeline dense>
+                <v-timeline-item
+                  v-for="highlight in highlights"
+                  :key="highlight.IDX"
+                  :color="convertColor(highlight.COLOR)"
+                  small
+                >
+                  <v-card class="elevation-2">
+                    <v-card-text class="pb-0">
+                      <div class="pb-2">{{ convertDate(highlight.IDX) }}</div>
+                      <v-divider />
+                      <div class="pt-2">{{ highlight.TEXT }}</div>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer />
+                      <!--<v-btn
+                        right
+                        class="mx-0"
+                        small
+                        text
+                    >
+                      삭제
+                    </v-btn>-->
+
+                      <v-btn icon @click="deleteHighlight(highlight)">
+                        <v-icon>mdi-trash-can-outline</v-icon>
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-timeline-item>
+              </v-timeline>
+            </v-col>
+          </v-row>
         </v-col>
 
+        <!-- 컨텐츠 없음 -->
         <v-col cols="12" v-if="previewStatus === 'N'" class="text-center">
           <div>
             <span class="display-1 font-weight-bold">NO CONTENTS</span
@@ -138,9 +182,9 @@ export default {
     LANG: LANG
   }),
   computed: {
-    convertDate() {
+    /*convertDate() {
       return Common.getConvertDate(this.currentSite.DATE_CREATE);
-    }
+    }*/
   },
   watch: {
     previewContent() {
@@ -191,6 +235,22 @@ export default {
           EventBus.$emit("close.full.overlay.loading");
         });
     },
+    async deleteHighlight(item) {
+      let confirm = LANG.CONFIRM_MESSAGE("C0003");
+      let result = await MODAL.confirm(confirm, "info", null, null, "450px");
+      if (result.value === undefined) return false;
+      item.HIGHLIGHT_IDX = item.IDX;
+      CONTENT_LISTENER.sendMessage({
+        type: "delete.highlight",
+        data: item
+      }).then(() => {
+        this.highlights.map((highlight, index) => {
+          if (item.IDX === highlight.IDX) {
+            this.highlights.splice(index, 1);
+          }
+        });
+      });
+    },
     copyUrl(url) {
       let t = document.createElement("textarea");
       document.body.appendChild(t);
@@ -205,6 +265,12 @@ export default {
       let l = document.createElement("a");
       l.href = url;
       return l.hostname;
+    },
+    convertColor(color) {
+      return Common.getConvertColor(color);
+    },
+    convertDate(timestamp) {
+      return Common.getConvertDate(timestamp);
     }
   }
 };
@@ -215,10 +281,6 @@ img {
   height: auto;
   max-width: 90%;
   max-height: 90%;
-}
-
-.galpi-preview-area {
-  width: 85%;
 }
 
 .galpi-preview-area img {
