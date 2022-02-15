@@ -212,6 +212,7 @@ export default {
     },
     reTryScrapping() {
       EventBus.$emit("open.full.overlay.loading", "Crawling..");
+      console.log("this.sourceUrl", this.currentSite);
       CRAWLER.getOriginalSiteContents(this.sourceUrl)
         .then(async res => {
           //컨텐츠 저장

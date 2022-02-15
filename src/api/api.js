@@ -171,6 +171,13 @@ let Api = {
     return remove(Query.deleteSite(params), null);
   },
   updateScrapSite: param => {
+    param.OG_TITLE = Common.replaceSpecialWord(param.OG_TITLE);
+    param.OG_DESCRIPTION = Common.replaceSpecialWord(param.OG_DESCRIPTION);
+    param.FULL_TEXT = Common.replaceSpecialWord(param.FULL_TEXT);
+    param.READERMODE_CONTENTS = Common.replaceSpecialWord(
+      param.READERMODE_CONTENTS
+    );
+
     return update(Query.updateScrapSite(param), null);
   },
   updateSiteUpdateDate: params => {
