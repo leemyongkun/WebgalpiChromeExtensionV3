@@ -1,0 +1,483 @@
+import API from "../api/api.js";
+import Common from "../common/common";
+
+let emitOptionsAllTabs = (actionCommand, data) => {
+  chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
+    chrome.windows.getAll({ populate: true }, function(windows) {
+      windows.forEach(function(window) {
+        window.tabs.forEach(function(tab) {
+          chrome.tabs.sendMessage(
+            tab.id,
+            { action: actionCommand, data: data },
+            function(response) {
+              checkLastError("emit.action");
+            }
+          );
+        });
+      });
+    });
+  });
+};
+
+function checkLastError(message) {
+  let lastError = chrome.runtime.lastError;
+  if (lastError) {
+    console.log(message, lastError);
+    return;
+  }
+}
+
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+  switch (msg.type) {
+    case "init.data.option":
+      API.initDataOption(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "get.category.max.id":
+      API.getCategoryMaxId().then(result => {
+        sendResponse(result);
+      });
+      return true;
+      break;
+    case "init.data.category":
+      API.initDataCategory(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+    case "close.site":
+      let target = msg.data;
+      //현재 열려있는 구글 TAB 제거
+      chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
+        chrome.windows.getAll({ populate: true }, function(windows) {
+          windows.forEach(function(window) {
+            window.tabs.forEach(function(tab) {
+              if (tab.url === target) {
+                chrome.tabs.remove(tab.id);
+              }
+            });
+          });
+        });
+      });
+      return true;
+      break;
+    case "reload.all.tab":
+      //설치 , 업데이트 시 모든 탭을 리로딩 한다.
+      chrome.tabs.query({ currentWindow: true, active: false }, function(tabs) {
+        chrome.windows.getAll({ populate: true }, function(windows) {
+          windows.forEach(function(window) {
+            window.tabs.forEach(function(tab) {
+              chrome.tabs.reload(tab.id);
+            });
+          });
+        });
+      });
+      break;
+    case "reloading.same.site":
+      //같은 사이트를 리로딩 한다.
+      chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {
+        chrome.tabs.query({}, tabs => {
+          tabs.map(item => {
+            //하이라이팅 / 사이트 저장시
+            if (msg.data === null) {
+              if (
+                currentTab[0].id !== item.id &&
+                currentTab[0].url === item.url
+              ) {
+                chrome.tabs.reload(item.id);
+              }
+            } else {
+              //dashboard에서 사이트 삭제 시
+              if (msg.data.URL === item.url) {
+                chrome.tabs.reload(item.id);
+              }
+            }
+          });
+        });
+      });
+      sendResponse(true);
+      return true;
+      break;
+    case "reloading.dashboard":
+      chrome.tabs.query({ active: true, currentWindow: true }, currentTab => {
+        chrome.tabs.query({}, tabs => {
+          tabs.map(item => {
+            //하이라이팅 / 사이트 저장시
+            if (item.url === Common.getDashboardUrl()) {
+              chrome.tabs.reload(item.id);
+            }
+          });
+        });
+      });
+      return true;
+      break;
+    case "insert.member":
+      let data = msg.data;
+      data.name = "";
+      data.isUse = "Y";
+      data.date = new Date().getTime();
+
+      API.postMember(data).then(() => {
+        sendResponse(true);
+      });
+      break;
+    case "get.backup.data":
+      API.getBackupData(msg.data).then(backupdata => {
+        sendResponse(backupdata);
+      });
+      return true;
+      break;
+    case "update.member.use":
+      API.updateMemberUse(msg.data).then(members => {
+        sendResponse(members);
+      });
+      return true;
+      break;
+    case "get.all.members":
+      API.getAllMembers().then(members => {
+        sendResponse(members);
+      });
+      return true;
+      break;
+    case "create.highlight":
+      if (msg.data.SITE_CHECK === "N") {
+        API.postSite(msg.data);
+      }
+
+      API.updateSiteUpdateDate(msg.data);
+
+      API.postItem(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "update.highlight":
+      API.updateItem(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "delete.highlight":
+      API.deleteItem(msg.data).then(res => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "delete.all.highlight":
+      API.deleteItems(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "delete.site.in.category":
+      API.deleteSiteInCategory(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "delete.site":
+      API.deleteSite(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "post.site":
+      if (msg.data.USE_CURRENT_SITE === "N") {
+        API.postSite(msg.data).then(site => {
+          sendResponse(site);
+        });
+      }
+      return true;
+      break;
+    case "full.before.capture":
+      chrome.tabs.captureVisibleTab(
+        sender.tab.windowId,
+        { format: "png", quality: 100 },
+        function(dataUrl) {
+          sendResponse(dataUrl);
+        }
+      );
+      return true;
+      break;
+    case "update.highlight.memo":
+      API.updateHighlightMemo(msg.data).then(res => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "get.highlights":
+      let param = new Object();
+      if (msg.data === undefined) {
+        return false;
+      }
+      param.URL_KEY = msg.data.KEY;
+      param.EMAIL = msg.data.EMAIL;
+      API.getAllItems(param).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "update.scrap.site":
+      API.updateScrapSite(msg.data).then(res => {
+        sendResponse(res);
+      });
+      break;
+    case "get.site.info":
+      API.getSite(msg.data).then(res => {
+        sendResponse(res); //조건
+      });
+      return true;
+      break;
+    case "get.sites.count":
+      API.getSites(msg.data).then(res => {
+        sendResponse(res); //조건
+      });
+      return true;
+      break;
+    case "get.sites":
+      API.getSites(msg.data).then(sites => {
+        sites.map(site => {
+          site.TITLE = Common.restoreSpecialWord(site.TITLE);
+          site.UPDATE_TITLE = Common.restoreSpecialWord(site.UPDATE_TITLE);
+          site.OG_TITLE = Common.restoreSpecialWord(site.OG_TITLE);
+          site.OG_DESCRIPTION = Common.restoreSpecialWord(site.OG_DESCRIPTION);
+          site.FULL_TEXT = Common.restoreSpecialWord(site.FULL_TEXT);
+          site.READERMODE_CONTENTS = Common.restoreSpecialWord(
+            site.READERMODE_CONTENTS
+          );
+        });
+        sendResponse(sites); //조건
+      });
+      return true;
+      break;
+    case "get.category": //dashboard
+      API.getCategory(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "get.system.category": //dashboard
+      API.getSystemCategory(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "get.system.all.category.count": //dashboard
+      API.getAllCategoryCount(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "get.system.no.category.count": //dashboard
+      API.getNoCategoryCount(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "get.lost.category": //dashboard
+      API.getLostCategory(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "update.option.color":
+      API.updateOptionColor(msg.data);
+      //emit all Tab
+      API.getOptions(msg.data).then(option => {
+        emitOptionsAllTabs("emit.action", option);
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "get.option":
+      API.getOptions(msg.data).then(option => {
+        sendResponse(option);
+      });
+      return true;
+      break;
+    case "update.option.theme":
+      API.updateOptionTheme(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "update.option.language":
+      API.updateOptionLanguage(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "update.category.sort":
+      API.updateCategorySort(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "post.category.relation": //dashboard
+      API.deleteCategoryRelation(msg.data).then(() => {
+        API.postCategoryRelation(msg.data).then(res => {
+          sendResponse(res);
+        });
+      });
+      return true;
+      break;
+    case "insert.category.item": //dashboard
+      API.insertCategoryItem(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "delete.category.item": //dashboard
+      let deleteCategoryParam = msg.data;
+
+      if (deleteCategoryParam.CHECK_ROOT) {
+        //삭제 시, 하위 Directory 는 미아로 변경
+        API.updateLostCategoryItem(deleteCategoryParam);
+      } else {
+        //category와 연관되어있는 contents relation을 삭제한다.
+        API.deleteCategoryRelationParent(deleteCategoryParam);
+      }
+      //삭제한다.
+      API.deleteCategory(deleteCategoryParam).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "update.category.item": //dashboard
+      let categoryParam = msg.data;
+
+      if (categoryParam.CATEGORY_TYPE !== "SYSTEM") {
+        if (categoryParam.CHECK_ROOT) {
+          //checkRoot가 true 일경우
+          API.deleteCategoryRelationParent(categoryParam);
+        }
+
+        if (categoryParam.CATEGORY_PARENT === 0 && categoryParam.CHECK_ROOT) {
+        } else {
+          //카테고리 변경 시, parent에 포함된 category를 미아로 변경
+          API.updateLostCategoryItem(categoryParam);
+        }
+      }
+
+      API.updateCategoryItem(categoryParam).then(res => {
+        sendResponse(res);
+      });
+
+      return true;
+      break;
+    //todo : 미사용(삭제검토)
+    case "update.convert.viewmode":
+      API.updateConvertViewmode(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "restore.site":
+      API.restoreSite(msg.data).then(site => {
+        sendResponse(site);
+      });
+      return true;
+      break;
+    case "restore.category":
+      API.restoreCategory(msg.data).then(category => {
+        sendResponse(category);
+      });
+      return true;
+      break;
+    case "restore.category.relation":
+      API.restoreCategoryRelation(msg.data).then(relation => {
+        sendResponse(relation);
+      });
+      return true;
+      break;
+    case "restore.highlight":
+      API.restoreHighlight(msg.data).then(highlight => {
+        sendResponse(highlight);
+      });
+      return true;
+      break;
+    case "restore.onetab":
+      API.restoreOnetab(msg.data).then(onetab => {
+        sendResponse(onetab);
+      });
+      return true;
+      break;
+    case "restore.log":
+      API.restoreLog(msg.data).then(log => {
+        sendResponse(log);
+      });
+      return true;
+      break;
+    case "update.favorite":
+      API.updateFavorite(msg.data).then(log => {
+        sendResponse(log);
+      });
+      return true;
+      break;
+    case "delete.favorite":
+      API.deleteFavorite(msg.data).then(log => {
+        sendResponse(log);
+      });
+      return true;
+      break;
+    case "get.update.history":
+      API.getUpdateHistory(msg.data).then(updateHistory => {
+        sendResponse(updateHistory);
+      });
+      return true;
+      break;
+    case "insert.tabinfo":
+      API.insertTabInfo(msg.data).then(res => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "insert.update.history":
+      API.insertUpdateHistory(msg.data).then(updateHistory => {
+        sendResponse(updateHistory);
+      });
+      return true;
+      break;
+    case "update.update.history":
+      API.updateUpdateHistory(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "select.tabinfo.group":
+      API.selectTabInfoGroup(msg.data).then(tabGroup => {
+        sendResponse(tabGroup);
+      });
+      return true;
+      break;
+    case "delete.tabinfo.group":
+      API.deleteTabInfoGroup(msg.data).then(() => {
+        sendResponse(true);
+      });
+      return true;
+      break;
+    case "get.tabinfos":
+      API.selectTabInfos(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+    case "unlock.site":
+      API.unlockSite(msg.data).then(res => {
+        sendResponse(res);
+      });
+      return true;
+      break;
+  }
+});
+
+/*chrome.extension.onConnect.addListener(function(port) {
+  port.onMessage.addListener(async msg => {
+    switch (msg.action) {
+      case "popup.save.site":
+        API.postSite(msg.data);
+        break;
+    }
+  });
+});*/
