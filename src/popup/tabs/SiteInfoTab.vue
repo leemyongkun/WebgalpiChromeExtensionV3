@@ -1,78 +1,91 @@
 <template>
-  <v-card flat>
-    <v-list-item>
-      <v-list-item-content>
-        <v-list-item-title class="headline"
-          >{{ siteInfo.OG_TITLE }}
-        </v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
+  <div class="card flat">
+    <div class="list-item">
+      <div class="list-item-content">
+        <div class="list-item-title headline">{{ siteInfo.OG_TITLE }}</div>
+      </div>
+    </div>
 
-    <v-overlay :value="overlay.status">
-      <v-progress-circular indeterminate size="64"
-        >{{ overlay.message }}
-      </v-progress-circular>
-    </v-overlay>
+    <div class="overlay" v-show="overlay.status">
+      <div class="progress-circular">{{ overlay.message }}</div>
+    </div>
 
-    <v-img :src="siteInfo.OG_IMAGE" height="194"></v-img>
+    <img :src="siteInfo.OG_IMAGE" class="site-image" height="194" />
 
-    <v-card-text
-      class="mx-auto overflow-y-auto text-center"
+    <div
+      class="card-text mx-auto overflow-y-auto text-center"
       style="height:76px; max-height: 76px;"
     >
       {{ siteInfo.OG_DESCRIPTION }}
-    </v-card-text>
+    </div>
 
-    <v-card-actions>
-      <v-spacer></v-spacer>
+    <div class="card-actions">
+      <div class="spacer"></div>
 
-      <v-select
-        :items="category"
-        item-value="id"
-        item-text="name"
-        v-model="selectCategory"
-        label="CATEGORY"
-        dense
-        outlined
-        class="ma-1"
-      ></v-select>
-      <v-tooltip v-model="tooltip.saveSite" top v-if="siteStatus === 0">
-        <template v-slot:activator="{ on }">
-          <v-btn class="pa-0" icon @click="saveSite" v-on="on">
-            <v-icon>mdi-content-save</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ LANG.DESCRIPTION_MESSAGE("D0075") }}</span>
-      </v-tooltip>
+      <select v-model="selectCategory" class="select dense outlined ma-1">
+        <option disabled value="">CATEGORY</option>
+        <option v-for="item in category" :key="item.id" :value="item.id">{{
+          item.name
+        }}</option>
+      </select>
 
-      <v-tooltip v-model="tooltip.category" top v-if="siteStatus === 1">
-        <template v-slot:activator="{ on }">
-          <v-btn class="pa-0" @click="updateCategory" icon v-on="on">
-            <v-icon>mdi-folder-download-outline</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ LANG.DESCRIPTION_MESSAGE("D0076") }}</span>
-      </v-tooltip>
+      <div class="tooltip-container" v-if="siteStatus === 0">
+        <button
+          class="btn-icon pa-0"
+          @click="saveSite"
+          @mouseenter="tooltip.saveSite = true"
+          @mouseleave="tooltip.saveSite = false"
+        >
+          <span>💾</span>
+        </button>
+        <div class="tooltip" v-show="tooltip.saveSite">
+          {{ LANG.DESCRIPTION_MESSAGE("D0075") }}
+        </div>
+      </div>
 
-      <v-tooltip v-model="tooltip.unlockSite" top v-if="siteStatus === 2">
-        <template v-slot:activator="{ on }">
-          <v-btn class="pa-0" @click="unlockSite" v-on="on" icon>
-            <v-icon>mdi-folder-lock-open</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ LANG.DESCRIPTION_MESSAGE("D0077") }}</span>
-      </v-tooltip>
+      <div class="tooltip-container" v-if="siteStatus === 1">
+        <button
+          class="btn-icon pa-0"
+          @click="updateCategory"
+          @mouseenter="tooltip.category = true"
+          @mouseleave="tooltip.category = false"
+        >
+          <span>📁</span>
+        </button>
+        <div class="tooltip" v-show="tooltip.category">
+          {{ LANG.DESCRIPTION_MESSAGE("D0076") }}
+        </div>
+      </div>
 
-      <v-tooltip v-model="tooltip.dashboard" top>
-        <template v-slot:activator="{ on }">
-          <v-btn icon class="ma-1 pa-0" @click="goDashboard" v-on="on">
-            <v-icon right>mdi-view-dashboard</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ LANG.DESCRIPTION_MESSAGE("D0078") }}</span>
-      </v-tooltip>
-    </v-card-actions>
-  </v-card>
+      <div class="tooltip-container" v-if="siteStatus === 2">
+        <button
+          class="btn-icon pa-0"
+          @click="unlockSite"
+          @mouseenter="tooltip.unlockSite = true"
+          @mouseleave="tooltip.unlockSite = false"
+        >
+          <span>🔓</span>
+        </button>
+        <div class="tooltip" v-show="tooltip.unlockSite">
+          {{ LANG.DESCRIPTION_MESSAGE("D0077") }}
+        </div>
+      </div>
+
+      <div class="tooltip-container">
+        <button
+          class="btn-icon ma-1 pa-0"
+          @click="goDashboard"
+          @mouseenter="tooltip.dashboard = true"
+          @mouseleave="tooltip.dashboard = false"
+        >
+          <span>📊</span>
+        </button>
+        <div class="tooltip" v-show="tooltip.dashboard">
+          {{ LANG.DESCRIPTION_MESSAGE("D0078") }}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -306,11 +319,167 @@ export default {
 };
 </script>
 <style>
-.v-text-field__details {
-  display: none !important;
+.card {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.v-input__slot {
-  margin-bottom: 0px !important;
+.card.flat {
+  box-shadow: none;
+}
+
+.list-item {
+  padding: 16px;
+}
+
+.list-item-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-item-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.headline {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.progress-circular {
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  padding: 16px;
+  border: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.site-image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.card-text {
+  padding: 16px;
+}
+
+.card-actions {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  min-width: 120px;
+}
+
+.select.outlined {
+  border: 1px solid #ccc;
+}
+
+.select.dense {
+  padding: 4px 8px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.btn-icon:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1001;
+  margin-bottom: 4px;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #333;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.ma-1 {
+  margin: 8px;
+}
+
+.pa-0 {
+  padding: 0;
 }
 </style>

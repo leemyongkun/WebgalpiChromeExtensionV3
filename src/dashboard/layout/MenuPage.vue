@@ -164,22 +164,40 @@ export default {
   },
   mounted() {
     /** drawer width resize event */
-    this.setBorderWidth();
-    this.setEvents();
+    this.$nextTick(() => {
+      this.setBorderWidth();
+      this.setEvents();
+    });
   },
   methods: {
     /** drawer width resize event */
     setBorderWidth() {
-      let i = this.$refs.drawer.$el.querySelector(
-        ".v-navigation-drawer__border"
-      );
-      i.style.width = this.navigation.borderSize + "px";
-      i.style.cursor = "ew-resize";
+      // Skip border width setting for basic HTML drawer
+      if (this.$refs.drawer && this.$refs.drawer.querySelector) {
+        let i = this.$refs.drawer.querySelector(".v-navigation-drawer__border");
+        if (i) {
+          i.style.width = this.navigation.borderSize + "px";
+          i.style.cursor = "ew-resize";
+        }
+      }
     },
     setEvents() {
       const minSize = this.navigation.borderSize;
-      const el = this.$refs.drawer.$el;
-      const drawerBorder = el.querySelector(".v-navigation-drawer__border");
+      const el = this.$refs.drawer;
+      if (!el) return;
+
+      const drawerBorder = el.querySelector
+        ? el.querySelector(".v-navigation-drawer__border")
+        : null;
+
+      // Skip event setup if drawerBorder doesn't exist (removed Vuetify components)
+      if (!drawerBorder) {
+        console.warn(
+          "Drawer border element not found - skipping resize events"
+        );
+        return;
+      }
+
       const vm = this;
       const direction = el.classList.contains("v-navigation-drawer--right")
         ? "right"

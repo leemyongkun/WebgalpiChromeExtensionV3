@@ -9,6 +9,8 @@ const { version } = require("./package.json");
 const config = {
   mode: process.env.NODE_ENV,
   context: __dirname + "/src",
+  devtool:
+    process.env.NODE_ENV === "development" ? "cheap-module-source-map" : false,
   entry: {
     "contents/core/core": "./contents/core/core.js",
     "contents/core/hl-core": "./contents/core/hl-core.js",
@@ -19,15 +21,14 @@ const config = {
     "contents/contents": "./contents/contents.js",
     "contents/application": "./contents/application.js",
     "contents/common": "./contents/common.js",
-    "background/background": "./background/background.js",
-    "background/listener": "./background/listener.js",
-    "background/contextMenu": "./background/contextMenu.js",
+    "background/service-worker": "./background/service-worker.js",
     "popup/popup": "./popup/popup.js",
     "popup/detectPopup": "./popup/detectPopup.js",
     "dashboard/dashboard": "./dashboard/dashboard.js",
     "options/options": "./options/options.js",
     "common/common": "./common/common.js",
     "css/hl": "./css/hl.css",
+    "css/vuetify-compat": "./css/vuetify-compat.css",
     "lib/jcrop/jcrop": "./lib/jcrop/jcrop.css"
   },
   output: {

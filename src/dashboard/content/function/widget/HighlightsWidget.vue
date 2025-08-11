@@ -40,8 +40,8 @@
       <v-list
         v-if="highlightItems.length !== 0 && currentSite.FL_READMODE === 'Y'"
       >
-        <template v-for="(item, index) in highlightItems">
-          <v-list-item :key="item.IDX" class="pr-2">
+        <template v-for="(item, index) in highlightItems" :key="item.IDX">
+          <v-list-item class="pr-2">
             <v-list-item-content class="mt-0 body-2">
               <span
                 ><v-icon size="15px" :color="convertColor(item.COLOR)"
@@ -58,7 +58,7 @@
               <v-icon @click="deleteHighlight(item)">mdi-delete-forever</v-icon>
             </v-list-item-action>
           </v-list-item>
-          <v-divider :key="index"></v-divider>
+          <v-divider></v-divider>
         </template>
       </v-list>
 
@@ -146,6 +146,7 @@ export default {
       this.highlightItems = this.highlights;
     },
     convertColor(color) {
+      if (!color) return "#000000"; // Default color if undefined
       return Common.getConvertColor(color);
     }
   }

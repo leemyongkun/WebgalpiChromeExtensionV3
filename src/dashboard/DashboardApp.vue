@@ -1,12 +1,12 @@
 <template>
-  <v-app>
+  <div class="v-app app">
     <AppBarPage ref="appBarPage" :member="member" />
     <MenuPage ref="menuPage" />
-    <v-content>
-      <v-container fluid class="pt-0 mt-0">
+    <v-main class="content">
+      <div class="v-container container fluid pt-0 mt-0">
         <ContentBody ref="contentBody"></ContentBody>
-      </v-container>
-    </v-content>
+      </div>
+    </v-main>
 
     <SignDialog ref="signDialog"></SignDialog>
     <SelectMemberDialog ref="selectMemberDialog"></SelectMemberDialog>
@@ -14,17 +14,24 @@
     <NotificationSnackBar ref="notification"></NotificationSnackBar>
 
     <RestoreProcessArea ref="restoreProcessArea"></RestoreProcessArea>
-    <v-overlay :value="overlay.status">
-      <v-progress-circular indeterminate size="64"
-        >{{ overlay.message }}
-      </v-progress-circular>
-    </v-overlay>
-  </v-app>
+    <div class="overlay" v-show="overlay.status">
+      <div class="progress-circular">{{ overlay.message }}</div>
+    </div>
+
+    <!-- 임시 데이터 초기화 버튼 -->
+    <div style="position: fixed; top: 10px; right: 10px; z-index: 9999;">
+      <button
+        @click="clearAllData"
+        style="background: red; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;"
+      >
+        🔄 데이터 초기화
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
 import MenuPage from "./layout/MenuPage";
-
 import ContentBody from "./content/ContentBody";
 import AppBarPage from "./layout/AppBarPage";
 import CONTENT_LISTENER from "../common/content-listener";
@@ -41,6 +48,7 @@ import Common from "../common/common";
 import LANG from "../common/language";
 
 export default {
+  name: "DashboardApp",
   components: {
     RestoreProcessArea,
     NotificationSnackBar,
@@ -51,65 +59,100 @@ export default {
     ContentBody,
     MenuPage
   },
-  data: () => ({
-    member: {
-      EMAIL: "",
-      IMAGE_URL: null
-    },
-    overlay: {
-      status: false,
-      message: "loading.."
-    },
-    restoreTargetData: null,
-    LANG: LANG
-  }),
+  data() {
+    return {
+      member: {
+        EMAIL: "",
+        IMAGE_URL: null
+      },
+      overlay: {
+        status: false,
+        message: "loading.."
+      },
+      restoreTargetData: null,
+      LANG: LANG
+    };
+  },
+  async mounted() {
+    console.log(
+      "DashboardApp mounted, methods available:",
+      typeof this.initDashboard
+    );
+
+    // EventBus 이벤트 등록
+    EventBus.$on("run.restore", (message, color) => {
+      this.runRestore();
+    });
+
+    EventBus.$on("open.snack", (message, color) => {
+      this.$refs.snackbar.open(message, color);
+    });
+
+    EventBus.$on("init.dashboard", () => {
+      this.initDashboard();
+    });
+
+    EventBus.$on("open.full.overlay.loading", message => {
+      this.overlay.status = true;
+      this.overlay.message = message;
+    });
+
+    EventBus.$on("close.full.overlay.loading", () => {
+      this.overlay.status = false;
+    });
+
+    // DOM이 완전히 준비된 후 실행
+    await this.$nextTick();
+
+    // 대쉬보드 초기화
+    this.initDashboard();
+
+    // 업데이트 내역을 보여준다.
+    this.openUpdateInfomation();
+
+    setTimeout(() => {
+      // 복구여부 프로세스
+      // this.autoRestoreProcess();
+    }, 2000);
+  },
   methods: {
     async initDashboard() {
-      /**
-       * - cookie 혹은 localStorage에 member data확인
-       * - 1명 이상일경우, 선택할 수있는 popup
-       * - 1명일경우 해당 사용자로 사용
-       * - 없을경우 DB에서 조회 google login
-       *
-       */
+      console.log("initDashboard called successfully!");
 
-      //RESOLVE : 어떠한 액션이 있을경우 reload를 한다. 이후, 항상 이 구간을 지나기 때문에 사용여부/loginInfo 의 값에 대한 validation 체크는 자동으로 이루어진다.
-      //todo : 단, global emit을 통해, 열려있는 창에 대한 변경사항에 대한 update는 해주어야한다.
+      // Check for URL parameter to force reset
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("reset") === "true") {
+        this.clearAllData();
+        return;
+      }
+
+      // Debug: Check what's actually in storage
+      chrome.storage.local.get(null, allData => {
+        console.log("🔍 All storage data:", allData);
+        console.log("🔍 Storage keys:", Object.keys(allData));
+      });
+
       CONTENT_LISTENER.sendMessage({
         type: "get.all.members",
         data: null
       }).then(members => {
-        this.$vuetify.theme.dark = true;
+        console.log("🔍 getAllMembers result:", members);
+        document.body.classList.add("theme-dark");
 
         if (members === undefined || members.length === 0) {
+          console.log("🔍 No members found, opening sign dialog");
           this.$refs.signDialog.open();
         } else {
-          //member중 isUse가 'Y' 인것들.
-          let result = members.filter(member => {
-            return member.IS_USE === "Y";
-          });
-          //this.$refs.selectMemberDialog.open(members);
-          if (result.length === 0) {
-            //사용자 선택
-            this.$refs.selectMemberDialog.open(members);
-          } else {
-            //로그인 정보를 localStorage에 저장해둔다.
-            chrome.storage.local.set({
-              loginInfo: result[0]
-            });
+          let result = members[0];
+          this.member.EMAIL = result.EMAIL;
+          this.member.IMAGE_URL = result.IMAGE_URL;
 
-            //전역에 저장한다.
-            this.member = result[0];
-            //MenuPage 초기화
-            this.$refs.menuPage.getReloadCategory();
-            //ContentBody 초기화
-            this.$refs.contentBody.getSites("init");
-
-            //todo : global emit 발생
-
-            // OPTION 처리
+          if (result.EMAIL !== "" && result.EMAIL !== undefined) {
             setTimeout(async () => {
               let result = await Utils.getLocalStorage("loginInfo");
+              if (result.loginInfo) {
+                return false;
+              }
               let param = new Object();
               param.EMAIL = result.loginInfo.EMAIL;
 
@@ -117,40 +160,42 @@ export default {
                 type: "get.option",
                 data: param
               }).then(ret => {
-                if (ret.length === 0) {
+                if (!ret || ret.length === 0) {
                   return false;
                 }
-                let options = ret[0];
+                let options = ret[0] || {};
 
                 if (options === undefined || options.THEME === "dark") {
-                  this.$vuetify.theme.dark = true;
+                  document.body.classList.add("theme-dark");
                 } else {
-                  this.$vuetify.theme.dark = false;
+                  document.body.classList.remove("theme-dark");
                 }
 
-                LANG.setLanguage(options.LANGUAGE);
+                LANG.setLanguage(options.LANGUAGE || "ko");
               });
             }, 0);
           }
         }
       });
     },
-    openUpdateInfomation() {
-      //update라면 update 리스트를 열어준다.
-      location.search
-        .split(/[?&]/)
-        .slice(1)
-        .map(paramPair => {
-          if (paramPair === "update") {
-            this.$refs.appBarPage.showInfo();
-          } else if (paramPair === "tabgroup") {
-            this.$refs.appBarPage.showOnetab();
-          }
-        });
 
-      //새탭을 열면서, 기존에 있는 탭은 제거한다.
+    openUpdateInfomation() {
+      if (location.search) {
+        location.search
+          .split(/[?&]/)
+          .slice(1)
+          .map(paramPair => {
+            if (paramPair === "update") {
+              this.$refs.appBarPage.showInfo();
+            } else if (paramPair === "tabgroup") {
+              this.$refs.appBarPage.showOnetab();
+            }
+          });
+      }
+
       Common.closeDuplicateDashboard();
     },
+
     async runRestore() {
       let confirm = LANG.DESCRIPTION_MESSAGE("C0008");
       let conf = await MODAL.alert(confirm, "info", null, "500px");
@@ -162,92 +207,84 @@ export default {
         );
       }
     },
-    async autoRestoreProcess() {
-      //todo : 미사용
-      let result = await Utils.getLocalStorage("loginInfo");
-      let BACKUP_FOLDER_ID = await GOOGLE_DRIVE.getBackupFolderId();
 
-      if (result.loginInfo === undefined) return false;
-      let param = new Object();
-      param.EMAIL = result.loginInfo.EMAIL;
-      CONTENT_LISTENER.sendMessage({
-        type: "get.update.history",
-        data: param
-      }).then(res => {
-        let UPDATE_HISTORY = res[0];
-        if (UPDATE_HISTORY.LATEST_GOOGLE_RESTORE_DATE === null) {
-          //복구 noti 표시
-          if (BACKUP_FOLDER_ID) {
-            GOOGLE_DRIVE.executeGoogleDriveRestore().then(async list => {
-              if (list) {
-                this.restoreTargetData = list[0];
-                this.$refs.notification.open();
-              }
-            });
-          }
-        }
-      });
+    async clearAllData() {
+      console.log("🔄 Clearing all extension data...");
+
+      try {
+        // Clear chrome.storage.local
+        await new Promise(resolve => {
+          chrome.storage.local.clear(() => {
+            console.log("✅ Chrome storage cleared");
+            resolve();
+          });
+        });
+
+        // Clear localStorage if any
+        localStorage.clear();
+        console.log("✅ LocalStorage cleared");
+
+        // Show reset complete message
+        alert("모든 데이터가 초기화되었습니다. 새로 로그인해주세요.");
+
+        // Reload without reset parameter
+        window.location.href = window.location.pathname;
+      } catch (error) {
+        console.error("Error clearing data:", error);
+        alert("데이터 초기화 중 오류가 발생했습니다.");
+      }
     }
-  },
-  mounted() {},
-  created() {
-    this.$nextTick(async () => {
-      EventBus.$on("run.restore", (message, color) => {
-        this.runRestore();
-      });
-
-      //Snack열기
-      EventBus.$on("open.snack", (message, color) => {
-        this.$refs.snackbar.open(message, color);
-      });
-
-      EventBus.$on("init.dashboard", () => {
-        this.initDashboard();
-      });
-
-      EventBus.$on("open.full.overlay.loading", message => {
-        this.overlay.status = true;
-        this.overlay.message = message;
-      });
-      EventBus.$on("close.full.overlay.loading", () => {
-        this.overlay.status = false;
-      });
-
-      //대쉬보드 초기화
-      this.initDashboard();
-
-      //업데이트 내역을 보여준다.
-      this.openUpdateInfomation();
-
-      setTimeout(() => {
-        //복구여부 프로세스
-        //this.autoRestoreProcess();
-      }, 2000);
-    });
   }
 };
 </script>
+
 <style>
-.v-navigation-drawer__content,
-.custom-scroll {
-  overflow: auto;
+@import "../css/vuetify-compat.css";
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.v-navigation-drawer__content::-webkit-scrollbar,
-.custom-scroll::-webkit-scrollbar {
-  width: 4px;
+.content {
+  flex: 1;
 }
 
-.v-navigation-drawer__content::-webkit-scrollbar-thumb,
-.custom-scroll::-webkit-scrollbar-thumb {
-  background-color: #656466;
-  border-radius: 5px;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.v-navigation-drawer__content::-webkit-scrollbar-track,
-.custom-scroll::-webkit-scrollbar-track {
-  /*background-color: grey;*/
-  background: none;
-  border-radius: 10px;
+.progress-circular {
+  color: white;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.fluid {
+  width: 100%;
+  max-width: none;
+}
+
+.pt-0 {
+  padding-top: 0;
+}
+
+.mt-0 {
+  margin-top: 0;
 }
 </style>

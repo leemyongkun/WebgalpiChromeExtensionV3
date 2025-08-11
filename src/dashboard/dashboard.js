@@ -1,21 +1,20 @@
-import Vue from "vue";
-import VueLodash from "vue-lodash";
-import DashboardApp from "./DashboardApp";
+import { createApp } from "vue";
+import DashboardApp from "./DashboardApp.vue";
+import _ from "lodash";
+
+// Import Vuetify compatibility CSS
+import "../css/vuetify-compat.css";
+
+// Import Vuetify stub
 import vuetify from "../lib/vuetify/vuetify";
 
-import { Drag, Drop } from "vue-drag-drop";
+const app = createApp(DashboardApp);
 
-Vue.component("drag", Drag);
-Vue.component("drop", Drop);
+// Use Vuetify stub
+app.use(vuetify);
 
-const lodashOption = { name: "lodash" };
-Vue.use(VueLodash, lodashOption);
+// Make lodash available globally
+app.provide("$lodash", _);
+app.config.globalProperties.$_ = _;
 
-//global.browser = require("webextension-polyfill");
-
-/* eslint-disable no-new */
-new Vue({
-  el: "#app",
-  vuetify,
-  render: h => h(DashboardApp)
-});
+app.mount("#app");

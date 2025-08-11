@@ -1,456 +1,624 @@
-import Query from "../database/query.js";
-
-import store from "../store";
-import Utils from "../dashboard/utils/Utils";
 import Common from "../common/common";
-import { siteApi } from "./server";
 
-var db = openDatabase("HL", "1.0", "DATABASE", 200000);
+// Chrome storage local API wrapper - NO SQL queries
+const STORAGE_KEYS = {
+  SITES: "sites",
+  ITEMS: "items",
+  CATEGORIES: "categories",
+  CATEGORY_RELATIONS: "categoryRelations",
+  MEMBERS: "members",
+  OPTIONS: "options"
+};
+
+// Helper function to get data from chrome.storage.local
+const getStorageData = key => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get([key], data => {
+      if (chrome.runtime.lastError) {
+        console.error(
+          `Storage get error for ${key}:`,
+          chrome.runtime.lastError
+        );
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(data[key] || []);
+      }
+    });
+  });
+};
+
+// Helper function to save data to chrome.storage.local
+const setStorageData = (key, data) => {
+  return new Promise((resolve, reject) => {
+    let storageObj = {};
+    storageObj[key] = data;
+    chrome.storage.local.set(storageObj, () => {
+      if (chrome.runtime.lastError) {
+        console.error(
+          `Storage set error for ${key}:`,
+          chrome.runtime.lastError
+        );
+        reject(chrome.runtime.lastError);
+      } else {
+        console.log(`✅ Data saved to ${key}:`, data.length || "object");
+        resolve(true);
+      }
+    });
+  });
+};
+
+// Helper function to filter data by email
+const filterByEmail = (data, email) => {
+  return Array.isArray(data) ? data.filter(item => item.EMAIL === email) : [];
+};
+
+// Helper function to filter data by URL_KEY
+const filterByUrlKey = (data, urlKey) => {
+  return Array.isArray(data)
+    ? data.filter(item => item.URL_KEY === urlKey)
+    : [];
+};
+
 let Api = {
-  getBackupData: email => {
-    return new Promise(async res => {
-      //let param = [email];
-      let obj = new Object();
-      obj.EMAIL = email;
-      Promise.all([
-        Api.getBackupSites(obj),
-        Api.getBackupHighlights(obj),
-        Api.getOptions(obj),
-        Api.getBackupCategorys(obj),
-        Api.getBackupCategorysRelation(obj),
-        Api.getBackupOneTabsHistory(obj)
-      ]).then(values => {
-        let data = new Object();
-        data.sites = values[0];
-        data.highlights = values[1];
-        data.options = values[2];
-        data.categorys = values[3];
-        data.categoryRelation = values[4];
-        data.onetabs = values[5];
-        res(data);
-      });
-    });
-  },
-  getBackupSites: param => {
-    return select(Query.getBackupSites(param), null);
-  },
-  getBackupHighlights: param => {
-    return select(Query.getBackupHighlights(param), null);
-  },
-  getBackupCategorysRelation: param => {
-    return select(Query.getBackupCategorysRelation(param), null);
-  },
-  getBackupCategorys: param => {
-    return select(Query.getBackupCategorys(param), null);
-  },
-  getBackupOneTabsHistory: param => {
-    //모아보기
-    return select(Query.getBackupOneTabsHistory(param), null);
-  },
+  // Backup data functions
+  getBackupData: async email => {
+    try {
+      const [
+        sites,
+        highlights,
+        options,
+        categories,
+        categoryRelations,
+        onetabs
+      ] = await Promise.all([
+        Api.getBackupSites({ EMAIL: email }),
+        Api.getBackupHighlights({ EMAIL: email }),
+        Api.getOptions({ EMAIL: email }),
+        Api.getBackupCategorys({ EMAIL: email }),
+        Api.getBackupCategorysRelation({ EMAIL: email }),
+        Api.getBackupOneTabsHistory({ EMAIL: email })
+      ]);
 
-  getMemberInfo: () => {
-    return new Promise(res => {
-      Api.getMembers().then(members => {
-        let loginInfo = new Object();
-        if (members.length === 0) {
-          loginInfo.NAME = "NO_NAME";
-          loginInfo.IMAGE_URL = "";
-          loginInfo.EMAIL = "";
-        } else {
-          loginInfo.NAME = members[0].NAME;
-          loginInfo.IMAGE_URL = members[0].IMAGE_URL;
-          loginInfo.EMAIL = members[0].EMAIL;
-        }
-
-        res(loginInfo);
-      });
-    });
-  },
-  getInitInfo: parameter => {
-    return new Promise(res => {
-      let site = Api.getSite(parameter);
-      let items = Api.getAllItems(parameter);
-      let options = Api.getOptions(parameter);
-
-      const arr = [site, items, options];
-      Promise.all(arr).then(
-        values => {
-          let obj = new Object();
-          let site = values[0];
-          let items = values[1];
-          let options = values[2];
-
-          let allItems = new Object();
-
-          if (site.length != 0) {
-            obj.isRegist = true; //사이트가 등록되었는지 확인 (background.js)
-            allItems.SITE = site;
-            allItems.HIGHLIGHT_LIST = items;
-            allItems.SITE_CHECK = "Y";
-            allItems.SITE_OPEN = site[0].FL_READMODE;
-          } else {
-            obj.isRegist = false;
-            allItems.HIGHLIGHT_LIST = null;
-            allItems.SITE_CHECK = "N";
-            allItems.SITE_OPEN = "Y";
-          }
-
-          obj.allItems = allItems;
-          obj.options = options[0];
-
-          res(obj);
-        },
-        reason => {}
-      );
-    });
-  },
-  getAllCategoryCount: params => {
-    return select(Query.getAllCategoryCount(params), null);
-  },
-  getNoCategoryCount: params => {
-    return select(Query.getNoCategoryCount(params), null);
-  },
-  getOptions: param => {
-    return select(Query.getOptions(param), null);
-  },
-  getSite: params => {
-    return select(Query.getSite(params), null);
-  },
-  getSites: params => {
-    return select(Query.getSites(params), null);
-  },
-
-  getSystemCategory: params => {
-    return select(Query.getCategory(params, "system"), null);
-  },
-  getLostCategory: params => {
-    return select(Query.getCategory(params, "lost"), null);
-  },
-  getCategory: params => {
-    return select(Query.getCategory(params, "all"), null);
-  },
-  getAllItems: async param => {
-    let list = await select(Query.getAllItems(param), null);
-    return list.map(item => {
       return {
-        ...item,
-        TEXT: Common.restoreSpecialWord(item.TEXT),
-        PREV: Common.restoreSpecialWord(item.PREV),
-        NEXT: Common.restoreSpecialWord(item.NEXT),
-        PRINT_TEXT: Common.restoreSpecialWord(item.PRINT_TEXT)
+        sites,
+        highlights,
+        options,
+        categories,
+        categoryRelation: categoryRelations,
+        onetabs
       };
-    });
+    } catch (error) {
+      console.error("getBackupData error:", error);
+      return {
+        sites: [],
+        highlights: [],
+        options: [],
+        categories: [],
+        categoryRelation: [],
+        onetabs: []
+      };
+    }
   },
-  updateItem: params => {
-    return update(Query.updateItem(params));
+
+  getBackupSites: async param => {
+    const sites = await getStorageData(STORAGE_KEYS.SITES);
+    return filterByEmail(sites, param.EMAIL).filter(
+      site => site.FL_DELETE !== "Y"
+    );
   },
-  updateHighlightMemo: params => {
-    return update(Query.updateHighlightMemo(params));
+
+  getBackupHighlights: async param => {
+    const items = await getStorageData(STORAGE_KEYS.ITEMS);
+    return filterByEmail(items, param.EMAIL).filter(
+      item => item.FL_DELETE !== "Y"
+    );
   },
-  postItem: params => {
-    const param = {
-      ...params,
-      TEXT: Common.replaceSpecialWord(params.TEXT),
-      PREV: Common.replaceSpecialWord(params.PREV),
-      NEXT: Common.replaceSpecialWord(params.NEXT),
-      PRINT_TEXT: Common.replaceSpecialWord(params.PRINT_TEXT)
+
+  getBackupCategorysRelation: async param => {
+    const relations = await getStorageData(STORAGE_KEYS.CATEGORY_RELATIONS);
+    return filterByEmail(relations, param.EMAIL);
+  },
+
+  getBackupCategorys: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    return filterByEmail(categories, param.EMAIL).filter(
+      cat => cat.TYPE === "CUSTOM"
+    );
+  },
+
+  getBackupOneTabsHistory: async param => {
+    const items = await getStorageData(STORAGE_KEYS.ITEMS);
+    return filterByEmail(items, param.EMAIL);
+  },
+
+  // Member functions
+  getMemberInfo: async () => {
+    const members = await getStorageData(STORAGE_KEYS.MEMBERS);
+    return members.find(member => member.FL_USE === "Y") || null;
+  },
+
+  getAllCategoryCount: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    const userCategories = filterByEmail(categories, param.EMAIL);
+    return [{ COUNT: userCategories.length }];
+  },
+
+  getNoCategoryCount: async param => {
+    const items = await getStorageData(STORAGE_KEYS.ITEMS);
+    const userItems = filterByEmail(items, param.EMAIL);
+    const noCategoryItems = userItems.filter(
+      item => !item.CATEGORY_ID || item.CATEGORY_ID === -1
+    );
+    return [{ COUNT: noCategoryItems.length }];
+  },
+
+  getOptions: async param => {
+    const options = await getStorageData(STORAGE_KEYS.OPTIONS);
+    return filterByEmail(options, param.EMAIL);
+  },
+
+  // Initialize information for a site
+  getInitInfo: async parameter => {
+    try {
+      const [site, items, options] = await Promise.all([
+        Api.getSite(parameter),
+        Api.getAllItems(parameter),
+        Api.getOptions(parameter)
+      ]);
+
+      let obj = {};
+      let allItems = {};
+
+      if (site.length > 0) {
+        obj.isRegist = true; // 사이트가 등록되었는지 확인 (background.js)
+        allItems.SITE = site;
+        allItems.HIGHLIGHT_LIST = items;
+        allItems.SITE_CHECK = "Y";
+        allItems.SITE_OPEN = site[0].FL_READMODE || "Y";
+      } else {
+        obj.isRegist = false;
+        allItems.HIGHLIGHT_LIST = items.length > 0 ? items : null; // Load highlights even if site not registered
+        allItems.SITE_CHECK = "N";
+        allItems.SITE_OPEN = "Y";
+      }
+
+      obj.allItems = allItems;
+      obj.options = options.length > 0 ? options[0] : {};
+
+      return obj;
+    } catch (error) {
+      console.error("getInitInfo error:", error);
+      return {
+        isRegist: false,
+        allItems: {
+          HIGHLIGHT_LIST: null,
+          SITE_CHECK: "N",
+          SITE_OPEN: "Y"
+        },
+        options: {}
+      };
+    }
+  },
+
+  getSite: async param => {
+    const sites = await getStorageData(STORAGE_KEYS.SITES);
+    const userSites = filterByEmail(sites, param.EMAIL);
+    return filterByUrlKey(userSites, param.URL_KEY).filter(
+      site => site.FL_DELETE !== "Y"
+    );
+  },
+
+  getSites: async param => {
+    const sites = await getStorageData(STORAGE_KEYS.SITES);
+    return filterByEmail(sites, param.EMAIL).filter(
+      site => site.FL_DELETE !== "Y"
+    );
+  },
+
+  // Category functions
+  getSystemCategory: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    const userCategories = filterByEmail(categories, param.EMAIL);
+    return userCategories.filter(cat => cat.TYPE === "SYSTEM");
+  },
+
+  getLostCategory: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    const userCategories = filterByEmail(categories, param.EMAIL);
+    return userCategories.filter(cat => cat.TYPE === "LOST");
+  },
+
+  getCategory: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    return filterByEmail(categories, param.EMAIL);
+  },
+
+  // Items functions
+  getAllItems: async param => {
+    const items = await getStorageData(STORAGE_KEYS.ITEMS);
+    const userItems = filterByEmail(items, param.EMAIL).filter(
+      item => item.FL_DELETE !== "Y"
+    );
+
+    return userItems.map(item => ({
+      ...item,
+      PRINT_TEXT: Common.restoreSpecialWord(item.PRINT_TEXT),
+      TEXT: Common.restoreSpecialWord(item.TEXT),
+      PREV: Common.restoreSpecialWord(item.PREV),
+      NEXT: Common.restoreSpecialWord(item.NEXT)
+    }));
+  },
+
+  // Update functions
+  updateItem: async param => {
+    const items = await getStorageData(STORAGE_KEYS.ITEMS);
+    const itemIndex = items.findIndex(
+      item => item.IDX === param.IDX && item.EMAIL === param.EMAIL
+    );
+
+    if (itemIndex >= 0) {
+      items[itemIndex] = { ...items[itemIndex], ...param };
+      await setStorageData(STORAGE_KEYS.ITEMS, items);
+      return true;
+    }
+    return false;
+  },
+
+  updateHighlightMemo: async param => {
+    const items = await getStorageData(STORAGE_KEYS.ITEMS);
+    const itemIndex = items.findIndex(
+      item => item.IDX === param.IDX && item.EMAIL === param.EMAIL
+    );
+
+    if (itemIndex >= 0) {
+      items[itemIndex].MEMO = param.MEMO;
+      await setStorageData(STORAGE_KEYS.ITEMS, items);
+      return true;
+    }
+    return false;
+  },
+
+  // Insert functions
+  postItem: async param => {
+    const processedParam = {
+      ...param,
+      TEXT: Common.replaceSpecialWord(param.TEXT),
+      PREV: Common.replaceSpecialWord(param.PREV),
+      NEXT: Common.replaceSpecialWord(param.NEXT),
+      PRINT_TEXT: Common.replaceSpecialWord(param.PRINT_TEXT)
     };
-    return insert(Query.insertItem(param), null);
+
+    const items = await getStorageData(STORAGE_KEYS.ITEMS);
+    items.push(processedParam);
+    return await setStorageData(STORAGE_KEYS.ITEMS, items);
   },
-  deleteItem: params => {
-    return remove(Query.deleteItem(params));
+
+  // Delete functions
+  deleteItem: async param => {
+    const items = await getStorageData(STORAGE_KEYS.ITEMS);
+    const updatedItems = items.map(item =>
+      item.IDX === param.IDX && item.EMAIL === param.EMAIL
+        ? { ...item, FL_DELETE: "Y" }
+        : item
+    );
+    return await setStorageData(STORAGE_KEYS.ITEMS, updatedItems);
   },
-  deleteItems: params => {
-    return remove(Query.deleteItems(params));
+
+  deleteItems: async param => {
+    const items = await getStorageData(STORAGE_KEYS.ITEMS);
+    const updatedItems = items.map(item =>
+      param.IDXS.includes(item.IDX) && item.EMAIL === param.EMAIL
+        ? { ...item, FL_DELETE: "Y" }
+        : item
+    );
+    return await setStorageData(STORAGE_KEYS.ITEMS, updatedItems);
   },
-  deleteSiteInCategory: params => {
-    return remove(Query.deleteSiteInCategory(params), null);
+
+  deleteSiteInCategory: async param => {
+    const relations = await getStorageData(STORAGE_KEYS.CATEGORY_RELATIONS);
+    const filteredRelations = relations.filter(
+      rel => !(rel.URL_KEY === param.URL_KEY && rel.EMAIL === param.EMAIL)
+    );
+    return await setStorageData(
+      STORAGE_KEYS.CATEGORY_RELATIONS,
+      filteredRelations
+    );
   },
-  deleteSite: params => {
-    params.updateDate = new Date().getTime();
-    return remove(Query.deleteSite(params), null);
+
+  deleteSite: async param => {
+    const sites = await getStorageData(STORAGE_KEYS.SITES);
+    const updatedSites = sites.map(site =>
+      site.URL_KEY === param.URL_KEY && site.EMAIL === param.EMAIL
+        ? { ...site, FL_DELETE: "Y", DATE_UPDATE: param.updateDate }
+        : site
+    );
+    return await setStorageData(STORAGE_KEYS.SITES, updatedSites);
   },
-  updateScrapSite: param => {
+
+  // Site functions
+  updateScrapSite: async param => {
     param.OG_TITLE = Common.replaceSpecialWord(param.OG_TITLE);
     param.OG_DESCRIPTION = Common.replaceSpecialWord(param.OG_DESCRIPTION);
-    param.FULL_TEXT = Common.replaceSpecialWord(param.FULL_TEXT);
     param.READERMODE_CONTENTS = Common.replaceSpecialWord(
       param.READERMODE_CONTENTS
     );
 
-    return update(Query.updateScrapSite(param), null);
-  },
-  updateSiteUpdateDate: params => {
-    return update(
-      Query.updateSiteUpdateDate({
-        ...params,
-        DATE_UPDATE: new Date().getTime()
-      })
-    );
-  },
-  postSite: async params => {
-    params.DATE = new Date().getTime();
-    params.TITLE = Common.replaceSpecialWord(params.TITLE);
-    params.UPDATE_TITLE = Common.replaceSpecialWord(params.UPDATE_TITLE);
-    params.OG_TITLE = Common.replaceSpecialWord(params.OG_TITLE);
-    params.OG_DESCRIPTION = Common.replaceSpecialWord(params.OG_DESCRIPTION);
-    params.FULL_TEXT = Common.replaceSpecialWord(params.FULL_TEXT);
-    params.READERMODE_CONTENTS = Common.replaceSpecialWord(
-      params.READERMODE_CONTENTS
+    const sites = await getStorageData(STORAGE_KEYS.SITES);
+    const siteIndex = sites.findIndex(
+      site => site.URL_KEY === param.URL_KEY && site.EMAIL === param.EMAIL
     );
 
-    await insert(Query.insertSite(params), null);
-    return Api.getSite(params);
-  },
-
-  updateOptionColor: params => {
-    return update(Query.updateOptionColor(params), null);
-  },
-  updateOptionTheme: params => {
-    return update(Query.updateOptionTheme(params), null);
-  },
-  updateOptionLanguage: params => {
-    return update(Query.updateOptionLanguage(params));
-  },
-  deleteCategory: param => {
-    return remove(Query.deleteCategory(param), null); //URLKEY , EMAIL
-  },
-  deleteCategoryRelation: param => {
-    return remove(Query.deleteCategoryRelation(param), null); //URLKEY , EMAIL
-  },
-  deleteCategoryRelationParent: param => {
-    //Relation 에 있는 parent <-> site 의 정보를 삭제한다.
-    remove(Query.deleteCategoryRelationParent(param), null); //parent IDX를 보낸다
-  },
-  updateCategorySort: param => {
-    return update(Query.updatecategorySort(param), null);
-  },
-  postCategoryRelation: param => {
-    return insert(Query.insertCategoryRelation(param), null);
-  },
-  updateLostCategoryItem: param => {
-    //parentId에 categoryId가 포함된 column 을 모두 -1로 변경 (미아로 만든다)
-    return update(Query.updateLostCategoryItem(param), null);
-  },
-  insertCategoryItem: param => {
-    return insert(Query.insertCategoryItem(param), null);
-  },
-  updateCategoryItem: param => {
-    if (param.CHECK_ROOT) {
-      //root에서 child로 수정 시,
-      param.CATEGORY_PARENT = 0; //rootId
+    if (siteIndex >= 0) {
+      sites[siteIndex] = { ...sites[siteIndex], ...param };
+      return await setStorageData(STORAGE_KEYS.SITES, sites);
     }
-    delete param.CHECK_ROOT;
-    delete param.CATEGORY_TYPE;
+    return false;
+  },
 
-    return update(Query.updateCategoryItem(param), null);
-  },
-  postMember: param => {
-    return insert(Query.insertMember(param), null);
-  },
-  updateMemberUse: param => {
-    return update(Query.updateMemberUse(param), null);
-  },
-  getMembers: () => {
-    return select(Query.selectMembers(), null);
-  },
-  getAllMembers: () => {
-    return select(Query.selectAllMembers(), null);
-  },
-  //todo : 미사용(삭제검토)
-  updateConvertViewmode: param => {
-    return update(Query.updateConvertViewmode(), param);
-  },
-  initDataOption: param => {
-    return insert(Query.initDataOption(param), null);
-  },
-  initDataCategory: param => {
-    return insert(Query.initDataCategory(param), null);
-  },
-  getCategoryMaxId: () => {
-    return select(Query.getCategoryMaxId(), []);
-  },
-  updateFavorite: param => {
-    return update(Query.updateFavorite(param), null);
-  },
-  deleteFavorite: param => {
-    return update(Query.deleteFavorite(param), null);
-  },
-  //todo : SERVER로 이관되면 사용하지 않을듯..
-  restoreSite: params => {
-    let param = [
-      params.IDX,
-      params.DATE_CREATE,
-      params.DATE_UPDATE,
-      params.EMAIL,
-      params.EMBEDURL,
-      params.FL_BACKUP,
-      params.FL_BOOKMARK,
-      params.FL_DELETE,
-      params.FL_FAVORITE,
-      params.FL_READMODE,
-      params.HOST,
-      params.MEMO,
-      params.OG_DESCRIPTION,
-      params.OG_IMAGE,
-      params.OG_TITLE,
-      params.OWNER_EMAIL,
-      params.TAGS,
-      params.TITLE,
-      params.UPDATE_TITLE,
-      params.URL,
-      params.URL_KEY,
-      params.URL_TYPE,
-      params.READERMODE_CONTENTS,
-      params.FULL_TEXT
-    ];
+  updateSiteUpdateDate: async param => {
+    const sites = await getStorageData(STORAGE_KEYS.SITES);
+    const siteIndex = sites.findIndex(
+      site => site.URL_KEY === param.URL_KEY && site.EMAIL === param.EMAIL
+    );
 
-    return insert(Query.restoreSite(), param);
+    if (siteIndex >= 0) {
+      sites[siteIndex].DATE_UPDATE = param.DATE_UPDATE;
+      return await setStorageData(STORAGE_KEYS.SITES, sites);
+    }
+    return false;
   },
-  //todo : SERVER로 이관되면 사용하지 않을듯..
-  restoreCategory: params => {
-    let param = [
-      params.IDX,
-      params.DEPTH,
-      params.EMAIL,
-      params.FLAG,
-      params.NAME,
-      params.PARENT,
-      params.SORT,
-      params.TYPE,
-      new Date().getTime() //params.DATE_CREATE,
-    ];
-    return insert(Query.restoreCategory(), param);
+
+  postSite: async param => {
+    param.OG_TITLE = Common.replaceSpecialWord(param.OG_TITLE);
+    param.OG_DESCRIPTION = Common.replaceSpecialWord(param.OG_DESCRIPTION);
+    param.READERMODE_CONTENTS = Common.replaceSpecialWord(
+      param.READERMODE_CONTENTS
+    );
+
+    const sites = await getStorageData(STORAGE_KEYS.SITES);
+    sites.push(param);
+    await setStorageData(STORAGE_KEYS.SITES, sites);
+    return Api.getSite(param);
   },
-  //todo : SERVER로 이관되면 사용하지 않을듯..
-  restoreCategoryRelation: params => {
-    let param = [
-      params.CATEGORY_IDX,
-      params.URL_KEY,
-      params.EMAIL,
-      params.SITE_IDX,
-      new Date().getTime() //params.DATE_CREATE,
-    ];
-    return insert(Query.restoreCategoryRelation(), param);
+
+  // Options functions
+  updateOptionColor: async param => {
+    const options = await getStorageData(STORAGE_KEYS.OPTIONS);
+    const optionIndex = options.findIndex(opt => opt.EMAIL === param.EMAIL);
+
+    if (optionIndex >= 0) {
+      options[optionIndex].COLOR = param.COLOR;
+    } else {
+      options.push({ ...param, TYPE: "COLOR" });
+    }
+    return await setStorageData(STORAGE_KEYS.OPTIONS, options);
   },
-  //todo : SERVER로 이관되면 사용하지 않을듯..
-  restoreHighlight: params => {
-    let date = new Date().getTime();
-    let param = [
-      params.COLOR,
-      params.EMAIL,
-      params.FL_DELETE,
-      params.FL_READMODE,
-      params.GB_FILETYPE,
-      params.IDX,
-      params.IMAGE,
-      params.MEMO,
-      params.NEXT,
-      params.PAGE_NUMBER,
-      params.POSITION,
-      params.PREV,
-      params.PRINT_TEXT,
-      params.TEXT,
-      params.URL_KEY,
-      date, //params.DATE_CREATE,
-      date //params.DATE_UPDATE
-    ];
-    return insert(Query.restoreHighlight(), param);
+
+  updateOptionTheme: async param => {
+    const options = await getStorageData(STORAGE_KEYS.OPTIONS);
+    const optionIndex = options.findIndex(opt => opt.EMAIL === param.EMAIL);
+
+    if (optionIndex >= 0) {
+      options[optionIndex].THEME = param.THEME;
+    } else {
+      options.push({ ...param, TYPE: "THEME" });
+    }
+    return await setStorageData(STORAGE_KEYS.OPTIONS, options);
   },
-  //todo : SERVER로 이관되면 사용하지 않을듯..
-  restoreOnetab: params => {
-    return insert(Query.restoreOnetab(params), null);
+
+  updateOptionLanguage: async param => {
+    const options = await getStorageData(STORAGE_KEYS.OPTIONS);
+    const optionIndex = options.findIndex(opt => opt.EMAIL === param.EMAIL);
+
+    if (optionIndex >= 0) {
+      options[optionIndex].LANGUAGE = param.LANGUAGE;
+    } else {
+      options.push({ ...param, TYPE: "LANGUAGE" });
+    }
+    return await setStorageData(STORAGE_KEYS.OPTIONS, options);
   },
-  getUpdateHistory: param => {
-    return select(Query.selectUpdateHistory(param), null);
+
+  // Category functions
+  deleteCategory: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    const filteredCategories = categories.filter(
+      cat => !(cat.IDX === param.IDX && cat.EMAIL === param.EMAIL)
+    );
+    return await setStorageData(STORAGE_KEYS.CATEGORIES, filteredCategories);
   },
-  insertUpdateHistory: params => {
-    return select(Query.insertUpdateHistory(params), null);
+
+  deleteCategoryRelation: async param => {
+    const relations = await getStorageData(STORAGE_KEYS.CATEGORY_RELATIONS);
+    const filteredRelations = relations.filter(
+      rel => !(rel.URL_KEY === param.URL_KEY && rel.EMAIL === param.EMAIL)
+    );
+    return await setStorageData(
+      STORAGE_KEYS.CATEGORY_RELATIONS,
+      filteredRelations
+    );
   },
-  updateUpdateHistory: params => {
-    return update(Query.updateUpdateHistory(params), null);
+
+  deleteCategoryRelationParent: async param => {
+    const relations = await getStorageData(STORAGE_KEYS.CATEGORY_RELATIONS);
+    const filteredRelations = relations.filter(
+      rel => rel.PARENT_IDX !== param.PARENT_IDX
+    );
+    return await setStorageData(
+      STORAGE_KEYS.CATEGORY_RELATIONS,
+      filteredRelations
+    );
   },
-  deleteTabInfoGroup: params => {
-    return remove(Query.deleteTabInfoGroup(params));
+
+  updateCategorySort: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    const categoryIndex = categories.findIndex(
+      cat => cat.IDX === param.IDX && cat.EMAIL === param.EMAIL
+    );
+
+    if (categoryIndex >= 0) {
+      categories[categoryIndex].SORT = param.SORT;
+      return await setStorageData(STORAGE_KEYS.CATEGORIES, categories);
+    }
+    return false;
   },
-  selectTabInfoGroup: params => {
-    return select(Query.selectTabInfoGroup(params));
+
+  postCategoryRelation: async param => {
+    const relations = await getStorageData(STORAGE_KEYS.CATEGORY_RELATIONS);
+    relations.push(param);
+    return await setStorageData(STORAGE_KEYS.CATEGORY_RELATIONS, relations);
   },
-  selectTabInfos: params => {
-    return select(Query.selectTabInfos(params));
+
+  updateLostCategoryItem: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    const updatedCategories = categories.map(cat => {
+      if (cat.PARENT_ID && cat.PARENT_ID.includes(param.categoryId)) {
+        return {
+          ...cat,
+          PARENT_ID: cat.PARENT_ID.replace(param.categoryId, "-1")
+        };
+      }
+      return cat;
+    });
+    return await setStorageData(STORAGE_KEYS.CATEGORIES, updatedCategories);
   },
-  insertTabInfo: params => {
-    return insert(Query.insertTabInfo(params));
+
+  insertCategoryItem: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    categories.push(param);
+    return await setStorageData(STORAGE_KEYS.CATEGORIES, categories);
   },
-  unlockSite: params => {
-    return update(Query.unlockSite(params));
+
+  updateCategoryItem: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    const categoryIndex = categories.findIndex(
+      cat => cat.IDX === param.IDX && cat.EMAIL === param.EMAIL
+    );
+
+    if (categoryIndex >= 0) {
+      categories[categoryIndex] = { ...categories[categoryIndex], ...param };
+      return await setStorageData(STORAGE_KEYS.CATEGORIES, categories);
+    }
+    return false;
   },
-  restoreLog: params => {}
+
+  // Member functions
+  postMember: async param => {
+    const members = await getStorageData(STORAGE_KEYS.MEMBERS);
+
+    // Set all existing members to not in use
+    const updatedMembers = members.map(member => ({ ...member, FL_USE: "N" }));
+
+    // Add new member
+    const newMember = {
+      ...param,
+      FL_USE: "Y",
+      DATE_CREATE: new Date().getTime()
+    };
+    updatedMembers.push(newMember);
+
+    return await setStorageData(STORAGE_KEYS.MEMBERS, updatedMembers);
+  },
+
+  updateMemberUse: async param => {
+    const members = await getStorageData(STORAGE_KEYS.MEMBERS);
+
+    // Set all to not in use, then set target to in use
+    const updatedMembers = members.map(member => ({
+      ...member,
+      FL_USE: member.EMAIL === param.EMAIL ? "Y" : "N"
+    }));
+
+    return await setStorageData(STORAGE_KEYS.MEMBERS, updatedMembers);
+  },
+
+  getMembers: async () => {
+    return await getStorageData(STORAGE_KEYS.MEMBERS);
+  },
+
+  getAllMembers: async () => {
+    return await getStorageData(STORAGE_KEYS.MEMBERS);
+  },
+
+  // Utility functions
+  updateConvertViewmode: async param => {
+    // Implementation for viewmode conversion
+    return true;
+  },
+
+  initDataOption: async param => {
+    const options = await getStorageData(STORAGE_KEYS.OPTIONS);
+    options.push(param);
+    return await setStorageData(STORAGE_KEYS.OPTIONS, options);
+  },
+
+  initDataCategory: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    categories.push(param);
+    return await setStorageData(STORAGE_KEYS.CATEGORIES, categories);
+  },
+
+  getCategoryMaxId: async () => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    const maxId =
+      categories.length > 0
+        ? Math.max(...categories.map(cat => cat.IDX || 0))
+        : 0;
+    return [{ MAXID: maxId }];
+  },
+
+  updateFavorite: async param => {
+    const sites = await getStorageData(STORAGE_KEYS.SITES);
+    const siteIndex = sites.findIndex(
+      site => site.URL_KEY === param.URL_KEY && site.EMAIL === param.EMAIL
+    );
+
+    if (siteIndex >= 0) {
+      sites[siteIndex].FL_FAVORITE = param.FL_FAVORITE;
+      return await setStorageData(STORAGE_KEYS.SITES, sites);
+    }
+    return false;
+  },
+
+  deleteFavorite: async param => {
+    const sites = await getStorageData(STORAGE_KEYS.SITES);
+    const siteIndex = sites.findIndex(
+      site => site.URL_KEY === param.URL_KEY && site.EMAIL === param.EMAIL
+    );
+
+    if (siteIndex >= 0) {
+      sites[siteIndex].FL_FAVORITE = "N";
+      return await setStorageData(STORAGE_KEYS.SITES, sites);
+    }
+    return false;
+  },
+
+  // Restore functions - simplified for chrome.storage.local
+  restoreSite: async param => {
+    const sites = await getStorageData(STORAGE_KEYS.SITES);
+    sites.push(param);
+    return await setStorageData(STORAGE_KEYS.SITES, sites);
+  },
+
+  restoreCategory: async param => {
+    const categories = await getStorageData(STORAGE_KEYS.CATEGORIES);
+    categories.push({
+      ...param,
+      DATE_CREATE: new Date().getTime()
+    });
+    return await setStorageData(STORAGE_KEYS.CATEGORIES, categories);
+  },
+
+  restoreCategoryRelation: async param => {
+    const relations = await getStorageData(STORAGE_KEYS.CATEGORY_RELATIONS);
+    relations.push(param);
+    return await setStorageData(STORAGE_KEYS.CATEGORY_RELATIONS, relations);
+  },
+
+  restoreHighlight: async param => {
+    const items = await getStorageData(STORAGE_KEYS.ITEMS);
+    items.push(param);
+    return await setStorageData(STORAGE_KEYS.ITEMS, items);
+  }
 };
-
-function update(query, param) {
-  return new Promise((res, rej) => {
-    db.transaction(tx => {
-      tx.executeSql(query, param, (tx, rs) => {
-        //console.log(tx, rs);
-        res(param);
-      });
-    });
-  });
-}
-
-function remove(query, param) {
-  return new Promise(res => {
-    db.transaction(tx => {
-      tx.executeSql(query, param, (tx, rs) => {
-        res(param);
-      });
-    });
-  });
-}
-
-function insert(query, param) {
-  return new Promise(res => {
-    db.transaction(tx => {
-      tx.executeSql(
-        query,
-        param,
-        (tx, rs) => {
-          res(param);
-        },
-        (tx, error) => {
-          console.log("tx ", tx);
-          console.log("error ", error);
-        }
-      );
-    });
-  });
-}
-
-function select(query, param) {
-  return new Promise((res, rej) => {
-    db.transaction(tx => {
-      tx.executeSql(query, param, (tx, rs) => {
-        setData(rs)
-          .then(obj => {
-            res(obj);
-          })
-          .catch(error => {
-            rej(error);
-          });
-      });
-    });
-  });
-}
-
-function setData(rs) {
-  return new Promise(res => {
-    let obj = new Array();
-    for (let i = 0; i < rs.rows.length; i++) {
-      obj.push(rs.rows.item(i));
-    }
-    res(obj);
-  });
-}
 
 export default Api;

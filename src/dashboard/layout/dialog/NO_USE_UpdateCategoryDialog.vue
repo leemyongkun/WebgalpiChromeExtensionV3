@@ -292,10 +292,12 @@ import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import Utils from "../../utils/Utils";
 import MODAL from "../../../common/modal";
-import draggable from "vuedraggable";
+// import draggable from "vuedraggable"; // Temporarily commented out
 
 export default {
-  components: { draggable },
+  components: {
+    /* draggable */
+  },
   props: [],
   data: () => ({
     showParentCategoryField: false,

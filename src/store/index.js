@@ -1,13 +1,10 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { createStore } from "vuex";
 
 import * as getters from "./getters";
 import mutations from "./mutations";
 import * as actions from "./actions";
 
-Vue.use(Vuex);
-
-const store = new Vuex.Store({
+const store = createStore({
   state: {
     foo: "bar",
     memberInfo: null
@@ -16,4 +13,5 @@ const store = new Vuex.Store({
   mutations,
   actions
 });
+
 export default store;

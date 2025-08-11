@@ -9,17 +9,26 @@ import SELECTION from "../lib/selection.js";
 
 let APPLICATION = {
   init: async data => {
+    console.log("🔧 APPLICATION.init called with data:", data);
+
     //body (target element) 가 없으면 취소한다.
-    if (document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length === 0)
-      return false;
-
-    //이미 생성되어있으면 취소한다.
-    if (document.querySelectorAll(GLOBAL_CONFIG.GROUP_ELEMENT).length !== 0)
-      return false;
-
-    if (data == null) {
+    if (document.querySelectorAll(GLOBAL_CONFIG.TARGET_ELEMENT).length === 0) {
+      console.log("❌ No target element found:", GLOBAL_CONFIG.TARGET_ELEMENT);
       return false;
     }
+
+    //이미 생성되어있으면 취소한다.
+    if (document.querySelectorAll(GLOBAL_CONFIG.GROUP_ELEMENT).length !== 0) {
+      console.log("ℹ️  Group element already exists, skipping init");
+      return false;
+    }
+
+    if (data == null) {
+      console.log("❌ No data provided to APPLICATION.init");
+      return false;
+    }
+
+    console.log("✅ APPLICATION.init proceeding with initialization");
     //하이라이팅 대상 Element를 설정한다.
     GLOBAL_CONFIG.ELEMENT = document.getElementsByTagName(
       GLOBAL_CONFIG.TARGET_ELEMENT
@@ -43,12 +52,20 @@ let APPLICATION = {
         targetDeleteHighlightCustomTag[i]
       );
     }
+    console.log(
+      "🎨 Calling createContentsForm with color:",
+      data.options.COLOR
+    );
     APPLICATION.createContentsForm(data.options.COLOR);
   },
   createContentsForm: color => {
+    console.log("🔨 createContentsForm starting with color:", color);
+
     // 팔렛트 생성
     CONTENTS.createForm(color)
       .then(ret => {
+        console.log("✅ CONTENTS.createForm completed, setting up events");
+
         // 버튼 이벤트
         EVENT.colorPickerBtnEvent();
         EVENT.mouseOnDownUpEvent();

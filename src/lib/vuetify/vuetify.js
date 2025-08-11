@@ -1,187 +1,47 @@
-import Vue from "vue";
-import "vuetify/dist/vuetify.min.css";
-import Vuetify, {
-  VAlert,
-  VProgressLinear,
-  VDataTable,
-  VStepperContent,
-  VStepper,
-  VStepperStep,
-  VFileInput,
-  VSwitch,
-  VForm,
-  VPagination,
-  VBottomNavigation,
-  VBanner,
-  VProgressCircular,
-  VOverlay,
-  VMenu,
-  VTabsItems,
-  VDatePicker,
-  VAutocomplete,
-  VSelect,
-  VTextarea,
-  VListItemIcon,
-  VExpansionPanels,
-  VExpansionPanel,
-  VExpansionPanelContent,
-  VExpansionPanelHeader,
-  VRadio,
-  VRadioGroup,
-  VSnackbar,
-  VHover,
-  VExpandTransition,
-  VToolbar,
-  VToolbarItems,
-  VToolbarTitle,
-  VCheckbox,
-  VDialog,
-  VWindow,
-  VWindowItem,
-  VTab,
-  VTabs,
-  VTabItem,
-  VListItemGroup,
-  VListItemAvatar,
-  VSlideXReverseTransition,
-  VTimeline,
-  VTimelineItem,
-  VImg,
-  VCardTitle,
-  VCardActions,
-  VCardSubtitle,
-  VCardText,
-  VCard,
-  VTreeview,
-  VContent,
-  VContainer,
-  VApp,
-  VIcon,
-  VBadge,
-  VChip,
-  VAvatar,
-  VListItemContent,
-  VListItemTitle,
-  VListItemSubtitle,
-  VListGroup,
-  VRow,
-  VCol,
-  VTooltip,
-  VListItem,
-  VListItemAction,
-  VBtn,
-  VNavigationDrawer,
-  VAppBar,
-  VAppBarNavIcon,
-  VTextField,
-  VSpacer,
-  VDivider,
-  VSubheader,
-  VList
-} from "vuetify/lib";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+import { aliases, mdi } from "vuetify/iconsets/mdi";
+import "vuetify/styles";
+import "@mdi/font/css/materialdesignicons.css";
 
-Vue.use(Vuetify);
-Vue.component("VListItemGroup", VListItemGroup);
-Vue.component("VExpansionPanels", VExpansionPanels);
-Vue.component("VExpansionPanel", VExpansionPanel);
-Vue.component("VExpansionPanelContent", VExpansionPanelContent);
-Vue.component("VExpansionPanelHeader", VExpansionPanelHeader);
-
-Vue.component("VSnackbar", VSnackbar);
-Vue.component("VNavigationDrawer", VNavigationDrawer);
-Vue.component("VAppBar", VAppBar);
-Vue.component("VAppBarNavIcon", VAppBarNavIcon);
-Vue.component("VTextField", VTextField);
-Vue.component("VSpacer", VSpacer);
-Vue.component("VDivider", VDivider);
-Vue.component("VSubheader", VSubheader);
-Vue.component("VList", VList);
-Vue.component("VContent", VContent);
-Vue.component("VContainer", VContainer);
-Vue.component("VApp", VApp);
-Vue.component("VIcon", VIcon);
-Vue.component("VBadge", VBadge);
-Vue.component("VChip", VChip);
-Vue.component("VAvatar", VAvatar);
-
-Vue.component("VListItemContent", VListItemContent);
-Vue.component("VListItemTitle", VListItemTitle);
-Vue.component("VListItemSubtitle", VListItemSubtitle);
-
-Vue.component("VRow", VRow);
-Vue.component("VCol", VCol);
-Vue.component("VTooltip", VTooltip);
-
-Vue.component("VListItem", VListItem);
-Vue.component("VListGroup", VListGroup);
-Vue.component("VListItemAction", VListItemAction);
-Vue.component("VBtn", VBtn);
-
-Vue.component("VTreeview", VTreeview);
-
-Vue.component("VCard", VCard);
-Vue.component("VCardTitle", VCardTitle);
-Vue.component("VCardActions", VCardActions);
-Vue.component("VCardSubtitle", VCardSubtitle);
-Vue.component("VCardText", VCardText);
-Vue.component("VImg", VImg);
-
-Vue.component("VTimeline", VTimeline);
-Vue.component("VTimelineItem", VTimelineItem);
-Vue.component("VSlideXReverseTransition", VSlideXReverseTransition);
-Vue.component("VListItemAvatar", VListItemAvatar);
-
-Vue.component("VTab", VTab);
-Vue.component("VTabs", VTabs);
-Vue.component("VTabItem", VTabItem);
-Vue.component("VTabsItems", VTabsItems);
-
-Vue.component("VWindow", VWindow);
-Vue.component("VWindowItem", VWindowItem);
-
-Vue.component("VDialog", VDialog);
-
-Vue.component("VToolbar", VToolbar);
-Vue.component("VToolbarItems", VToolbarItems);
-Vue.component("VToolbarTitle", VToolbarTitle);
-Vue.component("VCheckbox", VCheckbox);
-Vue.component("VHover", VHover);
-Vue.component("VExpandTransition", VExpandTransition);
-Vue.component("VRadio", VRadio);
-Vue.component("VRadioGroup", VRadioGroup);
-
-Vue.component("VListItemIcon", VListItemIcon);
-Vue.component("VTextarea", VTextarea);
-Vue.component("VSelect", VSelect);
-Vue.component("VAutocomplete", VAutocomplete);
-Vue.component("VDatePicker", VDatePicker);
-Vue.component("VMenu", VMenu);
-Vue.component("VOverlay", VOverlay);
-Vue.component("VProgressCircular", VProgressCircular);
-Vue.component("VBanner", VBanner);
-Vue.component("VBottomNavigation", VBottomNavigation);
-Vue.component("VPagination", VPagination);
-Vue.component("VForm", VForm);
-Vue.component("VSwitch", VSwitch);
-Vue.component("VFileInput", VFileInput);
-Vue.component("VStepperContent", VStepperContent);
-Vue.component("VStepper", VStepper);
-Vue.component("VStepperStep", VStepperStep);
-Vue.component("VDataTable", VDataTable);
-Vue.component("VProgressLinear", VProgressLinear);
-Vue.component("VAlert", VAlert);
-
-//mcfibeekphjjdkofnojkofeligacaemn
-const opts = {
-  theme: { dark: false },
-  themes: {
-    light: {
-      primary: "#4682b4",
-      secondary: "#b0bec5",
-      accent: "#8c9eff",
-      error: "#b71c1c"
+const vuetify = createVuetify({
+  components,
+  directives,
+  theme: {
+    defaultTheme: "dark",
+    themes: {
+      light: {
+        colors: {
+          primary: "#1976D2",
+          secondary: "#424242",
+          accent: "#82B1FF",
+          error: "#FF5252",
+          info: "#2196F3",
+          success: "#4CAF50",
+          warning: "#FFC107"
+        }
+      },
+      dark: {
+        colors: {
+          primary: "#2196F3",
+          secondary: "#424242",
+          accent: "#FF4081",
+          error: "#FF5252",
+          info: "#2196F3",
+          success: "#4CAF50",
+          warning: "#FB8C00"
+        }
+      }
+    }
+  },
+  icons: {
+    defaultSet: "mdi",
+    aliases,
+    sets: {
+      mdi
     }
   }
-};
+});
 
-export default new Vuetify(opts);
+export default vuetify;

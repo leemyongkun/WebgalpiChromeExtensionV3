@@ -1,88 +1,73 @@
 <template>
-  <v-dialog
-    v-model="loginDialog"
-    persistent
-    overlay-opacity="10"
-    max-width="500"
-  >
-    <v-card>
-      <v-card-title class="headline" v-if="signInProcess === 0">
+  <div v-if="loginDialog" class="dialog-overlay">
+    <div class="dialog-card">
+      <div class="dialog-title" v-if="signInProcess === 0">
         {{ LANG.DESCRIPTION_MESSAGE("D0000") }}
-      </v-card-title>
-      <v-card-text v-if="signInProcess === 0">
+      </div>
+      <div class="dialog-content" v-if="signInProcess === 0">
         <br />
-        <v-btn @click="setLanguage('US')" color="secondary">English</v-btn>
-        <v-btn @click="setLanguage('KR')" color="secondary">한국어</v-btn>
-        <v-btn @click="setLanguage('JP')" color="secondary">日本語</v-btn>
-      </v-card-text>
+        <button @click="setLanguage('US')" class="lang-btn">English</button>
+        <button @click="setLanguage('KR')" class="lang-btn">한국어</button>
+        <button @click="setLanguage('JP')" class="lang-btn">日本語</button>
+      </div>
 
-      <v-card-title class="headline" v-if="signInProcess === 1">
+      <div class="dialog-title" v-if="signInProcess === 1">
         {{ LANG.DESCRIPTION_MESSAGE("D0062") }}
-      </v-card-title>
-      <v-card-text
+      </div>
+      <div
+        class="dialog-content"
         v-if="signInProcess === 1"
         v-html="LANG.DESCRIPTION_MESSAGE('D0063')"
       />
 
-      <v-card-title class="headline" v-if="signInProcess === 2"
-        >{{ LANG.DESCRIPTION_MESSAGE("D0065") }}
-      </v-card-title>
-      <v-card-text v-if="signInProcess === 2">
+      <div class="dialog-title" v-if="signInProcess === 2">
+        {{ LANG.DESCRIPTION_MESSAGE("D0065") }}
+      </div>
+      <div class="dialog-content" v-if="signInProcess === 2">
         [ <b>{{ googleEmail }}</b> ]<span
           v-html="LANG.DESCRIPTION_MESSAGE('D0064')"
         >
         </span>
-        <!--   <v-text-field
-            type="password"
-            label="PASSWORD"
-            v-model="password"
-            outlined
-            dense
-            autofocus
-            clearable
-            @keyup.enter="passwordKeyUpEvent"
-            :rules="[rules.required]"
-        ></v-text-field>-->
-      </v-card-text>
+      </div>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          color="green darken-1"
+      <div class="dialog-actions">
+        <button
           v-if="signInProcess === 0"
-          text
+          class="action-btn"
           :disabled="isDisabled"
           @click="signInProcess = 1"
-          >{{ LANG.BUTTON_MESSAGE("B0015") }}
-        </v-btn>
-        <v-btn
-          color="green darken-1"
+        >
+          {{ LANG.BUTTON_MESSAGE("B0015") }}
+        </button>
+        <button
           v-if="signInProcess === 1"
-          text
+          class="action-btn"
           :disabled="isDisabled"
           @click="googleSignin"
-          >{{ LANG.BUTTON_MESSAGE("B0018") }}
-        </v-btn>
-        <v-btn
-          color="green darken-1"
+        >
+          {{ LANG.BUTTON_MESSAGE("B0018") }}
+        </button>
+        <button
           v-if="signInProcess === 2"
-          text
+          class="action-btn secondary"
           @click="anotherMember"
-          >{{ LANG.BUTTON_MESSAGE("B0019") }}
-        </v-btn>
-        <v-btn
-          color="green darken-1"
+        >
+          {{ LANG.BUTTON_MESSAGE("B0019") }}
+        </button>
+        <button
           v-if="signInProcess === 2"
-          text
+          class="action-btn"
           @click="checkMember"
-          >{{ LANG.BUTTON_MESSAGE("B0013") }}
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-    <v-overlay :value="backupOverlay">
-      <v-progress-circular indeterminate size="32"></v-progress-circular>
-    </v-overlay>
-  </v-dialog>
+        >
+          {{ LANG.BUTTON_MESSAGE("B0013") }}
+        </button>
+      </div>
+    </div>
+
+    <div v-if="backupOverlay" class="loading-overlay">
+      <div class="loading-spinner"></div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -115,10 +100,21 @@ export default {
       let accountGoogleLogin = () => {
         ACCOUNT.googleLogin()
           .then(accountInfo => {
+            console.log("🔍 Google Login Result:", accountInfo);
             if (accountInfo === null) {
+              console.error("❌ Google Login failed - null response");
               MODAL.alert(LANG.ALERT_MESSAGE("A0010"), "error");
               return false;
             }
+
+            // 응답 데이터 확인
+            console.log("✅ Google account info received:", {
+              email: accountInfo.email,
+              name: accountInfo.name,
+              picture: accountInfo.picture,
+              id: accountInfo.id
+            });
+
             this.accountInfo = accountInfo;
             this.googleEmail = accountInfo.email;
             this.signInProcess = 2;
@@ -131,7 +127,7 @@ export default {
           })
           .catch(err => {
             this.backupOverlay = false;
-            console.log("error ", err);
+            console.error("❌ Google Login Error:", err);
           });
       };
 
@@ -176,8 +172,22 @@ export default {
     },
     async registMember() {
       if (this.accountInfo !== null) {
-        //입력한 비밀번호를 대입힌다.
-        this.accountInfo.password = this.password;
+        console.log(
+          "🔍 Registering member with accountInfo:",
+          this.accountInfo
+        );
+
+        // Google API 응답 형식에 맞게 멤버 데이터 구성
+        const memberData = {
+          EMAIL: this.accountInfo.email || "",
+          name: this.accountInfo.name || this.accountInfo.given_name || "",
+          IMAGE_URL: this.accountInfo.picture || null,
+          password: this.password,
+          isUse: "Y",
+          date: new Date().getTime()
+        };
+
+        console.log("📝 Member data to save:", memberData);
 
         //카테고리의 최근IDX를 가져온다.
         let result = await CONTENT_LISTENER.sendMessage({
@@ -185,17 +195,29 @@ export default {
           data: null
         });
         let categoryNewId;
-        if (result === undefined || result[0].MAXID === null) {
+        console.log("🔍 getCategoryMaxId result:", result);
+
+        // 안전한 MAXID 처리
+        if (
+          !result ||
+          !Array.isArray(result) ||
+          result.length === 0 ||
+          !result[0] ||
+          result[0].MAXID === null ||
+          result[0].MAXID === undefined
+        ) {
           categoryNewId = 1;
+          console.log("⚠️  Using default categoryNewId:", categoryNewId);
         } else {
           categoryNewId = result[0].MAXID + 1;
+          console.log("✅ Using calculated categoryNewId:", categoryNewId);
         }
 
-        let email = this.accountInfo.email;
         let param = new Object();
         param.EMAIL = this.accountInfo.email;
         param.LANG = this.LANG.lang;
         param.categoryNewId = categoryNewId;
+
         let initEnvironment = [
           CONTENT_LISTENER.sendMessage({
             type: "init.data.option",
@@ -207,7 +229,7 @@ export default {
           }),
           CONTENT_LISTENER.sendMessage({
             type: "insert.member",
-            data: this.accountInfo
+            data: memberData // 구성한 memberData 사용
           }),
           CONTENT_LISTENER.sendMessage({
             type: "insert.update.history",
@@ -216,9 +238,22 @@ export default {
         ];
 
         Promise.all(initEnvironment).then(async () => {
-          this.isReloading();
+          console.log("✅ Member registration completed");
+
+          // 다이얼로그 닫기
+          this.loginDialog = false;
+          this.signInProcess = 0;
+
+          // 성공 메시지 표시
+          console.log("🎉 Registration successful - dialog closed");
+
+          // 대시보드 새로고침
+          setTimeout(() => {
+            this.isReloading();
+          }, 500);
         });
       } else {
+        console.error("❌ Cannot register member - accountInfo is null");
         MODAL.alert(LANG.ALERT_MESSAGE("A0011"), "error");
       }
     },
@@ -297,3 +332,134 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.dialog-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  padding: 24px;
+}
+
+.dialog-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.dialog-content {
+  margin-bottom: 24px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.lang-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 4px 8px 4px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.lang-btn:hover {
+  background: #5a6268;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.action-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  min-width: 80px;
+}
+
+.action-btn:hover {
+  background: #218838;
+}
+
+.action-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.action-btn.secondary {
+  background: #6c757d;
+}
+
+.action-btn.secondary:hover {
+  background: #5a6268;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dark theme support */
+.theme-dark .dialog-card {
+  background: #2d2d2d;
+  color: white;
+}
+
+.theme-dark .dialog-title {
+  color: #fff;
+}
+
+.theme-dark .dialog-content {
+  color: #ccc;
+}
+</style>

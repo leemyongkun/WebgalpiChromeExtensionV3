@@ -45,6 +45,13 @@ let FORM = {
   },
   updateColorPicker: COLORS => {
     let colorButtons = "";
+
+    // Handle undefined or null COLORS
+    if (!COLORS) {
+      console.log("⚠️  COLORS is undefined, using default colors");
+      COLORS = "#ffff00,#00ff00,#ff0000,#0000ff,#ff8000";
+    }
+
     COLORS.split(",").forEach(color => {
       colorButtons += " <a class='" + color + " webgalpi-color-form'></a>";
     });

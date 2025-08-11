@@ -1,10 +1,13 @@
-import Vue from "vue";
+import { createApp } from "vue";
 import PopupApp from "./PopupApp";
 import vuetify from "../lib/vuetify/vuetify";
+import _ from "lodash";
 
-/* eslint-disable no-new */
-new Vue({
-  el: "#app",
-  vuetify,
-  render: h => h(PopupApp)
-});
+const app = createApp(PopupApp);
+app.use(vuetify);
+
+// Make lodash available globally
+app.provide("$lodash", _);
+app.config.globalProperties.$_ = _;
+
+app.mount("#app");

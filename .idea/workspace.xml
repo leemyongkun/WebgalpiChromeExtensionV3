@@ -6,8 +6,42 @@
   <component name="ChangeListManager">
     <list default="true" id="f44e9e9d-3ebb-4cf0-834b-e13409058aa2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/content/PreviewPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/content/PreviewPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/account.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contents/application.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/contents/application.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contents/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/contents/form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contents/listener.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/contents/listener.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/DashboardApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/DashboardApp.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/common/cheerio.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/common/cheerio.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/content/function/widget/HighlightsWidget.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/content/function/widget/HighlightsWidget.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/event-bus.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/event-bus.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/layout/AppBarPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/layout/AppBarPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/layout/MenuPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/layout/MenuPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/layout/dialog/NO_USE_UpdateCategoryDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/layout/dialog/NO_USE_UpdateCategoryDialog.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/layout/dialog/NewUpdateCategoryDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/layout/dialog/NewUpdateCategoryDialog.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dashboard/layout/dialog/SignDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/layout/dialog/SignDialog.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/DDL_Query.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/DDL_Query.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/dbcon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/dbcon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/query.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/query.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/vuetify/vuetify.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/vuetify/vuetify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/options/options.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/options/options.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/options/options.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/options/options.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/popup/DetectPopupApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/popup/DetectPopupApp.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/popup/PopupApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/popup/PopupApp.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/popup/detectPopup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/popup/detectPopup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/popup/detectPopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/popup/detectPopup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/popup/popup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/popup/popup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/popup/popup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/popup/popup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/popup/tabs/HighlightTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/popup/tabs/HighlightTab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/popup/tabs/SettingTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/popup/tabs/SettingTab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/popup/tabs/SiteInfoTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/popup/tabs/SiteInfoTab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,27 +68,33 @@
       </map>
     </option>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
   <component name="ProjectId" id="1waQC0zqEAJJBWMVdrpE4FhDQLC" />
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/dashboard/common" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/whale/Desktop/__PRIVATE/WebgalpiChromeExtensionVersion3",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "/Users/whale/Desktop/__PRIVATE/WebgalpiChromeExtension/node_modules/prettier",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/dashboard/common" />
@@ -87,6 +127,9 @@
       <workItem from="1643939368163" duration="14891000" />
       <workItem from="1643966661240" duration="4040000" />
       <workItem from="1644546150477" duration="5404000" />
+      <workItem from="1701315568156" duration="730000" />
+      <workItem from="1702459540169" duration="80000" />
+      <workItem from="1754657801901" duration="2235000" />
     </task>
     <servers />
   </component>
@@ -103,6 +146,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

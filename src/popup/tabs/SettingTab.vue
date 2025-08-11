@@ -1,8 +1,8 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
   <div>
-    <v-row>
+    <div class="row">
       SETTING
-    </v-row>
+    </div>
   </div>
 </template>
 <script>
@@ -20,7 +20,9 @@ export default {
 };
 </script>
 <style>
-.v-banner__actions {
-  padding-top: 0px !important;
+.row {
+  display: flex;
+  align-items: center;
+  padding: 16px;
 }
 </style>

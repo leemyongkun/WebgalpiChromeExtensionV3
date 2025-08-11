@@ -1,55 +1,57 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
   <div>
-    <v-list v-if="highlights.length !== 0">
-      <v-list-item-title>
-        <v-row>
-          <v-col cols="auto" class="pb-0 pt-0">
+    <ul class="list" v-if="highlights.length !== 0">
+      <li class="list-item-title">
+        <div class="row">
+          <div class="col-auto pb-0 pt-0">
             HIGHLIGHT LIST
-          </v-col>
-          <v-spacer />
-          <v-col cols="auto" class="pb-0 pt-0">
-            <v-btn
+          </div>
+          <div class="spacer"></div>
+          <div class="col-auto pb-0 pt-0">
+            <button
               @click="deleteAllHighlight(highlights[0])"
               v-show="highlights.length !== 0"
-              small
-              text
-              color="red"
-              >{{ LANG.BUTTON_MESSAGE("B0005") }}
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-list-item-title>
-      <template v-for="(item, index) in highlights">
-        <v-list-item :key="item.IDX" class="pr-2" @click="goPosition(item.IDX)">
-          <v-list-item-content class="mt-0 pr-2">
+              class="btn small text red"
+            >
+              {{ LANG.BUTTON_MESSAGE("B0005") }}
+            </button>
+          </div>
+        </div>
+      </li>
+      <template v-for="(item, index) in highlights" :key="item.IDX">
+        <li class="list-item pr-2" @click="goPosition(item.IDX)">
+          <div class="list-item-content mt-0 pr-2">
             <span
-              ><v-icon size="15px" :color="convertColor(item.COLOR)"
-                >mdi-format-color-highlight</v-icon
+              ><span
+                class="icon-highlight"
+                :style="{ color: convertColor(item.COLOR) }"
+                >🗒</span
               >&nbsp;&nbsp;{{ item.PRINT_TEXT }}</span
             ><br />
             <span class="pt-2" style="color: darkgray" v-if="item.MEMO !== ''"
-              ><v-icon size="15px">mdi-message-reply-text</v-icon>
-              &nbsp;&nbsp;{{ item.MEMO }}</span
+              ><span class="icon-memo">💬</span> &nbsp;&nbsp;{{
+                item.MEMO
+              }}</span
             >
-          </v-list-item-content>
-          <v-list-item-action class="mr-0 ml-0 pr-0 pl-0">
-            <v-icon @click="deleteHighlight(item, $event)"
-              >mdi-delete-forever
-            </v-icon>
-          </v-list-item-action>
-        </v-list-item>
-        <v-divider :key="index"></v-divider>
+          </div>
+          <div class="list-item-action mr-0 ml-0 pr-0 pl-0">
+            <span class="icon-delete" @click="deleteHighlight(item, $event)"
+              >🗑</span
+            >
+          </div>
+        </li>
+        <hr class="divider" />
       </template>
-    </v-list>
-    <v-list v-if="highlights.length === 0">
-      <v-list-item>
-        <v-list-item-content class="mt-0 pt-0 ">
-          <v-list-item-title class="text-center">
+    </ul>
+    <ul class="list" v-if="highlights.length === 0">
+      <li class="list-item">
+        <div class="list-item-content mt-0 pt-0">
+          <div class="list-item-title text-center">
             NO HIGHLIGHTS
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -69,6 +71,7 @@ export default {
   },
   methods: {
     convertColor(color) {
+      if (!color) return "#000000"; // Default color if undefined
       return Common.getConvertColor(color);
     },
     getDate: date => {
@@ -175,7 +178,138 @@ export default {
 };
 </script>
 <style>
-.v-banner__actions {
-  padding-top: 0px !important;
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+}
+
+.list-item:hover {
+  background: #f5f5f5;
+}
+
+.list-item-title {
+  padding: 12px 16px;
+  font-weight: 500;
+  background: #f9f9f9;
+  border-bottom: 1px solid #eee;
+}
+
+.list-item-content {
+  flex: 1;
+  padding-right: 8px;
+}
+
+.list-item-action {
+  display: flex;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.col-auto {
+  flex: 0 0 auto;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.btn {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.btn.small {
+  padding: 2px 6px;
+  font-size: 11px;
+}
+
+.btn.text {
+  background: none;
+  text-transform: uppercase;
+}
+
+.btn.red {
+  color: #f44336;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+.icon-highlight {
+  font-size: 15px;
+}
+
+.icon-memo {
+  font-size: 15px;
+}
+
+.icon-delete {
+  font-size: 18px;
+  cursor: pointer;
+  color: #666;
+}
+
+.icon-delete:hover {
+  color: #f44336;
+}
+
+.divider {
+  border: none;
+  border-bottom: 1px solid #eee;
+  margin: 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pb-0 {
+  padding-bottom: 0;
+}
+
+.pt-0 {
+  padding-top: 0;
+}
+
+.pt-2 {
+  padding-top: 8px;
+}
+
+.pr-2 {
+  padding-right: 8px;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.mr-0 {
+  margin-right: 0;
+}
+
+.ml-0 {
+  margin-left: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
 }
 </style>

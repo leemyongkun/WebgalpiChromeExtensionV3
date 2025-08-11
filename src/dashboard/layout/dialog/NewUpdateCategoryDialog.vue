@@ -334,11 +334,13 @@ import CONTENT_LISTENER from "../../../common/content-listener";
 import EventBus from "../../event-bus";
 import Utils from "../../utils/Utils";
 import MODAL from "../../../common/modal";
-import draggable from "vuedraggable";
+// import { Sortable } from "sortablejs-vue3"; // Temporarily commented out due to webpack issues
 import LANG from "../../../common/language";
 
 export default {
-  components: { draggable },
+  components: {
+    /* Sortable */
+  },
   props: [],
   data: () => ({
     showParentCategoryField: false,
@@ -654,13 +656,13 @@ export default {
 </script>
 <style>
 .sortable-list {
-  background-color: $ border-color;
+  background-color: #e0e0e0;
   padding: 0.1px 0;
   display: block;
 }
 
 .sortable {
-  line-height: $ item-height;
+  line-height: 40px;
   margin: 1px;
   padding: 0 1em;
   background-color: white;

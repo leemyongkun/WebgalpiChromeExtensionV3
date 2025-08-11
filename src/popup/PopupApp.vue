@@ -1,48 +1,55 @@
 <template>
   <v-app>
-    <v-card id="scroll-target" max-width="490" v-if="mainFlag === 1">
-      <v-tabs vertical v-model="tab">
-        <!--<v-tab>
-                                                            <v-icon>mdi-settings</v-icon>
-                                                        </v-tab>-->
-        <v-tab>
-          <v-icon>mdi-web</v-icon>
-        </v-tab>
-        <v-tab>
-          <v-icon>mdi-grease-pencil</v-icon>
-        </v-tab>
+    <v-main>
+      <v-container class="pa-2" v-if="mainFlag === 1">
+        <v-card max-width="490" class="mx-auto">
+          <v-tabs v-model="tab" grow>
+            <v-tab value="0">
+              <v-icon>mdi-earth</v-icon>
+            </v-tab>
+            <v-tab value="1">
+              <v-icon>mdi-pencil</v-icon>
+            </v-tab>
+          </v-tabs>
 
-        <!-- <v-tab-item class="mx-auto overflow-y-auto" :style="style">
-                                                            <SettingTab></SettingTab>
-                                                        </v-tab-item>-->
-        <v-tab-item class="mx-auto overflow-y-auto" :style="style">
-          <SiteInfoTab></SiteInfoTab>
-        </v-tab-item>
-        <v-tab-item class="mx-auto overflow-y-auto" :style="style">
-          <HighlightTab></HighlightTab>
-        </v-tab-item>
-      </v-tabs>
-    </v-card>
-    <div v-if="mainFlag === 2" style="max-width:490px">
-      <v-card class="mx-auto" max-width="344" outlined>
-        <v-list-item three-line>
-          <v-list-item-content>
-            <v-list-item-title class="headline mb-1"
-              >로그인이 필요합니다.
-            </v-list-item-title>
-            <v-list-item-subtitle
-              >대쉬보드에서 계정등록 및 로그인을 하십시오.
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+          <v-tabs-window v-model="tab" :style="style">
+            <v-tabs-window-item value="0">
+              <div class="overflow-y-auto">
+                <SiteInfoTab></SiteInfoTab>
+              </div>
+            </v-tabs-window-item>
+            <v-tabs-window-item value="1">
+              <div class="overflow-y-auto">
+                <HighlightTab></HighlightTab>
+              </div>
+            </v-tabs-window-item>
+          </v-tabs-window>
+        </v-card>
+      </v-container>
 
-        <v-card-actions>
-          <v-btn color="primary" text @click="goDashboard" block
-            >Dashboard 이동하기
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </div>
+      <v-container class="pa-2" v-if="mainFlag === 2">
+        <v-card max-width="344" class="mx-auto">
+          <v-card-text>
+            <v-list-item class="px-0">
+              <v-list-item-content>
+                <v-list-item-title class="headline mb-1">
+                  로그인이 필요합니다.
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  대쉬보드에서 계정등록 및 로그인을 하십시오.
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-btn color="primary" block @click="goDashboard">
+              Dashboard 이동하기
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
@@ -64,7 +71,7 @@ export default {
     SiteInfoTab
   },
   data: () => ({
-    tab: null,
+    tab: "0",
     items: ["SITE", "HIGHLIGHT"],
     offsetTop: 0,
     style: "max-height: 390px; height: 463px; width: 400px;",
@@ -73,12 +80,46 @@ export default {
   created() {
     //지속적으로 로딩되고 있는 상태를 스톱한다.
     this.$nextTick(async () => {
-      chrome.tabs.executeScript(null, {
-        code: "window.stop();",
-        runAt: "document_start"
-      });
+      // Manifest V3: Use chrome.scripting.executeScript
+      try {
+        const [tab] = await chrome.tabs.query({
+          active: true,
+          currentWindow: true
+        });
+        if (tab && chrome.scripting && tab.url) {
+          // Skip chrome:// and other restricted URLs
+          if (
+            !tab.url.startsWith("chrome://") &&
+            !tab.url.startsWith("chrome-extension://") &&
+            !tab.url.startsWith("moz-extension://") &&
+            !tab.url.startsWith("edge://")
+          ) {
+            await chrome.scripting.executeScript({
+              target: { tabId: tab.id },
+              func: () => window.stop()
+            });
+          }
+        }
+      } catch (error) {
+        console.warn("Could not execute script to stop loading:", error);
+      }
 
       let result = await Utils.getLocalStorage("loginInfo");
+
+      // Debug storage data
+      console.log("Storage result:", result);
+      console.log("All storage data:");
+      chrome.storage.local.get(null, data => {
+        console.log("All storage:", data);
+      });
+
+      // Check if login info exists
+      if (!result || !result.loginInfo || !result.loginInfo.EMAIL) {
+        console.warn("No login info found in storage, showing login screen");
+        this.mainFlag = 2; // Show login required
+        return;
+      }
+
       let param = new Object();
       param.EMAIL = result.loginInfo.EMAIL;
 
@@ -92,9 +133,10 @@ export default {
         let options = ret[0];
 
         if (options === undefined || options.THEME === "dark") {
-          this.$vuetify.theme.dark = true;
+          // Apply dark theme to body or root element
+          document.body.classList.add("theme-dark");
         } else {
-          this.$vuetify.theme.dark = false;
+          document.body.classList.remove("theme-dark");
         }
 
         LANG.setLanguage(options.LANGUAGE);
@@ -107,7 +149,7 @@ export default {
     }
   },
   mounted() {
-    this.$vuetify.theme.dark = true;
+    document.body.classList.add("theme-dark");
 
     //로그인이 되어있는지 확인.
     chrome.storage.local.get(["loginInfo"], result => {
@@ -124,7 +166,7 @@ export default {
 };
 </script>
 <style>
-.v-tab {
-  min-width: 40px !important;
+.overflow-y-auto {
+  overflow-y: auto;
 }
 </style>
