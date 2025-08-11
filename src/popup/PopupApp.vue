@@ -193,12 +193,12 @@ export default {
           type: "update.option.language",
           data: {
             EMAIL: email,
-            LANGUAGE: "ko" // Korean as default
+            LANGUAGE: "KR" // Korean as default
           }
         });
 
         console.log("✅ Default options created successfully");
-        LANG.setLanguage("ko");
+        LANG.setLanguage("KR");
       } catch (error) {
         console.warn("Failed to create default options:", error);
         // Continue with defaults even if saving failed

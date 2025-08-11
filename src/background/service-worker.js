@@ -193,6 +193,7 @@ const BackgroundModule = {
                       site: initParameter
                     },
                     response => {
+                      console.log("response ", response);
                       if (chrome.runtime.lastError) {
                         const error =
                           chrome.runtime.lastError.message ||

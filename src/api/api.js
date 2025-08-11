@@ -60,7 +60,13 @@ const filterByUrlKey = (data, urlKey) => {
 };
 
 let Api = {
-  // Backup data functions
+  // ========== 백업 데이터 관련 함수들 ==========
+
+  /**
+   * 사용자의 모든 백업 데이터를 가져오는 함수
+   * @param {string} email - 사용자 이메일
+   * @returns {Object} 사이트, 하이라이트, 옵션, 카테고리, 관계, 원탭 데이터
+   */
   getBackupData: async email => {
     try {
       const [
@@ -100,6 +106,11 @@ let Api = {
     }
   },
 
+  /**
+   * 백업용 사이트 목록 가져오기
+   * @param {Object} param - EMAIL 속성을 포함한 매개변수
+   * @returns {Array} 삭제되지 않은 사이트 목록
+   */
   getBackupSites: async param => {
     const sites = await getStorageData(STORAGE_KEYS.SITES);
     return filterByEmail(sites, param.EMAIL).filter(
@@ -107,6 +118,11 @@ let Api = {
     );
   },
 
+  /**
+   * 백업용 하이라이트 목록 가져오기
+   * @param {Object} param - EMAIL 속성을 포함한 매개변수
+   * @returns {Array} 삭제되지 않은 하이라이트 목록
+   */
   getBackupHighlights: async param => {
     const items = await getStorageData(STORAGE_KEYS.ITEMS);
     return filterByEmail(items, param.EMAIL).filter(
@@ -131,7 +147,12 @@ let Api = {
     return filterByEmail(items, param.EMAIL);
   },
 
-  // Member functions
+  // ========== 멤버 관련 함수들 ==========
+
+  /**
+   * 현재 사용중인 멤버 정보 가져오기
+   * @returns {Object|null} 사용중인 멤버 정보 또는 null
+   */
   getMemberInfo: async () => {
     const members = await getStorageData(STORAGE_KEYS.MEMBERS);
     return members.find(member => member.FL_USE === "Y") || null;
@@ -152,12 +173,48 @@ let Api = {
     return [{ COUNT: noCategoryItems.length }];
   },
 
+  /**
+   * 사용자 옵션 설정 가져오기 (색상, 언어 등)
+   * @param {Object} param - EMAIL 속성을 포함한 매개변수
+   * @returns {Array} 사용자 옵션 배열
+   */
   getOptions: async param => {
+    console.log("🔧 getOptions called with param:", param);
     const options = await getStorageData(STORAGE_KEYS.OPTIONS);
-    return filterByEmail(options, param.EMAIL);
+    console.log("🔧 Raw options from storage:", options);
+    const filtered = filterByEmail(options, param.EMAIL);
+    console.log("🔧 Filtered options for email", param.EMAIL, ":", filtered);
+
+    // If no COLOR option found, create default one
+    if (
+      !filtered ||
+      filtered.length === 0 ||
+      !filtered.find(opt => opt.TYPE === "COLOR")
+    ) {
+      console.log("🔧 No COLOR option found, creating default");
+      const defaultOptions = [
+        {
+          TYPE: "COLOR",
+          COLOR: "#ffff00,#00ff00,#ff0000,#0000ff,#ff8000",
+          EMAIL: param.EMAIL,
+          DATE_CREATE: Date.now(),
+          VERSION: "1.0",
+          LANG: "JP"
+        }
+      ];
+      return filtered.length > 0
+        ? [...filtered, ...defaultOptions]
+        : defaultOptions;
+    }
+
+    return filtered;
   },
 
-  // Initialize information for a site
+  /**
+   * 사이트 초기화에 필요한 모든 정보 가져오기
+   * @param {Object} parameter - URL_KEY, EMAIL 등을 포함한 매개변수
+   * @returns {Object} 사이트 등록 여부, 아이템, 옵션 정보
+   */
   getInitInfo: async parameter => {
     try {
       const [site, items, options] = await Promise.all([
@@ -183,7 +240,25 @@ let Api = {
       }
 
       obj.allItems = allItems;
-      obj.options = options.length > 0 ? options[0] : {};
+
+      // Process options to create a single options object
+      let processedOptions = {};
+      if (options && options.length > 0) {
+        options.forEach(option => {
+          if (option.TYPE === "COLOR" && option.COLOR) {
+            processedOptions.COLOR = option.COLOR;
+          }
+          // Copy other properties
+          Object.keys(option).forEach(key => {
+            if (key !== "TYPE" && key !== "COLOR") {
+              processedOptions[key] = option[key];
+            }
+          });
+        });
+      }
+
+      console.log("🔧 Processed options:", processedOptions);
+      obj.options = processedOptions;
 
       return obj;
     } catch (error) {
@@ -200,6 +275,11 @@ let Api = {
     }
   },
 
+  /**
+   * 특정 URL_KEY에 해당하는 사이트 정보 가져오기
+   * @param {Object} param - URL_KEY, EMAIL 속성을 포함
+   * @returns {Array} 매칭되는 사이트 목록
+   */
   getSite: async param => {
     const sites = await getStorageData(STORAGE_KEYS.SITES);
     const userSites = filterByEmail(sites, param.EMAIL);
@@ -233,7 +313,13 @@ let Api = {
     return filterByEmail(categories, param.EMAIL);
   },
 
-  // Items functions
+  // ========== 아이템(하이라이트) 관련 함수들 ==========
+
+  /**
+   * 사용자의 모든 하이라이트 아이템 가져오기
+   * @param {Object} param - URL_KEY, EMAIL 속성을 포함
+   * @returns {Array} 복원된 특수문자가 포함된 하이라이트 목록
+   */
   getAllItems: async param => {
     const items = await getStorageData(STORAGE_KEYS.ITEMS);
     const userItems = filterByEmail(items, param.EMAIL).filter(
@@ -249,7 +335,13 @@ let Api = {
     }));
   },
 
-  // Update functions
+  // ========== 업데이트 관련 함수들 ==========
+
+  /**
+   * 하이라이트 아이템 업데이트
+   * @param {Object} param - IDX, EMAIL 등을 포함한 업데이트 데이터
+   * @returns {boolean} 업데이트 성공 여부
+   */
   updateItem: async param => {
     const items = await getStorageData(STORAGE_KEYS.ITEMS);
     const itemIndex = items.findIndex(
@@ -278,7 +370,13 @@ let Api = {
     return false;
   },
 
-  // Insert functions
+  // ========== 삽입 관련 함수들 ==========
+
+  /**
+   * 새로운 하이라이트 아이템 삽입
+   * @param {Object} param - 하이라이트 정보(텍스트, 색상, 위치 등)
+   * @returns {boolean} 삽입 성공 여부
+   */
   postItem: async param => {
     const processedParam = {
       ...param,
@@ -293,7 +391,13 @@ let Api = {
     return await setStorageData(STORAGE_KEYS.ITEMS, items);
   },
 
-  // Delete functions
+  // ========== 삭제 관련 함수들 ==========
+
+  /**
+   * 하이라이트 아이템 삭제 (논리 삭제 - FL_DELETE = 'Y')
+   * @param {Object} param - IDX, EMAIL 속성을 포함
+   * @returns {boolean} 삭제 성공 여부
+   */
   deleteItem: async param => {
     const items = await getStorageData(STORAGE_KEYS.ITEMS);
     const updatedItems = items.map(item =>

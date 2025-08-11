@@ -3,14 +3,34 @@ import LANG from "./language";
 let COMMON_ACTION = {
   getSiteInfo: tabId => {
     return new Promise(res => {
+      let retryCount = 0;
+      const maxRetries = 3;
+
       let interval = setInterval(() => {
+        if (retryCount >= maxRetries) {
+          console.log(
+            "⏹️ Max retries reached for getSiteInfo, stopping attempts"
+          );
+          clearInterval(interval);
+          alert(LANG.ALERT_MESSAGE("A0018"));
+          return false;
+        }
+
+        retryCount++;
+        console.log(`🔄 getSiteInfo attempt ${retryCount}/${maxRetries}`);
+
         chrome.tabs.sendMessage(
           tabId,
           { action: "get.site.info" },
           siteInfo => {
             if (siteInfo === undefined) {
-              clearInterval(interval);
-              alert(LANG.ALERT_MESSAGE("A0018"));
+              console.log(
+                `❌ getSiteInfo attempt ${retryCount} failed - no response`
+              );
+              if (retryCount >= maxRetries) {
+                clearInterval(interval);
+                alert(LANG.ALERT_MESSAGE("A0018"));
+              }
               return false;
             }
 

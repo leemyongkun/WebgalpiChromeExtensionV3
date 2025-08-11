@@ -6,7 +6,7 @@
       </div>
       <div class="dialog-content" v-if="signInProcess === 0">
         <br />
-        <button @click="setLanguage('US')" class="lang-btn">English</button>
+        <button @click="setLanguage('EN')" class="lang-btn">English</button>
         <button @click="setLanguage('KR')" class="lang-btn">한국어</button>
         <button @click="setLanguage('JP')" class="lang-btn">日本語</button>
       </div>

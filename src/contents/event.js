@@ -37,9 +37,15 @@ let EVENT = {
   },
   highlightClickEvent: e => {
     /* 현재 하이라이팅의 ID를 넣는다.*/
-    GLOBAL_CONFIG.CURRENT_IDX = parseInt(
-      $(e.target).attr(GLOBAL_CONFIG.HL_ID_NAME)
-    );
+    console.log("🖱️ Highlight clicked, target:", e.target);
+    console.log("🖱️ Target attributes:", e.target.attributes);
+    console.log("🖱️ HL_ID_NAME:", GLOBAL_CONFIG.HL_ID_NAME);
+
+    let highlightIdAttr = $(e.target).attr(GLOBAL_CONFIG.HL_ID_NAME);
+    console.log("🖱️ Highlight ID attribute:", highlightIdAttr);
+
+    GLOBAL_CONFIG.CURRENT_IDX = parseInt(highlightIdAttr);
+    console.log("🖱️ Set CURRENT_IDX to:", GLOBAL_CONFIG.CURRENT_IDX);
 
     //마우스를 따라간다.
     $("#webgalpi-highlight-update-toolbar").css({
@@ -120,6 +126,10 @@ let EVENT = {
                     GLOBAL_CONFIG.CURRENT_MOUSE_STATUS = "drag";
                 },*/
   mouseOnDownUpEvent: () => {
+    console.log(
+      "🖱️  Setting up mouse events on:",
+      GLOBAL_CONFIG.TARGET_ELEMENT
+    );
     CONTENTS.initUrlInfo(); //urlInitConfig();
 
     $(GLOBAL_CONFIG.TARGET_ELEMENT)
@@ -141,6 +151,8 @@ let EVENT = {
       })
       .unbind("mouseup")
       .on("mouseup", async event => {
+        console.log("🖱️  Mouse up event triggered!");
+
         //다른곳 클릭하면 mouse_over_id 를 초기화 한다.
         GLOBAL_CONFIG.MOUSE_OVER_ID = 0;
 
@@ -172,7 +184,15 @@ let EVENT = {
         }
 
         let selection = window.getSelection();
-        if (selection.isCollapsed) return false; //드래그한 흔적이 없으면 아무작업하지 않는다. @2020.07.02
+        console.log(
+          "🖱️  Selection check - isCollapsed:",
+          selection.isCollapsed
+        );
+        console.log("🖱️  Selected text:", selection.toString());
+        if (selection.isCollapsed) {
+          console.log("❌ No text selected, returning");
+          return false; //드래그한 흔적이 없으면 아무작업하지 않는다. @2020.07.02
+        }
         let range = selection.getRangeAt(0);
         let content = range.cloneContents();
         let customTag = document.createElement(GLOBAL_CONFIG.HL_TAG_NAME);
@@ -220,11 +240,18 @@ let EVENT = {
 
         setTimeout(() => {
           if (!window.getSelection().isCollapsed) {
+            console.log("🎯 About to show pen icon!");
             CONTENTS.setHighlightRangeInfoData(event, offset);
 
-            FORM.showPicker(event); // todo 가장 중요!!
+            console.log("🖊️ Calling FORM.showPenIcon instead of showPicker");
+            const result = FORM.showPenIcon(event); // pen 아이콘 먼저 표시
+            console.log("🖊️ showPenIcon result:", result);
 
             STATUS.checkHighlightArea = 0;
+          } else {
+            console.log(
+              "❌ Selection collapsed in setTimeout, not showing pen icon"
+            );
           }
         }, 100);
 
@@ -247,41 +274,89 @@ let EVENT = {
         $(item)
           .unbind("click")
           .on("click", e => {
-            let colorClass = e.target.className.split(" ")[0];
+            console.log("🎨 Update toolbar button clicked");
+            console.log("🎨 Target element:", e.target);
+            console.log("🎨 Target classes:", e.target.className);
+            console.log("🎨 CURRENT_IDX:", GLOBAL_CONFIG.CURRENT_IDX);
 
-            switch (colorClass) {
-              case "webgalpi-highlight-delete":
-                CONTENTS.deleteHighlight(GLOBAL_CONFIG.CURRENT_IDX).then(() => {
-                  GLOBAL_CONFIG.HIGHLIGHT_LIST.map((highlight, index) => {
-                    if (GLOBAL_CONFIG.CURRENT_IDX === highlight.IDX) {
-                      GLOBAL_CONFIG.HIGHLIGHT_LIST.splice(index, 1);
-                    }
-                  });
+            // Check if it's a color button by looking for data-color attribute
+            let color = $(e.target).attr("data-color");
+            let allClasses = e.target.className || "";
+
+            console.log("🎨 Color:", color);
+            console.log("🎨 All classes:", allClasses);
+
+            if (color && color.startsWith("highlight-color-")) {
+              // It's a color button
+              console.log("🎨 Updating highlight color to:", color);
+              CONTENTS.updateHighlight(color, GLOBAL_CONFIG.CURRENT_IDX);
+            } else if (
+              allClasses.includes("webgalpi-highlight-delete") ||
+              allClasses.includes("webgalpi-trashbox")
+            ) {
+              // It's a delete button
+              console.log("🗑️ DELETE BUTTON CLICKED!");
+              console.log("🗑️ Current IDX:", GLOBAL_CONFIG.CURRENT_IDX);
+              console.log("🗑️ Calling CONTENTS.deleteHighlight...");
+
+              CONTENTS.deleteHighlight(GLOBAL_CONFIG.CURRENT_IDX)
+                .then(() => {
+                  console.log("✅ Highlight deleted successfully");
+                  // Safely update HIGHLIGHT_LIST if it exists
+                  if (
+                    GLOBAL_CONFIG.HIGHLIGHT_LIST &&
+                    Array.isArray(GLOBAL_CONFIG.HIGHLIGHT_LIST)
+                  ) {
+                    GLOBAL_CONFIG.HIGHLIGHT_LIST.map((highlight, index) => {
+                      if (GLOBAL_CONFIG.CURRENT_IDX === highlight.IDX) {
+                        GLOBAL_CONFIG.HIGHLIGHT_LIST.splice(index, 1);
+                      }
+                    });
+                  }
+                })
+                .catch(error => {
+                  console.error("❌ Error deleting highlight:", error);
                 });
-                break;
-              case "webgalpi-highlight-memo":
-                let ret = GLOBAL_CONFIG.HIGHLIGHT_LIST.filter(item => {
+            } else if (
+              allClasses.includes("webgalpi-highlight-memo") ||
+              allClasses.includes("webgalpi-memo")
+            ) {
+              // It's a memo button
+              console.log(
+                "📝 Opening memo for highlight:",
+                GLOBAL_CONFIG.CURRENT_IDX
+              );
+              // Safely filter HIGHLIGHT_LIST if it exists
+              let ret = [];
+              if (
+                GLOBAL_CONFIG.HIGHLIGHT_LIST &&
+                Array.isArray(GLOBAL_CONFIG.HIGHLIGHT_LIST)
+              ) {
+                ret = GLOBAL_CONFIG.HIGHLIGHT_LIST.filter(item => {
                   return item.IDX === GLOBAL_CONFIG.CURRENT_IDX;
                 });
+              }
 
-                $("#webgalpi-memo-area").show();
-                $("#webgalpi-memo-textarea").val(
-                  ret[0].MEMO === undefined ? "" : ret[0].MEMO
-                );
-                $("#webgalpi-memo-textarea").focus();
-
-                break;
-              case "webgalpi-memo-button":
-                CONTENTS.updateHighlightMemo(GLOBAL_CONFIG.CURRENT_IDX);
-                break;
-              default:
-                CONTENTS.updateHighlight(colorClass, GLOBAL_CONFIG.CURRENT_IDX);
-                break;
+              $("#webgalpi-memo-area").show();
+              $("#webgalpi-memo-textarea").val(
+                ret.length > 0 && ret[0].MEMO !== undefined ? ret[0].MEMO : ""
+              );
+              $("#webgalpi-memo-textarea").focus();
+            } else if (allClasses.includes("webgalpi-memo-button")) {
+              // It's the memo confirm button
+              console.log(
+                "✅ Saving memo for highlight:",
+                GLOBAL_CONFIG.CURRENT_IDX
+              );
+              CONTENTS.updateHighlightMemo(GLOBAL_CONFIG.CURRENT_IDX);
+            } else {
+              console.log("❓ Unknown button clicked, classes:", allClasses);
             }
           });
       });
   },
   colorPickerBtnEvent: () => {
+    console.log("🎨 Setting up color picker button events");
     $("#webgalpi-highlight-toolbar")
       .find("a")
       .each(function(idx, item) {
@@ -292,12 +367,52 @@ let EVENT = {
             e.preventDefault();
 
             let _this = this;
-            let color = $(_this).attr("class"); // hltcolor-x 값을 가져옴
+            console.log(
+              "🎨 Color button clicked, classes:",
+              $(_this).attr("class")
+            );
+
+            // Get color from data-color attribute
+            let color = $(_this).attr("data-color");
+
+            console.log("🎨 Extracted color from data-color:", color);
 
             if (color === "default-color") color = "highlight-color-1";
 
+            // Hide the picker before creating highlight
+            FORM.hidePicker();
+
             //저장한다.
+            console.log("🎨 Creating highlight with color:", color);
             CONTENTS.createHighlight(color, GLOBAL_CONFIG.ELEMENT);
+          });
+      });
+  },
+  penBtnEvent: () => {
+    console.log("🖊️ Setting up pen button events");
+    $("#webgalpi-pen-icon")
+      .find(".webgalpi-pen-button")
+      .each(function(idx, item) {
+        $(item)
+          .unbind("click")
+          .on("click", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            console.log("🖊️ Pen button clicked - saving with default color");
+
+            // 기본 색상으로 하이라이트 생성
+            const defaultColor = "highlight-color-1";
+
+            // Hide the pen icon before creating highlight
+            FORM.hidePicker();
+
+            //저장한다.
+            console.log(
+              "🖊️ Creating highlight with default color:",
+              defaultColor
+            );
+            CONTENTS.createHighlight(defaultColor, GLOBAL_CONFIG.ELEMENT);
           });
       });
   },

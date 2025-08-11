@@ -216,13 +216,13 @@ let HIGHLIGT_CORE = {
 
     // 하이라이트를 생성한다.
     let highlight = document.createElement(highlightTag);
-    highlight.classList.add(highlightClass.split(" ")[0]); //컬러
 
-    // memo가 있는 경우
-    // highlight.classList.add('wf-memo');
-    //highlight.style.cssText = getColor(highlightClass); // rgb형태로 자동 변환되어 들어간다.
+    // 호출한 item에서 전달된 클래스 값을 그대로 적용 (style 속성 사용 안함)
+    let colorValue = highlightClass.split(" ")[0];
+    highlight.classList.add(colorValue);
+    console.log(`🎨 Applied CSS class only (no style): ${colorValue}`);
+
     highlight.setAttribute(GLOBAL_CONFIG.HL_ID_NAME, highlightId);
-    highlight.setAttribute("style", "cursor:pointer !important;");
 
     //background-color: rgb(255, 255, 141);
 

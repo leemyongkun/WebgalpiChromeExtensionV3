@@ -322,8 +322,20 @@ function selectImage(element) {
     procImageCount++;
   });
 
-  // 0.5초 간격으로 처리
+  // 0.5초 간격으로 처리 (최대 20초)
+  let retryCount = 0;
+  const maxRetries = 40; // 20초 (40 * 0.5초)
+
   let repeat = setInterval(function() {
+    retryCount++;
+
+    // 최대 재시도 횟수 초과 시 중단
+    if (retryCount >= maxRetries) {
+      console.log("⏹️ Image processing timeout after 20 seconds");
+      clearInterval(repeat);
+      return;
+    }
+
     // 처리 count와 실제 <img> 태그의 갯수가 동일 (처리완료)
     if (procImageCount == images.length) {
       html2canvas($(element)[0]).then(canvas => {

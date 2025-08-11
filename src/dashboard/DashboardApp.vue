@@ -176,7 +176,7 @@ export default {
                   document.body.classList.remove("theme-dark");
                 }
 
-                LANG.setLanguage(options.LANGUAGE || "ko");
+                LANG.setLanguage(options.LANGUAGE || "KR");
               });
             }, 0);
           }

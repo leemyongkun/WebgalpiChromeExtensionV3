@@ -19,11 +19,10 @@
   "content_scripts": [
     {
       "all_frames": false,
-      "run_at": "document_end",
+      "run_at": "document_start",
       "matches": ["*://*/*"],
-      "css": ["css/hl.css", "lib/jcrop/jcrop.css"],
-      "js": ["contents/listener.js"],
-      "type": "module"
+      "js": ["contents/listener-bundled.js"],
+      "css": ["css/hl.css"]
     }
   ],
   "options_ui": {

@@ -35,10 +35,19 @@ let CONTENTS = {
       }
       // 팔렛트를 생성
       let hlGroupElement = document.createElement(GLOBAL_CONFIG.GROUP_ELEMENT);
+      const colorPickerHTML = FORM.createColorPicker(COLORS);
+      const updateColorPickerHTML = FORM.updateColorPicker(COLORS);
+      const penIconHTML = FORM.createPenIcon();
+      const convertAreaHTML = FORM.createConvertArea();
+
+      console.log("🎨 Creating form elements:");
+      console.log("🎨 ColorPicker HTML:", colorPickerHTML);
+      console.log("🎨 UpdateColorPicker HTML:", updateColorPickerHTML);
+      console.log("🎨 Pen Icon HTML:", penIconHTML);
+      console.log("🎨 ConvertArea HTML:", convertAreaHTML);
+
       hlGroupElement.innerHTML =
-        FORM.createColorPicker(COLORS) +
-        FORM.updateColorPicker(COLORS) +
-        FORM.createConvertArea();
+        colorPickerHTML + updateColorPickerHTML + penIconHTML + convertAreaHTML;
       //FORM.createCaptureArea() +
 
       let targetElement = document.getElementsByTagName(
@@ -46,6 +55,16 @@ let CONTENTS = {
       )[0];
 
       targetElement.appendChild(hlGroupElement);
+
+      console.log("🎨 Form elements added to DOM");
+      console.log(
+        "🎨 Checking if toolbar exists in DOM:",
+        document.getElementById("webgalpi-highlight-toolbar")
+      );
+      console.log(
+        "🎨 jQuery toolbar check:",
+        $("#webgalpi-highlight-toolbar").length
+      );
 
       res(true);
     });
@@ -212,30 +231,79 @@ let CONTENTS = {
     }
   },
   deleteHighlight: async highlightIdx => {
-    if (!confirm(LANG.CONFIRM_MESSAGE("C0003"))) return false;
+    console.log("🗑️ deleteHighlight called with IDX:", highlightIdx);
+
+    if (!highlightIdx || highlightIdx === 0 || isNaN(highlightIdx)) {
+      console.error("❌ Invalid highlight IDX:", highlightIdx);
+      alert("하이라이트 ID가 잘못되었습니다.");
+      return false;
+    }
+
+    if (!confirm(LANG.CONFIRM_MESSAGE("C0003"))) {
+      console.log("❌ User cancelled deletion");
+      return false;
+    }
+
+    console.log("✅ User confirmed deletion");
+
     let result = await Utils.getLocalStorage("loginInfo");
+    console.log("🔍 Login info:", result);
+
+    if (!result || !result.loginInfo || !result.loginInfo.EMAIL) {
+      console.error("❌ No login info found");
+      alert("로그인 정보를 찾을 수 없습니다.");
+      return false;
+    }
+
     let param = new Object();
     param.HIGHLIGHT_IDX = highlightIdx;
     param.URL_KEY = URL.KEY;
     param.EMAIL = result.loginInfo.EMAIL;
 
-    $("[" + GLOBAL_CONFIG.HL_ID_NAME + "=" + param.HIGHLIGHT_IDX + "]").each(
-      (idx, item) => {
-        $(item)
-          .contents()
-          .unwrap();
-      }
+    console.log("📋 Delete parameters:", param);
+    console.log(
+      "🎯 Looking for elements with selector:",
+      "[" + GLOBAL_CONFIG.HL_ID_NAME + "=" + param.HIGHLIGHT_IDX + "]"
     );
 
+    // DOM에서 하이라이트 요소 찾기
+    let highlightElements = $(
+      "[" + GLOBAL_CONFIG.HL_ID_NAME + "=" + param.HIGHLIGHT_IDX + "]"
+    );
+    console.log("🎯 Found highlight elements:", highlightElements.length);
+
+    if (highlightElements.length === 0) {
+      console.error(
+        "❌ No highlight elements found for IDX:",
+        param.HIGHLIGHT_IDX
+      );
+      alert("삭제할 하이라이트를 찾을 수 없습니다.");
+      return false;
+    }
+
+    // DOM에서 하이라이트 제거
+    highlightElements.each((idx, item) => {
+      console.log("🗑️ Removing highlight element:", item);
+      $(item)
+        .contents()
+        .unwrap();
+    });
+
+    console.log("📤 Sending delete message to background...");
     CONTENT_LISTENER.sendMessage({
       type: "delete.highlight",
       data: param
     })
       .then(() => {
+        console.log("✅ Delete message sent successfully");
         FORM.hidePicker();
       })
       .then(() => {
+        console.log("🔄 Reloading same site...");
         Common.reloadingSameSite();
+      })
+      .catch(error => {
+        console.error("❌ Error sending delete message:", error);
       });
   },
   updateHighlightMemo: async highlightIdx => {
@@ -251,11 +319,17 @@ let CONTENTS = {
       data: param
     }).then(res => {
       alert(LANG.ALERT_MESSAGE("A0021"));
-      GLOBAL_CONFIG.HIGHLIGHT_LIST.map(item => {
-        if (item.IDX === param.HIGHLIGHT_IDX) {
-          item.MEMO = param.MEMO;
-        }
-      });
+      // Safely update HIGHLIGHT_LIST if it exists
+      if (
+        GLOBAL_CONFIG.HIGHLIGHT_LIST &&
+        Array.isArray(GLOBAL_CONFIG.HIGHLIGHT_LIST)
+      ) {
+        GLOBAL_CONFIG.HIGHLIGHT_LIST.map(item => {
+          if (item.IDX === param.HIGHLIGHT_IDX) {
+            item.MEMO = param.MEMO;
+          }
+        });
+      }
       FORM.hidePicker();
     });
   },
@@ -292,6 +366,12 @@ let CONTENTS = {
   },
   /*하이라이트 생성*/
   createHighlight: async (color, element) => {
+    console.log(
+      "🎨 createHighlight called with color:",
+      color,
+      "type:",
+      typeof color
+    );
     window.getSelection().removeAllRanges();
 
     // 드래그를 했고, 하이라이팅이 되지 않았다면 신규로 판단하여 IDX값 을 증가한다.
@@ -311,6 +391,7 @@ let CONTENTS = {
     param.MEMO = ""; //MEMO
     param.IDX = GLOBAL_CONFIG.CURRENT_IDX;
     param.COLOR = color; // HIGHLIGHT
+    console.log("🎨 param.COLOR set to:", param.COLOR);
     param.SITE_CHECK = GLOBAL_CONFIG.USE_CURRENT_SITE; // 사이트를 한번이상 저장한적있으면 Y, 처음이면 N
     param.GB_FILETYPE = "T"; // Text인지 Image인지 구분
 

@@ -80,7 +80,12 @@ export default defineConfig({
         "options/options": resolve(__dirname, "src/options/options.js"),
 
         // Contents
+        "contents/test-simple": resolve(
+          __dirname,
+          "src/contents/test-simple.js"
+        ),
         "contents/listener": resolve(__dirname, "src/contents/listener.js"),
+        "contents/event": resolve(__dirname, "src/contents/event.js"),
         "contents/core/hl-core": resolve(
           __dirname,
           "src/contents/core/hl-core.js"
@@ -107,7 +112,8 @@ export default defineConfig({
         entryFileNames: "[name].js",
         chunkFileNames: "chunks/[name].[hash].js",
         assetFileNames: "[name].[ext]",
-        format: "es"
+        format: "es",
+        manualChunks: undefined
       },
 
       // Disable code splitting for Content Scripts to make them self-contained

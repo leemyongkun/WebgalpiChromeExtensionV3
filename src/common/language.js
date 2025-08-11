@@ -622,22 +622,33 @@ let MESSAGE = {
 let LANG = {
   lang: "EN",
   setLanguage: lang => {
-    LANG.lang = lang;
+    // Validate language code and fallback to EN if invalid
+    if (MESSAGE[lang]) {
+      LANG.lang = lang;
+    } else {
+      console.warn(`Invalid language code: ${lang}, falling back to EN`);
+      LANG.lang = "EN";
+    }
   },
   BUTTON_MESSAGE: code => {
-    return MESSAGE[LANG.lang].BUTTON[code];
+    const messages = MESSAGE[LANG.lang] || MESSAGE["EN"];
+    return messages.BUTTON[code];
   },
   ALERT_MESSAGE: code => {
-    return MESSAGE[LANG.lang].ALERT[code];
+    const messages = MESSAGE[LANG.lang] || MESSAGE["EN"];
+    return messages.ALERT[code];
   },
   CONFIRM_MESSAGE: code => {
-    return MESSAGE[LANG.lang].CONFIRM[code];
+    const messages = MESSAGE[LANG.lang] || MESSAGE["EN"];
+    return messages.CONFIRM[code];
   },
   DESCRIPTION_MESSAGE: code => {
-    return MESSAGE[LANG.lang].DESCRIPTION[code];
+    const messages = MESSAGE[LANG.lang] || MESSAGE["EN"];
+    return messages.DESCRIPTION[code];
   },
   SNACK_MESSAGE: code => {
-    return MESSAGE[LANG.lang].SNACK[code];
+    const messages = MESSAGE[LANG.lang] || MESSAGE["EN"];
+    return messages.SNACK[code];
   }
 };
 export default LANG;

@@ -32,13 +32,24 @@ let CORE = {
     }
   },
   printHighlight: async list => {
-    if (list === null) return null;
+    if (list === null || list.length === 0) return null;
+
+    console.log(
+      "🎨 Starting highlight rendering for",
+      list.length,
+      "highlights"
+    );
+    let processedCount = 0;
+    let skippedCount = 0;
+
     for (let i = 0; i < list.length; i++) {
       //동적으로 하이라이팅을 하지만, 이미 있는경우는 pass 하도록 한다.
       if (
         $("[" + GLOBAL_CONFIG.HL_ID_NAME + "=" + list[i].IDX + "]").length > 0
-      )
+      ) {
+        skippedCount++;
         continue;
+      }
 
       //카운트를 넣는다.(DEL)
       /*if (list[i].FL_READERMODE == 'Y') readermodeCount++; else highlightCount++;*/
@@ -66,6 +77,7 @@ let CORE = {
 
         //메모값 담아두기
         GLOBAL_CONFIG.MEMO_LIST.set(list[i].IDX, list[i].MEMO);
+        processedCount++;
       } else {
         GLOBAL_CONFIG.HIGHLIGHT_FALI_LIST.push(list[i]);
       }
@@ -95,6 +107,10 @@ let CORE = {
                                               $(destItem).addClass('wf-memo');
                                           }*/
     }
+
+    console.log(
+      `✅ Highlight rendering completed: ${processedCount} processed, ${skippedCount} skipped`
+    );
 
     /*let interval = setInterval(() => {
                       //todo : 해야함 >> dynamicLoadingItems();
@@ -203,6 +219,21 @@ let CORE = {
   },
   setHighlightColor: (text, color, idx) => {
     return new Promise(function(res, rej) {
+      // hex 색상을 CSS 클래스로 변환
+      let finalColor = color;
+      if (color && color.startsWith("#")) {
+        console.log("🔄 Converting hex color to CSS class:", color);
+        // hex 색상을 highlight-color-1으로 기본 변환
+        finalColor = "highlight-color-1";
+        console.log("🔄 Converted to:", finalColor);
+      } else if (color && !color.startsWith("highlight-color-")) {
+        console.log(
+          "🔄 Non-standard color format, defaulting to highlight-color-1:",
+          color
+        );
+        finalColor = "highlight-color-1";
+      }
+      console.log("🎨 Final color for highlight:", finalColor);
       let doc = GLOBAL_CONFIG.ELEMENT.ownerDocument; // 해당 요소를 포함하는 최상위의 문서 개체를 참조(노드가 속해 있는 Document 인터페이스를 구현하는 객체를 돌려주는 프로퍼티)
       let win = doc.defaultView;
       if (!win.getSelection().isCollapsed) {
@@ -210,7 +241,7 @@ let CORE = {
         // eslint-disable-next-line no-undef
         HIGHLIGT_CORE.execute(
           range,
-          color,
+          finalColor,
           GLOBAL_CONFIG.HL_TAG_NAME,
           idx,
           text
