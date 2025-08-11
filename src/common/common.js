@@ -1,6 +1,6 @@
 import CONTENT_LISTENER from "./content-listener";
 
-let $ = require("jquery");
+import $ from "jquery";
 Date.prototype.format = function(f) {
   if (!this.valueOf()) return " ";
 

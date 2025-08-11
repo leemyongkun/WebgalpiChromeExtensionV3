@@ -1,6 +1,6 @@
 import { GLOBAL_CONFIG } from "../global/config.js";
 
-let $ = require("jquery");
+import $ from "jquery";
 
 let hlText = "";
 let HIGHLIGT_CORE = {

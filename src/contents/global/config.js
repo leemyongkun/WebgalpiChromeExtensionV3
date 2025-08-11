@@ -52,4 +52,4 @@ let USER_INFO = {
 };
 let ELEMENT = {};
 
-export { GLOBAL_CONFIG, URL, STATUS, USER_INFO };
+export { GLOBAL_CONFIG, URL, STATUS, USER_INFO, ELEMENT };

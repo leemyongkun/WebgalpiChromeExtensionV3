@@ -2,7 +2,7 @@ import CONTENT_LISTENER from "./content-listener";
 import Common from "./common";
 import Utils from "../dashboard/utils/Utils";
 
-let md5 = require("md5");
+import md5 from "md5";
 
 let ONETAB = {
   closeAllTab() {

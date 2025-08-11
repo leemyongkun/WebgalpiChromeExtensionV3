@@ -12,7 +12,7 @@ let infoDiv; //currently just container for InfoDivHover, might add more here
 let infoDivHover; //container for hoverText text node.
 let hoverText; //show information about current element that the mouse is over
 //const EXPERIMENTAL_NEW_CODE=true;	//debugging. new features.
-let $ = require("jquery");
+import $ from "jquery";
 
 //START
 let SELECTION = {

@@ -83,10 +83,21 @@ export default {
     unwrapHighlight(item) {
       //본문의 highlight를 삭제한다.
       chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.tabs.sendMessage(tabs[0].id, {
-          action: "unwrap.highlight",
-          data: item
-        });
+        chrome.tabs.sendMessage(
+          tabs[0].id,
+          {
+            action: "unwrap.highlight",
+            data: item
+          },
+          response => {
+            if (chrome.runtime.lastError) {
+              console.warn(
+                "Failed to unwrap highlight:",
+                chrome.runtime.lastError
+              );
+            }
+          }
+        );
       });
     },
     async deleteAllHighlight(highlight) {
@@ -151,19 +162,49 @@ export default {
         let tabId = tabs[0].id;
 
         chrome.tabs.sendMessage(tabId, { action: "get.url.info" }, urlInfo => {
+          if (chrome.runtime.lastError) {
+            console.warn(
+              "Failed to get URL info from content script:",
+              chrome.runtime.lastError
+            );
+            // Content Scripts가 로드되지 않은 경우 빈 배열로 설정
+            this.highlights = [];
+            return;
+          }
+
+          if (!urlInfo) {
+            console.warn("No URL info received from content script");
+            this.highlights = [];
+            return;
+          }
+
           chrome.storage.local.get(String(tabId), items => {
             // items: 저장한 객체의 key/value
 
             chrome.storage.local.get(["loginInfo"], result => {
-              urlInfo.EMAIL = result.loginInfo.EMAIL;
+              if (result && result.loginInfo && result.loginInfo.EMAIL) {
+                urlInfo.EMAIL = result.loginInfo.EMAIL;
+              } else {
+                console.warn("No login info found, cannot get highlights");
+                this.highlights = [];
+                return;
+              }
 
               CONTENT_LISTENER.sendMessage({
                 type: "get.highlights",
                 data: urlInfo
-              }).then(response => {
-                /*this.Highlight.activities = response;*/
-                this.highlights = response;
-              });
+              })
+                .then(response => {
+                  /*this.Highlight.activities = response;*/
+                  this.highlights = response;
+                })
+                .catch(error => {
+                  console.warn(
+                    "Failed to get highlights from background:",
+                    error
+                  );
+                  this.highlights = [];
+                });
             });
           });
         });

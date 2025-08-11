@@ -1,11 +1,11 @@
 <template>
-  <div class="v-app app">
+  <v-app>
     <AppBarPage ref="appBarPage" :member="member" />
     <MenuPage ref="menuPage" />
     <v-main class="content">
-      <div class="v-container container fluid pt-0 mt-0">
+      <v-container class="fluid pt-0 mt-0">
         <ContentBody ref="contentBody"></ContentBody>
-      </div>
+      </v-container>
     </v-main>
 
     <SignDialog ref="signDialog"></SignDialog>
@@ -27,7 +27,7 @@
         🔄 데이터 초기화
       </button>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -101,41 +101,46 @@ export default {
       this.overlay.status = false;
     });
 
-    // DOM이 완전히 준비된 후 실행
-    await this.$nextTick();
+    try {
+      // DOM이 완전히 준비된 후 실행
+      await this.$nextTick();
 
-    // 대쉬보드 초기화
-    this.initDashboard();
+      // 대쉬보드 초기화
+      await this.initDashboard();
 
-    // 업데이트 내역을 보여준다.
-    this.openUpdateInfomation();
+      // 업데이트 내역을 보여준다.
+      this.openUpdateInfomation();
 
-    setTimeout(() => {
-      // 복구여부 프로세스
-      // this.autoRestoreProcess();
-    }, 2000);
+      setTimeout(() => {
+        // 복구여부 프로세스
+        // this.autoRestoreProcess();
+      }, 2000);
+    } catch (error) {
+      console.error("Error in DashboardApp mounted:", error);
+    }
   },
   methods: {
     async initDashboard() {
       console.log("initDashboard called successfully!");
 
-      // Check for URL parameter to force reset
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get("reset") === "true") {
-        this.clearAllData();
-        return;
-      }
+      try {
+        // Check for URL parameter to force reset
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("reset") === "true") {
+          this.clearAllData();
+          return;
+        }
 
-      // Debug: Check what's actually in storage
-      chrome.storage.local.get(null, allData => {
-        console.log("🔍 All storage data:", allData);
-        console.log("🔍 Storage keys:", Object.keys(allData));
-      });
+        // Debug: Check what's actually in storage
+        chrome.storage.local.get(null, allData => {
+          console.log("🔍 All storage data:", allData);
+          console.log("🔍 Storage keys:", Object.keys(allData));
+        });
 
-      CONTENT_LISTENER.sendMessage({
-        type: "get.all.members",
-        data: null
-      }).then(members => {
+        const members = await CONTENT_LISTENER.sendMessage({
+          type: "get.all.members",
+          data: null
+        });
         console.log("🔍 getAllMembers result:", members);
         document.body.classList.add("theme-dark");
 
@@ -149,12 +154,12 @@ export default {
 
           if (result.EMAIL !== "" && result.EMAIL !== undefined) {
             setTimeout(async () => {
-              let result = await Utils.getLocalStorage("loginInfo");
-              if (result.loginInfo) {
+              let loginResult = await Utils.getLocalStorage("loginInfo");
+              if (loginResult.loginInfo) {
                 return false;
               }
               let param = new Object();
-              param.EMAIL = result.loginInfo.EMAIL;
+              param.EMAIL = result.EMAIL;
 
               CONTENT_LISTENER.sendMessage({
                 type: "get.option",
@@ -176,21 +181,29 @@ export default {
             }, 0);
           }
         }
-      });
+      } catch (error) {
+        console.error("Error in initDashboard:", error);
+        // 에러가 발생해도 앱이 계속 실행되도록 함
+        document.body.classList.add("theme-dark");
+        this.$refs.signDialog?.open();
+      }
     },
 
     openUpdateInfomation() {
-      if (location.search) {
-        location.search
-          .split(/[?&]/)
-          .slice(1)
-          .map(paramPair => {
-            if (paramPair === "update") {
-              this.$refs.appBarPage.showInfo();
-            } else if (paramPair === "tabgroup") {
-              this.$refs.appBarPage.showOnetab();
-            }
-          });
+      try {
+        // 더 안전한 URL 파라미터 검사
+        const search = window.location.search || "";
+        if (search) {
+          const params = new URLSearchParams(search);
+
+          if (params.has("update")) {
+            this.$refs.appBarPage?.showInfo();
+          } else if (params.has("tabgroup")) {
+            this.$refs.appBarPage?.showOnetab();
+          }
+        }
+      } catch (error) {
+        console.log("URL parameter parsing error:", error);
       }
 
       Common.closeDuplicateDashboard();

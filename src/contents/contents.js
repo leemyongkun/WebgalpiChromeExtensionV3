@@ -6,8 +6,8 @@ import CONTENT_LISTENER from "../common/content-listener";
 import Common from "../common/common";
 import LANG from "../common/language";
 
-let md5 = require("md5");
-let $ = require("jquery");
+import md5 from "md5";
+import $ from "jquery";
 
 let CURRENT_URL = null;
 let CONTENTS = {

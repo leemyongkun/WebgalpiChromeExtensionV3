@@ -1,6 +1,6 @@
 import COMMON from "../../contents/common";
 
-let $ = require("jquery");
+import $ from "jquery";
 
 $.Jcrop = function(obj, opt) {
   var options = $.extend({}, $.Jcrop.defaults),

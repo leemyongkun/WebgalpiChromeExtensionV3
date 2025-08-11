@@ -34,14 +34,13 @@
                     :close-on-content-click="false"
                     :nudge-width="200"
                     offset-x
-                    left
-                    bottom
+                    location="bottom start"
                   >
                     <template v-slot:activator="{ on: menu }">
                       <v-tooltip
                         v-model="categoryBtnDesc.parent"
                         color="blue"
-                        top
+                        location="top"
                       >
                         <template v-slot:activator="{ on: tooltip }">
                           <v-btn
@@ -152,7 +151,6 @@
                         <v-icon
                           dense
                           size="18px"
-                          right
                           color="success"
                           @click="
                             editCategoryName($event, rootCategory, 'parent')
@@ -163,7 +161,6 @@
                         <v-icon
                           dense
                           size="18px"
-                          right
                           color="error"
                           @click="
                             deleteCategory($event, rootCategory, 'parent')
@@ -194,14 +191,13 @@
                     :close-on-content-click="false"
                     :nudge-width="200"
                     offset-x
-                    left
-                    bottom
+                    location="bottom start"
                   >
                     <template v-slot:activator="{ on: menu }">
                       <v-tooltip
                         v-model="categoryBtnDesc.child"
                         color="blue"
-                        top
+                        location="top"
                       >
                         <template v-slot:activator="{ on: tooltip }">
                           <v-btn
@@ -295,7 +291,6 @@
                         <v-icon
                           dense
                           size="18px"
-                          right
                           color="success"
                           @click="
                             editCategoryName($event, children, 'children')
@@ -306,7 +301,6 @@
                         <v-icon
                           dense
                           size="18px"
-                          right
                           color="error"
                           @click="deleteCategory($event, children, 'children')"
                           >mdi-trash-can-outline

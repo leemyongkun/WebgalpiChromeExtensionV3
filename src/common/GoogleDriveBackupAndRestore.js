@@ -4,7 +4,7 @@ import MODAL from "./modal";
 import LANG from "./language";
 import ACCOUNT from "./account";
 
-let CryptoJS = require("crypto-js");
+import CryptoJS from "crypto-js";
 
 let GOOGLE_DRIVE_DATA = {
   BACKUP_FOLDER_TITLE: "WEBGALPI",

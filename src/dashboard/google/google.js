@@ -2,7 +2,7 @@ const CLIENT_ID =
   "193252333713-j91q3e6p75o5g836o8s7kb5ka2ovik3c.apps.googleusercontent.com";
 const API_KEY = "Kt09L4H4hglL78qJcqot1r1j";
 const SCOPES = ["https://www.googleapis.com/auth/drive"];
-let $ = require("jquery");
+import $ from "jquery";
 import gapi from "gapi-client";
 
 function handleClientLoad() {

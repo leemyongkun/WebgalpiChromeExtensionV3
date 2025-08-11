@@ -1,4 +1,4 @@
-let $ = require("jquery");
+import $ from "jquery";
 
 import EVENT from "./event";
 import CONTENTS from "./contents";

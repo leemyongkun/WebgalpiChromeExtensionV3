@@ -29,13 +29,13 @@
               </v-col>
               <v-col cols="auto">
                 <v-tooltip v-model="tooltip.delete" color="blue" top>
-                  <template v-slot:activator="{ on }">
+                  <template v-slot:activator="{ props }">
                     <v-btn
                       color="red"
                       icon
                       @click="deleteGroup"
                       :disabled="deleteBtnDisabled"
-                      v-on="on"
+                      v-bind="props"
                     >
                       <v-icon>mdi-trash-can-outline</v-icon>
                     </v-btn>
@@ -44,8 +44,13 @@
                 </v-tooltip>
 
                 <v-tooltip v-model="tooltip.filter" color="blue" top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn color="success" icon @click="runOneTab" v-on="on">
+                  <template v-slot:activator="{ props }">
+                    <v-btn
+                      color="success"
+                      icon
+                      @click="runOneTab"
+                      v-bind="props"
+                    >
                       <v-icon>mdi-filter</v-icon>
                     </v-btn>
                   </template>

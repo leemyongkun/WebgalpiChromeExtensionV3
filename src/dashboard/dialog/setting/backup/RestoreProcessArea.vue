@@ -177,7 +177,7 @@ import ACCOUNT from "../../../../common/account";
 import MODAL from "../../../../common/modal";
 import LANG from "../../../../common/language";
 
-let CryptoJS = require("crypto-js");
+import CryptoJS from "crypto-js";
 export default {
   props: [],
   data: () => ({

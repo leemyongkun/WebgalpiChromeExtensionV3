@@ -1,4 +1,4 @@
-let $ = require("jquery");
+import $ from "jquery";
 import LANG from "./language";
 let CONTENT_LISTENER = {
   checkLastError: message => {
@@ -16,8 +16,14 @@ let CONTENT_LISTENER = {
           res(response);
         });
       } catch (e) {
+        console.error("CONTENT_LISTENER sendMessage error:", e);
         alert(LANG.ALERT_MESSAGE("A0025"));
-        location.reload();
+        // Only reload if we're not in a popup
+        if (window.location.pathname.includes("popup.html")) {
+          window.close();
+        } else {
+          location.reload();
+        }
       }
     });
 

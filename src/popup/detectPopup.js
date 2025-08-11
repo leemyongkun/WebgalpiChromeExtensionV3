@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import DetectPopupApp from "./DetectPopupApp";
+import DetectPopupApp from "./DetectPopupApp.vue";
 import vuetify from "../lib/vuetify/vuetify";
 
 // Import Vuetify compatibility CSS

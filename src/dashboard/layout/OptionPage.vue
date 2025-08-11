@@ -25,10 +25,10 @@
 
     <!-- ONETAB -->
     <v-tooltip bottom color="blue">
-      <template v-slot:activator="{ on }">
+      <template v-slot:activator="{ props }">
         <v-icon
           class="pr-2"
-          v-on="on"
+          v-bind="props"
           size="20px"
           style="cursor: pointer"
           @click="openOneTab"
@@ -42,10 +42,10 @@
 
     <!-- BOOKMARK -->
     <!--<v-tooltip bottom color="blue">
-                    <template v-slot:activator="{ on }">
+                    <template v-slot:activator="{ props }">
                         <v-icon
                                 class="pr-2"
-                                v-on="on"
+                                v-bind="props"
                                 size="20px"
                                 style="cursor: pointer"
                                 @click="openBookmarkArea"
@@ -59,10 +59,10 @@
 
     <!-- THEME -->
     <v-tooltip bottom color="blue">
-      <template v-slot:activator="{ on }">
+      <template v-slot:activator="{ props }">
         <v-icon
           class="pr-2"
-          v-on="on"
+          v-bind="props"
           size="20px"
           style="cursor: pointer"
           @click="openThemeArea"
@@ -76,10 +76,10 @@
 
     <!-- GOOGLE DRIVE BACKUP -->
     <v-tooltip bottom color="blue">
-      <template v-slot:activator="{ on }">
+      <template v-slot:activator="{ props }">
         <v-icon
           class="pr-2"
-          v-on="on"
+          v-bind="props"
           size="20px"
           style="cursor: pointer"
           @click="openBackupArea"
@@ -93,9 +93,9 @@
 
     <!-- Color 변경 -->
     <v-tooltip bottom color="blue">
-      <template v-slot:activator="{ on }">
+      <template v-slot:activator="{ props }">
         <v-icon
-          v-on="on"
+          v-bind="props"
           class="pr-2"
           size="20px"
           style="cursor: pointer"

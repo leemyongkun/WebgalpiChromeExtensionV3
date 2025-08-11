@@ -285,7 +285,7 @@ export default {
       let result = await Utils.getLocalStorage("loginInfo");
       let param = new Object();
       param.IDX = item.IDX;
-      param.EMAIL = result.loginInfo.EMAIL;
+      param.EMAIL = result.loginInfo ? result.loginInfo.EMAIL : "";
 
       CONTENT_LISTENER.sendMessage({
         type: type,
@@ -347,7 +347,7 @@ export default {
       }
 
       let result = await Utils.getLocalStorage("loginInfo");
-      param.EMAIL = result.loginInfo.EMAIL;
+      param.EMAIL = result.loginInfo ? result.loginInfo.EMAIL : "";
       param.filter = this.filter;
       //페이징 처리를 한다.
       param.startOffset = this.offset.start;
@@ -405,7 +405,7 @@ export default {
       //하이라이트 가져오기
       let param = new Object();
       param.KEY = site.URL_KEY;
-      param.EMAIL = result.loginInfo.EMAIL;
+      param.EMAIL = result.loginInfo ? result.loginInfo.EMAIL : "";
 
       CONTENT_LISTENER.sendMessage({
         type: "get.highlights",

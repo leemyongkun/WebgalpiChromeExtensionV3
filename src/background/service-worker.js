@@ -8,7 +8,7 @@ import Common from "../common/common";
 import COMMON_ACTION from "../common/commonAction";
 
 // Use chrome APIs directly instead of global browser polyfill
-const md5 = require("md5");
+import md5 from "md5";
 
 // Service Worker initialization
 console.log("WEBGALPI Service Worker started - Version 1.0");
@@ -144,7 +144,7 @@ const BackgroundModule = {
               tabId
             );
 
-            const sendMessageWithRetry = (attempt = 1, maxAttempts = 5) => {
+            const sendMessageWithRetry = (attempt = 1, maxAttempts = 15) => {
               // First check if tab is still active and loaded
               chrome.tabs.get(tabId, tab => {
                 if (chrome.runtime.lastError) {
@@ -155,6 +155,19 @@ const BackgroundModule = {
                   return;
                 }
 
+                // Skip restricted URLs that can't have content scripts
+                if (
+                  tab.url &&
+                  (tab.url.startsWith("chrome://") ||
+                    tab.url.startsWith("chrome-extension://") ||
+                    tab.url.startsWith("moz-extension://") ||
+                    tab.url.startsWith("edge://") ||
+                    tab.url === "about:blank")
+                ) {
+                  console.log("🚫 Skipping restricted URL:", tab.url);
+                  return;
+                }
+
                 if (tab.status !== "complete") {
                   console.log(
                     `⏳ Tab still loading (status: ${tab.status}), waiting...`
@@ -162,58 +175,79 @@ const BackgroundModule = {
                   if (attempt < maxAttempts) {
                     setTimeout(
                       () => sendMessageWithRetry(attempt + 1, maxAttempts),
-                      1000
+                      2000 // Increased wait time
                     );
                   }
                   return;
                 }
 
-                chrome.tabs.sendMessage(
-                  tabId,
-                  {
-                    action: "application.init",
-                    data: res,
-                    site: initParameter
-                  },
-                  response => {
-                    if (chrome.runtime.lastError) {
-                      const error = chrome.runtime.lastError.message;
-                      if (
-                        attempt < maxAttempts &&
-                        (error.includes("port closed") ||
-                          error.includes("Receiving end does not exist"))
-                      ) {
-                        console.warn(
-                          `⚠️  Attempt ${attempt}/${maxAttempts} failed: ${error}. Retrying in ${attempt *
-                            1000}ms...`
-                        );
-                        setTimeout(
-                          () => sendMessageWithRetry(attempt + 1, maxAttempts),
-                          attempt * 1000
-                        );
+                // Add delay for first attempt to ensure content scripts are loaded
+                const delay = attempt === 1 ? 3000 : 1500;
+
+                setTimeout(() => {
+                  chrome.tabs.sendMessage(
+                    tabId,
+                    {
+                      action: "application.init",
+                      data: res,
+                      site: initParameter
+                    },
+                    response => {
+                      if (chrome.runtime.lastError) {
+                        const error =
+                          chrome.runtime.lastError.message ||
+                          chrome.runtime.lastError.toString();
+                        if (
+                          attempt < maxAttempts &&
+                          (error.includes("port closed") ||
+                            error.includes("Receiving end does not exist") ||
+                            error.includes("Could not establish connection"))
+                        ) {
+                          console.warn(
+                            `⚠️  Attempt ${attempt}/${maxAttempts} failed: ${error}. Retrying in 2000ms...`
+                          );
+                          setTimeout(
+                            () =>
+                              sendMessageWithRetry(attempt + 1, maxAttempts),
+                            2000 // Fixed delay for retries
+                          );
+                        } else {
+                          console.log(
+                            "⏭️  Giving up on application.init after",
+                            maxAttempts,
+                            "attempts:",
+                            chrome.runtime.lastError
+                          );
+                        }
                       } else {
-                        console.error(
-                          "❌ Could not send application.init to Content Scripts after",
-                          maxAttempts,
-                          "attempts:",
-                          chrome.runtime.lastError
+                        console.log(
+                          "✅ Content Scripts initialized successfully for tabId:",
+                          tabId,
+                          "on attempt",
+                          attempt
                         );
                       }
-                    } else {
-                      console.log(
-                        "✅ Content Scripts initialized successfully for tabId:",
-                        tabId,
-                        "on attempt",
-                        attempt
-                      );
                     }
-                  }
-                );
+                  );
+                }, delay);
               });
             };
 
-            // Wait a bit before first attempt to ensure Content Scripts are loaded
-            setTimeout(() => sendMessageWithRetry(), 500);
+            // First, check if Content Scripts are loaded by injecting a test script
+            chrome.scripting.executeScript(
+              {
+                target: { tabId: tabId },
+                func: () => {
+                  return window.contentScriptsLoaded || false;
+                }
+              },
+              results => {
+                console.log("Content Scripts loaded check:", results);
+
+                // Wait longer for Content Scripts to be fully loaded
+                setTimeout(() => sendMessageWithRetry(), 2000);
+              }
+            );
           })
           .catch(err => {
             console.error("Error getting init info:", err);
@@ -536,6 +570,30 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           });
         });
       });
+      return true;
+
+    case "update.option.theme":
+      Api.updateOptionTheme(msg.data)
+        .then(result => {
+          console.log("updateOptionTheme completed:", result);
+          sendResponse(result);
+        })
+        .catch(err => {
+          console.error("updateOptionTheme error:", err);
+          sendResponse(false);
+        });
+      return true;
+
+    case "update.option.language":
+      Api.updateOptionLanguage(msg.data)
+        .then(result => {
+          console.log("updateOptionLanguage completed:", result);
+          sendResponse(result);
+        })
+        .catch(err => {
+          console.error("updateOptionLanguage error:", err);
+          sendResponse(false);
+        });
       return true;
 
     default:

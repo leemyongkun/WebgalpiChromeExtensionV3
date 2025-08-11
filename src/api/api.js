@@ -395,7 +395,10 @@ let Api = {
   },
 
   updateOptionTheme: async param => {
-    const options = await getStorageData(STORAGE_KEYS.OPTIONS);
+    const optionsData = await getStorageData(STORAGE_KEYS.OPTIONS);
+    const options = Array.isArray(optionsData) ? optionsData : [];
+    console.log("updateOptionTheme - options data:", options);
+
     const optionIndex = options.findIndex(opt => opt.EMAIL === param.EMAIL);
 
     if (optionIndex >= 0) {
@@ -403,11 +406,15 @@ let Api = {
     } else {
       options.push({ ...param, TYPE: "THEME" });
     }
+    console.log("updateOptionTheme - saving options:", options);
     return await setStorageData(STORAGE_KEYS.OPTIONS, options);
   },
 
   updateOptionLanguage: async param => {
-    const options = await getStorageData(STORAGE_KEYS.OPTIONS);
+    const optionsData = await getStorageData(STORAGE_KEYS.OPTIONS);
+    const options = Array.isArray(optionsData) ? optionsData : [];
+    console.log("updateOptionLanguage - options data:", options);
+
     const optionIndex = options.findIndex(opt => opt.EMAIL === param.EMAIL);
 
     if (optionIndex >= 0) {
@@ -415,6 +422,7 @@ let Api = {
     } else {
       options.push({ ...param, TYPE: "LANGUAGE" });
     }
+    console.log("updateOptionLanguage - saving options:", options);
     return await setStorageData(STORAGE_KEYS.OPTIONS, options);
   },
 
@@ -618,6 +626,33 @@ let Api = {
     const items = await getStorageData(STORAGE_KEYS.ITEMS);
     items.push(param);
     return await setStorageData(STORAGE_KEYS.ITEMS, items);
+  },
+
+  // Update history functions
+  insertUpdateHistory: async param => {
+    try {
+      const updateHistoryData = {
+        ...param,
+        DATE_CREATE: new Date().getTime(),
+        VERSION: "1.0", // 현재 버전
+        TYPE: "REGISTRATION" // 등록 히스토리
+      };
+
+      // 업데이트 히스토리를 OPTIONS에 저장 (간단한 구조로)
+      const options = await getStorageData(STORAGE_KEYS.OPTIONS);
+      options.push({
+        ...updateHistoryData,
+        TYPE: "UPDATE_HISTORY"
+      });
+
+      await setStorageData(STORAGE_KEYS.OPTIONS, options);
+      console.log("✅ Update history inserted:", updateHistoryData);
+
+      return updateHistoryData;
+    } catch (error) {
+      console.error("insertUpdateHistory error:", error);
+      throw error;
+    }
   }
 };
 

@@ -14,8 +14,6 @@
     <v-navigation-drawer
       permanent
       ref="drawer"
-      app
-      clipped
       :width="navigation.width"
       v-model="navigation.shown"
     >
@@ -33,16 +31,16 @@
                     <v-tooltip
                       v-model="categoryBtnTooltip.plus"
                       color="blue"
-                      top
+                      location="top"
                     >
-                      <template v-slot:activator="{ on }">
+                      <template v-slot:activator="{ props }">
                         <v-btn
                           elevation="0"
                           block
                           color="info"
                           class="pt-0 pb-1 mb-3"
                           style="height: 30px"
-                          v-on="on"
+                          v-bind="props"
                           @click="editCategory($event)"
                         >
                           <v-icon size="18px">mdi-folder-edit-outline </v-icon

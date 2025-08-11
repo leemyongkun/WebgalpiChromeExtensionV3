@@ -3,7 +3,14 @@ import EVENT from "./event";
 import APPLICATION from "./application.js";
 import { GLOBAL_CONFIG, URL, USER_INFO } from "./global/config";
 
-let $ = require("jquery");
+import $ from "jquery";
+
+// Content Scripts가 로드되었음을 확인
+console.log("🚀 Content Scripts listener.js loaded successfully!");
+console.log("🚀 Current URL:", window.location.href);
+
+// Content Scripts 로드 완료 플래그 설정
+window.contentScriptsLoaded = true;
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   console.log("📥 Content Scripts received message:", msg.action, msg);
@@ -65,15 +72,28 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       break;
     case "get.site.info":
       //let content = await CONTENTS.firstVisitSite(new Object());
-      CONTENTS.firstVisitSite(new Object()).then(content => {
-        content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
-        content.SITE_OPEN = GLOBAL_CONFIG.SITE_OPEN;
-        content.TITLE = document.title;
-        content.UPDATE_TITLE = document.title;
-        content.URL = URL.SITE;
-        content.URL_KEY = URL.KEY;
-        sendResponse(content);
-      });
+      CONTENTS.firstVisitSite(new Object())
+        .then(content => {
+          content.USE_CURRENT_SITE = GLOBAL_CONFIG.USE_CURRENT_SITE;
+          content.SITE_OPEN = GLOBAL_CONFIG.SITE_OPEN;
+          content.TITLE = document.title;
+          content.UPDATE_TITLE = document.title;
+          content.URL = URL.SITE;
+          content.URL_KEY = URL.KEY;
+          sendResponse(content);
+        })
+        .catch(error => {
+          console.error("Error in get.site.info:", error);
+          // Send a basic response even if firstVisitSite fails
+          sendResponse({
+            USE_CURRENT_SITE: GLOBAL_CONFIG.USE_CURRENT_SITE,
+            SITE_OPEN: GLOBAL_CONFIG.SITE_OPEN,
+            TITLE: document.title,
+            UPDATE_TITLE: document.title,
+            URL: URL.SITE || window.location.href,
+            URL_KEY: URL.KEY || ""
+          });
+        });
       return true;
       break;
     case "get.url.info":

@@ -92,7 +92,7 @@ import CRAWLER from "../../common/cheerio";
 import CONTENT_LISTENER from "../../../common/content-listener";
 import LANG from "../../../common/language";
 
-let md5 = require("md5");
+import md5 from "md5";
 
 export default {
   components: {},

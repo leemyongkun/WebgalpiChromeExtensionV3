@@ -161,7 +161,7 @@ import CONTENT_LISTENER from "../../common/content-listener";
 import CONTENTS from "../../contents/contents";
 import LANG from "../../common/language";
 
-let $ = require("jquery");
+import $ from "jquery";
 
 //https://www.npmjs.com/package/vue-youtube-embed
 export default {

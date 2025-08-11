@@ -1,4 +1,4 @@
-let $ = require("jquery");
+import $ from "jquery";
 
 import { GLOBAL_CONFIG, STATUS } from "./global/config";
 import FORM from "./form";

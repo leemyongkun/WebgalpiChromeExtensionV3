@@ -106,7 +106,14 @@ export default defineConfig({
       output: {
         entryFileNames: "[name].js",
         chunkFileNames: "chunks/[name].[hash].js",
-        assetFileNames: "[name].[ext]"
+        assetFileNames: "[name].[ext]",
+        format: "es"
+      },
+
+      // Disable code splitting for Content Scripts to make them self-contained
+      external: id => {
+        // Don't externalize chrome APIs
+        return id === "chrome" || id.startsWith("chrome.");
       }
     },
 
@@ -126,6 +133,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": resolve(__dirname, "src")
-    }
+    },
+    extensions: [".js", ".vue", ".ts", ".jsx", ".tsx", ".json"]
   }
 });

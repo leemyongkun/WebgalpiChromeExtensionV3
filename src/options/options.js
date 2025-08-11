@@ -1,7 +1,8 @@
 import { createApp } from "vue";
-import App from "./App";
+import App from "./App.vue";
 
-global.browser = require("webextension-polyfill");
+import browser from "webextension-polyfill";
+global.browser = browser;
 
 const app = createApp(App);
 app.mount("#app");

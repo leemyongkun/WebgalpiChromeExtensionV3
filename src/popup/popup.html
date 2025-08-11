@@ -3,14 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <title>WEBGALPI</title>
-    <link rel="stylesheet" href="popup.css" />
-    <link rel="stylesheet" href="../css/vuetify-compat.css" />
-    <% if (NODE_ENV === 'development') { %>
-    <!-- Load some resources only in development environment -->
-    <% } %>
+    <link rel="stylesheet" href="../popup.css" />
+    <link rel="stylesheet" href="../vuetify-compat.css" />
   </head>
   <body id="body">
     <div id="app"></div>
-    <script src="popup.js"></script>
+    <script type="module" src="popup.js"></script>
   </body>
 </html>

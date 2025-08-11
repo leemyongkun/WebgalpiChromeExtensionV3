@@ -1,9 +1,9 @@
 import CONTENTS from "../../contents/contents";
 import Utils from "../utils/Utils";
 
-const axios = require("axios");
+import axios from "axios";
 // const cheerio = require("cheerio"); // Disabled due to ES6 module parsing issues
-const md5 = require("md5");
+import md5 from "md5";
 const instance = axios.create();
 instance.defaults.timeout = 5000;
 //instance.defaults.headers.get['Content-Type'] = 'text/html; charset-UTF-8';

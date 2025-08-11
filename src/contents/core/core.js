@@ -2,7 +2,7 @@ import { GLOBAL_CONFIG, URL } from "../global/config.js";
 import HIGHLIGT_CORE from "./hl-core.js";
 import EVENT from "../event.js";
 
-let $ = require("jquery");
+import $ from "jquery";
 
 let CORE = {
   printHighlightForDashboard: async list => {

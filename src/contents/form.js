@@ -3,7 +3,7 @@ import { STATUS } from "./global/config";
 import Common from "../common/common";
 import LANG from "../common/language";
 
-let $ = require("jquery");
+import $ from "jquery";
 
 let FORM = {
   clearColorPicker: color => {

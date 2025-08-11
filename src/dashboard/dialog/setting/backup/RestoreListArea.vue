@@ -21,7 +21,7 @@
             {{ item.description }}
           </template>
           <template v-slot:item.modifiedDate="{ item }">
-            {{ convertDate(item.title.split("_")[2]) }}
+            {{ convertDate(item.title ? item.title.split("_")[2] : "") }}
           </template>
 
           <template v-slot:item.fileSize="{ item }">

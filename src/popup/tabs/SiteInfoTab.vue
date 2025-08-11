@@ -161,9 +161,22 @@ export default {
           tabId,
           { action: "get.site.info" },
           siteInfo => {
-            if (siteInfo.URL !== "") {
+            if (chrome.runtime.lastError) {
+              console.warn(
+                "Failed to get site info:",
+                chrome.runtime.lastError
+              );
+              return;
+            }
+
+            if (siteInfo && siteInfo.URL !== "") {
               chrome.storage.local.get(["loginInfo"], result => {
-                siteInfo.EMAIL = result.loginInfo.EMAIL;
+                if (result && result.loginInfo && result.loginInfo.EMAIL) {
+                  siteInfo.EMAIL = result.loginInfo.EMAIL;
+                } else {
+                  console.warn("No login info found for unlock site");
+                  return;
+                }
                 siteInfo.FULL_TEXT = Common.replaceSpecialWord(
                   siteInfo.FULL_TEXT
                 );
@@ -225,14 +238,29 @@ export default {
           alert(LANG.ALERT_MESSAGE("A0014"));
           chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
             let tabId = tabs[0].id;
-            chrome.tabs.sendMessage(tabId, {
-              action: "update.global.config.useCurrentSite"
-            });
+            chrome.tabs.sendMessage(
+              tabId,
+              {
+                action: "update.global.config.useCurrentSite"
+              },
+              response => {
+                if (chrome.runtime.lastError) {
+                  console.warn(
+                    "Failed to update site config:",
+                    chrome.runtime.lastError
+                  );
+                }
+              }
+            );
           });
         });
     },
     setCategory() {
       chrome.storage.local.get(["loginInfo"], result => {
+        if (!result || !result.loginInfo || !result.loginInfo.EMAIL) {
+          console.warn("No login info found for categories");
+          return;
+        }
         let param = new Object();
         param.EMAIL = result.loginInfo.EMAIL;
 
@@ -259,62 +287,209 @@ export default {
           }
         });
       });
+    },
+    setDefaultSiteInfo() {
+      // Content Scripts가 로드되지 않았을 때 기본값 설정
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        if (tabs && tabs[0]) {
+          const tab = tabs[0];
+          console.log("Setting default site info for:", tab.url);
+
+          this.siteInfo = {
+            URL: tab.url || "",
+            TITLE: tab.title || "Untitled",
+            UPDATE_TITLE: tab.title || "Untitled",
+            OG_IMAGE: "",
+            OG_TITLE: tab.title || "Untitled",
+            OG_DESCRIPTION: this.isRestrictedUrl(tab.url)
+              ? "This is a browser system page"
+              : "No description available",
+            USE_CURRENT_SITE: "N",
+            SITE_OPEN: "Y"
+          };
+          this.overlay.status = false;
+        } else {
+          console.warn("No active tab found for default site info");
+          this.siteInfo = {
+            URL: "",
+            TITLE: "Unknown",
+            UPDATE_TITLE: "Unknown",
+            OG_IMAGE: "",
+            OG_TITLE: "Unknown",
+            OG_DESCRIPTION: "No page information available",
+            USE_CURRENT_SITE: "N",
+            SITE_OPEN: "Y"
+          };
+          this.overlay.status = false;
+        }
+      });
+    },
+    async tryGetSiteInfo(attempt = 1, maxAttempts = 3) {
+      try {
+        const tabs = await new Promise((resolve, reject) => {
+          chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+            if (chrome.runtime.lastError) {
+              reject(chrome.runtime.lastError);
+            } else {
+              resolve(tabs);
+            }
+          });
+        });
+
+        if (!tabs || tabs.length === 0) {
+          console.warn("No active tab found, using default info");
+          this.setDefaultSiteInfo();
+          return;
+        }
+
+        const tab = tabs[0];
+
+        // Skip restricted URLs immediately
+        if (this.isRestrictedUrl(tab.url)) {
+          console.log(
+            "Restricted URL detected, using default info for:",
+            tab.url
+          );
+          this.setDefaultSiteInfo();
+          return;
+        }
+
+        // Wait a bit longer on first attempt for content scripts to load
+        if (attempt === 1) {
+          await new Promise(resolve => setTimeout(resolve, 1500));
+        }
+
+        chrome.tabs.sendMessage(
+          tab.id,
+          { action: "get.site.info" },
+          siteInfo => {
+            if (chrome.runtime.lastError) {
+              const errorMsg =
+                chrome.runtime.lastError.message ||
+                chrome.runtime.lastError.toString();
+
+              // Don't log as error on first attempt - it's common for content scripts to not be ready
+              if (attempt === 1) {
+                console.log(
+                  `Content Scripts not ready on first attempt, will retry...`
+                );
+              } else {
+                console.warn(
+                  `Failed to get site info (attempt ${attempt}/${maxAttempts}):`,
+                  errorMsg
+                );
+              }
+
+              // "Could not establish connection" 오류 시 즉시 기본값 사용
+              if (
+                errorMsg.includes("Could not establish connection") ||
+                errorMsg.includes("Receiving end does not exist")
+              ) {
+                if (attempt === maxAttempts) {
+                  console.log(
+                    "Content Scripts not available after all attempts, using default info"
+                  );
+                } else {
+                  console.log(
+                    `Content Scripts not ready (attempt ${attempt}), will retry in 2 seconds...`
+                  );
+                }
+
+                if (attempt >= maxAttempts) {
+                  this.setDefaultSiteInfo();
+                  return;
+                }
+
+                // 2초 후 재시도 (더 긴 간격)
+                setTimeout(() => {
+                  this.tryGetSiteInfo(attempt + 1, maxAttempts);
+                }, 2000);
+                return;
+              }
+
+              // 최대 시도 횟수에 도달했으면 기본값 사용
+              if (attempt >= maxAttempts) {
+                console.log("Max attempts reached, using default info");
+                this.setDefaultSiteInfo();
+                return;
+              }
+
+              // 2초 후 재시도
+              setTimeout(() => {
+                this.tryGetSiteInfo(attempt + 1, maxAttempts);
+              }, 2000);
+              return;
+            }
+
+            if (siteInfo === undefined) {
+              alert(LANG.ALERT_MESSAGE("A0018"));
+              this.setDefaultSiteInfo();
+              return;
+            }
+
+            if (siteInfo.OG_IMAGE === null || siteInfo.OG_IMAGE === "") {
+              siteInfo.OG_IMAGE = "";
+            }
+            if (siteInfo.OG_TITLE === null || siteInfo.OG_TITLE === "") {
+              siteInfo.OG_TITLE = siteInfo.UPDATE_TITLE;
+            }
+            if (
+              siteInfo.OG_DESCRIPTION === null ||
+              siteInfo.OG_DESCRIPTION === ""
+            ) {
+              siteInfo.OG_DESCRIPTION = "NO DESCRIPTION";
+            }
+
+            if (siteInfo.URL !== "") {
+              chrome.storage.local.get(["loginInfo"], result => {
+                if (result && result.loginInfo && result.loginInfo.EMAIL) {
+                  siteInfo.EMAIL = result.loginInfo.EMAIL;
+                } else {
+                  console.warn("No login info found for site info");
+                  return;
+                }
+                // 성공적으로 데이터를 받았음
+
+                if (siteInfo.USE_CURRENT_SITE === "Y") {
+                  this.siteStatus = 1;
+                }
+
+                if (siteInfo.SITE_OPEN === "N") {
+                  this.siteStatus = 2;
+                }
+
+                this.siteInfo = siteInfo;
+                this.overlay.status = false;
+              });
+
+              this.setCategory();
+            }
+          }
+        );
+      } catch (error) {
+        console.error("Error in tryGetSiteInfo:", error);
+        this.setDefaultSiteInfo();
+      }
+    },
+
+    isRestrictedUrl(url) {
+      if (!url) return true;
+
+      const restrictedPrefixes = [
+        "chrome://",
+        "chrome-extension://",
+        "moz-extension://",
+        "edge://",
+        "about:",
+        "file://",
+        "data:"
+      ];
+
+      return restrictedPrefixes.some(prefix => url.startsWith(prefix));
     }
   },
   mounted() {
-    this.overlay.message = "Loading..";
-    this.$nextTick(() => {
-      let interval = setInterval(() => {
-        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-          let tabId = tabs[0].id;
-
-          chrome.tabs.sendMessage(
-            tabId,
-            { action: "get.site.info" },
-            siteInfo => {
-              if (siteInfo === undefined) {
-                clearInterval(interval);
-                alert(LANG.ALERT_MESSAGE("A0018"));
-                return false;
-              }
-
-              if (siteInfo.OG_IMAGE === null || siteInfo.OG_IMAGE === "") {
-                siteInfo.OG_IMAGE = "";
-              }
-              if (siteInfo.OG_TITLE === null || siteInfo.OG_TITLE === "") {
-                siteInfo.OG_TITLE = siteInfo.UPDATE_TITLE;
-              }
-              if (
-                siteInfo.OG_DESCRIPTION === null ||
-                siteInfo.OG_DESCRIPTION === ""
-              ) {
-                siteInfo.OG_DESCRIPTION = "NO DESCRIPTION";
-              }
-
-              if (siteInfo.URL !== "") {
-                chrome.storage.local.get(["loginInfo"], result => {
-                  siteInfo.EMAIL = result.loginInfo.EMAIL;
-                  clearInterval(interval);
-
-                  if (siteInfo.USE_CURRENT_SITE === "Y") {
-                    this.siteStatus = 1;
-                  }
-
-                  if (siteInfo.SITE_OPEN === "N") {
-                    this.siteStatus = 2;
-                  }
-
-                  this.siteInfo = siteInfo;
-                  this.overlay.status = false;
-                });
-
-                this.setCategory();
-              }
-            }
-          );
-        });
-      }, 300);
-    });
+    this.tryGetSiteInfo();
   }
 };
 </script>

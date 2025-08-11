@@ -13,19 +13,17 @@
     "default_popup": "popup/popup.html"
   },
   "background": {
-    "service_worker": "background/service-worker.js"
+    "service_worker": "background/service-worker.js",
+    "type": "module"
   },
   "content_scripts": [
     {
       "all_frames": false,
-      "run_at": "document_start",
+      "run_at": "document_end",
       "matches": ["*://*/*"],
       "css": ["css/hl.css", "lib/jcrop/jcrop.css"],
-      "js": [
-        "contents/listener.js",
-        "contents/core/hl-core.js",
-        "dashboard/lib/readability.js"
-      ]
+      "js": ["contents/listener.js"],
+      "type": "module"
     }
   ],
   "options_ui": {

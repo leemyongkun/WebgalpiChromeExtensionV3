@@ -14,14 +14,18 @@
 
           <v-tabs-window v-model="tab" :style="style">
             <v-tabs-window-item value="0">
-              <div class="overflow-y-auto">
-                <SiteInfoTab></SiteInfoTab>
-              </div>
+              <v-container class="pa-2">
+                <div class="overflow-y-auto">
+                  <SiteInfoTab></SiteInfoTab>
+                </div>
+              </v-container>
             </v-tabs-window-item>
             <v-tabs-window-item value="1">
-              <div class="overflow-y-auto">
-                <HighlightTab></HighlightTab>
-              </div>
+              <v-container class="pa-2">
+                <div class="overflow-y-auto">
+                  <HighlightTab></HighlightTab>
+                </div>
+              </v-container>
             </v-tabs-window-item>
           </v-tabs-window>
         </v-card>
@@ -30,16 +34,14 @@
       <v-container class="pa-2" v-if="mainFlag === 2">
         <v-card max-width="344" class="mx-auto">
           <v-card-text>
-            <v-list-item class="px-0">
-              <v-list-item-content>
-                <v-list-item-title class="headline mb-1">
-                  로그인이 필요합니다.
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  대쉬보드에서 계정등록 및 로그인을 하십시오.
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+            <div class="px-0">
+              <div class="text-h6 mb-1">
+                로그인이 필요합니다.
+              </div>
+              <div class="text-body-2 text-medium-emphasis">
+                대쉬보드에서 계정등록 및 로그인을 하십시오.
+              </div>
+            </div>
           </v-card-text>
 
           <v-card-actions>
@@ -117,51 +119,113 @@ export default {
       if (!result || !result.loginInfo || !result.loginInfo.EMAIL) {
         console.warn("No login info found in storage, showing login screen");
         this.mainFlag = 2; // Show login required
+        document.body.style.width = "350px";
         return;
       }
 
       let param = new Object();
       param.EMAIL = result.loginInfo.EMAIL;
 
+      // Show main content first
+      this.mainFlag = 1;
+      document.body.style.width = "456px";
+
+      // Try to get user options, but don't block the UI
       CONTENT_LISTENER.sendMessage({
         type: "get.option",
         data: param
-      }).then(ret => {
-        if (ret.length === 0) {
-          return false;
-        }
-        let options = ret[0];
+      })
+        .then(ret => {
+          if (!ret || ret.length === 0) {
+            console.log("No user options found, creating default options");
+            // Create default options for first-time users
+            this.createDefaultOptions(param.EMAIL);
+            return;
+          }
 
-        if (options === undefined || options.THEME === "dark") {
-          // Apply dark theme to body or root element
-          document.body.classList.add("theme-dark");
-        } else {
-          document.body.classList.remove("theme-dark");
-        }
+          let options = ret[0];
+          console.log("Loaded user options:", options);
 
-        LANG.setLanguage(options.LANGUAGE);
-      });
+          // Apply theme based on user preference
+          if (options.THEME === "dark" || options.THEME === undefined) {
+            document.body.classList.add("theme-dark");
+          } else {
+            document.body.classList.remove("theme-dark");
+          }
+
+          // Set language if available
+          if (options.LANGUAGE) {
+            LANG.setLanguage(options.LANGUAGE);
+          }
+        })
+        .catch(error => {
+          console.log(
+            "Could not load user options, creating defaults:",
+            error.message
+          );
+          // Create default options as fallback
+          this.createDefaultOptions(param.EMAIL);
+        });
     });
   },
   methods: {
     goDashboard() {
       Common.goDashboard();
+    },
+    async createDefaultOptions(email) {
+      console.log("Creating default options for user:", email);
+
+      // Apply default theme immediately
+      document.body.classList.add("theme-dark");
+
+      try {
+        // Create default theme option
+        await CONTENT_LISTENER.sendMessage({
+          type: "update.option.theme",
+          data: {
+            EMAIL: email,
+            THEME: "dark"
+          }
+        });
+
+        // Create default language option
+        await CONTENT_LISTENER.sendMessage({
+          type: "update.option.language",
+          data: {
+            EMAIL: email,
+            LANGUAGE: "ko" // Korean as default
+          }
+        });
+
+        console.log("✅ Default options created successfully");
+        LANG.setLanguage("ko");
+      } catch (error) {
+        console.warn("Failed to create default options:", error);
+        // Continue with defaults even if saving failed
+      }
     }
   },
   mounted() {
-    document.body.classList.add("theme-dark");
-
-    //로그인이 되어있는지 확인.
-    chrome.storage.local.get(["loginInfo"], result => {
-      let loginInfo = result.loginInfo;
-      if (result.loginInfo === undefined || loginInfo.EMAIL === "") {
-        this.mainFlag = 2;
-        document.getElementById("body").style.width = "350px";
-      } else {
-        document.getElementById("body").style.width = "456px";
-        this.mainFlag = 1;
-      }
-    });
+    // Safety fallback - if created() failed to set mainFlag, try again
+    if (this.mainFlag === 0) {
+      console.warn("mainFlag not set, running fallback check");
+      chrome.storage.local.get(["loginInfo"], result => {
+        try {
+          if (!result || !result.loginInfo || !result.loginInfo.EMAIL) {
+            this.mainFlag = 2;
+            document.body.style.width = "350px";
+          } else {
+            this.mainFlag = 1;
+            document.body.style.width = "456px";
+          }
+        } catch (error) {
+          console.error("Error in mounted fallback:", error);
+          // Default to login screen on error
+          this.mainFlag = 2;
+          document.body.style.width = "350px";
+        }
+      });
+    }
   }
 };
 </script>

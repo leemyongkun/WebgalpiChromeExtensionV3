@@ -1,8 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-tooltip v-model="tooltip.source" color="blue" top>
-      <template v-slot:activator="{ on }">
-        <v-btn @click="goSourceSite" icon v-on="on">
+      <template v-slot:activator="{ props }">
+        <v-btn @click="goSourceSite" icon v-bind="props">
           <v-icon>mdi-home-outline</v-icon>
         </v-btn>
       </template>
@@ -14,8 +14,8 @@
                     </v-btn>-->
 
     <v-tooltip v-model="tooltip.facebook" color="blue" top>
-      <template v-slot:activator="{ on }">
-        <v-btn icon @click="shareFacebook" v-on="on">
+      <template v-slot:activator="{ props }">
+        <v-btn icon @click="shareFacebook" v-bind="props">
           <v-icon>mdi-facebook-box</v-icon>
         </v-btn>
       </template>
@@ -23,8 +23,8 @@
     </v-tooltip>
 
     <v-tooltip v-model="tooltip.trashbox" color="blue" top>
-      <template v-slot:activator="{ on }">
-        <v-btn icon @click="deleteSite" v-on="on">
+      <template v-slot:activator="{ props }">
+        <v-btn icon @click="deleteSite" v-bind="props">
           <v-icon>mdi-trash-can-outline</v-icon>
         </v-btn>
       </template>

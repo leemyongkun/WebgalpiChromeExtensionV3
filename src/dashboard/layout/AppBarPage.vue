@@ -1,23 +1,22 @@
 <template>
-  <header class="app-bar app clipped-left">
-    <!--<button class="app-bar-nav-icon" @click="drawer = !drawer"/>-->
-
-    <span class="title ml-3 mr-5" @click="processTest">
+  <v-app-bar class="clipped-left">
+    <v-app-bar-title class="ml-3 mr-5" @click="processTest">
       WEBGALPI (
-      <span style="color: #ff8b20;"
-        ><span class="icon-beta" style="color: #ff8b20; font-size: 12px;"
-          >β</span
+      <span style="color: #ff8b20;">
+        <span class="icon-beta" style="color: #ff8b20; font-size: 12px;">β</span
         >eta
       </span>
       <span style="font-size: 12px">Ver.{{ version }}</span>
       )
-    </span>
-    <input
-      class="text-field solo-inverted flat hide-details"
+    </v-app-bar-title>
+
+    <v-text-field
+      class="solo-inverted flat hide-details"
       placeholder="Search"
       v-if="false"
     />
-    <div class="spacer"></div>
+
+    <v-spacer></v-spacer>
 
     <!-- <div class="menu">
       <button class="btn text small">
@@ -34,7 +33,7 @@
     <OptionPage ref="optionPage"></OptionPage>
 
     <SignArea ref="signout"></SignArea>
-  </header>
+  </v-app-bar>
 </template>
 <script>
 import SignArea from "../dialog/setting/SignArea";
